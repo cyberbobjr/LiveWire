@@ -18,6 +18,7 @@ for k, en, fr in [
     ("LiveWire.VoltageTester", "Voltage Tester", "Testeur de tension"),
     ("LiveWire.SolarCell", "Solar Cell", "Cellule photovoltaïque"),
     ("LiveWire.DeepCycleBattery", "Deep-Cycle Battery", "Batterie stationnaire"),
+    ("LiveWire.SoundproofKit", "Inverter Soundproofing Kit", "Kit d'insonorisation d'onduleur"),
     ("LiveWire.MonitorDisk", "Disk: Live Wire Management Software", "Disque : logiciel de gestion Live Wire"),
     ("Base.Mov_LiveWire_SolarPanel", "Solar Panel", "Panneau photovoltaïque"),
     ("Base.Mov_LiveWire_WindTurbine", "Wind Turbine", "Éolienne"),
@@ -53,6 +54,7 @@ for k, en, fr in [
     ("LWMakeWaterWheel", "Make Water Wheel", "Fabriquer une roue à aubes"),
     ("LWMakePowerBankKit", "Make Power Bank", "Fabriquer une powerbank"),
     ("LWMakeBreakerKit", "Make Breaker Panel", "Fabriquer un disjoncteur"),
+    ("LWMakeSoundproofKit", "Make Inverter Soundproofing Kit", "Fabriquer un kit d'insonorisation d'onduleur"),
     ("LWMakeDeepCycleBattery", "Make Deep-Cycle Battery", "Fabriquer une batterie stationnaire"),
     ("LWMakeBatteryAlarmKit", "Make Low Battery Alarm", "Fabriquer une alarme de batterie faible"),
 ]:
@@ -63,6 +65,8 @@ for k, en, fr in [
     ("ContextMenu_LW_Measure", "Measure", "Mesurer"),
     ("ContextMenu_LW_Inspect", "Inspect", "Inspecter"),
     ("ContextMenu_LW_Unlink", "Disconnect from the inverter", "Débrancher de l'onduleur"),
+    ("ContextMenu_LW_Muffle", "Soundproof the inverter", "Insonoriser l'onduleur"),
+    ("ContextMenu_LW_Unmuffle", "Remove the soundproofing", "Retirer l'insonorisation"),
     ("ContextMenu_LW_Panel", "Open the inverter screen", "Ouvrir l'écran de l'onduleur"),
     ("ContextMenu_LW_ShowRange", "Show the powered area", "Afficher la zone alimentée"),
     ("ContextMenu_LW_HideRange", "Hide the powered area", "Masquer la zone alimentée"),
@@ -127,6 +131,8 @@ for k, en, fr in [
     ("Tooltip_LW_TurnOffFirst", "Turn the inverter off first.", "Éteignez d'abord l'onduleur."),
     ("Tooltip_LW_NeedOverhaul", "Only an overhaul can improve it further.", "Seule une remise à neuf peut l'améliorer encore."),
     ("Tooltip_LW_OneOptionPerGrid", "This network already has one.", "Ce réseau en a déjà un."),
+    ("Tooltip_LW_SoundproofKit", "Fitted on an inverter: no more hum, and zombies no longer hear it. The inverter runs warmer and wears 25%% faster.", "Se pose sur un onduleur : plus de bourdonnement, et les zombies ne l'entendent plus. L'onduleur chauffe davantage et s'use 25 %% plus vite."),
+    ("Tooltip_LW_NeedSoundproofKit", "Requires a soundproofing kit.", "Il faut un kit d'insonorisation."),
     ("Tooltip_LW_MonitorDisk", "Installs the Live Wire management app on a Computer Mod computer or laptop.", "Installe l'application de gestion Live Wire sur un ordinateur ou un portable du Computer Mod."),
     ("Tooltip_LW_NeedDisk", "Requires the Live Wire software disk.", "Il faut le disque du logiciel Live Wire."),
     ("Tooltip_LW_NeedSoftware", "Install the Live Wire software (disk) on this computer first.", "Installez d'abord le logiciel Live Wire (disque) sur cet ordinateur."),
@@ -193,6 +199,8 @@ for k, en, fr in [
     ("IGUI_LW_Reconditioned", "Battery reconditioned, condition %1.", "Batterie reconditionnée, état %1."),
     ("IGUI_LW_Tripped", "The inverter tripped: %1 W demanded for %2 W max.", "L'onduleur a disjoncté : %1 W demandés pour %2 W max."),
     ("IGUI_LW_BreakerTripped", "The breaker tripped: %1 W demanded for %2 W max. Reset it on the breaker.", "Le disjoncteur a sauté : %1 W demandés pour %2 W max. Réarmez-le sur le disjoncteur."),
+    ("IGUI_LW_Muffled", "Inverter soundproofed.", "Onduleur insonorisé."),
+    ("IGUI_LW_Unmuffled", "Soundproofing removed.", "Insonorisation retirée."),
     ("IGUI_LW_BreakerReset", "Breaker reset.", "Disjoncteur réarmé."),
     ("IGUI_LW_StillOverloaded", "Still overloaded: %1 W for %2 W max. Turn some appliances off first.", "Toujours en surcharge : %1 W pour %2 W max. Éteignez d'abord des appareils."),
     ("IGUI_LW_AlarmSilenced", "Alarm silenced. Its light stays on while the battery is low.", "Sonnerie coupée. Le voyant reste allumé tant que la batterie est basse."),
@@ -298,6 +306,14 @@ for k, en, fr in [
     ("IGUI_LW_LowBattery", "Low battery: %1%% left!", "Batterie faible : il reste %1 %% !"),
 ]:
     add("IG_UI", k, en, fr)
+
+# Player options (Options > Mods), UI.json.
+for k, en, fr in [
+    ("UI_LW_Options_Title", "Live Wire", "Live Wire"),
+    ("UI_LW_Options_HumVolume", "Inverter hum volume (0-100)", "Volume du bourdonnement de l'onduleur (0-100)"),
+    ("UI_LW_Options_HumVolume_tooltip", "0 = no hum. Only for you; heard one tile around a running inverter.", "0 = aucun bourdonnement. Pour vous seul ; il s'entend à une case autour d'un onduleur allumé."),
+]:
+    add("UI", k, en, fr)
 
 SANDBOX = [
     ("PowerScale", "Power scale", "Échelle de puissance",

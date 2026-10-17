@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "Live Wire",
+    "UI_LW_Options_HumVolume": "Inverter hum volume (0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0 = no hum. Only for you; heard one tile around a running inverter."
+}

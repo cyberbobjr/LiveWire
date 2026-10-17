@@ -3,6 +3,8 @@
     "ContextMenu_LW_Measure": "Measure",
     "ContextMenu_LW_Inspect": "Inspect",
     "ContextMenu_LW_Unlink": "Disconnect from the inverter",
+    "ContextMenu_LW_Muffle": "Soundproof the inverter",
+    "ContextMenu_LW_Unmuffle": "Remove the soundproofing",
     "ContextMenu_LW_Panel": "Open the inverter screen",
     "ContextMenu_LW_ShowRange": "Show the powered area",
     "ContextMenu_LW_HideRange": "Hide the powered area",

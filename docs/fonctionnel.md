@@ -426,6 +426,7 @@ Poser, tourner et **ramasser** un équipement passent par le menu et le curseur 
 - **Alarme** : bip à chaque pas tant que la batterie reste sous 20 %, jusqu'à « Couper la sonnerie » ; gyrophare allumé jusqu'au retour au-dessus de 25 %.
 - **Logiciel de gestion** : vue complète, sur un ordinateur raccordé ; barres de production et de consommation à la même échelle. Avec le Computer Mod : disque, installation, application sur le bureau.
 - **Frigos** : l'âge des aliments des frigos et congélateurs chargés est rattrapé juste avant chaque coupure ou retour du courant, comme avec un générateur vanilla.
+- **Bourdonnement** : une case autour de l'onduleur seulement ; volume par joueur dans *Options > Mods* (0 = coupé). **Kit d'insonorisation** (niv. 2) posé sur l'onduleur : silence pour les joueurs et les zombies, usure +25 %.
 
 ### 6.2 Interface de gestion de l'onduleur
 

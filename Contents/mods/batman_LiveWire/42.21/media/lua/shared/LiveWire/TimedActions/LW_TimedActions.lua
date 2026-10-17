@@ -328,6 +328,86 @@ function LWInspectAction:new(character, target)
 end
 
 --------------------------------------------------------------------------------
+-- Fit (remove = false) or remove (remove = true) the soundproofing kit of an
+-- inverter: silent for players and zombies, 25 % more wear.
+--------------------------------------------------------------------------------
+LWMuffleAction = ISBaseTimedAction:derive("LWMuffleAction")
+
+function LWMuffleAction.canDo(character, obj, remove)
+    local m = LiveWire.Marks.get(obj)
+    if not m or not LiveWire.Defs.devices[m.model] or LiveWire.Defs.devices[m.model].role ~= "inverter" then
+        return false, "Tooltip_LW_Invalid"
+    end
+    if not I().screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
+    if not remove and I().countType(character, LiveWire.Defs.SOUNDPROOF_KIT) <= 0 then
+        return false, "Tooltip_LW_NeedSoundproofKit"
+    end
+    return true
+end
+
+function LWMuffleAction:isValid()
+    return objectStillThere(self.target) and LWMuffleAction.canDo(self.character, self.target, self.remove)
+end
+
+function LWMuffleAction:waitToStart()
+    self.character:faceThisObject(self.target)
+    return self.character:shouldBeTurning()
+end
+
+function LWMuffleAction:update()
+    self.character:setMetabolicTarget(Metabolics.LightWork)
+end
+
+function LWMuffleAction:start()
+    self:setActionAnim(CharacterActionAnims.Disassemble)
+    self:setOverrideHandModels("Screwdriver", nil)
+end
+
+function LWMuffleAction:stop() ISBaseTimedAction.stop(self) end
+function LWMuffleAction:perform() ISBaseTimedAction.perform(self) end
+
+function LWMuffleAction:complete()
+    local ch, obj, remove = self.character, self.target, self.remove == true
+    if not objectStillThere(obj) then return false end
+    local dev = deviceOf(obj)
+    if not dev or dev.role ~= "inverter" or not near(ch, obj:getSquare(), 2) or not allowed(ch, obj:getSquare()) then
+        return false
+    end
+    local ok, why = LWMuffleAction.canDo(ch, obj, remove)
+    if not ok then
+        LiveWire.notify(ch, why, {}, true)
+        return false
+    end
+    if remove then
+        if not dev.muffled then return false end
+        dev.muffled = nil
+        I().giveItem(ch, LiveWire.Defs.SOUNDPROOF_KIT)
+        LiveWire.notify(ch, "IGUI_LW_Unmuffled", {})
+    else
+        if dev.muffled then return false end
+        if not I().consume(ch, LiveWire.Defs.SOUNDPROOF_KIT, 1) then return false end
+        dev.muffled = true
+        LiveWire.Xp.award(ch, 3)
+        LiveWire.notify(ch, "IGUI_LW_Muffled", {})
+    end
+    LiveWire.Devices.syncMark(dev)
+    return true
+end
+
+function LWMuffleAction:getDuration()
+    if instant(self.character) then return 1 end
+    return 200
+end
+
+function LWMuffleAction:new(character, target, remove)
+    local o = ISBaseTimedAction.new(self, character)
+    o.target = target
+    o.remove = remove == true
+    o.maxTime = o:getDuration()
+    return o
+end
+
+--------------------------------------------------------------------------------
 -- Clear the snow from a solar panel.
 --------------------------------------------------------------------------------
 LWClearSnowAction = ISBaseTimedAction:derive("LWClearSnowAction")

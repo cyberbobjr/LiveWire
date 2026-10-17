@@ -110,6 +110,8 @@ Defs.RESTART_STOCK_RATIO = 0.02
 Defs.SMOOTHING_TAU_HOURS = 0.5
 Defs.TRIP_CONDITION_LOSS = 3
 Defs.HEAVY_LOAD_RATIO = 0.80
+Defs.SOUNDPROOF_KIT = "LiveWire.SoundproofKit"
+Defs.MUFFLED_WEAR = 1.25   -- a soundproofed inverter runs warmer
 
 -- Installation efficiency from the installer's Electrical level.
 function Defs.installEfficiency(level)

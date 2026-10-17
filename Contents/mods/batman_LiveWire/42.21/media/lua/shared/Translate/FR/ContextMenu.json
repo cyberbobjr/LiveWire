@@ -3,6 +3,8 @@
     "ContextMenu_LW_Measure": "Mesurer",
     "ContextMenu_LW_Inspect": "Inspecter",
     "ContextMenu_LW_Unlink": "Débrancher de l'onduleur",
+    "ContextMenu_LW_Muffle": "Insonoriser l'onduleur",
+    "ContextMenu_LW_Unmuffle": "Retirer l'insonorisation",
     "ContextMenu_LW_Panel": "Ouvrir l'écran de l'onduleur",
     "ContextMenu_LW_ShowRange": "Afficher la zone alimentée",
     "ContextMenu_LW_HideRange": "Masquer la zone alimentée",

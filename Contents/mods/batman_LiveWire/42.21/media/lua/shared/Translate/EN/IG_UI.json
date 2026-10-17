@@ -56,6 +56,8 @@
     "IGUI_LW_Reconditioned": "Battery reconditioned, condition %1.",
     "IGUI_LW_Tripped": "The inverter tripped: %1 W demanded for %2 W max.",
     "IGUI_LW_BreakerTripped": "The breaker tripped: %1 W demanded for %2 W max. Reset it on the breaker.",
+    "IGUI_LW_Muffled": "Inverter soundproofed.",
+    "IGUI_LW_Unmuffled": "Soundproofing removed.",
     "IGUI_LW_BreakerReset": "Breaker reset.",
     "IGUI_LW_StillOverloaded": "Still overloaded: %1 W for %2 W max. Turn some appliances off first.",
     "IGUI_LW_AlarmSilenced": "Alarm silenced. Its light stays on while the battery is low.",

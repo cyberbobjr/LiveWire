@@ -395,6 +395,7 @@ function Sim.stepGrid(grid, now, w)
         if r.on then
             local heavy = 1
             if demandW > def.maxW * Defs.HEAVY_LOAD_RATIO then heavy = 2 end
+            if inv.muffled then heavy = heavy * Defs.MUFFLED_WEAR end
             wearDevice(inv, def, h, heavy)
             if (inv.cond or 0) <= 0 then
                 inv.state = "broken"
@@ -438,7 +439,7 @@ function Sim.stepGrid(grid, now, w)
     LiveWire.Alarm.check(grid, R.hasOption(grid, "alarm"), frac, now)
 
     local radius = LiveWire.Config.get("InverterNoiseRadius")
-    if on and loaded and radius > 0 then
+    if on and loaded and radius > 0 and not inv.muffled then
         addSound(nil, inv.x, inv.y, inv.z, radius, 1)
     end
     -- State shown by the client (lights, menus): rewrite the marks that changed.

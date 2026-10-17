@@ -93,6 +93,10 @@ function Menu.onSoftware(player, id, computer)
     LiveWire.SoftwareScreen.open(player, id, computer)
 end
 
+function Menu.onMuffle(player, obj, remove)
+    queueNear(player, obj:getSquare(), LWMuffleAction:new(player, obj, remove))
+end
+
 function Menu.onPanel(player, id)
     LiveWire.InverterPanel.open(player, id)
 end
@@ -165,6 +169,13 @@ local function addInverterOptions(menu, player, obj, mark)
     end
     if mark.st == "tripped" then
         menu:addOption(getText("ContextMenu_LW_Reset"), player, Menu.onReset, mark.id)
+    end
+    if mark.muf then
+        menu:addOption(getText("ContextMenu_LW_Unmuffle"), player, Menu.onMuffle, obj, true)
+    else
+        local o = menu:addOption(getText("ContextMenu_LW_Muffle"), player, Menu.onMuffle, obj, false)
+        local ok, why, arg = LWMuffleAction.canDo(player, obj, false)
+        if not ok then tip(o, why, arg) end
     end
     local rangeKey = "ContextMenu_LW_ShowRange"
     if LiveWire.RangeView.isShown(mark.id) then rangeKey = "ContextMenu_LW_HideRange" end

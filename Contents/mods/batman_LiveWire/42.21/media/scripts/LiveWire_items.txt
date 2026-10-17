@@ -43,6 +43,17 @@ module LiveWire
         Tooltip = Tooltip_LW_DeepCycleBattery,
     }
 
+    /* Soundproofing kit: fitted on an inverter, it silences its hum and the noise
+       zombies hear; the inverter runs warmer and wears 25 % faster. */
+    item SoundproofKit
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 3.0,
+        Icon = Sheet,
+        Tooltip = Tooltip_LW_SoundproofKit,
+    }
+
     /* Management software disk: installs the Live Wire app on a Computer Mod
        computer or laptop (optional mod; LW_ComputerMod.lua). Found in loot. */
     item MonitorDisk

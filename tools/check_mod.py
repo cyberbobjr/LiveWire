@@ -112,7 +112,7 @@ def check_load(side_client, side_server, label):
             fail("[%s] %s: load error: %s" % (label, rel, err))
     g = lua.globals()
     for name in ("LWLinkAction", "LWRepairAction",
-                 "LWInspectAction", "LWClearSnowAction", "LWMeasureAction", "LWReconditionAction"):
+                 "LWInspectAction", "LWClearSnowAction", "LWMeasureAction", "LWReconditionAction", "LWMuffleAction"):
         v = g[name]
         if v is None or lua.eval("type")(v) != "table" or v["complete"] is None:
             fail("[%s] timed action %s not defined with complete()" % (label, name))

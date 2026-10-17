@@ -2,9 +2,10 @@
 -- client (no network packet). playSoundImpl(name, false, nil) is local; playSound /
 -- playSoundLooped on a free emitter would be relayed and never stopped for other
 -- players (knowledge/sounds-and-noise.md:13-17, FMODSoundEmitter.java:380-461).
--- Sound of the mod (media/sound/LiveWireInverterHum.ogg, looped), heard while the
--- inverter is switched on, powered or not. The vanilla fridge hum (FridgeHumA)
--- chosen first (D-8) could not be heard in game.
+-- Sound of the mod (media/sound/LiveWireInverterHum.ogg, looped), heard only one
+-- tile around a switched-on inverter (powered or not), on the same floor. Silent
+-- when the inverter is soundproofed (kit, mark field muf). Each player sets its
+-- volume in Options > Mods (0 = off).
 if isServer() then return end
 
 LiveWire = LiveWire or {}
@@ -13,10 +14,23 @@ local Hum = {}
 LiveWire.Hum = Hum
 
 Hum.SOUND = "LiveWireInverterHum"
-Hum.RANGE = 6
-Hum.CHECK_MS = 1000
-Hum.active = {}   -- inverter object -> { em = emitter, id = sound ref }
+Hum.RANGE = 1.5   -- tiles from the inverter centre: one tile around it
+Hum.CHECK_MS = 250
+Hum.active = {}   -- inverter object -> { em = emitter, id = sound ref, volume }
 local lastCheck = 0
+
+-- Player option: hum volume in percent (Options > Mods > Live Wire).
+local options = nil
+if PZAPI and PZAPI.ModOptions then
+    options = PZAPI.ModOptions:create("LiveWire", "UI_LW_Options_Title")
+    options:addSlider("humVolume", "UI_LW_Options_HumVolume", 0, 100, 5, 100, "UI_LW_Options_HumVolume_tooltip")
+end
+
+function Hum.volume()
+    local o = options and options:getOption("humVolume")
+    local v = o and o:getValue() or 100
+    return LiveWire.clamp((tonumber(v) or 100) / 100, 0, 1)
+end
 
 local function playing(h)
     return h and h.id and h.id ~= 0 and h.em:isPlaying(h.id)
@@ -28,22 +42,31 @@ function Hum.stop(obj)
     Hum.active[obj] = nil
 end
 
-function Hum.start(obj)
-    if playing(Hum.active[obj]) then return end
+function Hum.start(obj, volume)
+    local h = Hum.active[obj]
+    if playing(h) then
+        if h.volume ~= volume then
+            h.em:setVolume(h.id, volume)
+            h.volume = volume
+        end
+        return
+    end
     local sq = obj:getSquare()
     local em = getWorld():getFreeEmitter(sq:getX() + 0.5, sq:getY() + 0.5, sq:getZ())
     if not em then return end
     local ref = em:playSoundImpl(Hum.SOUND, false, nil)
-    Hum.active[obj] = { em = em, id = ref }
+    if ref and ref ~= 0 then em:setVolume(ref, volume) end
+    Hum.active[obj] = { em = em, id = ref, volume = volume }
 end
 
 local function wantsHum(player, obj)
     if obj:getObjectIndex() == -1 or not obj:getSquare() then return false end
     local m = LiveWire.Marks.get(obj)
-    if not m or m.st ~= "on" then return false end
+    if not m or m.st ~= "on" or m.muf then return false end
     local sq = obj:getSquare()
+    if math.floor(player:getZ()) ~= sq:getZ() then return false end
     local dx, dy = player:getX() - (sq:getX() + 0.5), player:getY() - (sq:getY() + 0.5)
-    return dx * dx + dy * dy <= Hum.RANGE * Hum.RANGE and math.abs(player:getZ() - sq:getZ()) < 2
+    return dx * dx + dy * dy <= Hum.RANGE * Hum.RANGE
 end
 
 local function update()
@@ -52,13 +75,16 @@ local function update()
     local now = getTimestampMs()
     if now - lastCheck < Hum.CHECK_MS then return end
     lastCheck = now
+    local volume = Hum.volume()
     local seen = {}
-    local list = LiveWire.Visuals.inverters()
-    for i = 1, #list do
-        local o = list[i]
-        if wantsHum(player, o) then
-            seen[o] = true
-            Hum.start(o)
+    if volume > 0 then
+        local list = LiveWire.Visuals.inverters()
+        for i = 1, #list do
+            local o = list[i]
+            if wantsHum(player, o) then
+                seen[o] = true
+                Hum.start(o, volume)
+            end
         end
     end
     -- Collect first: never change a Kahlua table during pairs.

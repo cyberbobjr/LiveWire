@@ -64,7 +64,8 @@ end
 local function markFromDevice(obj, dev)
     local st, pw = stateOf(dev)
     LiveWire.Marks.set(obj, { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
-                              level = dev.level, inv = inverterOf(dev), st = st, pw = pw })
+                              level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
+                              muf = dev.muffled == true or nil })
     dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
     if isServer() then obj:transmitModData() end
 end
@@ -119,6 +120,7 @@ function Devices.onPlaced(character, sq, spriteName)
         cond = tonumber(raw.cond) or 100, eff = LiveWire.Defs.installEfficiency(level), level = level,
         state = (def.role == "inverter") and "on" or "ok",
     })
+    if def.role == "inverter" and raw.muf == true then dev.muffled = true end
     if def.role == "storage" then
         dev.wearFactor = LiveWire.Defs.batteryWearSkillFactor(level)
         dev.slots = {}

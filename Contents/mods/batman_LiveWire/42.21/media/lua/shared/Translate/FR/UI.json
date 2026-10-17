@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "Live Wire",
+    "UI_LW_Options_HumVolume": "Volume du bourdonnement de l'onduleur (0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0 = aucun bourdonnement. Pour vous seul ; il s'entend à une case autour d'un onduleur allumé."
+}

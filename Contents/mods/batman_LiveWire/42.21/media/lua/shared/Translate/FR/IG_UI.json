@@ -56,6 +56,8 @@
     "IGUI_LW_Reconditioned": "Batterie reconditionnée, état %1.",
     "IGUI_LW_Tripped": "L'onduleur a disjoncté : %1 W demandés pour %2 W max.",
     "IGUI_LW_BreakerTripped": "Le disjoncteur a sauté : %1 W demandés pour %2 W max. Réarmez-le sur le disjoncteur.",
+    "IGUI_LW_Muffled": "Onduleur insonorisé.",
+    "IGUI_LW_Unmuffled": "Insonorisation retirée.",
     "IGUI_LW_BreakerReset": "Disjoncteur réarmé.",
     "IGUI_LW_StillOverloaded": "Toujours en surcharge : %1 W pour %2 W max. Éteignez d'abord des appareils.",
     "IGUI_LW_AlarmSilenced": "Sonnerie coupée. Le voyant reste allumé tant que la batterie est basse.",
