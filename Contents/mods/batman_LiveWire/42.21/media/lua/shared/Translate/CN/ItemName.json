@@ -8,7 +8,7 @@
     "Base.Mov_LiveWire_WindTurbine": "风力涡轮机",
     "Base.Mov_LiveWire_WaterWheel": "水轮机",
     "Base.Mov_LiveWire_Inverter": "逆变器",
-    "Base.Mov_LiveWire_PowerBank": "移动电源",
+    "Base.Mov_LiveWire_PowerBank": "电池组",
     "Base.Mov_LiveWire_Breaker": "断路器面板",
     "Base.Mov_LiveWire_BatteryAlarm": "低电量警报器"
 }

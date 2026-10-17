@@ -8,7 +8,7 @@
     "Base.Mov_LiveWire_WindTurbine": "風力発電機",
     "Base.Mov_LiveWire_WaterWheel": "水車",
     "Base.Mov_LiveWire_Inverter": "インバーター",
-    "Base.Mov_LiveWire_PowerBank": "モバイルバッテリー",
+    "Base.Mov_LiveWire_PowerBank": "バッテリーバンク",
     "Base.Mov_LiveWire_Breaker": "分電盤",
     "Base.Mov_LiveWire_BatteryAlarm": "低バッテリー警報"
 }

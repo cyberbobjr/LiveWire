@@ -11,7 +11,7 @@ Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein e
 [list]
 [*][b]Quellen[/b] erzeugen Strom: Solarpanel 100 W, Windturbine 400 W, Wasserrad 120 W. So viele, wie du pro Wechselrichter möchtest.
 [*][b]Der Wechselrichter[/b] (maximal 1.500 W) versorgt jedes Gerät im Umkreis von 20 Feldern und 3 Stockwerke nach oben oder unten. Keine Verkabelung pro Gerät: Kühlschränke, Lampen, Herde, Fernseher und Radios funktionieren wie im Originalspiel.
-[*][b]Die Powerbank[/b] speichert den Überschuss: Sie zählt 4 Batterien (Autobatterien oder Deep-Cycle-Batterien). Ohne Batterien läuft das Haus nur mit der aktuellen Erzeugung.
+[*][b]Die Batteriebank[/b] speichert den Überschuss: Sie zählt 4 Batterien (Autobatterien oder Deep-Cycle-Batterien). Ohne Batterien läuft das Haus nur mit der aktuellen Erzeugung.
 [*][b]Kabel[/b]: Stromkabel, 1 pro 4 Felder, Reichweite 12 Felder. Rechtsklick auf ein Gerät > "Live Wire" > "Mit einem Wechselrichter verbinden".
 [/list]
 
@@ -24,7 +24,7 @@ Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein e
 [*][b]Windturbine[/b] (6): im Freien, je höher, desto stärker.
 [*][b]Wasserrad[/b] (7): am Flussufer, im Erdgeschoss.
 [*][b]Wechselrichter[/b] (5): das Herzstück des Netzes, kann auch in Gebäuden stehen.
-[*][b]Powerbank[/b] (2): öffnet sich wie eine Kiste.
+[*][b]Batteriebank[/b] (2): öffnet sich wie eine Kiste.
 [*][b]Optional[/b]: Schutzschaltertafel (löst aus, statt den Wechselrichter zu beschädigen), Batteriealarm bei niedrigem Ladestand, Schalldämmset für das Brummen des Wechselrichters, Originalgenerator als Reserve (startet unter 20 % Batterieladung), Originalcomputer als Verwaltungsrechner.
 [/list]
 

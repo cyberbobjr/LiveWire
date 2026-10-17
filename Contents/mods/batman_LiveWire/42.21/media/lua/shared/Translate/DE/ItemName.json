@@ -8,7 +8,7 @@
     "Base.Mov_LiveWire_WindTurbine": "Windturbine",
     "Base.Mov_LiveWire_WaterWheel": "Wasserrad",
     "Base.Mov_LiveWire_Inverter": "Wechselrichter",
-    "Base.Mov_LiveWire_PowerBank": "Powerbank",
+    "Base.Mov_LiveWire_PowerBank": "Batteriebank",
     "Base.Mov_LiveWire_Breaker": "Schutzschaltertafel",
     "Base.Mov_LiveWire_BatteryAlarm": "Batteriealarm"
 }

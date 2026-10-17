@@ -11,7 +11,7 @@ El corte de luz es definitivo... pero las luces no tienen por qué serlo. Constr
 [list]
 [*][b]Fuentes[/b] producen: panel solar 100 W, aerogenerador 400 W, rueda hidráulica 120 W. Tantas como quieras por inversor.
 [*][b]El inversor[/b] (1.500 W máx.) alimenta todos los aparatos a 20 casillas y 3 pisos por encima o por debajo. No hay que cablear cada aparato: neveras, luces, cocinas, televisores y radios funcionan como en el juego base.
-[*][b]La batería portátil[/b] almacena el excedente: equivale a 4 baterías (de coche o de ciclo profundo). Sin baterías, la casa funciona solo con la producción del momento.
+[*][b]El banco de baterías[/b] almacena el excedente: equivale a 4 baterías (de coche o de ciclo profundo). Sin baterías, la casa funciona solo con la producción del momento.
 [*][b]Cables[/b]: cable eléctrico, 1 por cada 4 casillas, alcance de 12 casillas. Clic derecho en un aparato > "Live Wire" > "Conectar a un inversor".
 [/list]
 
@@ -24,7 +24,7 @@ El corte de luz es definitivo... pero las luces no tienen por qué serlo. Constr
 [*][b]Aerogenerador[/b] (6): al aire libre, más potente cuanto más alto está.
 [*][b]Rueda hidráulica[/b] (7): en la orilla de un río, en la planta baja.
 [*][b]Inversor[/b] (5): el corazón de la red, puede instalarse en interiores.
-[*][b]Batería portátil[/b] (2): se abre como una caja.
+[*][b]Banco de baterías[/b] (2): se abre como una caja.
 [*][b]Opcional[/b]: panel de disyuntores (salta en lugar de dañar el inversor), alarma de batería baja, kit de insonorización para inversor (para el zumbido), generador del juego base como respaldo (se arranca con menos del 20 % de batería) y ordenador de sobremesa del juego base como ordenador de gestión.
 [/list]
 

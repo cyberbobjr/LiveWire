@@ -8,7 +8,7 @@
     "Base.Mov_LiveWire_WindTurbine": "Aerogenerador",
     "Base.Mov_LiveWire_WaterWheel": "Rueda hidráulica",
     "Base.Mov_LiveWire_Inverter": "Inversor",
-    "Base.Mov_LiveWire_PowerBank": "Batería portátil",
+    "Base.Mov_LiveWire_PowerBank": "Banco de baterías",
     "Base.Mov_LiveWire_Breaker": "Panel de disyuntores",
     "Base.Mov_LiveWire_BatteryAlarm": "Alarma de batería baja"
 }

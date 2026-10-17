@@ -11,7 +11,7 @@ A energia acabou para sempre... mas as luzes não precisam acabar. Construa sua 
 [list]
 [*][b]Fontes[/b] produzem: painel solar 100 W, turbina eólica 400 W, roda d'água 120 W. Quantas quiser por inversor.
 [*][b]O inversor[/b] (máx. 1.500 W) alimenta todo aparelho a até 20 casas e 3 andares acima ou abaixo. Sem fiação por aparelho: geladeiras, luzes, fogões, TVs e rádios funcionam como no jogo original.
-[*][b]O power bank[/b] armazena o excedente: conta como 4 baterias (baterias de carro ou de ciclo profundo). Sem baterias, a casa funciona apenas com a produção atual.
+[*][b]O banco de baterias[/b] armazena o excedente: conta como 4 baterias (baterias de carro ou de ciclo profundo). Sem baterias, a casa funciona apenas com a produção atual.
 [*][b]Cabos[/b]: fio elétrico, 1 a cada 4 casas, alcance de 12 casas. Clique com o botão direito em um aparelho > "Live Wire" > "Conectar a um inversor".
 [/list]
 
@@ -24,7 +24,7 @@ A energia acabou para sempre... mas as luzes não precisam acabar. Construa sua 
 [*][b]Turbina eólica[/b] (6): ao ar livre, mais forte quanto mais alto.
 [*][b]Roda d'água[/b] (7): na margem de um rio, no térreo.
 [*][b]Inversor[/b] (5): o coração da rede, pode ficar em ambientes internos.
-[*][b]Power bank[/b] (2): abre como um caixote.
+[*][b]Banco de baterias[/b] (2): abre como um caixote.
 [*][b]Opcionais[/b]: painel de disjuntores (desarma em vez de danificar o inversor), alarme de bateria baixa, kit de insonorização para o zumbido do inversor, gerador vanilla como reserva (ligado abaixo de 20% de bateria), computador de mesa vanilla como computador de gestão.
 [/list]
 
