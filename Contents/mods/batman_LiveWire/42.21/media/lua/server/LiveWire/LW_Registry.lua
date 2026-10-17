@@ -191,8 +191,13 @@ function Registry.removeDevice(id)
     data().devices[id] = nil
 end
 
--- Public anchor table: anchors[inverterId] = { x, y, z, on } (nil removes it).
+-- Public anchor table: anchors[inverterId] = { x, y, z, on, log, log0 } (nil removes it).
+-- log: state changes { t = world age hours, on = bool }, oldest first, at most
+-- ANCHOR_LOG_MAX; log0: state before log[1]. Used to age the fridge food of chunks
+-- that were unloaded while the state changed (LW_FridgeCatchup.lua).
 -- Returns true when the published state changed.
+Registry.ANCHOR_LOG_MAX = 16
+
 function Registry.setAnchor(inverter, on)
     local a = Registry.anchors
     local cur = a[inverter.id]
@@ -204,7 +209,25 @@ function Registry.setAnchor(inverter, on)
             and cur.z == inverter.z then
             return false
         end
-        a[inverter.id] = { x = inverter.x, y = inverter.y, z = inverter.z, on = on }
+        local log, log0 = {}, false
+        if cur then
+            if type(cur.log) == "table" then
+                log = cur.log
+                log0 = cur.log0 == true
+            else
+                log0 = cur.on == true  -- anchor saved before the log existed
+            end
+        end
+        if not cur or cur.on ~= on then
+            log[#log + 1] = { t = getGameTime():getWorldAgeHours(), on = on }
+            while #log > Registry.ANCHOR_LOG_MAX do
+                log0 = log[1].on == true
+                table.remove(log, 1)
+            end
+            LiveWire.log("anchor " .. tostring(inverter.id) .. " " .. (on and "on" or "off"))
+        end
+        a[inverter.id] = { x = inverter.x, y = inverter.y, z = inverter.z, on = on,
+                           log = log, log0 = log0 }
     end
     if isServer() then ModData.transmit(LiveWire.ANCHOR_KEY) end
     return true

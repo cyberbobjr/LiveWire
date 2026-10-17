@@ -2,7 +2,8 @@
 -- the batteries it contains (nobody could touch them while unloaded), drop the
 -- devices destroyed while unloaded, apply the
 -- fuel a backup generator burnt while unloaded, and drop the
--- demand inventory of nearby inverters (docs/architecture.md section 6.2).
+-- demand inventory of nearby inverters (docs/architecture.md section 6.2),
+-- ages the fridge food of the chunk along the anchor power log (LW_FridgeCatchup.lua).
 if isClient() then return end
 
 LiveWire = LiveWire or {}
@@ -12,6 +13,12 @@ local CHUNK = 8
 local function onLoadChunk(chunk)
     local R = LiveWire.Registry
     if not R or not R.ready or R.readOnly then return end
+    -- Fridge food first: before Backup.restore (a vanilla generator that toggles ages
+    -- the food around it) and before any game update reads it.
+    if LiveWire.FridgeCatchup then
+        local ok, err = pcall(LiveWire.FridgeCatchup.onLoadChunk, chunk)
+        if not ok then LiveWire.warn("fridge catch-up failed: " .. tostring(err)) end
+    end
     local cx, cy = LiveWire.Anchor.chunkCoords(chunk)
     if not cx then return end
     local x0, y0 = cx * CHUNK, cy * CHUNK
