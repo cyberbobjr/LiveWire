@@ -1,0 +1,70 @@
+module Base
+{
+    /* Placeable equipment of the batman_livewire_01 tileset (tiledef 7174).
+       Placed with the vanilla furniture cursor (screwdriver and Electrical level
+       from the tile: PickUpTool/PlaceTool = Electrician, PickUpLevel). Name,
+       weight and icon come from the tile (Moveable.ReadFromWorldSprite). */
+
+    item Mov_LiveWire_SolarPanel
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = default,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_0,
+    }
+
+    item Mov_LiveWire_WindTurbine
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = default,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_4,
+    }
+
+    item Mov_LiveWire_WaterWheel
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = default,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_8,
+    }
+
+    item Mov_LiveWire_Inverter
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = default,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_12,
+    }
+
+    item Mov_LiveWire_PowerBank
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = default,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_16,
+    }
+
+    item Mov_LiveWire_Breaker
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = default,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_20,
+    }
+
+    item Mov_LiveWire_BatteryAlarm
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = default,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_22,
+    }
+}

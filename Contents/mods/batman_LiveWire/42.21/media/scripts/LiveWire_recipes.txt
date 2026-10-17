@@ -97,7 +97,7 @@ module LiveWire
         }
         outputs
         {
-            item 1 LiveWire.SolarPanelKit,
+            item 1 Base.Mov_LiveWire_SolarPanel,
         }
     }
 
@@ -123,35 +123,10 @@ module LiveWire
         }
         outputs
         {
-            item 1 LiveWire.InverterKit,
+            item 1 Base.Mov_LiveWire_Inverter,
         }
     }
 
-    craftRecipe LWMakeHeavyInverterKit
-    {
-        timedAction = MakingElectrical,
-        time = 600,
-        NeedToBeLearn = true,
-        SkillRequired = Electricity:8,
-        AutoLearnAny = Electricity:8,
-        xpAward = Electricity:30,
-        Tags = AnySurfaceCraft,
-        category = Electrical,
-        inputs
-        {
-            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
-            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
-            item 1 [LiveWire.InverterKit],
-            item 4 [Base.ElectronicsScrap],
-            item 2 [Base.Amplifier],
-            item 2 [Base.ElectricWire],
-            item 1 [Base.SheetMetal],
-        }
-        outputs
-        {
-            item 1 LiveWire.HeavyInverterKit,
-        }
-    }
 
     craftRecipe LWMakeWindTurbineKit
     {
@@ -178,7 +153,34 @@ module LiveWire
         }
         outputs
         {
-            item 1 LiveWire.WindTurbineKit,
+            item 1 Base.Mov_LiveWire_WindTurbine,
+        }
+    }
+
+    craftRecipe LWMakeWaterWheel
+    {
+        timedAction = MakingElectrical,
+        time = 600,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:7,
+        AutoLearnAny = Electricity:7,
+        xpAward = Electricity:30,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
+            item 8 [Base.Plank],
+            item 20 [Base.Nails],
+            item 2 [Base.Speaker],
+            item 3 [Base.ElectricWire],
+            item 4 [Base.ElectronicsScrap],
+            item 1 [Base.MetalBar],
+        }
+        outputs
+        {
+            item 1 Base.Mov_LiveWire_WaterWheel,
         }
     }
 
@@ -203,7 +205,7 @@ module LiveWire
         }
         outputs
         {
-            item 1 LiveWire.PowerBankKit,
+            item 1 Base.Mov_LiveWire_PowerBank,
         }
     }
 
@@ -227,7 +229,7 @@ module LiveWire
         }
         outputs
         {
-            item 1 LiveWire.BreakerKit,
+            item 1 Base.Mov_LiveWire_Breaker,
         }
     }
 
@@ -274,7 +276,7 @@ module LiveWire
         }
         outputs
         {
-            item 1 LiveWire.BatteryAlarmKit,
+            item 1 Base.Mov_LiveWire_BatteryAlarm,
         }
     }
 }

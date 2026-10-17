@@ -1,5 +1,7 @@
 name=Live Wire
 id=batman_LiveWire
-description=Solar panels, wind turbines, batteries and an inverter you can install anywhere, even indoors. The Electrical skill matters: tiers, experience, wear, repairs and diagnostics. Placeholder models.
+description=Solar panels, wind turbines, water wheels, batteries and an inverter you can place anywhere, even indoors. The Electrical skill matters: tiers, experience, wear, repairs and diagnostics. Placeholder tiles.
 versionMin=42.21
-modversion=0.1.0
+modversion=0.1.1
+pack=batman_livewire_01
+tiledef=batman_livewire_01 7174

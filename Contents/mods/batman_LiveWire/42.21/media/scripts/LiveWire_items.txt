@@ -5,8 +5,9 @@ module LiveWire
         Base,
     }
 
-    /* Placeholder visuals: vanilla icons and simple geometric world models
-       (.glb files in media/models_X/LiveWire) until the final Blender models exist. */
+    /* Inventory items. Placed equipment are tiles of batman_livewire_01: see
+       LiveWire_moveables.txt. Placeholder 3D ground models (geometric shapes)
+       for the items below, in .glb files under media/models_X/LiveWire. */
 
     item VoltageTester
     {
@@ -25,83 +26,6 @@ module LiveWire
         Weight = 0.05,
         Icon = ElectronicsScrap,
         WorldStaticModel = LiveWire.SolarCell_Ground,
-    }
-
-    item SolarPanelKit
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 6.0,
-        Icon = SheetMetal,
-        ConditionMax = 100,
-        WorldStaticModel = LiveWire.SolarPanelKit_Ground,
-        Tooltip = Tooltip_LW_SolarPanelKit,
-    }
-
-    item WindTurbineKit
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 12.0,
-        Icon = SteelRod_Full,
-        ConditionMax = 100,
-        WorldStaticModel = LiveWire.WindTurbineKit_Ground,
-        Tooltip = Tooltip_LW_WindTurbineKit,
-    }
-
-    item InverterKit
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 8.0,
-        Icon = CarBatteryCharger,
-        ConditionMax = 100,
-        WorldStaticModel = LiveWire.InverterKit_Ground,
-        Tooltip = Tooltip_LW_InverterKit,
-    }
-
-    item HeavyInverterKit
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 12.0,
-        Icon = CarBatteryCharger,
-        ConditionMax = 100,
-        WorldStaticModel = LiveWire.HeavyInverterKit_Ground,
-        Tooltip = Tooltip_LW_HeavyInverterKit,
-    }
-
-    item PowerBankKit
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 10.0,
-        Icon = CarBattery,
-        ConditionMax = 100,
-        WorldStaticModel = LiveWire.PowerBankKit_Ground,
-        Tooltip = Tooltip_LW_PowerBankKit,
-    }
-
-    item BreakerKit
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 1.5,
-        Icon = Remote,
-        ConditionMax = 100,
-        WorldStaticModel = LiveWire.BreakerKit_Ground,
-        Tooltip = Tooltip_LW_BreakerKit,
-    }
-
-    item BatteryAlarmKit
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 0.5,
-        Icon = Remote,
-        ConditionMax = 100,
-        WorldStaticModel = LiveWire.BatteryAlarmKit_Ground,
-        Tooltip = Tooltip_LW_BatteryAlarmKit,
     }
 
     item DeepCycleBattery
