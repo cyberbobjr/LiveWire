@@ -15,6 +15,7 @@ local FH = getTextManager():getFontHeight(FONT)
 local PAD = 10
 local WIDTH = 460
 local BAR_H = 8
+local GRAPH_H = 40
 local RESUBSCRIBE_MS = 60 * 1000
 local CLOSE_RANGE = 30
 
@@ -110,12 +111,16 @@ function Dashboard:update()
     end
 end
 
--- Rows: { text = s, r, g, b } | { bar = fraction, r, g, b } | { header = s }.
+-- Rows: { text = s, r, g, b } | { bar = fraction, r, g, b } | { header = s }
+--     | { graph = { values... }, max = m, r, g, b } (one bar per hour, oldest first).
 function Dashboard:buildRows(snap)
     local rows = {}
     local function text(s, r, g, b) rows[#rows + 1] = { text = s, r = r or 1, g = g or 1, b = b or 1 } end
     local function header(s) rows[#rows + 1] = { header = s } end
     local function bar(f, r, g, b) rows[#rows + 1] = { bar = LiveWire.clamp(f or 0, 0, 1), r = r, g = g, b = b } end
+    local function graph(values, max, r, g, b)
+        rows[#rows + 1] = { graph = values, max = max, r = r, g = g, b = b }
+    end
     if not snap then
         text(T("IGUI_LW_Waiting"), 0.8, 0.8, 0.8)
         return rows
@@ -131,6 +136,7 @@ function Dashboard:buildRows(snap)
     header(T("IGUI_LW_Section_Balance"))
     local nominal = 0
     for i = 1, #snap.sources do nominal = nominal + (snap.sources[i].nominal or 0) end
+    if snap.backup and snap.backup.state == "running" then nominal = nominal + snap.backup.w end
     text(T("IGUI_LW_Production_Line", snap.production))
     if nominal > 0 then bar(snap.production / nominal, 0.3, 0.8, 0.3) end
     text(T("IGUI_LW_Demand_Line", snap.demand, inv.maxW))
@@ -190,6 +196,70 @@ function Dashboard:buildRows(snap)
         end
     end
 
+    -- Backup generator.
+    local bk = snap.backup
+    if bk then
+        header(T("IGUI_LW_Section_Backup"))
+        local r, g, b = 0.8, 0.95, 1
+        if bk.state == "nofuel" or bk.state == "unplugged" or bk.state == "broken" then r, g, b = 1, 0.5, 0.3 end
+        text(T("IGUI_LW_Backup_Line", T("IGUI_LW_Backup_" .. tostring(bk.state)), bk.w), r, g, b)
+        local fuelPct = 0
+        if (bk.maxFuel or 0) > 0 then fuelPct = bk.fuel / bk.maxFuel end
+        text(T("IGUI_LW_Backup_Fuel", math.floor(fuelPct * 100 + 0.5)))
+        bar(fuelPct, 0.8, 0.5, 0.2)
+        text(T("IGUI_LW_Backup_Thresholds", bk.start, bk.stop), 0.8, 0.8, 0.8)
+    end
+
+    -- Management computer: 48-hour history and forecast until sunrise.
+    local pc = snap.computer
+    header(T("IGUI_LW_Section_Computer"))
+    if not pc then
+        text(T("IGUI_LW_Computer_None"), 0.7, 0.7, 0.7)
+    elseif not pc.powered then
+        text(T("IGUI_LW_Computer_Off"), 1, 0.6, 0.3)
+    else
+        local hist = snap.history or {}
+        if #hist == 0 then
+            text(T("IGUI_LW_Computer_NoHistory"), 0.7, 0.7, 0.7)
+        else
+            local prod, dem, stock = {}, {}, {}
+            local peak = 1
+            for i = 1, #hist do
+                prod[i], dem[i] = hist[i].p or 0, hist[i].d or 0
+                stock[i] = math.max(0, hist[i].s or 0)
+                peak = math.max(peak, prod[i], dem[i])
+            end
+            text(T("IGUI_LW_History_Production", #hist, peak), 0.3, 0.8, 0.3)
+            graph(prod, peak, 0.3, 0.8, 0.3)
+            text(T("IGUI_LW_History_Demand"), 0.3, 0.6, 0.9)
+            graph(dem, peak, 0.3, 0.6, 0.9)
+            if snap.capacity and snap.capacity > 0 then
+                text(T("IGUI_LW_History_Stock"), 0.9, 0.8, 0.2)
+                graph(stock, 1, 0.9, 0.8, 0.2)
+            end
+        end
+        if snap.dawnH then
+            local dawn = math.floor(snap.dawnH + 0.5)
+            if not snap.capacity or snap.capacity <= 0 then
+                -- No battery: nothing to forecast.
+            elseif not snap.autonomyH then
+                text(T("IGUI_LW_Forecast_Surplus"), 0.3, 0.9, 0.3)
+            elseif snap.autonomyH >= snap.dawnH then
+                text(T("IGUI_LW_Forecast_Holds", dawn), 0.3, 0.9, 0.3)
+            else
+                text(T("IGUI_LW_Forecast_Short", math.floor(snap.autonomyH + 0.5), dawn), 1, 0.5, 0.3)
+            end
+        end
+        if pc.shed then text(T("IGUI_LW_Computer_Shed"), 0.8, 0.8, 0.8) end
+    end
+    if snap.alarm then
+        if snap.alarm.on then
+            text(T("IGUI_LW_Alarm_On"), 1, 0.4, 0.3)
+        else
+            text(T("IGUI_LW_Alarm_Armed"), 0.8, 0.8, 0.8)
+        end
+    end
+
     -- The powered house: every appliance in the covered area, no individual wiring.
     header(T("IGUI_LW_Section_House"))
     text(T("IGUI_LW_Coverage", snap.coverage and snap.coverage.radius or 20,
@@ -228,6 +298,20 @@ function Dashboard:render()
             y = y + FH
             self:drawRect(PAD, y, inner, 1, 0.4, 0.7, 0.9, 1)
             y = y + 3
+        elseif row.graph then
+            local n = #row.graph
+            local slot = inner / math.max(n, 24)
+            self:drawRect(PAD, y + 1, inner, GRAPH_H, 0.6, 0.1, 0.1, 0.1)
+            for k = 1, n do
+                local f = LiveWire.clamp((row.graph[k] or 0) / (row.max or 1), 0, 1)
+                local hgt = math.floor(f * (GRAPH_H - 2) + 0.5)
+                if hgt > 0 then
+                    self:drawRect(PAD + (k - 1) * slot + 1, y + GRAPH_H - hgt, math.max(1, slot - 1), hgt,
+                        0.9, row.r, row.g, row.b)
+                end
+            end
+            self:drawRectBorder(PAD, y + 1, inner, GRAPH_H, 0.5, 1, 1, 1)
+            y = y + GRAPH_H + 4
         elseif row.bar then
             self:drawRect(PAD, y + 1, inner, BAR_H, 0.6, 0.1, 0.1, 0.1)
             self:drawRect(PAD, y + 1, inner * row.bar, BAR_H, 0.9, row.r, row.g, row.b)

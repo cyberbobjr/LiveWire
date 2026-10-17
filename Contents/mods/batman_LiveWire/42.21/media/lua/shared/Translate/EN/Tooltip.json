@@ -27,5 +27,6 @@
     "Tooltip_LW_InverterKit": "Converts the power of the sources and batteries for the house. 1500 W (Electrical 5).",
     "Tooltip_LW_HeavyInverterKit": "Inverter. 3000 W (Electrical 8).",
     "Tooltip_LW_BreakerKit": "Mounted on a wall: an overload no longer damages the inverter (Electrical 3).",
+    "Tooltip_LW_BatteryAlarmKit": "Beeps and warns nearby players when the batteries fall below 20%% (Electrical 2).",
     "Tooltip_LW_DeepCycleBattery": "Stores 1.5 kWh and lasts four times longer than a car battery."
 }

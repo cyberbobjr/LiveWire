@@ -220,7 +220,8 @@ function LWDismantleAction:new(character, target)
 end
 
 --------------------------------------------------------------------------------
--- Link a source, a power bank or an optional device to an inverter.
+-- Link a source, a power bank, an optional device, a vanilla generator (backup)
+-- or a vanilla desktop computer (management) to an inverter.
 --------------------------------------------------------------------------------
 LWLinkAction = ISBaseTimedAction:derive("LWLinkAction")
 
@@ -260,6 +261,11 @@ function LWLinkAction:complete()
     local grid = inv and inv.grid and R().grid(inv.grid)
     if not grid then return false end
 
+    local kind = I().linkKind(target)
+    if kind == "backup" or kind == "computer" then
+        return LWLinkAction.linkVanilla(ch, target, kind, grid, wires)
+    end
+
     -- Already on this network: nothing to do (no wire, no XP).
     local already = deviceOf(target)
     if already and already.grid == grid.id then
@@ -267,12 +273,12 @@ function LWLinkAction:complete()
         return false
     end
 
-    -- Breaker: one per network, checked before anything is consumed.
+    -- Breaker and alarm: one per network, checked before anything is consumed.
     local tdev = deviceOf(target)
     local tdef = tdev and LiveWire.Defs.devices[tdev.model]
     if not tdev or tdev.role == "inverter" then return false end
-    if tdef and tdef.role == "option" and tdef.kind == "breaker" then
-        local existing = R().hasOption(grid, "breaker")
+    if tdef and tdef.role == "option" and tdef.kind then
+        local existing = R().hasOption(grid, tdef.kind)
         if existing and existing.id ~= tdev.id then
             LiveWire.notify(ch, "Tooltip_LW_OneOptionPerGrid", {}, true)
             return false
@@ -281,6 +287,36 @@ function LWLinkAction:complete()
     if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
 
     R().link(tdev, grid)
+    LiveWire.Xp.award(ch, 3)
+    LiveWire.Sim.refresh(grid)
+    LiveWire.notify(ch, "IGUI_LW_Linked", {})
+    return true
+end
+
+-- A vanilla generator (backup power) or desktop computer (management computer):
+-- one of each per network. The vanilla object is only marked in its ModData.
+function LWLinkAction.linkVanilla(ch, target, kind, grid, wires)
+    local m = I().vanillaMark(target)
+    local old = m and R().device(m.id)
+    if old and old.grid == grid.id then
+        LiveWire.notify(ch, "Tooltip_LW_AlreadyLinked", {}, true)
+        return false
+    end
+    local _, _, _, backups, computers = R().members(grid)
+    local list = backups
+    if kind == "computer" then list = computers end
+    if #list > 0 then
+        LiveWire.notify(ch, "Tooltip_LW_OneOptionPerGrid", {}, true)
+        return false
+    end
+    if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
+    -- Linked to another network before: move it.
+    if old then R().forgetVanilla(old) end
+    if kind == "backup" then
+        LiveWire.Backup.register(target, grid)
+    else
+        LiveWire.Computer.register(target, grid, I().level(ch))
+    end
     LiveWire.Xp.award(ch, 3)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(ch, "IGUI_LW_Linked", {})

@@ -1,5 +1,6 @@
 -- Live Wire: when a chunk loads on the authority, push registry snapshots onto
--- the batteries it contains (nobody could touch them while unloaded) and drop the
+-- the batteries it contains (nobody could touch them while unloaded), apply the
+-- fuel a backup generator burnt while unloaded, and drop the
 -- demand inventory of nearby inverters (docs/architecture.md section 6.2).
 if isClient() then return end
 
@@ -19,6 +20,7 @@ local function onLoadChunk(chunk)
     for _, dev in pairs(R.devices()) do
         if dev.x >= x0 and dev.x <= x1 and dev.y >= y0 and dev.y <= y1 then
             if dev.role == "storage" then LiveWire.Batteries.restore(dev) end
+            if dev.role == "backup" then LiveWire.Backup.restore(dev) end
         end
         if dev.role == "inverter" then
             local dx, dy = dev.x - (x0 + 4), dev.y - (y0 + 4)

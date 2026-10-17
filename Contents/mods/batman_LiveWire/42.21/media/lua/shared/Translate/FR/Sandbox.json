@@ -25,5 +25,9 @@
     "Sandbox_LiveWire_SkillGates": "Niveaux requis",
     "Sandbox_LiveWire_SkillGates_tooltip": "Désactivé : aucun niveau d'Électricité n'est requis.",
     "Sandbox_LiveWire_SimulateUnloaded": "Fonctionnement sans joueur",
-    "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Production, consommation et usure continuent quand aucun joueur n'est à proximité."
+    "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Production, consommation et usure continuent quand aucun joueur n'est à proximité.",
+    "Sandbox_LiveWire_BackupStartPercent": "Démarrage du secours (pourcentage)",
+    "Sandbox_LiveWire_BackupStartPercent_tooltip": "Un générateur de secours démarre quand les batteries passent sous ce pourcentage.",
+    "Sandbox_LiveWire_BackupStopPercent": "Arrêt du secours (pourcentage)",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Le générateur de secours s'arrête quand les batteries atteignent ce pourcentage."
 }

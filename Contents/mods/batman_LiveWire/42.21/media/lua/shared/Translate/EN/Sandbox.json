@@ -25,5 +25,9 @@
     "Sandbox_LiveWire_SkillGates": "Skill requirements",
     "Sandbox_LiveWire_SkillGates_tooltip": "When disabled, no Electrical level is required.",
     "Sandbox_LiveWire_SimulateUnloaded": "Run without players nearby",
-    "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Production, consumption and wear go on when no player is nearby."
+    "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Production, consumption and wear go on when no player is nearby.",
+    "Sandbox_LiveWire_BackupStartPercent": "Backup start (percent)",
+    "Sandbox_LiveWire_BackupStartPercent_tooltip": "A backup generator starts when the batteries fall below this percentage.",
+    "Sandbox_LiveWire_BackupStopPercent": "Backup stop (percent)",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "The backup generator stops once the batteries reach this percentage."
 }

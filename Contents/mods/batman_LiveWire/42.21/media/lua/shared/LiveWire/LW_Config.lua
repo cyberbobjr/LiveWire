@@ -21,6 +21,8 @@ local DEFAULTS = {
     XPMultiplier = 1.0,
     SkillGates = true,
     SimulateUnloaded = true,
+    BackupStartPercent = 20,
+    BackupStopPercent = 90,
 }
 Config.DEFAULTS = DEFAULTS
 

@@ -19,6 +19,7 @@ Protocol.S_SNAPSHOT = "snapshot"
 Protocol.S_NOTIFY = "notify"
 Protocol.S_REFUSE = "refuse"
 Protocol.S_ANCHORS = "anchors"
+Protocol.S_BEEP = "beep"
 
 Protocol.MAX_NAME = 24
 Protocol.MAX_STRING = 32

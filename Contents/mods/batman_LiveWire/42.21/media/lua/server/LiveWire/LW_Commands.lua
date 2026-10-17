@@ -91,7 +91,8 @@ handlers[P.C_UNLINK] = function(player, args)
     if not dev then return refuse(player, P.C_UNLINK, why) end
     if dev.role == "inverter" or not dev.grid then return end
     local grid = LiveWire.Registry.grid(dev.grid)
-    LiveWire.Registry.unlink(dev)
+    -- A linked vanilla generator or computer leaves the registry entirely.
+    if not LiveWire.Registry.forgetVanilla(dev) then LiveWire.Registry.unlink(dev) end
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(player, "IGUI_LW_Unlinked", {})
 end

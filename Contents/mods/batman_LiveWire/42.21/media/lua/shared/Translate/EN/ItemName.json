@@ -7,5 +7,6 @@
     "LiveWire.HeavyInverterKit": "Heavy Inverter Kit",
     "LiveWire.PowerBankKit": "Power Bank Kit",
     "LiveWire.BreakerKit": "Circuit Breaker Kit",
-    "LiveWire.DeepCycleBattery": "Deep-Cycle Battery"
+    "LiveWire.DeepCycleBattery": "Deep-Cycle Battery",
+    "LiveWire.BatteryAlarmKit": "Low Battery Alarm Kit"
 }

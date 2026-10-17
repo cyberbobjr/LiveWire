@@ -93,6 +93,17 @@ module LiveWire
         Tooltip = Tooltip_LW_BreakerKit,
     }
 
+    item BatteryAlarmKit
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.5,
+        Icon = Remote,
+        ConditionMax = 100,
+        WorldStaticModel = LiveWire.BatteryAlarmKit_Ground,
+        Tooltip = Tooltip_LW_BatteryAlarmKit,
+    }
+
     item DeepCycleBattery
     {
         DisplayCategory = VehicleMaintenance,

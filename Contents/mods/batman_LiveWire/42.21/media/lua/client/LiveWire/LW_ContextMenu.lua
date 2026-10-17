@@ -121,6 +121,26 @@ local function addDeviceOptions(sub, player, obj)
     end
 end
 
+-- Options for a vanilla generator (backup power) or desktop computer (management).
+local function addVanillaOptions(sub, player, obj, kind)
+    local mark = I().vanillaMark(obj)
+    local title = "IGUI_LW_Model_BackupGenerator"
+    if kind == "computer" then title = "IGUI_LW_Model_ManagementComputer" end
+    local opt = sub:addOption(getText(title), nil, nil)
+    local menu = ISContextMenu:getNew(sub)
+    sub:addSubMenu(opt, menu)
+    if kind == "computer" and mark and type(mark.inverter) == "string" then
+        menu:addOption(getText("ContextMenu_LW_Dashboard"), player, Menu.onDashboard, mark.inverter)
+    end
+    local inverter = I().nearestInverter(obj:getSquare())
+    local o = menu:addOption(getText("ContextMenu_LW_Link"), player, Menu.onLink, obj, inverter)
+    local ok, why, arg = I().checkLink(player, obj, inverter)
+    if not ok then tip(o, why, arg) end
+    if mark then
+        menu:addOption(getText("ContextMenu_LW_Unlink"), player, Menu.onUnlink, mark.id)
+    end
+end
+
 local function onFillWorld(playerNum, context, worldobjects, test)
     if test and ISWorldObjectContextMenu.Test then return true end
     local player = getSpecificPlayer(playerNum)
@@ -130,11 +150,18 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     if not sq then return end
 
     -- Our devices among the clicked objects and on the clicked square.
-    local devices, seen = {}, {}
+    -- Vanilla generators and computers only when they are linked or an inverter is
+    -- in range, so that their vanilla menus are not cluttered.
+    local devices, vanilla, seen = {}, {}, {}
     local function addObj(o)
-        if o and LiveWire.Marks.isOurs(o) and not seen[o] then
+        if not o or seen[o] then return end
+        local kind = I().linkKind(o)
+        if kind == "device" then
             seen[o] = true
             devices[#devices + 1] = o
+        elseif kind and o:getSquare() and (I().vanillaMark(o) or I().nearestInverter(o:getSquare())) then
+            seen[o] = true
+            vanilla[#vanilla + 1] = { obj = o, kind = kind }
         end
     end
     for _, o in ipairs(worldobjects) do addObj(o) end
@@ -145,7 +172,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     local kits = inv:getAllEvalRecurse(isKit)
     local hasTester = inv:getCountTypeRecurse("LiveWire.VoltageTester") > 0
 
-    if #devices == 0 and kits:size() == 0 and not hasTester then return end
+    if #devices == 0 and #vanilla == 0 and kits:size() == 0 and not hasTester then return end
     if test then return ISWorldObjectContextMenu.setTest() end
 
     local root = context:addOption(getText("ContextMenu_LW_Root"), worldobjects, nil)
@@ -174,6 +201,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     end
 
     for i = 1, #devices do addDeviceOptions(sub, player, devices[i]) end
+    for i = 1, #vanilla do addVanillaOptions(sub, player, vanilla[i].obj, vanilla[i].kind) end
 
 end
 

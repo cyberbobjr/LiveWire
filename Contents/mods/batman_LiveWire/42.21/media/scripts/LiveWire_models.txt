@@ -59,4 +59,11 @@ module LiveWire
         texture = LiveWire/BreakerKit,
         scale = 1.0,
     }
+
+    model BatteryAlarmKit_Ground
+    {
+        mesh = LiveWire/BatteryAlarmKit,
+        texture = LiveWire/BatteryAlarmKit,
+        scale = 1.0,
+    }
 }

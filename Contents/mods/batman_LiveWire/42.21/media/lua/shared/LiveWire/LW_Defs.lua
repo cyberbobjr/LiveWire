@@ -64,7 +64,25 @@ Defs.devices = {
         level = 3, xp = 5,
         wearDays = 15,
     },
+    BatteryAlarm = {
+        role = "option", kind = "alarm",
+        kit = "LiveWire.BatteryAlarmKit",
+        sprite = "appliances_com_01_70",      -- placeholder: Mov_Microphone
+        level = 2, xp = 5,
+        wearDays = 30,
+    },
 }
+
+-- Vanilla objects wired to an inverter. Their link is stored in their own ModData
+-- under these keys (never the device mark), so vanilla actions stay available.
+Defs.BACKUP_KEY = "LiveWireBackup"
+Defs.BACKUP_LEVEL = 3          -- vanilla generator as backup power
+Defs.COMPUTER_KEY = "LiveWireComputer"
+Defs.COMPUTER_LEVEL = 6        -- vanilla desktop computer as management computer
+Defs.SHED_LEVEL = 7            -- load shedding by the management computer
+Defs.ALARM_BELOW = 0.20
+Defs.ALARM_RESET = 0.25
+Defs.ALARM_REPEAT_HOURS = 2
 
 -- Batteries stored in a power bank. Keyed by full type.
 Defs.batteries = {

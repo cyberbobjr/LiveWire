@@ -254,4 +254,27 @@ module LiveWire
             item 1 LiveWire.DeepCycleBattery,
         }
     }
+
+    craftRecipe LWMakeBatteryAlarmKit
+    {
+        timedAction = MakingElectrical,
+        time = 150,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:2,
+        AutoLearnAny = Electricity:2,
+        xpAward = Electricity:5,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 [Base.ElectronicsScrap],
+            item 1 [Base.ElectricWire],
+            item 1 [Base.Amplifier],
+        }
+        outputs
+        {
+            item 1 LiveWire.BatteryAlarmKit,
+        }
+    }
 }

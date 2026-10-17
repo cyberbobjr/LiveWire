@@ -67,6 +67,8 @@ local function onServerCommand(module, command, args)
             end
         end
         Client.showNotify(getPlayer(), args.key, list, args.bad == true)
+    elseif command == P.S_BEEP then
+        if LiveWire.Beep then LiveWire.Beep.play(args.x, args.y, args.z) end
     end
 end
 

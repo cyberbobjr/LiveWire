@@ -27,5 +27,6 @@
     "Tooltip_LW_InverterKit": "Convertit le courant des sources et des batteries pour la maison. 1500 W (Électricité 5).",
     "Tooltip_LW_HeavyInverterKit": "Onduleur. 3000 W (Électricité 8).",
     "Tooltip_LW_BreakerKit": "Se fixe au mur : une surcharge n'abîme plus l'onduleur (Électricité 3).",
+    "Tooltip_LW_BatteryAlarmKit": "Bipe et prévient les joueurs proches quand les batteries passent sous 20 %% (Électricité 2).",
     "Tooltip_LW_DeepCycleBattery": "Stocke 1,5 kWh et dure quatre fois plus qu'une batterie de voiture."
 }

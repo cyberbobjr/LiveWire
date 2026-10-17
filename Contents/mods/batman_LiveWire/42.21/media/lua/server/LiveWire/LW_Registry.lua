@@ -122,19 +122,39 @@ function Registry.unlink(dev)
     dev.grid = nil
 end
 
--- Members of a grid by role: sources, power banks, options (each a list).
+-- Members of a grid by role: sources, power banks, options, backup generators,
+-- management computers (each a list, sorted by id for a stable order).
 function Registry.members(grid)
-    local sources, batteries, options = {}, {}, {}
-    for id in pairs(grid.members) do
+    local sources, batteries, options, backups, computers = {}, {}, {}, {}, {}
+    local ids = {}
+    for id in pairs(grid.members) do ids[#ids + 1] = id end
+    table.sort(ids)
+    for i = 1, #ids do
+        local id = ids[i]
         local dev = data().devices[id]
         if not dev then
             grid.members[id] = nil
         elseif dev.role == "source" then sources[#sources + 1] = dev
         elseif dev.role == "storage" then batteries[#batteries + 1] = dev
         elseif dev.role == "option" then options[#options + 1] = dev
+        elseif dev.role == "backup" then backups[#backups + 1] = dev
+        elseif dev.role == "computer" then computers[#computers + 1] = dev
         end
     end
-    return sources, batteries, options
+    return sources, batteries, options, backups, computers
+end
+
+-- Vanilla objects (generator, computer) only exist in the registry through their
+-- link: dropping the link removes them and clears the ModData left on the object.
+function Registry.forgetVanilla(dev)
+    if dev.role == "backup" and LiveWire.Backup then
+        LiveWire.Backup.forget(dev)
+    elseif dev.role == "computer" and LiveWire.Computer then
+        LiveWire.Computer.forget(dev)
+    else
+        return false
+    end
+    return true
 end
 
 function Registry.hasOption(grid, kind)
@@ -152,11 +172,16 @@ function Registry.removeDevice(id)
     if dev.role == "inverter" then
         local g = dev.grid and data().grids[dev.grid]
         if g then
+            local vanilla = {}
             for mid in pairs(g.members) do
                 local m = data().devices[mid]
-                if m then m.grid = nil end
+                if m then
+                    m.grid = nil
+                    if m.role == "backup" or m.role == "computer" then vanilla[#vanilla + 1] = m end
+                end
             end
             data().grids[g.id] = nil
+            for i = 1, #vanilla do Registry.forgetVanilla(vanilla[i]) end
         end
         Registry.setAnchor(dev, nil)
     else

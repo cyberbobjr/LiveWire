@@ -24,6 +24,7 @@ for k, en, fr in [
     ("LiveWire.PowerBankKit", "Power Bank Kit", "Powerbank en kit"),
     ("LiveWire.BreakerKit", "Circuit Breaker Kit", "Disjoncteur en kit"),
     ("LiveWire.DeepCycleBattery", "Deep-Cycle Battery", "Batterie stationnaire"),
+    ("LiveWire.BatteryAlarmKit", "Low Battery Alarm Kit", "Alarme de batterie faible en kit"),
 ]:
     add("ItemName", k, en, fr)
 
@@ -39,6 +40,7 @@ for k, en, fr in [
     ("LWMakePowerBankKit", "Make Power Bank Kit", "Fabriquer une powerbank"),
     ("LWMakeBreakerKit", "Make Circuit Breaker Kit", "Fabriquer un disjoncteur"),
     ("LWMakeDeepCycleBattery", "Make Deep-Cycle Battery", "Fabriquer une batterie stationnaire"),
+    ("LWMakeBatteryAlarmKit", "Make Low Battery Alarm Kit", "Fabriquer une alarme de batterie faible"),
 ]:
     add("Recipes", k, en, fr)
 
@@ -90,6 +92,7 @@ for k, en, fr in [
     ("Tooltip_LW_InverterKit", "Converts the power of the sources and batteries for the house. 1500 W (Electrical 5).", "Convertit le courant des sources et des batteries pour la maison. 1500 W (Électricité 5)."),
     ("Tooltip_LW_HeavyInverterKit", "Inverter. 3000 W (Electrical 8).", "Onduleur. 3000 W (Électricité 8)."),
     ("Tooltip_LW_BreakerKit", "Mounted on a wall: an overload no longer damages the inverter (Electrical 3).", "Se fixe au mur : une surcharge n'abîme plus l'onduleur (Électricité 3)."),
+    ("Tooltip_LW_BatteryAlarmKit", "Beeps and warns nearby players when the batteries fall below 20%% (Electrical 2).", "Bipe et pr\u00e9vient les joueurs proches quand les batteries passent sous 20 %% (\u00c9lectricit\u00e9 2)."),
     ("Tooltip_LW_DeepCycleBattery", "Stores 1.5 kWh and lasts four times longer than a car battery.", "Stocke 1,5 kWh et dure quatre fois plus qu'une batterie de voiture."),
 ]:
     add("Tooltip", k, en, fr)
@@ -169,6 +172,38 @@ for k, en, fr in [
 ]:
     add("IG_UI", k, en, fr)
 
+# Backup generator, management computer, low battery alarm.
+for k, en, fr in [
+    ("IGUI_LW_Model_BackupGenerator", "Backup generator", "G\u00e9n\u00e9rateur de secours"),
+    ("IGUI_LW_Model_ManagementComputer", "Management computer", "Ordinateur de gestion"),
+    ("IGUI_LW_Model_BatteryAlarm", "Low battery alarm", "Alarme de batterie faible"),
+    ("IGUI_LW_Section_Backup", "Backup power", "Alimentation de secours"),
+    ("IGUI_LW_Backup_Line", "Generator: %1, %2 W", "G\u00e9n\u00e9rateur : %1, %2 W"),
+    ("IGUI_LW_Backup_running", "charging the batteries", "recharge les batteries"),
+    ("IGUI_LW_Backup_standby", "on standby", "en veille"),
+    ("IGUI_LW_Backup_nofuel", "out of fuel", "plus de carburant"),
+    ("IGUI_LW_Backup_unplugged", "not connected (vanilla Connect option)", "non branch\u00e9 (option vanilla Brancher)"),
+    ("IGUI_LW_Backup_broken", "broken", "en panne"),
+    ("IGUI_LW_Backup_Fuel", "Fuel: %1%%", "Carburant : %1 %%"),
+    ("IGUI_LW_Backup_Thresholds", "Starts below %1%% of battery, stops at %2%%.", "D\u00e9marre sous %1 %% de batterie, s'arr\u00eate \u00e0 %2 %%."),
+    ("IGUI_LW_Section_Computer", "Management computer", "Ordinateur de gestion"),
+    ("IGUI_LW_Computer_None", "Connect a desktop computer (Electrical 6) to see the history and the forecast.", "Raccordez un ordinateur de bureau (\u00c9lectricit\u00e9 6) pour voir l'historique et la pr\u00e9vision."),
+    ("IGUI_LW_Computer_Off", "The computer has no power.", "L'ordinateur n'est pas aliment\u00e9."),
+    ("IGUI_LW_Computer_NoHistory", "Recording... (one point per hour)", "Enregistrement... (un point par heure)"),
+    ("IGUI_LW_Computer_Shed", "Load shedding: lights are switched off below 15%% of battery.", "D\u00e9lestage : les lumi\u00e8res sont \u00e9teintes sous 15 %% de batterie."),
+    ("IGUI_LW_History_Production", "Production, last %1 h (peak %2 W)", "Production, %1 derni\u00e8res heures (pic %2 W)"),
+    ("IGUI_LW_History_Demand", "Consumption", "Consommation"),
+    ("IGUI_LW_History_Stock", "Battery stock", "Stock des batteries"),
+    ("IGUI_LW_Forecast_Holds", "Forecast: the batteries will last until sunrise (in %1 h).", "Pr\u00e9vision : les batteries tiendront jusqu'\u00e0 l'aube (dans %1 h)."),
+    ("IGUI_LW_Forecast_Short", "Forecast: about %1 h left, sunrise in %2 h.", "Pr\u00e9vision : environ %1 h restantes, aube dans %2 h."),
+    ("IGUI_LW_Forecast_Surplus", "Forecast: production covers the consumption.", "Pr\u00e9vision : la production couvre la consommation."),
+    ("IGUI_LW_Shed", "Low battery: the computer switched the lights off.", "Batterie faible : l'ordinateur a \u00e9teint les lumi\u00e8res."),
+    ("IGUI_LW_Alarm_On", "Low battery alarm: ringing", "Alarme de batterie faible : d\u00e9clench\u00e9e"),
+    ("IGUI_LW_Alarm_Armed", "Low battery alarm: armed", "Alarme de batterie faible : en veille"),
+    ("IGUI_LW_LowBattery", "Low battery: %1%% left!", "Batterie faible : il reste %1 %% !"),
+]:
+    add("IG_UI", k, en, fr)
+
 SANDBOX = [
     ("PowerScale", "Power scale", "Échelle de puissance",
      "Multiplies the consumption of every appliance (1 = a fridge-freezer draws 130 W).",
@@ -197,6 +232,10 @@ SANDBOX = [
      "When disabled, no Electrical level is required.", "Désactivé : aucun niveau d'Électricité n'est requis."),
     ("SimulateUnloaded", "Run without players nearby", "Fonctionnement sans joueur",
      "Production, consumption and wear go on when no player is nearby.", "Production, consommation et usure continuent quand aucun joueur n'est à proximité."),
+    ("BackupStartPercent", "Backup start (percent)", "D\u00e9marrage du secours (pourcentage)",
+     "A backup generator starts when the batteries fall below this percentage.", "Un g\u00e9n\u00e9rateur de secours d\u00e9marre quand les batteries passent sous ce pourcentage."),
+    ("BackupStopPercent", "Backup stop (percent)", "Arr\u00eat du secours (pourcentage)",
+     "The backup generator stops once the batteries reach this percentage.", "Le g\u00e9n\u00e9rateur de secours s'arr\u00eate quand les batteries atteignent ce pourcentage."),
 ]
 add("Sandbox", "Sandbox_LiveWire", "Live Wire", "Live Wire")
 for name, en, fr, ten, tfr in SANDBOX:

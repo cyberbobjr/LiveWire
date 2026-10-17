@@ -8,5 +8,6 @@
     "LWMakeWindTurbineKit": "Make Wind Turbine Kit",
     "LWMakePowerBankKit": "Make Power Bank Kit",
     "LWMakeBreakerKit": "Make Circuit Breaker Kit",
-    "LWMakeDeepCycleBattery": "Make Deep-Cycle Battery"
+    "LWMakeDeepCycleBattery": "Make Deep-Cycle Battery",
+    "LWMakeBatteryAlarmKit": "Make Low Battery Alarm Kit"
 }

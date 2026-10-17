@@ -77,3 +77,15 @@ option LiveWire.SimulateUnloaded
     type = boolean, default = true,
     page = LiveWire, translation = LiveWire_SimulateUnloaded,
 }
+
+option LiveWire.BackupStartPercent
+{
+    type = integer, min = 0, max = 90, default = 20,
+    page = LiveWire, translation = LiveWire_BackupStartPercent,
+}
+
+option LiveWire.BackupStopPercent
+{
+    type = integer, min = 10, max = 100, default = 90,
+    page = LiveWire, translation = LiveWire_BackupStopPercent,
+}

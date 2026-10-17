@@ -7,5 +7,6 @@
     "LiveWire.HeavyInverterKit": "Onduleur renforcé en kit",
     "LiveWire.PowerBankKit": "Powerbank en kit",
     "LiveWire.BreakerKit": "Disjoncteur en kit",
-    "LiveWire.DeepCycleBattery": "Batterie stationnaire"
+    "LiveWire.DeepCycleBattery": "Batterie stationnaire",
+    "LiveWire.BatteryAlarmKit": "Alarme de batterie faible en kit"
 }

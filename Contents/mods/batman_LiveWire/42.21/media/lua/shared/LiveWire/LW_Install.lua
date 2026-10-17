@@ -121,7 +121,48 @@ function Install.wiresFor(dist)
     return math.max(1, math.ceil(dist / per))
 end
 
--- Can `target` (one of our placed devices) be linked to `inverterObj`?
+-- Vanilla desktop computer (Mov_DesktopComputer, appliances_com_01_72:
+-- media/scripts/generated/items/moveable.txt:1794-1800). The rotated variants
+-- _73.._75 are an assumption; the tile CustomName is checked as well.
+local COMPUTER_SPRITES = {
+    appliances_com_01_72 = true, appliances_com_01_73 = true,
+    appliances_com_01_74 = true, appliances_com_01_75 = true,
+}
+
+function Install.isComputer(obj)
+    if not obj or instanceof(obj, "IsoWorldInventoryObject") then return false end
+    local spr = obj:getSprite()
+    if not spr then return false end
+    if COMPUTER_SPRITES[spr:getName() or ""] then return true end
+    local props = spr:getProperties()
+    local name = props and props:get("CustomName")
+    return name ~= nil and string.find(name, "Computer") ~= nil
+end
+
+-- What kind of link `obj` takes: "device" (ours), "backup" (vanilla generator),
+-- "computer" (vanilla desktop computer), or nil.
+function Install.linkKind(obj)
+    if not obj then return nil end
+    if LiveWire.Marks.isOurs(obj) then return "device" end
+    if instanceof(obj, "IsoGenerator") then return "backup" end
+    if Install.isComputer(obj) then return "computer" end
+    return nil
+end
+
+-- Mark left by a link on a vanilla object ({ id, inverter? }), or nil.
+function Install.vanillaMark(obj)
+    local kind = Install.linkKind(obj)
+    local key
+    if kind == "backup" then key = LiveWire.Defs.BACKUP_KEY
+    elseif kind == "computer" then key = LiveWire.Defs.COMPUTER_KEY
+    else return nil end
+    local m = obj:getModData()[key]
+    if type(m) == "table" and type(m.id) == "string" then return m end
+    return nil
+end
+
+-- Can `target` (one of our devices, a vanilla generator or a vanilla computer) be
+-- linked to `inverterObj`?
 function Install.checkLink(character, target, inverterObj)
     if not target or not inverterObj then return false, "Tooltip_LW_Invalid" end
     local im = LiveWire.Marks.get(inverterObj)
@@ -135,7 +176,14 @@ function Install.checkLink(character, target, inverterObj)
     if dist > LiveWire.Config.get("LinkRange") or dz > 1 then
         return false, "Tooltip_LW_NoInverterInRange"
     end
-    if not LiveWire.Marks.isOurs(target) then return false, "Tooltip_LW_Invalid" end
+    local kind = Install.linkKind(target)
+    if not kind then return false, "Tooltip_LW_Invalid" end
+    local need = nil
+    if kind == "backup" then need = LiveWire.Defs.BACKUP_LEVEL
+    elseif kind == "computer" then need = LiveWire.Defs.COMPUTER_LEVEL end
+    if need and not Install.hasLevel(character, need) then
+        return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(need)
+    end
     local wires = Install.wiresFor(dist)
     if Install.countType(character, "Base.ElectricWire") < wires then
         return false, "Tooltip_LW_NeedWire", wires

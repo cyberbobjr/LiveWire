@@ -99,13 +99,25 @@ local function batteryWear(entry, drawn, h)
     if entry.charge > entry.capacity then entry.charge = entry.capacity end
 end
 
+-- Battery stock as a fraction of the capacity, nil without any capacity.
+local function stockFraction(entries)
+    local stock, capacity = 0, 0
+    for e = 1, #entries do
+        stock = stock + entries[e].charge
+        capacity = capacity + entries[e].capacity
+    end
+    if capacity <= 0 then return nil end
+    return stock / capacity
+end
+Sim.stockFraction = stockFraction
+
 -- Public snapshot of a grid (primitive values only).
 function Sim.snapshot(grid)
     local R = LiveWire.Registry
     local inv = R.device(grid.inverter)
     if not inv then return nil end
     local def = Defs.devices[inv.model] or {}
-    local sources, batteries, options = R.members(grid)
+    local sources, batteries, options, backups, computers = R.members(grid)
     local snap = {
         grid = grid.id, rev = grid.rev or 0, name = grid.name or "",
         inverter = { id = inv.id, model = inv.model, state = inv.state,
@@ -149,6 +161,25 @@ function Sim.snapshot(grid)
     if need > 0 and snap.stock > 0 then
         snap.autonomyH = snap.stock * 1000 * (inv.eff or 0.85) / need
     end
+    local b = backups[1]
+    if b then
+        snap.backup = { id = b.id, state = b.state or "standby", fuel = b.fuel or 0, maxFuel = 10,
+                        w = math.floor((grid.backupW or 0) + 0.5),
+                        start = LiveWire.Config.get("BackupStartPercent"),
+                        stop = LiveWire.Config.get("BackupStopPercent") }
+    end
+    local c = computers[1]
+    if c then
+        local on = grid.computerOn == true
+        snap.computer = { id = c.id, powered = on,
+                          shed = (c.level or 0) >= LiveWire.Config.requiredLevel(Defs.SHED_LEVEL) }
+        if on then
+            snap.history = {}
+            for i, hs in ipairs(grid.history or {}) do snap.history[i] = { p = hs.p, d = hs.d, s = hs.s } end
+            snap.dawnH = LiveWire.Computer.hoursToDawn()
+        end
+    end
+    if R.hasOption(grid, "alarm") then snap.alarm = { on = grid.alarmOn == true } end
     return snap
 end
 
@@ -258,9 +289,27 @@ function Sim.stepGrid(grid, now, w)
                 dev.missing = nil
             end
         end
+        -- Linked vanilla objects (generator, computer) are found by their own ModData.
+        local _, _, _, bk0, pc0 = R.members(grid)
+        local vanilla = {}
+        for i = 1, #bk0 do vanilla[#vanilla + 1] = { dev = bk0[i], mod = LiveWire.Backup } end
+        for i = 1, #pc0 do vanilla[#vanilla + 1] = { dev = pc0[i], mod = LiveWire.Computer } end
+        for i = 1, #vanilla do
+            local dev = vanilla[i].dev
+            local obj, here = vanilla[i].mod.find(dev)
+            if here and not obj then
+                dev.missing = (dev.missing or 0) + 1
+                if dev.missing >= 2 then
+                    LiveWire.log("linked object " .. dev.id .. " is gone from its square, removing it")
+                    R.forgetVanilla(dev)
+                end
+            elseif here then
+                dev.missing = nil
+            end
+        end
     end
 
-    local sources, banks = R.members(grid)
+    local sources, banks, options, backups, computers = R.members(grid)
     local entries = {}
     local bankEntries = {}
     for i = 1, #banks do
@@ -270,12 +319,12 @@ function Sim.stepGrid(grid, now, w)
     end
 
     local breaker = R.hasOption(grid, "breaker")
-    local _, _, options = R.members(grid)
     local tod = getGameTime():getTimeOfDay()
     local n = math.max(1, math.ceil(dt / Sim.SUBSTEP_HOURS - 1e-9))
     local h = dt / n
     local totalLost = 0
     local prodW = 0
+    local backupW = 0
 
     for i = 1, n do
         local t0 = (tod - dt + (i - 1) * h) % 24
@@ -293,12 +342,19 @@ function Sim.stepGrid(grid, now, w)
             end
         end
 
+        -- Backup generator: started under BackupStartPercent, stopped at
+        -- BackupStopPercent; only through a working inverter.
+        backupW = 0
+        local frac = nil
+        if inv.state == "on" and (inv.cond or 0) > 0 then frac = stockFraction(entries) end
+        for b = 1, #backups do backupW = backupW + LiveWire.Backup.step(backups[b], frac, h) end
+
         local before = {}
         for e = 1, #entries do before[e] = entries[e].charge end
 
         if inv.state == "on" and (inv.cond or 0) <= 0 then inv.state = "broken" end
         local r = Physics.stepGrid({
-            productionW = prodW, demandW = demandW, idleW = def.idleW, maxW = def.maxW,
+            productionW = prodW + backupW, demandW = demandW, idleW = def.idleW, maxW = def.maxW,
             eff = inv.eff, dt = h, wasOn = grid.powered == true, state = inv.state,
             batteries = entries,
         })
@@ -340,7 +396,8 @@ function Sim.stepGrid(grid, now, w)
         stock = stock + entries[e].charge
         capacity = capacity + entries[e].capacity
     end
-    grid.production = prodW
+    grid.production = prodW + backupW
+    grid.backupW = backupW
     grid.stock = stock
     grid.capacity = capacity
     grid.lost = totalLost
@@ -348,6 +405,19 @@ function Sim.stepGrid(grid, now, w)
 
     local on = grid.powered == true and inv.state == "on"
     Sim.updateAnchor(inv, on)
+
+    -- Management computer (history, forecast, load shedding) and low battery alarm.
+    local frac = stockFraction(entries)
+    local pc = nil
+    for c = 1, #computers do
+        if LiveWire.Computer.powered(computers[c], grid) then pc = computers[c] break end
+    end
+    grid.computerOn = pc ~= nil
+    if pc then
+        LiveWire.Computer.record(grid, now, grid.production, demandW, frac)
+        if loaded then LiveWire.Computer.shed(grid, inv, pc, frac) end
+    end
+    LiveWire.Alarm.check(grid, R.hasOption(grid, "alarm"), frac, now)
 
     local radius = LiveWire.Config.get("InverterNoiseRadius")
     if on and loaded and radius > 0 then

@@ -20,6 +20,7 @@ FILES = [
     "shared/LiveWire/LW_Notify.lua", "shared/LiveWire/LW_Anchor.lua", "shared/LiveWire/LW_Install.lua",
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua", "server/LiveWire/LW_Simulation.lua",
+    "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
 ]
 
 STUBS = r"""
@@ -295,7 +296,102 @@ def scenario_many_sources_one_inverter():
           "the powered area is centred on the inverter square")
 
 
+BACKUP_SETUP = r"""
+-- A backup generator, a management computer and a low battery alarm, all in
+-- unloaded squares (the registry carries their state).
+local R = LiveWire.Registry
+GEN = R.addDevice({ role = "backup", model = "BackupGenerator", x = 95, y = 100, z = 0,
+                    state = "standby", fuel = 10, fuelSeen = 10, connected = true, cond = 100 })
+R.link(GEN, GRID)
+PC = R.addDevice({ role = "computer", model = "ManagementComputer", x = 100, y = 98, z = 0,
+                   level = 7, state = "ok" })
+R.link(PC, GRID)
+local alarm = R.addDevice({ role = "option", model = "BatteryAlarm", x = 99, y = 99, z = 0,
+                            cond = 100, level = 7, state = "ok" })
+R.link(alarm, GRID)
+LOW = 0
+local notifyNear = LiveWire.notifyNear
+function LiveWire.notifyNear(x, y, z, r, key, args, bad)
+    if key == "IGUI_LW_LowBattery" then LOW = LOW + 1 end
+    return notifyNear(x, y, z, r, key, args, bad)
+end
+"""
+
+
+def scenario_backup_computer_alarm():
+    """No source, two batteries at 50 %, 300 W of demand: the alarm rings under 20 %,
+    the backup generator starts under 20 %, charges, burns fuel and stops at 90 %;
+    the computer records one point per hour (48 kept)."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 2; DEMAND = 300; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(BACKUP_SETUP)
+    g = lua.globals()
+    states, fracs = [], []
+    for _ in range(int(72 * 6)):
+        lua.execute("WORLD.hours = WORLD.hours + 1/6; LiveWire.Sim.tick()")
+        grid = g.GRID
+        states.append(g.GEN.state)
+        fracs.append(grid.stock / grid.capacity if grid.capacity else None)
+    check("running" in states, "backup generator starts")
+    first = states.index("running")
+    check(fracs[first - 1] < 0.2 + 1e-6, "it starts under 20 %% (%.3f)" % fracs[first - 1])
+    stops = [i for i in range(first, len(states)) if states[i] == "standby"]
+    check(stops and fracs[stops[0] - 1] >= 0.9 - 1e-6, "it stops once 90 %% is reached")
+    check(g.GEN.fuel < 10, "it burns fuel (%.2f L left)" % g.GEN.fuel)
+    check(min(f for f in fracs if f is not None) > 0.1, "the stock never runs out while there is fuel")
+    check(g.LOW >= 1, "low battery alarm rang (%d)" % g.LOW)
+    hist = list(g.GRID.history.values())
+    check(len(hist) == 48, "computer keeps 48 hourly points (%d)" % len(hist))
+    snap = lua.eval("LiveWire.Sim.snapshot(GRID)")
+    check(snap.backup is not None and snap.backup.start == 20 and snap.backup.stop == 90,
+          "snapshot carries the backup and its thresholds")
+    check(snap.computer is not None and snap.computer.powered and snap.computer.shed,
+          "snapshot carries the powered computer (load shedding at level 7)")
+    check(snap.history is not None and snap.dawnH is not None, "snapshot carries history and forecast")
+    check(snap.alarm is not None, "snapshot carries the alarm")
+
+
+def scenario_backup_empty():
+    """Out of fuel: the generator never runs and reports it."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 2; DEMAND = 300; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(BACKUP_SETUP)
+    lua.execute("GEN.fuel = 0")
+    run(lua, 24)
+    g = lua.globals()
+    check(g.GEN.state == "nofuel", "empty generator reports nofuel (%s)" % g.GEN.state)
+    check((g.GRID.backupW or 0) == 0, "and adds nothing")
+
+
+def scenario_alarm_repeat():
+    """The alarm repeats every 2 h while low and re-arms above 25 %."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 2; DEMAND = 0; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(BACKUP_SETUP)
+    lua.execute("""
+        local G = GRID
+        LiveWire.Alarm.check(G, LiveWire.Registry.hasOption(G, "alarm"), 0.15, 10)
+        LiveWire.Alarm.check(G, LiveWire.Registry.hasOption(G, "alarm"), 0.15, 11)
+        A1 = LOW
+        LiveWire.Alarm.check(G, LiveWire.Registry.hasOption(G, "alarm"), 0.15, 12.1)
+        A2 = LOW
+        LiveWire.Alarm.check(G, LiveWire.Registry.hasOption(G, "alarm"), 0.22, 12.2)
+        LiveWire.Alarm.check(G, LiveWire.Registry.hasOption(G, "alarm"), 0.30, 12.3)
+        LiveWire.Alarm.check(G, LiveWire.Registry.hasOption(G, "alarm"), 0.19, 12.4)
+        A3 = LOW
+    """)
+    g = lua.globals()
+    check(g.A1 == 1 and g.A2 == 2 and g.A3 == 3, "alarm: once, repeat after 2 h, re-armed above 25 %% (%s %s %s)"
+          % (g.A1, g.A2, g.A3))
+
+
 def main():
+    scenario_backup_computer_alarm()
+    scenario_backup_empty()
+    scenario_alarm_repeat()
     scenario_many_sources_one_inverter()
     scenario_loaded_bank()
     scenario_base()
