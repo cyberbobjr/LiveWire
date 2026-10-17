@@ -157,3 +157,11 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - `IsoStove` a `isBroken` et `setBroken`. Une cuisinière cassée refuse `setActivated` (`java/zombie/iso/objects/IsoStove.java:320-323`, `:414-420`). L'état ne semble pas transmis par `SyncIsoObject` (hypothèse, `:274`).
   - Le froid d'un réfrigérateur est entièrement en Java (`ItemContainer.java:2218-2262`, `Food.java:688-698`, `:1990-2006`).
 - Conséquence : la réparation d'appareils (idée n° 5) est faisable proprement pour les cuisinières et micro-ondes. Pour le froid, le seul levier est de ne pas alimenter.
+
+## 17. Un `IsoGenerator` ne crée pas les conteneurs de son sprite
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement) ; comportement MP du conteneur ajouté par script : hypothèse
+- Preuve :
+  - `IsoGenerator.addToWorld` ne fait qu'ajouter l'objet aux listes de mise à jour, sans appeler `super.addToWorld` (`java/zombie/iso/objects/IsoGenerator.java:399-405`). C'est pourtant `IsoObject.addToWorld` qui appelle `createContainersFromSpriteProperties()` (`java/zombie/iso/IsoObject.java:4176-4182`).
+  - Cette méthode est publique (`IsoObject.java:4900`) ; elle ne fait rien si un conteneur existe déjà.
+  - `IsoGenerator.save` et `load` passent par `IsoObject.save` et `load` (`IsoGenerator.java:369`, `:384`), qui écrivent les conteneurs (`IsoObject.java:1502-1510`).
+- Conséquence : pour donner un compartiment à un générateur de mod, il faut appeler `createContainersFromSpriteProperties()` sur l'autorité et sur chaque client qui reçoit l'objet. Une fois créé, le conteneur serait sauvegardé avec l'objet. À vérifier en jeu : transmission initiale et transferts MP.
