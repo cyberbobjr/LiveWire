@@ -231,6 +231,12 @@ Ready-made solar panel `Base.Mov_LiveWire_SolarPanel` (always; furniture, × 0.6
 | ToolStoreMisc | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
 | ToolStoreTools | Hardware store, tools | 0.3 | 4 | 0.7 % |
 
+Ready-made equipment (always; weights in LiveWire_Distributions.lua EQUIPMENT; full tables with chances generated
+in docs/wiki/_tables_en.md / _tables_fr.md by tools/make_doc_tables.py): voltage tester, deep-cycle battery (new and
+charged), inverter, breaker panel, power bank, low battery alarm, wind turbine (very rare); electricians' tools,
+wire factory, hardware stores, garages, mechanic electrical shelves, car parts store batteries. Furniture × 0.6.
+The water wheel and the soundproofing kit are crafted only.
+
 Management software disk `LiveWire.MonitorDisk` (only when the Computer Mod is active):
 | Vanilla list | Where | Weight | Rolls | ≈ chance per container |
 |---|---|---|---|---|
