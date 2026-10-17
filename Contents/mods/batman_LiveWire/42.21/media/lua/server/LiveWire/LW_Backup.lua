@@ -1,7 +1,7 @@
 -- Live Wire: backup generator (authority only).
 -- A vanilla generator, wired to an inverter, that the mod starts when the battery
 -- stock falls below BackupStartPercent and stops at BackupStopPercent. While running
--- it charges the batteries and burns its own fuel. It stays a vanilla generator:
+-- it charges the batteries and burns its own fuel (never on top of the vanilla burn). It stays a vanilla generator:
 -- fuel, noise, toxicity indoors, vanilla menus. setActivated syncs to clients and
 -- recomputes the powered area (IsoGenerator.java:462-490).
 -- The link is kept in the generator ModData under its own key (not the Live Wire
@@ -17,6 +17,38 @@ LiveWire.Backup = Backup
 Backup.KEY = LiveWire.Defs.BACKUP_KEY
 Backup.CHARGE_W = 1200       -- electrical power delivered to the network
 Backup.KWH_PER_LITRE = 3.0   -- petrol to electricity, about a third of its energy
+Backup.NOTIFY_RANGE = 30     -- players told why the generator cannot start
+local FAIL = { unplugged = true, nofuel = true, broken = true }
+
+local function playersNear(x, y, z, radius)
+    local players
+    if isServer() then players = getOnlinePlayers() else players = IsoPlayer.getPlayers() end
+    if not players then return false end
+    for i = 0, players:size() - 1 do
+        local p = players:get(i)
+        if p and not p:isDead() then
+            local dx, dy = p:getX() - x, p:getY() - y
+            if dx * dx + dy * dy <= radius * radius and math.abs(p:getZ() - z) < 3 then return true end
+        end
+    end
+    return false
+end
+
+-- Tell the players nearby, once per failure, why the backup generator cannot start
+-- (state unplugged / nofuel / broken). Shown again only after it recovered.
+local function reportState(dev)
+    if not FAIL[dev.state] then
+        dev.failShown = nil
+        return
+    end
+    if dev.failShown == dev.state then return end
+    if not playersNear(dev.x, dev.y, dev.z, Backup.NOTIFY_RANGE) then return end
+    dev.failShown = dev.state
+    LiveWire.notifyNear(dev.x, dev.y, dev.z, Backup.NOTIFY_RANGE, "IGUI_LW_BackupCannotStart",
+        { "IGUI_LW_Backup_" .. dev.state }, true)
+    LiveWire.log("backup generator " .. tostring(dev.id) .. " cannot start: " .. tostring(dev.state))
+end
+Backup.reportState = reportState
 
 function Backup.markOf(gen)
     local m = gen and gen:getModData()[Backup.KEY]
@@ -49,6 +81,17 @@ function Backup.register(gen, grid)
     gen:getModData()[Backup.KEY] = { id = dev.id, inverter = grid.inverter }
     if isServer() then gen:transmitModData() end
     LiveWire.Registry.link(dev, grid)
+    -- Say right away what would stop it from starting.
+    local why = nil
+    if not gen:isConnected() then why = "unplugged"
+    elseif gen:getFuel() <= 0 then why = "nofuel"
+    elseif gen:getCondition() <= 0 then why = "broken" end
+    if why then
+        dev.failShown = why
+        local sq2 = gen:getSquare()
+        LiveWire.notifyNear(sq2:getX(), sq2:getY(), sq2:getZ(), 5, "IGUI_LW_BackupCannotStart",
+            { "IGUI_LW_Backup_" .. why }, true)
+    end
     return dev
 end
 
@@ -106,6 +149,7 @@ function Backup.step(dev, stockFrac, h)
     else
         dev.state = "standby"
     end
+    reportState(dev)
 
     if gen and gen:isActivated() ~= run then gen:setActivated(run) end
     if not run then return 0 end
@@ -114,7 +158,13 @@ function Backup.step(dev, stockFrac, h)
     local used = math.min(litres, fuel)
     local power = Backup.CHARGE_W * (used / litres)
     if gen then
-        gen:setFuel(fuel - used)
+        -- A loaded running generator already burns getTotalPowerUsing() per hour by
+        -- itself (IsoGenerator.java:182-206, 655-657): only burn the part of our
+        -- charging budget it does not, so the fuel is never paid twice.
+        local vanilla = 0
+        if gen:isActivated() then vanilla = gen:getTotalPowerUsing() * h end
+        local extra = math.max(0, used - vanilla)
+        if extra > 1e-4 then gen:setFuel(fuel - extra) end
         dev.fuel = gen:getFuel()
         dev.fuelSeen = dev.fuel
         if dev.fuel <= 0 then gen:setActivated(false) end
@@ -125,14 +175,19 @@ function Backup.step(dev, stockFrac, h)
 end
 
 -- Chunk loaded: apply the fuel burnt while the generator was not loaded, and the
--- wanted running state.
+-- wanted running state. A generator saved while running would also burn, at its
+-- first update, every whole hour since its saved lastHour (IsoGenerator.java:182-197,
+-- 377, 389): time already counted here. Stopping it first, and starting it again
+-- below when it must run, resets lastHour (:470) and cancels that second count.
 function Backup.restore(dev)
     local gen = Backup.find(dev)
     if not gen then return end
+    if gen:isActivated() then gen:setActivated(false) end
     local burnt = (dev.fuelSeen or gen:getFuel()) - (dev.fuel or gen:getFuel())
     if burnt > 0 then gen:setFuel(math.max(0, gen:getFuel() - burnt)) end
     dev.fuel = gen:getFuel()
     dev.fuelSeen = dev.fuel
     local run = dev.state == "running" and gen:isConnected() and gen:getFuel() > 0
+        and gen:getCondition() > 0
     if gen:isActivated() ~= run then gen:setActivated(run) end
 end
