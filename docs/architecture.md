@@ -2,10 +2,15 @@
 
 État : **conception, aucun code**. Rien n'a été prototypé ni testé en jeu.
 
-Conventions :
-- **Chemins.** Les chemins `java/…` et `media/…` sont relatifs à la racine du dépôt de référence `pz-source-42.21`.
-- **Renvois.** « NM-n » renvoie à `docs/notes-moteur.md`, « D-n » à `docs/decisions-ouvertes.md`, « § F-n » à `docs/fonctionnel.md`.
-- **Extraits de code.** Les extraits Lua sont **illustratifs** : ils montrent une intention, ce n'est pas du code livré.
+- Les chemins `java/…` et `media/…` sont relatifs à la racine du dépôt de référence `pz-source-42.21`.
+- « NM-n » renvoie à `docs/notes-moteur.md`, « D-n » à `docs/decisions-ouvertes.md`, « § F-n » à `docs/fonctionnel.md`.
+- Les extraits Lua sont **illustratifs** : ce n'est pas du code livré.
+
+**Exigences de l'utilisateur** (2026-10-17), non négociables :
+- onduleur posable **à l'intérieur** ;
+- fonctionnement **sans joueur à proximité** ;
+- onduleur qui **s'use** et fait un **très léger bruit** ;
+- trois rôles distincts : **sources**, **batteries**, **onduleur**.
 
 ---
 
@@ -13,91 +18,100 @@ Conventions :
 
 ### 1.1 Contrainte du moteur
 
-Une case n'est « alimentée par un générateur » que si `IsoGridSquare.haveElectricity()` est vrai. Cette méthode ne teste **que** les positions de générateur enregistrées sur le chunk (`java/zombie/iso/IsoGridSquare.java:8223-8228`, `java/zombie/iso/IsoChunk.java:4773-4783`).
+- **Seules des positions de générateur alimentent une case.** Une case n'est alimentée « par générateur » que si `IsoGridSquare.haveElectricity()` est vrai, et cette méthode ne lit que les **positions de générateur** enregistrées sur le chunk (`java/zombie/iso/IsoGridSquare.java:8223-8228`, `java/zombie/iso/IsoChunk.java:4773-4783`).
+- **Le réseau public ne peut pas servir.** C'est un drapeau global, qu'on ne peut pas rallumer pour un seul lieu (`IsoGridSquare.java:10150-10156`, `knowledge/power-and-lights.md:9-16`).
+- **Les consommateurs sont en Java.** Lumières, conteneurs réfrigérés, cuisinières et radios sont tous gérés en Java (`java/zombie/inventory/ItemContainer.java:2195-2262`).
 
-Le réseau public est un drapeau global, `hasGridPower` = `!isNoPower() && doesPowerGridExist()` (`IsoGridSquare.java:10150-10156`, `java/zombie/SandboxOptions.java:1230`). Rien ne permet de rendre du courant à un seul lieu par ce réseau (`knowledge/power-and-lights.md:9-16`).
+Il faut donc des positions de générateur. Reste à savoir **qui les pose** : un vrai `IsoGenerator`, ou le mod lui-même.
 
-Tous les consommateurs sont en Java : lumières, conteneurs réfrigérés, cuisinières, radios (`java/zombie/inventory/ItemContainer.java:2195-2262`). Pour alimenter une base, il faut donc **des positions de générateur**, réelles ou posées par script.
+### 1.2 Pourquoi pas un vrai `IsoGenerator` comme onduleur
 
-### 1.2 Alternatives étudiées
+La première version de cette conception reposait sur un vrai `IsoGenerator` piloté par le mod. **Elle est incompatible avec l'exigence « onduleur à l'intérieur »** :
 
-| # | Mécanisme | Pour | Contre (preuves) | Verdict |
+- **La toxicité est réévaluée chaque heure.** Un générateur allumé sur une case d'une pièce, sans drapeau `exterior`, met le bâtiment en toxique à l'allumage, puis à chaque passage d'heure (`java/zombie/iso/objects/IsoGenerator.java:183-185`, `:466-468`), et encore au chargement des régions (`java/zombie/iso/areas/isoregion/metagrid/WorldRegionToMetaGrid.java:551-553`). Aucun réglage ne l'évite (NM-4).
+- **La toxicité abîme à chaque image.** Tant que le bâtiment est toxique, chaque personnage à l'intérieur sans masque perd 0,1 point de santé au torse **à chaque mise à jour** (multiplicateur 30 images/s), en plus de la fatigue (`java/zombie/characters/IsoGameCharacter.java:8192-8202`).
+  - Remettre le drapeau à faux juste après coup laisserait passer des dégâts. Le client MP reçoit l'état par paquet, ce qui ajoute la latence (`java/zombie/iso/areas/IsoBuilding.java:509-513`, `java/zombie/network/GameClient.java:795-805`).
+  - Ce n'est pas acceptable dans une maison habitée.
+- **D'autres inconvénients s'ajoutent.** Le son de boucle d'un générateur vanilla est imposé aux joueurs (NM-2). L'usure moteur peut provoquer un incendie (NM-3). Enfin, il faut bloquer tout le menu vanilla du générateur (NM-8).
+
+Les faits établis sur `IsoGenerator` (NM-1 à NM-9) restent utiles : pour comprendre les générateurs vanilla, et pour la charge depuis un générateur prévue en v0.2.
+
+### 1.3 Alternatives étudiées
+
+| # | Mécanisme | Pour | Contre | Verdict |
 |---|---|---|---|---|
-| A | **Positions virtuelles** (`IsoChunk:addGeneratorPos`) posées par le mod, sans objet | Aucun objet à protéger ; aucun bruit ; aucune toxicité | Purgées à chaque chargement de chunk quand la case existe sans générateur allumé (`IsoChunk.java:4785-4797`, appelé **avant** `LoadChunk`, `:3526` puis `:3612`) : il faut les reposer à chaque `LoadChunk`, voisins compris. **Jamais purgées** sur une case inexistante, donc possibles fuites de courant permanentes (`knowledge/power-and-lights.md:18-24`). Liste illisible depuis Lua. **Aucune consommation mesurée** : il faudrait balayer soi-même les appareils (`getGeneratorPowerConsumption`). Le comportement côté client MP dépend du tampon de chunk transmis (hypothèse, NM-7). | Écartée en mécanisme principal ; gardée en secours (risque R-1) |
-| B | **Réseau public global** (décaler `ElecShutModifier`) | Toute la carte alimentée, sans objet | Global à toute la carte ; pompes à essence, lampadaires et alarmes reviennent aussi ; option réservée à l'admin en MP (`knowledge/power-and-lights.md:26-34`). Contraire au principe d'une installation locale. | Écartée |
-| C | **Réseau global et zones `NoPower` partout sauf la base** | Une seule zone alimentée | L'éclairage des pièces lit le drapeau global `isHydroPowerOn` : les lumières se rallument sur toute la carte (`java/zombie/iso/LightingJNI.java:226`, `:308-330` ; `knowledge/power-and-lights.md:12`) | Écartée |
-| D | **Générateur vanilla du joueur, alimenté en carburant par le mod** | Très simple | Bruit vanilla de rayon 20 à 25 (`media/scripts/generated/items/normal.txt:4800-4866`) ; toxicité en intérieur ; le joueur peut le ramasser, le remplir ou le réparer et casser la logique. Contraire à la promesse « silencieux ». | Écartée (idée gardée pour la charge depuis un générateur vanilla, v0.2) |
-| **E** | **Onduleur = vrai `IsoGenerator` dédié, piloté par le mod** | Le moteur gère portée, chargement, consommation, synchronisation MP et rattrapage ; la consommation est **mesurée par le jeu** ; aucune position orpheline | Doit être protégé des actions vanilla ; son de boucle joué aux joueurs ; usure, incendie et toxicité à neutraliser ; sprite unique requis (détails au § 1.3) | **Retenue — à valider : D-2** |
+| A | **Ancre d'alimentation** : le mod pose lui-même la position de générateur de l'onduleur sur les chunks de sa portée, et la repose à chaque chargement | Onduleur posable partout, intérieur compris ; aucune toxicité, aucun incendie, aucun son imposé ; usure et bruit entièrement maîtrisés par le mod ; positions sauvegardées avec les chunks, donc courant **même sans joueur** | Purgées à chaque chargement (§ 1.4), donc il faut les reposer, sur le serveur **et** chez chaque client ; la consommation est mesurée par le mod (§ 1.5) ; les effets côté client (bourdonnement du réfrigérateur, lumière) sont à rafraîchir | **Retenue — à valider : D-2** |
+| B | Vrai `IsoGenerator` sur la case de l'onduleur | Le moteur fait tout | Toxicité en intérieur (§ 1.2) | Écartée (exigence 1) |
+| C | Vrai `IsoGenerator` **caché** sur une case extérieure proche (« coffret de raccordement »), relié à l'onduleur intérieur | Le moteur mesure la consommation et gère le MP | Un second objet dehors ; disque de portée décentré ; immeubles sans case extérieure au même étage ; son de générateur vanilla imposé ; menu vanilla à bloquer | **Repli** si A échoue au prototype P1 |
+| D | Réseau public global (`ElecShutModifier`) | Aucun objet | Toute la carte ; réservé à l'admin en MP (`knowledge/power-and-lights.md:26-34`) | Écartée |
+| E | Réseau global avec zones `NoPower` partout sauf la base | Une seule zone | Les lumières se rallument sur toute la carte (`java/zombie/iso/LightingJNI.java:226`, `:308-330`) | Écartée |
 
-### 1.3 Points vérifiés pour le mécanisme E
+### 1.4 L'ancre d'alimentation en détail
 
-| Point demandé | Constat | Preuve | Conséquence pour Live Wire |
-|---|---|---|---|
-| Consommation mesurée | `getTotalPowerUsing()` = somme des appareils du disque × `GeneratorFuelConsumption`, par heure. Recalculée à l'allumage, au chargement et à chaque changement d'appareil (`updateGenerator`). | `java/zombie/iso/objects/IsoGenerator.java:251-322`, `:655-657` ; valeurs par appareil NM-5 | Demande (W) = `getTotalPowerUsing() / option × 1000 × PowerScale`. Si l'option vaut 0 : balayage propre au mod (`obj:getGeneratorPowerConsumption()`, `java/zombie/iso/IsoObject.java:4784-4798`) |
-| Carburant comme réserve | Borné de 0 à 10. Débité à chaque passage d'heure, avec rattrapage. Arrêt à 0 **au passage d'heure seulement**. Synchronisé par `sync()`. | `IsoGenerator.java:182-239`, `:444-455` ; NM-3 | Le carburant n'est qu'un **miroir** du stock : `fuel = 10 × stock / capacité`, réécrit à chaque pas. Arrêt explicite par `setActivated(false)` quand le stock est vide |
-| Toxicité | Seulement si la case n'est pas `exterior` **et** a un bâtiment (donc une pièce). Testée chaque heure de marche, à l'allumage et au chargement des régions. | `IsoGenerator.java:183-185`, `:466-468` ; `IsoGridSquare.java:7805-7811` ; NM-4 | Pose refusée si `sq:getRoom() ~= nil`. Un onduleur contre un mur extérieur suffit : la portée de 20 cases couvre la maison |
-| Bruit | Rayon et volume tirés du script retrouvé **par le sprite** (tag `Generator`). 20 par défaut seulement si le champ vaut ≤ 0. Rayon divisé par 2 en pièce. Un rayon ≤ 0 n'émet rien. Le son FMOD vient de `GeneratorSound` du sprite et n'est pas réglable depuis Lua. | `IsoGenerator.java:137-181`, `:667-697` ; `java/zombie/core/TilePropertyAliasMap.java:63-69` ; NM-1, NM-2 | Script `InverterUnit` : `SoundRadius = 1`, `SoundVolume = 1`, sprite unique. Les zombies ne l'entendent presque pas ; les joueurs entendent la boucle vanilla jusqu'à la tuile définitive (D-2, R-2) |
-| Portée | `GeneratorTileRange` (1 à 100, défaut 20) et `GeneratorVerticalPowerRange` (1 à 15, défaut 3), globales | `SandboxOptions.java:248-249` ; `IsoGenerator.java:115-119`, `:637-644` | Portée fixe, partagée avec les générateurs vanilla. Les relais (v0.4) servent à couvrir plus |
-| Actions vanilla | Menu construit en Java, masquable dans `OnPreFillWorldObjectContextMenu`. Actions validées sur le serveur par leur `complete()`. Pose au sol d'un objet tagué `Generator` = nouveau générateur. | NM-6, NM-8, NM-9 | Défense en trois couches (§ 2.4) ; l'objet tagué n'est jamais en inventaire |
-| Usure du générateur | Perte aléatoire d'état chaque heure ; incendie ou explosion sous 20 | NM-3 | `ConditionLowerChanceOneIn` très grand dans le script, et `setCondition(100)` à chaque pas. L'état « métier » de l'onduleur vit dans le registre |
-| MP dédié | `update()` (carburant, bruit, toxicité) sur l'autorité. Son et calcul des positions sur chaque client à la réception du `sync`. Chaque setter synchronise vers **toutes** les connexions. | `IsoGenerator.java:158-166`, `:527-568` ; NM-7 | Réglages groupés, au plus un par pas de 10 minutes et par onduleur. À confirmer en jeu (prototype P1) : lumières allumées chez un client distant |
+**Ce que fait le moteur, et ce qu'on reproduit.** Un générateur qui s'allume appelle `chunk:addGeneratorPos(x, y, z)` sur chaque chunk **chargé** qui touche son disque de portée, et `removeGeneratorPos` quand il s'éteint (`IsoGenerator.java:251-272`, `touchesChunk`). Les chunks font 8 cases de côté (`generatorChunkRange = rayon / 8 + 1`, `IsoGenerator.java:115-119`). L'ancre Live Wire fait la même chose avec la position **de la case de l'onduleur** :
 
-### 1.4 Conception de l'onduleur
-
-**Script d'objet interne.** Illustratif, au format des scripts vanilla `normal.txt:4800-4815`. Les valeurs sont à confirmer au prototype P1.
-```
-module LiveWire
-{
-    item InverterUnit
-    {
-        /* placeholder: internal engine object, never in a player inventory */
-        DisplayName = Inverter Unit,
-        ItemType = base:normal,
-        Weight = 8,
-        Icon = CarBatteryCharger,
-        Tags = base:generator,
-        WorldObjectSprite = location_business_machinery_01_32,
-        SoundRadius = 1,
-        SoundVolume = 1,
-        ConditionLowerChanceOneIn = 1000000,
-        ConditionMax = 100,
-    }
-}
-```
-
-**Le sprite.** Il ne doit appartenir à aucun autre objet tagué `Generator` (NM-1).
-- **Il doit porter une propriété de conteneur**, qui servira de **compartiment à batteries** (§ F-5.2, D-4).
-- **Le moteur ne crée pas ce conteneur tout seul** : `IsoGenerator.addToWorld` n'appelle pas `IsoObject.addToWorld`, la méthode qui crée les conteneurs du sprite (`IsoGenerator.java:399-405`, `java/zombie/iso/IsoObject.java:4176-4182`). Le mod appelle donc lui-même `gen:createContainersFromSpriteProperties()` (méthode publique, `IsoObject.java:4900`) :
-  - sur l'autorité, juste après la pose ;
-  - sur chaque client, à la réception de l'objet ou au chargement de sa case.
-- Une fois créé, le conteneur est sauvegardé avec l'objet : `IsoGenerator.save` appelle `IsoObject.save`, qui écrit les conteneurs (`IsoGenerator.java:384`, `IsoObject.java:1502-1510`).
-- Le prototype P1 choisit ce sprite parmi ceux du tableau § F-2.3. Il vérifie que le compartiment s'ouvre, se sauvegarde et se synchronise en MP comme un meuble. En particulier, le transmission initiale de l'objet part avant la création du conteneur (`IsoGenerator.java:108-111`) : c'est une **hypothèse à tester**.
-- **Repli** si ce n'est pas le cas : un sprite sans conteneur, et des batteries rangées seulement dans des bancs câblés.
-- N'utiliser **jamais** `appliances_misc_01_*` : ce sont les sprites des générateurs vanilla, et leurs variantes tournées.
-
-**Démontage.** L'action « Démonter » est refusée tant que le compartiment contient des objets. Ainsi, aucune batterie n'est perdue avec l'objet.
-
-**Pose, sur l'autorité, dans le `complete()` de l'action d'installation** (illustratif) :
 ```lua
--- server-side, inside LWInstallAction:complete()
-local item = instanceItem("LiveWire.InverterUnit")
-item:getModData().fuel = 0.0              -- read by setInfoFromItem as a Double
-local gen = IsoGenerator.new(item, getCell(), sq)  -- adds to square, transmits to clients
-gen:getModData().LiveWire = { id = deviceId, s = 1 }
-gen:setConnected(true)
-gen:setCondition(100)
--- activation is decided by the next simulation step
+-- illustrative: apply one anchor to every loaded chunk touching its disc
+local function applyAnchor(a, on)               -- a = { x, y, z }
+  local R = getSandboxOptions():getOptionByName("GeneratorTileRange"):getValue()
+  local cell = getCell()
+  for cy = math.floor((a.y - R) / 8), math.floor((a.y + R) / 8) do
+    for cx = math.floor((a.x - R) / 8), math.floor((a.x + R) / 8) do
+      -- server: getChunkForGridSquare goes through ServerMap (IsoCell.java:361-364)
+      local chunk = cell:getChunkForGridSquare(cx * 8, cy * 8, a.z)
+      if chunk and LiveWire.Anchor.touches(chunk, cx, cy, a, R) then
+        if on then chunk:addGeneratorPos(a.x, a.y, a.z)
+        else chunk:removeGeneratorPos(a.x, a.y, a.z) end
+      end
+    end
+  end
+end
 ```
-Le constructeur ajoute l'objet à la case et le transmet aux clients (`IsoGenerator.java:102-113`). Le kit `InverterKit` est retiré de l'inventaire du joueur. La ModData du générateur est sauvegardée avec lui (`IsoGenerator.java:381-390`, `knowledge/power-and-lights.md:188-192`).
 
-**Pilotage à chaque pas de simulation**, pour un onduleur chargé :
-1. `gen:setCondition(100)` si l'état moteur est sous 100.
-2. Mesure de la demande (§ 1.3).
-3. Disjonction si la demande dépasse la puissance maximale : `setActivated(false)`, puis état `tripped` dans le registre.
-4. `gen:setFuel(10 × stock / capacité)` si la valeur a changé de plus de 0,05.
-5. `setActivated(stock > 0 et état ≠ tripped, broken ou off)`, seulement si l'état change. Chaque rallumage fait jouer `Starting` aux clients (`IsoGenerator.java:558-562`).
+- **Choix de l'appel selon le côté.**
+  - Sur un serveur dédié, utiliser `getCell():getChunkForGridSquare(x, y, z)`, qui passe par `ServerMap`. `getCell():getChunk(wx, wy)` ne lit que les cartes des joueurs locaux, donc seulement côté client (`java/zombie/iso/IsoCell.java:361-388`).
+  - Les deux classes sont exposées à Lua (`index-lua-exposed-classes.txt:352-353`).
+- **Doublons et étages.** `addGeneratorPos` ignore un doublon exact, et `removeGeneratorPos` retire toutes les entrées égales (`IsoChunk.java:4748-4771`). Une seule position couvre déjà ±`GeneratorVerticalPowerRange` étages (`IsoGenerator.isPoweringSquare`, `:637-644`).
 
-**Retrait** : pour l'action « Démonter », sur le serveur, appeler `setActivated(false)`, puis `sq:transmitRemoveItemFromSquare(gen)` (`IsoGridSquare.java:5076-5098`, `knowledge/power-and-lights.md:165`). Le registre est mis à jour, et le kit est rendu avec l'état métier.
+**La purge et comment s'en accommoder.**
+- **Purge au chargement.** À chaque chargement de chunk, le moteur retire les positions dont la case existe **et** ne porte pas de générateur allumé, sur ce chunk et ses voisins (`IsoChunk.java:4785-4797`, `IsoGenerator.java:593-609`, appelé depuis `IsoChunk.java:3526`). La case de l'onduleur existe toujours : son ancre est donc purgée dès que son chunk ou un voisin se charge.
+- **L'événement `LoadChunk` part juste après**, sans mise à jour du jeu entre les deux. Il est déclenché sans condition, donc **sur le serveur comme sur chaque client** (`IsoChunk.java:3613`). Le gestionnaire Live Wire, placé dans `shared/`, y **réapplique l'état voulu** de chaque ancre dont le disque touche le chunk chargé, sur tous les chunks chargés de ce disque. Un deuxième passage quelques ticks plus tard couvre les voisins chargés après (`knowledge/power-and-lights.md:24`).
+- **Positions conservées sans joueur.** Les positions sont sauvegardées avec chaque chunk (`IsoChunk.java:4092-4101`). Les chunks voisins déchargés gardent donc la position, et tant que le chunk de l'onduleur n'est pas chargé, elle n'est pas purgée (case `null`, `IsoChunk.java:4791-4792`).
+- **Positions transmises aux clients.** Elles sont relues depuis le tampon de chunk que le client télécharge (`IsoChunk.java:3318-3331`, via `LoadFromBuffer`, `java/zombie/iso/WorldStreamer.java:661`), mais elles sont purgées chez le client comme sur le serveur. D'où le gestionnaire `LoadChunk` partagé.
+- **Bonne nouvelle : pas de fuite à la désinstallation.** Si le mod est retiré, l'onduleur reste comme simple décor. Sa case existe toujours, et son ancre est donc purgée au chargement suivant : **aucun courant fantôme**, contrairement à une position posée sur une case vide (`knowledge/power-and-lights.md:18-24`).
+
+**Chez les clients MP.**
+- **Ce qui n'est pas synchronisé.** Un `addGeneratorPos` fait sur le serveur n'est **pas** transmis aux clients qui ont déjà le chunk : seul un vrai générateur fait recalculer ses positions au client, par `sync` (`IsoGenerator.java:550-568`).
+- **Comment les clients restent à jour.**
+  - Le serveur maintient une petite table publique des ancres, `{ id = { x, y, z, on } }`, en ModData globale `LiveWireAnchors`. Il la diffuse par `ModData.transmit` à chaque changement (rare).
+  - Chaque client l'applique à la réception (`OnReceiveGlobalModData`, `java/zombie/network/packets/service/GlobalModDataPacket.java:42-53`) et à chaque `LoadChunk`.
+  - Elle ne contient aucun secret (`knowledge/multiplayer.md:110-115`).
+- **Rafraîchir les effets visibles.** Le client appelle `obj:checkHaveElectricity()` sur les appareils du disque. C'est ce que fait le moteur à l'allumage d'un générateur (`IsoGenerator.java:279`). Cette méthode ne fait rien sur le serveur ; sur le client, elle démarre le bourdonnement du réfrigérateur, le son d'ambiance et la source de lumière (`java/zombie/iso/IsoObject.java:4800-4812`).
+
+**Lumières des pièces.** Elles lisent `haveElectricity` à leur mise à jour (`java/zombie/iso/objects/IsoLightSwitch.java:408-420`). Le délai d'allumage après l'application de l'ancre est à mesurer au prototype P1.
+
+### 1.5 Mesure de la consommation par le mod
+
+Sans `IsoGenerator`, `getTotalPowerUsing` n'existe pas. Le mod reproduit donc la règle du moteur (`IsoGenerator.java:274-286`) :
+- on garde les appareils du disque (rayon `GeneratorTileRange`, ±`GeneratorVerticalPowerRange` étages) dont `obj:getGeneratorPowerConsumption()` est positif (`IsoObject.java:4784-4798` et classes d'appareils, NM-5) ;
+- on exclut ceux que le réseau public alimente déjà, comme le moteur ;
+- s'ajoute la consommation à vide de l'onduleur.
+
+**Coût maîtrisé** :
+- un **inventaire** des appareils capables de consommer est construit par balayage du disque. Au pire, π × 20² × 7 ≈ 8 800 cases. Il est refait une fois par heure de jeu, et à chaque `OnObjectAdded` ou `OnObjectAboutToBeRemoved` dans le disque (`java/zombie/Lua/LuaEventManager.java:778-779`) ;
+- à chaque pas, seuls les appareils de l'inventaire sont réévalués (quelques dizaines) ;
+- quand l'onduleur n'est pas chargé, on garde la dernière demande mesurée.
+
+### 1.6 Ce que sont les objets, techniquement
+
+| Rôle | Objet du monde | Pourquoi |
+|---|---|---|
+| Onduleur | `IsoObject` simple, sprite de substitution **sans conteneur**, posé par `IsoObject.new` puis `sq:transmitAddObjectToSquare(obj, -1)` (`IsoGridSquare.java:5062-5070`) | Sauvegardé avec sa ModData (`IsoObject.java:1512-1515`) ; aucune logique vanilla attachée |
+| Source | Idem, sprite de sa catégorie (§ F-2.3) | Idem |
+| Équipement optionnel (disjoncteur, parafoudre, ordinateur, programmateur, régulateur, alarme : § F-2.4) | Idem | Idem. Rôle `option` dans le registre ; au plus un de chaque type par réseau. Il modifie seulement des paramètres du pas de simulation (§ 4.2) |
+| Batterie | L'objet d'inventaire lui-même, posé au sol (`IsoWorldInventoryObject`) | Garde son modèle 3D vanilla ; charge et usure portées par les champs moteur de l'objet (§ 3.1) |
+
+Le mod ne crée **aucun** objet tagué `Generator`, et aucun `IsoGenerator` (NM-6).
 
 ---
 
@@ -105,29 +119,31 @@ Le constructeur ajoute l'objet à la case et le transmet aux clients (`IsoGenera
 
 ### 2.1 Arborescence
 
-Tout le contenu va sous `Contents/mods/batman_LiveWire/42.21/media/` (`CLAUDE.md`). `common/` reste vide en v0.1.
+Tout le mod vit sous `Contents/mods/batman_LiveWire/42.21/media/` (`CLAUDE.md`).
 
 ```
 lua/shared/LiveWire/LW_Core.lua            table globale LiveWire, version, journal
 lua/shared/LiveWire/LW_Config.lua          lecture des options sandbox
-lua/shared/LiveWire/LW_Defs.lua            definitions des appareils et batteries (donnees)
-lua/shared/LiveWire/LW_Physics.lua         fonctions pures : solaire, eolien, hydro, batteries
+lua/shared/LiveWire/LW_Defs.lua            sources, batteries, onduleurs (donnees)
+lua/shared/LiveWire/LW_Physics.lua         fonctions pures : solaire, eolien, hydro, batteries, onduleur
 lua/shared/LiveWire/LW_Protocol.lua        noms de commandes, validation des arguments
-lua/shared/LiveWire/LW_Marks.lua           lire / reconnaitre la marque ModData d'un objet
+lua/shared/LiveWire/LW_Marks.lua           marque ModData des objets du mod
+lua/shared/LiveWire/LW_Anchor.lua          application des ancres (serveur ET clients), LoadChunk
 lua/shared/LiveWire/LW_VanillaGuards.lua   enveloppes complete() des actions vanilla (autorite)
 lua/shared/LiveWire/TimedActions/LW_*.lua  actions chronometrees (complete() sur l'autorite)
 lua/server/LiveWire/LW_Registry.lua        registre, index par position, identifiants
 lua/server/LiveWire/LW_Migration.lua       migrations de schema
 lua/server/LiveWire/LW_Simulation.lua      pas de simulation (EveryTenMinutes)
-lua/server/LiveWire/LW_Inverter.lua        pilotage des IsoGenerator
-lua/server/LiveWire/LW_Bank.lua            bancs de batteries (conteneurs)
+lua/server/LiveWire/LW_Demand.lua          inventaire des appareils et mesure de la demande
+lua/server/LiveWire/LW_Batteries.lua       batteries posees : lecture, ecriture, rapprochement
 lua/server/LiveWire/LW_Commands.lua        OnClientCommand, reponses
 lua/server/LiveWire/LW_Xp.lua              experience (addXp sur l'autorite)
 lua/client/LiveWire/LW_ContextMenu.lua     sous-menu "Live Wire"
-lua/client/LiveWire/LW_HideVanilla.lua     OnPreFillWorldObjectContextMenu, filtres moveables
+lua/client/LiveWire/LW_HideVanilla.lua     filtres ramasser / demonter / detruire
 lua/client/LiveWire/LW_Dashboard.lua       fenetre du tableau de bord
-lua/client/LiveWire/LW_ClientState.lua     cache des instantanes recus (OnServerCommand)
-lua/shared/Translate/EN/*.json, FR/*.json  textes
+lua/client/LiveWire/LW_ClientState.lua     cache des instantanes, rafraichissement visuel
+lua/client/LiveWire/LW_Hum.lua             bourdonnement local de l'onduleur (D-8)
+lua/shared/Translate/EN/*.json, FR/*.json
 scripts/LiveWire_items.txt, LiveWire_recipes.txt, LiveWire_models.txt
 sandbox-options.txt
 ```
@@ -136,50 +152,39 @@ sandbox-options.txt
 
 | Situation | Dossiers exécutés | Preuve |
 |---|---|---|
-| Solo et client | `shared` et `client` au démarrage, puis `server` au chargement de la partie | `java/zombie/Lua/LuaManager.java:1244-1245`, `java/zombie/gameStates/GameLoadingState.java:153` |
+| Solo et client | `shared` et `client`, puis `server` au chargement de la partie | `java/zombie/Lua/LuaManager.java:1244-1245`, `java/zombie/gameStates/GameLoadingState.java:153` |
 | Serveur dédié | `shared`, puis `client` en somme de contrôle seulement, puis `server` | `java/zombie/network/GameServer.java:1403-1405` |
 
-- **Garde des fichiers `server/`.** Ils sont **aussi exécutés par les clients MP**. Chaque fichier `server/` commence donc par `if isClient() then return end` (modèle vanilla `media/lua/server/Map/MapObjects/MOGenerator.lua:1`).
-- **Valeurs de `isClient()` et `isServer()`** :
-  - solo : les deux sont faux ;
-  - serveur dédié : `isServer()` est vrai ;
-  - joueur hôte d'une partie hébergée : `isClient()` est vrai (`knowledge/multiplayer.md:21`, `:228`).
-- **Notion d'« autorité ».** Dans ce document, « autorité » signifie `not isClient()`, c'est-à-dire le solo ou le serveur.
+- **Fichiers `server/`.** Ils sont aussi exécutés par les clients MP : chacun commence donc par `if isClient() then return end` (modèle vanilla `media/lua/server/Map/MapObjects/MOGenerator.lua:1`).
+- **« Autorité ».** Ce mot désigne `not isClient()`, c'est-à-dire le solo ou le serveur (`knowledge/multiplayer.md:21`, `:228`).
+- **`LW_Anchor.lua` est volontairement dans `shared/`, sans garde** : il doit tourner des deux côtés (§ 1.4).
 
-### 2.3 Espaces de noms
+### 2.3 Espaces de noms et règles Kahlua
 
-- **Table globale `LiveWire`.** Elle est la seule globale du mod. Sous-tables : `LiveWire.Config`, `.Defs`, `.Physics`, `.Protocol`, `.Marks`, `.Registry`, `.Sim`, `.Inverter`, `.Bank`, `.Xp`, `.Client`.
-- **Actions chronométrées.** Elles sont nommées `LWInstallAction`, `LWDismantleAction`, `LWRepairAction`, `LWInspectAction`, `LWReconditionAction`, `LWClearSnowAction` et `LWMeasureAction`. Elles sont globales par nécessité, car `NetTimedAction` les retrouve par leur nom de classe (`java/zombie/core/NetTimedAction.java:145-172`).
-- **Préfixe `LW`** pour tout le reste : recettes, clés de traduction et identifiants d'appareil.
-- **Fichiers préfixés `LW_`.** L'ordre de chargement suit le tri par chemin relatif en minuscules (`knowledge/mod-loading.md:64-69`). Les dépendances internes passent donc par la table `LiveWire` au moment de l'appel, pas au chargement du fichier.
-- **Contraintes Kahlua** (`CLAUDE.md`, `knowledge/kahlua-lua.md`) :
-  - aucun littéral non ASCII dans les fichiers `.lua` : tous les textes passent par `getText` ;
-  - `ZombRand` et `ZombRandFloat` au lieu de `math.random` ;
-  - aucun abonnement répété aux événements : chaque `Events.X.Add` se fait une seule fois, au chargement du fichier.
+- **Une seule globale : `LiveWire`.** Ses sous-tables : `Config`, `Defs`, `Physics`, `Protocol`, `Marks`, `Anchor`, `Registry`, `Sim`, `Demand`, `Batteries`, `Xp`, `Client`.
+- **Exception : les actions chronométrées.** Elles sont globales par nécessité, car `NetTimedAction` les retrouve par leur nom de classe (`java/zombie/core/NetTimedAction.java:145-172`) : `LWInstallAction`, `LWDismantleAction`, `LWLinkAction`, `LWRepairAction`, `LWInspectAction`, `LWReconditionAction`, `LWClearSnowAction`, `LWMeasureAction`.
+- **Préfixe `LW`** pour les recettes, les clés de traduction et les identifiants.
+- **Règles Kahlua** (`CLAUDE.md`, `knowledge/kahlua-lua.md`) :
+  - aucun littéral non ASCII dans les `.lua` ;
+  - `ZombRand` plutôt que `math.random` ;
+  - chaque abonnement à un événement se fait une seule fois, au chargement du fichier.
 
-### 2.4 Protection des objets Live Wire contre les actions vanilla
+### 2.4 Protection des sources et de l'onduleur
 
-La protection est en trois couches. Toutes testent la marque `getModData().LiveWire` via `LiveWire.Marks.isOurs(obj)`.
+Il n'y a plus de menu « Générateur » à masquer, car ces objets ne sont pas des générateurs. Il reste les gestes vanilla génériques. Les deux couches testent `LiveWire.Marks.isOurs(obj)`.
 
-**1. Client (affichage).** Les options vanilla n'apparaissent jamais.
-- `Events.OnPreFillWorldObjectContextMenu` : si `ISWorldObjectContextMenu.fetchVars.generator` est un onduleur, le mettre à `nil`. Tout le sous-menu « Générateur » disparaît (`media/lua/client/ISUI/ISWorldObjectContextMenu.lua:183-209`, `java/zombie/iso/ISWorldObjectContextMenuLogic.java:1444-1445`).
-- Enveloppes qui gardent la signature et le retour vanilla :
-  - `ISMoveableSpriteProps:canPickUpMoveable` rend `false` ;
-  - `ISMoveableSpriteProps:canScrapObject` rend un `craftValid = false` ;
-  - `ISDestroyCursor:canDestroy` rend `false`
+**1. Client (affichage).** Enveloppes qui gardent la signature et le retour vanilla :
+- `ISMoveableSpriteProps:canPickUpMoveable` → `false` ;
+- `ISMoveableSpriteProps:canScrapObject` → `craftValid = false` ;
+- `ISDestroyCursor:canDestroy` → `false`.
 
-  (`media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `media/lua/server/BuildingObjects/ISDestroyCursor.lua:293`).
+Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `media/lua/server/BuildingObjects/ISDestroyCursor.lua:293`.
 
-**2. Autorité (refus).** Un client modifié ne peut rien forcer.
-- Enveloppes de `complete()` pour `ISTakeGenerator`, `ISAddFuel`, `ISPlugGenerator`, `ISActivateGenerator`, `ISFixGenerator`, `ISMoveablesAction` et `ISDestroyStuffAction`.
-- Si la cible est marquée, la fonction retourne sans appeler l'original et journalise le refus.
-- Le serveur n'appelle pas le `isValid` Lua d'une action réseau, donc `complete()` est le bon point (NM-9, `knowledge/multiplayer.md:43-49`, `:230`).
-- On n'enveloppe **pas** `new`, pour ne pas casser la sérialisation (NM-9).
+**2. Autorité (refus).**
+- Enveloppes de `complete()` pour `ISMoveablesAction` et `ISDestroyStuffAction` : si la cible est marquée, retour sans appeler l'original, et refus journalisé. Le serveur n'appelle pas le `isValid` Lua (`knowledge/multiplayer.md:43-49`, `:230`).
+- Ne **pas** envelopper `new` (NM-9).
 
-**3. Conception.**
-- L'objet tagué `Generator` n'est jamais en inventaire (NM-6).
-- Les appareils de production sont de simples `IsoObject` (pas de `IsoThumpable`), sans conteneur.
-- Toute disparition d'un objet marqué est détectée par le registre (§ 6.3).
+**Batteries.** Elles **ne sont pas protégées** : les ramasser est un geste normal qui les débranche (§ F-5.1).
 
 ---
 
@@ -187,69 +192,59 @@ La protection est en trois couches. Toutes testent la marque `getModData().LiveW
 
 ### 3.1 Où vit chaque donnée
 
-| Donnée | Lieu | Qui fait foi | Raison |
-|---|---|---|---|
-| Réseaux, appareils, énergie stockée hors chargement, état métier | ModData globale `LiveWire` (serveur) | **Autorité** | Seul stockage qui survit au déchargement et que les clients ne peuvent pas écraser (un `transmit` venu d'un client n'écrase rien côté serveur, `knowledge/multiplayer.md:115`) |
-| Marque d'un objet posé | `obj:getModData().LiveWire = { id, s }` | Reflet | Sauvegardée avec `IsoObject` et `IsoGenerator` (`IsoObject.java:1512-1515`, `IsoGenerator.java:384`). Un client peut la réécrire par `transmitModData` (NM-11) : elle ne sert qu'à **reconnaître** l'objet, et le serveur la compare au registre |
-| Charge d'une batterie | Utilisations de l'objet (`setCurrentUsesFloat`, 0..1) | Autorité, quand le banc est chargé | Synchronisée par `sendItemStats` pour un objet dans un meuble, contrairement à la ModData (NM-10, `knowledge/multiplayer.md:319-322`) |
-| Usure d'une batterie | État de l'objet (`setCondition`) | Idem | Idem |
-| Cycles d'une batterie (statistique) | ModData de l'objet | Autorité seulement | Pas besoin d'être vue par les clients |
+| Donnée | Lieu | Qui fait foi |
+|---|---|---|
+| Réseaux, appareils, état métier, énergie des batteries non chargées | ModData globale `LiveWire` (serveur seulement) | **Autorité**. Un `transmit` venu d'un client n'écrase rien côté serveur (`knowledge/multiplayer.md:115`) |
+| Ancres (position et marche) | ModData globale `LiveWireAnchors`, diffusée à tous | Autorité ; les clients n'en ont qu'une copie |
+| Marque d'un onduleur ou d'une source | `obj:getModData().LiveWire = { id, s }` | Reflet seulement. Un client peut la réécrire par `transmitModData` (NM-11) : elle sert à **reconnaître** l'objet, et le registre fait foi |
+| Charge d'une batterie | Utilisations de l'objet (`setCurrentUsesFloat`, de 0 à 1) | Autorité, quand la batterie est chargée |
+| Usure d'une batterie | État de l'objet (`setCondition`) | Idem |
+| Lien d'une batterie avec son appareil | ModData **de l'objet d'inventaire** (`item:getModData().LiveWire = { id }`) | Autorité |
 
-**Piège de l'objet au sol** (vérifié, NM-10) :
-- la ModData propre d'un `IsoWorldInventoryObject` n'est jamais sauvegardée ;
-- `syncItemFields` sur un objet au sol ne transmet pas la ModData de l'objet d'inventaire.
+**Piège de l'objet posé au sol** (NM-10) :
+- la ModData propre d'un `IsoWorldInventoryObject` n'est **jamais** sauvegardée : la marque d'une batterie va donc sur l'objet d'inventaire (`worldObj:getItem():getModData()`), qui l'est ;
+- sur le serveur, `item:syncItemFields()` d'un objet au sol envoie aux clients proches un paquet `ItemStats` qui porte les **utilisations et l'état**, mais pas la ModData (`java/zombie/inventory/InventoryItem.java:4166-4169`, `java/zombie/network/packets/ItemStatsPacket.java:226-300`) ;
+- conséquence : charge et usure, seules données utiles aux clients, voyagent par les champs moteur ; la ModData ne sert qu'au serveur.
 
-Live Wire n'utilise donc **aucun objet posé au sol** comme appareil. Les batteries ne comptent que dans un meuble câblé, et une batterie au sol n'est qu'un objet d'inventaire ordinaire, dont la charge reste dans ses utilisations.
-
-### 3.2 Schéma de la ModData globale (version 1)
+### 3.2 Schéma de la ModData globale `LiveWire` (version 1)
 
 ```lua
--- ModData.getOrCreate("LiveWire")  -- illustrative shape, schema 1
 {
   schema = 1,
-  nextId = 42,                       -- monotonic, never reused
+  nextId = 42,                        -- monotonic, never reused
   devices = {
-    ["d7"] = {
-      id = "d7", kind = "solar",     -- solar | wind | hydro | inverter | bank
-      x = 10512, y = 9620, z = 1,
-      grid = "g2",                   -- nil if not linked
-      cond = 87,                     -- 0..100, business condition
-      eff = 0.95,                    -- installation efficiency (installer level)
-      model = "SolarPanel",          -- key into LiveWire.Defs
-      snow = 0.0,                    -- solar only
-      state = "ok",                  -- ok | broken | off | tripped (inverter)
-      seen = 1234.5,                 -- world age hours when last seen loaded
-    },
+    ["d5"] = { id="d5", role="inverter", model="Inverter", x=10510, y=9618, z=0,
+               grid="g2", cond=93, eff=0.95, state="on",  -- on|off|tripped|broken|idle
+               maxW=1500, idleW=20 },
+    ["d7"] = { id="d7", role="source", model="SolarPanel", x=10512, y=9620, z=1,
+               grid="g2", cond=87, eff=0.95, state="ok", snow=0.0 },
+    ["d9"] = { id="d9", role="battery", model="Base.CarBattery2", x=10511, y=9618, z=0,
+               grid="g2", charge=0.62, cond=74, cycles=31.5 },  -- snapshot when unloaded
+    ["d11"] = { id="d11", role="option", model="Breaker", x=10509, y=9618, z=0,
+                grid="g2", cond=100, state="ok" },             -- optional equipment
   },
   grids = {
-    ["g2"] = {
-      id = "g2", name = "",          -- player-given name, max 24 chars
-      inverter = "d5", bank = "d6",
-      members = { d7 = true, d8 = true },
-      energy = 2.35, capacity = 3.60,-- kWh, snapshot used while the bank is unloaded
-      demand = 172.0,                -- W, last measured demand
-      lastTick = 1234.5,             -- world age hours of the last step
-      rev = 318,                     -- snapshot revision sent to clients
-    },
+    ["g2"] = { id="g2", name="", inverter="d5", members={ d7=true, d9=true },
+               demand=172.0,          -- W, last measured demand
+               lastTick=1234.5,       -- world age hours of last step
+               rev=318 },
   },
-  byPos = { ["10512,9620,1"] = "d7" },  -- position index
+  byPos = { ["10512,9620,1"] = { "d7" } },
 }
 ```
 
-- **Identifiants** : chaînes `d<n>` et `g<n>`, tirées de `nextId`. Elles ne sont jamais réutilisées et ne changent jamais (`CLAUDE.md` : préserver les identifiants persistants).
-- **Champs réservés du moteur** : sur l'onduleur, ne pas toucher les clés moteur `totalPowerDraw`, `generatorFullType` et `fuel` (`IsoGenerator.java:129-135`, `:381-390`).
-- **Taille** : environ 200 octets par appareil, donc moins de 50 Ko pour une très grosse partie. On ne transmet jamais la table entière (§ 5.3).
+- **Identifiants** : `d<n>` et `g<n>`. Jamais réutilisés, jamais modifiés (`CLAUDE.md`).
+- **Taille** : environ 200 octets par appareil. Cette table n'est **jamais** diffusée entière (§ 5).
 
 ### 3.3 Versions et migration
 
-- `schema` est un entier. `LW_Migration.run(data)` applique, dans l'ordre, des fonctions `[1] = function(d) … d.schema = 2 end`, etc.
+- **Migration pas à pas.** `schema` est un entier. `LW_Migration.run(data)` applique dans l'ordre des étapes `[n] = function(d) … d.schema = n + 1 end`.
 - **Règles d'une migration** :
-  - **idempotente** : la rejouer ne change rien ;
-  - **journalisée** en anglais (`print("[LiveWire] migrated schema 1 -> 2")`) ;
-  - elle ne supprime jamais un appareil : les données inconnues vont dans `d.legacy`.
-- **Version trop récente.** Un `schema` supérieur à celui du code (retour à une ancienne version du mod) déclenche un mode **lecture seule** : simulation suspendue et erreur journalisée. Ainsi rien n'est écrasé.
-- **Marques d'objet.** Elles portent `s` (version de marque). Le contrôle au chargement d'un chunk (§ 6.2) les met à jour.
-- **Moment de la migration.** Elle se fait dans `OnInitGlobalModData`, où `getCell()` vaut `nil` (`knowledge/world-placement.md:105-113`). On n'y touche donc qu'aux données, jamais au monde.
+  - **idempotente** ;
+  - **journalisée** en anglais ;
+  - elle ne supprime jamais d'appareil : les données inconnues vont dans `d.legacy`.
+- **Version trop récente.** Un `schema` plus récent que le code met le mod en **lecture seule** : simulation suspendue, ancres laissées telles quelles, erreur journalisée.
+- **Moment de la migration.** Elle se fait dans `OnInitGlobalModData`, où `getCell()` vaut `nil` (`knowledge/world-placement.md:105-113`) : on n'y touche qu'aux données.
 
 ---
 
@@ -257,44 +252,56 @@ Live Wire n'utilise donc **aucun objet posé au sol** comme appareil. Les batter
 
 ### 4.1 Événements
 
-| Événement | Rôle | Preuve |
-|---|---|---|
-| `OnInitGlobalModData` | Récupère la ModData globale et migre | `java/zombie/world/moddata/GlobalModData.java:53-57` |
-| `OnServerStarted` (dédié) ; premier `EveryOneMinute` (solo) | Arme la simulation. `OnGameStart` ne part probablement pas sur un serveur dédié (hypothèse) | `java/zombie/Lua/LuaEventManager.java:788` ; `GameServer.java:1461` |
-| `EveryTenMinutes` | **Pas de simulation** | `LuaEventManager.java:746` ; part au plus une fois par mise à jour, même après un saut (`java/zombie/GameTime.java:553-576`) |
-| `LoadChunk` | Rattache les objets du chunk au registre, synchronise le banc, relance l'onduleur | `java/zombie/iso/IsoChunk.java:3612`, après la purge des générateurs (`:3526`) |
-| `OnTick` (compteur, quelques ticks après `LoadChunk`) | Deuxième passage de rattachement, pour les voisins chargés plus tard | `knowledge/power-and-lights.md:24` |
-| `OnClientCommand` | Commandes (§ 5) | `GameServer.java:2157` |
+| Événement | Côté | Rôle | Preuve |
+|---|---|---|---|
+| `OnInitGlobalModData` | autorité | Récupère le registre et migre | `java/zombie/world/moddata/GlobalModData.java:53-57` |
+| `OnServerStarted` (dédié) ; premier `EveryOneMinute` (solo) | autorité | Arme la simulation. `OnGameStart` ne part probablement pas sur un dédié (hypothèse) | `LuaEventManager.java:788`, `GameServer.java:1461` |
+| `EveryTenMinutes` | autorité | **Pas de simulation** | `LuaEventManager.java:746` ; au plus une fois par mise à jour, même après un saut (`java/zombie/GameTime.java:553-576`) |
+| `LoadChunk` | **les deux** | Réapplique les ancres ; côté autorité, rattache les objets marqués et écrit la charge des batteries | `IsoChunk.java:3613` |
+| `OnTick` (compteur) | les deux | Deuxième passage d'ancres après un chargement | `knowledge/power-and-lights.md:24` |
+| `OnObjectAdded`, `OnObjectAboutToBeRemoved` | autorité | Invalide l'inventaire des appareils d'un onduleur | `LuaEventManager.java:778-779` |
+| `OnReceiveGlobalModData` | client | Reçoit la table des ancres | `GlobalModDataPacket.java:42-53` |
+| `OnClientCommand` | autorité | Commandes (§ 5) | `GameServer.java:2157` |
 
-### 4.2 Un pas pour un réseau
+### 4.2 Un pas pour un réseau, chargé ou non
 
-1. **Durée écoulée.** `dt = now − lastTick` en heures de jeu, avec `now = getGameTime():getWorldAgeHours()` (`GameTime.java:830-834`). On ne fait rien si `dt ≤ 0`. Au-delà de 1 h, le pas est découpé en tranches d'une heure, plafonnées à 720 h (30 jours). Au-delà, l'énergie et l'usure sont calculées en bloc, sans sous-pas.
-2. **Production.** Pour chaque producteur, `P × Δ` (§ F-3).
-   - Le soleil se calcule **analytiquement** : intégrale de la sinusoïde sur la tranche, à partir de l'aube et du crépuscule du jour.
-   - Pendant un rattrapage, la météo est la météo **actuelle** : l'historique n'existe pas, c'est une approximation assumée.
+1. **Durée écoulée.** `dt = now − lastTick`, avec `now = getGameTime():getWorldAgeHours()` (`GameTime.java:830-834`).
+   - Si `dt ≤ 0`, on ne fait rien.
+   - Au-delà de 1 h, le pas est découpé en tranches d'une heure, jusqu'à 720 h. Au-delà, le calcul se fait en bloc.
+2. **Production** des sources (§ F-3).
+   - Le soleil est intégré analytiquement sur la tranche.
+   - Pendant un rattrapage, on utilise la météo **actuelle**, car l'historique n'existe pas.
 3. **Demande.**
-   - Onduleur chargé : mesure moteur (§ 1.3).
-   - Onduleur non chargé : `grid.demand`, la dernière mesure, si l'option `SimulateUnloaded` est vraie, sinon 0.
-4. **Bilan** : `energy = clamp(energy + prod × 0,9 × Δ − demand / effOnduleur × Δ, 0, capacity)`. Si la valeur est plafonnée à `capacity`, le surplus est compté comme « production perdue ».
-5. **Usure.** Appareils (§ F-4.4) ; batteries au prorata du débit d'énergie.
-6. **Banc chargé** : le stock est réparti sur les batteries réelles (§ 4.4).
-7. **Onduleur chargé** : pilotage (§ 1.4).
-8. `lastTick = now`, `rev = rev + 1`. Un instantané est envoyé aux abonnés (§ 5.3).
+   - Onduleur chargé : mesure (§ 1.5).
+   - Sinon : `grid.demand` si `SimulateUnloaded` est actif, sinon 0.
+4. **Onduleur** : disjonction si demande > maximum, sans perte d'état si un disjoncteur est raccordé ; consommation à vide ; usure (§ F-4.4).
+   - Les équipements optionnels du réseau (§ F-2.4) n'agissent que par des paramètres de ce pas : facteur solaire, dégâts d'orage, heures de coupure, seuil de délestage, seuil d'alerte.
+   - **Sans batterie**, l'ancre ne se rallume qu'après deux pas où la production couvre 110 % de la demande (§ F-5.3).
+5. **Bilan énergétique** (§ F-5.3) : répartition sur les batteries, au prorata.
+6. **Batteries.**
+   - Chargées (case chargée) : écriture sur les objets réels (§ 4.4).
+   - Sinon : mise à jour de l'instantané du registre.
+7. **État voulu de l'ancre.** Elle est allumée si l'onduleur est en marche **et** que la production du moment ou le stock couvre la demande. Si cet état change, l'autorité applique l'ancre (§ 1.4), met à jour `LiveWireAnchors` et la diffuse.
+8. `lastTick = now`, `rev = rev + 1`, puis instantané aux abonnés.
+
+**Pourquoi cela marche sans joueur.**
+- Les positions de l'ancre sont **sauvegardées dans les chunks voisins** : quand un joueur revient, la maison est alimentée dès le chargement, si l'ancre était allumée.
+- Pendant l'absence, le registre fait vivre production, consommation et usure.
+- Si l'énergie s'épuise pendant l'absence, l'autorité met l'ancre à « éteinte ». Les chunks déchargés gardent la position, mais le gestionnaire `LoadChunk` applique l'état voulu (éteint) **dès leur chargement**, avant toute mise à jour des appareils.
 
 ### 4.3 Coût
 
-- **Calcul.** Un pas coûte O(nombre d'appareils), avec quelques opérations par appareil. Pour une grosse partie, 100 appareils toutes les 10 minutes de jeu, soit environ toutes les 25 s réelles avec un jour de 1 h.
-- **Objets du monde.** On n'y touche que pour les réseaux chargés : une case par onduleur et une par banc, retrouvées par `getCell():getGridSquare(x, y, z)`. La recherche de l'objet marqué se fait parmi les objets de la case.
-- **Aucun balayage de zone en v0.1.** Seule exception : le repli « option de consommation à 0 » balaie le disque de l'onduleur, soit (2 × 20 + 1)² × 7 ≈ 11 800 cases au pire. Ce repli est limité à une fois par heure de jeu, et à mesurer en prototype P6.
-- **Réseau.** Au plus un `setFuel` et un `setActivated` par onduleur et par pas : chaque appel diffuse un paquet à toutes les connexions (NM-7).
+- **Calcul.** Un pas coûte O(appareils), soit quelques opérations par appareil : 100 appareils toutes les 10 minutes de jeu (environ 25 s réelles avec un jour de 1 h).
+- **Inventaire de la demande.** Au pire 8 800 cases par onduleur et par heure de jeu, seulement si l'onduleur est chargé. À mesurer (prototype P6).
+- **Réseau.** Un `transmit` de `LiveWireAnchors` à chaque changement d'état d'une ancre : la table est petite et les changements rares. Plus un `syncItemFields` par batterie chargée dont la charge a bougé de plus de 1 %.
 
 ### 4.4 Batteries chargées : rapprochement avec les objets réels
 
-- **Lecture.** Le serveur lit le **compartiment de l'onduleur**, puis le conteneur de chaque meuble câblé. Il ne garde que les objets reconnus par `LiveWire.Defs.batteries[fullType]`, avec 4 batteries au plus dans le compartiment.
-- **Batteries réelles** : `capacité = Σ capacité_effective(état)` et `énergie_réelle = Σ charge × capacité_effective`. C'est l'**énergie réelle qui fait foi** quand le banc est chargé : un joueur a pu ajouter ou retirer des batteries.
-- **Nouveau stock.** Après le bilan du pas, le nouveau stock est réparti au prorata (§ F-5.2). Pour chaque batterie modifiée : `setCurrentUsesFloat`, `setCondition`, puis `sendItemStats(item)` en MP (`java/zombie/Lua/LuaManager.java:3757-3762`).
-- **Banc non chargé** : `grid.energy` et `grid.capacity` font foi. Personne ne peut toucher un conteneur non chargé.
-- **Retrait de batterie pendant un pas.** L'énergie de la batterie retirée part avec elle, ce qui est voulu. Le rapprochement suivant le constate. Il n'y a pas de duplication possible, puisque l'énergie est toujours relue sur les objets présents.
+- **Retrouver la batterie.** Pour chaque appareil `battery` du registre dont la case est chargée, on parcourt `sq:getWorldObjects()` et on cherche l'objet dont `getItem():getModData().LiveWire.id` correspond.
+- **Si elle est trouvée** : on lit charge et état, ce sont eux qui font foi ; on applique le pas ; on écrit `setCurrentUsesFloat` et `setCondition`, puis `item:syncItemFields()` en MP.
+- **Si elle est absente** : elle a été ramassée ou déplacée. Elle est débranchée, et son énergie est partie avec l'objet, ce qui est voulu. Si elle est reposée et raccordée de nouveau, elle redevient un appareil, avec un nouvel identifiant de lien.
+- **Au chargement d'une case (`LoadChunk`).** L'instantané du registre est écrit sur l'objet : personne n'a pu y toucher pendant le déchargement.
+- **Pas de duplication possible.** L'énergie d'une batterie chargée est toujours relue sur l'objet présent.
 
 ---
 
@@ -302,131 +309,130 @@ Live Wire n'utilise donc **aucun objet posé au sol** comme appareil. Les batter
 
 ### 5.1 Principes
 
-- Module de commande : `"LiveWire"`.
-- **Les actions longues** (installer, démonter, réparer, inspecter, reconditionner, déneiger, mesurer) sont des **actions chronométrées partagées**. Leur `complete()` s'exécute sur l'autorité, qui **revérifie tout** : le serveur n'appelle pas le `isValid` Lua (`knowledge/multiplayer.md:43-49`).
-- **Les actions instantanées** passent par `sendClientCommand("LiveWire", cmd, args)`.
-- **Joueur identifié.** Le serveur reçoit le joueur déduit de la connexion, qui ne peut pas être usurpé (`GameServer.java:2126-2157`).
-- **Arguments** : nombres, chaînes, booléens et tables. Une table vide arrive en `nil` (`knowledge/multiplayer.md:182-187`, `:253-256`).
-- **Ordre des réponses.** La livraison n'est pas ordonnée : chaque instantané porte `rev`, et le client ignore un `rev` plus ancien que celui qu'il a (`knowledge/multiplayer.md:213-218`).
-- **Textes.** Le serveur ne connaît pas les traductions des mods. Il envoie des **clés** et des paramètres, que le client traduit (`knowledge/api-42-21.md:145-150`).
+- **Module.** Les commandes utilisent le module `"LiveWire"`.
+- **Actions longues.** Installer, démonter, raccorder, réparer, inspecter, reconditionner, déneiger et mesurer sont des **actions chronométrées partagées**. Leur `complete()`, exécuté sur l'autorité, revérifie tout (`knowledge/multiplayer.md:43-49`).
+- **Actions instantanées.** Elles passent par `sendClientCommand("LiveWire", cmd, args)`.
+- **Identité garantie.** Le joueur est déduit de la connexion (`GameServer.java:2126-2157`).
+- **Ordre non garanti.** La livraison n'est pas ordonnée : chaque instantané porte `rev` (`knowledge/multiplayer.md:213-218`).
+- **Traductions côté client.** Le serveur ne connaît pas les traductions des mods. Il envoie des **clés** avec leurs paramètres (`knowledge/api-42-21.md:145-150`).
 
 ### 5.2 Commandes
 
-| Sens | Commande | Arguments | Réponse ou effet |
+| Sens | Commande | Arguments | Effet |
 |---|---|---|---|
-| C → S | `subscribe` | `{ grid = "g2" }` | Instantané immédiat ; abonnement de 10 minutes réelles, renouvelé tant que la fenêtre est ouverte |
-| C → S | `unsubscribe` | `{ grid }` | — |
-| C → S | `link` | `{ device = "d7", inverter = "d5" }` | Raccordement ; fils retirés de l'inventaire par le serveur |
-| C → S | `unlink` | `{ device }` | — |
-| C → S | `wireBank` | `{ x, y, z, index }` (meuble conteneur de la case), `{ inverter }` | Crée l'appareil `bank` |
-| C → S | `setInverter` | `{ inverter, on = true/false }` | Allumage ou extinction manuels |
-| C → S | `reset` | `{ inverter }` | Réarme après une disjonction si la demande est revenue sous le maximum |
-| C → S | `rename` | `{ grid, name }` | Nom ≤ 24 caractères, ASCII imprimable ou UTF-8 valide |
-| S → C | `snapshot` | `{ grid, rev, inverter = {...}, producers = {...}, demand, energy, capacity, alerts = {...} }` | Mise à jour du cache client |
-| S → C | `notify` | `{ key = "IGUI_LW_Tripped", args = {...} }` | Message au joueur (bulle de texte ou ligne de journal) |
-| S → C | `refuse` | `{ cmd, key = "Tooltip_LW_TooFar" }` | Refus motivé |
+| C → S | `subscribe` / `unsubscribe` | `{ grid }` | Abonnement au tableau de bord (10 minutes réelles, renouvelé) |
+| C → S | `unlink` | `{ device }` | Débranche une source ou une batterie |
+| C → S | `setInverter` | `{ inverter, on }` | Allumage ou extinction manuels |
+| C → S | `reset` | `{ inverter }` | Réarme après une disjonction, si la demande est revenue sous le maximum |
+| C → S | `rename` | `{ grid, name }` | Nom de 24 caractères au plus |
+| S → C | `snapshot` | `{ grid, rev, inverter, sources, batteries, demand, energy, capacity, alerts }` | Cache du client |
+| S → C | `notify` | `{ key, args }` | Message au joueur |
+| S → C | `refuse` | `{ cmd, key }` | Refus motivé |
+| S → tous | `ModData.transmit("LiveWireAnchors")` | — | Table des ancres (§ 1.4) |
 
-### 5.3 Validation côté serveur, pour chaque commande
+**Raccorder** passe par l'action chronométrée `LWLinkAction`, qui consomme le fil côté serveur.
 
-1. **Forme.** Types attendus, chaînes de 32 caractères au plus, identifiants au format `^[dg]%d+$`. Tout écart : refus sans effet.
-2. **Joueur.** Vivant ; pas dans un véhicule pour les actions sur appareil.
-3. **Existence.** L'appareil existe dans le registre ; sa case est chargée ; l'objet marqué s'y trouve et la marque correspond.
-4. **Distance.** Distance de Tchebychev ≤ 3 cases et `floor(joueur:getZ()) == z`. `DistToProper` ignore z (`knowledge/multiplayer.md:70`).
-5. **Droits.** Règle de la safehouse vanilla. L'API de test est à confirmer (R-9).
-6. **Conditions métier.** Niveau d'Électricité **lu sur le serveur**, objets requis présents dans l'inventaire principal du joueur **côté serveur**, état compatible (on ne réarme pas un onduleur en panne, par exemple).
-7. **Débit.** Au plus 4 commandes par seconde réelle et par joueur (`getTimestampMs()`). L'excédent est ignoré, et le premier dépassement par minute est journalisé. Le serveur ne limite rien par lui-même et journalise chaque commande hors filtre (`GameServer.java:2151-2153`).
+### 5.3 Validation côté serveur
 
-**Diffusion.** Les instantanés vont **seulement aux abonnés** qui sont à moins de 30 cases de l'onduleur. On ne fait jamais `ModData.transmit("LiveWire")`, qui enverrait tout à tous (`GlobalModData.java:126-141`).
+1. **Forme.** Types attendus ; chaînes de 32 caractères au plus ; identifiants au format `^[dg]%d+$`.
+2. **Joueur.** Vivant, pas dans un véhicule.
+3. **Existence.** Appareil connu, case chargée, objet marqué présent et cohérent avec le registre.
+4. **Distance.** Tchebychev ≤ 3 cases et même étage (`floor(getZ())`). `DistToProper` ignore z (`knowledge/multiplayer.md:70`).
+5. **Droits.** Règle de safehouse vanilla ; l'API exacte est à confirmer (R-8).
+6. **Conditions métier.** Niveau d'Électricité et objets requis vérifiés **côté serveur**.
+7. **Débit.** Au plus 4 commandes par seconde réelle et par joueur ; l'excédent est ignoré. Le serveur ne limite rien de lui-même et journalise les commandes hors filtre (`GameServer.java:2151-2153`).
+
+**Diffusion.** Les instantanés vont seulement aux abonnés à moins de 30 cases de l'onduleur. La table `LiveWire` n'est **jamais** diffusée.
 
 ---
 
 ## 6. Persistance et reprise
 
-### 6.1 Ce qui est sauvegardé, et par qui
+### 6.1 Ce qui est sauvegardé
 
 | Élément | Sauvegarde | Preuve |
 |---|---|---|
-| Registre | Fichier `global_mod_data.bin` de la sauvegarde, avec le monde | `GlobalModData.java:221-268`, `ServerMap.java:397` |
-| Onduleur | Avec son chunk : carburant, état, marche, `lastHour`, ModData | `IsoGenerator.java:381-390` |
-| Appareils de production | Avec leur chunk (`IsoObject`, ModData comprise) | `IsoObject.java:1512-1515` |
-| Batteries | Avec le conteneur du meuble : utilisations, état, ModData | `java/zombie/inventory/InventoryItem.java:1547-1549` |
+| Registre et ancres | `global_mod_data.bin`, avec le monde | `GlobalModData.java:221-268`, `java/zombie/network/ServerMap.java:397` |
+| Positions d'ancre | Avec chaque chunk voisin | `IsoChunk.java:4092-4101` |
+| Onduleur, sources | Avec leur chunk (`IsoObject` et ModData) | `IsoObject.java:1512-1515` |
+| Batteries posées | Avec leur chunk : l'objet, ses utilisations, son état et sa ModData | `java/zombie/iso/objects/IsoWorldInventoryObject.java:478-489`, NM-10 |
 
-- **Pas d'événement de sauvegarde.** Sur un serveur dédié, la sauvegarde périodique ne déclenche aucun `OnSave` (`knowledge/world-placement.md:154`) : le registre doit être **toujours cohérent en mémoire**, sans écriture différée.
+**Pas d'`OnSave` sur un dédié.** Sur un serveur dédié, la sauvegarde périodique ne déclenche aucun `OnSave` (`knowledge/world-placement.md:154`) : le registre est donc toujours tenu cohérent en mémoire.
 
 ### 6.2 Reprise après un redémarrage
 
-- **`OnInitGlobalModData`** : migration du registre. Aucun accès au monde, qui n'est pas prêt.
-- **Premier pas de simulation.** `dt` = temps de jeu écoulé depuis `lastTick` ; l'arrêt du serveur ne fait pas avancer le temps de jeu. Les réseaux non chargés sont simulés depuis le registre.
-- **`LoadChunk`, pour chaque objet marqué du chunk** :
-  - recherche dans le registre ;
-  - si la position et le type correspondent, mise à jour de `seen` ;
-  - sinon, objet « orphelin » : il est journalisé et laissé inerte (onduleur éteint), sans suppression automatique en v0.1.
-- **Onduleur rechargé.** Le moteur rattrape les heures manquées avec l'ancienne consommation et peut l'éteindre si le carburant miroir s'épuise (NM-7). Le passage de rattachement, quelques ticks après le chargement, remet le carburant miroir et rallume si le stock le permet. Coupure maximale pour le joueur : quelques ticks (à mesurer, P4).
+- **Démarrage.** `OnInitGlobalModData` migre le registre. Au premier pas de simulation, `dt` = temps de jeu écoulé depuis `lastTick`.
+- **À chaque `LoadChunk` :**
+  - ancres réappliquées ;
+  - objets marqués rattachés ;
+  - instantané des batteries écrit sur les objets.
+
+  Un objet marqué inconnu du registre est journalisé et laissé inerte. L'action « Inspecter » permet de l'adopter.
+- **Client qui se connecte.** Il demande `LiveWireAnchors` (`ModData.request`, `GlobalModData.java:152-205`) et l'applique aux chunks déjà chargés.
 
 ### 6.3 Incohérences et réparations
 
 | Cas | Détection | Traitement |
 |---|---|---|
-| Objet du registre absent de sa case chargée (incendie, admin, mod tiers) | Rattachement ou pas de simulation | Après 2 constats à au moins 10 minutes de jeu d'intervalle : appareil retiré du registre, réseau recalculé, message au prochain abonné |
-| Objet marqué inconnu du registre | `LoadChunk` | Inerte et journalisé. L'action « Inspecter » permet de l'adopter (réinscription) si un joueur de niveau requis le demande |
-| Meuble du banc détruit ou déplacé | Rattachement | Banc retiré : `energy = 0`. L'énergie était dans les batteries, qui suivent le meuble ou tombent au sol |
-| Plantage entre deux sauvegardes | Écart entre registre et monde | Le monde fait foi pour l'**existence** des objets ; le registre fait foi pour l'énergie hors chargement ; le banc chargé fait foi pour l'énergie réelle |
+| Onduleur ou source absent de sa case chargée | Rattachement ou pas de simulation | Après 2 constats espacés d'au moins 10 minutes de jeu : appareil retiré ; ancre éteinte et retirée de la table |
+| Batterie absente | Pas de simulation | Débranchée (voulu) |
+| Objet marqué inconnu | `LoadChunk` | Inerte ; adoption possible par « Inspecter » |
+| Case de l'onduleur détruite (sol retiré) | Rattachement | Ancre retirée explicitement de tous les chunks chargés, puis des autres à leur chargement (une position sur une case `null` n'est jamais purgée par le moteur) |
+| Plantage entre deux sauvegardes | Écart entre registre et monde | Le monde fait foi pour l'existence des objets ; les batteries chargées pour leur énergie ; le registre pour le reste |
 
 ---
 
 ## 7. Traductions
 
-- **Fichiers.** `media/lua/shared/Translate/EN/` (référence) et `FR/`. Chaque fichier est un objet JSON plat, et seuls les `.json` sont lus (`knowledge/api-42-21.md:100`).
-- **Fichier selon le préfixe de clé** (`CLAUDE.md`) :
+**Fichiers.** `media/lua/shared/Translate/EN/` (référence) et `FR/`, en objets JSON plats. Seuls les `.json` sont lus (`knowledge/api-42-21.md:100`).
 
 | Fichier | Clés |
 |---|---|
-| `ItemName.json` | `LiveWire.VoltageTester`, `LiveWire.SolarCell`, `LiveWire.SolarPanelKit`, `LiveWire.WindTurbineKit`, `LiveWire.WaterWheelKit`, `LiveWire.InverterKit`, `LiveWire.HeavyInverterKit`, `LiveWire.DeepCycleBattery`, `LiveWire.InverterUnit` |
+| `ItemName.json` | `LiveWire.VoltageTester`, `.SolarCell`, `.SolarPanelKit`, `.WindTurbineKit`, `.WaterWheelKit`, `.InverterKit`, `.HeavyInverterKit`, `.DeepCycleBattery` |
 | `Recipes.json` | `LWMakeVoltageTester`, `LWSalvageSolarCell`, `LWMakeSolarPanelKit`, `LWMakeSolarCellFromScrap`, `LWMakeInverterKit`, `LWMakeHeavyInverterKit`, `LWMakeWindTurbineKit`, `LWMakeWaterWheelKit`, `LWMakeDeepCycleBattery` (clé = nom de recette, `java/zombie/core/Translator.java:561-569`) |
-| `ContextMenu.json` | `ContextMenu_LW_Root`, `_Measure`, `_Install`, `_Inspect`, `_Link`, `_Unlink`, `_Repair`, `_Overhaul`, `_ClearSnow`, `_Dismantle`, `_Dashboard`, `_TurnOn`, `_TurnOff`, `_Reset`, `_WireBank`, `_UnwireBank`, `_Recondition` |
-| `Tooltip.json` | `Tooltip_LW_NeedLevel` (« Électricité niv. %1 requis »), `_NeedTool`, `_NeedItems`, `_NeedOutdoor`, `_NeedNoRoom`, `_NeedRiver`, `_TooFar`, `_NoInverterInRange`, `_Overlap` |
-| `IG_UI.json` | `IGUI_LW_Dashboard_Title`, `_Production`, `_Demand`, `_Stock`, `_Autonomy` (« Autonomie : environ %1 h »), `_Lost`, `_Tripped`, `_Broken`, `_WornBatteries`, `_Measure_Powered`, `_Measure_Source_Grid`, `_Measure_Source_Generator`, `_Measure_Source_LiveWire`, `_Measure_Draw` (« %1 W ») |
-| `Sandbox.json` | `Sandbox_LiveWire` (onglet), puis pour chaque option `Sandbox_LiveWire_<Option>` et `Sandbox_LiveWire_<Option>_tooltip` (`knowledge/api-42-21.md:143`, `:286`) |
+| `ContextMenu.json` | `ContextMenu_LW_Root`, `_Measure`, `_Install`, `_Inspect`, `_Link`, `_Unlink`, `_Repair`, `_Overhaul`, `_ClearSnow`, `_Dismantle`, `_Dashboard`, `_TurnOn`, `_TurnOff`, `_Reset`, `_Recondition` |
+| `Tooltip.json` | `Tooltip_LW_NeedLevel` (« Électricité niv. %1 requis »), `_NeedTool`, `_NeedItems`, `_NeedOutdoor`, `_NeedRiver`, `_TooFar`, `_NoInverterInRange`, `_Overlap`, `_NeedFloor` |
+| `IG_UI.json` | `IGUI_LW_Dashboard_Title`, `_Sources`, `_Batteries`, `_Inverter`, `_Demand`, `_Stock`, `_Autonomy` (« Autonomie : environ %1 h »), `_Lost`, `_Tripped`, `_Broken`, `_Idle`, `_WornBattery`, `_Measure_Powered`, `_Measure_Source_Grid`, `_Measure_Source_Generator`, `_Measure_Source_LiveWire`, `_Measure_Draw` (« %1 W ») |
+| `Sandbox.json` | `Sandbox_LiveWire`, puis `Sandbox_LiveWire_<Option>` et `Sandbox_LiveWire_<Option>_tooltip` (`knowledge/api-42-21.md:143`, `:286`) |
 
-- **Paramètres.** Arguments `%1`, `%2` ; un signe pour cent s'écrit `%%` (`knowledge/load-warnings.md:17-25`).
-- **Contrôle automatique.** Un script de vérification hors jeu (étape E0) comparera les jeux de clés EN et FR et détectera les `%` non doublés.
+- **Paramètres.** `%1`, `%2` ; un signe pour cent s'écrit `%%` (`knowledge/load-warnings.md:17-25`).
+- **Contrôle hors jeu.** Un script (étape E0) comparera les jeux de clés EN et FR.
 
 ---
 
 ## 8. Risques techniques classés
 
-Les risques sont classés par gravité × probabilité. Chacun a son prototype de dérisquage. Tous les prototypes restent **à exécuter** : aucun n'a été fait.
+Tous les prototypes sont **à exécuter** : aucun n'a été fait.
 
 | Rang | Risque | Gravité | Prototype de dérisquage |
 |---|---|---|---|
-| **R-1** | L'onduleur `IsoGenerator` ne se comporte pas comme prévu : courant absent chez un client MP distant, toxicité inattendue, compartiment à batteries inutilisable, état ou carburant écrasés. **Tout le mod en dépend.** | Bloquante | **P1** — commande de débogage (autorité) qui pose un `InverterUnit` devant une maison et règle `fuel = 5`, puis `setActivated(true)`. Vérifier : lumières et réfrigérateur alimentés dans la maison ; aucun moodle de toxicité après 2 h ; menu vanilla absent ; compartiment ouvrable, batteries rangées puis retrouvées après sauvegarde et rechargement ; transfert vu par l'autre client. Mêmes constats sur un 2e client d'un serveur dédié. Repli si le compartiment échoue : bancs câblés seulement. Repli si le courant échoue : mécanisme A, positions virtuelles (§ 1.2) |
-| **R-2** | Les joueurs entendent un ronflement de générateur (boucle FMOD vanilla) : la promesse « silencieux » n'est tenue que pour les zombies | Forte (expérience) | **P1 bis** — écouter sur place et à 10 cases. Mesurer le rayon de bruit perçu par les zombies : un zombie à 3, 6 puis 10 cases, la nuit. Solution définitive : tuile de mod avec sa propre valeur `GeneratorSound` et ses sons (NM-2), à prototyper dès que l'outillage des tuiles existe |
-| **R-3** | Contournement par une action vanilla oubliée : ramassage comme meuble, destruction, dépôt, menu d'admin, autre mod | Forte | **P2** — liste de contrôle : tenter chaque action vanilla sur un onduleur et un panneau, en solo puis en MP avec un client normal. Option : un client de test qui envoie directement l'action vanilla, pour vérifier le refus par `complete()` |
-| **R-4** | Chunk déchargé : extinction après le rattrapage au rechargement, coupure visible, voisins alimentés gratuitement | Moyenne | **P4** — base alimentée ; s'éloigner de 2 cellules pendant 2 jours de jeu ; revenir. Mesurer le délai de rallumage et l'écart d'énergie entre registre et batteries |
-| **R-5** | Banc de batteries : synchronisation `sendItemStats` incomplète, duplication pendant un transfert, meuble conteneur inadapté (type, MP) | Moyenne | **P3** — deux joueurs déplacent des batteries pendant qu'un pas s'exécute (vitesse ×3). Comparer la somme des charges avant et après. Vérifier que l'affichage de la charge se met à jour chez l'autre client |
-| **R-6** | Équilibrage météo faux : vent rarement au-dessus de 10 km/h, ou presque toujours au maximum ; nuages trop pénalisants | Moyenne | **P5** — enregistreur serveur qui journalise toutes les heures `getWindspeedKph`, `getCloudIntensity`, `isSnowing`, l'aube et le crépuscule pendant 30 jours de jeu accélérés ; histogramme hors jeu ; ajustement des seuils de § F-3.3 |
-| **R-7** | Coût : diffusion à toutes les connexions à chaque `setFuel` ou `setActivated`, nombre d'instantanés, repli de balayage | Faible à moyenne | **P6** — 10 réseaux de 10 appareils sur un serveur dédié avec 4 clients : mesurer le temps d'un pas (`getTimestampMs`) et le débit réseau |
-| **R-8** | Mesure de la demande faussée : option `GeneratorFuelConsumption` à 0, recouvrement avec un générateur vanilla, appareils de mod non comptés | Faible | **P1 ter** — mêmes appareils avec l'option à 0,1, 1, puis 0 ; puis avec un générateur vanilla voisin allumé |
-| **R-9** | Conflits avec d'autres mods qui enveloppent les mêmes fonctions vanilla ; API de safehouse à confirmer | Faible à moyenne | **P7** — relire les points d'enveloppe et garder les signatures et retours. Charger le mod avec un mod de test qui enveloppe aussi `ISTakeGenerator:complete`. Vérifier la règle de safehouse dans les sources avant l'étape E9 |
-| **R-10** | Pose invalide : case `isOutside()` sous un arbre, rive mal détectée hors des 6 zones de rivière vanilla, toit plat refusé | Faible | **P5 bis** — poser sur 10 sites connus (toits plats, berges de la rivière principale, étangs) et noter les refus |
-| **R-11** | Migration ou identifiants instables entre versions | Faible (si discipline) | **P8** — sauvegarde de test v0.1 conservée, rejouée à chaque version ; test de migration à blanc sur une copie |
+| **R-1** | **L'ancre ne tient pas** : courant absent chez un client MP, lumières qui ne se rallument pas, purge plus tardive que prévu, courant qui disparaît au rechargement. Tout le mod en dépend. | Bloquante | **P1** — commande de débogage qui pose un onduleur de test dans une maison et applique l'ancre. Vérifier, en solo puis sur un dédié avec un 2e client : lumières et réfrigérateur alimentés ; aucun moodle de toxicité ; s'éloigner de 2 cellules puis revenir : courant présent dès l'arrivée ; ancre éteinte : courant coupé chez les deux clients ; mod retiré d'une copie de la sauvegarde : plus de courant après le rechargement. Repli : mécanisme C (§ 1.3) |
+| **R-2** | **Mesure de la demande fausse ou coûteuse** : appareils oubliés, appareils de mods tiers, inventaire trop lent | Forte | **P6** — comparer, sur une même maison, la demande du mod à `getTotalPowerUsing()` d'un générateur vanilla de test posé au même endroit. Mesurer le temps d'inventaire (`getTimestampMs`) avec 10 onduleurs |
+| **R-3** | **Simulation sans joueur incohérente** : énergie épuisée pendant l'absence mais maison alimentée au retour ; nourriture mal comptée | Moyenne | **P4** — vider volontairement le stock pendant une absence de 3 jours de jeu ; au retour, vérifier que le courant est coupé dès le chargement et l'état des aliments |
+| **R-4** | **Batteries posées** : objet non retrouvé après rechargement, charge non affichée chez l'autre client, ramassage pendant un pas | Moyenne | **P3** — deux joueurs : poser, raccorder, ramasser, reposer pendant un pas en vitesse ×3 ; comparer l'énergie totale et l'infobulle chez les deux |
+| **R-5** | **Bourdonnement côté joueur** : un émetteur en boucle qui ne s'arrête plus en MP (`knowledge/sounds-and-noise.md`) | Faible à moyenne | **P1 bis** — démarrer et arrêter le son dix fois, quitter la zone, revenir ; aucun son fantôme |
+| **R-6** | **Conflit avec un autre mod** qui pose ou retire des positions de générateur, ou qui enveloppe les mêmes actions vanilla | Moyenne | **P7** — mod de test qui appelle `removeGeneratorPos` sur la position de l'onduleur ; vérifier que le pas suivant ou le prochain `LoadChunk` la rétablit. Garder signatures et retours dans toutes les enveloppes |
+| **R-7** | **Équilibrage météo** faux | Moyenne | **P5** — journal horaire du vent, des nuages, de la neige, de l'aube et du crépuscule sur 30 jours de jeu ; histogramme hors jeu |
+| **R-8** | **Contournement vanilla** (ramasser comme meuble, détruire) ; API de safehouse | Moyenne | **P2** — liste de contrôle, en solo et en MP, avec un client normal |
+| **R-9** | **Pose invalide** : `isOutside()` sous un arbre, rive hors des 6 zones de rivière vanilla | Faible | **P5 bis** — 10 sites connus |
+| **R-10** | **Migration** ou identifiants instables | Faible | **P8** — sauvegarde v0.1 conservée et rejouée à chaque version |
 
 ---
 
 ## 9. Plan d'implémentation par étapes testables
 
-**Chaque étape se termine par un protocole en solo, puis en MP dédié** : serveur Linux local, deux clients, le second sans droits d'admin. Rien n'est livré tant que le protocole n'est pas passé **en jeu par l'utilisateur**. Les étapes ne présupposent aucun test déjà fait.
+Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : serveur Linux local, deux clients, le second sans droits d'admin. Rien n'est considéré comme fait tant que le protocole n'a pas été passé **en jeu par l'utilisateur**.
 
 | Étape | Contenu | Protocole solo | Protocole MP dédié |
 |---|---|---|---|
-| **E0 — Squelette** | `mod.info` à jour, table `LiveWire`, journal, `sandbox-options.txt`, traductions EN et FR vides mais valides, script de contrôle des clés | Le mod se charge ; aucune erreur dans `console.txt` ; l'onglet sandbox s'affiche dans les deux langues | Le serveur charge le mod (journal) ; un client se connecte ; aucune erreur `server/` côté client |
-| **E1 — Prototype onduleur (P1, P1 bis, P1 ter)** | Script `InverterUnit`, commande de débogage, choix du sprite | Protocole P1 : maison alimentée, pas de toxicité, menu absent, bruit | Lumières visibles chez le 2e client ; `setActivated(false)` éteint chez les deux. **Décision : le mécanisme E est-il confirmé ?** |
-| **E2 — Registre et persistance** | `LW_Registry`, `LW_Migration`, marques, `LoadChunk` | Créer 3 appareils de débogage, sauvegarder, quitter, recharger : registre intact, marques retrouvées | Redémarrer le serveur : registre intact ; client déconnecté puis reconnecté |
-| **E3 — Simulation abstraite** | `LW_Simulation`, `LW_Physics`, onduleur piloté par un stock fictif | Stock fictif de 1 kWh, réfrigérateur et lumières : extinction prévisible (calcul à la main) ; rallumage au retour du stock | Mêmes constats ; le client voit l'extinction ; vitesse ×3 sans dérive |
-| **E4 — Batteries réelles** | `LW_Bank` : compartiment de l'onduleur, puis câblage d'un meuble, rapprochement | Mettre 2 batteries de voiture dans le compartiment et observer leur charge baisser la nuit ; en ajouter une 5e : ignorée et signalée ; retirer une batterie : le stock baisse d'autant ; même essai avec un banc câblé | Protocole P3 : deux joueurs, transferts pendant un pas, aucune duplication |
-| **E5 — Producteurs** | Kits solaire et éolien, actions `LWInstallAction` et `LWDismantleAction`, raccordement, recettes | Fabriquer, poser sur un toit plat, raccorder ; production le jour, nulle la nuit ; éolienne arrêtée sans vent | Pose par le 2e client (non-admin) ; refus si trop loin ou si le niveau manque, vérifiés côté serveur |
-| **E6 — Diagnostic et tableau de bord** | Testeur, `LW_Dashboard`, abonnements, instantanés | Mesures cohérentes aux niveaux 0, 2 et 4 ; fenêtre mise à jour | Fenêtre ouverte par deux joueurs ; aucune diffusion hors abonnés (journal) |
-| **E7 — Compétence, usure, pannes** | `LW_Xp`, paliers, usure, réparation, disjonction, reconditionnement | Expérience gagnée et visible ; disjonction avec un lave-linge et sèche-linge superposés ; réparation | Expérience gagnée par le client non-admin (preuve que `addXp` est appelé sur le serveur) |
-| **E8 — Protection vanilla (P2)** | `LW_HideVanilla`, `LW_VanillaGuards` | Liste de contrôle P2 complète | Même liste côté client ; refus journalisés par le serveur |
-| **E9 — Durcissement MP** | Validation complète, limite de débit, safehouse, rattachement après déchargement (P4) | Protocole P4 | Protocoles P4 et P6 ; client qui envoie des commandes forgées (débogage) : toutes refusées |
-| **E10 — Équilibrage et finition** | Protocole P5, ajustement des valeurs, textes, `workshop.txt` | Partie de 30 jours de jeu accélérée : bilan énergétique plausible | Session de 2 h à plusieurs, journal relu. Publication par l'utilisateur sur son poste (`CLAUDE.md`) |
+| **E0 — Squelette** | `mod.info`, table `LiveWire`, journal, `sandbox-options.txt`, traductions EN et FR vides, script de contrôle des clés | Le mod se charge sans erreur dans `console.txt` ; l'onglet sandbox s'affiche dans les deux langues | Le serveur charge le mod ; un client se connecte ; aucune erreur `server/` côté client |
+| **E1 — Prototype ancre (P1, P1 bis)** | `LW_Anchor`, table `LiveWireAnchors`, onduleur de débogage, rafraîchissement visuel | Protocole P1 | Protocole P1 côté 2e client. **Décision : mécanisme A confirmé ?** |
+| **E2 — Registre et persistance** | `LW_Registry`, `LW_Migration`, marques, `LoadChunk` | 3 appareils de débogage ; sauvegarder, quitter, recharger : registre et marques intacts | Redémarrage du serveur ; reconnexion d'un client |
+| **E3 — Simulation et demande** | `LW_Simulation`, `LW_Physics`, `LW_Demand` | Stock fictif de 1 kWh, réfrigérateur et lumières : coupure à l'heure calculée à la main ; protocole P6 (comparaison avec un générateur vanilla) | Coupure vue par le client ; vitesse ×3 sans dérive |
+| **E4 — Batteries posées** | `LW_Batteries`, `LWLinkAction` | 2 batteries de voiture au sol raccordées : décharge la nuit ; en ramasser une : stock réduit d'autant | Protocole P3 |
+| **E5 — Sources** | Kits solaire et éolien, actions d'installation et de démontage, recettes | Fabriquer, poser sur un toit plat, raccorder ; production le jour, nulle la nuit ; éolienne arrêtée sans vent | Pose par le client non-admin ; refus côté serveur si trop loin ou niveau insuffisant |
+| **E6 — Sans joueur (P4)** | `SimulateUnloaded`, rattrapage | Protocole P4 | Protocole P4 avec serveur sans joueur (`PauseEmpty` désactivé), puis reconnexion |
+| **E7 — Diagnostic et tableau de bord** | Testeur, `LW_Dashboard`, abonnements | Mesures cohérentes aux niveaux 0, 2 et 4 | Deux joueurs ouvrent la fenêtre ; aucune diffusion hors abonnés |
+| **E8 — Compétence, usure, pannes, bourdonnement** | `LW_Xp`, paliers, usure, réparation, disjonction, `LW_Hum` | Expérience gagnée ; disjonction avec un lave-linge et sèche-linge superposés ; bourdonnement audible de près seulement | Expérience gagnée par le client non-admin |
+| **E9 — Protection et durcissement (P2, P7)** | `LW_HideVanilla`, `LW_VanillaGuards`, validation complète, débit | Liste P2 | Commandes forgées (débogage) toutes refusées ; protocole P7 |
+| **E10 — Équilibrage et finition (P5)** | Valeurs, textes, `workshop.txt` | Partie de 30 jours accélérée | Session à plusieurs ; journal relu. Publication par l'utilisateur, sur son poste (`CLAUDE.md`) |
