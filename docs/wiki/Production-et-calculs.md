@@ -4,6 +4,8 @@
 
 Le serveur calcule tout toutes les 10 minutes de jeu, joueurs présents ou non (option SimulateUnloaded, activée par défaut). Cette page détaille le modèle.
 
+![Trois graphiques : journée solaire, courbe de l'éolienne, énergie par jour face à une maison type](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_fr.png)
+
 ## Puissance d'une source
 
 P = nominale × facteur de source × facteur d'état × rendement de pose × multiplicateur sandbox

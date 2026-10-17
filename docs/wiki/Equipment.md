@@ -2,6 +2,10 @@
 
 # Equipment
 
+![All devices with their key figures](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_en.png)
+
+*All devices with their key figures.*
+
 Every device is a real mod tile, placed like vanilla furniture. Each recipe gives a placeable furniture item named `Base.Mov_LiveWire_*`.
 
 ## Devices

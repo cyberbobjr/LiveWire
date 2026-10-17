@@ -13,6 +13,7 @@
 - [Maintenance and skill](Maintenance-and-Skill)
 - [Sandbox options](Sandbox-Options)
 - [Multiplayer and FAQ](Multiplayer-and-FAQ)
+- [FAQ](FAQ)
 
 **Français**
 
@@ -27,3 +28,4 @@
 - [Entretien et compétence](Entretien-et-competence)
 - [Options sandbox](Options-sandbox)
 - [Multijoueur et FAQ](Multijoueur-et-FAQ)
+- [FAQ](FAQ-fr)

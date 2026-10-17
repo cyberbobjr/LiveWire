@@ -1,0 +1,75 @@
+[h1]Live Wire - Überarbeitung der Elektrotechnik[/h1]
+
+[b]Build 42.21 · Einzelspieler und Mehrspieler (serverautoritativ)[/b]
+
+Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein eigenes Inselnetz: Solarpanels, eine Windturbine oder ein Wasserrad speisen einen Wechselrichter, und der Wechselrichter versorgt das ganze Haus darum herum. Für die Nacht gibt es Batterien. Die Fertigkeit Elektrotechnik zählt endlich: Jedes Gerät hat eine Stufe, und deine Stufe verbessert die Installation.
+
+[h2]So funktioniert es[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_de.png[/img]
+
+[list]
+[*][b]Quellen[/b] erzeugen Strom: Solarpanel 100 W, Windturbine 400 W, Wasserrad 120 W. So viele, wie du pro Wechselrichter möchtest.
+[*][b]Der Wechselrichter[/b] (maximal 1.500 W) versorgt jedes Gerät im Umkreis von 20 Feldern und 3 Stockwerke nach oben oder unten. Keine Verkabelung pro Gerät: Kühlschränke, Lampen, Herde, Fernseher und Radios funktionieren wie im Originalspiel.
+[*][b]Die Powerbank[/b] speichert den Überschuss: Sie zählt 4 Batterien (Autobatterien oder Deep-Cycle-Batterien). Ohne Batterien läuft das Haus nur mit der aktuellen Erzeugung.
+[*][b]Kabel[/b]: Stromkabel, 1 pro 4 Felder, Reichweite 12 Felder. Rechtsklick auf ein Gerät > "Live Wire" > "Mit einem Wechselrichter verbinden".
+[/list]
+
+[h2]Ausrüstung[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_de.png[/img]
+
+[list]
+[*][b]Solarpanel[/b] (Elektrotechnik 3): im Freien, unter freiem Himmel. Flachdächer funktionieren.
+[*][b]Windturbine[/b] (6): im Freien, je höher, desto stärker.
+[*][b]Wasserrad[/b] (7): am Flussufer, im Erdgeschoss.
+[*][b]Wechselrichter[/b] (5): das Herzstück des Netzes, kann auch in Gebäuden stehen.
+[*][b]Powerbank[/b] (2): öffnet sich wie eine Kiste.
+[*][b]Optional[/b]: Schutzschaltertafel (löst aus, statt den Wechselrichter zu beschädigen), Batteriealarm bei niedrigem Ladestand, Schalldämmset für das Brummen des Wechselrichters, Originalgenerator als Reserve (startet unter 20 % Batterieladung), Originalcomputer als Verwaltungsrechner.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+
+[h2]Erzeugung[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_de.png[/img]
+
+[list]
+[*][b]Solar[/b]: etwa 0,94 kWh an einem Sommertag, etwa 0,60 im Winter. Wolken und Schnee verringern die Leistung.
+[*][b]Wind[/b]: unter 10 km/h nichts, darüber steigt die Leistung mit der dritten Potenz der Geschwindigkeit bis 45 km/h, zwischen 45 und 85 km/h volle Leistung, darüber bremst die Turbine automatisch.
+[*][b]Wasserrad[/b]: 120 W Tag und Nacht an Flüssen.
+[/list]
+
+Beispiel: ein Kühlschrank mit Gefrierfach und 10 Lampen verbrauchen zusammen etwa 4,1 kWh pro Tag. Ein Wasserrad und 2 Solarpanels decken das ganze Jahr über alles ab.
+
+[h2]Rezepte[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_de.png[/img]
+
+Kategorie Elektrotechnik, wird automatisch ab der nötigen Stufe gelernt. Solarzellen stammen aus zerlegten Taschenrechnern oder werden als Beute gefunden; fertige Ausrüstung kann auch in Elektrikerwerkstätten, Baumärkten und Garagen auftauchen.
+
+[h2]Verwaltungssoftware[/h2]
+
+Live Wire Monitor zeigt Erzeugung, Verbrauch, Batterien, einen 48-Stunden-Verlauf und eine Prognose "bis Sonnenaufgang". Mit dem optionalen Computer Mod oder Laptop Mod kommt er auf einer Diskette, die in der Computerbeute zu finden ist. Ansonsten läuft er auf einem mit dem Wechselrichter verbundenen Originalcomputer.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+
+[h2]Mehrspieler[/h2]
+
+Der Server berechnet alles und prüft jede Anfrage erneut. Die Installation läuft weiter, wenn die Spieler abwesend sind: Kühlschränke halten das Essen kalt. Noch nicht auf einem dedizierten Server getestet, bitte melde Probleme.
+
+[h2]Dokumentation[/h2]
+
+[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki (auf Englisch)[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+
+[b]Kompatibilität[/b]: eigenständige Neuschöpfung, nicht dafür gedacht, zusammen mit anderen Mods für Stromsysteme zu laufen. Die Tiles sind vorerst Platzhalter. Lizenz MIT.
+
+[h2]Unterstütze das Projekt[/h2]
+
+Gefällt dir der Mod? Ein Kaffee hilft, neue Funktionen und Übersetzungen zu finanzieren.
+[url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
+
+[h2]Danksagungen[/h2]
+
+Erstellt von batmanfr. Eigener Code, Tiles und Sounds; kein Inhalt aus anderen Mods übernommen.

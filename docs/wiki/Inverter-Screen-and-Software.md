@@ -41,6 +41,10 @@ The history and forecast need a linked management computer (see [[Optional Equip
 
 A vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen: monitor, boot screen "Live Wire OS", status bar with game time.
 
+![Management software on a vanilla computer, without the Computer Mod or Laptop Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png)
+
+*Management software on a vanilla computer, without the Computer Mod or Laptop Mod.*
+
 ### With the Computer Mod or Laptop Mod
 
 With the optional **Computer Mod** (Workshop 3725497089) or **Laptop Mod** (3798992436), the software comes on a disk: **"Disk: Live Wire Management Software"** (`LiveWire.MonitorDisk`), found in computer loot (see [[Loot Tables|Loot-Tables]]).

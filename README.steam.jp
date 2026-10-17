@@ -1,0 +1,75 @@
+[h1]Live Wire - 電気工学スキル改修[/h1]
+
+[b]Build 42.21 · シングルプレイ & マルチプレイ（サーバー主導）[/b]
+
+電気は永遠に止まってしまった……でも、明かりまで消える必要はない。太陽光パネル、風力発電機、水車で自前のオフグリッド電源を作り、インバーターで家全体に電気を送ろう。夜に備えてバッテリーも追加できる。電気工学スキルがついに意味を持つ。すべての機器にはレベルがあり、そのレベルが設置の出来を良くする。
+
+[h2]仕組み[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_jp.png[/img]
+
+[list]
+[*][b]発電源[/b]が発電: ソーラーパネル 100 W、風力発電機 400 W、水車 120 W。インバーター1台につきいくつでも接続できる。
+[*][b]インバーター[/b]（最大1,500 W）は、20マス以内かつ上下3階以内のすべての家電に電力を供給する。家電ごとの配線は不要で、冷蔵庫、照明、コンロ、テレビ、ラジオはバニラと同じように動く。
+[*][b]モバイルバッテリー[/b]が余剰電力を蓄える。カーバッテリーまたはディープサイクルバッテリー4個分として数える。バッテリーがなければ、家は発電量だけで動く。
+[*][b]電線[/b]: 電線は4マスにつき1本、到達距離は12マス。機器を右クリック > "Live Wire" > "インバーターに接続"。
+[/list]
+
+[h2]機器[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_jp.png[/img]
+
+[list]
+[*][b]ソーラーパネル[/b]（電気工学3）: 屋外で空が開けた場所に設置。陸屋根でも可。
+[*][b]風力発電機[/b]（6）: 屋外。高い場所ほど強い。
+[*][b]水車[/b]（7）: 川岸、1階。
+[*][b]インバーター[/b]（5）: ネットワークの中核。屋内に設置可能。
+[*][b]モバイルバッテリー[/b]（2）: 箱のように開く。
+[*][b]オプション[/b]: 分電盤（インバーターを壊す代わりにブレーカーが落ちる）、低バッテリー警報、インバーターのうなり音を抑える防音キット、バッテリー残量20%未満で始動するバックアップ用のバニラの発電機、管理用コンピューターとして使うバニラのデスクトップPC。
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+
+[h2]発電量[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_jp.png[/img]
+
+[list]
+[*][b]太陽光[/b]: 夏の日は約0.94 kWh、冬は約0.60 kWh。雲と雪で減る。
+[*][b]風力[/b]: 10 km/h未満では発電しない。45 km/hまで速度の3乗に比例して増え、45〜85 km/hで最大出力、85 km/hを超えると自動でブレーキがかかる。
+[*][b]水車[/b]: 川では昼夜を問わず120 W。
+[/list]
+
+例: 冷蔵庫付き冷凍庫1台と照明10個で1日約4.1 kWhを使う。水車とパネル2枚があれば、年間を通じて賄える。
+
+[h2]レシピ[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_jp.png[/img]
+
+カテゴリー「電気工学」。必要なレベルに達すると自動的に習得される。太陽電池は分解した電卓から作れるほか、戦利品としても見つかる。完成品の機器は電気店、ホームセンター、ガレージにも出現することがある。
+
+[h2]管理ソフト[/h2]
+
+Live Wire Monitor は、発電量、消費量、バッテリー、48時間の履歴、「日の出まで」の予測を表示する。任意の Computer Mod または Laptop Mod を入れると、コンピューター用の戦利品で見つかるディスクとして入手できる。なければ、インバーターに接続したバニラのデスクトップPCで動かせる。
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+
+[h2]マルチプレイ[/h2]
+
+サーバーがすべてを計算し、すべてのリクエストを再検証する。プレイヤーが離れていても設備は動き続ける: 冷蔵庫は食品を冷やし続ける。専用サーバーではまだテストしていないので、問題があれば報告してほしい。
+
+[h2]ドキュメント[/h2]
+
+[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki（英語版）[/url] · ソースコード: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+
+[b]互換性[/b]: 独自に作成したMODで、他の電力系MODと同時に動かすことは想定していない。タイルは現時点ではプレースホルダー。ライセンスはMIT。
+
+[h2]プロジェクトを支援[/h2]
+
+MODを楽しんでいただけたなら、コーヒー1杯が新機能や翻訳の開発費になります。
+[url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
+
+[h2]クレジット[/h2]
+
+作成: batmanfr。オリジナルのコード、タイル、サウンド。他のMODの内容は一切使用していない。

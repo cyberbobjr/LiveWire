@@ -1,0 +1,75 @@
+[h1]Live Wire - Electrical Skill Overhaul[/h1]
+
+[b]Build 42.21 · Singleplayer & Multiplayer (server-authoritative)[/b]
+
+The power is out for good... but the lights do not have to be. Build your own off-grid electricity: solar panels, a wind turbine or a water wheel feed an inverter, and the inverter powers the whole house around it. Add batteries for the night. The Electrical skill finally matters: every device has a level, and your level makes the installation better.
+
+[h2]How it works[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_en.png[/img]
+
+[list]
+[*][b]Sources[/b] produce: solar panel 100 W, wind turbine 400 W, water wheel 120 W. As many as you want per inverter.
+[*][b]The inverter[/b] (1,500 W max) powers every appliance within 20 tiles and 3 floors up or down. No wiring per appliance: fridges, lights, stoves, TVs and radios work as in vanilla.
+[*][b]The power bank[/b] stores the surplus: it counts 4 batteries (car batteries or deep-cycle batteries). Without batteries, the house runs on current production only.
+[*][b]Cables[/b]: electric wire, 1 per 4 tiles, range 12 tiles. Right-click a device > "Live Wire" > "Connect to an inverter".
+[/list]
+
+[h2]Equipment[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_en.png[/img]
+
+[list]
+[*][b]Solar panel[/b] (Electrical 3): outdoors, open sky. Flat roofs work.
+[*][b]Wind turbine[/b] (6): outdoors, stronger higher up.
+[*][b]Water wheel[/b] (7): on a river bank, ground floor.
+[*][b]Inverter[/b] (5): the heart of the network, can stand indoors.
+[*][b]Power bank[/b] (2): opens like a crate.
+[*][b]Optional[/b]: breaker panel (trips instead of damaging the inverter), low battery alarm, soundproofing kit for the inverter hum, vanilla generator as a backup (started under 20% battery), vanilla desktop computer as management computer.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+
+[h2]Production[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_en.png[/img]
+
+[list]
+[*][b]Solar[/b]: about 0.94 kWh per summer day, about 0.60 in winter. Clouds and snow reduce it.
+[*][b]Wind[/b]: nothing under 10 km/h, rising with the cube of the speed up to 45 km/h, full power from 45 to 85, automatic brake above.
+[*][b]Water wheel[/b]: 120 W day and night on rivers.
+[/list]
+
+Example: one fridge-freezer and 10 lights use about 4.1 kWh per day. A water wheel and 2 panels cover it all year round.
+
+[h2]Recipes[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_en.png[/img]
+
+Category Electrical, learnt automatically at the required level. Solar cells come from dismantled calculators or are found as loot; ready-made equipment can also turn up in electricians', hardware stores and garages.
+
+[h2]Management software[/h2]
+
+Live Wire Monitor shows production, consumption, batteries, 48 h history and a forecast "until sunrise". With the optional Computer Mod or Laptop Mod it comes on a disk found in computer loot. Otherwise a vanilla desktop computer linked to the inverter runs it.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+
+[h2]Multiplayer[/h2]
+
+The server computes everything and re-checks every request. The installation keeps running while players are away: fridges keep food cold. Not yet tested on a dedicated server, so please report any problem.
+
+[h2]Documentation[/h2]
+
+[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+
+[b]Compatibility[/b]: original creation, not meant to run together with other power-system mods. Tiles are placeholders for now. Licence MIT.
+
+[h2]Support the project[/h2]
+
+Enjoying the mod? A coffee helps fund new features and translations.
+[url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
+
+[h2]Credits[/h2]
+
+Created by batmanfr. Original code, tiles and sounds; no content taken from other mods.

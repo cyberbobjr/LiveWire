@@ -1,0 +1,75 @@
+[h1]Live Wire - Revisão da Habilidade Elétrica[/h1]
+
+[b]Build 42.21 · Um jogador e Multijogador (autoritativo no servidor)[/b]
+
+A energia acabou para sempre... mas as luzes não precisam acabar. Construa sua própria eletricidade fora da rede: painéis solares, uma turbina eólica ou uma roda d'água alimentam um inversor, e o inversor alimenta toda a casa ao redor. Adicione baterias para a noite. A habilidade Elétrica finalmente importa: cada aparelho tem um nível, e o seu nível melhora a instalação.
+
+[h2]Como funciona[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_ptbr.png[/img]
+
+[list]
+[*][b]Fontes[/b] produzem: painel solar 100 W, turbina eólica 400 W, roda d'água 120 W. Quantas quiser por inversor.
+[*][b]O inversor[/b] (máx. 1.500 W) alimenta todo aparelho a até 20 casas e 3 andares acima ou abaixo. Sem fiação por aparelho: geladeiras, luzes, fogões, TVs e rádios funcionam como no jogo original.
+[*][b]O power bank[/b] armazena o excedente: conta como 4 baterias (baterias de carro ou de ciclo profundo). Sem baterias, a casa funciona apenas com a produção atual.
+[*][b]Cabos[/b]: fio elétrico, 1 a cada 4 casas, alcance de 12 casas. Clique com o botão direito em um aparelho > "Live Wire" > "Conectar a um inversor".
+[/list]
+
+[h2]Equipamentos[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_ptbr.png[/img]
+
+[list]
+[*][b]Painel solar[/b] (Elétrica 3): ao ar livre, com céu aberto. Telhados planos funcionam.
+[*][b]Turbina eólica[/b] (6): ao ar livre, mais forte quanto mais alto.
+[*][b]Roda d'água[/b] (7): na margem de um rio, no térreo.
+[*][b]Inversor[/b] (5): o coração da rede, pode ficar em ambientes internos.
+[*][b]Power bank[/b] (2): abre como um caixote.
+[*][b]Opcionais[/b]: painel de disjuntores (desarma em vez de danificar o inversor), alarme de bateria baixa, kit de insonorização para o zumbido do inversor, gerador vanilla como reserva (ligado abaixo de 20% de bateria), computador de mesa vanilla como computador de gestão.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+
+[h2]Produção[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_ptbr.png[/img]
+
+[list]
+[*][b]Solar[/b]: cerca de 0,94 kWh por dia de verão, cerca de 0,60 no inverno. Nuvens e neve reduzem a produção.
+[*][b]Eólica[/b]: nada abaixo de 10 km/h, cresce com o cubo da velocidade até 45 km/h, potência máxima de 45 a 85 km/h, freio automático acima disso.
+[*][b]Roda d'água[/b]: 120 W de dia e de noite, em rios.
+[/list]
+
+Exemplo: uma geladeira-freezer e 10 luzes consomem cerca de 4,1 kWh por dia. Uma roda d'água e 2 painéis cobrem tudo o ano inteiro.
+
+[h2]Receitas[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_ptbr.png[/img]
+
+Categoria Elétrica, aprendida automaticamente no nível exigido. As células solares vêm de calculadoras desmontadas ou são encontradas como saque; equipamentos prontos também podem aparecer em lojas de eletricistas, lojas de ferragens e garagens.
+
+[h2]Software de gestão[/h2]
+
+O Live Wire Monitor mostra produção, consumo, baterias, histórico de 48 h e uma previsão "até o amanhecer". Com o Computer Mod ou o Laptop Mod opcionais, ele vem em um disco encontrado nos saques de computador. Caso contrário, um computador de mesa vanilla ligado ao inversor executa o programa.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+
+[h2]Multijogador[/h2]
+
+O servidor calcula tudo e revalida cada pedido. A instalação continua funcionando enquanto os jogadores estão ausentes: as geladeiras mantêm a comida fria. Ainda não testado em servidor dedicado, então informe qualquer problema.
+
+[h2]Documentação[/h2]
+
+[url=https://github.com/cyberbobjr/LiveWire/wiki]Wiki do Live Wire (em inglês)[/url] · Código-fonte: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+
+[b]Compatibilidade[/b]: criação original, não feita para funcionar junto com outros mods de sistema elétrico. Os tiles são provisórios por enquanto. Licença MIT.
+
+[h2]Apoie o projeto[/h2]
+
+Gostando do mod? Um café ajuda a financiar novos recursos e traduções.
+[url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
+
+[h2]Créditos[/h2]
+
+Criado por batmanfr. Código original, tiles e sons; nenhum conteúdo tirado de outros mods.

@@ -33,6 +33,39 @@ Approximate chance per container = 1 - (1 - W / 100)^Rolls. For placeable furnit
 | ToolStoreMisc | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
 | ToolStoreTools | Hardware store, tools | 0.3 | 4 | 0.7 % |
 
+## Ready-made Live Wire equipment
+
+Found already built, in addition to the crafting recipes (sandbox loot settings apply).
+
+| Equipment | Vanilla list | Where | Weight | Rolls | ≈ chance per container |
+|---|---|---|---|---|---|
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/VoltageTester.png" width="24" height="24"> **Voltage Tester** | `ElectricianTools` | Electrician's tools | 3 | 3 | 8.7 % |
+|  | `ToolStoreTools` | Hardware store, tools | 1 | 4 | 3.9 % |
+|  | `GarageTools` | Garage tool storage | 1 | 4 | 3.9 % |
+|  | `CrateTools` | Tool crates | 1 | 4 | 3.9 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 3.9 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/DeepCycleBattery.png" width="24" height="24"> **Deep-Cycle Battery** | `CarSupplyBatteries` | Car parts store, batteries | 2 | 4 | 7.8 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 1 | 4 | 3.9 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 0.3 | 4 | 1.2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Inverter.png" width="24" height="24"> **Inverter** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 0.5 | 3 | 0.9 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 0.5 | 4 | 1.2 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.2 | 4 | 0.5 % |
+|  | `GarageTools` | Garage tool storage | 0.1 | 4 | 0.2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Breaker.png" width="24" height="24"> **Breaker Panel** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 1 | 3 | 1.8 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 2.4 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
+|  | `GarageTools` | Garage tool storage | 0.3 | 4 | 0.7 % |
+|  | `CrateTools` | Tool crates | 0.3 | 4 | 0.7 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/PowerBank.png" width="24" height="24"> **Power Bank** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 0.5 | 3 | 0.9 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 0.5 | 4 | 1.2 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.3 | 4 | 0.7 % |
+|  | `GarageTools` | Garage tool storage | 0.2 | 4 | 0.5 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/BatteryAlarm.png" width="24" height="24"> **Low Battery Alarm** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 1 | 3 | 1.8 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 2.4 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/WindTurbine.png" width="24" height="24"> **Wind Turbine** (furniture: × 0.6 included) | `ToolStoreMisc` | Hardware store, miscellaneous | 0.1 | 4 | 0.2 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 0.1 | 4 | 0.2 % |
+
 ## Management software disk (`LiveWire.MonitorDisk`, only when the Computer Mod is active)
 
 | Vanilla list | Where | Weight | Rolls | Chance per container |

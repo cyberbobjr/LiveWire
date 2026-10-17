@@ -4,6 +4,10 @@
 
 The server computes everything every **10 game minutes**, whether players are present or not (sandbox `SimulateUnloaded`, on by default). The values below are starting values for balancing.
 
+![Solar day, wind curve and energy per day compared with a typical house](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_en.png)
+
+*Solar day, wind curve and energy per day compared with a typical house.*
+
 ## Source power
 
 > P = nominal x source factor x condition factor x installation efficiency x sandbox multiplier

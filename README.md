@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/preview.png" width="256"></p>
+
 # Live Wire
 
 **The Electrical skill becomes a trade: silent solar, wind and water power for your whole house, with no fuel and no fumes.**
@@ -6,7 +8,9 @@ Project Zomboid Build 42.21 · mod id `batman_LiveWire` · EN/FR · MIT licence
 
 Version française : [README_fr.md](README_fr.md)
 
-![Solar panels and a wind turbine outdoors, with green "connected" lights](docs/shots/shot4.png)
+![Solar panels and a wind turbine outdoors](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png)
+
+*Solar panels and a wind turbine outdoors, with green "connected" lights.*
 
 ## Contents
 
@@ -35,12 +39,9 @@ Solar panels, wind turbines and water wheels produce silent power. An inverter p
 - **The inverter converts and distributes.** 1,500 W max (house demand), 20 W idle consumption, efficiency 0.85 to 1.0 (from the installer's level). One per network, can be placed indoors, no toxicity (it is not a game generator).
 - **The house.** Every powered appliance within 20 tiles and ±3 floors of the inverter (vanilla options `GeneratorTileRange` / `GeneratorVerticalPowerRange`) is powered. No per-appliance wiring.
 
-```mermaid
-flowchart LR
-    S["Sources<br/>solar / wind / water wheel"] -->|"electric wire, 1 per 4 tiles"| I["Inverter"]
-    I <-->|"electric wire, 1 per 4 tiles"| B["Power bank"]
-    I -->|"powers 20 tiles, ±3 floors"| H["House"]
-```
+![How it works: sources, inverter, house and power bank](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_en.png)
+
+*How it works: sources, inverter, house and power bank.*
 
 **Minimal system:** one source + one inverter. Without batteries, the house runs on current production only (for example, three panels on a sunny day run a fridge-freezer at noon, not at night).
 
@@ -53,6 +54,10 @@ The game itself decides what is powered (a square is powered as if near a genera
 Each recipe gives a placeable furniture item `Base.Mov_LiveWire_*`. Place, rotate and pick up with the vanilla furniture cursor (ghost, 4 facings, 2 for wall objects). The tile requires a screwdriver and the Electrical level below, also to pick up. A picked-up device keeps its condition.
 
 Placement rules added by the mod: outdoors (open sky) for the solar panel and wind turbine; river bank, ground floor, next to river water for the water wheel (lakes and ponds are refused). A refused square shows the reason in red in the cursor panel.
+
+![All devices with their key figures](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_en.png)
+
+*All devices with their key figures.*
 
 | Device | Role | Placement | Electrical level |
 |---|---|---|---|
@@ -75,9 +80,15 @@ Batteries are never placed on the floor: drag them into the power bank with the 
 
 Effective capacity = nominal × (0.4 + 0.6 × condition / 100) × `BatteryCapacityMultiplier`.
 
+![Power bank opened like a crate](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot3.png)
+
+*Power bank opened like a crate.*
+
 **Lights on the tiles:** the inverter screen is lit when on and shows a red light on fault; sources and the power bank have a green "connected" light; the breaker has a red lamp when tripped; the alarm beacon is lit while ringing.
 
-![Indoors: inverter, power bank, computer, wall alarm and breaker](docs/shots/shot5.png)
+![Indoors: inverter, power bank, computer, wall alarm and breaker](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot5.png)
+
+*Indoors: inverter, power bank, computer, wall alarm and breaker.*
 
 ## How to connect (wiring)
 
@@ -98,13 +109,21 @@ Effective capacity = nominal × (0.4 + 0.6 × condition / 100) × `BatteryCapaci
 
 **Inverter right-click menu:** Open the inverter screen, Turn on / Turn off, Reset (after a trip), Show the powered area (cyan circle on the ground), Connect equipment, Disconnect equipment, Soundproof the inverter, Inspect, Repair, Overhaul.
 
-![The Live Wire right-click menu on the inverter](docs/shots/shot1.png)
+![The Live Wire right-click menu on the inverter](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot1.png)
+
+*The Live Wire right-click menu on the inverter.*
 
 ## Inverter screen and management software
 
 **LCD panel** (right-click the inverter > Open the inverter screen): backlit screen, 5 pages (Production/Load, Batteries, Sources, House, Status) with `<` and `>`; an I/O button with a light (green on, red off, blinking orange on fault); RESET when tripped; production and load bars on the same scale; long lines scroll.
 
-![Inverter LCD panel, page 1 (production / load)](docs/shots/onduleur.png)
+![Inverter LCD panel, page 1 (production / load)](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png)
+
+*Inverter LCD panel, page 1 (production / load).*
+
+![Inverter LCD panel in the house](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot2.png)
+
+*Inverter LCD panel in the house.*
 
 **Management software "Live Wire Monitor"** has the tabs Overview, Batteries, Sources, House, History and Equipment.
 
@@ -113,11 +132,27 @@ Effective capacity = nominal × (0.4 + 0.6 × condition / 100) × `BatteryCapaci
 
 **Without the Computer Mod:** a vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen (monitor, boot screen "Live Wire OS", status bar with game time).
 
+![Management software on a vanilla computer, without the Computer Mod or Laptop Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png)
+
+*Management software on a vanilla computer, without the Computer Mod or Laptop Mod.*
+
 **With the optional Computer Mod (Workshop 3725497089) or Laptop Mod (3798992436):** the software comes on a disk, "Disk: Live Wire Management Software" (`LiveWire.MonitorDisk`), found in computer loot. Right-click the computer with the disk > **Install the Live Wire software**. It then appears as a "Live Wire" app on their desktop and runs inside their window (title bar, minimise, close, taskbar). It shows the inverter linked to that computer, or the nearest inverter in cable range.
 
-![Live Wire Monitor, Overview tab, inside the Computer Mod](docs/shots/livewire_computermod.png)
+![Desktop with the Live Wire icon](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/computermod.png)
 
-![History tab: 48 h graphs and forecast](docs/shots/conso_livewire_computermod.png)
+*Computer Mod desktop with the Live Wire icon.*
+
+![Live Wire Monitor, Overview tab, inside the Computer Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_computermod.png)
+
+*Live Wire Monitor, Overview tab, inside the Computer Mod.*
+
+![History tab: 48 h graphs and forecast](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/conso_livewire_computermod.png)
+
+*History tab: 48 h graphs and forecast.*
+
+![Equipment tab inside the Computer Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/equipement_livewire_computermod.png)
+
+*Equipment tab inside the Computer Mod.*
 
 **Inverter hum:** a sound of the mod, heard only one tile around a switched-on inverter (same floor). Each player sets its volume in Options > Mods > Live Wire (0 = off). Zombies hear the inverter within 2 tiles (sandbox `InverterNoiseRadius`).
 
@@ -139,6 +174,10 @@ When the demand of the house appliances exceeds the inverter maximum, 1,500 W (t
 ## Calculations
 
 The server computes every 10 game minutes, players present or not (sandbox `SimulateUnloaded`, default on).
+
+![Solar day, wind curve and energy per day compared with a typical house](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_en.png)
+
+*Solar day, wind curve and energy per day compared with a typical house.*
 
 **Source power:** `P = nominal × source factor × condition factor × installation efficiency × sandbox multiplier`
 
@@ -199,24 +238,26 @@ There is no limit on the number of solar panels; productions add up (100 W nomin
 
 ## Recipes
 
-Category Electrical; tools in brackets are kept; recipes are learnt automatically at their level.
+Recipes are in the crafting menu, category **Electrical**, and are learnt automatically when the Electrical level is reached. Tools are kept.
 
-| Recipe | Level | Inputs | Output | XP |
-|---|---|---|---|---|
-| Make Voltage Tester | 1 | 1 electronics scrap, 1 electric wire, 1 light bulb, 1 battery; [screwdriver] | Voltage Tester | 5 |
-| Dismantle Calculator | none (like vanilla dismantling) | 1 calculator; [screwdriver] | 1 electronics scrap + 1 solar cell | 3 |
-| Make Power Bank | 2 | 2 electronics scrap, 3 electric wires, 1 sheet metal, 4 screws; [screwdriver, pliers] | Power Bank | 8 |
-| Make Low Battery Alarm | 2 | 1 electronics scrap, 1 electric wire, 1 amplifier; [screwdriver] | Low Battery Alarm | 5 |
-| Make Inverter Soundproofing Kit | 2 | 4 planks, 10 nails, 4 ripped sheets; [hammer] | Soundproofing Kit | 5 |
-| Make Solar Panel | 3 | 10 solar cells, 1 sheet metal, 2 electric wires, 4 screws, 1 glue; [screwdriver, pliers] | Solar Panel | 15 |
-| Make Breaker Panel | 3 | 2 electronics scrap, 1 electric wire, 1 small sheet metal, 2 screws; [screwdriver] | Breaker Panel | 8 |
-| Make Inverter | 5 | 4 electronics scrap, 2 amplifiers, 3 electric wires, 1 small sheet metal, 4 screws; [screwdriver, pliers] | Inverter | 25 |
-| Make Wind Turbine | 6 | 2 speakers (magnets), 3 electric wires, 4 electronics scrap, 2 sheet metal, 2 metal bars, 1 pipe, 6 screws; [screwdriver, pliers, hammer] | Wind Turbine | 30 |
-| Make Deep-Cycle Battery | 6 | 2 car batteries (any), 2 electric wires, 1 scrap metal; [pliers] | Deep-Cycle Battery (empty, condition = average of the two) | 20 |
-| Make Water Wheel | 7 | 8 planks, 20 nails, 2 speakers, 3 electric wires, 4 electronics scrap, 1 metal bar; [hammer, screwdriver] | Water Wheel | 30 |
-| Make Solar Cell from Scrap | 8 | 5 electronics scrap, 1 aluminum; [pliers] | 1 Solar Cell | 4 |
+![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_en.png)
 
-The management computer and the backup generator are not crafted: they are vanilla objects found in the world.
+*Illustrated recipe board.*
+
+| Ingredients | Tools (kept) | Skill | Result |
+|---|---|---|---|
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/LightBulb.png" width="24" height="24"> Light Bulb<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Battery.png" width="24" height="24"> Battery | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> | Electrical 1 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/VoltageTester.png" width="32" height="32"> **Voltage Tester** |
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Calculator.png" width="24" height="24"> Calculator | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> | none | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="32" height="32"> **Scrap Electronics**<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SolarCell.png" width="32" height="32"> **Solar Cell** |
+| 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SheetMetal.png" width="24" height="24"> Steel Sheet<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> | Electrical 2 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/PowerBank.png" width="32" height="32"> **Power Bank** |
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Amplifier.png" width="24" height="24"> Amplifier | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> | Electrical 2 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/BatteryAlarm.png" width="32" height="32"> **Low Battery Alarm** |
+| 4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Plank.png" width="24" height="24"> Plank<br>10 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Nails.png" width="24" height="24"> Nails<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/RippedSheets.png" width="24" height="24"> Rag | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Hammer.png" width="24" height="24"> | Electrical 2 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SoundproofKit.png" width="32" height="32"> **Inverter Soundproofing Kit** |
+| 10 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SolarCell.png" width="24" height="24"> Solar Cell<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SheetMetal.png" width="24" height="24"> Steel Sheet<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screws.png" width="24" height="24"> Screws<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Glue.png" width="24" height="24"> Glue | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> | Electrical 3 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SolarPanel.png" width="32" height="32"> **Solar Panel** |
+| 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SmallSheetMetal.png" width="24" height="24"> Steel Sheet - Small<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> | Electrical 3 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Breaker.png" width="32" height="32"> **Breaker Panel** |
+| 4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Amplifier.png" width="24" height="24"> Amplifier<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SmallSheetMetal.png" width="24" height="24"> Steel Sheet - Small<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> | Electrical 5 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Inverter.png" width="32" height="32"> **Inverter** |
+| 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Speaker.png" width="24" height="24"> Speaker<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SheetMetal.png" width="24" height="24"> Steel Sheet<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/MetalBar.png" width="24" height="24"> Steel Rod<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pipe.png" width="24" height="24"> Plastic Pipe<br>6 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Hammer.png" width="24" height="24"> | Electrical 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/WindTurbine.png" width="32" height="32"> **Wind Turbine** |
+| 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/CarBattery1.png" width="24" height="24"> Car Battery (any)<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ScrapMetal.png" width="24" height="24"> Scrap Metal | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> | Electrical 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/DeepCycleBattery.png" width="32" height="32"> **Deep-Cycle Battery** |
+| 8 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Plank.png" width="24" height="24"> Plank<br>20 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Nails.png" width="24" height="24"> Nails<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Speaker.png" width="24" height="24"> Speaker<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/MetalBar.png" width="24" height="24"> Steel Rod | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Hammer.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> | Electrical 7 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/WaterWheel.png" width="32" height="32"> **Water Wheel** |
+| 5 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Aluminum.png" width="24" height="24"> Aluminum Foil | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> | Electrical 8 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SolarCell.png" width="32" height="32"> **Solar Cell** |
 
 ## Loot tables
 
@@ -244,6 +285,39 @@ The management computer and the backup generator are not crafted: they are vanil
 | GarageMetalwork | Garage metalwork storage | 0.2 | 4 | 0.5 % |
 | ToolStoreMisc | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
 | ToolStoreTools | Hardware store, tools | 0.3 | 4 | 0.7 % |
+
+**Ready-made Live Wire equipment**
+
+Found already built, in addition to the crafting recipes (sandbox loot settings apply).
+
+| Equipment | Vanilla list | Where | Weight | Rolls | ≈ chance per container |
+|---|---|---|---|---|---|
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/VoltageTester.png" width="24" height="24"> **Voltage Tester** | `ElectricianTools` | Electrician's tools | 3 | 3 | 8.7 % |
+|  | `ToolStoreTools` | Hardware store, tools | 1 | 4 | 3.9 % |
+|  | `GarageTools` | Garage tool storage | 1 | 4 | 3.9 % |
+|  | `CrateTools` | Tool crates | 1 | 4 | 3.9 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 3.9 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/DeepCycleBattery.png" width="24" height="24"> **Deep-Cycle Battery** | `CarSupplyBatteries` | Car parts store, batteries | 2 | 4 | 7.8 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 1 | 4 | 3.9 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 0.3 | 4 | 1.2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Inverter.png" width="24" height="24"> **Inverter** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 0.5 | 3 | 0.9 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 0.5 | 4 | 1.2 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.2 | 4 | 0.5 % |
+|  | `GarageTools` | Garage tool storage | 0.1 | 4 | 0.2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Breaker.png" width="24" height="24"> **Breaker Panel** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 1 | 3 | 1.8 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 2.4 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
+|  | `GarageTools` | Garage tool storage | 0.3 | 4 | 0.7 % |
+|  | `CrateTools` | Tool crates | 0.3 | 4 | 0.7 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/PowerBank.png" width="24" height="24"> **Power Bank** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 0.5 | 3 | 0.9 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 0.5 | 4 | 1.2 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.3 | 4 | 0.7 % |
+|  | `GarageTools` | Garage tool storage | 0.2 | 4 | 0.5 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/BatteryAlarm.png" width="24" height="24"> **Low Battery Alarm** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 1 | 3 | 1.8 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 2.4 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/WindTurbine.png" width="24" height="24"> **Wind Turbine** (furniture: × 0.6 included) | `ToolStoreMisc` | Hardware store, miscellaneous | 0.1 | 4 | 0.2 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 0.1 | 4 | 0.2 % |
 
 **Management software disk** `LiveWire.MonitorDisk` (only when the Computer Mod is active):
 
@@ -292,7 +366,7 @@ Also: 1 solar cell per calculator dismantled (no level); at level 8, a solar cel
 
 **Experience** (always given by the server):
 
-- Mod recipes: see the XP column of the [recipes](#recipes).
+- Mod recipes: their XP is listed on the wiki page [Maintenance and skill](docs/wiki/Maintenance-and-Skill.md).
 - Place a source: 10 (panel), 20 (wind turbine, water wheel).
 - Place an inverter: 25.
 - Connect a source or battery: 3.

@@ -2,9 +2,13 @@
 
 # Live Wire - Overview
 
-**Live Wire** (`batman_LiveWire`) is a Project Zomboid **Build 42.21** mod (English and French). It turns the Electrical skill into a trade: solar panels, wind turbines and water wheels produce silent power, and an **inverter** placed in your house powers every appliance around it, with no fuel and no fumes. Batteries stored in a **power bank** keep the surplus for the night. The server is authoritative, so the mod is multiplayer-ready and designed for dedicated servers.
+**Live Wire** (`batman_LiveWire`) is a Project Zomboid **Build 42.21** mod, translated into English, French, German, Spanish, Portuguese (Brazil and Portugal), Russian, Chinese, Japanese and Korean. It turns the Electrical skill into a trade: solar panels, wind turbines and water wheels produce silent power, and an **inverter** placed in your house powers every appliance around it, with no fuel and no fumes. Batteries stored in a **power bank** keep the surplus for the night. The server is authoritative, so the mod is multiplayer-ready and designed for dedicated servers.
 
 Everything in the mod is original: no code or asset comes from another mod. The tiles are geometric placeholders for now (final models will come later).
+
+![How it works: sources, inverter, house and power bank](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_en.png)
+
+*How it works: sources, inverter, house and power bank.*
 
 ## Three roles, one network
 
@@ -35,6 +39,12 @@ The 20 tiles and 3 floors come from the vanilla options `GeneratorTileRange` and
 Fridges and freezers keep food cold while you are away (area unloaded), as long as there is power. Checked in game: a fresh steak in a powered fridge, player 300 tiles away, 10 game hours: the steak aged 0.083 day (cold) instead of 0.417 day (warm).
 
 Engine limit: the power state found when the area reloads counts for the whole absence.
+
+## Equipment at a glance
+
+![All devices with their key figures](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_en.png)
+
+*All devices with their key figures.*
 
 ## Screenshots
 

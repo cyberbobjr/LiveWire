@@ -1,0 +1,75 @@
+[h1]Live Wire - 电工技能全面改造[/h1]
+
+[b]Build 42.21 · 单人与多人（服务器权威）[/b]
+
+电网已经彻底断了……但灯光不必如此。自建离网供电：太阳能板、风力涡轮机或水轮机为逆变器供电，逆变器再为周围整栋房屋供电。夜间可加装电池。电工技能终于有了用处：每种设备都有等级，你的等级越高，安装效果越好。
+
+[h2]工作原理[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_cn.png[/img]
+
+[list]
+[*][b]电源[/b]负责发电：太阳能板 100 W，风力涡轮机 400 W，水轮机 120 W。每台逆变器可接任意数量。
+[*][b]逆变器[/b]（最大 1,500 W）为 20 格范围内、上下 3 层之内的每台电器供电。无需为每台电器单独布线：冰箱、灯具、炉灶、电视和收音机的使用方式与原版一致。
+[*][b]移动电源[/b]储存多余电量：它可容纳 4 块电池（汽车电池或深循环电池）。没有电池时，房屋只能使用当前发电量。
+[*][b]电线[/b]：每 4 格需要 1 根电线，连接距离 12 格。右键点击设备 > "Live Wire" > "连接到逆变器"。
+[/list]
+
+[h2]设备[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_cn.png[/img]
+
+[list]
+[*][b]太阳能板[/b]（电工 3 级）：需在室外、露天处安装。平屋顶也可以。
+[*][b]风力涡轮机[/b]（6 级）：需在室外安装，位置越高风力越强。
+[*][b]水轮机[/b]（7 级）：需在河岸安装，且位于一层。
+[*][b]逆变器[/b]（5 级）：整个电网的核心，可以放在室内。
+[*][b]移动电源[/b]（2 级）：打开方式与箱子相同。
+[*][b]可选件[/b]：断路器面板（跳闸而不是损坏逆变器）、低电量警报器、逆变器隔音套件（消除嗡嗡声）、原版发电机作为备用（电池低于 20% 时启动）、原版台式电脑作为管理电脑。
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+
+[h2]发电[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_cn.png[/img]
+
+[list]
+[*][b]太阳能[/b]：夏季每天约 0.94 kWh，冬季约 0.60 kWh。云层和积雪会降低发电量。
+[*][b]风能[/b]：风速低于 10 km/h 时无输出；10 至 45 km/h 时按风速的三次方增长；45 至 85 km/h 时满功率；超过此风速时自动刹车。
+[*][b]水轮机[/b]：河边全天候 120 W，昼夜相同。
+[/list]
+
+例：一台冰柜加 10 盏灯每天约耗电 4.1 kWh。一台水轮机加 2 块太阳能板即可全年供电。
+
+[h2]配方[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_cn.png[/img]
+
+分类为"电工"，达到所需等级后自动学会。太阳能电池可从拆解的计算器获得，也可以在电工、五金店和车库中找到现成的设备。
+
+[h2]管理软件[/h2]
+
+Live Wire Monitor 显示发电、用电、电池、48 小时历史记录，以及"直到日出"的预测。安装可选的 Computer Mod 或 Laptop Mod 后，它会出现在电脑战利品中找到的光盘上。否则，连接到逆变器的原版台式电脑即可运行它。
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+
+[h2]多人游戏[/h2]
+
+服务器负责所有计算，并重新验证每一项请求。玩家离开时供电系统仍会继续运行：冰箱会保持食物冷藏。目前尚未在专用服务器上测试，如遇问题请反馈。
+
+[h2]文档[/h2]
+
+[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire 维基（英文版）[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+
+[b]兼容性[/b]：原创作品，不保证与其他电力系统模组同时运行。目前的贴图为占位符。许可证：MIT。
+
+[h2]支持本项目[/h2]
+
+喜欢这个模组吗？一杯咖啡能帮助资助新功能和翻译。
+[url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
+
+[h2]致谢[/h2]
+
+作者：batmanfr。原创代码、贴图和声音；未使用其他模组的任何内容。

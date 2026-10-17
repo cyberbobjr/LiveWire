@@ -1,0 +1,75 @@
+[h1]Live Wire - 전기공학 기술 대개편[/h1]
+
+[b]빌드 42.21 · 싱글플레이 & 멀티플레이 (서버 권한 방식)[/b]
+
+전기는 영원히 끊겼지만... 불빛까지 꺼질 필요는 없습니다. 태양광 패널, 풍력 터빈 또는 물레방아로 직접 전기를 만들어 인버터에 공급하면, 인버터가 주변 집 전체에 전기를 나눠 줍니다. 밤을 위해 배터리를 추가하세요. 이제 전기공학 기술이 제대로 의미를 갖습니다. 모든 기기에는 레벨이 있고, 레벨이 높을수록 설치가 더 좋아집니다.
+
+[h2]작동 방식[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_ko.png[/img]
+
+[list]
+[*][b]발전원[/b]은 전력을 생산합니다: 태양광 패널 100 W, 풍력 터빈 400 W, 물레방아 120 W. 인버터 하나에 원하는 만큼 연결할 수 있습니다.
+[*][b]인버터[/b](최대 1,500 W)는 20타일 이내, 위아래 3개 층까지의 모든 가전에 전기를 공급합니다. 가전마다 배선할 필요가 없으며, 냉장고, 조명, 스토브, TV, 라디오는 바닐라와 똑같이 작동합니다.
+[*][b]파워뱅크[/b]는 남는 전력을 저장합니다. 배터리 4개(자동차 배터리 또는 심방전 배터리)만큼의 용량으로 계산됩니다. 배터리가 없으면 집은 현재 생산량만으로 돌아갑니다.
+[*][b]전선[/b]: 전기선, 4타일당 1개, 연결 거리 12타일. 기기를 우클릭한 뒤 "Live Wire" > "인버터에 연결"을 선택하세요.
+[/list]
+
+[h2]장비[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_ko.png[/img]
+
+[list]
+[*][b]태양광 패널[/b](전기공학 3): 실외, 하늘이 트인 곳. 평지붕에도 설치할 수 있습니다.
+[*][b]풍력 터빈[/b](6): 실외, 높을수록 더 강합니다.
+[*][b]물레방아[/b](7): 강변, 1층.
+[*][b]인버터[/b](5): 네트워크의 중심. 실내에 둘 수 있습니다.
+[*][b]파워뱅크[/b](2): 상자처럼 열립니다.
+[*][b]선택 사항[/b]: 차단기 패널(인버터를 망가뜨리는 대신 차단), 배터리 부족 경보기, 인버터의 웅웅거림을 줄이는 방음 키트, 예비 전원으로 쓰는 바닐라 발전기(배터리 20% 미만에서 가동), 관리용 컴퓨터로 쓰는 바닐라 데스크톱 컴퓨터.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+
+[h2]생산[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_ko.png[/img]
+
+[list]
+[*][b]태양광[/b]: 여름 하루 약 0.94 kWh, 겨울 약 0.60 kWh. 구름과 눈이 생산량을 줄입니다.
+[*][b]풍력[/b]: 시속 10 km/h 미만에서는 발전하지 않습니다. 45 km/h까지 속도의 세제곱에 비례해 늘어나고, 45~85 km/h에서 최대 출력, 그 이상에서는 자동 제동됩니다.
+[*][b]물레방아[/b]: 강에서 밤낮으로 120 W.
+[/list]
+
+예: 냉장고 겸 냉동고 1대와 조명 10개는 하루 약 4.1 kWh를 씁니다. 물레방아와 패널 2개면 일 년 내내 이 전력을 모두 감당합니다.
+
+[h2]제작 레시피[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_ko.png[/img]
+
+"전기공학" 범주이며, 필요한 레벨에 도달하면 자동으로 습득합니다. 태양광 셀은 분해한 계산기에서 얻거나 루트로 발견할 수 있습니다. 완성된 장비는 전기 기사, 철물점, 차고에서도 나올 수 있습니다.
+
+[h2]관리 소프트웨어[/h2]
+
+Live Wire Monitor는 생산량, 소비량, 배터리, 48시간 기록, 그리고 "일출까지" 예측을 보여줍니다. 선택 사항인 Computer Mod 또는 Laptop Mod를 쓰면 컴퓨터 루트에서 찾을 수 있는 디스크로 제공됩니다. 그렇지 않으면 인버터에 연결된 바닐라 데스크톱 컴퓨터에서 실행됩니다.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+
+[h2]멀티플레이[/h2]
+
+모든 계산은 서버가 하고, 모든 요청을 서버가 다시 검증합니다. 플레이어가 자리를 비워도 설비는 계속 돌아가며, 냉장고 음식도 계속 차갑게 유지됩니다. 아직 전용 서버에서는 테스트하지 않았으니, 문제가 있으면 알려 주세요.
+
+[h2]문서[/h2]
+
+[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire 위키 (영어 문서)[/url] · 소스 코드: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+
+[b]호환성[/b]: 독자적으로 만든 모드이며, 다른 전력 시스템 모드와 함께 쓰도록 설계되지 않았습니다. 타일은 아직 임시 모델입니다. 라이선스 MIT.
+
+[h2]프로젝트 후원[/h2]
+
+모드가 마음에 드셨나요? 커피 한 잔이 새 기능과 번역에 도움이 됩니다.
+[url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
+
+[h2]크레딧[/h2]
+
+제작: batmanfr. 원본 코드, 타일, 사운드이며 다른 모드의 콘텐츠는 사용하지 않았습니다.

@@ -50,4 +50,4 @@ MIT (fichier LICENSE). Dépôt : https://github.com/cyberbobjr/LiveWire. Créati
 
 ## Voir aussi
 
-[Présentation](Presentation) · [Options sandbox](Options-sandbox) · [Raccordement](Raccordement)
+[Présentation](Presentation) · [Options sandbox](Options-sandbox) · [Raccordement](Raccordement) · [FAQ](FAQ-fr)

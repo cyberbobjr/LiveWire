@@ -37,6 +37,10 @@ Un bouton I/O avec voyant (vert allumé, rouge éteint, orange clignotant en cas
 
 Un ordinateur de bureau vanilla relié à l'onduleur ouvre le logiciel sur l'écran propre au mod (moniteur, écran de démarrage « Live Wire OS », barre d'état avec l'heure du jeu).
 
+![Logiciel de gestion sur un ordinateur vanilla, sans Computer Mod ni Laptop Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png)
+
+*Logiciel de gestion sur un ordinateur vanilla, sans Computer Mod ni Laptop Mod.*
+
 ### Avec Computer Mod ou Laptop Mod
 
 Avec le Computer Mod facultatif (Workshop 3725497089) ou le Laptop Mod (3798992436), le logiciel arrive sur un disque : « Disque : logiciel de gestion Live Wire » (`LiveWire.MonitorDisk`), trouvé dans le butin d'ordinateurs ([Tables de butin](Tables-de-butin)). Clic droit sur l'ordinateur avec le disque : « Installer le logiciel Live Wire ». Il apparaît alors comme application « Live Wire » sur leur bureau et s'exécute dans leur fenêtre (barre de titre, réduire, fermer, barre des tâches). Il montre l'onduleur relié à cet ordinateur, ou à défaut l'onduleur le plus proche à portée de câble.

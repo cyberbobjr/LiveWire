@@ -50,3 +50,5 @@ MIT (file `LICENSE` in the repository). No code or asset was taken from any othe
 ## See also
 
 [[Overview|Overview]] - [[Sandbox Options|Sandbox-Options]] - [[Equipment|Equipment]] - [[Maintenance and Skill|Maintenance-and-Skill]]
+
+See also: [FAQ](FAQ)

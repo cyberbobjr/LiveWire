@@ -2,6 +2,8 @@
 
 # Équipements
 
+![Tous les équipements Live Wire et leurs chiffres](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_fr.png)
+
 Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meuble vanilla (fantôme, 4 orientations, 2 pour les objets muraux). La tuile exige un tournevis et le niveau d'Électricité ci-dessous, y compris pour la ramasser. Un appareil ramassé garde son état.
 
 ## Tableau des équipements

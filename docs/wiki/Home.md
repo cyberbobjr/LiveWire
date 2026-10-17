@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/preview.png" width="256"></p>
+
 # Live Wire
 
 ![Live Wire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png)
