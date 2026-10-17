@@ -1,5 +1,5 @@
-name=batman_LiveWire
+name=Live Wire
 id=batman_LiveWire
-description=Gives the Electrical skill a real use: diagnostics, battery charging, alarms, appliance repair, energy storage, electric fences and alternative power sources.
+description=Solar panels, wind turbines, batteries and an inverter you can install anywhere, even indoors. The Electrical skill matters: tiers, experience, wear, repairs and diagnostics. Placeholder models.
 versionMin=42.21
-modversion=0.0.1
+modversion=0.1.0

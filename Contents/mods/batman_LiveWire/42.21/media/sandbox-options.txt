@@ -1,0 +1,79 @@
+VERSION = 1,
+
+option LiveWire.PowerScale
+{
+    type = double, min = 0.1, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_PowerScale,
+}
+
+option LiveWire.SolarMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_SolarMultiplier,
+}
+
+option LiveWire.WindMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_WindMultiplier,
+}
+
+option LiveWire.BatteryCapacityMultiplier
+{
+    type = double, min = 0.1, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_BatteryCapacityMultiplier,
+}
+
+option LiveWire.BatteryWearMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_BatteryWearMultiplier,
+}
+
+option LiveWire.DeviceWearMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_DeviceWearMultiplier,
+}
+
+option LiveWire.InverterNoiseRadius
+{
+    type = integer, min = 0, max = 10, default = 2,
+    page = LiveWire, translation = LiveWire_InverterNoiseRadius,
+}
+
+option LiveWire.LinkRange
+{
+    type = integer, min = 4, max = 30, default = 12,
+    page = LiveWire, translation = LiveWire_LinkRange,
+}
+
+option LiveWire.WirePerTiles
+{
+    type = integer, min = 0, max = 20, default = 4,
+    page = LiveWire, translation = LiveWire_WirePerTiles,
+}
+
+option LiveWire.StormDamage
+{
+    type = boolean, default = false,
+    page = LiveWire, translation = LiveWire_StormDamage,
+}
+
+option LiveWire.XPMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_XPMultiplier,
+}
+
+option LiveWire.SkillGates
+{
+    type = boolean, default = true,
+    page = LiveWire, translation = LiveWire_SkillGates,
+}
+
+option LiveWire.SimulateUnloaded
+{
+    type = boolean, default = true,
+    page = LiveWire, translation = LiveWire_SimulateUnloaded,
+}
