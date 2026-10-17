@@ -8,7 +8,7 @@
 - **MP dédié** : serveur Linux local avec le mod activé, deux clients. Le second client n'a **pas** les droits d'admin.
 - **Objets à donner** (menu de débogage « Items ») :
   - `LiveWire.InverterKit`, `LiveWire.SolarPanelKit` ×4, `LiveWire.WindTurbineKit`, `LiveWire.BreakerKit`, `LiveWire.VoltageTester` ;
-  - `Base.CarBattery2` ×2 ;
+  - `LiveWire.PowerBankKit`, `Base.CarBattery2` ×5 ;
   - `Base.ElectricWire` ×20, `Base.ElectronicsScrap` ×10 ;
   - un tournevis.
 - **Compétence** : monter Électricité à 8 (menu de débogage du personnage).
@@ -34,14 +34,17 @@
 
 1. Sans batterie, la nuit.
    - **Attendu** : la maison s'éteint (« à vide » sur le tableau de bord) et se rallume le matin. Pas de clignotement au passage d'un nuage.
-2. Poser 2 batteries de voiture au sol près de l'onduleur (pose vanilla), puis « Raccorder … à l'onduleur ».
-   - **Attendu** : elles apparaissent dans le tableau de bord ; leur charge monte le jour (infobulle de l'objet).
+2. Installer une powerbank (`LiveWire.PowerBankKit`) près de l'onduleur, la raccorder, l'ouvrir comme une caisse et y glisser 2 batteries de voiture.
+   - **Attendu** : la fenêtre s'appelle « Powerbank » et ne contient aucun butin ; les batteries apparaissent dans le tableau de bord ; leur charge monte le jour (infobulle de l'objet).
 3. La nuit.
    - **Attendu** : la maison reste alimentée, la charge baisse.
-4. Ramasser une batterie.
+4. Retirer une batterie de la powerbank.
    - **Attendu** : elle disparaît du tableau de bord au pas suivant ; sa charge reste dans l'objet.
-   - Variante : « Live Wire » → « Débrancher … » sur une batterie au sol, qui doit avoir le même effet.
-5. **MP** : le 2e client voit la charge de la batterie au sol changer (infobulle).
+5. Y mettre 5 batteries.
+   - **Attendu** : 4 sont comptées, le tableau de bord signale la 5e.
+6. Essayer de démonter la powerbank pleine.
+   - **Attendu** : refusé (« Videz-la d'abord »).
+7. **MP** : le 2e client ouvre la même powerbank, voit les mêmes batteries et leur charge changer.
 
 ## 3. Sans joueur dans la zone (exigence de l'utilisateur)
 

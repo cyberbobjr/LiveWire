@@ -109,7 +109,7 @@ Sans `IsoGenerator`, `getTotalPowerUsing` n'existe pas. Le mod reproduit donc la
 | Onduleur | `IsoObject` simple, sprite de substitution **sans conteneur**, posé par `IsoObject.new` puis `sq:transmitAddObjectToSquare(obj, -1)` (`IsoGridSquare.java:5062-5070`) | Sauvegardé avec sa ModData (`IsoObject.java:1512-1515`) ; aucune logique vanilla attachée |
 | Source | Idem, sprite de sa catégorie (§ F-2.3) | Idem |
 | Équipement optionnel (disjoncteur, ordinateur de gestion, alarme de batterie faible : § F-2.4) | Idem | Idem. Rôle `option` dans le registre ; au plus un de chaque type par réseau. Il modifie seulement des paramètres du pas de simulation (§ 4.2) |
-| Batterie | L'objet d'inventaire lui-même, posé au sol (`IsoWorldInventoryObject`) | Garde son modèle 3D vanilla ; charge et usure portées par les champs moteur de l'objet (§ 3.1) |
+| Powerbank | `IsoObject` au sprite de caisse militaire, avec un **conteneur créé par le mod** à la pose : `ItemContainer.new("livewirepowerbank", sq, obj)` (`java/zombie/inventory/ItemContainer.java:143`), `setCapacity(40)`, `setExplored(true)` et `setHasBeenLooted(true)`, puis `obj:setContainer(c)` (`IsoObject.java:1883`), **avant** `transmitAddObjectToSquare`. Sans `setExplored`, le jeu remplirait le conteneur de butin (NM-31) | Le conteneur est sauvegardé et transmis avec l'objet ; les batteries y entrent par les transferts d'inventaire vanilla |
 
 Le mod ne crée **aucun** objet tagué `Generator`, et aucun `IsoGenerator` (NM-6).
 
@@ -190,7 +190,7 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
 - Enveloppes de `complete()` pour `ISMoveablesAction` et `ISDestroyStuffAction` : si la cible est marquée, retour sans appeler l'original, et refus journalisé. Le serveur n'appelle pas le `isValid` Lua (`knowledge/multiplayer.md:43-49`, `:230`).
 - Ne **pas** envelopper `new` (NM-9).
 
-**Batteries.** Elles **ne sont pas protégées** : les ramasser est un geste normal qui les débranche (§ F-5.1).
+**Powerbank.** Elle est protégée comme les autres appareils. On n'y touche que par son conteneur, et elle ne se démonte que vide.
 
 ---
 
@@ -203,14 +203,12 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
 | Réseaux, appareils, état métier, énergie des batteries non chargées | ModData globale `LiveWire` (serveur seulement) | **Autorité**. Un `transmit` venu d'un client n'écrase rien côté serveur (`knowledge/multiplayer.md:115`) |
 | Ancres (position et marche) | ModData globale `LiveWireAnchors`, diffusée à tous | Autorité ; les clients n'en ont qu'une copie |
 | Marque d'un onduleur ou d'une source | `obj:getModData().LiveWire = { id, s }` | Reflet seulement. Un client peut la réécrire par `transmitModData` (NM-11) : elle sert à **reconnaître** l'objet, et le registre fait foi |
-| Charge d'une batterie | Utilisations de l'objet (`setCurrentUsesFloat`, de 0 à 1) | Autorité, quand la batterie est chargée |
-| Usure d'une batterie | État de l'objet (`setCondition`) | Idem |
-| Lien d'une batterie avec son appareil | ModData **de l'objet d'inventaire** (`item:getModData().LiveWire = { id }`) | Autorité |
+| Charge d'une batterie | Utilisations de l'objet (`setCurrentUsesFloat`, de 0 à 1), dans le conteneur de la powerbank | Autorité, quand la powerbank est chargée |
+| Usure d'une batterie | État de l'objet (`setConditionNoSound`) | Idem |
+| Cycles d'une batterie | ModData de l'objet (`LiveWireCycles`), lue par le serveur seulement | Autorité |
+| Instantané des batteries d'une powerbank déchargée | `slots` de l'appareil dans le registre : identifiant d'objet, type, charge, état, cycles | Autorité, tant que la powerbank n'est pas chargée |
 
-**Piège de l'objet posé au sol** (NM-10) :
-- la ModData propre d'un `IsoWorldInventoryObject` n'est **jamais** sauvegardée : la marque d'une batterie va donc sur l'objet d'inventaire (`worldObj:getItem():getModData()`), qui l'est ;
-- sur le serveur, `item:syncItemFields()` d'un objet au sol envoie aux clients proches un paquet `ItemStats` qui porte les **utilisations et l'état**, mais pas la ModData (`java/zombie/inventory/InventoryItem.java:4166-4169`, `java/zombie/network/packets/ItemStatsPacket.java:226-300`) ;
-- conséquence : charge et usure, seules données utiles aux clients, voyagent par les champs moteur ; la ModData ne sert qu'au serveur.
+**Synchronisation.** Une batterie rangée dans un meuble se synchronise par `sendItemStats(item)` : utilisations et état, pas la ModData (`java/zombie/Lua/LuaManager.java:3757-3762`, `knowledge/multiplayer.md:319-322`). Les clients voient la charge dans l'infobulle ; la ModData ne sert qu'au serveur.
 
 ### 3.2 Schéma de la ModData globale `LiveWire` (version 1)
 
@@ -225,8 +223,9 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
     ["d7"] = { id="d7", role="source", model="SolarPanel", x=10512, y=9620, z=1,
                grid="g2", cond=87, eff=0.95, state="ok", snow=0.0,
                pOut=64.0 },           -- W, smoothed output of the built-in micro-inverter
-    ["d9"] = { id="d9", role="battery", model="Base.CarBattery2", x=10511, y=9618, z=0,
-               grid="g2", charge=0.62, cond=74, cycles=31.5 },  -- snapshot when unloaded
+    ["d9"] = { id="d9", role="storage", model="PowerBank", x=10511, y=9618, z=0,
+               grid="g2", cond=98, wearFactor=0.9,
+               slots = { { id=1234567, model="Base.CarBattery2", charge=0.62, cond=74, cycles=31.5 } } },
     ["d11"] = { id="d11", role="option", model="Breaker", x=10509, y=9618, z=0,
                 grid="g2", cond=100, state="ok" },             -- optional equipment
   },
@@ -415,7 +414,7 @@ Tous les prototypes sont **à exécuter** : aucun n'a été fait.
 | **R-1** | **L'ancre ne tient pas** : courant absent chez un client MP, lumières qui ne se rallument pas, purge plus tardive que prévu, courant qui disparaît au rechargement. Tout le mod en dépend. | Bloquante | **P1** — commande de débogage qui pose un onduleur de test dans une maison et applique l'ancre. Vérifier, en solo puis sur un dédié avec un 2e client : lumières et réfrigérateur alimentés ; aucun moodle de toxicité ; s'éloigner de 2 cellules puis revenir : courant présent dès l'arrivée ; ancre éteinte : courant coupé chez les deux clients ; mod retiré d'une copie de la sauvegarde : plus de courant après le rechargement. Repli : mécanisme C (§ 1.3) |
 | **R-2** | **Mesure de la demande fausse ou coûteuse** : appareils oubliés, appareils de mods tiers, inventaire trop lent | Forte | **P6** — comparer, sur une même maison, la demande du mod à `getTotalPowerUsing()` d'un générateur vanilla de test posé au même endroit. Mesurer le temps d'inventaire (`getTimestampMs`) avec 10 onduleurs |
 | **R-3** | **Simulation sans joueur incohérente** : énergie épuisée pendant l'absence mais maison alimentée au retour ; nourriture mal comptée | Moyenne | **P4** — vider volontairement le stock pendant une absence de 3 jours de jeu ; au retour, vérifier que le courant est coupé dès le chargement et l'état des aliments |
-| **R-4** | **Batteries posées** : objet non retrouvé après rechargement, charge non affichée chez l'autre client, ramassage pendant un pas | Moyenne | **P3** — deux joueurs : poser, raccorder, ramasser, reposer pendant un pas en vitesse ×3 ; comparer l'énergie totale et l'infobulle chez les deux |
+| **R-4** | **Powerbank** : conteneur absent chez un client, batterie non retrouvée après rechargement, charge non affichée chez l'autre client, transfert pendant un pas | Moyenne | **P3** — deux joueurs : poser, raccorder, ramasser, reposer pendant un pas en vitesse ×3 ; comparer l'énergie totale et l'infobulle chez les deux |
 | **R-5** | **Bourdonnement côté joueur** : un émetteur en boucle qui ne s'arrête plus en MP (`knowledge/sounds-and-noise.md`) | Faible à moyenne | **P1 bis** — démarrer et arrêter le son dix fois, quitter la zone, revenir ; aucun son fantôme |
 | **R-6** | **Conflit avec un autre mod** qui pose ou retire des positions de générateur, ou qui enveloppe les mêmes actions vanilla | Moyenne | **P7** — mod de test qui appelle `removeGeneratorPos` sur la position de l'onduleur ; vérifier que le pas suivant ou le prochain `LoadChunk` la rétablit. Garder signatures et retours dans toutes les enveloppes |
 | **R-7** | **Équilibrage météo** faux | Moyenne | **P5** — journal horaire du vent, des nuages, de la neige, de l'aube et du crépuscule sur 30 jours de jeu ; histogramme hors jeu |
@@ -435,7 +434,7 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 | **E1 — Prototype ancre (P1, P1 bis)** | `LW_Anchor`, table `LiveWireAnchors`, onduleur de débogage, rafraîchissement visuel | Protocole P1 | Protocole P1 côté 2e client. **Décision : mécanisme A confirmé ?** |
 | **E2 — Registre et persistance** | `LW_Registry`, `LW_Migration`, marques, `LoadChunk` | 3 appareils de débogage ; sauvegarder, quitter, recharger : registre et marques intacts | Redémarrage du serveur ; reconnexion d'un client |
 | **E3 — Simulation et demande** | `LW_Simulation`, `LW_Physics`, `LW_Demand` | Stock fictif de 1 kWh, réfrigérateur et lumières : coupure à l'heure calculée à la main ; protocole P6 (comparaison avec un générateur vanilla) | Coupure vue par le client ; vitesse ×3 sans dérive |
-| **E4 — Batteries posées** | `LW_Batteries`, `LWLinkAction` | 2 batteries de voiture au sol raccordées : décharge la nuit ; en ramasser une : stock réduit d'autant | Protocole P3 |
+| **E4 — Powerbank** | `LW_Batteries`, conteneur de la powerbank, `LWLinkAction` | Ranger 2 batteries de voiture dans la powerbank raccordée : décharge la nuit ; en retirer une : stock réduit d'autant ; une 5e batterie est ignorée et signalée | Protocole P3 : deux joueurs rangent et retirent des batteries pendant un pas ; le 2e client voit la charge changer |
 | **E5 — Sources** | Kits solaire et éolien, actions d'installation et de démontage, recettes | Fabriquer, poser sur un toit plat, raccorder ; production le jour, nulle la nuit ; éolienne arrêtée sans vent | Pose par le client non-admin ; refus côté serveur si trop loin ou niveau insuffisant |
 | **E6 — Sans joueur (P4)** | `SimulateUnloaded`, rattrapage | Protocole P4 | Protocole P4 avec serveur sans joueur (`PauseEmpty` désactivé), puis reconnexion |
 | **E7 — Diagnostic et tableau de bord** | Testeur, `LW_Dashboard`, abonnements | Mesures cohérentes aux niveaux 0, 2 et 4 | Deux joueurs ouvrent la fenêtre ; aucune diffusion hors abonnés |
@@ -465,7 +464,7 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
   - rattrapage de 10 jours.
 
 **Écarts avec les sections précédentes :**
-- **Batterie** : elle se débranche en la ramassant, ou par la commande `unlink`. Son lien est porté par la ModData de l'objet d'inventaire (§ 3.1).
+- **Batteries** : rangées dans une **powerbank** à conteneur, choix de l'utilisateur. Plus aucune batterie au sol.
 - **Tableau de bord** : abonnement par identifiant d'onduleur (§ 5.2).
 - **Disjoncteur** : il se fixe sur un mur et reste sur la case cliquée. Son orientation (N, W, S, E) est choisie d'après les murs, et la variante de sprite d'après les drapeaux `attachedN/W/S/E` de l'applique `lighting_indoor_02_44` à `_47`. Un mur qui le porte est protégé de la masse (NM-30).
 - **Appareil disparu** : une source ou un équipement absent de sa case chargée est retiré du registre après deux constats, comme l'onduleur.

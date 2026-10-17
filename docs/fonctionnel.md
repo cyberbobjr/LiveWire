@@ -42,7 +42,7 @@
 | Phase | Situation | Ce que fait le joueur avec Live Wire |
 |---|---|---|
 | **1. Avant la coupure** (réseau public actif) | Le courant est partout. | Il récupère des batteries de voiture, du fil électrique, de l'électronique, des calculatrices et des livres d'électricité. Il fabrique un **testeur de tension** (niv. 1) et apprend à lire une installation. |
-| **2. La coupure** | Le générateur vanilla devient la seule source et attire les zombies. | Il installe un **onduleur** dans la maison (niv. 5) et pose quelques **batteries de voiture** au sol à côté, raccordées à l'onduleur (niv. 2). La nuit, la maison vit sur les batteries, sans bruit. *En v0.1, ces batteries se chargent par les sources ; la charge depuis un générateur vanilla arrive en v0.2 (§ 9).* |
+| **2. La coupure** | Le générateur vanilla devient la seule source et attire les zombies. | Il installe un **onduleur** dans la maison (niv. 5) et une **powerbank** à côté (niv. 2), raccordée à l'onduleur, dans laquelle il range ses **batteries de voiture**. La nuit, la maison vit sur les batteries, sans bruit. *En v0.1, ces batteries se chargent par les sources ; la charge depuis un générateur vanilla arrive en v0.2 (§ 9).* |
 | **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou dans le jardin (niv. 3) et une **petite éolienne** (niv. 6). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
 | **4. Base autonome** | Plus de carburant. | Il ajoute une **roue à aubes** sur une rive de rivière (niv. 7, v0.2), qui produit jour et nuit. Il dimensionne l'installation : assez de batteries pour la nuit, un onduleur assez puissant. Il entretient et remplace ce qui s'use. **Quand il part en expédition, la base continue de tourner** : le réfrigérateur reste froid. |
 | **5. Fin de partie** (versions suivantes) | La base est stable. | Pompe électrique, capteurs et alarme, clôture électrifiée, relais pour un grand bâtiment. |
@@ -67,7 +67,7 @@
 - **Objets vanilla réutilisés tels quels** : batteries de voiture `Base.CarBattery1/2/3`, `Base.ElectricWire`, `Base.ElectronicsScrap`, `Base.Calculator`, `Base.SmallSheetMetal`, `Base.SheetMetal`, `Base.Screws`, `Base.Pipe`, `Base.MetalBar`, `Base.Plank`, `Base.Nails`, `Base.Amplifier`, `Base.Speaker`, `Base.LightBulb`, `Base.Battery`, `Base.Glue`, `Base.Aluminum`, `Base.ScrapMetal`. Tous existent en 42.21 (`media/scripts/generated/items/normal.txt`, `drainable.txt`, `weapon.txt`).
 - **Outils, par tag vanilla** : tournevis `base:screwdriver`, pinces `base:pliers`, marteau `base:hammer`. Syntaxe `craftRecipe` 42.21 : `item 1 tags[base:screwdriver] mode:keep` (`media/scripts/generated/recipes/recipes_traps.txt:99-121`).
 - **Sources et onduleur : un kit en inventaire.** Le joueur porte un **kit**. « Installer » crée l'appareil posé ; « Démonter » rend le kit avec son état.
-- **Batteries : posées telles quelles.** Une batterie se pose au sol comme n'importe quel objet (pose vanilla), puis se raccorde (§ 5.2). Elle garde son modèle 3D vanilla.
+- **Batteries : rangées dans une powerbank.** Une batterie ne se pose jamais au sol : on la range dans une powerbank, qu'on ouvre comme une caisse (§ 5.1). Elle reste un vrai objet, avec son icône et sa charge vanilla.
 
 ### 2.2 Objets d'inventaire
 
@@ -79,6 +79,7 @@
 | `WindTurbineKit` | Éolienne en kit (Wind Turbine Kit) | normal | 12 | icône de `Base.MetalBar`, modèle cylindre (forme simple), **placeholder** | Source |
 | `WaterWheelKit` | Roue à aubes en kit (Water Wheel Kit) | normal | 15 | icône de `Base.Plank`, modèle cylindre plat (forme simple), **placeholder** | Source (v0.2) |
 | `InverterKit` | Onduleur en kit (Inverter Kit) | normal | 8 | icône et modèle de `Base.CarBatteryCharger`, **placeholder** | Onduleur 1 500 W |
+| `PowerBankKit` | Powerbank en kit (Power Bank Kit) | normal | 10 | icône de `Base.CarBattery`, modèle boîte verte (forme simple), **placeholder** | Stockage : 4 batteries |
 | `HeavyInverterKit` | Onduleur renforcé en kit (Heavy Inverter Kit) | normal | 12 | idem, **placeholder** | Onduleur 3 000 W (niv. 8) |
 | `DeepCycleBattery` | Batterie stationnaire (Deep-Cycle Battery) | drainable | 9 | modèle `CarBattery` vanilla (`WorldStaticModel = CarBattery`, `drainable.txt:2335-2351`), **placeholder** | Batterie longue durée |
 
@@ -94,15 +95,15 @@ Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscri
 | Source | Éolienne | sprite `industry_01_4`, climatiseur (`moveable.txt:1755`) | Case `isOutside()` ; bonus en hauteur (§ 3.3) |
 | Source | Roue à aubes (v0.2) | sprite `construction_01_5`, palette (`moveable.txt:945`) | Niveau 0, case de terre voisine d'une eau de rivière (§ 3.4) |
 | **Onduleur** | Onduleur, onduleur renforcé | sprite `location_business_machinery_01_32`, armoire à outils (`moveable.txt:1017`), à confirmer au prototype P1 | **N'importe quelle case de sol, intérieure comprise.** Pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) |
-| **Batterie** | Batterie de voiture ou batterie stationnaire, posée au sol | son modèle 3D vanilla de batterie de voiture | N'importe quelle case de sol ; raccordée à un onduleur à portée de câble |
+| **Stockage** | Powerbank (rangement de 4 batteries de voiture ou stationnaires) | sprite `location_military_generic_01_1`, caisse militaire (`media/scripts/generated/items/moveable.txt:1089`) | N'importe quelle case de sol libre, intérieur compris ; raccordée à un onduleur à portée de câble |
 
 **Câblage (validé : D-3).**
-- Chaque source et chaque batterie se raccorde à **un** onduleur par l'action « Raccorder ».
+- Chaque source, chaque powerbank et chaque équipement se raccorde à **un** onduleur par l'action « Raccorder ».
 - Conditions : au plus `LinkRange` cases (12 par défaut) et un écart d'au plus 1 étage.
 - Coût : `Base.ElectricWire`, à raison de 1 fil pour 4 cases, arrondi au-dessus, au moins 1.
 - Pas de câble visible en v0.1.
 
-**Réseau** = un onduleur, plus les sources et batteries raccordées à lui.
+**Réseau** = un onduleur, plus les sources, les powerbanks et les équipements raccordés à lui.
 
 ### 2.4 Équipements optionnels
 
@@ -140,6 +141,7 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | `LWMakeHeavyInverterKit` | 8 | 1 `InverterKit`, 4 `ElectronicsScrap`, 2 `Amplifier`, 2 `ElectricWire`, 1 `SheetMetal` ; [tournevis, pinces] | `HeavyInverterKit` | 30 |
 | `LWMakeWindTurbineKit` | 6 | 2 `Speaker` (aimants), 3 `ElectricWire`, 4 `ElectronicsScrap`, 2 `SheetMetal`, 2 `MetalBar`, 1 `Pipe`, 6 `Screws` ; [tournevis, pinces, marteau] | `WindTurbineKit` | 30 |
 | `LWMakeWaterWheelKit` (v0.2) | 7 | 8 `Plank`, 20 `Nails`, 2 `Speaker`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 1 `MetalBar` ; [marteau, tournevis] | `WaterWheelKit` | 30 |
+| `LWMakePowerBankKit` | 2 | 2 `ElectronicsScrap`, 3 `ElectricWire`, 1 `SheetMetal`, 4 `Screws` ; [tournevis, pinces] | `PowerBankKit` | 8 |
 | `LWMakeBreakerKit` | 3 | 2 `ElectronicsScrap`, 1 `ElectricWire`, 1 `SmallSheetMetal`, 2 `Screws` ; [tournevis] | `BreakerKit` | 8 |
 | `LWMakeDeepCycleBattery` | 6 | 2 batteries de voiture (`CarBattery1/2/3` indifférentes), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
 
@@ -235,7 +237,7 @@ Les niveaux vanilla vont de 0 à 10 (`Perks.Electricity`, `java/zombie/character
 |---|---|---|
 | 0 | Lire un testeur : « alimenté / non alimenté » | — |
 | 1 | Testeur de tension (I-1, v0.1) | Lecture détaillée de la case (§ 6.4) |
-| 2 | Cellules de calculatrice ; **raccorder une batterie** (I-6, v0.1) ; chargeur de piles (I-2, v0.2) | Usure des batteries −5 % |
+| 2 | Cellules de calculatrice ; **powerbank** (I-6, v0.1) ; chargeur de piles (I-2, v0.2) | Usure des batteries −5 % |
 | 3 | Panneaux photovoltaïques (I-9, v0.1) ; désarmer une alarme (I-3, v0.3) | Rendement de pose 0,85 |
 | 4 | Réparer les appareils, dont les cuisinières (I-5, v0.2) ; reconditionner une batterie (v0.1) | Lecture de l'autonomie |
 | 5 | **Onduleur** (I-6, v0.1) | — |
@@ -301,12 +303,13 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 
 ### 5.1 Batteries : stocker
 
-Une batterie est **posée au sol** (pose vanilla, sur une case qui supporte son poids) puis **raccordée** à un onduleur par l'action « Raccorder » (niv. 2). Elle reste un vrai objet :
-- on voit son modèle 3D au sol ;
-- sa charge apparaît dans son infobulle vanilla ;
-- on peut la ramasser à tout moment.
-
-**Ramasser une batterie la débranche** : son énergie part avec elle, et elle n'est plus comptée au pas suivant.
+Les batteries se rangent dans une **powerbank** : un appareil posé, raccordé à l'onduleur comme une source, qui **s'ouvre comme une caisse**. On y glisse ses batteries à la souris, avec l'inventaire vanilla, et on les reprend de la même façon.
+- **4 batteries comptées** par powerbank. Les suivantes, et tout objet qui n'est pas une batterie, sont ignorés ; le tableau de bord le signale.
+- La charge d'une batterie apparaît dans son infobulle vanilla.
+- **Retirer une batterie** de la powerbank la sort du réseau : son énergie part avec elle.
+- **Plusieurs powerbanks** peuvent être raccordées au même onduleur.
+- Une powerbank **ne se démonte que vide**.
+- **Aucune batterie au sol** : une batterie posée par terre n'est jamais comptée.
 
 | Batterie | Capacité nominale |
 |---|---|
@@ -401,11 +404,11 @@ Toutes les options sont dans un sous-menu **« Live Wire »**. Une option imposs
 | Une case quelconque, testeur en inventaire | Mesurer |
 | Un kit en inventaire, case visée | Installer ici (case valide ou invalide, avec la raison) |
 | Une source | Inspecter · Raccorder à un onduleur · Débrancher · Réparer · Remettre à neuf · Déneiger (panneau) · Démonter |
-| Une batterie posée au sol | Raccorder à un onduleur · Débrancher · Inspecter (charge, état, cycles) |
+| Une powerbank | Ouvrir (ouverture de conteneur vanilla, glisser-déposer des batteries) · Raccorder à un onduleur · Débrancher · Inspecter · Réparer · Démonter (vide seulement) |
 | L'onduleur | Ouvrir le tableau de bord · Allumer / Éteindre · Réarmer · Inspecter · Réparer · Remettre à neuf · Démonter |
 | Une batterie en inventaire | Reconditionner |
 
-Les options vanilla « Ramasser », « Démonter » et « Détruire » sont refusées sur les sources et l'onduleur (`architecture.md`, § 2.4). Une batterie se ramasse normalement : c'est voulu (§ 5.1).
+Les options vanilla « Ramasser », « Démonter » et « Détruire » sont refusées sur les sources et l'onduleur (`architecture.md`, § 2.4). Les batteries entrent et sortent de la powerbank par l'inventaire vanilla (§ 5.1).
 
 ### 6.2 Tableau de bord du réseau
 

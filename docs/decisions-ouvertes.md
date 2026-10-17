@@ -16,6 +16,7 @@
 - **Système minimal** = une source et un onduleur. La batterie est facultative, et les autres équipements sont optionnels.
 - **Micro-onduleur intégré à chaque source**, qui lisse sa production.
 - **Disjoncteur posé sur un mur**, comme un vrai disjoncteur.
+- **Powerbank** pour stocker les batteries ; **aucune batterie au sol**.
 - **Retirés** : parafoudre, programmateur horaire, régulateur solaire.
 - **Modèles 3D** : formes géométriques simples en attendant les modèles définitifs.
 
@@ -26,7 +27,7 @@
 | D-1 | Contenu de la v0.1 | Socle : testeur, onduleur, batteries facultatives, solaire, éolien, disjoncteur, compétence, usure, tableau de bord, fonctionnement sans joueur |
 | D-2 | Mécanisme d'alimentation | **Ancre d'alimentation** posée par le mod, reposée à chaque chargement, sur le serveur et chez les clients (`architecture.md`, § 1.4). Repli si le prototype P1 échoue : vrai générateur caché dehors |
 | D-3 | Raccordement | Explicite, par menu, en consommant du fil électrique (1 fil pour 4 cases, portée 12) |
-| D-4 | Batteries | Posées au sol (pose vanilla), puis raccordées à l'onduleur |
+| D-4 | Batteries | Rangées dans une **powerbank** qui s'ouvre comme une caisse (4 batteries comptées). Plus de batterie au sol. Choix de l'utilisateur, le 2026-10-17 : « rangement ouvrable », préféré à des emplacements gérés par menu et à une capacité fixe |
 | D-5 | Échelle d'énergie | 1 unité de consommation moteur par heure = 1 000 W (option `PowerScale`) |
 | D-6 | Apprentissage des recettes | Automatique au niveau requis |
 | D-7 | Propriété en multijoueur | Installations communes, règles de safehouse vanilla |

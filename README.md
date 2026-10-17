@@ -2,7 +2,7 @@
 
 Mod Project Zomboid Build 42.21 qui donne un vrai rôle à la compétence Électricité. Il construit une installation électrique en trois rôles :
 - **sources** : panneaux photovoltaïques et éoliennes ;
-- **batteries** : facultatives, pour stocker ;
+- **batteries** : facultatives, pour stocker ; on les range dans une **powerbank** qui s'ouvre comme une caisse ;
 - **onduleur** : convertit le courant, et peut se poser à l'intérieur.
 
 Un **disjoncteur mural** est disponible en option.

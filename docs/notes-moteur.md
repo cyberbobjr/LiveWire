@@ -279,3 +279,16 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - Un objet tourné vers l'ouest exige un mur sur la case **est** voisine, et un objet tourné vers le nord un mur sur la case **sud**, tandis que l'objet reste sur la case cliquée (`media/lua/shared/Moveables/ISMoveableSpriteProps.lua:2651-2661`).
   - Détruire un mur retire aussi les objets accrochés : `attachedN` / `attachedW` sur sa case, `attachedS` / `attachedE` sur la case voisine (`media/lua/shared/TimedActions/ISDestroyStuffAction.lua:163-200`).
 - Conséquence : le disjoncteur Live Wire reste sur la case cliquée, et son orientation (N, W, S ou E) est notée dans sa marque. La destruction vanilla d'un mur qui le porte est refusée.
+
+## 31. Conteneur créé par un mod sur un objet posé : le marquer « fouillé »
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; synchronisation MP du conteneur ajouté : hypothèse
+- Preuve :
+  - `ItemContainer.new(type, case, objet)` existe (`java/zombie/inventory/ItemContainer.java:143`).
+  - `IsoObject.setContainer(c)` rattache le conteneur à l'objet (`java/zombie/iso/IsoObject.java:1883-1886`).
+  - `createContainersFromSpriteProperties` ne fait rien si l'objet a déjà un conteneur (`IsoObject.java:4900-4907`), et `addToWorld` l'appelle (`:4176-4182`).
+  - Un conteneur dont `isExplored()` est faux est rempli de butin :
+    - quand un client le demande (`java/zombie/network/packets/RequestItemsForContainerPacket.java:44`) ;
+    - par `ItemPickerJava` (`java/zombie/inventory/ItemPickerJava.java:1474`) ;
+    - au chargement de la case (`java/zombie/LoadGridsquarePerformanceWorkaround.java:68`).
+  - Le titre affiché dans la fenêtre de butin est `IGUI_ContainerTitle_<type>` (`media/lua/client/ISUI/ISInventoryPage.lua:1714-1719`). L'icône vient de `ContainerButtonIcons[type]` (`:1498-1499`).
+- Conséquence : la powerbank de Live Wire crée son conteneur (type `livewirepowerbank`) **avant** `transmitAddObjectToSquare`, avec `setExplored(true)` et `setHasBeenLooted(true)`. Elle ajoute la clé de titre et reprend l'icône de la caisse militaire. À vérifier en jeu : un 2e client voit le conteneur et ses transferts.
