@@ -292,3 +292,21 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
     - au chargement de la case (`java/zombie/LoadGridsquarePerformanceWorkaround.java:68`).
   - Le titre affiché dans la fenêtre de butin est `IGUI_ContainerTitle_<type>` (`media/lua/client/ISUI/ISInventoryPage.lua:1714-1719`). L'icône vient de `ContainerButtonIcons[type]` (`:1498-1499`).
 - Conséquence : la powerbank de Live Wire crée son conteneur (type `livewirepowerbank`) **avant** `transmitAddObjectToSquare`, avec `setExplored(true)` et `setHasBeenLooted(true)`. Elle ajoute la clé de titre et reprend l'icône de la caisse militaire. À vérifier en jeu : un 2e client voit le conteneur et ses transferts.
+
+## 32. Générateur vanilla piloté par un mod : `setActivated`, `setFuel`, consommation horaire
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement) ; double décompte au rechargement : hypothèse
+- Preuve :
+  - `setActivated(b)` ne fait rien si l'état ne change pas ; sinon il rend le bâtiment toxique (case intérieure), remet `lastHour` à l'heure courante au démarrage, joue `Starting` / `Stopping`, recalcule la zone alimentée et se synchronise sur serveur et client (`java/zombie/iso/objects/IsoGenerator.java:462-490`).
+  - `setFuel` borne à [0, 10] et se synchronise (`:448-456`) ; `getMaxFuel()` rend 10 (`:444-446`).
+  - Le carburant ne baisse que dans `update`, donc seulement quand la case est chargée, une fois par heure de jeu entière écoulée depuis `lastHour`, de `totalPowerUsing × GeneratorFuelConsumption` (`:182-206`). Vide ou état à 0 : il s'arrête de lui-même (`:200-208`).
+- Conséquence : un mod peut démarrer et arrêter un générateur vanilla depuis le serveur, et y ajouter sa propre consommation par `setFuel`. Hors chargement, il doit tenir le compte lui-même et l'appliquer au chargement. Si `lastHour` n'est pas sauvegardé, la consommation vanilla au rechargement est d'au plus une heure ; sinon elle peut couvrir toute l'absence et s'ajouter au décompte du mod : à vérifier en jeu.
+
+## 33. Sons de bip vanilla : aucun n'est déclaré en boucle dans les scripts
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; comportement de l'événement FMOD : hypothèse
+- Preuve : `TelevisionTestBeep` (événement `Object/Television/TestTone`, `media/scripts/generated/sounds/objects/sounds_object_television.txt:3-10`) et `TrapTimerLoop` (`Weapon/Throwable/Timer/Beep`, `sounds/weapons/sounds_throwable.txt:253-260`) n'ont pas `loop = true`, au contraire de `VehicleBackUpBeeper` (`sounds/vehicles/sounds_vehicle_foley.txt:3-12`). La boucle peut toutefois être définie dans l'événement FMOD lui-même, invisible ici.
+- Conséquence : jouer un tel son localement (`playSoundImpl(nom, false, nil)`) et l'arrêter soi-même après une durée fixe, qu'il boucle ou non.
+
+## 34. Outils de debug d'un mod : solo `-debug` et admin MP
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (`knowledge/logs-and-tools.md:159, 198`, `knowledge/multiplayer.md:123, 129-132`, `java/zombie/Lua/LuaManager.java:2913-2919`)
+- Preuve : `isDebugEnabled()` rend `Core.debug` ; `checkPermissions` rend vrai hors serveur MP et quand la connexion est introuvable ; `ChangeAndReloadServerOptions` n'appartient qu'au rôle `admin` intégré.
+- Conséquence : côté client, `getRole():hasCapability(cap)` pour l'affichage ; côté serveur, `checkPermissions(p, cap)` **et** `p:getRole():hasCapability(cap)` ; en solo, `isDebugEnabled()`. Sur un serveur dédié, `isDebugEnabled()` est faux sauf `-Ddebug` : ne pas l'utiliser pour les admins.

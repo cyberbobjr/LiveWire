@@ -117,8 +117,9 @@ Le système de base reste **source → onduleur → maison**, avec une **batteri
 | Équipement | Problème réglé | Effet en jeu | Niv. | Version proposée | Faisabilité |
 |---|---|---|---|---|---|
 | **Disjoncteur** (sécurité) | Une surcharge use l'onduleur (−3 d'état à chaque disjonction) | **Se fixe sur un mur, comme un vrai disjoncteur**, sur l'un des quatre côtés de la case visée. Raccordé à un onduleur, il coupe **avant** l'onduleur : plus de dégât en cas de surcharge. Le réarmement reste manuel | 3 | 0.1 | Simple : règle du pas de simulation ; orientation du sprite choisie d'après les drapeaux `attachedN` / `attachedW` (`IsoFlagType.java:79-82`), murs lus par `IsoGridSquare.getWall(boolean)` (`IsoGridSquare.java:3962`) |
-| **Ordinateur de gestion** | Le tableau de bord ne montre que l'instant présent | Ajoute au tableau de bord un **historique de 48 h** (production, demande, stock), une **prévision d'autonomie** jusqu'au lever du soleil, et des alertes plus tôt. Avec le **délestage** (niv. 7), il éteint d'abord les lumières quand le stock passe sous 15 %, pour garder le réfrigérateur | 6 | 0.2 | Moyenne : l'historique est un tableau circulaire ; extinction des lumières sur le serveur par `IsoLightSwitch:setActive(false)`, qui se synchronise (`knowledge/power-and-lights.md:194-197`) |
-| **Alarme de batterie faible** | On découvre la panne trop tard | Bip discret et message aux joueurs proches quand le stock passe sous 20 % | 2 | 0.2 | Simple : `notify` du serveur et son local du client |
+| **Ordinateur de gestion** | Le tableau de bord ne montre que l'instant présent | **Un vrai ordinateur de bureau du jeu** (`Mov_DesktopComputer`), trouvé dans une maison, raccordé à l'onduleur. Tant qu'il est alimenté, il ajoute au tableau de bord un **historique de 48 h** (un point par heure : production, consommation, stock) et une **prévision** : « les batteries tiendront jusqu'à l'aube » ou non. Avec le **délestage** (niv. 7 de la personne qui l'a raccordé), il éteint une fois les lumières quand le stock passe sous 15 % (réarmé au-dessus de 30 %), pour garder le réfrigérateur. On peut aussi ouvrir le tableau de bord depuis l'ordinateur | 6 | 0.1 | Moyenne : l'historique est un tableau circulaire ; extinction des lumières sur le serveur par `IsoLightSwitch:setActive(false)`, qui se synchronise (`knowledge/power-and-lights.md:194-197`) |
+| **Alarme de batterie faible** | On découvre la panne trop tard | Bip (son vanilla `TelevisionTestBeep`, coupé après 3 s) et message aux joueurs à moins de 30 cases quand le stock passe sous 20 %. Rappel toutes les 2 h de jeu tant que le stock reste bas ; réarmée au-dessus de 25 % | 2 | 0.1 | Simple : `notify` du serveur et son local du client |
+| **Générateur de secours** | Plusieurs jours sans soleil ni vent vident les batteries | **Un générateur vanilla**, raccordé à l'onduleur (niv. 3). Le mod le **démarre** quand les batteries passent sous 20 % et l'**arrête** à 90 % (options `BackupStartPercent`, `BackupStopPercent`). En marche, il fournit 1 200 W au réseau et brûle 1 L d'essence pour 3 kWh, **en plus** de sa consommation vanilla pour les appareils qu'il alimente lui-même. Il reste un générateur vanilla : il faut le brancher (option vanilla), le remplir, il fait du bruit, s'use, et **il est toxique à l'intérieur**. Vide, débranché ou en panne : il ne démarre pas, et le tableau de bord le dit. Sans batterie, il ne démarre jamais | 3 | 0.1 | Moyenne : `IsoGenerator.setActivated`, `setFuel` (NM-32) |
 
 **Règles communes :**
 - un équipement optionnel se pose et se raccorde à un onduleur comme une source (même action, même fil) ;
@@ -126,11 +127,11 @@ Le système de base reste **source → onduleur → maison**, avec une **batteri
 - il n'apparaît sur le tableau de bord que s'il est présent ;
 - **au plus un exemplaire de chaque type par réseau** : un second n'apporte rien, et l'action « Raccorder » le refuse avec un message.
 
-**Aspect (placeholder)** : des sprites vanilla de `media/scripts/generated/items/moveable.txt`, à choisir au prototype. L'ordinateur de gestion reprend `appliances_com_01_72`, l'ordinateur de bureau (`moveable.txt:1800`).
+**Aspect** : l'ordinateur de gestion et le générateur de secours sont de **vrais objets vanilla**, non modifiés ; le raccordement est seulement noté dans leur ModData (`LiveWireComputer`, `LiveWireBackup`). L'alarme utilise le sprite du microphone vanilla (`appliances_com_01_70`, `moveable.txt:1818`) comme **placeholder**, et son kit une petite boîte rouge.
 
 **Aspect du disjoncteur (placeholder)** : l'applique murale vanilla `lighting_indoor_02_44` à `_47`, dont chaque variante est tournée vers un mur (`knowledge/power-and-lights.md:103`). Posée comme simple objet, elle n'éclaire pas. Le disjoncteur reste sur la case cliquée, contre son mur nord ou ouest, ou contre le mur sud ou est de la case voisine (NM-30). On ne peut pas détruire à la masse un mur qui le porte.
 
-**Recettes** : disjoncteur au § 2.5. Ordinateur de gestion et alarme de batterie faible : à détailler en v0.2.
+**Recettes** : disjoncteur au § 2.5. Alarme de batterie faible : « Fabriquer une alarme de batterie faible » (niv. 2 : tournevis gardé, 1 déchet électronique, 1 fil électrique, 1 amplificateur). L'ordinateur et le générateur ne se fabriquent pas : on les trouve dans le monde.
 
 ### 2.5 Recettes
 
@@ -412,6 +413,9 @@ Toutes les options sont dans un sous-menu **« Live Wire »**. Une option imposs
 | Une powerbank | Ouvrir (ouverture de conteneur vanilla, glisser-déposer des batteries) · Raccorder à un onduleur · Débrancher · Inspecter · Réparer · Démonter (vide seulement) |
 | L'onduleur | Ouvrir le tableau de bord · Allumer / Éteindre · Réarmer · Inspecter · Réparer · Remettre à neuf · Démonter |
 | Une batterie en inventaire | Reconditionner |
+| Un générateur vanilla (raccordé, ou onduleur à portée) | Générateur de secours → Raccorder à l'onduleur · Débrancher |
+| Un ordinateur de bureau (raccordé, ou onduleur à portée) | Ordinateur de gestion → Ouvrir le tableau de bord · Raccorder à l'onduleur · Débrancher |
+| N'importe où, en mode debug ou admin | Debug (§ 6.5) |
 
 Les options vanilla « Ramasser », « Démonter » et « Détruire » sont refusées sur les sources et l'onduleur (`architecture.md`, § 2.4). Les batteries entrent et sortent de la powerbank par l'inventaire vanilla (§ 5.1).
 
@@ -432,7 +436,9 @@ Les options vanilla « Ramasser », « Démonter » et « Détruire » sont refu
 | **Batteries** | Nombre de powerbanks, stock total en kWh et en %, avec jauge. Autonomie estimée, à partir du niveau 4. Une ligne par batterie : charge en % et état d'usure ; orange si l'état est sous 30. Alertes : batteries non comptées (plus de 4 par powerbank), production perdue (batteries pleines) |
 | **Sources** | Groupées par famille : **Solaire**, **Éolien**, **Hydraulique**. Pour chaque famille : nombre de sources et puissance totale ; puis une ligne par source avec sa puissance fournie, son état et la neige sur un panneau. L'hydraulique affiche « dans une prochaine version » tant que la roue à aubes n'existe pas (v0.2) |
 | **Maison alimentée** | La zone couverte (rayon et étages). Puis les appareils en marche, **regroupés par famille** : réfrigérateurs et congélateurs, lumières, télévisions, radios, cuisinières et micro-ondes, lave-linge et sèche-linge, chargeurs de batterie, autres. Pour chaque famille : nombre d'appareils et consommation |
-| **Équipements** | Le disjoncteur, s'il est raccordé, avec son état |
+| **Alimentation de secours** | Si un générateur est raccordé : état (recharge les batteries, en veille, plus de carburant, non branché, en panne), puissance, carburant en % avec jauge, seuils de démarrage et d'arrêt |
+| **Ordinateur de gestion** | Sans ordinateur : comment en raccorder un. Ordinateur sans courant : le dire. Sinon : trois graphiques à barres sur 48 h (production, consommation, stock), la prévision jusqu'à l'aube, le délestage s'il est actif. Puis l'état de l'alarme (en veille, déclenchée) |
+| **Équipements** | Le disjoncteur et l'alarme, s'ils sont raccordés, avec leur état |
 
 ### 6.3 Textes à traduire
 
@@ -462,6 +468,26 @@ Les clés suivent les préfixes imposés par `CLAUDE.md`. La liste complète est
 
 ---
 
+### 6.5 Outils de debug
+
+Pour tester sans attendre des jours de jeu. Sous-menu **« Live Wire » → « Debug »**, visible :
+- en solo, seulement si le jeu est lancé avec `-debug` ;
+- en multijoueur, seulement pour les **administrateurs** (capacité `ChangeAndReloadServerOptions`, que seul le rôle `admin` possède).
+
+Le serveur revérifie ce droit à chaque commande et écrit chaque usage dans sa console.
+
+| Outil | Effet |
+|---|---|
+| Donner un kit de test complet | Tous les kits, tournevis, 20 fils, 10 déchets électroniques, testeur, 4 batteries de voiture, 2 batteries stationnaires |
+| Afficher l'état du réseau | Résumé à l'écran, détail par source dans la console |
+| Batteries à 100 / 50 / 15 % / vides | Règle toutes les batteries du réseau (15 % : déclenche l'alarme et le secours) |
+| Faire tourner la simulation 1 h / 12 h | Rattrapage immédiat, comme après une absence |
+| Réparer tout le réseau · Abîmer l'onduleur (état 10) · Faire disjoncter | Tester l'usure, la réparation, le réarmement |
+| Remplir le générateur de secours | Carburant au maximum |
+| Reconstruire la liste des appareils et la zone alimentée | Refait l'inventaire de la demande et repose l'ancre |
+
+Le réseau visé est celui de l'appareil cliqué, sinon celui de l'onduleur le plus proche.
+
 ## 7. Options sandbox
 
 Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
@@ -483,6 +509,8 @@ Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
 | `LiveWire.XPMultiplier` | réel | 0 – 10 | 1,0 | Expérience du mod |
 | `LiveWire.SkillGates` | booléen | — | vrai | Faux = aucun niveau requis |
 | `LiveWire.SimulateUnloaded` | booléen | — | vrai | L'installation fonctionne quand personne n'est à proximité |
+| `LiveWire.BackupStartPercent` | entier | 0 – 90 | 20 | Le générateur de secours démarre sous ce pourcentage de batterie |
+| `LiveWire.BackupStopPercent` | entier | 10 – 100 | 90 | Il s'arrête à ce pourcentage |
 
 - **Fichier** : `media/sandbox-options.txt` (`java/zombie/sandbox/CustomSandboxOptions.java:33-48`, `knowledge/mod-loading.md:146-152`).
 - **Lecture** : `getSandboxOptions():getOptionByName("LiveWire.X"):getValue()`.

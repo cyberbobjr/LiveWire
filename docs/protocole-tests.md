@@ -96,6 +96,21 @@
 3. Recette « Fabriquer une batterie stationnaire ».
    - **Attendu** : les deux batteries de voiture sont consommées, et la batterie obtenue est vide, avec un état égal à la moyenne des deux.
 
+## 7. Générateur de secours, ordinateur, alarme, debug
+
+Préparation rapide : lancer en `-debug`, puis « Live Wire » → « Debug » → « Donner un kit de test complet ».
+
+1. Poser onduleur, powerbank (2 batteries), alarme ; raccorder. Poser un générateur vanilla **dehors**, le brancher (option vanilla), le remplir, puis « Générateur de secours » → « Raccorder à l'onduleur ».
+2. Debug → « Batteries à 15 % ».
+   - **Attendu** : message « Batterie faible », bip d'environ 3 s ; dans les 10 minutes de jeu, le générateur démarre ; le tableau de bord affiche « recharge les batteries ».
+3. Debug → « Faire tourner la simulation 12 heures » (ou attendre).
+   - **Attendu** : arrêt du générateur vers 90 %, carburant en baisse. Noter le carburant avant et après, et après être parti puis revenu (NM-32).
+4. Vider le générateur, recommencer l'étape 2. **Attendu** : « plus de carburant », pas de démarrage.
+5. Raccorder un ordinateur de bureau du jeu (niv. 6), alimenté par la zone de l'onduleur. Clic droit dessus → « Ouvrir le tableau de bord ».
+   - **Attendu** : section « Ordinateur de gestion », graphiques qui se remplissent d'un point par heure, prévision jusqu'à l'aube.
+6. Avec un raccordement fait au niv. 7, lumières allumées, Debug → « Batteries à 15 % ». **Attendu** : les lumières s'éteignent une fois, message de délestage.
+7. MP : un joueur non admin ne voit pas le menu Debug ; un admin le voit et la console du serveur journalise chaque usage.
+
 ## Que rapporter
 
 Pour chaque étape : réussi ou échoué, ce qui a été vu, et les lignes du journal. Les constats confirmés iront dans `docs/notes-moteur.md` avec le statut « confirmé en jeu ».

@@ -461,7 +461,9 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
   - 3 jours avec 6 panneaux et 4 batteries ;
   - source et onduleur sans batterie ;
   - surcharge avec et sans disjoncteur ;
-  - rattrapage de 10 jours.
+  - rattrapage de 10 jours ;
+  - générateur de secours (démarre sous 20 %, s'arrête à 90 %, brûle du carburant ; vide : `nofuel`), historique de 48 points de l'ordinateur, alarme (rappel après 2 h, réarmement au-dessus de 25 %) ;
+  - commandes de debug refusées sans `-debug`, appliquées avec.
 
 **Écarts avec les sections précédentes :**
 - **Batteries** : rangées dans une **powerbank** à conteneur, choix de l'utilisateur. Plus aucune batterie au sol.
@@ -469,7 +471,12 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 - **Disjoncteur** : il se fixe sur un mur et reste sur la case cliquée. Son orientation (N, W, S, E) est choisie d'après les murs, et la variante de sprite d'après les drapeaux `attachedN/W/S/E` de l'applique `lighting_indoor_02_44` à `_47`. Un mur qui le porte est protégé de la masse (NM-30).
 - **Appareil disparu** : une source ou un équipement absent de sa case chargée est retiré du registre après deux constats, comme l'onduleur.
 - **Demande** : mêmes filtres que le moteur (`ItemContainer.isObjectPowered`, `AllowExteriorGenerator`, cases réellement alimentées : NM-27). Inventaire refait toutes les 30 minutes de jeu (NM-28).
-- **Hors v0.1** : la roue à aubes, la charge depuis un générateur vanilla, l'ordinateur de gestion et l'alarme de batterie faible arrivent en v0.2 (`fonctionnel.md`, § 9).
+- **Générateur de secours** (`server/LW_Backup.lua`) : appareil de rôle `backup`, lié à un `IsoGenerator` par la clé de ModData `LiveWireBackup`. Décision à chaque sous-pas avec le stock du début du sous-pas (hystérésis : marche sous `BackupStartPercent`, arrêt à `BackupStopPercent`), puissance ajoutée à la production avant `Physics.stepGrid`. Carburant brûlé par `setFuel` si la case est chargée ; sinon décompté dans le registre et appliqué au `LoadChunk` (`Backup.restore`).
+- **Ordinateur de gestion** (`server/LW_Computer.lua`) : rôle `computer`, lié à l'ordinateur vanilla par la clé `LiveWireComputer` (avec l'identifiant de l'onduleur, pour ouvrir le tableau de bord côté client). `grid.history` : 48 points horaires `{p, d, s}`. Délestage par `IsoLightSwitch:setActive(false)` sur les interrupteurs de l'inventaire de demande, case chargée seulement.
+- **Alarme** (`server/LW_Alarm.lua`, `client/LW_Beep.lua`) : option `kind = "alarm"`. Le serveur envoie `S_BEEP {x, y, z}` aux joueurs à moins de 30 cases ; chaque client joue le son localement et l'arrête après 3 s.
+- **Objets vanilla raccordés** : `Registry.members` rend cinq listes (sources, powerbanks, options, secours, ordinateurs). Débrancher, démonter l'onduleur ou constater deux fois la disparition de l'objet efface la clé de ModData et retire l'appareil du registre (`Registry.forgetVanilla`) ; un générateur que le mod avait démarré est arrêté.
+- **Debug** (`shared/LW_Debug.lua`, `server/LW_DebugCommands.lua`, `client/LW_DebugMenu.lua`) : commande unique `C_DEBUG {action, device}` enregistrée par `Commands.register`, droit revérifié, portée 30 cases, journalisée.
+- **Hors v0.1** : la roue à aubes arrive en v0.2 (`fonctionnel.md`, § 9).
 - **Pas encore implémenté** : l'adoption d'un objet marqué inconnu du registre (§ 6.3). Un tel objet reste inerte.
 
 **Points du moteur à confirmer en jeu, par ordre de risque :**
@@ -478,3 +485,6 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 3. **Le disjoncteur mural** : variantes de sprite et rendu contre le mur.
 4. **Les modèles `.glb`** : échelle 1,0 et orientation.
 5. **L'icône et la recette** de la batterie stationnaire (`mode:destroy` sur des objets à charge).
+6. **Le générateur de secours** : démarrage et arrêt par `setActivated`, double décompte possible du carburant au rechargement de la zone (NM-32).
+7. **L'ordinateur** : variantes de sprite tournées (`_73` à `_75` supposées), courant sur sa case, délestage des lumières.
+8. **Le bip** `TelevisionTestBeep` : audible, coupé après 3 s (NM-33).
