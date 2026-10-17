@@ -17,6 +17,7 @@
 - **Micro-onduleur intégré à chaque source**, qui lisse sa production.
 - **Disjoncteur posé sur un mur**, comme un vrai disjoncteur.
 - **Powerbank** pour stocker les batteries ; **aucune batterie au sol**.
+- **Plusieurs sources par onduleur**, et **rayon d'alimentation centré sur l'onduleur**.
 - **Retirés** : parafoudre, programmateur horaire, régulateur solaire.
 - **Modèles 3D** : formes géométriques simples en attendant les modèles définitifs.
 

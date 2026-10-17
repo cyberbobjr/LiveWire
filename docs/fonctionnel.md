@@ -105,6 +105,11 @@ Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscri
 
 **Réseau** = un onduleur, plus les sources, les powerbanks et les équipements raccordés à lui.
 
+**Plusieurs sources par onduleur, rayon centré sur l'onduleur** (exigence de l'utilisateur, 2026-10-17) :
+- **Sans limite de nombre.** On raccorde autant de sources que l'on veut à un même onduleur (panneaux, éoliennes, puis roues à aubes en v0.2), et leurs productions s'additionnent.
+- **Les sources se placent librement** dans la portée de câble : toit, jardin, à 12 cases au plus de l'onduleur.
+- **Le rayon d'alimentation de la maison part de l'onduleur**, jamais d'une source. Le point d'alimentation est posé sur la case de l'onduleur (`architecture.md`, § 1.4).
+
 ### 2.4 Équipements optionnels
 
 Le système de base reste **source → onduleur → maison**, avec une **batterie facultative**. Les sources ont toutes un micro-onduleur intégré (§ 3.1), qui n'est pas un équipement à part. Les équipements ci-dessous sont **tous optionnels** : aucun n'est nécessaire pour qu'une installation fonctionne. Chacun ajoute un seul avantage, facile à comprendre. Leur liste et leur version ont été validées (D-11).
