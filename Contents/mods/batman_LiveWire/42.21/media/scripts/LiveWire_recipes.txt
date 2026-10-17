@@ -38,6 +38,7 @@ module LiveWire
     craftRecipe LWSalvageSolarCell
     {
         timedAction = DismantleElectrical,
+        Icon = Item_Calculator,
         time = 60,
         Tags = InHandCraft;Electrical,
         category = Electrical,

@@ -24,7 +24,7 @@ module LiveWire
         DisplayCategory = Electronics,
         ItemType = base:normal,
         Weight = 0.05,
-        Icon = ElectronicsScrap,
+        Icon = LiveWireSolarCell,
         WorldStaticModel = LiveWire.SolarCell_Ground,
     }
 
@@ -50,7 +50,7 @@ module LiveWire
         DisplayCategory = Electronics,
         ItemType = base:normal,
         Weight = 3.0,
-        Icon = Sheet,
+        Icon = LiveWireSoundproofKit,
         Tooltip = Tooltip_LW_SoundproofKit,
     }
 
