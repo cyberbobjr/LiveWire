@@ -1,0 +1,14 @@
+{
+    "LWMakeVoltageTester": "Fabricar probador de tensión",
+    "LWSalvageSolarCell": "Desmontar calculadora",
+    "LWMakeSolarCellFromScrap": "Fabricar célula solar con chatarra",
+    "LWMakeSolarPanelKit": "Fabricar panel solar",
+    "LWMakeInverterKit": "Fabricar inversor",
+    "LWMakeWindTurbineKit": "Fabricar aerogenerador",
+    "LWMakeWaterWheel": "Fabricar rueda hidráulica",
+    "LWMakePowerBankKit": "Fabricar batería portátil",
+    "LWMakeBreakerKit": "Fabricar panel de disyuntores",
+    "LWMakeSoundproofKit": "Fabricar kit de insonorización para inversor",
+    "LWMakeDeepCycleBattery": "Fabricar batería de ciclo profundo",
+    "LWMakeBatteryAlarmKit": "Fabricar alarma de batería baja"
+}

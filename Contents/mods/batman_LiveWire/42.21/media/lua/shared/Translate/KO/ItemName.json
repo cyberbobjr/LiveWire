@@ -1,0 +1,14 @@
+{
+    "LiveWire.VoltageTester": "전압 테스터",
+    "LiveWire.SolarCell": "태양광 셀",
+    "LiveWire.DeepCycleBattery": "심방전 배터리",
+    "LiveWire.SoundproofKit": "인버터 방음 키트",
+    "LiveWire.MonitorDisk": "디스크: Live Wire 관리 소프트웨어",
+    "Base.Mov_LiveWire_SolarPanel": "태양광 패널",
+    "Base.Mov_LiveWire_WindTurbine": "풍력 터빈",
+    "Base.Mov_LiveWire_WaterWheel": "물레방아",
+    "Base.Mov_LiveWire_Inverter": "인버터",
+    "Base.Mov_LiveWire_PowerBank": "파워뱅크",
+    "Base.Mov_LiveWire_Breaker": "차단기 패널",
+    "Base.Mov_LiveWire_BatteryAlarm": "배터리 부족 경보기"
+}

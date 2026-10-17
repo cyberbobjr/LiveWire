@@ -1,0 +1,14 @@
+{
+    "LWMakeVoltageTester": "전압 테스터 만들기",
+    "LWSalvageSolarCell": "계산기 분해하기",
+    "LWMakeSolarCellFromScrap": "폐품으로 태양광 셀 만들기",
+    "LWMakeSolarPanelKit": "태양광 패널 만들기",
+    "LWMakeInverterKit": "인버터 만들기",
+    "LWMakeWindTurbineKit": "풍력 터빈 만들기",
+    "LWMakeWaterWheel": "물레방아 만들기",
+    "LWMakePowerBankKit": "파워뱅크 만들기",
+    "LWMakeBreakerKit": "차단기 패널 만들기",
+    "LWMakeSoundproofKit": "인버터 방음 키트 만들기",
+    "LWMakeDeepCycleBattery": "심방전 배터리 만들기",
+    "LWMakeBatteryAlarmKit": "배터리 부족 경보기 만들기"
+}

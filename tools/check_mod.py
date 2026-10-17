@@ -6,7 +6,8 @@ Checks:
   2. all files load in order in a permissive stub environment (catches load-time
      errors such as calling a missing table);
   3. every translation key used in Lua/scripts exists in EN and FR, EN and FR have
-     the same keys, and lone '%' signs are flagged;
+     the same keys, and lone '%' signs are flagged; every other language has the
+     same files, keys, %N arguments and %% signs as EN;
   4. every file in lua/server starts with the isClient() guard;
   5. models referenced by item scripts exist, and their mesh/texture files exist;
   6. event names used with Events.X.Add exist in LuaEventManager.java (if the
@@ -156,6 +157,33 @@ def check_translations():
     if set(tr["EN"]) != set(tr["FR"]):
         for k in sorted(set(tr["EN"]) ^ set(tr["FR"])):
             fail("key only in one language: %s" % k)
+    # Other languages: same files and keys as EN, same %N arguments and %% signs.
+    en_files = sorted(os.path.basename(p) for p in glob.glob(os.path.join(LUA, "shared", "Translate", "EN", "*.json")))
+    for d in sorted(glob.glob(os.path.join(LUA, "shared", "Translate", "*"))):
+        lang = os.path.basename(d)
+        if lang in ("EN", "FR"):
+            continue
+        files = sorted(os.path.basename(p) for p in glob.glob(os.path.join(d, "*.json")))
+        if files != en_files:
+            fail("%s: files differ from EN: %s" % (lang, sorted(set(files) ^ set(en_files))))
+        keys = {}
+        for p in glob.glob(os.path.join(d, "*.json")):
+            raw = open(p, "rb").read()
+            if raw.startswith(b"\xef\xbb\xbf"):
+                fail("%s %s: UTF-8 BOM" % (lang, os.path.basename(p)))
+            keys.update(json.loads(raw.decode("utf-8-sig")))
+        for k in sorted(set(keys) ^ set(tr["EN"])):
+            fail("%s: key %s %s" % (lang, k, "missing" if k in tr["EN"] else "unknown"))
+        for k, v in keys.items():
+            en = tr["EN"].get(k)
+            if en is None:
+                continue
+            if sorted(re.findall(r"%[0-9]", v)) != sorted(re.findall(r"%[0-9]", en)) or v.count("%%") != en.count("%%"):
+                fail("%s %s: arguments differ from EN" % (lang, k))
+            if re.search(r"%(?![0-9%])", v.replace("%%", "")):
+                fail("%s %s: lone %% sign" % (lang, k))
+            if "�" in v or re.search(r"\w\?\w|\?{3,}", v):
+                fail("%s %s: lost characters" % (lang, k))
     # Every device model and state used by the code has a label.
     defs = open(os.path.join(LUA, "shared", "LiveWire", "LW_Defs.lua")).read()
     block = defs[defs.index("Defs.devices = {"):defs.index("Defs.batteries")]

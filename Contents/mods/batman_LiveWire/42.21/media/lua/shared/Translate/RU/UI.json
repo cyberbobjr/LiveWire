@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "Live Wire",
+    "UI_LW_Options_HumVolume": "Громкость гула инвертора (0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0 = без гула. Только для вас; слышен в одной клетке вокруг работающего инвертора."
+}

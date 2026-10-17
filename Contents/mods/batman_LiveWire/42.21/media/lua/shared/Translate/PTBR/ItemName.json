@@ -1,0 +1,14 @@
+{
+    "LiveWire.VoltageTester": "Testador de Tensão",
+    "LiveWire.SolarCell": "Célula Solar",
+    "LiveWire.DeepCycleBattery": "Bateria de Ciclo Profundo",
+    "LiveWire.SoundproofKit": "Kit de Insonorização de Inversor",
+    "LiveWire.MonitorDisk": "Disco: Software de Gestão Live Wire",
+    "Base.Mov_LiveWire_SolarPanel": "Painel Solar",
+    "Base.Mov_LiveWire_WindTurbine": "Turbina Eólica",
+    "Base.Mov_LiveWire_WaterWheel": "Roda d'Água",
+    "Base.Mov_LiveWire_Inverter": "Inversor",
+    "Base.Mov_LiveWire_PowerBank": "Power Bank",
+    "Base.Mov_LiveWire_Breaker": "Painel de Disjuntores",
+    "Base.Mov_LiveWire_BatteryAlarm": "Alarme de Bateria Baixa"
+}

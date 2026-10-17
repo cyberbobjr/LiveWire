@@ -1,0 +1,14 @@
+{
+    "LWMakeVoltageTester": "Spannungsprüfer herstellen",
+    "LWSalvageSolarCell": "Rechner zerlegen",
+    "LWMakeSolarCellFromScrap": "Solarzelle aus Schrott herstellen",
+    "LWMakeSolarPanelKit": "Solarpanel herstellen",
+    "LWMakeInverterKit": "Wechselrichter herstellen",
+    "LWMakeWindTurbineKit": "Windturbine herstellen",
+    "LWMakeWaterWheel": "Wasserrad herstellen",
+    "LWMakePowerBankKit": "Powerbank herstellen",
+    "LWMakeBreakerKit": "Schutzschaltertafel herstellen",
+    "LWMakeSoundproofKit": "Schalldämmset für Wechselrichter herstellen",
+    "LWMakeDeepCycleBattery": "Tiefzyklus-Batterie herstellen",
+    "LWMakeBatteryAlarmKit": "Batteriealarm herstellen"
+}

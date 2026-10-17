@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "Live Wire",
+    "UI_LW_Options_HumVolume": "Volumen del zumbido del inversor (0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0 = sin zumbido. Solo para ti; se oye a una casilla alrededor de un inversor encendido."
+}

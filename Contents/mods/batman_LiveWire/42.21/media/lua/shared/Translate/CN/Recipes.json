@@ -1,0 +1,14 @@
+{
+    "LWMakeVoltageTester": "制作电压测试仪",
+    "LWSalvageSolarCell": "拆解计算器",
+    "LWMakeSolarCellFromScrap": "用废料制作太阳能电池",
+    "LWMakeSolarPanelKit": "制作太阳能板",
+    "LWMakeInverterKit": "制作逆变器",
+    "LWMakeWindTurbineKit": "制作风力涡轮机",
+    "LWMakeWaterWheel": "制作水轮机",
+    "LWMakePowerBankKit": "制作移动电源",
+    "LWMakeBreakerKit": "制作断路器面板",
+    "LWMakeSoundproofKit": "制作逆变器隔音套件",
+    "LWMakeDeepCycleBattery": "制作深循环电池",
+    "LWMakeBatteryAlarmKit": "制作低电量警报器"
+}

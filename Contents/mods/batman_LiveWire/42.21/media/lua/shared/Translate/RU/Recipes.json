@@ -1,0 +1,14 @@
+{
+    "LWMakeVoltageTester": "Собрать индикатор напряжения",
+    "LWSalvageSolarCell": "Разобрать калькулятор",
+    "LWMakeSolarCellFromScrap": "Собрать солнечную ячейку из металлолома",
+    "LWMakeSolarPanelKit": "Собрать солнечную панель",
+    "LWMakeInverterKit": "Собрать инвертор",
+    "LWMakeWindTurbineKit": "Собрать ветряную турбину",
+    "LWMakeWaterWheel": "Собрать водяное колесо",
+    "LWMakePowerBankKit": "Собрать силовой блок",
+    "LWMakeBreakerKit": "Собрать щиток автоматов",
+    "LWMakeSoundproofKit": "Собрать комплект звукоизоляции инвертора",
+    "LWMakeDeepCycleBattery": "Собрать аккумулятор глубокого разряда",
+    "LWMakeBatteryAlarmKit": "Собрать сигнализацию низкого заряда"
+}

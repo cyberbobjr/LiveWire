@@ -1,0 +1,14 @@
+{
+    "LiveWire.VoltageTester": "検電器",
+    "LiveWire.SolarCell": "太陽電池",
+    "LiveWire.DeepCycleBattery": "ディープサイクルバッテリー",
+    "LiveWire.SoundproofKit": "インバーター防音キット",
+    "LiveWire.MonitorDisk": "ディスク: Live Wire管理ソフト",
+    "Base.Mov_LiveWire_SolarPanel": "ソーラーパネル",
+    "Base.Mov_LiveWire_WindTurbine": "風力発電機",
+    "Base.Mov_LiveWire_WaterWheel": "水車",
+    "Base.Mov_LiveWire_Inverter": "インバーター",
+    "Base.Mov_LiveWire_PowerBank": "モバイルバッテリー",
+    "Base.Mov_LiveWire_Breaker": "分電盤",
+    "Base.Mov_LiveWire_BatteryAlarm": "低バッテリー警報"
+}

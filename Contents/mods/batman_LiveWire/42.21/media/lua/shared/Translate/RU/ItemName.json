@@ -1,0 +1,14 @@
+{
+    "LiveWire.VoltageTester": "Индикатор напряжения",
+    "LiveWire.SolarCell": "Солнечная ячейка",
+    "LiveWire.DeepCycleBattery": "Аккумулятор глубокого разряда",
+    "LiveWire.SoundproofKit": "Комплект звукоизоляции инвертора",
+    "LiveWire.MonitorDisk": "Диск: программа управления Live Wire",
+    "Base.Mov_LiveWire_SolarPanel": "Солнечная панель",
+    "Base.Mov_LiveWire_WindTurbine": "Ветряная турбина",
+    "Base.Mov_LiveWire_WaterWheel": "Водяное колесо",
+    "Base.Mov_LiveWire_Inverter": "Инвертор",
+    "Base.Mov_LiveWire_PowerBank": "Силовой блок",
+    "Base.Mov_LiveWire_Breaker": "Щиток автоматов",
+    "Base.Mov_LiveWire_BatteryAlarm": "Сигнализация низкого заряда"
+}

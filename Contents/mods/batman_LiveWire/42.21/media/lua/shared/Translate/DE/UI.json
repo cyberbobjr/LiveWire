@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "Live Wire",
+    "UI_LW_Options_HumVolume": "Lautstärke des Wechselrichter-Brummens (0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0 = kein Brummen. Nur für dich; man hört es ein Feld um einen laufenden Wechselrichter."
+}

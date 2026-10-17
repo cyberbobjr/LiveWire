@@ -1,0 +1,14 @@
+{
+    "LiveWire.VoltageTester": "Spannungsprüfer",
+    "LiveWire.SolarCell": "Solarzelle",
+    "LiveWire.DeepCycleBattery": "Tiefzyklus-Batterie",
+    "LiveWire.SoundproofKit": "Schalldämmset für Wechselrichter",
+    "LiveWire.MonitorDisk": "Datenträger: Live-Wire-Verwaltungssoftware",
+    "Base.Mov_LiveWire_SolarPanel": "Solarpanel",
+    "Base.Mov_LiveWire_WindTurbine": "Windturbine",
+    "Base.Mov_LiveWire_WaterWheel": "Wasserrad",
+    "Base.Mov_LiveWire_Inverter": "Wechselrichter",
+    "Base.Mov_LiveWire_PowerBank": "Powerbank",
+    "Base.Mov_LiveWire_Breaker": "Schutzschaltertafel",
+    "Base.Mov_LiveWire_BatteryAlarm": "Batteriealarm"
+}

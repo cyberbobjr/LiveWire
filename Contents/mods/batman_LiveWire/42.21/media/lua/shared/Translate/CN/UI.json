@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "Live Wire",
+    "UI_LW_Options_HumVolume": "逆变器嗡嗡声音量 (0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0 = 无嗡嗡声. 仅对你生效; 在运行中的逆变器周围一格内可听到."
+}

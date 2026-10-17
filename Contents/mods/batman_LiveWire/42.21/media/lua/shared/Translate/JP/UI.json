@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "Live Wire",
+    "UI_LW_Options_HumVolume": "インバーターのうなり音量(0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0でうなり音なし。自分だけに聞こえ、動作中のインバーターの1マス周囲で鳴ります。"
+}

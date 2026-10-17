@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "Live Wire",
+    "UI_LW_Options_HumVolume": "인버터 웅웅거림 음량 (0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0 = 웅웅거림 없음. 본인에게만 적용되며, 가동 중인 인버터에서 한 타일 이내에서만 들립니다."
+}
