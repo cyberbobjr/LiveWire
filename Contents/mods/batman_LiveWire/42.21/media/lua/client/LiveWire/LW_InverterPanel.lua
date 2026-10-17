@@ -14,8 +14,10 @@ local Panel = ISPanel:derive("LiveWireInverterPanel")
 LiveWire.InverterPanel = Panel
 Panel.instance = nil
 
-local W, H = 340, 262
-local LCD_X, LCD_Y, LCD_W, LCD_H = 18, 40, 304, 138
+local W, H = 440, 262
+local LCD_X, LCD_Y, LCD_W, LCD_H = 18, 40, 404, 138
+local SCROLL_PX_PER_S = 40   -- lines wider than the screen scroll back and forth
+local SCROLL_PAUSE_MS = 1200
 local RESUBSCRIBE_MS = 60 * 1000
 local CLOSE_RANGE = 30
 local PAGES = 5
@@ -175,6 +177,32 @@ function Panel:pageContent(snap)
     return lines, bars
 end
 
+-- One LCD line, clipped to the screen; a line too wide for it scrolls back and
+-- forth with a pause at each end. `reserve`: width kept free on the right.
+function Panel:lcdLine(s, y, font, now, reserve)
+    local avail = LCD_W - 16 - reserve
+    local width = getTextManager():MeasureStringX(font, s)
+    local offset = 0
+    if width > avail then
+        local travel = width - avail
+        local moveMs = travel / SCROLL_PX_PER_S * 1000
+        local cycle = 2 * (moveMs + SCROLL_PAUSE_MS)
+        local t = now % cycle
+        if t < SCROLL_PAUSE_MS then
+            offset = 0
+        elseif t < SCROLL_PAUSE_MS + moveMs then
+            offset = (t - SCROLL_PAUSE_MS) / moveMs * travel
+        elseif t < 2 * SCROLL_PAUSE_MS + moveMs then
+            offset = travel
+        else
+            offset = travel - (t - 2 * SCROLL_PAUSE_MS - moveMs) / moveMs * travel
+        end
+    end
+    self:setStencilRect(LCD_X + 6, LCD_Y, avail + 4, LCD_H)
+    self:drawText(s, LCD_X + 8 - math.floor(offset), y, 0.08, 0.13, 0.05, 1, font)
+    self:clearStencilRect()
+end
+
 function Panel:render()
     ISPanel.render(self)
     local snap = self:snapshot()
@@ -203,7 +231,7 @@ function Panel:render()
         local lines, bars = self:pageContent(snap)
         local y = LCD_Y + 6
         for i = 1, #lines do
-            self:drawText(lines[i], LCD_X + 8, y, tr, tg, tb, 1, font)
+            self:lcdLine(lines[i], y, font, now, i == 1 and 44 or 0)
             if i == 1 then
                 self:drawText(tostring(self.page) .. "/" .. tostring(PAGES), LCD_X + LCD_W - 34, y, tr, tg, tb, 1, font)
                 self:drawRect(LCD_X + 6, y + fh + 1, LCD_W - 12, 1, 1, tr, tg, tb)
