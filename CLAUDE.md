@@ -32,4 +32,4 @@ Mod Project Zomboid **Build 42.21** de l'utilisateur (compte de jeu `batman`). C
 - Langues livrées : **EN** (référence) et **FR**. Reprendre le vocabulaire vanilla de `media/lua/shared/Translate/FR` du dépôt de référence.
 
 ## Git
-- Dépôt privé `cyberbobjr/LiveWire`. Travailler sur `main`, un commit par étape cohérente, message en anglais. Ne jamais publier sur le Workshop : la publication se fait sur le poste de l'utilisateur.
+- Dépôt **public** `cyberbobjr/LiveWire` : n'y mettre aucune donnée personnelle (chemins de ton poste, adresses, clés). Travailler sur `main`, un commit par étape cohérente, message en anglais. Ne jamais publier sur le Workshop : la publication se fait sur le poste de l'utilisateur.

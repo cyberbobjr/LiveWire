@@ -27,4 +27,4 @@ Un **disjoncteur mural** et une **alarme de batterie faible** sont disponibles e
 - Instructions pour les agents : `CLAUDE.md`.
 - Sources de référence du jeu : dépôt privé `cyberbobjr/pz-source-42.21`.
 
-Dépôt privé.
+Dépôt public.
