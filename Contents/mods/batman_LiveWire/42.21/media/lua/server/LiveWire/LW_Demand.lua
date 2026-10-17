@@ -12,7 +12,9 @@ LiveWire.Demand = Demand
 
 -- inventories[inverterId] = { builtAt = hours, objects = { IsoObject... } }
 Demand.inventories = {}
-Demand.REBUILD_HOURS = 1
+-- OnObjectAdded only fires on MP clients (AddItemToMapPacket.java:59,90), so new
+-- appliances are found by this periodic rebuild.
+Demand.REBUILD_HOURS = 0.5
 
 function Demand.invalidate(inverterId)
     if inverterId then
@@ -22,8 +24,11 @@ function Demand.invalidate(inverterId)
     end
 end
 
-local function gridPowered(sq)
-    return sq:hasGridPower() and sq:getRoom() ~= nil
+local function allowExterior()
+    local opts = getSandboxOptions()
+    local opt = opts and opts:getOptionByName("AllowExteriorGenerator")
+    if opt then return opt:getValue() end
+    return true
 end
 
 -- Full scan of the disc (cost: about pi * R^2 * levels squares).
@@ -65,11 +70,20 @@ function Demand.measure(inv)
         entry = { builtAt = now, objects = build(inv) }
         Demand.inventories[inv.id] = entry
     end
+    -- Same filters as IsoGenerator.setSurroundingElectricity (IsoGenerator.java:274-286):
+    -- not already on the public grid, exterior squares only if AllowExteriorGenerator.
+    -- While our anchor is on, only count squares the engine really powers
+    -- (the engine generator range is a static value, notes-moteur.md note 27).
+    local anchor = LiveWire.Registry.anchors and LiveWire.Registry.anchors[inv.id]
+    local anchorOn = anchor and anchor.on
+    local exteriorOk = allowExterior()
     local total = 0
     for i = 1, #entry.objects do
         local o = entry.objects[i]
         local sq = o:getSquare()
-        if sq and o:getObjectIndex() ~= -1 and not gridPowered(sq) then
+        if sq and o:getObjectIndex() ~= -1 and not ItemContainer.isObjectPowered(o, false)
+            and (exteriorOk or not sq:getProperties():has(IsoFlagType.exterior))
+            and (not anchorOn or sq:haveElectricity()) then
             local p = o:getGeneratorPowerConsumption()
             if p and p > 0 then total = total + p end
         end
@@ -92,5 +106,4 @@ local function onObjectChanged(obj)
     end
 end
 
-Events.OnObjectAdded.Add(onObjectChanged)
 Events.OnObjectAboutToBeRemoved.Add(onObjectChanged)

@@ -27,8 +27,8 @@ function Marks.isOurs(obj)
     return markOf(obj) ~= nil
 end
 
-function Marks.set(holder, id, model)
-    holder:getModData()[Marks.KEY] = { id = id, model = model, s = Marks.VERSION }
+function Marks.set(holder, id, model, facing)
+    holder:getModData()[Marks.KEY] = { id = id, model = model, facing = facing, s = Marks.VERSION }
 end
 
 function Marks.clear(holder)

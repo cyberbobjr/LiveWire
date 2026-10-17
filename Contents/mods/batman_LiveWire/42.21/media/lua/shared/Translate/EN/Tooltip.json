@@ -13,6 +13,8 @@
     "Tooltip_LW_DeadBattery": "This battery is dead.",
     "Tooltip_LW_TooGood": "This battery is in good condition already.",
     "Tooltip_LW_TooFar": "Too far away.",
+    "Tooltip_LW_AlreadyLinked": "Already connected to this inverter.",
+    "Tooltip_LW_NotLinked": "This battery is not connected.",
     "Tooltip_LW_Invalid": "Not possible.",
     "Tooltip_LW_Safehouse": "Not allowed in this safehouse.",
     "Tooltip_LW_TurnOffFirst": "Turn the inverter off first.",

@@ -13,6 +13,8 @@
     "Tooltip_LW_DeadBattery": "Cette batterie est morte.",
     "Tooltip_LW_TooGood": "Cette batterie est déjà en bon état.",
     "Tooltip_LW_TooFar": "Trop loin.",
+    "Tooltip_LW_AlreadyLinked": "Déjà raccordé à cet onduleur.",
+    "Tooltip_LW_NotLinked": "Cette batterie n'est pas raccordée.",
     "Tooltip_LW_Invalid": "Impossible.",
     "Tooltip_LW_Safehouse": "Interdit dans cette safehouse.",
     "Tooltip_LW_TurnOffFirst": "Éteignez d'abord l'onduleur.",

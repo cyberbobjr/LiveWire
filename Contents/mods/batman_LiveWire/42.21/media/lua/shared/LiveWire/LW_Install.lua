@@ -58,35 +58,30 @@ function Install.giveItem(character, fullType)
     return item
 end
 
--- Wall used by a wall-mounted device on `sq`: "N" or "W" for the square's own
--- north / west wall (IsoGridSquare.getWall(boolean), IsoGridSquare.java:3962).
+-- Wall used by a wall-mounted device placed ON `sq` (the device stays on the clicked
+-- square, like vanilla wall objects, ISMoveableSpriteProps.lua:2651-2661):
+--   "N" / "W": the square's own north / west wall (IsoGridSquare.getWall, :3962);
+--   "S" / "E": the north wall of the south neighbour / west wall of the east neighbour.
 function Install.wallFacing(sq)
     if not sq then return nil end
     if sq:getWall(true) then return "N" end
     if sq:getWall(false) then return "W" end
+    local cell = getCell()
+    local south = cell:getGridSquare(sq:getX(), sq:getY() + 1, sq:getZ())
+    if south and south:getWall(true) then return "S" end
+    local east = cell:getGridSquare(sq:getX() + 1, sq:getY(), sq:getZ())
+    if east and east:getWall(false) then return "E" end
     return nil
 end
 
--- For a click next to an east or south wall, the wall belongs to the neighbour.
-function Install.wallTarget(sq)
-    local f = Install.wallFacing(sq)
-    if f then return sq, f end
-    local cell = getCell()
-    local east = cell:getGridSquare(sq:getX() + 1, sq:getY(), sq:getZ())
-    if east and east:getWall(false) then return east, "W" end
-    local south = cell:getGridSquare(sq:getX(), sq:getY() + 1, sq:getZ())
-    if south and south:getWall(true) then return south, "N" end
-    return nil, nil
-end
+local FACING_FLAG = { N = "attachedN", W = "attachedW", S = "attachedS", E = "attachedE" }
 
--- Pick the sprite variant facing the wall from the candidates' attachedN/W flags.
--- Assumption to check in game (prototype P1): the candidate names and flags.
+-- Pick the sprite variant whose attached flag matches the wall.
 function Install.wallSprite(def, facing)
-    local wanted = IsoFlagType.attachedN
-    if facing == "W" then wanted = IsoFlagType.attachedW end
+    local flag = IsoFlagType[FACING_FLAG[facing] or "attachedN"]
     for i = 1, #(def.wallSprites or {}) do
         local spr = getSprite(def.wallSprites[i])
-        if spr and spr:getProperties():has(wanted) then return def.wallSprites[i] end
+        if spr and spr:getProperties():has(flag) then return def.wallSprites[i] end
     end
     return def.sprite
 end

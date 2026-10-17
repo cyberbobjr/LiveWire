@@ -64,6 +64,13 @@ function Menu.onUnlink(player, id)
     LiveWire.Client.send(LiveWire.Protocol.C_UNLINK, { device = id })
 end
 
+function Menu.onUnlinkBattery(player, w)
+    local sq = w:getSquare()
+    if not sq or not w:getItem() then return end
+    LiveWire.Client.send(LiveWire.Protocol.C_UNLINK_BATTERY,
+        { x = sq:getX(), y = sq:getY(), z = sq:getZ(), item = w:getItem():getID() })
+end
+
 function Menu.onSetInverter(player, id, on)
     LiveWire.Client.send(LiveWire.Protocol.C_SET_INVERTER, { inverter = id, on = on })
 end
@@ -170,7 +177,6 @@ local function onFillWorld(playerNum, context, worldobjects, test)
             local model = LiveWire.Defs.kitToModel[fullType]
             local def = LiveWire.Defs.devices[model]
             local target = sq
-            if def.wallMounted then target = I().wallTarget(sq) or sq end
             local o = sub:addOption(getText("ContextMenu_LW_Install", modelName(model)),
                 player, Menu.onInstall, kit, target)
             local ok, why, arg = I().check(player, model, target)
@@ -187,6 +193,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
         local o = sub:addOption(getText("ContextMenu_LW_LinkBattery", name), player, Menu.onLink, w, inverter)
         local ok, why, arg = I().checkLink(player, w, inverter)
         if not ok then tip(o, why, arg) end
+        sub:addOption(getText("ContextMenu_LW_UnlinkBattery", name), player, Menu.onUnlinkBattery, w)
     end
 end
 

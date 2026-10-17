@@ -40,12 +40,13 @@ Defs.devices = {
     Breaker = {
         role = "option", kind = "breaker",
         kit = "LiveWire.BreakerKit",
-        -- Wall-mounted, like a real breaker panel. Placeholder: Mov_SquareWallClock.
-        -- The facing variant is picked at install time from the attachedN / attachedW
-        -- flags of these candidates (variant names are an assumption, see prototype P1).
-        sprite = "walls_decoration_01_105",
-        wallSprites = { "walls_decoration_01_104", "walls_decoration_01_105",
-                        "walls_decoration_01_106", "walls_decoration_01_107" },
+        -- Wall-mounted, like a real breaker panel. Placeholder: vanilla wall light
+        -- (lighting_indoor_02_44 attachedW, _45 attachedN, _46 attachedS, _47 attachedE:
+        -- knowledge/power-and-lights.md:103). Placed as a plain IsoObject, it emits no
+        -- light. The variant is picked at install time from these flags.
+        sprite = "lighting_indoor_02_45",
+        wallSprites = { "lighting_indoor_02_44", "lighting_indoor_02_45",
+                        "lighting_indoor_02_46", "lighting_indoor_02_47" },
         wallMounted = true,
         level = 3, xp = 5,
         wearDays = 15,

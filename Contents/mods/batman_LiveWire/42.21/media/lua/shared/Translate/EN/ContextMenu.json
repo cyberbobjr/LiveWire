@@ -6,6 +6,7 @@
     "ContextMenu_LW_Link": "Connect to the inverter",
     "ContextMenu_LW_LinkBattery": "Connect %1 to the inverter",
     "ContextMenu_LW_Unlink": "Disconnect",
+    "ContextMenu_LW_UnlinkBattery": "Disconnect %1",
     "ContextMenu_LW_Repair": "Repair",
     "ContextMenu_LW_Overhaul": "Overhaul",
     "ContextMenu_LW_ClearSnow": "Clear the snow",

@@ -96,17 +96,21 @@ function LWInstallAction:complete()
     end
 
     local sprite = def.sprite
-    if def.wallMounted then sprite = I().wallSprite(def, I().wallFacing(sq)) end
+    local facing = nil
+    if def.wallMounted then
+        facing = I().wallFacing(sq)
+        sprite = I().wallSprite(def, facing)
+    end
     local cond = item:getCondition()
     if not I().removeItem(ch, item) then return false end
 
     local dev = R().addDevice({
         role = def.role, model = model, x = sq:getX(), y = sq:getY(), z = sq:getZ(),
         cond = cond, eff = LiveWire.Defs.installEfficiency(level), level = level,
-        state = (def.role == "inverter") and "on" or "ok",
+        state = (def.role == "inverter") and "on" or "ok", facing = facing,
     })
     local obj = IsoObject.new(getCell(), sq, sprite)
-    LiveWire.Marks.set(obj, dev.id, model)
+    LiveWire.Marks.set(obj, dev.id, model, facing)
     sq:transmitAddObjectToSquare(obj, -1)
 
     if def.role == "inverter" then
@@ -240,6 +244,19 @@ function LWLinkAction:complete()
     local inv = deviceOf(invObj)
     local grid = inv and inv.grid and R().grid(inv.grid)
     if not grid then return false end
+
+    -- Already on this network: nothing to do (no wire, no XP).
+    local already
+    if instanceof(target, "IsoWorldInventoryObject") then
+        local m = target:getItem() and LiveWire.Marks.getItem(target:getItem())
+        already = m and R().device(m.id)
+    else
+        already = deviceOf(target)
+    end
+    if already and already.grid == grid.id then
+        LiveWire.notify(ch, "Tooltip_LW_AlreadyLinked", {}, true)
+        return false
+    end
 
     -- Breaker: one per network, checked before anything is consumed.
     if not instanceof(target, "IsoWorldInventoryObject") then
@@ -609,8 +626,7 @@ LWReconditionAction.GAIN = 15
 
 local function isWater(item)
     local fc = item:getFluidContainer()
-    return fc ~= nil and fc:contains(Fluid.Water)
-        and fc:getAmount() >= LWReconditionAction.WATER_LITRES
+    return fc ~= nil and fc:getSpecificFluidAmount(Fluid.Water) >= LWReconditionAction.WATER_LITRES
 end
 
 local function waterSource(character)
@@ -655,7 +671,9 @@ function LWReconditionAction:complete()
     end
     local water = waterSource(ch)
     local fc = water:getFluidContainer()
-    fc:adjustAmount(fc:getAmount() - LWReconditionAction.WATER_LITRES)
+    -- Remove water only (adjustAmount would scale every fluid, FluidContainer.java:647-660).
+    fc:adjustSpecificFluidAmount(Fluid.Water,
+        fc:getSpecificFluidAmount(Fluid.Water) - LWReconditionAction.WATER_LITRES)
     water:syncItemFields()
     I().consume(ch, "Base.ElectronicsScrap", 1)
     local newCond = math.min(LWReconditionAction.MAX_COND, item:getCondition() + LWReconditionAction.GAIN)

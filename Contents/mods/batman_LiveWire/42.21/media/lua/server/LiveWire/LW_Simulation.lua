@@ -224,6 +224,28 @@ function Sim.stepGrid(grid, now, w)
     end
     local demandW = grid.demand or 0
 
+    -- Sources and equipment removed by another path (admin, other mod): drop them after
+    -- two consecutive checks of a loaded square.
+    do
+        local s0, _, o0 = R.members(grid)
+        local all = {}
+        for i = 1, #s0 do all[#all + 1] = s0[i] end
+        for i = 1, #o0 do all[#all + 1] = o0[i] end
+        for i = 1, #all do
+            local dev = all[i]
+            local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
+            if sq and not LiveWire.Marks.findOnSquare(sq, dev.id) then
+                dev.missing = (dev.missing or 0) + 1
+                if dev.missing >= 2 then
+                    LiveWire.log("device " .. dev.id .. " is gone from its square, removing it")
+                    R.removeDevice(dev.id)
+                end
+            elseif sq then
+                dev.missing = nil
+            end
+        end
+    end
+
     local sources, batteryDevs = R.members(grid)
     local entries = {}
     for i = 1, #batteryDevs do

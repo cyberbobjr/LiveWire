@@ -31,6 +31,28 @@ local function oursOnSquareWithSprite(sq, spriteName)
     return false
 end
 
+-- Destroying a wall also removes the objects attached to it, on its square (attachedN/W)
+-- and on the neighbour behind it (attachedS/E) (ISDestroyStuffAction.lua:163-200).
+-- Refuse when one of our wall-mounted devices hangs on that wall.
+local function carriesOurDevice(obj)
+    local sq = obj and obj.getSquare and obj:getSquare()
+    if not sq then return false end
+    local cell = getCell()
+    local function hasFacing(s, facings)
+        if not s then return false end
+        local objs = s:getObjects()
+        for i = 0, objs:size() - 1 do
+            local m = LiveWire.Marks.get(objs:get(i))
+            if m and m.facing and facings[m.facing] then return true end
+        end
+        return false
+    end
+    if hasFacing(sq, { N = true, W = true }) then return true end
+    if hasFacing(cell:getGridSquare(sq:getX(), sq:getY() - 1, sq:getZ()), { S = true }) then return true end
+    if hasFacing(cell:getGridSquare(sq:getX() - 1, sq:getY(), sq:getZ()), { E = true }) then return true end
+    return false
+end
+
 local function wrapPickUp()
     if Guards.done.pickUp or not ISMoveableSpriteProps then return end
     local original = ISMoveableSpriteProps.canPickUpMoveable
@@ -54,7 +76,7 @@ local function wrapDestroyCursor()
     if Guards.done.destroyCursor or not ISDestroyCursor then return end
     local original = ISDestroyCursor.canDestroy
     ISDestroyCursor.canDestroy = function(self, object)
-        if isOurs(object) then return false end
+        if isOurs(object) or carriesOurDevice(object) then return false end
         return original(self, object)
     end
     Guards.done.destroyCursor = true
@@ -78,7 +100,7 @@ local function wrapDestroyAction()
     if Guards.done.destroy or not ISDestroyStuffAction then return end
     local original = ISDestroyStuffAction.complete
     ISDestroyStuffAction.complete = function(self)
-        if isOurs(self.item) then
+        if isOurs(self.item) or carriesOurDevice(self.item) then
             LiveWire.log("refused vanilla destroy on a Live Wire device")
             return false
         end
