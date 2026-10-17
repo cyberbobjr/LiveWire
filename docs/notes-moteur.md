@@ -165,3 +165,34 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - Cette méthode est publique (`IsoObject.java:4900`) ; elle ne fait rien si un conteneur existe déjà.
   - `IsoGenerator.save` et `load` passent par `IsoObject.save` et `load` (`IsoGenerator.java:369`, `:384`), qui écrivent les conteneurs (`IsoObject.java:1502-1510`).
 - Conséquence : pour donner un compartiment à un générateur de mod, il faut appeler `createContainersFromSpriteProperties()` sur l'autorité et sur chaque client qui reçoit l'objet. Une fois créé, le conteneur serait sauvegardé avec l'objet. À vérifier en jeu : transmission initiale et transferts MP.
+
+## 18. Positions de générateur : envoyées aux clients avec le chunk, purgées aussi chez eux, et `LoadChunk` des deux côtés
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement) ; effet visible chez un client : hypothèse
+- Preuve :
+  - Le client télécharge chaque chunk et le relit par `LoadFromBuffer` (`java/zombie/iso/WorldStreamer.java:661`). Cette lecture lit aussi la liste `generatorsTouchingThisChunk` (`java/zombie/iso/IsoChunk.java:3318-3331`).
+  - La purge `IsoGenerator.chunkLoaded` (`IsoChunk.java:3526`) est suivie de l'événement `LoadChunk`, déclenché sans condition de côté (`IsoChunk.java:3613`).
+  - `addGeneratorPos` et `removeGeneratorPos` ne transmettent rien. Seul un vrai générateur fait recalculer ses positions au client, par `syncIsoObjectReceive` (`java/zombie/iso/objects/IsoGenerator.java:550-568`).
+  - Pour trouver un chunk, `IsoCell.getChunkForGridSquare` passe par `ServerMap` sur un serveur, alors que `IsoCell.getChunk(wx, wy)` ne lit que les cartes des joueurs locaux (`java/zombie/iso/IsoCell.java:361-388`).
+- Conséquences : un mod qui pose des positions par script doit :
+  - les reposer dans `LoadChunk` sur l'autorité **et** sur chaque client ;
+  - envoyer aux clients ses changements d'état ;
+  - utiliser `getChunkForGridSquare` sur le serveur.
+
+  Une position posée sur une case qui existe (par exemple celle d'un objet de mod) est purgée au chargement suivant si le mod a disparu : il n'y a pas de fuite de courant à la désinstallation.
+
+## 19. `checkHaveElectricity` : effets côté client d'un changement d'alimentation
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement)
+- Preuve :
+  - `IsoObject.checkHaveElectricity()` ne fait rien sur un serveur. Sur un client, elle :
+    - met un réfrigérateur alimenté dans la liste des objets mis à jour ;
+    - démarre son bourdonnement (`FridgeHumLogic`) ;
+    - rafraîchit le son d'ambiance et la source de lumière (`java/zombie/iso/IsoObject.java:4800-4812`).
+  - Le moteur l'appelle sur chaque appareil du disque quand un générateur change d'état (`IsoGenerator.java:279`).
+- Conséquence : après avoir posé ou retiré des positions par script, appeler `obj:checkHaveElectricity()` côté client sur les appareils du disque.
+
+## 20. Toxicité : dégâts à chaque mise à jour, état transmis par paquet
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement)
+- Preuve :
+  - Dans un bâtiment toxique, un personnage non protégé gagne 1e-4 de fatigue et perd 0,1 point de santé au torse (et à la tête si la fatigue dépasse 0,8), **à chaque mise à jour**, multipliés par `getThirtyFPSMultiplier()` (`java/zombie/characters/IsoGameCharacter.java:8192-8202`).
+  - L'état du bâtiment est envoyé aux clients par le paquet `ToxicBuilding` (`java/zombie/iso/areas/IsoBuilding.java:509-513`, `java/zombie/network/GameServer.java:3571-3582`, `java/zombie/network/GameClient.java:795-805`).
+- Conséquence : on ne peut pas « effacer » après coup la toxicité d'un générateur posé en intérieur sans dégâts répétés. Un générateur de mod qui doit pouvoir se poser à l'intérieur ne peut pas être un vrai `IsoGenerator`.
