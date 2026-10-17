@@ -315,3 +315,27 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (algorithme rejoué hors jeu) ; plantage observé dans `console.txt`
 - Preuve : `ScriptParser.stripComments` (`java/zombie/scripting/ScriptParser.java:51-71`) part du dernier `*/` et remonte au `/*` **le plus proche** ; il gère les commentaires imbriqués mais pas un `/*` isolé dans un commentaire (par exemple un chemin `dossier/*.glb`). Seule la partie `/*.glb … */` est retirée ; le début du commentaire reste dans le texte, sans erreur de chargement, et colle à l'en-tête du bloc suivant, qui est perdu. Une recette qui produit cet objet fait ensuite échouer le monde au chargement : `ScriptManager.PostWorldDictionaryInit> … <recette> item not found: <Module>.<Objet>` (`OutputMapper.java:98`), puis `WorldDictionaryException: World loading could not proceed`.
 - Conséquence : ne jamais écrire `/*` (ni `*/`) dans le texte d'un commentaire de script. Un « item not found » sur un objet pourtant défini : chercher d'abord un commentaire de ce genre juste au-dessus de sa définition.
+
+## 36. Meuble de mod à conteneur : le conteneur vient de la tuile, sans butin
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (pz-autotest solo, `autotest/lw_hooks.lua`) ; classe `IsoThumpable` : confirmé statiquement
+- Preuve : `ISMoveableSpriteProps:placeMoveableInternal` appelle `createContainersFromSpriteProperties()` puis `setExplored(true)` sur chaque conteneur (`media/lua/shared/Moveables/ISMoveableSpriteProps.lua:2486-2489`). En jeu, une tuile de mod `container = <type>`, `ContainerCapacity = 50`, posée par `placeMoveable`, a un conteneur de ce type, vide, de capacité 50, qui accepte une batterie de voiture. Une tuile `solidtrans` (ou `solid`) devient une `IsoThumpable` à la pose (`:2350-2390`), donc frappable par les zombies.
+- Conséquence : pour un meuble de mod à conteneur, déclarer le conteneur dans la tuile plutôt que d'en créer un par script. Ne jamais emprunter un sprite vanilla qui porte `container` pour un objet qui ne doit pas en avoir : le jeu le remplit de butin quand il n'est pas marqué exploré.
+
+## 37. Pose et ramassage d'un meuble : niveau, outil et fonctions à envelopper
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; règle ajoutée confirmée en jeu
+- Preuve :
+  - `PickUpLevel` sert aussi à la pose : `hasRequiredSkill` lit `self.pickUpLevel` pour les deux modes (`ISMoveableSpriteProps.lua:485-494`). L'outil `Electrician` = tournevis et compétence Électricité (`ISMoveableDefinitions.lua:313`).
+  - Sur l'autorité, la pose passe par `placeMoveable` → `canPlaceMoveableInternal` (`:2049`), pas par `canPlaceMoveable` (curseur). Une règle de pose propre au mod s'écrit donc dans une enveloppe de `canPlaceMoveableInternal`, et sa raison dans `getInfoPanelDescription` (`:577`, panneau du curseur).
+  - La rotation est un ramassage puis une pose sur la même case (`rotateMoveable`, `:2881-2902`). `pickUpMoveableInternal` recopie `movableData` dans l'objet d'inventaire **avant** de retirer l'objet (`:1400-1404`, puis `OnObjectAboutToBeRemoved` `:1491-1494`) : un état à garder doit être écrit dans la marque avant l'appel d'origine.
+  - `OnObjectAdded` est déclenché **après** `transmitCompleteItemToClients` (`:2537-2541`) : une ModData posée ensuite n'atteint les clients que par `transmitModData()`.
+- Conséquence : envelopper `placeMoveableInternal`, `pickUpMoveableInternal` et `rotateMoveable` en gardant tous leurs arguments ; garder un identifiant de mod dans `movableData` pendant une rotation (vérifié en jeu : même identifiant, liens conservés).
+
+## 38. Ligne « overrides media/tilegeometry.txt » d'un mod à tuiles : sans effet sur le vanilla
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
+- Preuve : le journal écrit `mod "<id>" overrides media/tilegeometry.txt` pour le `common/media/tileGeometry.txt` minimal d'un mod. Mais `TileGeometryManager.initGameData` et `TileDepthTextureManager.initGameData` lisent la géométrie vanilla dans `ZomboidFileSystem.getMediaRootPath()`, puis celle de chaque mod dans son propre dossier `common` (`java/zombie/tileDepth/TileGeometryManager.java:34-50`, `TileDepthTextureManager.java:51-70`).
+- Conséquence : ce fichier, nécessaire pour charger la profondeur du mod, ne masque pas la géométrie vanilla.
+
+## 39. Lire un menu clic droit dans un test automatique
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (pz-autotest solo)
+- Preuve : `ISWorldObjectContextMenu.createMenu(0, { objet }, x, y)` rend le menu ; `menu:getOptionFromName(texte)` trouve une option, `option.subOption` et `menu:getSubMenu(option.subOption)` donnent le sous-menu, `option.notAvailable` dit si elle est grisée (`media/lua/client/ISUI/ISContextMenu.lua:889-895, 1075-1077, 1226-1232`).
+- Conséquence : un test en jeu peut vérifier le texte réel d'un menu de mod, et laisser le menu ouvert pour la capture.

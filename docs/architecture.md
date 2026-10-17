@@ -14,6 +14,18 @@
 
 ---
 
+## 0. Mise à jour 0.1.1 (2026-10-17) : équipements en tuiles
+
+Cette section prime sur le reste du document quand ils divergent.
+
+- **Tuiles** : tileset `batman_livewire_01` (tiledef 7174, `common/media/texturepacks/batman_livewire_01.pack`, `common/media/batman_livewire_01.tiles`, profondeur `common/media/depthmaps/DEPTH_batman_livewire_01.png` et `common/media/tileGeometry.txt`). Index : panneau 0-3, éolienne 4-7, roue 8-11, onduleur 12-15, powerbank 16-19 (`container = livewirepowerbank`, `ContainerCapacity = 50`), disjoncteur 20-21 et alarme 22-23 (objets muraux S, E). Propriétés : `GroupName = Live Wire`, `PickUpTool = PlaceTool = Electrician`, `PickUpLevel` = niveau requis. Recette : `source/tiles/build_livewire_tiles.py`.
+- **Pose, rotation, ramassage** : vanilla (`ISMoveableSpriteProps`). `LW_Placement.lua` enveloppe `canPlaceMoveableInternal` (dehors, berge de rivière), `getInfoPanelDescription` (raison du refus), `placeMoveableInternal`, `pickUpMoveableInternal` et `rotateMoveable`, en gardant arguments et retours. Sur l'autorité, `LW_Devices.lua` inscrit l'équipement à la pose (rendement d'après le niveau de la personne qui pose, expérience), écrit l'état dans la marque avant le ramassage, retire l'équipement au ramassage, et garde l'identifiant et les liens pendant une rotation (ramassage puis pose sur la même case).
+- **Marque** : `modData.movableData.LiveWire = { id, model, cond, eff, level, inv }`, seule partie des ModData qu'un `IsoObject` garde au ramassage (`ISMoveableSpriteProps.lua:1400-1404`). `inv` est l'onduleur du réseau ; la marque est renvoyée aux clients (`transmitModData`) à chaque raccordement et débranchement, pour les menus.
+- **Raccordement** : `Install.objectsInRange` parcourt les cases chargées à `LinkRange` (±1 étage) ; le menu de l'onduleur liste les équipements libres et raccordés. « Débrancher » est accepté près de l'équipement ou près de son onduleur.
+- **Supprimés** : `LWInstallAction`, `LWDismantleAction`, l'onduleur renforcé, les kits d'inventaire et leurs modèles 3D.
+- **Migration** : schéma 2. Les équipements du schéma 1 (sprites vanilla) passent dans `legacy.schema1` et leurs ancres sont retirées ; les anciens objets restent dans le monde comme simples meubles.
+- **Test en jeu** : `autotest/lw_hooks.lua` (pz-autotest, solo).
+
 ## 1. Mécanisme d'alimentation
 
 ### 1.1 Contrainte du moteur
@@ -124,19 +136,24 @@ Tout le mod vit sous `Contents/mods/batman_LiveWire/42.21/media/` (`CLAUDE.md`).
 ```
 lua/shared/LiveWire/LW_Core.lua            table globale LiveWire, version, journal, cles ModData
 lua/shared/LiveWire/LW_Config.lua          lecture des options sandbox
-lua/shared/LiveWire/LW_Defs.lua            sources, onduleurs, disjoncteur, batteries (donnees)
+lua/shared/LiveWire/LW_Defs.lua            equipements (tuiles, roles), batteries (donnees)
 lua/shared/LiveWire/LW_Physics.lua         fonctions pures : solaire, eolien, lissage, batteries, pas de reseau
 lua/shared/LiveWire/LW_Protocol.lua        noms de commandes, validation des arguments
-lua/shared/LiveWire/LW_Marks.lua           marque ModData des objets et des batteries
+lua/shared/LiveWire/LW_Marks.lua           marque des equipements (modData.movableData.LiveWire)
+lua/shared/LiveWire/LW_Placement.lua       enveloppes du curseur de meubles vanilla : regles de
+                                           pose (dehors, riviere), pose, ramassage, rotation
 lua/shared/LiveWire/LW_Anchor.lua          application des ancres (serveur ET clients), LoadChunk
-lua/shared/LiveWire/LW_Install.lua         regles de pose et de raccordement, outils d'inventaire
+lua/shared/LiveWire/LW_Install.lua         raccordement (portee, fils), recherche des onduleurs et
+                                           equipements sur les cases chargees, outils d'inventaire
 lua/shared/LiveWire/LW_Notify.lua          messages au joueur (cles traduites cote client)
 lua/shared/LiveWire/LW_Recipes.lua         OnCreate de la batterie stationnaire
-lua/shared/LiveWire/LW_VanillaGuards.lua   enveloppes ramasser / demonter / detruire (affichage et autorite)
+lua/shared/LiveWire/LW_VanillaGuards.lua   enveloppes demonter (ferraille) / detruire (affichage et autorite)
 lua/shared/LiveWire/TimedActions/LW_TimedActions.lua
-                                           installer, demonter, raccorder, reparer, inspecter,
+                                           raccorder, reparer, inspecter,
                                            deneiger, mesurer, reconditionner
 lua/server/LiveWire/LW_Registry.lua        registre, index par position, table publique des ancres
+lua/server/LiveWire/LW_Devices.lua         inscription a la pose, retrait au ramassage, rotation,
+                                           equipements detruits (validate)
 lua/server/LiveWire/LW_Migration.lua       migrations de schema
 lua/server/LiveWire/LW_Simulation.lua      pas de simulation (EveryTenMinutes), instantanes
 lua/server/LiveWire/LW_Demand.lua          inventaire des appareils et mesure de la demande
@@ -168,7 +185,7 @@ sandbox-options.txt
 ### 2.3 Espaces de noms et règles Kahlua
 
 - **Une seule globale : `LiveWire`.** Ses sous-tables : `Config`, `Defs`, `Physics`, `Protocol`, `Marks`, `Anchor`, `Registry`, `Sim`, `Demand`, `Batteries`, `Xp`, `Client`.
-- **Exception : les actions chronométrées.** Elles sont globales par nécessité, car `NetTimedAction` les retrouve par leur nom de classe (`java/zombie/core/NetTimedAction.java:145-172`) : `LWInstallAction`, `LWDismantleAction`, `LWLinkAction`, `LWRepairAction`, `LWInspectAction`, `LWReconditionAction`, `LWClearSnowAction`, `LWMeasureAction`.
+- **Exception : les actions chronométrées.** Elles sont globales par nécessité, car `NetTimedAction` les retrouve par leur nom de classe (`java/zombie/core/NetTimedAction.java:145-172`) : `LWLinkAction`, `LWRepairAction`, `LWInspectAction`, `LWReconditionAction`, `LWClearSnowAction`, `LWMeasureAction`.
 - **Préfixe `LW`** pour les recettes, les clés de traduction et les identifiants.
 - **Règles Kahlua** (`CLAUDE.md`, `knowledge/kahlua-lua.md`) :
   - aucun littéral non ASCII dans les `.lua` ;
@@ -393,9 +410,10 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
 
 | Fichier | Clés |
 |---|---|
-| `ItemName.json` | `LiveWire.VoltageTester`, `.SolarCell`, `.SolarPanelKit`, `.WindTurbineKit`, `.WaterWheelKit`, `.InverterKit`, `.HeavyInverterKit`, `.DeepCycleBattery` |
-| `Recipes.json` | `LWMakeVoltageTester`, `LWSalvageSolarCell`, `LWMakeSolarPanelKit`, `LWMakeSolarCellFromScrap`, `LWMakeInverterKit`, `LWMakeHeavyInverterKit`, `LWMakeWindTurbineKit`, `LWMakeWaterWheelKit`, `LWMakeDeepCycleBattery` (clé = nom de recette, `java/zombie/core/Translator.java:561-569`) |
-| `ContextMenu.json` | `ContextMenu_LW_Root`, `_Measure`, `_Install`, `_Inspect`, `_Link`, `_Unlink`, `_Repair`, `_Overhaul`, `_ClearSnow`, `_Dismantle`, `_Dashboard`, `_TurnOn`, `_TurnOff`, `_Reset`, `_Recondition` |
+| `ItemName.json` | `LiveWire.VoltageTester`, `.SolarCell`, `.DeepCycleBattery`, `Base.Mov_LiveWire_SolarPanel`, `_WindTurbine`, `_WaterWheel`, `_Inverter`, `_PowerBank`, `_Breaker`, `_BatteryAlarm` |
+| `Moveables.json` | `Live_Wire_Solar_Panel`, `_Wind_Turbine`, `_Water_Wheel`, `_Inverter`, `_Power_Bank`, `_Breaker_Panel`, `_Battery_Alarm` (nom des tuiles posées : `GroupName_CustomName`) |
+| `Recipes.json` | `LWMakeVoltageTester`, `LWSalvageSolarCell`, `LWMakeSolarPanelKit`, `LWMakeSolarCellFromScrap`, `LWMakeInverterKit`, `LWMakeWindTurbineKit`, `LWMakeWaterWheel`, `LWMakePowerBankKit`, `LWMakeBreakerKit`, `LWMakeBatteryAlarmKit`, `LWMakeDeepCycleBattery` (clé = nom de recette, `java/zombie/core/Translator.java:561-569`) |
+| `ContextMenu.json` | `ContextMenu_LW_Root`, `_Measure`, `_Inspect`, `_LinkTo`, `_InverterAt`, `_NoInverter`, `_LinkedTo`, `_LinkedFar`, `_NotLinked`, `_LinkDevice`, `_UnlinkDevice`, `_DeviceAt`, `_LinkedDeviceAt`, `_NothingToLink`, `_NothingLinked`, `_Unlink`, `_Repair`, `_Overhaul`, `_ClearSnow`, `_Dashboard`, `_TurnOn`, `_TurnOff`, `_Reset`, `_Recondition`, `_Debug*` |
 | `Tooltip.json` | `Tooltip_LW_NeedLevel` (« Électricité niv. %1 requis »), `_NeedTool`, `_NeedItems`, `_NeedOutdoor`, `_NeedRiver`, `_TooFar`, `_NoInverterInRange`, `_Overlap`, `_NeedFloor` |
 | `IG_UI.json` | `IGUI_LW_Dashboard_Title`, `_Sources`, `_Batteries`, `_Inverter`, `_Demand`, `_Stock`, `_Autonomy` (« Autonomie : environ %1 h »), `_Lost`, `_Tripped`, `_Broken`, `_Idle`, `_WornBattery`, `_Measure_Powered`, `_Measure_Source_Grid`, `_Measure_Source_Generator`, `_Measure_Source_LiveWire`, `_Measure_Draw` (« %1 W ») |
 | `Sandbox.json` | `Sandbox_LiveWire`, puis `Sandbox_LiveWire_<Option>` et `Sandbox_LiveWire_<Option>_tooltip` (`knowledge/api-42-21.md:143`, `:286`) |
@@ -468,15 +486,15 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 **Écarts avec les sections précédentes :**
 - **Batteries** : rangées dans une **powerbank** à conteneur, choix de l'utilisateur. Plus aucune batterie au sol.
 - **Interface de gestion** : abonnement par identifiant d'onduleur (§ 5.2). L'instantané porte en plus la zone couverte (`coverage`), la famille et la puissance nominale de chaque source, et la consommation par famille d'appareils (`appliances`, calculée par `LW_Demand.category` à partir des classes exposées `IsoLightSwitch`, `IsoTelevision`, `IsoRadio`, `IsoStove`, des quatre classes de lave-linge et sèche-linge, de `IsoCarBatteryCharger`, et des conteneurs `fridge` / `freezer`).
-- **Disjoncteur** : il se fixe sur un mur et reste sur la case cliquée. Son orientation (N, W, S, E) est choisie d'après les murs, et la variante de sprite d'après les drapeaux `attachedN/W/S/E` de l'applique `lighting_indoor_02_44` à `_47`. Un mur qui le porte est protégé de la masse (NM-30).
-- **Appareil disparu** : une source ou un équipement absent de sa case chargée est retiré du registre après deux constats, comme l'onduleur.
+- **Disjoncteur** : tuile murale du mod (`MoveType = WallObject`), posée par le curseur vanilla sur le mur nord ou ouest de sa case. Un mur qui le porte est protégé de la masse.
+- **Appareil disparu** : un équipement absent de sa case chargée (détruit par les zombies, par exemple) est retiré du registre au chargement du chunk et à chaque pas (`Devices.validate`).
 - **Demande** : mêmes filtres que le moteur (`ItemContainer.isObjectPowered`, `AllowExteriorGenerator`, cases réellement alimentées : NM-27). Inventaire refait toutes les 30 minutes de jeu (NM-28).
 - **Générateur de secours** (`server/LW_Backup.lua`) : appareil de rôle `backup`, lié à un `IsoGenerator` par la clé de ModData `LiveWireBackup`. Décision à chaque sous-pas avec le stock du début du sous-pas (hystérésis : marche sous `BackupStartPercent`, arrêt à `BackupStopPercent`), puissance ajoutée à la production avant `Physics.stepGrid`. Carburant brûlé par `setFuel` si la case est chargée ; sinon décompté dans le registre et appliqué au `LoadChunk` (`Backup.restore`).
 - **Ordinateur de gestion** (`server/LW_Computer.lua`) : rôle `computer`, lié à l'ordinateur vanilla par la clé `LiveWireComputer` (avec l'identifiant de l'onduleur, pour ouvrir le tableau de bord côté client). `grid.history` : 48 points horaires `{p, d, s}`. Délestage par `IsoLightSwitch:setActive(false)` sur les interrupteurs de l'inventaire de demande, case chargée seulement.
 - **Alarme** (`server/LW_Alarm.lua`, `client/LW_Beep.lua`) : option `kind = "alarm"`. Le serveur envoie `S_BEEP {x, y, z}` aux joueurs à moins de 30 cases ; chaque client joue le son localement et l'arrête après 3 s.
 - **Objets vanilla raccordés** : `Registry.members` rend cinq listes (sources, powerbanks, options, secours, ordinateurs). Débrancher, démonter l'onduleur ou constater deux fois la disparition de l'objet efface la clé de ModData et retire l'appareil du registre (`Registry.forgetVanilla`) ; un générateur que le mod avait démarré est arrêté.
 - **Debug** (`shared/LW_Debug.lua`, `server/LW_DebugCommands.lua`, `client/LW_DebugMenu.lua`) : commande unique `C_DEBUG {action, device}` enregistrée par `Commands.register`, droit revérifié, portée 30 cases, journalisée.
-- **Hors v0.1** : la roue à aubes arrive en v0.2 (`fonctionnel.md`, § 9).
+- **Roue à aubes** : en 0.1 depuis 0.1.1 (D-18), production `Physics.hydroFactor(mois)`.
 - **Pas encore implémenté** : l'adoption d'un objet marqué inconnu du registre (§ 6.3). Un tel objet reste inerte.
 
 **Points du moteur à confirmer en jeu, par ordre de risque :**
