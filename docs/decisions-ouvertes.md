@@ -26,6 +26,7 @@
 - **Équipements posés = de vraies tuiles** (2026-10-17) : chaque équipement posé est une tuile du mod, posée, tournée et ramassée comme un meuble vanilla. Pas d'objet 3D posable n'importe où.
 - **Un seul onduleur** (2026-10-17) : l'onduleur renforcé n'a jamais été demandé ; il est supprimé.
 - **Sources raccordables : panneau, éolienne et roue à aubes** (2026-10-17).
+- **Frigos et congélateurs** (2026-10-17, non négociable) : ils doivent rester froids quand le joueur quitte la zone, pour que la nourriture ne pourrisse pas.
 
 ## Décisions validées
 
@@ -52,3 +53,10 @@
 | D-17 | Onduleur renforcé (2026-10-17) | **Supprimé** : jamais demandé par l'utilisateur |
 | D-18 | Roue à aubes (2026-10-17) | **Avancée en 0.1** : l'utilisateur veut raccorder panneau, éolienne et hydraulique. Règles reprises du § 3.4 de `fonctionnel.md` : 120 W jour et nuit, saison, berge d'une rivière au niveau 0, Électricité 7 |
 | D-19 | Raccordement par menu (2026-10-17) | Clic droit sur un équipement : son état (« Raccordé à l'onduleur à N cases » ou « Non raccordé ») puis la liste des onduleurs à portée, avec distance et nombre de fils. Clic droit sur l'onduleur : « Raccorder un équipement » et « Débrancher un équipement », listes des équipements à portée. Les onduleurs sont cherchés sur les cases chargées autour, plus dans la table des ancres |
+| D-8 (révisé) | Bourdonnement de l'onduleur (2026-10-17) | `FridgeHumA` n'était pas audible en jeu. Remplacé par un **son du mod** (`LiveWireInverterHum`, bourdonnement électrique de 100 Hz synthétisé, `source/sound/make_hum.sh`), entendu à moins de 10 cases tant que l'onduleur est allumé, alimenté ou non |
+| D-20 | Disjoncteur (2026-10-17) | Avec un disjoncteur raccordé, c'est **lui qui saute** en cas de surcharge (demande des appareils > 1 500 W à un pas de simulation) ; l'onduleur reste allumé et n'est pas abîmé ; on réarme **sur le disjoncteur**. Sans disjoncteur, l'onduleur disjoncte, perd 3 points d'état et se réarme sur l'onduleur. Tuile du disjoncteur plus petite |
+| D-21 | Voyants et pièces mobiles (2026-10-17) | Calques de tuile posés par le client : écran allumé de l'onduleur, voyant rouge de défaut, voyant vert « raccordé » sur les sources et la powerbank, pales de l'éolienne qui tournent avec le vent, lampe rouge du disjoncteur déclenché, gyrophare de l'alarme |
+| D-22 | Alarme de batterie faible (2026-10-17) | Elle sonne à chaque pas de simulation (10 minutes de jeu) tant que le stock reste sous 20 % et que personne ne l'a coupée (« Couper la sonnerie ») ; son gyrophare reste allumé jusqu'au retour au-dessus de 25 % |
+| D-23 | Écran de l'onduleur et ordinateur (2026-10-17) | L'onduleur a un **écran LCD** : 5 pages (production/conso, batteries, sources, maison, état), boutons < et >, bouton marche/arrêt avec voyant, RESET en cas de disjonction. La **vue complète** est le logiciel de gestion, sur un ordinateur raccordé. Avec le **Computer Mod** (facultatif, et son Laptop Mod), le logiciel vient d'un **disque trouvé dans le butin**, s'installe sur l'ordinateur ou le portable et apparaît comme une application « Live Wire » sur son bureau |
+| D-24 | Zone alimentée (2026-10-17) | Option « Afficher la zone alimentée » sur l'onduleur : cercle dessiné au sol, à l'étage du joueur |
+| D-25 | Panneau solaire (2026-10-17, demande de l'utilisateur) | **10 cellules** par panneau. « Démonter une calculatrice » (comme le démontage vanilla : tournevis, sans niveau) donne 1 déchet électronique et 1 cellule. Cellules dans le butin des garages, ateliers et électriciens ; panneaux tout faits dans les garages, ateliers et quincailleries |

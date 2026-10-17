@@ -140,8 +140,8 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | Recette | Niv. | Entrées (outils conservés entre crochets) | Sortie | XP |
 |---|---|---|---|---|
 | `LWMakeVoltageTester` | 1 | 1 `ElectronicsScrap`, 1 `ElectricWire`, 1 `LightBulb`, 1 `Base.Battery` ; [tournevis] | `VoltageTester` | 5 |
-| `LWSalvageSolarCell` | 2 | 1 `Base.Calculator` ; [tournevis] | 1 `SolarCell` | 3 |
-| `LWMakeSolarPanelKit` | 3 | 6 `SolarCell`, 1 `SheetMetal`, 2 `ElectricWire`, 4 `Screws`, 1 `Glue` ; [tournevis, pinces] | `Mov_LiveWire_SolarPanel` | 15 |
+| `LWSalvageSolarCell` (« Démonter une calculatrice ») | — | 1 `Base.Calculator` ; [tournevis] | 1 `ElectronicsScrap` + 1 `SolarCell` | 3 |
+| `LWMakeSolarPanelKit` | 3 | 10 `SolarCell`, 1 `SheetMetal`, 2 `ElectricWire`, 4 `Screws`, 1 `Glue` ; [tournevis, pinces] | `Mov_LiveWire_SolarPanel` | 15 |
 | `LWMakeSolarCellFromScrap` | 8 | 5 `ElectronicsScrap`, 1 `Aluminum` ; [pinces] | 1 `SolarCell` | 4 |
 | `LWMakeInverterKit` | 5 | 4 `ElectronicsScrap`, 2 `Amplifier`, 3 `ElectricWire`, 1 `SmallSheetMetal`, 4 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_Inverter` | 25 |
 | `LWMakeWindTurbineKit` | 6 | 2 `Speaker` (aimants), 3 `ElectricWire`, 4 `ElectronicsScrap`, 2 `SheetMetal`, 2 `MetalBar`, 1 `Pipe`, 6 `Screws` ; [tournevis, pinces, marteau] | `Mov_LiveWire_WindTurbine` | 30 |
@@ -151,7 +151,8 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | `LWMakeDeepCycleBattery` | 6 | 2 batteries de voiture (`CarBattery1/2/3` indifférentes), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
 
 - **Apprentissage (validé : D-6).** Recettes connues automatiquement à leur niveau (`AutoLearnAny = Electricity:n`, champ vu dans `recipes_traps.txt:99-121`).
-- **Équilibrage.** Les calculatrices sont la porte d'entrée du solaire ; au niveau 8, on n'en dépend plus.
+- **Équilibrage.** Les calculatrices sont la porte d'entrée du solaire (10 par panneau) ; au niveau 8, on n'en dépend plus.
+- **Butin.** Cellules photovoltaïques : garages, ateliers, électriciens (`GarageTools`, `CrateTools`, `GarageMetalwork`, `MechanicShelfElectric`, `ElectricianTools`, `MetalShopTools`, `WireFactoryElectric`, `ToolStoreMisc`). Panneaux tout faits, plus rares : garages, ateliers, quincailleries (`GarageTools`, `CrateTools`, `GarageMetalwork`, `ToolStoreMisc`, `ToolStoreTools`). Disque du logiciel (Computer Mod seulement) : magasins et caisses d'informatique, bureaux.
 
 ---
 
@@ -416,6 +417,15 @@ Toutes les options sont dans un sous-menu **« Live Wire »**. Une option imposs
 | N'importe où, en mode debug ou admin | Debug (§ 6.5) |
 
 Poser, tourner et **ramasser** un équipement passent par le menu et le curseur de meubles vanilla. Ramasser un onduleur débranche tout son réseau ; une powerbank ne se ramasse que vide (règle vanilla des conteneurs). « Démonter » (ferraille) et « Détruire » à la masse restent refusés (`architecture.md`, § 2.4). Les batteries entrent et sortent de la powerbank par l'inventaire vanilla (§ 5.1).
+
+### 6.1 bis Nouveautés 0.1.2
+
+- **Disjoncteur** : il saute à la place de l'onduleur (demande des appareils > 1 500 W, vérifiée à chaque pas de simulation, toutes les 10 minutes de jeu et juste après une action) ; « Réarmer le disjoncteur » sur le disjoncteur, refusé tant que la demande reste trop forte. Lampe rouge quand il a sauté.
+- **Onduleur** : écran LCD (« Ouvrir l'écran de l'onduleur ») avec 5 pages, boutons < et >, bouton I/O et voyant (vert en marche, rouge à l'arrêt, orange clignotant en défaut), RESET quand il a disjoncté. Écran allumé sur la tuile quand il est en marche. « Afficher la zone alimentée » : cercle au sol. Bourdonnement du mod tant qu'il est allumé.
+- **Voyants** : vert « raccordé » sur les sources et la powerbank ; pales de l'éolienne qui tournent avec le vent (au-dessus de 10 km/h).
+- **Alarme** : bip à chaque pas tant que la batterie reste sous 20 %, jusqu'à « Couper la sonnerie » ; gyrophare allumé jusqu'au retour au-dessus de 25 %.
+- **Logiciel de gestion** : vue complète, sur un ordinateur raccordé ; barres de production et de consommation à la même échelle. Avec le Computer Mod : disque, installation, application sur le bureau.
+- **Frigos** : l'âge des aliments des frigos et congélateurs chargés est rattrapé juste avant chaque coupure ou retour du courant, comme avec un générateur vanilla.
 
 ### 6.2 Interface de gestion de l'onduleur
 

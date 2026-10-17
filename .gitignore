@@ -4,3 +4,4 @@
 __pycache__/
 *.pyc
 runs/
+autotest_cm/runs/

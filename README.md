@@ -9,7 +9,7 @@ Un **disjoncteur mural** et une **alarme de batterie faible** sont disponibles e
 
 **Pose** : chaque équipement est une **tuile du mod** (`batman_livewire_01`, formes géométriques provisoires), fabriquée par recette puis posée, tournée et ramassée comme un meuble vanilla. **Raccordement** : clic droit → « Live Wire ».
 
-**État : v0.1.1.** Un test en jeu automatique en solo passe (`autotest/lw_hooks.lua` : pose, conteneur, raccordement, rotation, ramassage, menus). Le multijoueur n'a pas encore été testé en jeu.
+**État : v0.1.2.** Tests en jeu automatiques en solo : `autotest/lw_hooks.lua` (24 contrôles : pose, conteneur, raccordement, voyants, disjoncteur, alarme, écran LCD, logiciel, zone, rotation, ramassage, frigo pendant une absence, plus 8 captures) et `autotest_cm/` avec le Computer Mod (5 contrôles). Le multijoueur n'a pas encore été testé en jeu ; le son n'est pas vérifié par les tests (jeu lancé sans son).
 
 - Conception : `docs/fonctionnel.md`, `docs/architecture.md`.
 - Décisions : `docs/decisions-ouvertes.md`.
@@ -23,7 +23,8 @@ Un **disjoncteur mural** et une **alarme de batterie faible** sont disponibles e
 - Fichiers générés :
   - traductions : `tools/translations_src.py` ;
   - modèles 3D provisoires des objets d'inventaire : `tools/make_placeholder_models.py` ;
-  - tuiles : `source/tiles/build_livewire_tiles.py` (Blender et pz-sprite-forge, voir son en-tête).
+  - tuiles : `source/tiles/build_livewire_tiles.py` (Blender et pz-sprite-forge, voir son en-tête) ;
+  - bourdonnement : `source/sound/make_hum.sh` (ffmpeg) ; icône de l'application : `source/ui/make_app_icon.py`.
 - Instructions pour les agents : `CLAUDE.md`.
 - Sources de référence du jeu : dépôt privé `cyberbobjr/pz-source-42.21`.
 

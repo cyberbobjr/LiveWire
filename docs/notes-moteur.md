@@ -339,3 +339,20 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (pz-autotest solo)
 - Preuve : `ISWorldObjectContextMenu.createMenu(0, { objet }, x, y)` rend le menu ; `menu:getOptionFromName(texte)` trouve une option, `option.subOption` et `menu:getSubMenu(option.subOption)` donnent le sous-menu, `option.notAvailable` dit si elle est grisée (`media/lua/client/ISUI/ISContextMenu.lua:889-895, 1075-1077, 1226-1232`).
 - Conséquence : un test en jeu peut vérifier le texte réel d'un menu de mod, et laisser le menu ouvert pour la capture.
+
+## 40. Nourriture d'un frigo : vieillissement rattrapé d'un coup, avec l'électricité du moment
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; cas « joueur absent » confirmé en jeu (pz-autotest solo)
+- Preuve : `Food.updateAge` applique tout le temps écoulé depuis `lastAged`, multiplié par `FridgeFactor` (0,2 par défaut) si `getSourceGrid():haveElectricity()` **au moment de l'appel** (`java/zombie/inventory/types/Food.java:668-702`). Les aliments d'un meuble ne sont pas mis à jour en continu : à l'ouverture, au passage d'un objet, et par le générateur vanilla **juste avant** chaque bascule (`IsoGenerator.updateFridgeFreezerItems`, `IsoGenerator.java:325-334`). En jeu : steak frais dans un frigo alimenté par un point d'alimentation de mod, joueur à 300 cases (zone déchargée), 10 heures de jeu, retour : +0,083 jour (froid), contre 0,417 sans courant.
+- Conséquence : un mod qui alimente des cases doit rattraper l'âge des aliments des frigos chargés avant de changer l'alimentation, et rétablir l'alimentation au chargement de la zone avant toute consultation. Une absence est comptée entière avec l'état trouvé au retour.
+
+## 41. `canPlaceMoveable` d'un objet mural rend l'objet mur, pas `true`
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu
+- Preuve : `canPlace = self.facing and self:getWallForFacing(_square, self.facing)` (`ISMoveableSpriteProps.lua`, branche `WallObject` de `canPlaceMoveableInternal`).
+- Conséquence : tester la valeur comme un booléen Lua (vrai si non `nil`), jamais `== true`.
+
+## 42. Calques posés par le client, contour d'une zone, zoom
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (captures)
+- `obj:addAttachedAnimSpriteByName(nom)` et `obj:RemoveAttachedAnim(i)` posés localement sur un client affichent un calque de tuile (voyant, pièce animée) sans paquet réseau ; en solo, ils sont sauvegardés avec l'objet : recalculer la liste à chaque mise à jour.
+- La surbrillance des sols (`setHighlightColor` + `setHighlighted(true, false)` sur `square:getFloor()`) n'a rien montré en jeu en plein jour. Un cercle dessiné à l'écran depuis le `render` d'un `ISUIElement` de 1 × 1 (`drawLine` entre points projetés par `isoToScreenX/Y(joueur, x, y, z)`) est net et suit la caméra.
+- `getCore():doZoomScroll(joueur, n)` change le zoom d'un cran par appel (positif : dézoom), utile avant une capture.
+- Un meuble posable dont la tuile porte `CustomItem` garde l'icône de son script (`Moveable.java:128-141`, `getCustomIcon`) : utile quand la tuile seule n'est pas représentative (pales en calque).

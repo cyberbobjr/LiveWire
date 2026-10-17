@@ -24,7 +24,17 @@ Cette section prime sur le reste du document quand ils divergent.
 - **Raccordement** : `Install.objectsInRange` parcourt les cases chargées à `LinkRange` (±1 étage) ; le menu de l'onduleur liste les équipements libres et raccordés. « Débrancher » est accepté près de l'équipement ou près de son onduleur.
 - **Supprimés** : `LWInstallAction`, `LWDismantleAction`, l'onduleur renforcé, les kits d'inventaire et leurs modèles 3D.
 - **Migration** : schéma 2. Les équipements du schéma 1 (sprites vanilla) passent dans `legacy.schema1` et leurs ancres sont retirées ; les anciens objets restent dans le monde comme simples meubles.
-- **Test en jeu** : `autotest/lw_hooks.lua` (pz-autotest, solo).
+- **Test en jeu** : `autotest/lw_hooks.lua` (pz-autotest, solo) ; avec le Computer Mod : `autotest_cm/autotest.json` et `autotest/lw_cm_hooks.lua`.
+
+## 0 bis. Mise à jour 0.1.2 (2026-10-17)
+
+- **États transmis** : la marque porte aussi `st` (onduleur : on/off/tripped/broken ; disjoncteur : ok/tripped ; alarme : ok/ringing) et `pw` (maison alimentée). `Devices.refreshStates(grid)`, appelé à chaque pas, réécrit les marques qui ont changé.
+- **Visuels client** (`client/LW_Visuals.lua`) : repérage des équipements à 18 cases (toutes les 3 s), calques de tuile 24-67 posés et retirés localement, pales recalculées toutes les 100 ms selon `getClimateManager():getWindspeedKph()`.
+- **Son** : `client/LW_Hum.lua`, son `LiveWireInverterHum` (`scripts/LiveWire_sounds.txt`, `sound/LiveWireInverterHum.ogg`).
+- **Interfaces** : `client/LW_InverterPanel.lua` (écran LCD), `client/LW_Dashboard.lua` (logiciel complet), `client/LW_RangeView.lua` (cercle de la zone), `client/LW_ComputerMod.lua` (Computer Mod facultatif : enveloppes de `ComputerScreenUI.getDesktopAppItems` et `activateDesktopItem`, drapeau `ComputerModLiveWireInstalled` dans les données de l'ordinateur), `shared/LW_Compat.lua` (mods facultatifs).
+- **Commandes** : `C_RESET_BREAKER`, `C_ACK_ALARM` ; `Commands.handle` exécute un gestionnaire tout de suite (tests).
+- **Frigos** : `Anchor.ageFridges` (autorité) avant chaque changement d'état d'une ancre.
+- **Butin** : `server/Items/LiveWire_Distributions.lua`.
 
 ## 1. Mécanisme d'alimentation
 
