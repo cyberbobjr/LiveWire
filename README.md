@@ -9,13 +9,12 @@ Un **disjoncteur mural** et une **alarme de batterie faible** sont disponibles e
 
 **Pose** : chaque équipement est une **tuile du mod** (`batman_livewire_01`, formes géométriques provisoires), fabriquée par recette puis posée, tournée et ramassée comme un meuble vanilla. **Raccordement** : clic droit → « Live Wire ».
 
-**État : v0.1.2.** Tests en jeu automatiques en solo : `autotest/lw_hooks.lua` (24 contrôles : pose, conteneur, raccordement, voyants, disjoncteur, alarme, écran LCD, logiciel, zone, rotation, ramassage, frigo pendant une absence, plus 8 captures) et `autotest_cm/` avec le Computer Mod (5 contrôles). Le multijoueur n'a pas encore été testé en jeu ; le son n'est pas vérifié par les tests (jeu lancé sans son).
+**État : v0.1.2.** Testé en jeu en solo pendant le développement (pose, conteneur, raccordement, voyants, disjoncteur, alarme, écran LCD, logiciel, zone, rotation, ramassage, frigo pendant une absence ; intégration du Computer Mod). Les tests en jeu sont maintenant faits par l'utilisateur. Le multijoueur n'a pas encore été testé en jeu.
 
 - Conception : `docs/fonctionnel.md`, `docs/architecture.md`.
 - Décisions : `docs/decisions-ouvertes.md`.
 - Faits du moteur : `docs/notes-moteur.md`.
 - Test manuel : `docs/protocole-tests.md`.
-- Test en jeu automatique (depuis `C:\Users\cyber\Zomboid\Workshop`) : `python .claude/tools/pz-autotest/pz_autotest.py sp LiveWire --wait-idle 3600`.
 - Vérifications hors jeu (Python 3, `pip install lupa pillow`) :
   - `python tools/check_mod.py`
   - `python tests/test_physics.py`

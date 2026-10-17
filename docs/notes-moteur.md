@@ -317,7 +317,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : ne jamais écrire `/*` (ni `*/`) dans le texte d'un commentaire de script. Un « item not found » sur un objet pourtant défini : chercher d'abord un commentaire de ce genre juste au-dessus de sa définition.
 
 ## 36. Meuble de mod à conteneur : le conteneur vient de la tuile, sans butin
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (pz-autotest solo, `autotest/lw_hooks.lua`) ; classe `IsoThumpable` : confirmé statiquement
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (test en jeu automatique en solo, 2026-10-17) ; classe `IsoThumpable` : confirmé statiquement
 - Preuve : `ISMoveableSpriteProps:placeMoveableInternal` appelle `createContainersFromSpriteProperties()` puis `setExplored(true)` sur chaque conteneur (`media/lua/shared/Moveables/ISMoveableSpriteProps.lua:2486-2489`). En jeu, une tuile de mod `container = <type>`, `ContainerCapacity = 50`, posée par `placeMoveable`, a un conteneur de ce type, vide, de capacité 50, qui accepte une batterie de voiture. Une tuile `solidtrans` (ou `solid`) devient une `IsoThumpable` à la pose (`:2350-2390`), donc frappable par les zombies.
 - Conséquence : pour un meuble de mod à conteneur, déclarer le conteneur dans la tuile plutôt que d'en créer un par script. Ne jamais emprunter un sprite vanilla qui porte `container` pour un objet qui ne doit pas en avoir : le jeu le remplit de butin quand il n'est pas marqué exploré.
 
@@ -336,12 +336,12 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : ce fichier, nécessaire pour charger la profondeur du mod, ne masque pas la géométrie vanilla.
 
 ## 39. Lire un menu clic droit dans un test automatique
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (pz-autotest solo)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (test en jeu automatique en solo, 2026-10-17)
 - Preuve : `ISWorldObjectContextMenu.createMenu(0, { objet }, x, y)` rend le menu ; `menu:getOptionFromName(texte)` trouve une option, `option.subOption` et `menu:getSubMenu(option.subOption)` donnent le sous-menu, `option.notAvailable` dit si elle est grisée (`media/lua/client/ISUI/ISContextMenu.lua:889-895, 1075-1077, 1226-1232`).
 - Conséquence : un test en jeu peut vérifier le texte réel d'un menu de mod, et laisser le menu ouvert pour la capture.
 
 ## 40. Nourriture d'un frigo : vieillissement rattrapé d'un coup, avec l'électricité du moment
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; cas « joueur absent » confirmé en jeu (pz-autotest solo)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; cas « joueur absent » confirmé en jeu (test en jeu automatique en solo, 2026-10-17)
 - Preuve : `Food.updateAge` applique tout le temps écoulé depuis `lastAged`, multiplié par `FridgeFactor` (0,2 par défaut) si `getSourceGrid():haveElectricity()` **au moment de l'appel** (`java/zombie/inventory/types/Food.java:668-702`). Les aliments d'un meuble ne sont pas mis à jour en continu : à l'ouverture, au passage d'un objet, et par le générateur vanilla **juste avant** chaque bascule (`IsoGenerator.updateFridgeFreezerItems`, `IsoGenerator.java:325-334`). En jeu : steak frais dans un frigo alimenté par un point d'alimentation de mod, joueur à 300 cases (zone déchargée), 10 heures de jeu, retour : +0,083 jour (froid), contre 0,417 sans courant.
 - Conséquence : un mod qui alimente des cases doit rattraper l'âge des aliments des frigos chargés avant de changer l'alimentation, et rétablir l'alimentation au chargement de la zone avant toute consultation. Une absence est comptée entière avec l'état trouvé au retour.
 

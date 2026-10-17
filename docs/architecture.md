@@ -24,7 +24,7 @@ Cette section prime sur le reste du document quand ils divergent.
 - **Raccordement** : `Install.objectsInRange` parcourt les cases chargées à `LinkRange` (±1 étage) ; le menu de l'onduleur liste les équipements libres et raccordés. « Débrancher » est accepté près de l'équipement ou près de son onduleur.
 - **Supprimés** : `LWInstallAction`, `LWDismantleAction`, l'onduleur renforcé, les kits d'inventaire et leurs modèles 3D.
 - **Migration** : schéma 2. Les équipements du schéma 1 (sprites vanilla) passent dans `legacy.schema1` et leurs ancres sont retirées ; les anciens objets restent dans le monde comme simples meubles.
-- **Test en jeu** : `autotest/lw_hooks.lua` (pz-autotest, solo) ; avec le Computer Mod : `autotest_cm/autotest.json` et `autotest/lw_cm_hooks.lua`.
+- **Test en jeu** : fait par l'utilisateur (`protocole-tests.md`).
 
 ## 0 bis. Mise à jour 0.1.2 (2026-10-17)
 

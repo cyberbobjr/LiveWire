@@ -1,6 +1,6 @@
 # Live Wire v0.1 — protocole de test en jeu
 
-**Fait automatiquement en solo (0.1.1)** : `autotest/lw_hooks.lua` pose les équipements par le code vanilla des meubles, vérifie la powerbank (conteneur vide, batteries acceptées), le refus d'un panneau à l'intérieur et d'une roue loin d'une rivière, le raccordement par l'action réelle, la rotation qui garde les liens, le ramassage qui garde l'état, et le contenu des menus clic droit. **Le reste de ce protocole n'a pas été fait en jeu**, en particulier le courant dans la maison, les sons et le multijoueur. Ce protocole sert à confirmer, ou à infirmer, chaque point du moteur dont le mod dépend. Il se déroule dans l'ordre : un échec à l'étape 1 change la suite (repli prévu : `architecture.md`, § 1.3, option C).
+**Fait automatiquement en solo pendant le développement (0.1.1 et 0.1.2, outils retirés depuis)** : un test pose les équipements par le code vanilla des meubles, vérifie la powerbank (conteneur vide, batteries acceptées), le refus d'un panneau à l'intérieur et d'une roue loin d'une rivière, le raccordement par l'action réelle, la rotation qui garde les liens, le ramassage qui garde l'état, et le contenu des menus clic droit. **Le reste de ce protocole n'a pas été fait en jeu**, en particulier le courant dans la maison, les sons et le multijoueur. Ce protocole sert à confirmer, ou à infirmer, chaque point du moteur dont le mod dépend. Il se déroule dans l'ordre : un échec à l'étape 1 change la suite (repli prévu : `architecture.md`, § 1.3, option C).
 
 ## Préparation
 
