@@ -79,12 +79,26 @@ local function border(ui, x, y, w, h, c, a)
     ui:drawRectBorder(x, y, w, h, a or 1, c[1], c[2], c[3])
 end
 
-local function text(ui, s, x, y, c, font)
-    ui:drawText(s, x, y, c[1], c[2], c[3], 1, font or UIFont.Small)
+-- Cut `s` with "..." so that it fits in maxW pixels (no stencil: it would clear
+-- the clipping of the host screen).
+local function fit(s, font, maxW)
+    if not maxW or tw(font, s) <= maxW then return s end
+    local dots = "..."
+    local n = #s
+    -- Kahlua strings are UTF-16 code units: cutting never splits an accented letter.
+    while n > 0 and tw(font, string.sub(s, 1, n) .. dots) > maxW do n = n - 1 end
+    return string.sub(s, 1, n) .. dots
+end
+App.fit = fit
+
+local function text(ui, s, x, y, c, font, maxW)
+    font = font or UIFont.Small
+    ui:drawText(fit(s, font, maxW), x, y, c[1], c[2], c[3], 1, font)
 end
 
-local function textRight(ui, s, x, y, c, font)
-    ui:drawTextRight(s, x, y, c[1], c[2], c[3], 1, font or UIFont.Small)
+local function textRight(ui, s, x, y, c, font, maxW)
+    font = font or UIFont.Small
+    ui:drawTextRight(fit(s, font, maxW), x, y, c[1], c[2], c[3], 1, font)
 end
 
 function App:button(ui, x, y, w, h, label, action, style)
@@ -96,6 +110,7 @@ function App:button(ui, x, y, w, h, label, action, style)
     rect(ui, x, y, w, h, bg, over and 1 or 0.9)
     border(ui, x, y, w, h, over and C.accent or C.line)
     local font = UIFont.Small
+    label = fit(label, font, w - 6)
     text(ui, label, x + (w - tw(font, label)) / 2, y + (h - fh(font)) / 2, C.text, font)
     self.buttons[#self.buttons + 1] = { x = x, y = y, w = w, h = h, action = action }
 end
@@ -111,8 +126,8 @@ local function card(ui, x, y, w, h, title)
     rect(ui, x, y, w, h, C.panel)
     border(ui, x, y, w, h, C.line)
     if title then
-        text(ui, title, x + 8, y + 5, C.dim)
-        return y + 5 + fh(UIFont.Small) + 4
+        text(ui, title, x + 8, y + 4, C.dim, UIFont.Small, w - 16)
+        return y + 4 + fh(UIFont.Small) + 3
     end
     return y + 6
 end
@@ -136,82 +151,103 @@ function App:drawOverview(ui, x, y, w, h, snap)
     local nominal = 0
     for i = 1, #snap.sources do nominal = nominal + (snap.sources[i].nominal or 0) end
     local scale = math.max(inv.maxW or 0, nominal, snap.production or 0, snap.demand or 0, 1)
-    local gap = 8
+    local small = UIFont.Small
+    local sh = fh(small)
+    local gap = 6
     local leftW = math.floor((w - gap) * 0.6)
     local rightW = w - leftW - gap
+    -- Large figures when there is room, medium ones on a small screen.
     local big = UIFont.Large
+    local barH = 12
+    local function powerH(f) return sh + 7 + 2 * (fh(f) + 2 + barH + 6) + sh + 6 end
+    local function storeH(f) return sh + 7 + fh(f) + 2 + barH + 6 + sh + 6 end
+    if powerH(big) + storeH(big) + gap > h then big = UIFont.Medium end
+    local compact = powerH(big) + storeH(big) + gap > h
+    if compact then barH = 8 end
+    local bh2 = fh(big)
 
     -- Production / consumption on the same scale.
-    local ch = math.floor((h - gap) * 0.55)
+    local ch = powerH(big)
+    if compact then ch = ch - sh end
     local cy = card(ui, x, y, leftW, ch, T("IGUI_LW_App_Power"))
-    text(ui, T("IGUI_LW_App_Production"), x + 10, cy, C.dim)
-    textRight(ui, tostring(snap.production) .. " W", x + leftW - 10, cy - 2, C.green, big)
-    cy = cy + fh(big) + 2
-    bar(ui, x + 10, cy, leftW - 20, 12, snap.production / scale, C.green)
-    cy = cy + 20
-    text(ui, T("IGUI_LW_App_Load"), x + 10, cy, C.dim)
+    local valueW = tw(big, "0000 W") + 4
+    local labelW = leftW - 20 - valueW
+    text(ui, T("IGUI_LW_App_Production"), x + 10, cy + (bh2 - sh) / 2, C.dim, small, labelW)
+    textRight(ui, tostring(snap.production) .. " W", x + leftW - 10, cy, C.green, big)
+    cy = cy + bh2 + 2
+    bar(ui, x + 10, cy, leftW - 20, barH, snap.production / scale, C.green)
+    cy = cy + barH + 6
     local loadC = C.blue
     local f = (inv.maxW or 0) > 0 and snap.demand / inv.maxW or 0
     if f > 0.9 then loadC = C.red elseif f > 0.7 then loadC = C.amber end
-    textRight(ui, tostring(snap.demand) .. " W", x + leftW - 10, cy - 2, loadC, big)
-    cy = cy + fh(big) + 2
-    bar(ui, x + 10, cy, leftW - 20, 12, snap.demand / scale, loadC)
-    cy = cy + 18
-    text(ui, T("IGUI_LW_App_Scale", scale, inv.maxW), x + 10, cy, C.dim)
+    text(ui, T("IGUI_LW_App_Load"), x + 10, cy + (bh2 - sh) / 2, C.dim, small, labelW)
+    textRight(ui, tostring(snap.demand) .. " W", x + leftW - 10, cy, loadC, big)
+    cy = cy + bh2 + 2
+    bar(ui, x + 10, cy, leftW - 20, barH, snap.demand / scale, loadC)
+    cy = cy + barH + 6
+    if not compact then text(ui, T("IGUI_LW_App_Scale", scale, inv.maxW), x + 10, cy, C.dim, small, leftW - 20) end
 
-    -- Batteries.
+    -- Batteries: what is left of the height.
     local by = y + ch + gap
-    local bh = h - ch - gap
+    local bh = y + h - by
     local cy2 = card(ui, x, by, leftW, bh, T("IGUI_LW_App_Storage"))
     if snap.capacity and snap.capacity > 0 then
         local frac = snap.stock / snap.capacity
         local c = frac < 0.2 and C.red or (frac < 0.5 and C.amber or C.green)
-        textRight(ui, tostring(math.floor(frac * 100 + 0.5)) .. " %", x + leftW - 10, cy2 - 2, c, big)
-        text(ui, string.format("%.2f / %.2f kWh", snap.stock, snap.capacity), x + 10, cy2, C.text)
-        cy2 = cy2 + fh(big) + 2
-        bar(ui, x + 10, cy2, leftW - 20, 16, frac, c)
-        cy2 = cy2 + 22
-        if snap.autonomyH then
-            text(ui, T("IGUI_LW_Autonomy", math.floor(snap.autonomyH + 0.5)), x + 10, cy2, C.dim)
-        else
-            text(ui, T("IGUI_LW_Forecast_Surplus"), x + 10, cy2, C.dim)
+        local pct = tostring(math.floor(frac * 100 + 0.5)) .. " %"
+        textRight(ui, pct, x + leftW - 10, cy2, c, big)
+        text(ui, string.format("%.2f / %.2f kWh", snap.stock, snap.capacity), x + 10, cy2 + (bh2 - sh) / 2,
+            C.text, small, leftW - 30 - tw(big, pct))
+        cy2 = cy2 + bh2 + 2
+        bar(ui, x + 10, cy2, leftW - 20, barH, frac, c)
+        cy2 = cy2 + barH + 5
+        if cy2 + sh <= by + bh - 3 then
+            local line
+            if snap.autonomyH then
+                line = T("IGUI_LW_Autonomy", math.floor(snap.autonomyH + 0.5))
+            else
+                line = T("IGUI_LW_Forecast_Surplus")
+            end
+            text(ui, line, x + 10, cy2, C.dim, small, leftW - 20)
         end
     else
-        text(ui, T("IGUI_LW_NoBattery"), x + 10, cy2, C.dim)
+        text(ui, T("IGUI_LW_NoBattery"), x + 10, cy2, C.dim, small, leftW - 20)
     end
 
     -- Inverter control.
     local rx = x + leftW + gap
     local ry = card(ui, rx, y, rightW, h, T("IGUI_LW_App_Inverter"))
+    local inner = rightW - 20
     local st = inv.state
-    led(ui, rx + 10, ry + 3, stateColour(st))
+    led(ui, rx + 10, ry + (sh - 10) / 2, stateColour(st))
     local stKey = "IGUI_LW_State_" .. tostring(st)
     if st == "on" and not inv.powered then stKey = "IGUI_LW_State_idle" end
-    text(ui, T(stKey), rx + 26, ry, C.text)
-    ry = ry + fh(UIFont.Small) + 4
-    text(ui, T("IGUI_LW_App_Condition", inv.cond), rx + 10, ry, C.dim)
-    ry = ry + fh(UIFont.Small) + 2
-    bar(ui, rx + 10, ry, rightW - 20, 8, (inv.cond or 0) / 100, inv.cond < 30 and C.red or C.green)
-    ry = ry + 16
-    local bw = rightW - 20
+    text(ui, T(stKey), rx + 26, ry, C.text, small, inner - 16)
+    ry = ry + sh + 4
+    text(ui, T("IGUI_LW_App_Condition", inv.cond), rx + 10, ry, C.dim, small, inner)
+    ry = ry + sh + 2
+    bar(ui, rx + 10, ry, inner, 8, (inv.cond or 0) / 100, inv.cond < 30 and C.red or C.green)
+    ry = ry + 14
+    local btnH = sh + 10
     if st == "on" then
-        self:button(ui, rx + 10, ry, bw, 26, T("ContextMenu_LW_TurnOff"), "off", "off")
+        self:button(ui, rx + 10, ry, inner, btnH, T("ContextMenu_LW_TurnOff"), "off", "off")
     else
-        self:button(ui, rx + 10, ry, bw, 26, T("ContextMenu_LW_TurnOn"), "on", "on")
+        self:button(ui, rx + 10, ry, inner, btnH, T("ContextMenu_LW_TurnOn"), "on", "on")
     end
-    ry = ry + 32
+    ry = ry + btnH + 5
     if st == "tripped" then
-        self:button(ui, rx + 10, ry, bw, 26, T("ContextMenu_LW_Reset"), "reset")
-        ry = ry + 32
+        self:button(ui, rx + 10, ry, inner, btnH, T("ContextMenu_LW_Reset"), "reset")
+        ry = ry + btnH + 5
     end
-    -- Alerts.
-    ry = ry + 4
-    rect(ui, rx + 10, ry, bw, 1, C.line)
-    ry = ry + 6
+    -- Alerts, as many as fit.
+    rect(ui, rx + 10, ry, inner, 1, C.line)
+    ry = ry + 5
+    local bottom = y + h - 4
     local alerts = 0
     local function alert(s, c)
-        text(ui, s, rx + 10, ry, c)
-        ry = ry + fh(UIFont.Small) + 2
+        if ry + sh > bottom then return end
+        text(ui, s, rx + 10, ry, c, small, inner)
+        ry = ry + sh + 2
         alerts = alerts + 1
     end
     if snap.breaker and snap.breaker.state == "tripped" then alert(T("IGUI_LW_App_BreakerTripped"), C.red) end
@@ -231,8 +267,9 @@ function App:drawBatteries(ui, x, y, w, h, snap)
         local bt = snap.batteries[i]
         local item = getScriptManager():FindItem(bt.model)
         local name = item and item:getDisplayName() or bt.model
-        text(ui, name, x + 10, cy, C.text)
-        textRight(ui, T("IGUI_LW_App_BatteryState", math.floor(bt.charge * 100 + 0.5), bt.cond), x + w - 10, cy, C.dim)
+        local right = T("IGUI_LW_App_BatteryState", math.floor(bt.charge * 100 + 0.5), bt.cond)
+        textRight(ui, right, x + w - 10, cy, C.dim)
+        text(ui, name, x + 10, cy, C.text, UIFont.Small, w - 30 - tw(UIFont.Small, right))
         cy = cy + fh(UIFont.Small) + 2
         bar(ui, x + 10, cy, w - 20, 10, bt.charge, bt.cond < 30 and C.amber or C.green)
         cy = cy + 16
@@ -262,9 +299,12 @@ function App:drawSources(ui, x, y, w, h, snap)
                 if s.kind == "solar" and (s.snow or 0) > 0.05 then
                     line = line .. " " .. T("IGUI_LW_Snow", math.floor(s.snow * 100 + 0.5))
                 end
-                text(ui, line, x + 22, cy, s.cond <= 0 and C.red or C.text)
+                local barW = math.min(100, math.floor(w * 0.22))
+                local right = T("IGUI_LW_App_SourceState", s.w, s.cond)
+                local rightW = tw(UIFont.Small, right)
+                text(ui, line, x + 22, cy, s.cond <= 0 and C.red or C.text, UIFont.Small, w - 50 - barW - rightW)
                 local nom = math.max(1, s.nominal or 1)
-                bar(ui, x + w - 190, cy + 3, 100, 8, s.w / nom, C.green)
+                bar(ui, x + w - 20 - rightW - barW, cy + 3, barW, 8, s.w / nom, C.green)
                 textRight(ui, T("IGUI_LW_App_SourceState", s.w, s.cond), x + w - 10, cy, C.dim)
                 cy = cy + fh(UIFont.Small) + 2
             end
@@ -276,7 +316,7 @@ end
 function App:drawHouse(ui, x, y, w, h, snap)
     local cy = card(ui, x, y, w, h, T("IGUI_LW_Section_House"))
     text(ui, T("IGUI_LW_LCD_Range", snap.coverage and snap.coverage.radius or 20,
-        snap.coverage and snap.coverage.floors or 3), x + 10, cy, C.dim)
+        snap.coverage and snap.coverage.floors or 3), x + 10, cy, C.dim, UIFont.Small, w - 20)
     cy = cy + fh(UIFont.Small) + 6
     local ap = snap.appliances or {}
     if #ap == 0 then text(ui, T("IGUI_LW_NoAppliance"), x + 10, cy, C.dim) end
@@ -284,8 +324,11 @@ function App:drawHouse(ui, x, y, w, h, snap)
     for i = 1, #ap do maxW = math.max(maxW, ap[i].w) end
     for i = 1, #ap do
         if cy > y + h - 18 then break end
-        text(ui, T("IGUI_LW_Appliance_" .. ap[i].cat), x + 10, cy, C.text)
-        bar(ui, x + w - 200, cy + 3, 110, 8, ap[i].w / maxW, C.blue)
+        local barW = math.min(110, math.floor(w * 0.22))
+        local right = T("IGUI_LW_App_ApplianceState", ap[i].n, ap[i].w)
+        local rightW = tw(UIFont.Small, right)
+        text(ui, T("IGUI_LW_Appliance_" .. ap[i].cat), x + 10, cy, C.text, UIFont.Small, w - 40 - barW - rightW)
+        bar(ui, x + w - 20 - rightW - barW, cy + 3, barW, 8, ap[i].w / maxW, C.blue)
         textRight(ui, T("IGUI_LW_App_ApplianceState", ap[i].n, ap[i].w), x + w - 10, cy, C.dim)
         cy = cy + fh(UIFont.Small) + 3
     end
@@ -309,7 +352,7 @@ function App:drawHistory(ui, x, y, w, h, snap)
     local cy = card(ui, x, y, w, h, T("IGUI_LW_App_Tab_History"))
     local hist = snap.history
     if not snap.computer then
-        text(ui, T("IGUI_LW_Computer_None"), x + 10, cy, C.dim)
+        text(ui, T("IGUI_LW_Computer_None"), x + 10, cy, C.dim, UIFont.Small, w - 20)
         return
     end
     if not hist or #hist == 0 then
@@ -396,15 +439,20 @@ function App:draw(ui, x, y, w, h)
         ty = y + hh + 6
     end
     -- Tabs: natural width, or shared equally when the screen is narrow.
-    local tabH = fh(UIFont.Small) + 10
+    local tabH = fh(UIFont.Small) + 8
     local avail = w - 16
-    local total = 0
-    for _, tab in ipairs(TABS) do total = total + tw(UIFont.Small, T(tab.key)) + 18 + 4 end
+    local function totalWidth(short)
+        local t = 0
+        for _, tab in ipairs(TABS) do t = t + tw(UIFont.Small, T(tab.key .. (short and "_Short" or ""))) + 14 + 4 end
+        return t
+    end
+    local short = totalWidth(false) > avail
+    local shared = short and totalWidth(true) > avail
     local tx = x + 8
     for _, tab in ipairs(TABS) do
-        local label = T(tab.key)
-        local bw = tw(UIFont.Small, label) + 18
-        if total > avail then bw = math.floor(avail / #TABS) - 4 end
+        local label = T(tab.key .. (short and "_Short" or ""))
+        local bw = tw(UIFont.Small, label) + 14
+        if shared then bw = math.floor(avail / #TABS) - 4 end
         self:button(ui, tx, ty, bw, tabH, label, "tab:" .. tab.id, self.tab == tab.id and "active" or nil)
         tx = tx + bw + 4
     end
