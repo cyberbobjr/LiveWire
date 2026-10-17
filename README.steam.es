@@ -45,7 +45,7 @@ Ejemplo: un frigorífico-congelador y 10 luces consumen unos 4,1 kWh al día. Un
 
 [h2]Recetas[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_es.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_es.png[/img]
 
 Categoría Electrónica, aprendida automáticamente al nivel requerido. Las células solares salen de calculadoras desmontadas o se encuentran como botín; también pueden aparecer equipos ya hechos en tiendas de electricistas, ferreterías y garajes.
 
@@ -63,7 +63,7 @@ El servidor calcula todo y vuelve a comprobar cada petición. La instalación si
 
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Wiki de Live Wire (en inglés)[/url] · Código fuente: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b]Compatibilidad[/b]: creación original, no pensada para funcionar junto con otros mods de sistemas eléctricos. Los tiles son provisionales. Licencia MIT.
+[b]Compatibilidad[/b]: creación original, no pensada para funcionar junto con otros mods de sistemas eléctricos. Licencia MIT.
 
 [h2]Apoya el proyecto[/h2]
 

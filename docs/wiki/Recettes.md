@@ -4,7 +4,7 @@
 
 Les recettes sont dans le menu d'artisanat, catégorie Électricité, et s'apprennent automatiquement au niveau d'Électricité requis. Les outils sont conservés.
 
-![Planche illustrée des recettes Live Wire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_fr.png)
+![Planche illustrée des recettes Live Wire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_fr.png)
 
 | Ingrédients | Outils (conservés) | Compétence | Résultat |
 |---|---|---|---|

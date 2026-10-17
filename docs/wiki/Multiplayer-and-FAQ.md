@@ -14,7 +14,7 @@ Production, stock, states, failures and experience are computed by the **server*
 
 ## Status
 
-Version 0.1.2. Tested in game in single player during development: placement, container, linking, lights, breaker, alarm, LCD screen, software, powered area, rotation, pick-up, fridge while away, and the Computer Mod integration. **Multiplayer has not been tested in game yet.** Balancing values are starting values.
+Version 1.0.0. Tested in game in single player during development: placement, container, linking, lights, breaker, alarm, LCD screen, software, powered area, rotation, pick-up, fridge while away, and the Computer Mod integration. **Multiplayer has not been tested in game yet.** Balancing values are starting values.
 
 ## FAQ
 
@@ -45,7 +45,7 @@ Subscribe to the mod on the Steam Workshop (once published), or copy `Contents/m
 
 ## Licence
 
-MIT (file `LICENSE` in the repository). No code or asset was taken from any other mod. The tiles are geometric placeholders.
+MIT (file `LICENSE` in the repository). No code or asset was taken from any other mod.
 
 ## See also
 

@@ -2,7 +2,7 @@
 
 # FAQ
 
-Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 0.1.2). The mod is not yet published on the Steam Workshop. Multiplayer has not been tested in game yet. For details, follow the links to the matching pages.
+Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.0.0). The mod is not yet published on the Steam Workshop. Multiplayer has not been tested in game yet. For details, follow the links to the matching pages.
 
 ## Getting started
 
@@ -107,7 +107,7 @@ Shared installations follow the vanilla safehouse rules. The software may lag up
 ## Compatibility
 
 **Can I use it with other energy mods?**
-Other energy mods are not supported together with Live Wire. Live Wire is an original creation: no code or asset was taken from any other mod, and the tiles are geometric placeholders for now. The only optional links are the Computer Mod and the Laptop Mod. See [Overview](Overview).
+Other energy mods are not supported together with Live Wire. Live Wire is an original creation: no code or asset was taken from any other mod. The only optional links are the Computer Mod and the Laptop Mod. See [Overview](Overview).
 
 ## Troubleshooting
 

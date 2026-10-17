@@ -4,7 +4,7 @@
 
 Recipes are in the crafting menu, category **Electrical**, and are learnt automatically when the Electrical level is reached. Tools are kept.
 
-![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_en.png)
+![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_en.png)
 
 *Illustrated recipe board.*
 

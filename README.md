@@ -242,7 +242,7 @@ There is no limit on the number of solar panels; productions add up (100 W nomin
 
 Recipes are in the crafting menu, category **Electrical**, and are learnt automatically when the Electrical level is reached. Tools are kept.
 
-![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_en.png)
+![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_en.png)
 
 *Illustrated recipe board.*
 
@@ -408,7 +408,7 @@ Production, stock, states, failures and experience are computed by the server; t
 
 ### Status
 
-Version 0.1.2. Tested in game in single player during development (placement, container, linking, lights, breaker, alarm, LCD screen, software, powered area, rotation, pick-up, fridge while away; Computer Mod integration). **Multiplayer has not yet been tested in game.** Balancing values are starting values.
+Version 1.0.0. Tested in game in single player during development (placement, container, linking, lights, breaker, alarm, LCD screen, software, powered area, rotation, pick-up, fridge while away; Computer Mod integration). **Multiplayer has not yet been tested in game.** Balancing values are starting values.
 
 ### Installation
 
@@ -417,7 +417,7 @@ Version 0.1.2. Tested in game in single player during development (placement, co
 
 ### Licence and credits
 
-MIT licence (see [LICENSE](LICENSE)). Original creation: no code or asset from other mods. The tiles are geometric placeholders (final models later).
+MIT licence (see [LICENSE](LICENSE)). Original creation: no code or asset from other mods.
 
 ## For developers
 

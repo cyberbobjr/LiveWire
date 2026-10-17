@@ -2,7 +2,8 @@
 
     python tools/make_doc_images.py [LANG ...]      (default: all languages)
 
-Writes docs/img/<name>_<lang>.png: diagram (how it works), production (charts), recipes (recipe board).
+Writes docs/img/<name>_<lang>.png: diagram (how it works), production (charts), recipe_book (recipes,
+640 px wide for the Steam page), equipment (device board).
 Only Pillow is needed. Figures come from the mod's model (docs/wiki/_facts.md); the solar day is the
 sine curve of LW_Physics.solarCurve with the day lengths that give the documented 0.94 / 0.60 kWh.
 Item names come from the game's translations (vanilla items) and the mod's translations (mod items).
@@ -516,51 +517,56 @@ def icon(key, size):
 
 
 def recipes(lang):
+    """Recipe book, 640 px wide: Steam shows description images in a column of about
+    640 px, so a wider board would be scaled down and become unreadable."""
     t = L[lang]
     item, rnames, skill = names(lang)
-    W = 1200
-    rowh = 84
-    H = 90 + rowh * len(RECIPES) + 20
+    W, PAD = 640, 12
+    fT, fR, fS, fI = font(lang, 30, True), font(lang, 20, True), font(lang, 15), font(lang, 16)
+    probe = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    cards = []
+    for rk, lvl, ins, tools, outs in RECIPES:
+        rows = (len(ins) + 1) // 2
+        cards.append((rk, lvl, ins, tools, outs, 84 + rows * 40 + 8))
+    H = 70 + sum(c[-1] + 10 for c in cards) + 6
     im = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(im)
-    fT, fR, fS, fQ = font(lang, 28, True), font(lang, 17, True), font(lang, 13), font(lang, 15, True)
-    text(d, (24, 22), t["recipes"], fT)
-    text(d, (W - 24, 34), t["tools"], fS, MUTED, anchor="ra")
-    y = 80
-    for i, (rk, lvl, ins, tools, outs) in enumerate(RECIPES):
-        d.rounded_rectangle((14, y, W - 14, y + rowh - 8), 10, fill=CARD, outline=LINE, width=1)
-        # Output
-        ox = 26
+    text(d, (PAD + 4, 18), t["recipes"], fT)
+    text(d, (W - PAD - 4, 32), t["tools"], fS, MUTED, anchor="ra")
+    y = 66
+    for rk, lvl, ins, tools, outs, ch in cards:
+        d.rounded_rectangle((PAD, y, W - PAD, y + ch), 12, fill=CARD, outline=LINE, width=2)
+        # Header: result icon(s), recipe name, skill badge; tools on the right.
+        ox = PAD + 12
         for q, o in outs:
-            im.paste(icon(o, 48), (ox, y + 10), icon(o, 48))
-            if q > 1:
-                text(d, (ox + 46, y + 56), "%d" % q, fQ, INK, anchor="rs")
-            ox += 52
+            ic = icon(o, 52)
+            im.paste(ic, (ox, y + 12), ic)
+            ox += 56
+        tools_w = 40 * len(tools)
         rn = rnames.get(rk, rk)
-        text(d, (ox + 10, y + 12), rn, fit(d, rn, lang, 17, 425 - ox, True))
+        text(d, (ox + 8, y + 12), rn, fit(d, rn, lang, 20, W - PAD - 16 - tools_w - (ox + 8), True))
         lv = t["no_level"] if lvl is None else t["level"] % (skill, lvl)
-        d.rounded_rectangle((ox + 10, y + 42, ox + 18 + tsize(d, lv, fS)[0] + 8, y + 64), 8,
+        bw = tsize(probe, lv, fS)[0]
+        d.rounded_rectangle((ox + 8, y + 44, ox + 8 + bw + 18, y + 68), 9,
                             fill=ACCENT_BG if lvl else (235, 235, 235))
-        text(d, (ox + 18, y + 53), lv, fS, ACCENT if lvl else MUTED, anchor="lm")
-        # Inputs: icon + "qty×" + name, flowing on up to two lines
-        x, yy = 440, y + 6
-        for q, it in ins:
-            label = "%d× %s" % (q, item(it))
-            w = 34 + tsize(d, label, fS)[0] + 18
-            if x + w > W - 190:
-                x, yy = 440, yy + 36
-            ic = icon(it, 32)
-            im.paste(ic, (x, yy), ic)
-            text(d, (x + 36, yy + 16), label, fS, INK, anchor="lm")
-            x += w
-        # Tools
-        x = W - 30
+        text(d, (ox + 17, y + 56), lv, fS, ACCENT if lvl else MUTED, anchor="lm")
+        x = W - PAD - 12
         for tl in reversed(tools):
             ic = icon(tl, 32)
-            im.paste(ic, (x - 32, y + 22), ic)
-            x -= 38
-        y += rowh
-    save(im, "recipes", lang)
+            im.paste(ic, (x - 32, y + 16), ic)
+            x -= 40
+        # Ingredients on two columns.
+        d.line((PAD + 12, y + 78, W - PAD - 12, y + 78), fill=LINE, width=1)
+        colw = (W - 2 * PAD - 24) / 2
+        for k, (q, it) in enumerate(ins):
+            cx = PAD + 12 + (k % 2) * colw
+            cy = y + 86 + (k // 2) * 40
+            ic = icon(it, 32)
+            im.paste(ic, (int(cx), cy), ic)
+            label = "%d× %s" % (q, item(it))
+            text(d, (cx + 40, cy + 16), label, fit(d, label, lang, 16, colw - 48), INK, anchor="lm")
+        y += ch + 10
+    save(im, "recipe_book", lang)
 
 
 # --- 4. Equipment board ------------------------------------------------------------------------

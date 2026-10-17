@@ -45,7 +45,7 @@ Exemple : un réfrigérateur-congélateur et 10 lampes consomment environ 4,1 kW
 
 [h2]Recettes[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_fr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_fr.png[/img]
 
 Recettes de la catégorie Électricité, apprises automatiquement au niveau requis. Les cellules photovoltaïques viennent de calculatrices démontées ou se trouvent dans le butin ; des équipements tout faits peuvent aussi apparaître chez les électriciens, les quincailleries et les garages.
 
@@ -63,7 +63,7 @@ Le serveur calcule tout et revérifie chaque requête. L'installation continue d
 
 [url=https://github.com/cyberbobjr/LiveWire/wiki/Presentation]Wiki Live Wire (français)[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b]Compatibilité[/b] : création originale, non prévue pour fonctionner avec d'autres mods de système électrique. Les tuiles sont pour l'instant des placeholders. Licence MIT.
+[b]Compatibilité[/b] : création originale, non prévue pour fonctionner avec d'autres mods de système électrique. Licence MIT.
 
 [h2]Soutenir le projet[/h2]
 

@@ -45,7 +45,7 @@ Example: one fridge-freezer and 10 lights use about 4.1 kWh per day. A water whe
 
 [h2]Recipes[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_en.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_en.png[/img]
 
 Category Electrical, learnt automatically at the required level. Solar cells come from dismantled calculators or are found as loot; ready-made equipment can also turn up in electricians', hardware stores and garages.
 
@@ -63,7 +63,7 @@ The server computes everything and re-checks every request. The installation kee
 
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b]Compatibility[/b]: original creation, not meant to run together with other power-system mods. Tiles are placeholders for now. Licence MIT.
+[b]Compatibility[/b]: original creation, not meant to run together with other power-system mods. Licence MIT.
 
 [h2]Support the project[/h2]
 

@@ -3,7 +3,7 @@
 All numbers below come from the mod code (v0.1.2). Do not invent other numbers.
 Mod: "Live Wire", mod id `batman_LiveWire`, Project Zomboid Build 42.21, EN + FR.
 Repository: https://github.com/cyberbobjr/LiveWire (public). Licence: MIT (file LICENSE).
-Original creation: no code or asset taken from any other mod. Tiles are geometric placeholders (final models later).
+Original creation: no code or asset taken from any other mod.
 
 ## Pitch
 The Electrical skill becomes a trade. Solar panels, wind turbines and water wheels produce silent power; an

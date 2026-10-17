@@ -4,7 +4,7 @@
 
 **Live Wire** (`batman_LiveWire`) is a Project Zomboid **Build 42.21** mod, translated into English, French, German, Spanish, Portuguese (Brazil and Portugal), Russian, Chinese, Japanese and Korean. It turns the Electrical skill into a trade: solar panels, wind turbines and water wheels produce silent power, and an **inverter** placed in your house powers every appliance around it, with no fuel and no fumes. Batteries stored in a **power bank** keep the surplus for the night. The server is authoritative, so the mod is multiplayer-ready and designed for dedicated servers.
 
-Everything in the mod is original: no code or asset comes from another mod. The tiles are geometric placeholders for now (final models will come later).
+Everything in the mod is original: no code or asset comes from another mod.
 
 ![How it works: sources, inverter, house and power bank](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_en.png)
 

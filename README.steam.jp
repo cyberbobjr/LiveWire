@@ -45,7 +45,7 @@
 
 [h2]レシピ[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_jp.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_jp.png[/img]
 
 カテゴリー「電気工学」。必要なレベルに達すると自動的に習得される。太陽電池は分解した電卓から作れるほか、戦利品としても見つかる。完成品の機器は電気店、ホームセンター、ガレージにも出現することがある。
 
@@ -63,7 +63,7 @@ Live Wire Monitor は、発電量、消費量、バッテリー、48時間の履
 
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki（英語版）[/url] · ソースコード: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b]互換性[/b]: 独自に作成したMODで、他の電力系MODと同時に動かすことは想定していない。タイルは現時点ではプレースホルダー。ライセンスはMIT。
+[b]互換性[/b]: 独自に作成したMODで、他の電力系MODと同時に動かすことは想定していない。ライセンスはMIT。
 
 [h2]プロジェクトを支援[/h2]
 

@@ -45,7 +45,7 @@
 
 [h2]제작 레시피[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipes_ko.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_ko.png[/img]
 
 "전기공학" 범주이며, 필요한 레벨에 도달하면 자동으로 습득합니다. 태양광 셀은 분해한 계산기에서 얻거나 루트로 발견할 수 있습니다. 완성된 장비는 전기 기사, 철물점, 차고에서도 나올 수 있습니다.
 
@@ -63,7 +63,7 @@ Live Wire Monitor는 생산량, 소비량, 배터리, 48시간 기록, 그리고
 
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire 위키 (영어 문서)[/url] · 소스 코드: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b]호환성[/b]: 독자적으로 만든 모드이며, 다른 전력 시스템 모드와 함께 쓰도록 설계되지 않았습니다. 타일은 아직 임시 모델입니다. 라이선스 MIT.
+[b]호환성[/b]: 독자적으로 만든 모드이며, 다른 전력 시스템 모드와 함께 쓰도록 설계되지 않았습니다. 라이선스 MIT.
 
 [h2]프로젝트 후원[/h2]
 
