@@ -108,7 +108,7 @@ Sans `IsoGenerator`, `getTotalPowerUsing` n'existe pas. Le mod reproduit donc la
 |---|---|---|
 | Onduleur | `IsoObject` simple, sprite de substitution **sans conteneur**, posé par `IsoObject.new` puis `sq:transmitAddObjectToSquare(obj, -1)` (`IsoGridSquare.java:5062-5070`) | Sauvegardé avec sa ModData (`IsoObject.java:1512-1515`) ; aucune logique vanilla attachée |
 | Source | Idem, sprite de sa catégorie (§ F-2.3) | Idem |
-| Équipement optionnel (disjoncteur, parafoudre, ordinateur, programmateur, régulateur, alarme : § F-2.4) | Idem | Idem. Rôle `option` dans le registre ; au plus un de chaque type par réseau. Il modifie seulement des paramètres du pas de simulation (§ 4.2) |
+| Équipement optionnel (disjoncteur, ordinateur de gestion, alarme de batterie faible : § F-2.4) | Idem | Idem. Rôle `option` dans le registre ; au plus un de chaque type par réseau. Il modifie seulement des paramètres du pas de simulation (§ 4.2) |
 | Batterie | L'objet d'inventaire lui-même, posé au sol (`IsoWorldInventoryObject`) | Garde son modèle 3D vanilla ; charge et usure portées par les champs moteur de l'objet (§ 3.1) |
 
 Le mod ne crée **aucun** objet tagué `Generator`, et aucun `IsoGenerator` (NM-6).
@@ -217,7 +217,8 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
                grid="g2", cond=93, eff=0.95, state="on",  -- on|off|tripped|broken|idle
                maxW=1500, idleW=20 },
     ["d7"] = { id="d7", role="source", model="SolarPanel", x=10512, y=9620, z=1,
-               grid="g2", cond=87, eff=0.95, state="ok", snow=0.0 },
+               grid="g2", cond=87, eff=0.95, state="ok", snow=0.0,
+               pOut=64.0 },           -- W, smoothed output of the built-in micro-inverter
     ["d9"] = { id="d9", role="battery", model="Base.CarBattery2", x=10511, y=9618, z=0,
                grid="g2", charge=0.62, cond=74, cycles=31.5 },  -- snapshot when unloaded
     ["d11"] = { id="d11", role="option", model="Breaker", x=10509, y=9618, z=0,
@@ -268,15 +269,14 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
 1. **Durée écoulée.** `dt = now − lastTick`, avec `now = getGameTime():getWorldAgeHours()` (`GameTime.java:830-834`).
    - Si `dt ≤ 0`, on ne fait rien.
    - Au-delà de 1 h, le pas est découpé en tranches d'une heure, jusqu'à 720 h. Au-delà, le calcul se fait en bloc.
-2. **Production** des sources (§ F-3).
+2. **Production** des sources (§ F-3), puis **lissage** par le micro-onduleur de chaque source : `P_fournie` est gardée dans le registre (champ `pOut`) et suit la puissance brute avec un temps de réponse de 0,5 h (§ F-3.1).
    - Le soleil est intégré analytiquement sur la tranche.
    - Pendant un rattrapage, on utilise la météo **actuelle**, car l'historique n'existe pas.
 3. **Demande.**
    - Onduleur chargé : mesure (§ 1.5).
    - Sinon : `grid.demand` si `SimulateUnloaded` est actif, sinon 0.
 4. **Onduleur** : disjonction si demande > maximum, sans perte d'état si un disjoncteur est raccordé ; consommation à vide ; usure (§ F-4.4).
-   - Les équipements optionnels du réseau (§ F-2.4) n'agissent que par des paramètres de ce pas : facteur solaire, dégâts d'orage, heures de coupure, seuil de délestage, seuil d'alerte.
-   - **Sans batterie**, l'ancre ne se rallume qu'après deux pas où la production couvre 110 % de la demande (§ F-5.3).
+   - Les équipements optionnels du réseau (§ F-2.4) n'agissent que par des paramètres de ce pas : perte d'état en cas de disjonction, seuil de délestage, seuil d'alerte.
 5. **Bilan énergétique** (§ F-5.3) : répartition sur les batteries, au prorata.
 6. **Batteries.**
    - Chargées (case chargée) : écriture sur les objets réels (§ 4.4).
