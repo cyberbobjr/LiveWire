@@ -3,7 +3,7 @@
 État : **conception, aucun code**. Rien n'a été prototypé ni testé en jeu. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage.
 
 - **Sources des faits du moteur** : le dépôt de référence `pz-source-42.21` (chemins relatifs à sa racine) et `docs/notes-moteur.md` (« NM-n » = note n).
-- **Choix de l'utilisateur** : ils sont dans `docs/decisions-ouvertes.md` (« D-n »). Ce document applique la recommandation par défaut, marquée **à valider**.
+- **Choix de l'utilisateur** : toutes les décisions de `docs/decisions-ouvertes.md` (« D-n ») ont été **validées le 2026-10-17**. Ce document décrit ce qui est implémenté en v0.1 (non testé en jeu).
 
 **Exigences de l'utilisateur** (2026-10-17), non négociables :
 1. L'onduleur peut être posé **à l'intérieur** d'une maison.
@@ -96,7 +96,7 @@ Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscri
 | **Onduleur** | Onduleur, onduleur renforcé | sprite `location_business_machinery_01_32`, armoire à outils (`moveable.txt:1017`), à confirmer au prototype P1 | **N'importe quelle case de sol, intérieure comprise.** Pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) |
 | **Batterie** | Batterie de voiture ou batterie stationnaire, posée au sol | son modèle 3D vanilla de batterie de voiture | N'importe quelle case de sol ; raccordée à un onduleur à portée de câble |
 
-**Câblage (à valider : D-3).**
+**Câblage (validé : D-3).**
 - Chaque source et chaque batterie se raccorde à **un** onduleur par l'action « Raccorder ».
 - Conditions : au plus `LinkRange` cases (12 par défaut) et un écart d'au plus 1 étage.
 - Coût : `Base.ElectricWire`, à raison de 1 fil pour 4 cases, arrondi au-dessus, au moins 1.
@@ -106,11 +106,11 @@ Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscri
 
 ### 2.4 Équipements optionnels
 
-Le système de base reste **source → onduleur → maison**, avec une **batterie facultative**. Les sources ont toutes un micro-onduleur intégré (§ 3.1), qui n'est pas un équipement à part. Les équipements ci-dessous sont **tous optionnels** : aucun n'est nécessaire pour qu'une installation fonctionne. Chacun ajoute un seul avantage, facile à comprendre. Leur liste et leur version sont **à valider (D-11)**.
+Le système de base reste **source → onduleur → maison**, avec une **batterie facultative**. Les sources ont toutes un micro-onduleur intégré (§ 3.1), qui n'est pas un équipement à part. Les équipements ci-dessous sont **tous optionnels** : aucun n'est nécessaire pour qu'une installation fonctionne. Chacun ajoute un seul avantage, facile à comprendre. Leur liste et leur version ont été validées (D-11).
 
 | Équipement | Problème réglé | Effet en jeu | Niv. | Version proposée | Faisabilité |
 |---|---|---|---|---|---|
-| **Disjoncteur** (sécurité) | Une surcharge use l'onduleur (−3 d'état à chaque disjonction) | Raccordé à un onduleur, il coupe **avant** l'onduleur : plus de dégât en cas de surcharge. Le réarmement reste manuel | 3 | 0.1 | Simple : règle du pas de simulation |
+| **Disjoncteur** (sécurité) | Une surcharge use l'onduleur (−3 d'état à chaque disjonction) | **Se fixe sur un mur, comme un vrai disjoncteur** (mur nord ou ouest de la case visée, ou mur est ou sud de la case voisine). Raccordé à un onduleur, il coupe **avant** l'onduleur : plus de dégât en cas de surcharge. Le réarmement reste manuel | 3 | 0.1 | Simple : règle du pas de simulation ; orientation du sprite choisie d'après les drapeaux `attachedN` / `attachedW` (`IsoFlagType.java:79-82`), murs lus par `IsoGridSquare.getWall(boolean)` (`IsoGridSquare.java:3962`) |
 | **Ordinateur de gestion** | Le tableau de bord ne montre que l'instant présent | Ajoute au tableau de bord un **historique de 48 h** (production, demande, stock), une **prévision d'autonomie** jusqu'au lever du soleil, et des alertes plus tôt. Avec le **délestage** (niv. 7), il éteint d'abord les lumières quand le stock passe sous 15 %, pour garder le réfrigérateur | 6 | 0.2 | Moyenne : l'historique est un tableau circulaire ; extinction des lumières sur le serveur par `IsoLightSwitch:setActive(false)`, qui se synchronise (`knowledge/power-and-lights.md:194-197`) |
 | **Alarme de batterie faible** | On découvre la panne trop tard | Bip discret et message aux joueurs proches quand le stock passe sous 20 % | 2 | 0.2 | Simple : `notify` du serveur et son local du client |
 
@@ -122,7 +122,9 @@ Le système de base reste **source → onduleur → maison**, avec une **batteri
 
 **Aspect (placeholder)** : des sprites vanilla de `media/scripts/generated/items/moveable.txt`, à choisir au prototype. L'ordinateur de gestion reprend `appliances_com_01_72`, l'ordinateur de bureau (`moveable.txt:1800`).
 
-**Recettes** (tableau § 2.5) : à détailler quand D-11 sera tranchée. Base proposée : `ElectronicsScrap`, `ElectricWire`, `Amplifier`. L'ordinateur de gestion demande en plus un ordinateur vanilla démonté.
+**Aspect du disjoncteur (placeholder)** : la pendule murale carrée vanilla (`Mov_SquareWallClock`, sprite `walls_decoration_01_105`, `media/scripts/generated/items/moveable.txt`). Les noms des variantes tournées (`_104` à `_107`) sont une **hypothèse** à vérifier en jeu (prototype P1).
+
+**Recettes** : disjoncteur au § 2.5. Ordinateur de gestion et alarme de batterie faible : à détailler en v0.2.
 
 ### 2.5 Recettes
 
@@ -138,9 +140,10 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | `LWMakeHeavyInverterKit` | 8 | 1 `InverterKit`, 4 `ElectronicsScrap`, 2 `Amplifier`, 2 `ElectricWire`, 1 `SheetMetal` ; [tournevis, pinces] | `HeavyInverterKit` | 30 |
 | `LWMakeWindTurbineKit` | 6 | 2 `Speaker` (aimants), 3 `ElectricWire`, 4 `ElectronicsScrap`, 2 `SheetMetal`, 2 `MetalBar`, 1 `Pipe`, 6 `Screws` ; [tournevis, pinces, marteau] | `WindTurbineKit` | 30 |
 | `LWMakeWaterWheelKit` (v0.2) | 7 | 8 `Plank`, 20 `Nails`, 2 `Speaker`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 1 `MetalBar` ; [marteau, tournevis] | `WaterWheelKit` | 30 |
+| `LWMakeBreakerKit` | 3 | 2 `ElectronicsScrap`, 1 `ElectricWire`, 1 `SmallSheetMetal`, 2 `Screws` ; [tournevis] | `BreakerKit` | 8 |
 | `LWMakeDeepCycleBattery` | 6 | 2 batteries de voiture (`CarBattery1/2/3` indifférentes), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
 
-- **Apprentissage (à valider : D-6).** Recettes connues automatiquement à leur niveau (`AutoLearnAny = Electricity:n`, champ vu dans `recipes_traps.txt:99-121`).
+- **Apprentissage (validé : D-6).** Recettes connues automatiquement à leur niveau (`AutoLearnAny = Electricity:n`, champ vu dans `recipes_traps.txt:99-121`).
 - **Équilibrage.** Les calculatrices sont la porte d'entrée du solaire ; au niveau 8, on n'en dépend plus.
 
 ---
@@ -266,8 +269,8 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 
 | Appareil | Usure normale | Accélérateurs |
 |---|---|---|
-| Panneau | −1 par 10 jours de jeu | Orage : 1 chance sur 20 par heure de perdre 5 |
-| Éolienne | −1 par 4 jours de jeu | Vent > 85 km/h : 1 chance sur 6 par heure de perdre 5 à 15 ; ignoré avec le frein (niv. 7+, réglé à l'inspection) |
+| Panneau | −1 par 10 jours de jeu | Orage, seulement si `StormDamage` est activée (désactivée par défaut) : 1 chance sur 20 par heure de perdre 5 |
+| Éolienne | −1 par 4 jours de jeu | Vent > 85 km/h, seulement si `StormDamage` est activée : 1 chance sur 6 par heure de perdre 5 à 15 ; ignoré avec le frein (niv. 7+, posé à l'inspection) |
 | Roue à aubes | −1 par 5 jours de jeu | Dégel (si l'option est active) : −5 |
 | **Onduleur** | −1 par 5 jours de jeu **en marche** | Charge > 80 % de sa puissance maximale : usure × 2 ; chaque disjonction : −3 |
 | **Batterie** | Voir ci-dessous | — |
@@ -333,7 +336,7 @@ Les trois batteries vanilla ont le même `UseDelta`, donc ces capacités sont un
 | Consommation à vide (en marche) | 20 W | 30 W |
 | Bruit | **très léger bourdonnement** | idem |
 
-- **Bruit.** Les zombies l'entendent dans un rayon de 2 cases (règle de mod, réglable). Pour les joueurs, c'est un son discret à choisir (D-8).
+- **Bruit.** Les zombies l'entendent dans un rayon de 2 cases (option `InverterNoiseRadius`). Les joueurs à moins de 12 cases entendent le **ronronnement de réfrigérateur vanilla `FridgeHumA`** (choix de l'utilisateur, D-8), joué localement par chaque client (`playSoundImpl`, sans paquet réseau).
 - **Portée.** Il alimente les cases dans un rayon de `GeneratorTileRange` (20 par défaut) et ±`GeneratorVerticalPowerRange` étages (3 par défaut). Ce sont les réglages vanilla des générateurs (`java/zombie/SandboxOptions.java:248-249`), et ils s'appliquent donc aussi aux générateurs vanilla.
 - **Pose : n'importe où, intérieur compris.** Il ne rend jamais le bâtiment toxique, et l'action « Installer » n'exige qu'une case de sol libre.
 - **États** : marche, arrêt (manuel), **disjoncté** (surcharge), **en panne** (état 0), **à vide** (plus d'énergie disponible).
@@ -342,7 +345,7 @@ Les trois batteries vanilla ont le même `UseDelta`, donc ces capacités sont un
 ### 5.3 Consommation : celle que le jeu attribue aux appareils
 
 - **Valeurs vanilla.** Le mod reprend exactement les valeurs que le moteur attribue à chaque appareil allumé (`getGeneratorPowerConsumption`, NM-5).
-- **Échelle** : 1 unité moteur par heure = **1 000 W** × `LiveWire.PowerScale` (à valider : D-5).
+- **Échelle** : 1 unité moteur par heure = **1 000 W** × `LiveWire.PowerScale` (validé : D-5).
 
 | Appareil (valeur moteur) | Consommation |
 |---|---|
@@ -445,7 +448,7 @@ Les clés suivent les préfixes imposés par `CLAUDE.md`. La liste complète est
 
 ## 7. Options sandbox
 
-Page `LiveWire`. Toutes ces valeurs par défaut sont **à valider**.
+Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
 
 | Option | Type | Bornes | Défaut | Effet |
 |---|---|---|---|---|
@@ -459,7 +462,7 @@ Page `LiveWire`. Toutes ces valeurs par défaut sont **à valider**.
 | `LiveWire.InverterNoiseRadius` | entier | 0 – 10 | 2 | Rayon du bourdonnement entendu par les zombies ; 0 = silence |
 | `LiveWire.LinkRange` | entier | 4 – 30 | 12 | Distance maximale de raccordement |
 | `LiveWire.WirePerTiles` | entier | 0 – 20 | 4 | Cases par fil électrique ; 0 = câblage gratuit |
-| `LiveWire.StormDamage` | booléen | — | vrai | Dégâts d'orage et de tempête |
+| `LiveWire.StormDamage` | booléen | — | **faux** | Dégâts d'orage et de tempête (désactivés par défaut, choix de l'utilisateur) |
 | `LiveWire.RiverFreeze` | booléen | — | faux | Gel des roues à aubes |
 | `LiveWire.XPMultiplier` | réel | 0 – 10 | 1,0 | Expérience du mod |
 | `LiveWire.SkillGates` | booléen | — | vrai | Faux = aucun niveau requis |
@@ -475,7 +478,7 @@ Page `LiveWire`. Toutes ces valeurs par défaut sont **à valider**.
 ### 8.1 Le multijoueur vu du joueur
 
 - **Le serveur décide de tout** : production, stock, état, pannes, expérience.
-- **Installations communes**, sous les règles de safehouse vanilla (`media/lua/client/ISUI/ISWorldObjectContextMenu.lua:211-214`). Pas de propriétaire en v0.1 (**à valider : D-7**).
+- **Installations communes**, sous les règles de safehouse vanilla (`media/lua/client/ISUI/ISWorldObjectContextMenu.lua:211-214`). Pas de propriétaire en v0.1 (validé : D-7).
 - **Délais** : une action prend effet à la réponse du serveur ; le tableau de bord peut avoir jusqu'à 10 minutes de jeu de retard.
 - **Absence de tous les joueurs** : l'installation continue (§ 5.4). Si le serveur est mis en pause quand il est vide (`PauseEmpty`), le temps s'arrête, et l'installation aussi (`knowledge/api-42-21.md:177`).
 
@@ -493,7 +496,7 @@ Page `LiveWire`. Toutes ces valeurs par défaut sont **à valider**.
 
 ---
 
-## 9. Périmètre des versions (à valider : D-1)
+## 9. Périmètre des versions (validé : D-1)
 
 | Version | Contenu | Idées |
 |---|---|---|
