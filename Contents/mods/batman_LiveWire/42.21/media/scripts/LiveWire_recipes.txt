@@ -1,0 +1,232 @@
+module LiveWire
+{
+    imports
+    {
+        Base,
+    }
+
+    /* Recipes learnt automatically at their required level (decision D-6).
+       Recipe names are the keys of Recipes.json. */
+
+    craftRecipe LWMakeVoltageTester
+    {
+        timedAction = MakingElectrical,
+        time = 120,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:1,
+        AutoLearnAny = Electricity:1,
+        xpAward = Electricity:5,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 [Base.ElectronicsScrap],
+            item 1 [Base.ElectricWire],
+            item 1 [Base.LightBulb],
+            item 1 [Base.Battery],
+        }
+        outputs
+        {
+            item 1 LiveWire.VoltageTester,
+        }
+    }
+
+    craftRecipe LWSalvageSolarCell
+    {
+        timedAction = MakingElectrical,
+        time = 60,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:2,
+        AutoLearnAny = Electricity:2,
+        xpAward = Electricity:3,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 [Base.Calculator],
+        }
+        outputs
+        {
+            item 1 LiveWire.SolarCell,
+        }
+    }
+
+    craftRecipe LWMakeSolarCellFromScrap
+    {
+        timedAction = MakingElectrical,
+        time = 150,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:8,
+        AutoLearnAny = Electricity:8,
+        xpAward = Electricity:4,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
+            item 5 [Base.ElectronicsScrap],
+            item 1 [Base.Aluminum],
+        }
+        outputs
+        {
+            item 1 LiveWire.SolarCell,
+        }
+    }
+
+    craftRecipe LWMakeSolarPanelKit
+    {
+        timedAction = MakingElectrical,
+        time = 400,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:15,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
+            item 6 [LiveWire.SolarCell],
+            item 1 [Base.SheetMetal],
+            item 2 [Base.ElectricWire],
+            item 4 [Base.Screws],
+            item 1 [Base.Glue],
+        }
+        outputs
+        {
+            item 1 LiveWire.SolarPanelKit,
+        }
+    }
+
+    craftRecipe LWMakeInverterKit
+    {
+        timedAction = MakingElectrical,
+        time = 500,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:5,
+        AutoLearnAny = Electricity:5,
+        xpAward = Electricity:25,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
+            item 4 [Base.ElectronicsScrap],
+            item 2 [Base.Amplifier],
+            item 3 [Base.ElectricWire],
+            item 1 [Base.SmallSheetMetal],
+            item 4 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 LiveWire.InverterKit,
+        }
+    }
+
+    craftRecipe LWMakeHeavyInverterKit
+    {
+        timedAction = MakingElectrical,
+        time = 600,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:8,
+        AutoLearnAny = Electricity:8,
+        xpAward = Electricity:30,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
+            item 1 [LiveWire.InverterKit],
+            item 4 [Base.ElectronicsScrap],
+            item 2 [Base.Amplifier],
+            item 2 [Base.ElectricWire],
+            item 1 [Base.SheetMetal],
+        }
+        outputs
+        {
+            item 1 LiveWire.HeavyInverterKit,
+        }
+    }
+
+    craftRecipe LWMakeWindTurbineKit
+    {
+        timedAction = MakingElectrical,
+        time = 600,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:6,
+        AutoLearnAny = Electricity:6,
+        xpAward = Electricity:30,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
+            item 2 [Base.Speaker],
+            item 3 [Base.ElectricWire],
+            item 4 [Base.ElectronicsScrap],
+            item 2 [Base.SheetMetal],
+            item 2 [Base.MetalBar],
+            item 1 [Base.Pipe],
+            item 6 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 LiveWire.WindTurbineKit,
+        }
+    }
+
+    craftRecipe LWMakeBreakerKit
+    {
+        timedAction = MakingElectrical,
+        time = 200,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:8,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 2 [Base.ElectronicsScrap],
+            item 1 [Base.ElectricWire],
+            item 1 [Base.SmallSheetMetal],
+            item 2 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 LiveWire.BreakerKit,
+        }
+    }
+
+    craftRecipe LWMakeDeepCycleBattery
+    {
+        timedAction = MakingElectrical,
+        time = 400,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:6,
+        AutoLearnAny = Electricity:6,
+        xpAward = Electricity:20,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        OnCreate = LiveWire.Recipes.onDeepCycleBattery,
+        inputs
+        {
+            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
+            item 2 [Base.CarBattery1;Base.CarBattery2;Base.CarBattery3] mode:destroy,
+            item 2 [Base.ElectricWire],
+            item 1 [Base.ScrapMetal],
+        }
+        outputs
+        {
+            item 1 LiveWire.DeepCycleBattery,
+        }
+    }
+}
