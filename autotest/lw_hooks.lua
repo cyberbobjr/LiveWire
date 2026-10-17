@@ -323,9 +323,9 @@ local function runChecks()
     check("LCD panel and software open", function()
         local id = LiveWire.Marks.get(S.inv).id
         LiveWire.InverterPanel.open(p, id)
-        LiveWire.Dashboard.open(p, id)
-        local ok = LiveWire.InverterPanel.instance ~= nil and LiveWire.Dashboard.instance ~= nil
-        LiveWire.Dashboard.instance:close()
+        LiveWire.SoftwareScreen.open(p, id, nil)
+        local ok = LiveWire.InverterPanel.instance ~= nil and LiveWire.SoftwareScreen.instance ~= nil
+        LiveWire.SoftwareScreen.instance:close()
         LiveWire.InverterPanel.instance:close()
         return ok
     end)
@@ -383,7 +383,7 @@ end
 local function hideWindows()
     if ISCharacterInfoWindow and ISCharacterInfoWindow.instance then ISCharacterInfoWindow.instance:setVisible(false) end
     if LiveWire.InverterPanel.instance then LiveWire.InverterPanel.instance:close() end
-    if LiveWire.Dashboard.instance then LiveWire.Dashboard.instance:close() end
+    if LiveWire.SoftwareScreen.instance then LiveWire.SoftwareScreen.instance:close() end
     local console = UIManager.getDebugConsole and UIManager.getDebugConsole()
     if console then console:setVisible(false) end
 end
@@ -429,11 +429,11 @@ local function buildSteps()
         { wait = 800, fn = function() shot("lw_05_lcd_page2") end },
         { wait = 200, fn = function()
             LiveWire.InverterPanel.instance:close()
-            LiveWire.Dashboard.open(p, LiveWire.Marks.get(S.inv).id)
+            LiveWire.SoftwareScreen.open(p, LiveWire.Marks.get(S.inv).id, nil)
         end },
-        { wait = 1500, fn = function() shot("lw_06_software") end },
+        { wait = 2500, fn = function() shot("lw_06_software") end },
         { wait = 200, fn = function()
-            LiveWire.Dashboard.instance:close()
+            LiveWire.SoftwareScreen.instance:close()
             local sq = S.inv:getSquare()
             LiveWire.RangeView.show(LiveWire.Marks.get(S.inv).id, sq:getX(), sq:getY(), sq:getZ())
             for _ = 1, 8 do getCore():doZoomScroll(0, 1) end

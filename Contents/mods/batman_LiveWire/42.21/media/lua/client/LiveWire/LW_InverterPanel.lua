@@ -1,8 +1,8 @@
 -- Live Wire: front panel of the inverter, drawn as a device: a backlit LCD screen
 -- with pages (previous / next), an on/off button with its indicator light and a
 -- reset button when the inverter has tripped. Same data as the management
--- dashboard (snapshot of the inverter); the full view is the computer
--- (LW_Dashboard.lua). Commands are re-checked by the server.
+-- software (snapshot of the inverter); the full view is the computer
+-- (LW_SoftwareApp.lua). Commands are re-checked by the server.
 if isServer() then return end
 
 require "ISUI/ISPanel"

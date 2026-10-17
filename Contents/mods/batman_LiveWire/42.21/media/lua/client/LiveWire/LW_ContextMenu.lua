@@ -85,8 +85,12 @@ function Menu.onReset(player, id)
     LiveWire.Client.send(LiveWire.Protocol.C_RESET, { inverter = id })
 end
 
-function Menu.onDashboard(player, id)
-    LiveWire.Dashboard.open(player, id)
+-- Management software on a linked computer: inside the Computer Mod screen when
+-- that mod handles this computer, else on our own computer screen.
+function Menu.onSoftware(player, id, computer)
+    local CM = LiveWire.ComputerMod
+    if CM and CM.isComputer(computer) and CM.openInside(player, computer) then return end
+    LiveWire.SoftwareScreen.open(player, id, computer)
 end
 
 function Menu.onPanel(player, id)
@@ -249,7 +253,7 @@ local function addVanillaOptions(root, player, obj, kind)
     local menu = ISContextMenu:getNew(root)
     root:addSubMenu(opt, menu)
     if kind == "computer" and mark and type(mark.inverter) == "string" then
-        local o = menu:addOption(getText("ContextMenu_LW_Software"), player, Menu.onDashboard, mark.inverter)
+        local o = menu:addOption(getText("ContextMenu_LW_Software"), player, Menu.onSoftware, mark.inverter, obj)
         -- With the Computer Mod, the software must be installed from its disk first.
         local CM = LiveWire.ComputerMod
         if CM and CM.isComputer(obj) and not CM.isInstalled(obj) then tip(o, "Tooltip_LW_NeedSoftware") end

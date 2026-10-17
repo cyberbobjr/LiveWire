@@ -8,11 +8,14 @@
 --   in the computer data with their own helpers (ComputerModComputerTypes.getData /
 --   transmitData). It is prefixed "ComputerMod" because their laptop data only
 --   synchronises keys with that prefix (ComputerMod_ComputerTypes.lua:143-147).
--- * Their desktop gets a "Live Wire" app (wrapper of ComputerScreenUI's
---   getDesktopAppItems and activateDesktopItem, the way the author's own addons
---   extend it); it opens our management software window (LW_Dashboard.lua) for the
---   inverter linked to this computer, or else the nearest inverter in cable range.
--- No code of these mods is copied: only their global functions are called.
+-- * The software runs INSIDE their computer screen, as one of their applications:
+--   desktop icon, application window with their title bar, minimise and close
+--   buttons, taskbar slot when minimised, reopened with the session. The content
+--   is the same management application as on our own screen (LW_SoftwareApp.lua),
+--   drawn in their window client rectangle (clientX/Y/W/H).
+-- They expose no application API: like the author's own addons (New Music
+-- Integration), we add a view ("LIVEWIRE") and wrap ComputerScreenUI methods,
+-- always calling the original. No code of these mods is copied.
 if isServer() then return end
 
 LiveWire = LiveWire or {}
@@ -22,6 +25,7 @@ LiveWire.ComputerMod = CM
 
 CM.KEY = "ComputerModLiveWireInstalled"
 CM.APP = "livewire"
+CM.VIEW = "LIVEWIRE"
 
 function CM.available()
     return ComputerModComputerTypes ~= nil and ComputerModComputerTypes.isComputer ~= nil
@@ -56,18 +60,35 @@ function CM.inverterFor(obj)
     return im and im.id or nil
 end
 
-function CM.openSoftware(player, obj)
-    local id = CM.inverterFor(obj)
-    if not id then
-        LiveWire.Client.showNotify(player, "IGUI_LW_NoInverterForSoftware", {}, true)
-        return
+local function playerOf(ui)
+    local p = ui.player
+    if type(p) == "number" then return getSpecificPlayer(p) end
+    return p or getPlayer()
+end
+
+-- Open their computer screen on `obj` and start our application once it is on
+-- the desktop (after the boot sequence). Returns false when the screen did not
+-- open (no power, too far: their own message is shown).
+function CM.openInside(player, obj)
+    if not CM.isInstalled(obj) or not ComputerContextMenu or not ComputerContextMenu.openComputerUI then
+        return false
     end
-    LiveWire.Dashboard.open(player, id)
+    ComputerContextMenu.openComputerUI({ obj }, player:getPlayerNum(), obj)
+    local ui = ComputerScreenUI and ComputerScreenUI.instance
+    if not ui or ui.computer ~= obj then return false end
+    ui.liveWirePending = true
+    return true
 end
 
 local function onInstall(player, obj)
     if player:getInventory():getCountTypeRecurse("LiveWire.MonitorDisk") <= 0 then return end
     if CM.install(obj) then LiveWire.Client.showNotify(player, "IGUI_LW_SoftwareInstalled", {}) end
+end
+
+local function onOpen(player, obj)
+    if not CM.openInside(player, obj) then
+        LiveWire.Client.showNotify(player, "IGUI_LW_NoInverterForSoftware", {}, true)
+    end
 end
 
 -- "Live Wire" options on a Computer Mod computer or laptop.
@@ -82,7 +103,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
             if CM.isInstalled(o) then
                 -- A linked desktop already has the option in the "Live Wire" menu.
                 if not LiveWire.Install.vanillaMark(o) then
-                    context:addOption(getText("ContextMenu_LW_Software"), player, CM.openSoftware, o)
+                    context:addOption(getText("ContextMenu_LW_Software"), player, onOpen, o)
                 end
             else
                 local opt = context:addOption(getText("ContextMenu_LW_InstallSoftware"), player, onInstall, o)
@@ -97,16 +118,45 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     end
 end
 
--- Desktop app, once their UI is loaded.
+-------------------------------------------------------------------------------
+-- Our view inside their screen
+-------------------------------------------------------------------------------
+local function inside(x, y, r)
+    return r and x >= r.x and x <= r.x + r.w and y >= r.y and y <= r.y + r.h
+end
+
+local function startLiveWire(ui)
+    if ui.saveCurrentNote then ui:saveCurrentNote() end
+    ui.currentView = CM.VIEW
+    ui.startMenuOpen = false
+    ui.settingsMenuOpen = false
+    for _, fn in ipairs({ "setDesktopShortcutsVisible", "setCalculatorButtonsVisible", "setInstallControlsVisible",
+                          "setSettingsControlsVisible", "setPasswordControlsVisible", "setMailControlsVisible" }) do
+        if ui[fn] then ui[fn](ui, false) end
+    end
+    if ui.removeMinimizedView then ui:removeMinimizedView(CM.VIEW) end
+    if ui.moveCloseToWindow then ui:moveCloseToWindow() end
+    if ui.backButton then ui.backButton:setVisible(true) end
+    if ui.closeButton then ui.closeButton:setVisible(false) end
+    if ui.updateStartMenuButtons then ui:updateStartMenuButtons() end
+    if not ui.liveWireApp or ui.liveWireApp.computer ~= ui.computer then
+        if ui.liveWireApp then ui.liveWireApp:close() end
+        ui.liveWireApp = LiveWire.SoftwareApp.new(playerOf(ui), CM.inverterFor(ui.computer), { header = false })
+        ui.liveWireApp.computer = ui.computer
+    end
+end
+
 local function patchScreen()
     if CM.patched or not ComputerScreenUI or not ComputerScreenUI.getDesktopAppItems
-        or not ComputerScreenUI.activateDesktopItem then
+        or not ComputerScreenUI.activateDesktopItem or not ComputerScreenUI.drawDesktop then
         return
     end
     CM.patched = true
-    local origItems = ComputerScreenUI.getDesktopAppItems
+    local O = {}
+
+    O.items = ComputerScreenUI.getDesktopAppItems
     ComputerScreenUI.getDesktopAppItems = function(self, ...)
-        local items = origItems(self, ...)
+        local items = O.items(self, ...)
         if type(items) == "table" and CM.isInstalled(self.computer) then
             items[#items + 1] = { key = "app_" .. CM.APP, kind = "app", app = CM.APP,
                                   label = getText("IGUI_LW_App"),
@@ -114,15 +164,99 @@ local function patchScreen()
         end
         return items
     end
-    local origActivate = ComputerScreenUI.activateDesktopItem
+
+    O.activate = ComputerScreenUI.activateDesktopItem
     ComputerScreenUI.activateDesktopItem = function(self, item, ...)
         if item and item.app == CM.APP then
-            local player = self.player
-            if type(player) == "number" then player = getSpecificPlayer(player) end
-            CM.openSoftware(player or getPlayer(), self.computer)
+            startLiveWire(self)
             return
         end
-        return origActivate(self, item, ...)
+        return O.activate(self, item, ...)
+    end
+
+    -- Drawn right after the desktop, under their stencil, before the start menu
+    -- and the context menus (their prerender).
+    O.drawDesktop = ComputerScreenUI.drawDesktop
+    ComputerScreenUI.drawDesktop = function(self, ...)
+        local r = O.drawDesktop(self, ...)
+        if self.liveWirePending and self.currentView == "DESKTOP" then
+            self.liveWirePending = nil
+            startLiveWire(self)
+        end
+        if self.currentView == CM.VIEW and self.liveWireApp and self.clientX then
+            local snap = self.liveWireApp:snapshot()
+            local right = ""
+            if snap then right = tostring(snap.production) .. " W / " .. tostring(snap.demand) .. " W" end
+            if self.drawAppWindow then self:drawAppWindow(getText("IGUI_LW_App_Name"), getText("IGUI_LW_App_OS"), right) end
+            self.liveWireApp:update()
+            self.liveWireApp:draw(self, self.clientX, self.clientY, self.clientW, self.clientH)
+        end
+        return r
+    end
+
+    O.down = ComputerScreenUI.onMouseDown
+    ComputerScreenUI.onMouseDown = function(self, x, y, ...)
+        if self.currentView == CM.VIEW and self.liveWireApp and not self.computerModGamepadKeyboard then
+            if self.getFrameControlAt and self:getFrameControlAt(x, y) then return O.down(self, x, y, ...) end
+            if self.getStickyPasswordNoteRect and inside(x, y, self:getStickyPasswordNoteRect()) then
+                return O.down(self, x, y, ...)
+            end
+            if self.liveWireApp:onMouseDown(x, y) then return true end
+            if self.windowX and inside(x, y, { x = self.windowX, y = self.windowY, w = self.windowW, h = self.windowH }) then
+                return true
+            end
+        end
+        return O.down(self, x, y, ...)
+    end
+
+    if ComputerScreenUI.getWindowTitleForView then
+        O.title = ComputerScreenUI.getWindowTitleForView
+        ComputerScreenUI.getWindowTitleForView = function(self, view, ...)
+            if view == CM.VIEW then return getText("IGUI_LW_App") end
+            return O.title(self, view, ...)
+        end
+    end
+
+    -- Their restore sends an unknown view back to the desktop.
+    if ComputerScreenUI.restoreMinimizedWindow and ComputerScreenUI.getMinimizedWindows then
+        O.restore = ComputerScreenUI.restoreMinimizedWindow
+        ComputerScreenUI.restoreMinimizedWindow = function(self, index, ...)
+            local list = self:getMinimizedWindows()
+            local w = list and list[index or 1]
+            if w and w.view == CM.VIEW then
+                table.remove(list, index or 1)
+                startLiveWire(self)
+                if self.saveSessionView then self:saveSessionView() end
+                return
+            end
+            return O.restore(self, index, ...)
+        end
+    end
+
+    -- Reopen the software when the screen comes back with it as last view.
+    if ComputerScreenUI.resumePoweredSession and ComputerScreenUI.getComputerData then
+        O.resume = ComputerScreenUI.resumePoweredSession
+        ComputerScreenUI.resumePoweredSession = function(self, ...)
+            local d = self:getComputerData()
+            local last = d and d.ComputerModLastView
+            local r = O.resume(self, ...)
+            if last == CM.VIEW and self.currentView == "DESKTOP" then startLiveWire(self) end
+            return r
+        end
+    end
+
+    -- Stop asking the server for snapshots when the screen goes away.
+    for _, name in ipairs({ "shutdownComputer", "hideComputerScreen" }) do
+        if ComputerScreenUI[name] then
+            local orig = ComputerScreenUI[name]
+            ComputerScreenUI[name] = function(self, ...)
+                if self.liveWireApp then
+                    self.liveWireApp:close()
+                    self.liveWireApp = nil
+                end
+                return orig(self, ...)
+            end
+        end
     end
 end
 

@@ -1,0 +1,454 @@
+-- Live Wire: the management software, drawn as a computer application inside a
+-- rectangle of any host UI element: our own computer screen (LW_SoftwareScreen.lua)
+-- or the screen of the Computer Mod / Laptop Mod (LW_ComputerMod.lua). Same
+-- application everywhere. The host calls app:draw(ui, x, y, w, h) from its render
+-- and app:onMouseDown(mx, my) with coordinates local to the same UI element.
+-- Data: the inverter snapshot (LW_ClientState.lua); commands are re-checked by the
+-- server.
+if isServer() then return end
+
+LiveWire = LiveWire or {}
+
+local App = {}
+App.__index = App
+LiveWire.SoftwareApp = App
+
+local RESUBSCRIBE_MS = 60 * 1000
+
+-- Palette of the application (dark desktop software).
+local C = {
+    bg = { 0.09, 0.11, 0.13 }, panel = { 0.14, 0.17, 0.20 }, panel2 = { 0.18, 0.21, 0.25 },
+    line = { 0.28, 0.33, 0.38 }, text = { 0.88, 0.91, 0.93 }, dim = { 0.58, 0.63, 0.68 },
+    accent = { 0.30, 0.78, 0.95 }, green = { 0.32, 0.85, 0.42 }, blue = { 0.35, 0.60, 0.95 },
+    amber = { 0.98, 0.72, 0.20 }, red = { 0.95, 0.32, 0.25 }, bar = { 0.06, 0.07, 0.08 },
+}
+
+local TABS = {
+    { id = "overview", key = "IGUI_LW_App_Tab_Overview" },
+    { id = "batteries", key = "IGUI_LW_App_Tab_Batteries" },
+    { id = "sources", key = "IGUI_LW_App_Tab_Sources" },
+    { id = "house", key = "IGUI_LW_App_Tab_House" },
+    { id = "history", key = "IGUI_LW_App_Tab_History" },
+    { id = "equipment", key = "IGUI_LW_App_Tab_Equipment" },
+}
+
+local function T(key, ...) return getText(key, ...) end
+local function fh(font) return getTextManager():getFontHeight(font) end
+local function tw(font, s) return getTextManager():MeasureStringX(font, s) end
+
+-- options: header = false when the host already shows the title (Computer Mod).
+function App.new(player, inverterId, options)
+    local o = setmetatable({}, App)
+    o.header = not (options and options.header == false)
+    o.player = player
+    o.inverterId = inverterId
+    o.tab = "overview"
+    o.buttons = {}
+    o.lastSubscribe = 0
+    return o
+end
+
+function App:snapshot()
+    return self.inverterId and LiveWire.Client.snapshot(self.inverterId) or nil
+end
+
+-- Called by the host every frame: keep the server sending snapshots.
+function App:update()
+    if not isClient() or not self.inverterId then return end
+    local now = getTimestampMs()
+    if now - self.lastSubscribe >= RESUBSCRIBE_MS then
+        self.lastSubscribe = now
+        LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE, { inverter = self.inverterId })
+    end
+end
+
+function App:close()
+    if isClient() and self.inverterId then
+        LiveWire.Client.send(LiveWire.Protocol.C_UNSUBSCRIBE, { inverter = self.inverterId })
+    end
+end
+
+-------------------------------------------------------------------------------
+-- Drawing helpers (ui = the host ISUIElement)
+-------------------------------------------------------------------------------
+local function rect(ui, x, y, w, h, c, a)
+    ui:drawRect(x, y, w, h, a or 1, c[1], c[2], c[3])
+end
+
+local function border(ui, x, y, w, h, c, a)
+    ui:drawRectBorder(x, y, w, h, a or 1, c[1], c[2], c[3])
+end
+
+local function text(ui, s, x, y, c, font)
+    ui:drawText(s, x, y, c[1], c[2], c[3], 1, font or UIFont.Small)
+end
+
+local function textRight(ui, s, x, y, c, font)
+    ui:drawTextRight(s, x, y, c[1], c[2], c[3], 1, font or UIFont.Small)
+end
+
+function App:button(ui, x, y, w, h, label, action, style)
+    local mx, my = ui:getMouseX(), ui:getMouseY()
+    local over = mx >= x and mx < x + w and my >= y and my < y + h
+    local bg = C.panel2
+    if style == "on" then bg = { 0.15, 0.40, 0.20 } elseif style == "off" then bg = { 0.42, 0.14, 0.12 }
+    elseif style == "active" then bg = { 0.12, 0.32, 0.42 } end
+    rect(ui, x, y, w, h, bg, over and 1 or 0.9)
+    border(ui, x, y, w, h, over and C.accent or C.line)
+    local font = UIFont.Small
+    text(ui, label, x + (w - tw(font, label)) / 2, y + (h - fh(font)) / 2, C.text, font)
+    self.buttons[#self.buttons + 1] = { x = x, y = y, w = w, h = h, action = action }
+end
+
+local function bar(ui, x, y, w, h, frac, c)
+    rect(ui, x, y, w, h, C.bar)
+    local f = LiveWire.clamp(frac or 0, 0, 1)
+    if f > 0 then rect(ui, x + 1, y + 1, (w - 2) * f, h - 2, c) end
+    border(ui, x, y, w, h, C.line)
+end
+
+local function card(ui, x, y, w, h, title)
+    rect(ui, x, y, w, h, C.panel)
+    border(ui, x, y, w, h, C.line)
+    if title then
+        text(ui, title, x + 8, y + 5, C.dim)
+        return y + 5 + fh(UIFont.Small) + 4
+    end
+    return y + 6
+end
+
+local function led(ui, x, y, c)
+    rect(ui, x, y, 10, 10, c)
+    border(ui, x, y, 10, 10, { 0.02, 0.02, 0.02 })
+end
+
+local function stateColour(st)
+    if st == "on" or st == "ok" then return C.green end
+    if st == "tripped" or st == "broken" or st == "ringing" then return C.red end
+    return C.amber
+end
+
+-------------------------------------------------------------------------------
+-- Pages
+-------------------------------------------------------------------------------
+function App:drawOverview(ui, x, y, w, h, snap)
+    local inv = snap.inverter
+    local nominal = 0
+    for i = 1, #snap.sources do nominal = nominal + (snap.sources[i].nominal or 0) end
+    local scale = math.max(inv.maxW or 0, nominal, snap.production or 0, snap.demand or 0, 1)
+    local gap = 8
+    local leftW = math.floor((w - gap) * 0.6)
+    local rightW = w - leftW - gap
+    local big = UIFont.Large
+
+    -- Production / consumption on the same scale.
+    local ch = math.floor((h - gap) * 0.55)
+    local cy = card(ui, x, y, leftW, ch, T("IGUI_LW_App_Power"))
+    text(ui, T("IGUI_LW_App_Production"), x + 10, cy, C.dim)
+    textRight(ui, tostring(snap.production) .. " W", x + leftW - 10, cy - 2, C.green, big)
+    cy = cy + fh(big) + 2
+    bar(ui, x + 10, cy, leftW - 20, 12, snap.production / scale, C.green)
+    cy = cy + 20
+    text(ui, T("IGUI_LW_App_Load"), x + 10, cy, C.dim)
+    local loadC = C.blue
+    local f = (inv.maxW or 0) > 0 and snap.demand / inv.maxW or 0
+    if f > 0.9 then loadC = C.red elseif f > 0.7 then loadC = C.amber end
+    textRight(ui, tostring(snap.demand) .. " W", x + leftW - 10, cy - 2, loadC, big)
+    cy = cy + fh(big) + 2
+    bar(ui, x + 10, cy, leftW - 20, 12, snap.demand / scale, loadC)
+    cy = cy + 18
+    text(ui, T("IGUI_LW_App_Scale", scale, inv.maxW), x + 10, cy, C.dim)
+
+    -- Batteries.
+    local by = y + ch + gap
+    local bh = h - ch - gap
+    local cy2 = card(ui, x, by, leftW, bh, T("IGUI_LW_App_Storage"))
+    if snap.capacity and snap.capacity > 0 then
+        local frac = snap.stock / snap.capacity
+        local c = frac < 0.2 and C.red or (frac < 0.5 and C.amber or C.green)
+        textRight(ui, tostring(math.floor(frac * 100 + 0.5)) .. " %", x + leftW - 10, cy2 - 2, c, big)
+        text(ui, string.format("%.2f / %.2f kWh", snap.stock, snap.capacity), x + 10, cy2, C.text)
+        cy2 = cy2 + fh(big) + 2
+        bar(ui, x + 10, cy2, leftW - 20, 16, frac, c)
+        cy2 = cy2 + 22
+        if snap.autonomyH then
+            text(ui, T("IGUI_LW_Autonomy", math.floor(snap.autonomyH + 0.5)), x + 10, cy2, C.dim)
+        else
+            text(ui, T("IGUI_LW_Forecast_Surplus"), x + 10, cy2, C.dim)
+        end
+    else
+        text(ui, T("IGUI_LW_NoBattery"), x + 10, cy2, C.dim)
+    end
+
+    -- Inverter control.
+    local rx = x + leftW + gap
+    local ry = card(ui, rx, y, rightW, h, T("IGUI_LW_App_Inverter"))
+    local st = inv.state
+    led(ui, rx + 10, ry + 3, stateColour(st))
+    local stKey = "IGUI_LW_State_" .. tostring(st)
+    if st == "on" and not inv.powered then stKey = "IGUI_LW_State_idle" end
+    text(ui, T(stKey), rx + 26, ry, C.text)
+    ry = ry + fh(UIFont.Small) + 4
+    text(ui, T("IGUI_LW_App_Condition", inv.cond), rx + 10, ry, C.dim)
+    ry = ry + fh(UIFont.Small) + 2
+    bar(ui, rx + 10, ry, rightW - 20, 8, (inv.cond or 0) / 100, inv.cond < 30 and C.red or C.green)
+    ry = ry + 16
+    local bw = rightW - 20
+    if st == "on" then
+        self:button(ui, rx + 10, ry, bw, 26, T("ContextMenu_LW_TurnOff"), "off", "off")
+    else
+        self:button(ui, rx + 10, ry, bw, 26, T("ContextMenu_LW_TurnOn"), "on", "on")
+    end
+    ry = ry + 32
+    if st == "tripped" then
+        self:button(ui, rx + 10, ry, bw, 26, T("ContextMenu_LW_Reset"), "reset")
+        ry = ry + 32
+    end
+    -- Alerts.
+    ry = ry + 4
+    rect(ui, rx + 10, ry, bw, 1, C.line)
+    ry = ry + 6
+    local alerts = 0
+    local function alert(s, c)
+        text(ui, s, rx + 10, ry, c)
+        ry = ry + fh(UIFont.Small) + 2
+        alerts = alerts + 1
+    end
+    if snap.breaker and snap.breaker.state == "tripped" then alert(T("IGUI_LW_App_BreakerTripped"), C.red) end
+    if snap.alarm and snap.alarm.on then alert(T("IGUI_LW_Alarm_On"), C.red) end
+    if f > 0.9 then alert(T("IGUI_LW_Alert_Overload"), C.amber) end
+    if (snap.extra or 0) > 0 then alert(T("IGUI_LW_TooManyBatteries", snap.extra), C.amber) end
+    if alerts == 0 then alert(T("IGUI_LW_App_NoAlert"), C.green) end
+end
+
+function App:drawBatteries(ui, x, y, w, h, snap)
+    local cy = card(ui, x, y, w, h, T("IGUI_LW_Section_Batteries", snap.banks or 0))
+    if not snap.batteries or #snap.batteries == 0 then
+        text(ui, T("IGUI_LW_NoBattery"), x + 10, cy, C.dim)
+        return
+    end
+    for i = 1, #snap.batteries do
+        local bt = snap.batteries[i]
+        local item = getScriptManager():FindItem(bt.model)
+        local name = item and item:getDisplayName() or bt.model
+        text(ui, name, x + 10, cy, C.text)
+        textRight(ui, T("IGUI_LW_App_BatteryState", math.floor(bt.charge * 100 + 0.5), bt.cond), x + w - 10, cy, C.dim)
+        cy = cy + fh(UIFont.Small) + 2
+        bar(ui, x + 10, cy, w - 20, 10, bt.charge, bt.cond < 30 and C.amber or C.green)
+        cy = cy + 16
+        if cy > y + h - 20 then break end
+    end
+    if snap.lost and snap.lost > 0.0005 then
+        text(ui, T("IGUI_LW_Lost", string.format("%.2f", snap.lost)), x + 10, y + h - fh(UIFont.Small) - 6, C.amber)
+    end
+end
+
+function App:drawSources(ui, x, y, w, h, snap)
+    local cy = card(ui, x, y, w, h, T("IGUI_LW_Sources"))
+    local fams = { { "solar", "IGUI_LW_Family_Solar" }, { "wind", "IGUI_LW_Family_Wind" },
+                   { "hydro", "IGUI_LW_Family_Hydro" } }
+    for _, fam in ipairs(fams) do
+        local n, wsum = 0, 0
+        for i = 1, #snap.sources do
+            if snap.sources[i].kind == fam[1] then n = n + 1; wsum = wsum + snap.sources[i].w end
+        end
+        text(ui, T(fam[2]), x + 10, cy, C.accent)
+        textRight(ui, T("IGUI_LW_App_FamilyTotal", n, wsum), x + w - 10, cy, C.text)
+        cy = cy + fh(UIFont.Small) + 2
+        for i = 1, #snap.sources do
+            local s = snap.sources[i]
+            if s.kind == fam[1] and cy < y + h - 16 then
+                local line = T("IGUI_LW_Model_" .. s.model)
+                if s.kind == "solar" and (s.snow or 0) > 0.05 then
+                    line = line .. " " .. T("IGUI_LW_Snow", math.floor(s.snow * 100 + 0.5))
+                end
+                text(ui, line, x + 22, cy, s.cond <= 0 and C.red or C.text)
+                local nom = math.max(1, s.nominal or 1)
+                bar(ui, x + w - 190, cy + 3, 100, 8, s.w / nom, C.green)
+                textRight(ui, T("IGUI_LW_App_SourceState", s.w, s.cond), x + w - 10, cy, C.dim)
+                cy = cy + fh(UIFont.Small) + 2
+            end
+        end
+        cy = cy + 4
+    end
+end
+
+function App:drawHouse(ui, x, y, w, h, snap)
+    local cy = card(ui, x, y, w, h, T("IGUI_LW_Section_House"))
+    text(ui, T("IGUI_LW_LCD_Range", snap.coverage and snap.coverage.radius or 20,
+        snap.coverage and snap.coverage.floors or 3), x + 10, cy, C.dim)
+    cy = cy + fh(UIFont.Small) + 6
+    local ap = snap.appliances or {}
+    if #ap == 0 then text(ui, T("IGUI_LW_NoAppliance"), x + 10, cy, C.dim) end
+    local maxW = 1
+    for i = 1, #ap do maxW = math.max(maxW, ap[i].w) end
+    for i = 1, #ap do
+        if cy > y + h - 18 then break end
+        text(ui, T("IGUI_LW_Appliance_" .. ap[i].cat), x + 10, cy, C.text)
+        bar(ui, x + w - 200, cy + 3, 110, 8, ap[i].w / maxW, C.blue)
+        textRight(ui, T("IGUI_LW_App_ApplianceState", ap[i].n, ap[i].w), x + w - 10, cy, C.dim)
+        cy = cy + fh(UIFont.Small) + 3
+    end
+end
+
+local function graph(ui, x, y, w, h, values, max, c, label)
+    rect(ui, x, y, w, h, C.bar)
+    border(ui, x, y, w, h, C.line)
+    text(ui, label, x + 4, y + 2, C.dim)
+    local n = #values
+    if n == 0 then return end
+    local slot = w / math.max(n, 24)
+    for k = 1, n do
+        local f = LiveWire.clamp((values[k] or 0) / math.max(max, 0.0001), 0, 1)
+        local hh = math.floor(f * (h - 4) + 0.5)
+        if hh > 0 then rect(ui, x + (k - 1) * slot + 1, y + h - 2 - hh, math.max(1, slot - 1), hh, c) end
+    end
+end
+
+function App:drawHistory(ui, x, y, w, h, snap)
+    local cy = card(ui, x, y, w, h, T("IGUI_LW_App_Tab_History"))
+    local hist = snap.history
+    if not snap.computer then
+        text(ui, T("IGUI_LW_Computer_None"), x + 10, cy, C.dim)
+        return
+    end
+    if not hist or #hist == 0 then
+        text(ui, T("IGUI_LW_Computer_NoHistory"), x + 10, cy, C.dim)
+        return
+    end
+    local prod, dem, stock = {}, {}, {}
+    local peak = 1
+    for i = 1, #hist do
+        prod[i], dem[i] = hist[i].p or 0, hist[i].d or 0
+        stock[i] = math.max(0, hist[i].s or 0)
+        peak = math.max(peak, prod[i], dem[i])
+    end
+    local gh = math.floor((h - (cy - y) - 40) / 3)
+    graph(ui, x + 10, cy, w - 20, gh, prod, peak, C.green, T("IGUI_LW_History_Production", #hist, peak))
+    graph(ui, x + 10, cy + gh + 6, w - 20, gh, dem, peak, C.blue, T("IGUI_LW_History_Demand"))
+    graph(ui, x + 10, cy + 2 * (gh + 6), w - 20, gh, stock, 1, C.amber, T("IGUI_LW_History_Stock"))
+    local fy = cy + 3 * (gh + 6)
+    if snap.dawnH and snap.capacity and snap.capacity > 0 then
+        local dawn = math.floor(snap.dawnH + 0.5)
+        if not snap.autonomyH then
+            text(ui, T("IGUI_LW_Forecast_Surplus"), x + 10, fy, C.green)
+        elseif snap.autonomyH >= snap.dawnH then
+            text(ui, T("IGUI_LW_Forecast_Holds", dawn), x + 10, fy, C.green)
+        else
+            text(ui, T("IGUI_LW_Forecast_Short", math.floor(snap.autonomyH + 0.5), dawn), x + 10, fy, C.amber)
+        end
+    end
+end
+
+function App:drawEquipment(ui, x, y, w, h, snap)
+    local cy = card(ui, x, y, w, h, T("IGUI_LW_Options"))
+    local function row(name, stateText, c)
+        led(ui, x + 10, cy + 3, c)
+        text(ui, name, x + 26, cy, C.text)
+        textRight(ui, stateText, x + w - 10, cy, C.dim)
+        cy = cy + fh(UIFont.Small) + 4
+    end
+    if snap.breaker then
+        row(T("IGUI_LW_Model_Breaker"), T("IGUI_LW_State_" .. tostring(snap.breaker.state)), stateColour(snap.breaker.state))
+    end
+    if snap.alarm then
+        row(T("IGUI_LW_Model_BatteryAlarm"), T(snap.alarm.on and "IGUI_LW_Alarm_On" or "IGUI_LW_Alarm_Armed"),
+            snap.alarm.on and C.red or C.green)
+    end
+    local bk = snap.backup
+    if bk then
+        local bad = bk.state == "nofuel" or bk.state == "unplugged" or bk.state == "broken"
+        row(T("IGUI_LW_Model_BackupGenerator"), T("IGUI_LW_Backup_" .. tostring(bk.state)) .. ", " .. bk.w .. " W",
+            bad and C.red or (bk.state == "running" and C.green or C.amber))
+        local fuel = (bk.maxFuel or 0) > 0 and bk.fuel / bk.maxFuel or 0
+        text(ui, T("IGUI_LW_Backup_Fuel", math.floor(fuel * 100 + 0.5)), x + 26, cy, C.dim)
+        cy = cy + fh(UIFont.Small) + 2
+        bar(ui, x + 26, cy, w - 36, 8, fuel, C.amber)
+        cy = cy + 14
+        text(ui, T("IGUI_LW_Backup_Thresholds", bk.start, bk.stop), x + 26, cy, C.dim)
+        cy = cy + fh(UIFont.Small) + 4
+    end
+    if snap.computer then
+        row(T("IGUI_LW_Model_ManagementComputer"), snap.computer.powered and T("IGUI_LW_State_on") or T("IGUI_LW_State_off"),
+            snap.computer.powered and C.green or C.amber)
+    end
+    if not snap.breaker and not snap.alarm and not bk and not snap.computer then
+        text(ui, T("IGUI_LW_None"), x + 10, cy, C.dim)
+    end
+end
+
+-------------------------------------------------------------------------------
+-- Application frame (inside the host rectangle)
+-------------------------------------------------------------------------------
+function App:draw(ui, x, y, w, h)
+    self.buttons = {}
+    rect(ui, x, y, w, h, C.bg)
+    local snap = self:snapshot()
+    local ty = y + 6
+    if self.header then
+        -- Header: product name and network.
+        local hh = fh(UIFont.Medium) + 10
+        rect(ui, x, y, w, hh, { 0.06, 0.20, 0.26 })
+        text(ui, T("IGUI_LW_App_Name"), x + 10, y + 5, C.text, UIFont.Medium)
+        if snap and snap.name and snap.name ~= "" then
+            textRight(ui, snap.name, x + w - 10, y + 7, C.dim)
+        end
+        ty = y + hh + 6
+    end
+    -- Tabs: natural width, or shared equally when the screen is narrow.
+    local tabH = fh(UIFont.Small) + 10
+    local avail = w - 16
+    local total = 0
+    for _, tab in ipairs(TABS) do total = total + tw(UIFont.Small, T(tab.key)) + 18 + 4 end
+    local tx = x + 8
+    for _, tab in ipairs(TABS) do
+        local label = T(tab.key)
+        local bw = tw(UIFont.Small, label) + 18
+        if total > avail then bw = math.floor(avail / #TABS) - 4 end
+        self:button(ui, tx, ty, bw, tabH, label, "tab:" .. tab.id, self.tab == tab.id and "active" or nil)
+        tx = tx + bw + 4
+    end
+    local cy = ty + tabH + 8
+    local ch = y + h - cy - 8
+    if not self.inverterId then
+        text(ui, T("IGUI_LW_NoInverterForSoftware"), x + 12, cy, C.dim)
+        return
+    end
+    if not snap then
+        text(ui, T("IGUI_LW_Waiting"), x + 12, cy, C.dim)
+        return
+    end
+    local cx, cw = x + 8, w - 16
+    if self.tab == "overview" then self:drawOverview(ui, cx, cy, cw, ch, snap)
+    elseif self.tab == "batteries" then self:drawBatteries(ui, cx, cy, cw, ch, snap)
+    elseif self.tab == "sources" then self:drawSources(ui, cx, cy, cw, ch, snap)
+    elseif self.tab == "house" then self:drawHouse(ui, cx, cy, cw, ch, snap)
+    elseif self.tab == "history" then self:drawHistory(ui, cx, cy, cw, ch, snap)
+    else self:drawEquipment(ui, cx, cy, cw, ch, snap) end
+end
+
+-- Returns true when the click hit one of the application's buttons.
+function App:onMouseDown(mx, my)
+    for i = #self.buttons, 1, -1 do
+        local b = self.buttons[i]
+        if mx >= b.x and mx < b.x + b.w and my >= b.y and my < b.y + b.h then
+            self:act(b.action)
+            return true
+        end
+    end
+    return false
+end
+
+function App:act(action)
+    local P = LiveWire.Protocol
+    if string.sub(action, 1, 4) == "tab:" then
+        self.tab = string.sub(action, 5)
+    elseif action == "on" or action == "off" then
+        LiveWire.Client.send(P.C_SET_INVERTER, { inverter = self.inverterId, on = action == "on" })
+        self.lastSubscribe = 0
+    elseif action == "reset" then
+        LiveWire.Client.send(P.C_RESET, { inverter = self.inverterId })
+        self.lastSubscribe = 0
+    end
+    getSoundManager():playUISound("UIActivateButton")
+end

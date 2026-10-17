@@ -13,7 +13,7 @@ local Hum = {}
 LiveWire.Hum = Hum
 
 Hum.SOUND = "LiveWireInverterHum"
-Hum.RANGE = 10
+Hum.RANGE = 6
 Hum.CHECK_MS = 1000
 Hum.active = {}   -- inverter object -> { em = emitter, id = sound ref }
 local lastCheck = 0
