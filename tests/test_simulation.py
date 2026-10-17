@@ -268,7 +268,35 @@ def scenario_loaded_bank():
     check(g.STATS_SENT > 0, "item stats sent to clients")
 
 
+def scenario_many_sources_one_inverter():
+    """Several sources of different families feed one inverter; the powered area is
+    centred on the inverter, never on a source."""
+    lua = make()
+    lua.execute("NPANELS = 3; NBATS = 0; DEMAND = 100; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute("""
+        local R = LiveWire.Registry
+        for i = 1, 2 do
+            local w = R.addDevice({ role = "source", model = "WindTurbine", x = 110 + i, y = 90, z = 2,
+                                    cond = 100, eff = 0.95, level = 7, state = "ok" })
+            R.link(w, GRID)
+        end
+        WORLD.wind = 40
+    """)
+    run(lua, 6)
+    g = lua.globals()
+    snap = lua.eval("LiveWire.Sim.snapshot(GRID)")
+    kinds = [snap.sources[i].kind for i in range(1, len(list(snap.sources.values())) + 1)]
+    check(kinds.count("solar") == 3 and kinds.count("wind") == 2, "5 sources of 2 families on one inverter")
+    total = sum(snap.sources[i].w for i in range(1, 6))
+    check(abs(total - snap.production) <= 5, "inverter production is the sum of all its sources")
+    a = g.LiveWire.Registry.anchors[g.INV.id]
+    check(a is not None and (a.x, a.y, a.z) == (g.INV.x, g.INV.y, g.INV.z),
+          "the powered area is centred on the inverter square")
+
+
 def main():
+    scenario_many_sources_one_inverter()
     scenario_loaded_bank()
     scenario_base()
     scenario_no_battery()
