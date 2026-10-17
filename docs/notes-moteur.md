@@ -362,3 +362,8 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Preuve : avec le rendu par chunks, un objet est dessiné dans la texture du chunk et redessiné seulement quand le chunk est invalidé. `FBORenderCell.isObjectRenderLayer_MinusFloor` sort de ce chemin les objets `isAnimating()` (`java/zombie/iso/fboRenderChunk/FBORenderCell.java:1627`), dessinés à chaque image. Les seuls calques « animés » reconnus sont les aiguilles d'horloge et les calques `_on_` (`IsoObject.hasAnimatedAttachments`, `IsoObject.java:5640-5650`). Le drapeau n'est remis à faux qu'à la fin d'une animation 3D d'objet (`IsoObjectAnimations.java:81`).
 - Conséquence : un calque changé plusieurs fois par seconde (pales d'éolienne) disparaissait dès qu'il tournait. Appeler `obj:setAnimating(true)` sur l'objet, côté client.
 
+## 44. Script de son : `distanceMin` et `distanceMax` sont des entiers ; en debug, une erreur de script bloque la partie
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (crash au chargement) et statiquement
+- Preuve : `GameSoundScript.LoadClip` lit `distanceMax` et `distanceMin` par `Integer.parseInt` (`java/zombie/scripting/objects/GameSoundScript.java:65-73`) ; `distanceMin = 0.5` lève `NumberFormatException`, le son est retiré (« removing script due to load error »). En mode debug, `ScriptManager.Load` lève alors `IOException: Script load errors` (`ScriptManager.java:1547`) et la partie ne se charge plus.
+- Conséquence : valeurs entières seulement ; `tools/check_mod.py` le contrôle désormais.
+

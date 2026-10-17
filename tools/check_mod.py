@@ -202,6 +202,16 @@ def check_models():
             fail("model %s: texture %s.png missing" % (name, tex))
 
 
+def check_sound_scripts():
+    # GameSoundScript.LoadClip reads distanceMin / distanceMax with Integer.parseInt:
+    # a decimal value is a script load error (fatal for the world in debug mode).
+    for p in glob.glob(os.path.join(MEDIA, "scripts", "*.txt")):
+        for n, line in enumerate(open(p, encoding="ascii"), 1):
+            m = re.match(r"\s*(distanceMin|distanceMax)\s*=\s*([^,\s]+)", line)
+            if m and not re.fullmatch(r"-?\d+", m.group(2)):
+                fail("%s:%d: %s must be an integer (got %s)" % (os.path.basename(p), n, m.group(1), m.group(2)))
+
+
 def check_events(pz):
     path = os.path.join(pz, "java", "zombie", "Lua", "LuaEventManager.java")
     if not os.path.exists(path):
@@ -222,6 +232,7 @@ def main():
     check_load(False, True, "dedicated server")
     check_translations()
     check_models()
+    check_sound_scripts()
     check_events(pz)
     print("OK" if not FAILS else "%d problem(s)" % len(FAILS))
     return 1 if FAILS else 0
