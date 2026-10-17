@@ -2,6 +2,7 @@
     "LiveWire.VoltageTester": "Voltage Tester",
     "LiveWire.SolarCell": "Solar Cell",
     "LiveWire.DeepCycleBattery": "Deep-Cycle Battery",
+    "LiveWire.MonitorDisk": "Disk: Live Wire Management Software",
     "Base.Mov_LiveWire_SolarPanel": "Solar Panel",
     "Base.Mov_LiveWire_WindTurbine": "Wind Turbine",
     "Base.Mov_LiveWire_WaterWheel": "Water Wheel",

@@ -82,10 +82,53 @@ function Anchor.refreshVisuals(a)
     end
 end
 
+-- Authority: bring the food of the loaded fridges and freezers of the area up to
+-- date BEFORE the power changes, as the engine does on generator activation
+-- (IsoGenerator.updateFridgeFreezerItems, IsoGenerator.java:325-334). Food ages
+-- in one go over the time elapsed since its last update, with the power state of
+-- the moment (Food.updateAge, Food.java:668-702): without this, a power cut would
+-- also apply to the hours spent cold before it, and the reverse.
+function Anchor.ageFridges(a)
+    if isClient() then return end
+    local cell = getCell()
+    if not cell then return end
+    local R = LiveWire.Config.tileRange()
+    local V = LiveWire.Config.verticalRange()
+    local R2 = R * R
+    for z = math.max(-32, a.z - V), math.min(31, a.z + V) do
+        for dy = -R, R do
+            for dx = -R, R do
+                if dx * dx + dy * dy <= R2 then
+                    local sq = cell:getGridSquare(a.x + dx, a.y + dy, z)
+                    if sq then
+                        local objs = sq:getObjects()
+                        for i = 0, objs:size() - 1 do
+                            local o = objs:get(i)
+                            for c = 0, o:getContainerCount() - 1 do
+                                local cont = o:getContainerByIndex(c)
+                                local t = cont and cont:getType()
+                                if t == "fridge" or t == "freezer" then
+                                    local items = cont:getItems()
+                                    for k = 0, items:size() - 1 do
+                                        local it = items:get(k)
+                                        if instanceof(it, "Food") then it:updateAge() end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
 -- Apply an anchor and refresh visuals when its state changed on this side.
 Anchor.appliedState = {}  -- id -> last state applied on this machine
 
 function Anchor.set(id, a, on)
+    local changed = Anchor.appliedState[id] ~= nil and Anchor.appliedState[id] ~= on
+    if changed then Anchor.ageFridges(a) end
     Anchor.apply(a, on)
     if Anchor.appliedState[id] ~= on then
         Anchor.appliedState[id] = on

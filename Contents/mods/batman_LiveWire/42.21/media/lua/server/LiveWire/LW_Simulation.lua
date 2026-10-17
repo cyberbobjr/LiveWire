@@ -160,7 +160,8 @@ function Sim.snapshot(grid)
     snap.banks = #batteries
     for i = 1, #options do
         local o = options[i]
-        snap.options[i] = { id = o.id, model = o.model, cond = math.floor((o.cond or 0) + 0.5) }
+        snap.options[i] = { id = o.id, model = o.model, cond = math.floor((o.cond or 0) + 0.5),
+                            state = o.state or "ok" }
     end
     local need = (grid.demand or 0) + (def.idleW or 0) - (grid.production or 0) * (inv.eff or 0.85)
     if need > 0 and snap.stock > 0 then
@@ -184,7 +185,11 @@ function Sim.snapshot(grid)
             snap.dawnH = LiveWire.Computer.hoursToDawn()
         end
     end
-    if R.hasOption(grid, "alarm") then snap.alarm = { on = grid.alarmOn == true } end
+    if R.hasOption(grid, "alarm") then
+        snap.alarm = { on = grid.alarmOn == true, ack = grid.alarmAck == true }
+    end
+    local brk = R.hasOption(grid, "breaker")
+    if brk then snap.breaker = { id = brk.id, state = brk.state or "ok" } end
     return snap
 end
 
@@ -358,19 +363,27 @@ function Sim.stepGrid(grid, now, w)
         for e = 1, #entries do before[e] = entries[e].charge end
 
         if inv.state == "on" and (inv.cond or 0) <= 0 then inv.state = "broken" end
+        -- A tripped breaker cuts the house: the inverter stays on (it still charges).
+        local physState = inv.state
+        if physState == "on" and breaker and breaker.state == "tripped" then physState = "tripped" end
         local r = Physics.stepGrid({
             productionW = prodW + backupW, demandW = demandW, idleW = def.idleW, maxW = def.maxW,
-            eff = inv.eff, dt = h, wasOn = grid.powered == true, state = inv.state,
+            eff = inv.eff, dt = h, wasOn = grid.powered == true, state = physState,
             batteries = entries,
         })
         totalLost = totalLost + r.lostKWh
 
         if r.tripped then
-            inv.state = "tripped"
-            if not breaker then
+            local args = { tostring(math.floor(demandW + 0.5)), tostring(def.maxW) }
+            if breaker then
+                -- The breaker trips before the inverter, which is not damaged.
+                breaker.state = "tripped"
+                LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_BreakerTripped", args, true)
+            else
+                inv.state = "tripped"
                 inv.cond = math.max(0, (inv.cond or 100) - Defs.TRIP_CONDITION_LOSS)
+                LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Tripped", args, true)
             end
-            LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Tripped", {}, true)
         end
         grid.powered = r.on
 
@@ -428,6 +441,8 @@ function Sim.stepGrid(grid, now, w)
     if on and loaded and radius > 0 then
         addSound(nil, inv.x, inv.y, inv.z, radius, 1)
     end
+    -- State shown by the client (lights, menus): rewrite the marks that changed.
+    LiveWire.Devices.refreshStates(grid)
     Sim.publish(grid)
 end
 

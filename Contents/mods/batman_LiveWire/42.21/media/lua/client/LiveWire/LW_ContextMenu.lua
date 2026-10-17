@@ -89,6 +89,26 @@ function Menu.onDashboard(player, id)
     LiveWire.Dashboard.open(player, id)
 end
 
+function Menu.onPanel(player, id)
+    LiveWire.InverterPanel.open(player, id)
+end
+
+function Menu.onShowRange(player, id, sq)
+    if LiveWire.RangeView.isShown(id) then
+        LiveWire.RangeView.hide()
+    else
+        LiveWire.RangeView.show(id, sq:getX(), sq:getY(), sq:getZ())
+    end
+end
+
+function Menu.onResetBreaker(player, id)
+    LiveWire.Client.send(LiveWire.Protocol.C_RESET_BREAKER, { device = id })
+end
+
+function Menu.onAckAlarm(player, id)
+    LiveWire.Client.send(LiveWire.Protocol.C_ACK_ALARM, { device = id })
+end
+
 function Menu.onRecondition(player, item)
     ISInventoryPaneContextMenu.transferIfNeeded(player, item)
     ISTimedActionQueue.add(LWReconditionAction:new(player, item))
@@ -133,15 +153,18 @@ end
 
 -- Inverter: connect or disconnect the equipment around it.
 local function addInverterOptions(menu, player, obj, mark)
-    menu:addOption(getText("ContextMenu_LW_Dashboard"), player, Menu.onDashboard, mark.id)
-    local a = LiveWire.Anchor.table()[mark.id]
-    if a and a.on then
+    menu:addOption(getText("ContextMenu_LW_Panel"), player, Menu.onPanel, mark.id)
+    if mark.st == "on" then
         menu:addOption(getText("ContextMenu_LW_TurnOff"), player, Menu.onSetInverter, mark.id, false)
-    else
+    elseif mark.st == "off" then
         menu:addOption(getText("ContextMenu_LW_TurnOn"), player, Menu.onSetInverter, mark.id, true)
-        menu:addOption(getText("ContextMenu_LW_TurnOff"), player, Menu.onSetInverter, mark.id, false)
     end
-    menu:addOption(getText("ContextMenu_LW_Reset"), player, Menu.onReset, mark.id)
+    if mark.st == "tripped" then
+        menu:addOption(getText("ContextMenu_LW_Reset"), player, Menu.onReset, mark.id)
+    end
+    local rangeKey = "ContextMenu_LW_ShowRange"
+    if LiveWire.RangeView.isShown(mark.id) then rangeKey = "ContextMenu_LW_HideRange" end
+    menu:addOption(getText(rangeKey), player, Menu.onShowRange, mark.id, obj:getSquare())
 
     local around = I().objectsInRange(obj:getSquare(), nil, true)
     local free, linked = {}, {}
@@ -199,6 +222,12 @@ local function addDeviceOptions(root, player, obj)
     else
         addLinkOptions(menu, player, obj, "device", mark.id)
     end
+    if def.kind == "breaker" and mark.st == "tripped" then
+        menu:addOption(getText("ContextMenu_LW_ResetBreaker"), player, Menu.onResetBreaker, mark.id)
+    end
+    if def.kind == "alarm" and mark.st == "ringing" then
+        menu:addOption(getText("ContextMenu_LW_AckAlarm"), player, Menu.onAckAlarm, mark.id)
+    end
     if def.kind == "solar" then
         menu:addOption(getText("ContextMenu_LW_ClearSnow"), player, Menu.onClearSnow, obj)
     end
@@ -220,7 +249,10 @@ local function addVanillaOptions(root, player, obj, kind)
     local menu = ISContextMenu:getNew(root)
     root:addSubMenu(opt, menu)
     if kind == "computer" and mark and type(mark.inverter) == "string" then
-        menu:addOption(getText("ContextMenu_LW_Dashboard"), player, Menu.onDashboard, mark.inverter)
+        local o = menu:addOption(getText("ContextMenu_LW_Software"), player, Menu.onDashboard, mark.inverter)
+        -- With the Computer Mod, the software must be installed from its disk first.
+        local CM = LiveWire.ComputerMod
+        if CM and CM.isComputer(obj) and not CM.isInstalled(obj) then tip(o, "Tooltip_LW_NeedSoftware") end
     end
     addLinkOptions(menu, player, obj, kind, mark and mark.id)
 end

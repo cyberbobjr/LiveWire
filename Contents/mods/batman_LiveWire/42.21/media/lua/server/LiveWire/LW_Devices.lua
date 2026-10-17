@@ -46,9 +46,26 @@ local function inverterOf(dev)
     return g and g.inverter or nil
 end
 
+-- State shown by the client: st (inverter: on/off/tripped/broken; breaker:
+-- ok/tripped; alarm: ok/ringing), pw (inverter: the house is powered).
+local function stateOf(dev)
+    local g = dev.grid and R().grid(dev.grid)
+    if dev.role == "inverter" then
+        return dev.state or "off", (g and g.powered == true and dev.state == "on") or false
+    end
+    local def = LiveWire.Defs.devices[dev.model]
+    if def and def.kind == "alarm" then
+        if g and g.alarmOn and (dev.cond or 0) > 0 then return "ringing", false end
+        return "ok", false
+    end
+    return dev.state or "ok", false
+end
+
 local function markFromDevice(obj, dev)
+    local st, pw = stateOf(dev)
     LiveWire.Marks.set(obj, { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
-                              level = dev.level, inv = inverterOf(dev) })
+                              level = dev.level, inv = inverterOf(dev), st = st, pw = pw })
+    dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
     if isServer() then obj:transmitModData() end
 end
 
@@ -58,6 +75,23 @@ function Devices.syncMark(dev)
     local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
     local obj = sq and LiveWire.Marks.findOnSquare(sq, dev.id)
     if obj then markFromDevice(obj, dev) end
+end
+
+-- Rewrite the marks of the inverter and the equipment of a grid whose shown state
+-- changed (called after each simulation step).
+function Devices.refreshStates(grid)
+    local list = { R().device(grid.inverter) }
+    local _, _, options = R().members(grid)
+    for i = 1, #options do list[#list + 1] = options[i] end
+    for i = 1, #list do
+        local dev = list[i]
+        if dev then
+            local st, pw = stateOf(dev)
+            if st ~= dev.shownSt or pw ~= dev.shownPw or inverterOf(dev) ~= dev.shownInv then
+                Devices.syncMark(dev)
+            end
+        end
+    end
 end
 
 function Devices.onPlaced(character, sq, spriteName)

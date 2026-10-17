@@ -1,8 +1,8 @@
 -- Live Wire: low battery alarm (authority only).
 -- An optional device of the network. When the battery stock falls below 20 %, it
--- warns the players nearby (translated message) and beeps; it repeats every two
--- game hours while the stock stays low, and re-arms once the stock is back above
--- 25 %. The beep is played locally by each client (LW_Beep.lua): the server only
+-- warns the players nearby (translated message), lights its beacon and beeps at
+-- every simulation step until acknowledged; it re-arms once the stock is back
+-- above 25 %. The beep is played locally by each client (LW_Beep.lua): the server only
 -- sends the position.
 if isClient() then return end
 
@@ -33,25 +33,29 @@ function Alarm.beepNear(x, y, z)
 end
 
 -- One check per simulation step. stockFrac: stock / capacity, nil without battery.
--- Returns true when the alarm went off during this call.
+-- While the stock stays under 20 %, the alarm rings (its beacon stays lit, client
+-- side) and beeps at every step until a player acknowledges it; the message is
+-- repeated every two game hours. It re-arms once the stock is back above 25 %.
+-- Returns true when it beeped during this call.
 function Alarm.check(grid, alarm, stockFrac, now)
     if not alarm or (alarm.cond or 0) <= 0 or not stockFrac then
-        grid.alarmOn = nil
+        grid.alarmOn, grid.alarmAck = nil, nil
         return false
     end
     local Defs = LiveWire.Defs
     if stockFrac >= Defs.ALARM_RESET then
-        grid.alarmOn = nil
+        grid.alarmOn, grid.alarmAck = nil, nil
         return false
     end
-    if stockFrac >= Defs.ALARM_BELOW then return false end
-    if grid.alarmOn and grid.alarmAt and now - grid.alarmAt < Defs.ALARM_REPEAT_HOURS then
-        return false
-    end
+    if not grid.alarmOn and stockFrac >= Defs.ALARM_BELOW then return false end
+    local first = not grid.alarmOn
     grid.alarmOn = true
-    grid.alarmAt = now
-    local pct = tostring(math.floor(stockFrac * 100 + 0.5))
-    LiveWire.notifyNear(alarm.x, alarm.y, alarm.z, Alarm.RANGE, "IGUI_LW_LowBattery", { pct }, true)
+    if first or not grid.alarmAt or now - grid.alarmAt >= Defs.ALARM_REPEAT_HOURS then
+        grid.alarmAt = now
+        local pct = tostring(math.floor(stockFrac * 100 + 0.5))
+        LiveWire.notifyNear(alarm.x, alarm.y, alarm.z, Alarm.RANGE, "IGUI_LW_LowBattery", { pct }, true)
+    end
+    if grid.alarmAck then return false end
     Alarm.beepNear(alarm.x, alarm.y, alarm.z)
     return true
 end

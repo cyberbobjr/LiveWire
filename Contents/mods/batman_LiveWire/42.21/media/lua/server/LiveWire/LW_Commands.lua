@@ -67,6 +67,13 @@ function Commands.register(command, fn)
     handlers[command] = fn
 end
 
+-- Run a command handler at once on the authority (in-game tests; a client command
+-- sent in single player is only handled at the next update).
+function Commands.handle(player, command, args)
+    local h = handlers[command]
+    if h then h(player, args or {}) end
+end
+
 local function gridOfInverter(id)
     if not P.isDeviceId(id) then return nil end
     local inv = LiveWire.Registry.device(id)
@@ -132,11 +139,46 @@ handlers[P.C_RESET] = function(player, args)
     local demand = LiveWire.Demand.measure(dev) or (grid and grid.demand) or 0
     if grid then grid.demand = demand end
     if def and demand > def.maxW then
-        return refuse(player, P.C_RESET, "IGUI_LW_StillOverloaded")
+        return LiveWire.notify(player, "IGUI_LW_StillOverloaded",
+            { tostring(math.floor(demand + 0.5)), tostring(def.maxW) }, true)
     end
     dev.state = "on"
     LiveWire.Xp.awardLimited(player, "reset:" .. dev.id, 5, 1)
     LiveWire.Sim.refresh(grid)
+end
+
+-- Reset a tripped wall breaker (from the breaker itself).
+handlers[P.C_RESET_BREAKER] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.device)
+    if not dev then return refuse(player, P.C_RESET_BREAKER, why) end
+    local bdef = LiveWire.Defs.devices[dev.model]
+    if not bdef or bdef.kind ~= "breaker" or dev.state ~= "tripped" then return end
+    local grid = dev.grid and LiveWire.Registry.grid(dev.grid)
+    local inv = grid and LiveWire.Registry.device(grid.inverter)
+    if inv then
+        local def = LiveWire.Defs.devices[inv.model]
+        local demand = LiveWire.Demand.measure(inv) or grid.demand or 0
+        grid.demand = demand
+        if def and demand > def.maxW then
+            return LiveWire.notify(player, "IGUI_LW_StillOverloaded",
+                { tostring(math.floor(demand + 0.5)), tostring(def.maxW) }, true)
+        end
+    end
+    dev.state = "ok"
+    LiveWire.Xp.awardLimited(player, "reset:" .. dev.id, 5, 1)
+    if grid then LiveWire.Sim.refresh(grid) else LiveWire.Devices.syncMark(dev) end
+    LiveWire.notify(player, "IGUI_LW_BreakerReset", {})
+end
+
+-- Silence a ringing low battery alarm (its beacon stays lit until the stock recovers).
+handlers[P.C_ACK_ALARM] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.device)
+    if not dev then return refuse(player, P.C_ACK_ALARM, why) end
+    local adef = LiveWire.Defs.devices[dev.model]
+    local grid = dev.grid and LiveWire.Registry.grid(dev.grid)
+    if not adef or adef.kind ~= "alarm" or not grid or not grid.alarmOn then return end
+    grid.alarmAck = true
+    LiveWire.notify(player, "IGUI_LW_AlarmSilenced", {})
 end
 
 handlers[P.C_RENAME] = function(player, args)

@@ -18,6 +18,7 @@ for k, en, fr in [
     ("LiveWire.VoltageTester", "Voltage Tester", "Testeur de tension"),
     ("LiveWire.SolarCell", "Solar Cell", "Cellule photovoltaïque"),
     ("LiveWire.DeepCycleBattery", "Deep-Cycle Battery", "Batterie stationnaire"),
+    ("LiveWire.MonitorDisk", "Disk: Live Wire Management Software", "Disque : logiciel de gestion Live Wire"),
     ("Base.Mov_LiveWire_SolarPanel", "Solar Panel", "Panneau photovoltaïque"),
     ("Base.Mov_LiveWire_WindTurbine", "Wind Turbine", "Éolienne"),
     ("Base.Mov_LiveWire_WaterWheel", "Water Wheel", "Roue à aubes"),
@@ -44,7 +45,7 @@ for k, en, fr in [
 # Recipes (key = recipe name).
 for k, en, fr in [
     ("LWMakeVoltageTester", "Make Voltage Tester", "Fabriquer un testeur de tension"),
-    ("LWSalvageSolarCell", "Salvage Solar Cell", "Récupérer une cellule photovoltaïque"),
+    ("LWSalvageSolarCell", "Dismantle Calculator", "Démonter une calculatrice"),
     ("LWMakeSolarCellFromScrap", "Make Solar Cell from Scrap", "Fabriquer une cellule photovoltaïque"),
     ("LWMakeSolarPanelKit", "Make Solar Panel", "Fabriquer un panneau photovoltaïque"),
     ("LWMakeInverterKit", "Make Inverter", "Fabriquer un onduleur"),
@@ -62,6 +63,13 @@ for k, en, fr in [
     ("ContextMenu_LW_Measure", "Measure", "Mesurer"),
     ("ContextMenu_LW_Inspect", "Inspect", "Inspecter"),
     ("ContextMenu_LW_Unlink", "Disconnect from the inverter", "Débrancher de l'onduleur"),
+    ("ContextMenu_LW_Panel", "Open the inverter screen", "Ouvrir l'écran de l'onduleur"),
+    ("ContextMenu_LW_ShowRange", "Show the powered area", "Afficher la zone alimentée"),
+    ("ContextMenu_LW_HideRange", "Hide the powered area", "Masquer la zone alimentée"),
+    ("ContextMenu_LW_ResetBreaker", "Reset the breaker", "Réarmer le disjoncteur"),
+    ("ContextMenu_LW_AckAlarm", "Silence the alarm", "Couper la sonnerie"),
+    ("ContextMenu_LW_Software", "Open the Live Wire management software", "Ouvrir le logiciel de gestion Live Wire"),
+    ("ContextMenu_LW_InstallSoftware", "Install the Live Wire software", "Installer le logiciel Live Wire"),
     ("ContextMenu_LW_LinkTo", "Connect to an inverter", "Raccorder à un onduleur"),
     ("ContextMenu_LW_InverterAt", "Inverter %1 tiles away (%2 wire(s))", "Onduleur à %1 cases (%2 fil(s))"),
     ("ContextMenu_LW_NoInverter", "No inverter within %1 tiles", "Aucun onduleur à moins de %1 cases"),
@@ -120,6 +128,9 @@ for k, en, fr in [
     ("Tooltip_LW_TurnOffFirst", "Turn the inverter off first.", "Éteignez d'abord l'onduleur."),
     ("Tooltip_LW_NeedOverhaul", "Only an overhaul can improve it further.", "Seule une remise à neuf peut l'améliorer encore."),
     ("Tooltip_LW_OneOptionPerGrid", "This network already has one.", "Ce réseau en a déjà un."),
+    ("Tooltip_LW_MonitorDisk", "Installs the Live Wire management app on a Computer Mod computer or laptop.", "Installe l'application de gestion Live Wire sur un ordinateur ou un portable du Computer Mod."),
+    ("Tooltip_LW_NeedDisk", "Requires the Live Wire software disk.", "Il faut le disque du logiciel Live Wire."),
+    ("Tooltip_LW_NeedSoftware", "Install the Live Wire software (disk) on this computer first.", "Installez d'abord le logiciel Live Wire (disque) sur cet ordinateur."),
     ("Tooltip_LW_VoltageTester", "Right-click a tile to measure its power.", "Clic droit sur une case pour mesurer le courant."),
     ("Tooltip_LW_DeepCycleBattery", "Stores 1.5 kWh and lasts four times longer than a car battery.", "Stocke 1,5 kWh et dure quatre fois plus qu'une batterie de voiture."),
 ]:
@@ -182,8 +193,36 @@ for k, en, fr in [
     ("IGUI_LW_Repaired", "Repaired, condition %1.", "Réparé, état %1."),
     ("IGUI_LW_RepairFailed", "Repair failed, the parts are lost.", "Réparation ratée, les pièces sont perdues."),
     ("IGUI_LW_Reconditioned", "Battery reconditioned, condition %1.", "Batterie reconditionnée, état %1."),
-    ("IGUI_LW_Tripped", "The inverter tripped (overload).", "L'onduleur a disjoncté (surcharge)."),
-    ("IGUI_LW_StillOverloaded", "Still overloaded: turn some appliances off first.", "Toujours en surcharge : éteignez d'abord des appareils."),
+    ("IGUI_LW_Tripped", "The inverter tripped: %1 W demanded for %2 W max.", "L'onduleur a disjoncté : %1 W demandés pour %2 W max."),
+    ("IGUI_LW_BreakerTripped", "The breaker tripped: %1 W demanded for %2 W max. Reset it on the breaker.", "Le disjoncteur a sauté : %1 W demandés pour %2 W max. Réarmez-le sur le disjoncteur."),
+    ("IGUI_LW_BreakerReset", "Breaker reset.", "Disjoncteur réarmé."),
+    ("IGUI_LW_StillOverloaded", "Still overloaded: %1 W for %2 W max. Turn some appliances off first.", "Toujours en surcharge : %1 W pour %2 W max. Éteignez d'abord des appareils."),
+    ("IGUI_LW_AlarmSilenced", "Alarm silenced. Its light stays on while the battery is low.", "Sonnerie coupée. Le voyant reste allumé tant que la batterie est basse."),
+    ("IGUI_LW_Scale", "Common scale: %1 W", "Échelle commune : %1 W"),
+    ("IGUI_LW_Software_Title", "Live Wire management software", "Logiciel de gestion Live Wire"),
+    ("IGUI_LW_App", "Live Wire", "Live Wire"),
+    ("IGUI_LW_NoInverterForSoftware", "No Live Wire inverter in range.", "Aucun onduleur Live Wire à portée."),
+    ("IGUI_LW_SoftwareInstalled", "Live Wire software installed.", "Logiciel Live Wire installé."),
+    ("IGUI_LW_LCD_Brand", "LIVE WIRE - INVERTER 1500 W", "LIVE WIRE - ONDULEUR 1500 W"),
+    ("IGUI_LW_LCD_Page_Balance", "PRODUCTION / LOAD", "PRODUCTION / CONSO"),
+    ("IGUI_LW_LCD_Prod", "PROD   %1 W", "PROD   %1 W"),
+    ("IGUI_LW_LCD_Load", "LOAD   %1 W / %2 W", "CONSO  %1 W / %2 W"),
+    ("IGUI_LW_LCD_BarProd", "PROD", "PROD"),
+    ("IGUI_LW_LCD_BarLoad", "LOAD", "CONSO"),
+    ("IGUI_LW_LCD_Page_Batteries", "BATTERIES", "BATTERIES"),
+    ("IGUI_LW_LCD_Stock", "CHARGE  %1%%", "CHARGE  %1 %%"),
+    ("IGUI_LW_LCD_Kwh", "%1 / %2 kWh", "%1 / %2 kWh"),
+    ("IGUI_LW_LCD_Autonomy", "AUTONOMY ~%1 h", "AUTONOMIE ~%1 h"),
+    ("IGUI_LW_LCD_Banks", "%1 batt. in %2 power bank(s)", "%1 batt. dans %2 powerbank(s)"),
+    ("IGUI_LW_LCD_NoBattery", "NO BATTERY", "AUCUNE BATTERIE"),
+    ("IGUI_LW_LCD_Page_Sources", "SOURCES", "SOURCES"),
+    ("IGUI_LW_LCD_Family", "%1: %2 x  %3 W", "%1 : %2 x  %3 W"),
+    ("IGUI_LW_LCD_Page_House", "HOUSE", "MAISON"),
+    ("IGUI_LW_LCD_Range", "Range %1 tiles, +/- %2 floors", "Rayon %1 cases, +/- %2 étages"),
+    ("IGUI_LW_LCD_Page_Status", "STATUS", "ÉTAT"),
+    ("IGUI_LW_LCD_Inverter", "INVERTER: %1 (%2%%)", "ONDULEUR : %1 (%2 %%)"),
+    ("IGUI_LW_LCD_Breaker", "Breaker: %1", "Disjoncteur : %1"),
+    ("IGUI_LW_LCD_Overload", "!! OVERLOAD !!", "!! SURCHARGE !!"),
     ("IGUI_LW_Broken", "The inverter is broken.", "L'onduleur est en panne."),
     ("IGUI_LW_InspectSource", "%1: condition %2, %3 W delivered (%4 W raw)", "%1 : état %2, %3 W fournis (%4 W bruts)"),
     ("IGUI_LW_InspectInverter", "%1: condition %2, %3", "%1 : état %2, %3"),
@@ -280,7 +319,7 @@ def main():
         os.makedirs(d, exist_ok=True)
         for f, keys in T.items():
             data = {k: v[idx] for k, v in keys.items()}
-            with open(os.path.join(d, f + ".json"), "w", encoding="utf-8") as fh:
+            with open(os.path.join(d, f + ".json"), "w", encoding="utf-8", newline="\n") as fh:
                 json.dump(data, fh, ensure_ascii=False, indent=4)
                 fh.write("\n")
     print("wrote %d files per language" % len(T))

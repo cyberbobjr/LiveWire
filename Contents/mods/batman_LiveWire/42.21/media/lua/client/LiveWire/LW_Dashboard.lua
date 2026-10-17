@@ -1,4 +1,7 @@
--- Live Wire: inverter management interface (client). Shows production and
+-- Live Wire: management software (client), the full view shown by a connected
+-- computer (vanilla desktop computer, or a Computer Mod computer or laptop with the
+-- software installed: LW_ComputerMod.lua). The inverter itself shows a short LCD
+-- view (LW_InverterPanel.lua). Interface: Shows production and
 -- consumption, battery state, sources grouped by type (solar, wind, hydro), the
 -- powered house (appliances by family, covered area) and alerts; buttons send
 -- commands that the server re-validates. Data: snapshot of the inverter, read from
@@ -52,7 +55,7 @@ function Dashboard:new(x, y, width, height, player, inverterId)
     o.inverterId = inverterId
     o.lastSubscribe = 0
     o:setResizable(false)
-    o:setTitle(T("IGUI_LW_Dashboard_Title"))
+    o:setTitle(T("IGUI_LW_Software_Title"))
     return o
 end
 
@@ -137,13 +140,26 @@ function Dashboard:buildRows(snap)
     local nominal = 0
     for i = 1, #snap.sources do nominal = nominal + (snap.sources[i].nominal or 0) end
     if snap.backup and snap.backup.state == "running" then nominal = nominal + snap.backup.w end
+    -- Production and consumption on the same scale, so that they can be compared.
+    local scale = math.max(inv.maxW or 0, nominal, snap.production or 0, snap.demand or 0, 1)
     text(T("IGUI_LW_Production_Line", snap.production))
-    if nominal > 0 then bar(snap.production / nominal, 0.3, 0.8, 0.3) end
+    bar(snap.production / scale, 0.3, 0.8, 0.3)
     text(T("IGUI_LW_Demand_Line", snap.demand, inv.maxW))
-    if inv.maxW > 0 then
-        local f = snap.demand / inv.maxW
-        if f > 0.9 then bar(f, 0.9, 0.3, 0.2) elseif f > 0.7 then bar(f, 0.9, 0.7, 0.2) else bar(f, 0.3, 0.6, 0.9) end
-        if f > 0.9 then text(T("IGUI_LW_Alert_Overload"), 1, 0.5, 0.3) end
+    local f = 0
+    if (inv.maxW or 0) > 0 then f = snap.demand / inv.maxW end
+    if f > 0.9 then
+        bar(snap.demand / scale, 0.9, 0.3, 0.2)
+    elseif f > 0.7 then
+        bar(snap.demand / scale, 0.9, 0.7, 0.2)
+    else
+        bar(snap.demand / scale, 0.3, 0.6, 0.9)
+    end
+    text(T("IGUI_LW_Scale", scale), 0.7, 0.7, 0.7)
+    if f > 0.9 then text(T("IGUI_LW_Alert_Overload"), 1, 0.5, 0.3) end
+    if snap.breaker then
+        local r, g, b = 0.8, 0.8, 0.8
+        if snap.breaker.state == "tripped" then r, g, b = 1, 0.4, 0.3 end
+        text(T("IGUI_LW_LCD_Breaker", T("IGUI_LW_State_" .. tostring(snap.breaker.state))), r, g, b)
     end
 
     -- Batteries.

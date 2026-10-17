@@ -1,8 +1,10 @@
--- Live Wire: soft hum of running inverters, played locally on each client (no
--- network packet). playSoundImpl(name, false, nil) is local; playSound / playSoundLooped
--- on a free emitter would be relayed and never stopped for other players
--- (knowledge/sounds-and-noise.md:13-17, FMODSoundEmitter.java:380-461).
--- Sound chosen by the user: the vanilla fridge hum (FridgeHumA).
+-- Live Wire: soft electrical hum of switched-on inverters, played locally on each
+-- client (no network packet). playSoundImpl(name, false, nil) is local; playSound /
+-- playSoundLooped on a free emitter would be relayed and never stopped for other
+-- players (knowledge/sounds-and-noise.md:13-17, FMODSoundEmitter.java:380-461).
+-- Sound of the mod (media/sound/LiveWireInverterHum.ogg, looped), heard while the
+-- inverter is switched on, powered or not. The vanilla fridge hum (FridgeHumA)
+-- chosen first (D-8) could not be heard in game.
 if isServer() then return end
 
 LiveWire = LiveWire or {}
@@ -10,43 +12,61 @@ LiveWire = LiveWire or {}
 local Hum = {}
 LiveWire.Hum = Hum
 
-Hum.SOUND = "FridgeHumA"
-Hum.RANGE = 12
-Hum.VOLUME = 0.6
-Hum.active = {}   -- inverter id -> { em = emitter, id = sound ref }
+Hum.SOUND = "LiveWireInverterHum"
+Hum.RANGE = 10
+Hum.CHECK_MS = 1000
+Hum.active = {}   -- inverter object -> { em = emitter, id = sound ref }
+local lastCheck = 0
 
-function Hum.stop(id)
-    local h = Hum.active[id]
-    if h and h.id and h.id ~= 0 and h.em:isPlaying(h.id) then h.em:stopSound(h.id) end
-    Hum.active[id] = nil
+local function playing(h)
+    return h and h.id and h.id ~= 0 and h.em:isPlaying(h.id)
 end
 
-function Hum.start(id, a)
-    local h = Hum.active[id]
-    if h and h.id and h.id ~= 0 and h.em:isPlaying(h.id) then return end
-    local em = getWorld():getFreeEmitter(a.x + 0.5, a.y + 0.5, a.z)
+function Hum.stop(obj)
+    local h = Hum.active[obj]
+    if playing(h) then h.em:stopSound(h.id) end
+    Hum.active[obj] = nil
+end
+
+function Hum.start(obj)
+    if playing(Hum.active[obj]) then return end
+    local sq = obj:getSquare()
+    local em = getWorld():getFreeEmitter(sq:getX() + 0.5, sq:getY() + 0.5, sq:getZ())
     if not em then return end
     local ref = em:playSoundImpl(Hum.SOUND, false, nil)
-    if ref and ref ~= 0 then em:setVolume(ref, Hum.VOLUME) end
-    Hum.active[id] = { em = em, id = ref }
+    Hum.active[obj] = { em = em, id = ref }
+end
+
+local function wantsHum(player, obj)
+    if obj:getObjectIndex() == -1 or not obj:getSquare() then return false end
+    local m = LiveWire.Marks.get(obj)
+    if not m or m.st ~= "on" then return false end
+    local sq = obj:getSquare()
+    local dx, dy = player:getX() - (sq:getX() + 0.5), player:getY() - (sq:getY() + 0.5)
+    return dx * dx + dy * dy <= Hum.RANGE * Hum.RANGE and math.abs(player:getZ() - sq:getZ()) < 2
 end
 
 local function update()
     local player = getPlayer()
-    if not player then return end
-    local anchors = LiveWire.Anchor.table()
-    for id in pairs(Hum.active) do
-        if not anchors[id] or not anchors[id].on then Hum.stop(id) end
-    end
-    for id, a in pairs(anchors) do
-        if a.on then
-            local dx, dy = player:getX() - a.x, player:getY() - a.y
-            local close = dx * dx + dy * dy <= Hum.RANGE * Hum.RANGE
-                and math.abs(player:getZ() - a.z) < 2
-                and getCell():getGridSquare(a.x, a.y, a.z) ~= nil
-            if close then Hum.start(id, a) else Hum.stop(id) end
+    if not player or not LiveWire.Visuals then return end
+    local now = getTimestampMs()
+    if now - lastCheck < Hum.CHECK_MS then return end
+    lastCheck = now
+    local seen = {}
+    local list = LiveWire.Visuals.inverters()
+    for i = 1, #list do
+        local o = list[i]
+        if wantsHum(player, o) then
+            seen[o] = true
+            Hum.start(o)
         end
     end
+    -- Collect first: never change a Kahlua table during pairs.
+    local stale = {}
+    for o in pairs(Hum.active) do
+        if not seen[o] then stale[#stale + 1] = o end
+    end
+    for i = 1, #stale do Hum.stop(stale[i]) end
 end
 
-Events.EveryOneMinute.Add(update)
+Events.OnTick.Add(update)

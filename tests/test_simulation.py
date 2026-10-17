@@ -199,10 +199,14 @@ def scenario_overload(breaker):
     lua.execute(SETUP)
     run(lua, 1)
     inv = lua.globals().INV
-    check(inv.state == "tripped", "overload trips the inverter")
     if breaker:
+        brk = lua.eval("LiveWire.Registry.hasOption(LiveWire.Registry.grid(INV.grid), 'breaker')")
+        check(inv.state == "on" and brk.state == "tripped", "overload trips the breaker, not the inverter")
         check(inv.cond == 100, "breaker protects the inverter condition")
+        run(lua, 1)
+        check(not lua.eval("LiveWire.Registry.grid(INV.grid).powered"), "tripped breaker keeps the house off")
     else:
+        check(inv.state == "tripped", "overload trips the inverter")
         check(inv.cond == 97, "trip without breaker costs 3 condition (%.2f)" % inv.cond)
 
 

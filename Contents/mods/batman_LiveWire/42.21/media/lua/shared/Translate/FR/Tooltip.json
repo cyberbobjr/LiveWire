@@ -18,6 +18,9 @@
     "Tooltip_LW_TurnOffFirst": "Éteignez d'abord l'onduleur.",
     "Tooltip_LW_NeedOverhaul": "Seule une remise à neuf peut l'améliorer encore.",
     "Tooltip_LW_OneOptionPerGrid": "Ce réseau en a déjà un.",
+    "Tooltip_LW_MonitorDisk": "Installe l'application de gestion Live Wire sur un ordinateur ou un portable du Computer Mod.",
+    "Tooltip_LW_NeedDisk": "Il faut le disque du logiciel Live Wire.",
+    "Tooltip_LW_NeedSoftware": "Installez d'abord le logiciel Live Wire (disque) sur cet ordinateur.",
     "Tooltip_LW_VoltageTester": "Clic droit sur une case pour mesurer le courant.",
     "Tooltip_LW_DeepCycleBattery": "Stocke 1,5 kWh et dure quatre fois plus qu'une batterie de voiture."
 }

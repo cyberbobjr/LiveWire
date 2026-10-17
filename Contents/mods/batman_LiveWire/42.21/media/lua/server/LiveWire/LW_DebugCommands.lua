@@ -89,9 +89,15 @@ actions.damageInverter = function(player, dev, grid)
     if inv then inv.cond = 10 end
 end
 
+-- Same rule as an overload: the breaker trips when there is one, else the inverter.
 actions.trip = function(player, dev, grid)
+    local brk = R().hasOption(grid, "breaker")
     local inv = R().device(grid.inverter)
-    if inv and inv.state == "on" then inv.state = "tripped" end
+    if brk then
+        brk.state = "tripped"
+    elseif inv and inv.state == "on" then
+        inv.state = "tripped"
+    end
 end
 
 actions.refuel = function(player, dev, grid)

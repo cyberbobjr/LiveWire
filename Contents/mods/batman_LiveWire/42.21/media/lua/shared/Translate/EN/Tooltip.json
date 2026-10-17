@@ -18,6 +18,9 @@
     "Tooltip_LW_TurnOffFirst": "Turn the inverter off first.",
     "Tooltip_LW_NeedOverhaul": "Only an overhaul can improve it further.",
     "Tooltip_LW_OneOptionPerGrid": "This network already has one.",
+    "Tooltip_LW_MonitorDisk": "Installs the Live Wire management app on a Computer Mod computer or laptop.",
+    "Tooltip_LW_NeedDisk": "Requires the Live Wire software disk.",
+    "Tooltip_LW_NeedSoftware": "Install the Live Wire software (disk) on this computer first.",
     "Tooltip_LW_VoltageTester": "Right-click a tile to measure its power.",
     "Tooltip_LW_DeepCycleBattery": "Stores 1.5 kWh and lasts four times longer than a car battery."
 }
