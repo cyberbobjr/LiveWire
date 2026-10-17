@@ -1,10 +1,16 @@
 # Live Wire — décisions ouvertes
 
-Ces choix reviennent à l'utilisateur. Chaque décision propose trois options fermées et une recommandation, avec ses conséquences.
+Ces choix reviennent à l'utilisateur.
+- **Pour chaque décision** : trois options fermées, une recommandation et ses conséquences.
+- **Par défaut**, la recommandation est appliquée dans `fonctionnel.md` et `architecture.md`, marquée **« à valider »**.
+- **Pour changer**, il suffit d'indiquer le numéro et l'option (par exemple « D-3 : option 1 »).
 
-**En attendant ta réponse**, la recommandation sert de choix par défaut dans `fonctionnel.md` et `architecture.md`. Elle est marquée **« à valider »**.
-
-Pour changer une décision, il suffit d'indiquer son numéro et l'option retenue (par exemple « D-3 : option 1 »). Les documents seront alors mis à jour.
+**Déjà tranché par l'utilisateur** (2026-10-17), et donc retiré des décisions ouvertes :
+- onduleur posable à l'intérieur ;
+- fonctionnement sans joueur dans la zone ;
+- usure et léger bruit de l'onduleur acceptés ;
+- trois rôles distincts : source, batterie, onduleur ;
+- système minimal = source + onduleur, batterie facultative, autres équipements optionnels.
 
 ---
 
@@ -12,102 +18,114 @@ Pour changer une décision, il suffit d'indiquer son numéro et l'option retenue
 
 | Option | Contenu | Conséquences |
 |---|---|---|
-| 1 | **Socle de production** : testeur, onduleur, batteries, solaire et éolien, compétence, usure, tableau de bord | Le cœur du mod est jouable tôt ; l'hydraulique et la charge depuis un générateur vanilla attendent la 0.2 |
-| 2 | Utilitaire de survie : testeur, chargeur de piles, désarmement d'alarmes, réparation d'appareils (idées 1 à 5) | Livraison rapide et peu risquée, mais l'idée centrale (production d'électricité) est repoussée |
-| 3 | Tout le système d'énergie d'un coup : solaire, éolien, hydraulique, charge depuis un générateur, pompe | Plus complet, mais première version longue ; plus de risques empilés avant le premier test en jeu |
+| 1 | **Socle** : testeur, onduleur, batteries facultatives, solaire, éolien, disjoncteur optionnel, compétence, usure, tableau de bord, fonctionnement sans joueur | Le cœur du mod est jouable tôt. L'hydraulique, la charge depuis un générateur vanilla et les autres équipements optionnels attendent la 0.2 |
+| 2 | Utilitaire de survie (idées 1 à 5 : testeur, chargeur de piles, alarmes, réparations) | Livraison rapide, mais la production d'électricité, idée centrale, est repoussée |
+| 3 | Tout le système d'énergie d'un coup (trois sources, charge depuis un générateur, pompe, tous les équipements optionnels) | Première version longue ; beaucoup de risques empilés avant le premier test en jeu |
 
-**Recommandation : option 1 — à valider.** Elle met en premier ce qui fait l'originalité du mod. Elle dérisque d'abord le mécanisme le plus incertain (l'onduleur, R-1) sur un périmètre testable. Le plan de versions complet est dans `fonctionnel.md`, § 9.
+**Recommandation : option 1 — à valider.** Elle dérisque d'abord le mécanisme le plus incertain, l'ancre d'alimentation (R-1), sur un périmètre testable.
 
-## D-2. Mécanisme qui amène le courant
+## D-2. Mécanisme qui amène le courant (onduleur à l'intérieur)
 
 | Option | Mécanisme | Conséquences |
 |---|---|---|
-| 1 | **Onduleur = vrai générateur du moteur, piloté par le mod** | Le jeu mesure lui-même la consommation, gère la portée, le multijoueur et la sauvegarde. Il faut bloquer les actions vanilla et vivre avec le son de générateur côté joueurs (D-8). Le prototype P1 doit le confirmer |
-| 2 | Positions de générateur virtuelles posées par script | Aucun objet à protéger, aucun son. Il faut reposer les positions à chaque chargement, mesurer soi-même la consommation, et une position orpheline peut laisser du courant pour toujours (`knowledge/power-and-lights.md`, « Positions de générateur posées par script ») |
-| 3 | Générateur vanilla du joueur, nourri en carburant par les batteries | Le plus simple, mais bruyant et toxique en intérieur ; le joueur peut tout casser avec les menus vanilla |
+| 1 | **Ancre d'alimentation** : l'onduleur est un objet simple, et le mod pose lui-même sa position de générateur sur les chunks de sa portée, reposée à chaque chargement, sur le serveur et sur les clients | Posable partout ; aucune toxicité, aucun incendie ; usure et bruit maîtrisés ; courant conservé sans joueur ; aucune fuite à la désinstallation. Il faut mesurer la consommation soi-même et tenir les clients à jour. À confirmer au prototype P1 |
+| 2 | Vrai générateur du moteur **caché dehors**, relié à l'onduleur intérieur | Le moteur mesure la consommation, mais il faut un second objet dehors, la zone couverte est décalée, le son de générateur vanilla est imposé et le menu vanilla est à bloquer |
+| 3 | Vrai générateur du moteur à l'intérieur, toxicité effacée après coup | **À exclure** : la toxicité abîme les occupants à chaque image avant d'être effacée (NM-20) |
 
-**Recommandation : option 1 — à valider.** C'est la seule qui laisse le moteur juge de l'alimentation **et** de la consommation. Les preuves sont dans `architecture.md`, § 1. Si le prototype P1 échoue, le repli prévu est l'option 2.
+**Recommandation : option 1 — à valider.** Repli prévu : l'option 2, si le prototype P1 échoue.
 
 ## D-3. Raccorder les appareils à l'onduleur
 
 | Option | Règle | Conséquences |
 |---|---|---|
-| 1 | Automatique : tout appareil à moins de N cases est raccordé | Aucun geste, aucune ressource ; installation peu lisible avec plusieurs onduleurs ; pas d'expérience gagnée |
-| 2 | **Raccordement explicite par menu, avec consommation de fil électrique** (1 fil pour 4 cases, portée 12) | Un geste lisible, qui coûte une ressource vanilla et rapporte de l'expérience. Pas de câble visible en v0.1 |
-| 3 | Câbles posés case par case, comme des objets du monde | Le plus immersif, mais beaucoup d'objets, de sprites et de risques de chemin ; attend les tuiles définitives |
+| 1 | Automatique : tout appareil à moins de N cases est raccordé | Aucun geste ; peu lisible avec plusieurs onduleurs ; pas d'expérience |
+| 2 | **Raccordement explicite par menu, en consommant du fil électrique** (1 fil pour 4 cases, portée 12) | Geste lisible, qui coûte une ressource vanilla et donne de l'expérience ; pas de câble visible en v0.1 |
+| 3 | Câbles posés case par case | Immersif, mais lourd ; attend les tuiles définitives |
 
-**Recommandation : option 2 — à valider.** Les options sandbox `LinkRange` et `WirePerTiles` permettent de la rendre très tolérante, et `WirePerTiles = 0` rend le fil gratuit.
+**Recommandation : option 2 — à valider.** `WirePerTiles = 0` rend le fil gratuit.
 
-## D-4. Où ranger les batteries
+## D-4. Comment une batterie fait partie du réseau
 
 | Option | Règle | Conséquences |
 |---|---|---|
-| 1 | **Dans un compartiment intégré à l'onduleur (4 batteries), plus des bancs câblés facultatifs** | Le plus naturel : on range ses batteries de voiture dans l'onduleur. Le moteur ne crée pas ce conteneur pour un générateur : le mod doit le créer lui-même. Son comportement en MP est une hypothèse à vérifier (NM-17, prototype P1) |
-| 2 | Seulement dans des meubles conteneurs vanilla câblés (caisses, étagères) | Repose sur des conteneurs ordinaires, mieux connus ; un objet de plus à poser et à câbler |
-| 3 | Batteries « installées » et retirées de l'inventaire, stock purement abstrait | Aucun problème de synchronisation des objets, mais on ne voit plus ses batteries, et on ne peut plus les échanger ni les reprendre telles quelles |
+| 1 | **Batterie posée au sol (pose vanilla), puis raccordée à l'onduleur** | Vrai objet visible, avec son modèle 3D vanilla ; charge dans l'infobulle ; la ramasser la débranche. La charge et l'usure voyagent par les champs moteur de l'objet (NM-10) |
+| 2 | Rack de batteries : un objet posé avec des emplacements ; « Installer une batterie » la retire de l'inventaire et l'enregistre | Aucun souci de synchronisation d'objets, mais les batteries ne sont plus visibles une par une et un objet de plus est à concevoir |
+| 3 | Meuble conteneur vanilla câblé, où l'on range ses batteries | Familier, mais le conteneur mélange les rôles (rangement et batterie) et il faut tester la synchronisation de chaque meuble |
 
-**Recommandation : option 1 — à valider.** Elle répond à l'usage le plus courant : mettre des batteries de voiture dans l'onduleur. Si le compartiment échoue au prototype P1, le repli est l'option 2, sans rien changer au reste du modèle : les batteries restent de vrais objets dont la charge est portée par leurs utilisations.
+**Recommandation : option 1 — à valider.** C'est l'option qui sépare le mieux les rôles : chaque batterie est un appareil distinct, facultatif.
 
 ## D-5. Échelle d'énergie
 
 | Option | Règle | Conséquences |
 |---|---|---|
-| 1 | **1 unité de consommation moteur par heure = 1 000 W** : réfrigérateur-congélateur 130 W, lumière 2 W | Ordres de grandeur crédibles ; une batterie de voiture de 0,6 kWh tient environ 3,5 h pour une petite base |
-| 2 | 1 unité = 10 000 W : réfrigérateur-congélateur 1,3 kW | Énergie très chère ; il faut beaucoup de panneaux ; risque de frustration |
-| 3 | Unités abstraites (« points de charge »), sans watts | Simple à équilibrer, mais moins lisible ; le testeur perd son intérêt pédagogique |
+| 1 | **1 unité de consommation moteur par heure = 1 000 W** (réfrigérateur-congélateur 130 W, lumière 2 W) | Ordres de grandeur crédibles |
+| 2 | 1 unité = 10 000 W | Énergie très chère ; frustrant |
+| 3 | Unités abstraites | Simple, mais le testeur perd son intérêt pédagogique |
 
-**Recommandation : option 1 — à valider.** L'option sandbox `PowerScale` permet de durcir ou d'adoucir l'échelle sans toucher au code.
+**Recommandation : option 1 — à valider**, ajustable par `PowerScale`.
 
 ## D-6. Apprentissage des recettes
 
 | Option | Règle | Conséquences |
 |---|---|---|
-| 1 | **Connues automatiquement au niveau requis** | Simple ; la compétence est la seule clé ; pas de nouvel objet de butin |
-| 2 | Magazines de mod à trouver dans le butin | Donne une raison d'explorer ; demande des répartitions de butin et des textes en plus |
-| 3 | Mixte : recettes de base automatiques, recettes avancées (onduleur renforcé, cellules à partir de déchets) par magazine | Bon compromis, mais plus de contenu à produire avant la 0.1 |
+| 1 | **Connues automatiquement au niveau requis** | Simple ; aucun objet de butin à créer |
+| 2 | Magazines de mod | Raison d'explorer ; plus de contenu |
+| 3 | Mixte | Bon compromis, mais plus de travail avant la 0.1 |
 
-**Recommandation : option 1 pour la v0.1 — à valider.** L'option 3 pourra venir en 0.2 sans casser les sauvegardes, car les recettes gardent leur nom.
+**Recommandation : option 1 pour la v0.1 — à valider.**
 
 ## D-7. Propriété des installations en multijoueur
 
 | Option | Règle | Conséquences |
 |---|---|---|
-| 1 | **Installation commune, règles de safehouse vanilla** | Simple et adaptée à un serveur entre amis ; un joueur hors safehouse peut démonter une installation non protégée |
-| 2 | Propriétaire unique (seul l'installateur agit) | Protège contre le vol, mais gêne le jeu en groupe ; demande une gestion des droits |
-| 3 | Propriétaire et liste d'invités | Le plus souple, mais interface et protocole plus lourds |
-
-**Recommandation : option 1 — à valider.** C'est la cible déclarée de `CLAUDE.md` (serveur dédié entre amis).
-
-## D-8. Son de l'onduleur en attendant une tuile propre
-
-Les zombies n'entendent presque rien (rayon 1). Les **joueurs** entendent la boucle de son d'un générateur vanilla, et aucun réglage Lua ne permet de la couper (NM-2).
-
-| Option | Règle | Conséquences |
-|---|---|---|
-| 1 | **Accepter le ronflement en v0.1** et l'expliquer dans la description du mod | Rien à produire ; immersion imparfaite jusqu'à la tuile définitive |
-| 2 | Créer dès la v0.1 une tuile minimale (cube) avec sa propre valeur `GeneratorSound` et des sons de mod discrets | Silence réel, mais il faut l'outillage des tuiles (`.pack`, `.tiles`) et des fichiers son. C'est la partie la plus risquée du chantier graphique |
-| 3 | Utiliser le sprite d'un générateur vanilla | À exclure : un générateur vanilla tourné pourrait prendre les réglages de l'onduleur, ou l'inverse (NM-1) |
-
-**Recommandation : option 1 — à valider.** L'option 2 est la première tâche du chantier « tuiles et modèles ».
-
-## D-9. Ce qui continue quand personne n'est à proximité
-
-| Option | Règle | Conséquences |
-|---|---|---|
-| 1 | **Tout continue** : production, consommation à la dernière demande mesurée, usure | Cohérent avec le carburant vanilla qui rattrape les heures ; on peut revenir à une base déchargée |
-| 2 | Production seulement, sans consommation ni usure | Généreux : les batteries sont toujours pleines au retour |
-| 3 | Tout s'arrête | Simple, mais incohérent avec le reste du jeu ; une base lointaine ne se recharge jamais |
-
-**Recommandation : option 1 — à valider**, réglable par l'option sandbox `SimulateUnloaded`.
-
-## D-10. Onduleur et générateur vanilla qui alimentent les mêmes appareils
-
-Le moteur fait payer les appareils communs aux deux sources (NM-5).
-
-| Option | Règle | Conséquences |
-|---|---|---|
-| 1 | **v0.1 : laisser faire et avertir** (testeur, tableau de bord). v0.2 : bascule automatique, l'onduleur passe en veille quand un générateur vanilla tourne à portée | Rien de bloquant ; la bascule demande un balayage limité à une fois par heure |
-| 2 | Refuser la pose d'un onduleur à portée d'un générateur vanilla | Simple, mais interdit l'usage « générateur le jour, batteries la nuit » |
-| 3 | Bascule automatique dès la v0.1 | Meilleure expérience, mais plus de travail et de coût avant d'avoir validé l'onduleur |
+| 1 | **Commune, sous les règles de safehouse vanilla** | Adaptée à un serveur entre amis |
+| 2 | Propriétaire unique | Protège du vol ; gêne le jeu en groupe |
+| 3 | Propriétaire et invités | Souple, mais lourd |
 
 **Recommandation : option 1 — à valider.**
+
+## D-8. Bruit de l'onduleur
+
+L'utilisateur accepte un très léger bruit.
+
+| Option | Règle | Conséquences |
+|---|---|---|
+| 1 | **Bourdonnement léger** : les zombies l'entendent à 2 cases (option `InverterNoiseRadius`), et les joueurs proches entendent un son vanilla discret, à choisir au prototype | Cohérent et réglable. Il faut un émetteur en boucle côté client, qui s'arrête bien en MP (R-5) |
+| 2 | Bruit pour les zombies seulement, aucun son pour les joueurs | Rien à produire côté son ; moins vivant |
+| 3 | Silence total | Simple, mais l'onduleur devient un avantage gratuit |
+
+**Recommandation : option 1 — à valider.** Un son propre au mod viendra avec les modèles définitifs.
+
+## D-9. Ce qui continue sans joueur dans la zone
+
+| Option | Règle | Conséquences |
+|---|---|---|
+| 1 | **Tout continue** : production, consommation à la dernière demande mesurée, usure, courant de la maison | Répond à l'exigence de l'utilisateur ; cohérent avec le carburant vanilla qui rattrape les heures |
+| 2 | Production seulement | Généreux : batteries toujours pleines au retour |
+| 3 | Tout s'arrête | Contraire à l'exigence de l'utilisateur |
+
+**Recommandation : option 1 — à valider** pour le réglage par défaut de `SimulateUnloaded`. L'option 3 reste possible en sandbox.
+
+## D-10. Onduleur et générateur vanilla sur les mêmes appareils
+
+Chacun compte les appareils communs (NM-5).
+
+| Option | Règle | Conséquences |
+|---|---|---|
+| 1 | **v0.1 : laisser faire et avertir** ; v0.2 : bascule automatique (l'onduleur passe en veille quand un générateur vanilla tourne dans sa zone) | Rien de bloquant |
+| 2 | Refuser la pose d'un onduleur à portée d'un générateur vanilla | Interdit l'usage « générateur le jour, batteries la nuit » |
+| 3 | Bascule automatique dès la v0.1 | Meilleure expérience, mais plus de travail avant d'avoir validé l'ancre |
+
+**Recommandation : option 1 — à valider.**
+
+## D-11. Équipements optionnels
+
+Liste détaillée dans `fonctionnel.md`, § 2.4 : disjoncteur, parafoudre, ordinateur de gestion, programmateur horaire, régulateur solaire optimisé, alarme de batterie faible.
+
+| Option | Règle | Conséquences |
+|---|---|---|
+| 1 | **Disjoncteur seul en 0.1** ; parafoudre, ordinateur de gestion, programmateur et alarme en 0.2 ; régulateur solaire en 0.3 | Le système de base reste simple au lancement. La sécurité la plus utile (pas d'usure en cas de surcharge) arrive tout de suite |
+| 2 | Aucun équipement optionnel avant la 0.2 | Le plus simple ; le disjoncteur manque aux joueurs qui découvrent la surcharge |
+| 3 | Les six dès la 0.1 | Riche, mais la 0.1 s'alourdit et chaque équipement ajoute des cas à tester |
+
+**Recommandation : option 1 — à valider.** Chaque équipement peut être retiré ou repoussé sans toucher au reste : ils ne changent que des paramètres du pas de simulation.
