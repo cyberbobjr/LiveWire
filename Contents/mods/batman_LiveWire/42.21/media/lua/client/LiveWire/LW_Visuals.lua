@@ -150,7 +150,15 @@ local function same(a, b)
     return true
 end
 
+-- A wind turbine changes its blade overlay up to ten times a second. Objects are
+-- otherwise drawn once into the chunk render texture (FBO) and redrawn only when
+-- the chunk is invalidated; an object flagged as animating is drawn every frame
+-- instead (FBORenderCell.isObjectRenderLayer_MinusFloor, FBORenderCell.java:1627).
+-- Without it, the turning blades vanished as soon as the wind made them turn.
 function V.apply(obj, now)
+    if LiveWire.Defs.modelOfObject(obj) == "WindTurbine" and not obj:isAnimating() then
+        obj:setAnimating(true)
+    end
     local want = V.wanted(obj, now)
     local have, pos = current(obj)
     if same(want, have) then return end

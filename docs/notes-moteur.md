@@ -356,3 +356,9 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - La surbrillance des sols (`setHighlightColor` + `setHighlighted(true, false)` sur `square:getFloor()`) n'a rien montré en jeu en plein jour. Un cercle dessiné à l'écran depuis le `render` d'un `ISUIElement` de 1 × 1 (`drawLine` entre points projetés par `isoToScreenX/Y(joueur, x, y, z)`) est net et suit la caméra.
 - `getCore():doZoomScroll(joueur, n)` change le zoom d'un cran par appel (positif : dézoom), utile avant une capture.
 - Un meuble posable dont la tuile porte `CustomItem` garde l'icône de son script (`Moveable.java:128-141`, `getCustomIcon`) : utile quand la tuile seule n'est pas représentative (pales en calque).
+
+## 43. Calque changé souvent : marquer l'objet « en animation » (rendu FBO)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : cause confirmée statiquement ; disparition observée en jeu par l'utilisateur ; correction à vérifier en jeu
+- Preuve : avec le rendu par chunks, un objet est dessiné dans la texture du chunk et redessiné seulement quand le chunk est invalidé. `FBORenderCell.isObjectRenderLayer_MinusFloor` sort de ce chemin les objets `isAnimating()` (`java/zombie/iso/fboRenderChunk/FBORenderCell.java:1627`), dessinés à chaque image. Les seuls calques « animés » reconnus sont les aiguilles d'horloge et les calques `_on_` (`IsoObject.hasAnimatedAttachments`, `IsoObject.java:5640-5650`). Le drapeau n'est remis à faux qu'à la fin d'une animation 3D d'objet (`IsoObjectAnimations.java:81`).
+- Conséquence : un calque changé plusieurs fois par seconde (pales d'éolienne) disparaissait dès qu'il tournait. Appeler `obj:setAnimating(true)` sur l'objet, côté client.
+
