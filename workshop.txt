@@ -1,0 +1,5 @@
+version=1
+title=Live Wire - Electrical Skill Overhaul
+description=Gives the Electrical skill a real use in Build 42.21.
+tags=Build 42;Skills
+visibility=private

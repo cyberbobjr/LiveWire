@@ -1,0 +1,5 @@
+name=batman_LiveWire
+id=batman_LiveWire
+description=Gives the Electrical skill a real use: diagnostics, battery charging, alarms, appliance repair, energy storage, electric fences and alternative power sources.
+versionMin=42.21
+modversion=0.0.1
