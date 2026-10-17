@@ -1,0 +1,11 @@
+{
+    "LWMakeVoltageTester": "Fabriquer un testeur de tension",
+    "LWSalvageSolarCell": "Récupérer une cellule photovoltaïque",
+    "LWMakeSolarCellFromScrap": "Fabriquer une cellule photovoltaïque",
+    "LWMakeSolarPanelKit": "Fabriquer un panneau photovoltaïque",
+    "LWMakeInverterKit": "Fabriquer un onduleur",
+    "LWMakeHeavyInverterKit": "Fabriquer un onduleur renforcé",
+    "LWMakeWindTurbineKit": "Fabriquer une éolienne",
+    "LWMakeBreakerKit": "Fabriquer un disjoncteur",
+    "LWMakeDeepCycleBattery": "Fabriquer une batterie stationnaire"
+}

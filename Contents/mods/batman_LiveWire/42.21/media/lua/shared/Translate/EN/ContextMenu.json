@@ -1,0 +1,18 @@
+{
+    "ContextMenu_LW_Root": "Live Wire",
+    "ContextMenu_LW_Measure": "Measure",
+    "ContextMenu_LW_Install": "Install here: %1",
+    "ContextMenu_LW_Inspect": "Inspect",
+    "ContextMenu_LW_Link": "Connect to the inverter",
+    "ContextMenu_LW_LinkBattery": "Connect %1 to the inverter",
+    "ContextMenu_LW_Unlink": "Disconnect",
+    "ContextMenu_LW_Repair": "Repair",
+    "ContextMenu_LW_Overhaul": "Overhaul",
+    "ContextMenu_LW_ClearSnow": "Clear the snow",
+    "ContextMenu_LW_Dismantle": "Dismantle",
+    "ContextMenu_LW_Dashboard": "Open the dashboard",
+    "ContextMenu_LW_TurnOn": "Turn On",
+    "ContextMenu_LW_TurnOff": "Turn Off",
+    "ContextMenu_LW_Reset": "Reset",
+    "ContextMenu_LW_Recondition": "Recondition battery"
+}

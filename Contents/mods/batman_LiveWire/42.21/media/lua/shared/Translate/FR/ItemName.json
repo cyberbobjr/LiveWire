@@ -1,0 +1,10 @@
+{
+    "LiveWire.VoltageTester": "Testeur de tension",
+    "LiveWire.SolarCell": "Cellule photovoltaïque",
+    "LiveWire.SolarPanelKit": "Panneau photovoltaïque en kit",
+    "LiveWire.WindTurbineKit": "Éolienne en kit",
+    "LiveWire.InverterKit": "Onduleur en kit",
+    "LiveWire.HeavyInverterKit": "Onduleur renforcé en kit",
+    "LiveWire.BreakerKit": "Disjoncteur en kit",
+    "LiveWire.DeepCycleBattery": "Batterie stationnaire"
+}

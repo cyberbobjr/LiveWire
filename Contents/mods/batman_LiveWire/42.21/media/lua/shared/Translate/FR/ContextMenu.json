@@ -1,0 +1,18 @@
+{
+    "ContextMenu_LW_Root": "Live Wire",
+    "ContextMenu_LW_Measure": "Mesurer",
+    "ContextMenu_LW_Install": "Installer ici : %1",
+    "ContextMenu_LW_Inspect": "Inspecter",
+    "ContextMenu_LW_Link": "Raccorder à l'onduleur",
+    "ContextMenu_LW_LinkBattery": "Raccorder %1 à l'onduleur",
+    "ContextMenu_LW_Unlink": "Débrancher",
+    "ContextMenu_LW_Repair": "Réparer",
+    "ContextMenu_LW_Overhaul": "Remettre à neuf",
+    "ContextMenu_LW_ClearSnow": "Déneiger",
+    "ContextMenu_LW_Dismantle": "Démonter",
+    "ContextMenu_LW_Dashboard": "Ouvrir le tableau de bord",
+    "ContextMenu_LW_TurnOn": "Allumer",
+    "ContextMenu_LW_TurnOff": "Éteindre",
+    "ContextMenu_LW_Reset": "Réarmer",
+    "ContextMenu_LW_Recondition": "Reconditionner la batterie"
+}
