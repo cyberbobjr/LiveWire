@@ -9,6 +9,7 @@
 -- server: st, pw, inv). Only our own overlays (index >= 24) are touched; the list
 -- is rebuilt from the mark whenever it differs, so overlays saved with a single
 -- player world are corrected at the next update.
+-- Devices are tracked when their chunk loads, when the server adds them (MP), by a small scan around the player and a slow spread sweep (no full scan in one frame).
 if isServer() then return end
 
 LiveWire = LiveWire or {}
@@ -27,15 +28,20 @@ for _, i in ipairs({ 24, 25, 28, 29, 32, 33, 36, 37, 40, 41, 44, 45, 64, 65, 66,
 end
 for i = 48, 63 do EXISTS[i] = true end
 
-V.SCAN_RADIUS = 18
-V.SCAN_MS = 3000
+V.NEAR_RADIUS = 4      -- squares around the player checked every NEAR_MS (single player placement)
+V.NEAR_MS = 1000
+V.SWEEP_RADIUS = 18    -- fallback sweep of the old scan area, spread over ticks
+V.SWEEP_MS = 30000
+V.PRUNE_DIST = 160     -- tracked objects farther than this (tiles) are dropped
 V.STATE_MS = 1000
 V.FRAME_MS = 100
 V.WIND_CUT_IN = 10   -- km/h, same as the simulation (LW_Physics.lua)
 
 V.tracked = {}       -- list of objects
 local known = {}     -- object -> true
-local lastScan, lastState, lastFrame = 0, 0, 0
+local lastState, lastFrame, lastNear, lastSweep = 0, 0, 0, 0
+local SPRITES = LiveWire.Defs.spriteToModel
+local sweep = nil      -- { x, x1, y0, y1, z0, z1 } while a sweep is running
 
 local function spriteIndex(obj)
     local spr = obj:getSprite()
@@ -54,30 +60,83 @@ function V.track(obj)
     V.tracked[#V.tracked + 1] = obj
 end
 
--- Find our devices around the player (new placements, chunks loaded).
-local function scan(player)
-    local cell = getCell()
-    local px, py, pz = math.floor(player:getX()), math.floor(player:getY()), math.floor(player:getZ())
-    local r = V.SCAN_RADIUS
-    for z = pz - 1, pz + 1 do
-        for x = px - r, px + r do
-            for y = py - r, py + r do
-                local sq = cell:getGridSquare(x, y, z)
-                if sq then
-                    local objs = sq:getObjects()
-                    for i = 0, objs:size() - 1 do
-                        local o = objs:get(i)
-                        if not known[o] and spriteIndex(o) then V.track(o) end
-                    end
-                end
-            end
+-- Track our base tiles found on a square (one table lookup per object).
+local function considerSquare(sq)
+    local objs = sq:getObjects()
+    for i = 0, objs:size() - 1 do
+        local o = objs:get(i)
+        if not known[o] then
+            local spr = o:getSprite()
+            local name = spr and spr:getName()
+            if name and SPRITES[name] then V.track(o) end
         end
     end
+end
+
+-- Every chunk loaded on this client (fires on both sides: IsoChunk.java:3612).
+local function onLoadChunk(chunk)
+    for z = chunk:getMinLevel(), chunk:getMaxLevel() do
+        for i = 0, 63 do
+            local sq = chunk:getGridSquare(i % 8, math.floor(i / 8), z)
+            if sq then considerSquare(sq) end
+        end
+    end
+end
+
+-- Objects added by the server (MP clients only: AddItemToMapPacket.java:90).
+local function onObjectAdded(obj)
+    if obj and obj.getSprite and not known[obj] and LiveWire.Defs.modelOfObject(obj) then V.track(obj) end
+end
+
+-- New placements in single player (OnObjectAdded does not fire there).
+local function nearScan(player)
+    local cell = getCell()
+    local px, py, pz = math.floor(player:getX()), math.floor(player:getY()), math.floor(player:getZ())
+    local r = V.NEAR_RADIUS
+    for x = px - r, px + r do
+        for y = py - r, py + r do
+            local sq = cell:getGridSquare(x, y, pz)
+            if sq then considerSquare(sq) end
+        end
+    end
+end
+
+-- Fallback: the old 37 x 37 x 3 area, one column per tick.
+local function startSweep(player)
+    local px, py, pz = math.floor(player:getX()), math.floor(player:getY()), math.floor(player:getZ())
+    local r = V.SWEEP_RADIUS
+    sweep = { x = px - r, x1 = px + r, y0 = py - r, y1 = py + r, z0 = pz - 1, z1 = pz + 1 }
+end
+
+local function sweepStep()
+    local cell = getCell()
+    local x = sweep.x
+    for z = sweep.z0, sweep.z1 do
+        for y = sweep.y0, sweep.y1 do
+            local sq = cell:getGridSquare(x, y, z)
+            if sq then considerSquare(sq) end
+        end
+    end
+    sweep.x = x + 1
+    if sweep.x > sweep.x1 then sweep = nil end
+end
+
+-- Drop dead or far objects.
+local function prune(player)
+    local px, py = player:getX(), player:getY()
+    local d2 = V.PRUNE_DIST * V.PRUNE_DIST
     for i = #V.tracked, 1, -1 do
         local o = V.tracked[i]
-        if not alive(o) then
+        local keep = alive(o)
+        if keep then
+            local sq = o:getSquare()
+            local dx, dy = sq:getX() - px, sq:getY() - py
+            keep = dx * dx + dy * dy <= d2
+        end
+        if not keep then
             known[o] = nil
             table.remove(V.tracked, i)
+            if LiveWire.Adopt then LiveWire.Adopt.forget(o) end
         end
     end
 end
@@ -184,18 +243,32 @@ local function onTick()
     local player = getPlayer()
     if not player then return end
     local now = getTimestampMs()
-    if now - lastScan >= V.SCAN_MS then
-        lastScan = now
-        scan(player)
+    if sweep then
+        sweepStep()
+    elseif now - lastSweep >= V.SWEEP_MS then
+        lastSweep = now
+        startSweep(player)
+    end
+    if now - lastNear >= V.NEAR_MS then
+        lastNear = now
+        nearScan(player)
     end
     local all = now - lastState >= V.STATE_MS
     if not all and now - lastFrame < V.FRAME_MS then return end
     lastFrame = now
-    if all then lastState = now end
+    if all then
+        lastState = now
+        prune(player)
+    end
     for i = 1, #V.tracked do
         local o = V.tracked[i]
-        if alive(o) and (all or LiveWire.Defs.modelOfObject(o) == "WindTurbine") then V.apply(o, now) end
+        if alive(o) and (all or LiveWire.Defs.modelOfObject(o) == "WindTurbine") then
+            V.apply(o, now)
+            if all and LiveWire.Adopt then LiveWire.Adopt.check(o, now) end
+        end
     end
 end
 
+Events.LoadChunk.Add(onLoadChunk)
+Events.OnObjectAdded.Add(onObjectAdded)
 Events.OnTick.Add(onTick)

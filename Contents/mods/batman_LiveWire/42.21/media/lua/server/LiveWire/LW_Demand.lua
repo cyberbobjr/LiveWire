@@ -10,17 +10,53 @@ LiveWire = LiveWire or {}
 local Demand = {}
 LiveWire.Demand = Demand
 
--- inventories[inverterId] = { builtAt = hours, objects = { IsoObject... } }
+-- inventories[inverterId] = { builtAt = hours, objects = { IsoObject... },
+--   dirty = bool, dirtySince = hours, gen = n, queued = bool }
+-- The list of objects that can draw power is rebuilt by a job spread over ticks
+-- (SQUARES_PER_TICK squares, one inverter at a time), never in one frame. OnObjectAdded
+-- only fires on MP clients (AddItemToMapPacket.java:59,90): new appliances are found
+-- by the periodic rebuild, by placements (LW_Placement.lua) and by chunk loads.
 Demand.inventories = {}
--- OnObjectAdded only fires on MP clients (AddItemToMapPacket.java:59,90), so new
--- appliances are found by this periodic rebuild.
-Demand.REBUILD_HOURS = 0.5
+Demand.REBUILD_HOURS = 2.0
+Demand.SQUARES_PER_TICK = 500
+Demand.DIRTY_GRACE_HOURS = 1.0  -- keep the last measured value this long while rebuilding
+Demand.queue = {}
+Demand.job = nil
+
+local function enqueue(id, entry)
+    if entry.queued then return end
+    entry.queued = true
+    Demand.queue[#Demand.queue + 1] = id
+end
+
+local function markDirty(id, entry)
+    if not entry.dirty then entry.dirtySince = getGameTime():getWorldAgeHours() end
+    entry.dirty = true
+    entry.gen = (entry.gen or 0) + 1
+    enqueue(id, entry)
+end
 
 function Demand.invalidate(inverterId)
     if inverterId then
-        Demand.inventories[inverterId] = nil
+        local e = Demand.inventories[inverterId]
+        if e then markDirty(inverterId, e) end
     else
-        Demand.inventories = {}
+        for id, e in pairs(Demand.inventories) do markDirty(id, e) end
+    end
+end
+
+-- Invalidate the inverters whose disc contains `sq`.
+function Demand.invalidateAt(sq)
+    if not sq or not LiveWire.Registry or not LiveWire.Registry.ready then return end
+    local R = LiveWire.Config.tileRange()
+    local ids = {}
+    for id in pairs(Demand.inventories) do ids[#ids + 1] = id end
+    for i = 1, #ids do
+        local inv = LiveWire.Registry.device(ids[i])
+        if inv then
+            local dx, dy = sq:getX() - inv.x, sq:getY() - inv.y
+            if dx * dx + dy * dy <= R * R then Demand.invalidate(ids[i]) end
+        end
     end
 end
 
@@ -31,32 +67,75 @@ local function allowExterior()
     return true
 end
 
--- Full scan of the disc (cost: about pi * R^2 * levels squares).
-local function build(inv)
+-- Next queued inverter whose square is loaded becomes the job. Returns true if any.
+local function startJob()
+    while #Demand.queue > 0 do
+        local id = table.remove(Demand.queue, 1)
+        local entry = Demand.inventories[id]
+        local inv = LiveWire.Registry.device(id)
+        if entry then entry.queued = false end
+        if not inv or inv.role ~= "inverter" then
+            Demand.inventories[id] = nil
+        elseif entry and getCell():getGridSquare(inv.x, inv.y, inv.z) then
+            local R = LiveWire.Config.tileRange()
+            local V = LiveWire.Config.verticalRange()
+            entry.queued = true
+            Demand.job = { id = id, x = inv.x, y = inv.y, R = R, R2 = R * R,
+                           z = math.max(-32, inv.z - V), zmax = math.min(31, inv.z + V),
+                           dy = -R, list = {}, gen = entry.gen or 0 }
+            return true
+        end
+        -- Unloaded inverter: stays dirty; LW_ChunkSync invalidates it again when loaded.
+    end
+    return false
+end
+
+-- Scan up to SQUARES_PER_TICK squares of the disc (rows of the circle, then floors).
+local function stepJob()
+    local job = Demand.job
     local cell = getCell()
-    local R = LiveWire.Config.tileRange()
-    local V = LiveWire.Config.verticalRange()
-    local R2 = R * R
-    local list = {}
-    local zmin = math.max(-32, inv.z - V)
-    local zmax = math.min(31, inv.z + V)
-    for z = zmin, zmax do
-        for dy = -R, R do
-            for dx = -R, R do
-                if dx * dx + dy * dy <= R2 then
-                    local sq = cell:getGridSquare(inv.x + dx, inv.y + dy, z)
-                    if sq then
-                        local objs = sq:getObjects()
-                        for i = 0, objs:size() - 1 do
-                            local o = objs:get(i)
-                            if o:couldBePoweredByGenerator() then list[#list + 1] = o end
-                        end
-                    end
+    local budget = Demand.SQUARES_PER_TICK
+    while budget > 0 and job.z <= job.zmax do
+        local w = math.floor(math.sqrt(job.R2 - job.dy * job.dy) + 1e-9)
+        local y = job.y + job.dy
+        for dx = -w, w do
+            local sq = cell:getGridSquare(job.x + dx, y, job.z)
+            if sq then
+                local objs = sq:getObjects()
+                for i = 0, objs:size() - 1 do
+                    local o = objs:get(i)
+                    if o:couldBePoweredByGenerator() then job.list[#job.list + 1] = o end
                 end
             end
         end
+        budget = budget - (2 * w + 1)
+        job.dy = job.dy + 1
+        if job.dy > job.R then
+            job.dy = -job.R
+            job.z = job.z + 1
+        end
     end
-    return list
+    if job.z > job.zmax then
+        Demand.job = nil
+        local entry = Demand.inventories[job.id]
+        if entry then
+            entry.objects = job.list
+            entry.builtAt = getGameTime():getWorldAgeHours()
+            entry.queued = false
+            if (entry.gen or 0) == job.gen then
+                entry.dirty = false
+            else
+                enqueue(job.id, entry)  -- changed while scanning
+            end
+        end
+    end
+end
+
+local function onTick()
+    local R = LiveWire.Registry
+    if not R or not R.ready or R.readOnly then return end
+    if not Demand.job and not startJob() then return end
+    stepJob()
 end
 
 -- Appliance family shown in the inverter interface (classes exposed to Lua).
@@ -76,15 +155,24 @@ end
 
 -- Demand in W for a loaded inverter device, and its breakdown by appliance family
 -- ({ fridge = { n = 1, w = 130 }, ... }). Returns nil when the inverter square is
--- not loaded (the caller then keeps the last measured value).
+-- not loaded, or while its list is being (re)built (the caller then keeps the last
+-- measured value).
 function Demand.measure(inv)
     local cell = getCell()
     if not cell:getGridSquare(inv.x, inv.y, inv.z) then return nil end
     local now = getGameTime():getWorldAgeHours()
     local entry = Demand.inventories[inv.id]
-    if not entry or now - entry.builtAt >= Demand.REBUILD_HOURS then
-        entry = { builtAt = now, objects = build(inv) }
+    if not entry then
+        entry = { builtAt = now, objects = {}, dirty = true, dirtySince = now, gen = 0 }
         Demand.inventories[inv.id] = entry
+        enqueue(inv.id, entry)
+        return nil
+    end
+    if entry.dirty then
+        enqueue(inv.id, entry)
+        if now - (entry.dirtySince or now) < Demand.DIRTY_GRACE_HOURS then return nil end
+    elseif now - entry.builtAt >= Demand.REBUILD_HOURS then
+        enqueue(inv.id, entry)  -- refresh in the background, keep using the current list
     end
     -- Same filters as IsoGenerator.setSurroundingElectricity (IsoGenerator.java:274-286):
     -- not already on the public grid, exterior squares only if AllowExteriorGenerator.
@@ -116,19 +204,13 @@ function Demand.measure(inv)
     return total * scale, breakdown
 end
 
--- Rebuild the inventory of every inverter in range when an object appears or vanishes.
+-- An appliance removed near an inverter: rebuild its list (a moved fridge comes back
+-- through the placement wrapper).
 local function onObjectChanged(obj)
-    if not obj or not obj.getSquare then return end
-    local sq = obj:getSquare()
-    if not sq or not LiveWire.Registry or not LiveWire.Registry.ready then return end
-    local R = LiveWire.Config.tileRange()
-    for id, entry in pairs(Demand.inventories) do
-        local inv = LiveWire.Registry.device(id)
-        if inv then
-            local dx, dy = sq:getX() - inv.x, sq:getY() - inv.y
-            if dx * dx + dy * dy <= R * R then Demand.inventories[id] = nil end
-        end
-    end
+    if not obj or not obj.getSquare or not obj.couldBePoweredByGenerator then return end
+    if not obj:couldBePoweredByGenerator() then return end
+    Demand.invalidateAt(obj:getSquare())
 end
 
 Events.OnObjectAboutToBeRemoved.Add(onObjectChanged)
+Events.OnTick.Add(onTick)
