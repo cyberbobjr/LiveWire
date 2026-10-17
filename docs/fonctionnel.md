@@ -1,8 +1,15 @@
 # Live Wire — documentation fonctionnelle
 
-État : **conception, aucun code**. Rien n'a été prototypé ni testé en jeu. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage. Les faits du moteur cités viennent du dépôt de référence `pz-source-42.21` (chemins relatifs à sa racine) et de `docs/notes-moteur.md` (« NM-n » = note n).
+État : **conception, aucun code**. Rien n'a été prototypé ni testé en jeu. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage.
 
-Les choix qui reviennent à l'utilisateur sont dans `docs/decisions-ouvertes.md` (« D-n »). Ce document applique partout la recommandation par défaut, marquée **à valider**.
+- **Sources des faits du moteur** : le dépôt de référence `pz-source-42.21` (chemins relatifs à sa racine) et `docs/notes-moteur.md` (« NM-n » = note n).
+- **Choix de l'utilisateur** : ils sont dans `docs/decisions-ouvertes.md` (« D-n »). Ce document applique la recommandation par défaut, marquée **à valider**.
+
+**Exigences de l'utilisateur** (2026-10-17), non négociables :
+1. L'onduleur peut être posé **à l'intérieur** d'une maison.
+2. L'installation fonctionne **même quand aucun joueur n'est dans la zone**.
+3. L'onduleur peut **s'user** et faire un **très léger bruit**.
+4. Trois rôles distincts : les **sources** fournissent la puissance, les **batteries** la stockent, l'**onduleur** la convertit.
 
 ---
 
@@ -10,29 +17,41 @@ Les choix qui reviennent à l'utilisateur sont dans `docs/decisions-ouvertes.md`
 
 ### 1.1 L'idée en une phrase
 
-**Le courant devient un métier.** Le générateur vanilla ne disparaît pas : il reste bruyant, gourmand et visible. L'électricien de Live Wire construit, à côté, une installation silencieuse et durable, faite de sources renouvelables (soleil, vent, eau), de batteries et d'un onduleur qui distribue le courant à la base.
+**Le courant devient un métier.** Le générateur vanilla reste bruyant, gourmand et visible. L'électricien de Live Wire construit à côté une installation silencieuse et durable, en trois étages :
 
-Trois règles de conception :
+```
+ SOURCES                        BATTERIES                ONDULEUR                   BASE
+ panneaux solaires  ─┐
+ éolienne           ─┼─►  courant continu  ◄──►  stockage   ──►  convertit  ──►  courant de la maison
+ roue à aubes       ─┘    (produit)              (stocke)        (et répartit)   (frigo, lumières...)
+```
 
-1. **Le moteur reste juge de l'alimentation.** Une case est alimentée parce qu'un vrai générateur du moteur l'alimente. Le mod ne simule pas un réseau parallèle : il pilote un générateur particulier, l'**onduleur** (voir `architecture.md`, § 1). Réfrigérateurs, lumières, cuisinières et radios fonctionnent donc exactement comme avec un générateur vanilla.
-2. **L'énergie se mérite et se lit.** Chaque watt a une origine (heure, nuages, vent, rivière) et une destination (appareils branchés). Le multimètre et le tableau de bord rendent tout cela lisible.
-3. **La compétence Électricité compte à chaque étape** : fabriquer, installer, entretenir, réparer, diagnostiquer. Chaque geste utile rapporte de l'expérience.
+| Rôle | Ce qu'il fait | Ce qu'il ne fait pas |
+|---|---|---|
+| **Source** (panneau, éolienne, roue à aubes) | Produit une puissance qui dépend du soleil, du vent ou de l'eau | Ne stocke rien et n'alimente pas directement la maison |
+| **Batterie** (batterie de voiture, batterie stationnaire) | Stocke l'énergie ; se charge et se décharge ; s'use à chaque cycle | Ne produit rien ; ne fait pas fonctionner les appareils seule |
+| **Onduleur** | Convertit le courant des sources pour charger les batteries, et celui des batteries pour alimenter les appareils de la base. Il a une **puissance maximale** et un **rendement** ; il s'use et bourdonne légèrement | Ne stocke rien : sans batterie, il ne transmet que la production du moment |
+
+**Trois règles de conception :**
+1. **Le jeu reste juge de l'alimentation.** Une case est alimentée parce que le moteur la voit alimentée, comme près d'un générateur. Réfrigérateurs, lumières, cuisinières et radios fonctionnent donc exactement comme en vanilla. Le comment technique est dans `architecture.md`, § 1.
+2. **L'énergie se mérite et se lit.** Chaque watt a une origine (heure, nuages, vent, rivière) et une destination (appareils allumés). Le testeur et le tableau de bord rendent tout cela lisible.
+3. **La compétence Électricité compte à chaque étape** : fabriquer, installer, raccorder, entretenir, réparer, diagnostiquer.
 
 ### 1.2 La boucle de jeu, du premier jour à la base autonome
 
 | Phase | Situation | Ce que fait le joueur avec Live Wire |
 |---|---|---|
-| **1. Avant la coupure** (réseau public actif) | Le courant est partout. | Il récupère des batteries de voiture, des fils électriques, de l'électronique, des calculatrices et des livres d'électricité. Il fabrique un **testeur de tension** (niv. 1) et apprend à lire une installation. |
-| **2. La coupure** | Le générateur vanilla devient la seule source ; il attire les zombies. | Il installe un **onduleur** (niv. 5) à l'extérieur de la maison et range ses batteries de voiture dans son compartiment. Pour une grosse installation, il ajoute un banc câblé (niv. 2). Les batteries, chargées pendant le jour, permettent d'éteindre le générateur la nuit. *En v0.1, la charge depuis un générateur vanilla n'existe pas encore (§ 9) : la phase 2 repose sur les premières sources renouvelables.* |
-| **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou en plein champ (niv. 3) et une **petite éolienne** (niv. 6). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
-| **4. Base autonome** | Plus de carburant du tout. | Il installe une **roue à aubes** sur une rive de rivière (niv. 7, v0.2), qui produit jour et nuit. Il dimensionne l'installation (assez de batteries pour la nuit, onduleur assez puissant), entretient les appareils et remplace les batteries usées. |
-| **5. Fin de partie** (versions suivantes) | La base est stable. | Il ajoute une pompe électrique, des capteurs et une alarme, une clôture électrifiée, et des relais qui alimentent un grand bâtiment. |
+| **1. Avant la coupure** (réseau public actif) | Le courant est partout. | Il récupère des batteries de voiture, du fil électrique, de l'électronique, des calculatrices et des livres d'électricité. Il fabrique un **testeur de tension** (niv. 1) et apprend à lire une installation. |
+| **2. La coupure** | Le générateur vanilla devient la seule source et attire les zombies. | Il installe un **onduleur** dans la maison (niv. 5) et pose quelques **batteries de voiture** au sol à côté, raccordées à l'onduleur (niv. 2). La nuit, la maison vit sur les batteries, sans bruit. *En v0.1, ces batteries se chargent par les sources ; la charge depuis un générateur vanilla arrive en v0.2 (§ 9).* |
+| **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou dans le jardin (niv. 3) et une **petite éolienne** (niv. 6). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
+| **4. Base autonome** | Plus de carburant. | Il ajoute une **roue à aubes** sur une rive de rivière (niv. 7, v0.2), qui produit jour et nuit. Il dimensionne l'installation : assez de batteries pour la nuit, un onduleur assez puissant. Il entretient et remplace ce qui s'use. **Quand il part en expédition, la base continue de tourner** : le réfrigérateur reste froid. |
+| **5. Fin de partie** (versions suivantes) | La base est stable. | Pompe électrique, capteurs et alarme, clôture électrifiée, relais pour un grand bâtiment. |
 
-**Tension de jeu recherchée.** Le joueur doit arbitrer :
-- le silence (onduleur et batteries) contre la puissance (générateur vanilla) ;
-- le dimensionnement : une nuit d'hiver dure environ 14 h (§ 3.2) ;
-- l'entretien des appareils et des batteries, qui s'usent ;
-- la surcharge : un onduleur trop petit disjoncte.
+**Arbitrages proposés au joueur :**
+- silence (onduleur et batteries) contre puissance (générateur) ;
+- dimensionnement, car une nuit d'hiver dure environ 14 h (§ 3.2) ;
+- entretien de tout ce qui s'use ;
+- surcharge : un onduleur trop petit disjoncte.
 
 ---
 
@@ -41,44 +60,78 @@ Trois règles de conception :
 ### 2.1 Principes
 
 - **Module de script** : `LiveWire`. Tous les noms ci-dessous sont propres au mod.
-- **Placeholders.** Aucun modèle ni tuile définitif n'existe. Chaque objet utilise une **icône et un modèle vanilla existants**, ou une **forme géométrique simple**. Chaque appareil posé utilise un **sprite vanilla de substitution**. Tous sont marqués `placeholder` dans les scripts et dans ce document. Les définitifs viendront plus tard (Blender, tuiles).
-- **Objets vanilla réutilisés sans modification** : batteries de voiture `Base.CarBattery1/2/3`, `Base.ElectricWire`, `Base.ElectronicsScrap`, `Base.Calculator`, `Base.SmallSheetMetal`, `Base.SheetMetal`, `Base.Screws`, `Base.Pipe`, `Base.MetalBar`, `Base.Plank`, `Base.Nails`, `Base.Amplifier`, `Base.Speaker`, `Base.LightBulb`, `Base.DuctTape`, `Base.Glue`, `Base.Aluminum`, `Base.ScrapMetal`. Tous existent en 42.21 (`media/scripts/generated/items/normal.txt`, `drainable.txt`, `weapon.txt`).
-- **Outils, par tag vanilla** : tournevis `base:screwdriver`, pinces `base:pliers`, marteau `base:hammer`. La syntaxe `craftRecipe` 42.21 accepte `item 1 tags[base:screwdriver] mode:keep` (`media/scripts/generated/recipes/recipes_traps.txt:99-121`).
-- **Un objet d'inventaire = un kit.** Le joueur porte un **kit**. L'action « Installer » crée l'appareil dans le monde. L'action « Démonter » rend le kit avec son état. L'objet moteur de l'onduleur n'existe jamais dans un inventaire (NM-6).
+- **Placeholders.** Aucun modèle ni tuile définitif n'existe :
+  - chaque objet d'inventaire utilise une **icône ou un modèle vanilla existant**, ou une **forme géométrique simple** ;
+  - chaque appareil posé utilise un **sprite vanilla de substitution** ;
+  - tous sont marqués `placeholder` dans les scripts et dans ce document.
+- **Objets vanilla réutilisés tels quels** : batteries de voiture `Base.CarBattery1/2/3`, `Base.ElectricWire`, `Base.ElectronicsScrap`, `Base.Calculator`, `Base.SmallSheetMetal`, `Base.SheetMetal`, `Base.Screws`, `Base.Pipe`, `Base.MetalBar`, `Base.Plank`, `Base.Nails`, `Base.Amplifier`, `Base.Speaker`, `Base.LightBulb`, `Base.Battery`, `Base.Glue`, `Base.Aluminum`, `Base.ScrapMetal`. Tous existent en 42.21 (`media/scripts/generated/items/normal.txt`, `drainable.txt`, `weapon.txt`).
+- **Outils, par tag vanilla** : tournevis `base:screwdriver`, pinces `base:pliers`, marteau `base:hammer`. Syntaxe `craftRecipe` 42.21 : `item 1 tags[base:screwdriver] mode:keep` (`media/scripts/generated/recipes/recipes_traps.txt:99-121`).
+- **Sources et onduleur : un kit en inventaire.** Le joueur porte un **kit**. « Installer » crée l'appareil posé ; « Démonter » rend le kit avec son état.
+- **Batteries : posées telles quelles.** Une batterie se pose au sol comme n'importe quel objet (pose vanilla), puis se raccorde (§ 5.2). Elle garde son modèle 3D vanilla.
 
 ### 2.2 Objets d'inventaire
 
 | Objet (`LiveWire.…`) | Nom FR (EN) | Type | Poids | Placeholder | Rôle |
 |---|---|---|---|---|---|
-| `VoltageTester` | Testeur de tension (Voltage Tester) | normal | 0,3 | icône et modèle de `Base.Remote` (télécommande), **placeholder** | Diagnostic (§ 5.4) |
+| `VoltageTester` | Testeur de tension (Voltage Tester) | normal | 0,3 | icône et modèle de `Base.Remote`, **placeholder** | Diagnostic (§ 6.4) |
 | `SolarCell` | Cellule photovoltaïque (Solar Cell) | normal | 0,05 | icône de `Base.ElectronicsScrap`, **placeholder** | Composant des panneaux |
-| `SolarPanelKit` | Panneau photovoltaïque en kit (Solar Panel Kit) | normal | 6 | icône de `Base.SheetMetal`, modèle plan gris (forme simple), **placeholder** | Devient un panneau posé |
-| `WindTurbineKit` | Éolienne en kit (Wind Turbine Kit) | normal | 12 | icône de `Base.MetalBar`, modèle cylindre (forme simple), **placeholder** | Devient une éolienne posée |
-| `WaterWheelKit` | Roue à aubes en kit (Water Wheel Kit) | normal | 15 | icône de `Base.Plank`, modèle cylindre plat (forme simple), **placeholder** | Devient une roue posée (v0.2) |
-| `InverterKit` | Onduleur en kit (Inverter Kit) | normal | 8 | icône et modèle de `Base.CarBatteryCharger`, **placeholder** | Devient l'onduleur posé |
-| `HeavyInverterKit` | Onduleur renforcé en kit (Heavy Inverter Kit) | normal | 12 | idem, **placeholder** | Variante 3 kW (niv. 8) |
-| `DeepCycleBattery` | Batterie stationnaire (Deep-Cycle Battery) | drainable | 9 | modèle `CarBattery` vanilla (`WorldStaticModel = CarBattery`, `media/scripts/generated/items/drainable.txt:2335-2351`), **placeholder** | Stockage longue durée |
-| `InverterUnit` | *(interne, jamais en inventaire)* | normal, tag `base:generator` | — | sprite de substitution de l'onduleur | Objet moteur du générateur piloté (`architecture.md`, § 1.4) |
+| `SolarPanelKit` | Panneau photovoltaïque en kit (Solar Panel Kit) | normal | 6 | icône de `Base.SheetMetal`, modèle plan gris (forme simple), **placeholder** | Source |
+| `WindTurbineKit` | Éolienne en kit (Wind Turbine Kit) | normal | 12 | icône de `Base.MetalBar`, modèle cylindre (forme simple), **placeholder** | Source |
+| `WaterWheelKit` | Roue à aubes en kit (Water Wheel Kit) | normal | 15 | icône de `Base.Plank`, modèle cylindre plat (forme simple), **placeholder** | Source (v0.2) |
+| `InverterKit` | Onduleur en kit (Inverter Kit) | normal | 8 | icône et modèle de `Base.CarBatteryCharger`, **placeholder** | Onduleur 1 500 W |
+| `HeavyInverterKit` | Onduleur renforcé en kit (Heavy Inverter Kit) | normal | 12 | idem, **placeholder** | Onduleur 3 000 W (niv. 8) |
+| `DeepCycleBattery` | Batterie stationnaire (Deep-Cycle Battery) | drainable | 9 | modèle `CarBattery` vanilla (`WorldStaticModel = CarBattery`, `drainable.txt:2335-2351`), **placeholder** | Batterie longue durée |
+
+**Aucun objet tagué `Generator`** n'est créé par le mod : poser au sol un tel objet créerait un générateur vanilla (NM-6).
 
 ### 2.3 Appareils posés
 
-Un appareil posé est un objet du monde portant une **marque Live Wire** (identifiant d'appareil). Il est enregistré dans le registre du serveur.
+Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscrit dans le registre du serveur.
 
-| Appareil | Sprite de substitution (**placeholder**) | Source du sprite | Contraintes de pose |
+| Rôle | Appareil | Aspect (**placeholder**) | Contraintes de pose |
 |---|---|---|---|
-| Panneau photovoltaïque | `appliances_com_01_20` (antenne satellite) | `media/scripts/generated/items/moveable.txt:1854` | Case à ciel ouvert : `sq:isOutside()` (`java/zombie/iso/IsoGridSquare.java:7968-7970`). Toit plat accepté. |
-| Éolienne | `industry_01_4` (climatiseur) | `moveable.txt:1755` | Case `isOutside()`. Bonus si posée en hauteur (§ 3.3). |
-| Roue à aubes (v0.2) | `construction_01_5` (palette) | `moveable.txt:945` | Niveau 0, case de terre voisine d'une eau de rivière (§ 3.4). |
-| Onduleur, **avec compartiment à batteries intégré** | `location_business_machinery_01_32` (armoire à outils, qui porte un conteneur), à confirmer au prototype P1 | `moveable.txt:1017` | Case **sans pièce** (`sq:getRoom() == nil`), pour éviter la toxicité (NM-4). |
-| Banc de batteries supplémentaire (facultatif) | Aucun objet neuf : un **meuble conteneur vanilla** câblé (caisse en bois construite, caisse militaire, étagère métallique) | — | À portée de câble de l'onduleur, pour les grosses installations. **À valider : D-4.** |
+| Source | Panneau photovoltaïque | sprite `appliances_com_01_20`, antenne satellite (`media/scripts/generated/items/moveable.txt:1854`) | Case à ciel ouvert, `sq:isOutside()` (`java/zombie/iso/IsoGridSquare.java:7968-7970`) ; toit plat accepté |
+| Source | Éolienne | sprite `industry_01_4`, climatiseur (`moveable.txt:1755`) | Case `isOutside()` ; bonus en hauteur (§ 3.3) |
+| Source | Roue à aubes (v0.2) | sprite `construction_01_5`, palette (`moveable.txt:945`) | Niveau 0, case de terre voisine d'une eau de rivière (§ 3.4) |
+| **Onduleur** | Onduleur, onduleur renforcé | sprite `location_business_machinery_01_32`, armoire à outils (`moveable.txt:1017`), à confirmer au prototype P1 | **N'importe quelle case de sol, intérieure comprise.** Pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) |
+| **Batterie** | Batterie de voiture ou batterie stationnaire, posée au sol | son modèle 3D vanilla de batterie de voiture | N'importe quelle case de sol ; raccordée à un onduleur à portée de câble |
 
-**Câblage (à valider : D-3).** Chaque appareil se raccorde à un onduleur par l'action « Raccorder ». Celle-ci exige une distance d'au plus `LinkRange` cases (12 par défaut) et un écart d'au plus 1 étage. Elle consomme `Base.ElectricWire` à raison de 1 fil pour 4 cases, arrondi au-dessus, au moins 1. Il n'y a pas de câble visible en v0.1.
+**Câblage (à valider : D-3).**
+- Chaque source et chaque batterie se raccorde à **un** onduleur par l'action « Raccorder ».
+- Conditions : au plus `LinkRange` cases (12 par défaut) et un écart d'au plus 1 étage.
+- Coût : `Base.ElectricWire`, à raison de 1 fil pour 4 cases, arrondi au-dessus, au moins 1.
+- Pas de câble visible en v0.1.
 
-### 2.4 Recettes
+**Réseau** = un onduleur, plus les sources et batteries raccordées à lui.
 
-Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translator.java:561-569`). Toutes ont `category = Electrical` et l'action `MakingElectrical`, comme `MakeTimer` (`recipes_traps.txt:99-121`).
+### 2.4 Équipements optionnels
 
-| Recette | Niv. requis | Entrées (outils conservés entre crochets) | Sortie | XP Électricité |
+Le système de base reste **source → onduleur → maison**, avec une **batterie facultative**. Les équipements ci-dessous sont **tous optionnels** : aucun n'est nécessaire pour qu'une installation fonctionne. Chacun ajoute un seul avantage, facile à comprendre. Leur liste et leur version sont **à valider (D-11)**.
+
+| Équipement | Problème réglé | Effet en jeu | Niv. | Version proposée | Faisabilité |
+|---|---|---|---|---|---|
+| **Disjoncteur** (sécurité) | Une surcharge use l'onduleur (−3 d'état à chaque disjonction) | Raccordé à un onduleur, il coupe **avant** l'onduleur : plus de dégât en cas de surcharge. Le réarmement reste manuel | 3 | 0.1 | Simple : règle du pas de simulation |
+| **Parafoudre** (sécurité) | Les orages et tempêtes abîment les sources | Annule les dégâts d'orage sur les sources raccordées au même onduleur | 5 | 0.2 | Simple : `getIsThunderStorming()` est déjà lu |
+| **Ordinateur de gestion** | Le tableau de bord ne montre que l'instant présent | Ajoute au tableau de bord un **historique de 48 h** (production, demande, stock), une **prévision d'autonomie** jusqu'au lever du soleil, et des alertes plus tôt. Avec le **délestage** (niv. 7), il éteint d'abord les lumières quand le stock passe sous 15 %, pour garder le réfrigérateur | 6 | 0.2 | Moyenne : l'historique est un tableau circulaire ; extinction des lumières sur le serveur par `IsoLightSwitch:setActive(false)`, qui se synchronise (`knowledge/power-and-lights.md:194-197`) |
+| **Programmateur horaire** | La maison consomme même quand on n'en a pas besoin | Coupe la distribution aux heures choisies, par exemple de 1 h à 6 h, pour économiser le stock. Les sources continuent de charger les batteries | 4 | 0.2 | Simple : état « arrêt » de l'onduleur piloté par l'heure |
+| **Régulateur solaire optimisé** | Le solaire produit peu par temps nuageux | +15 % de production solaire sur le réseau, +25 % sous les nuages | 7 | 0.3 | Simple : facteur dans la formule |
+| **Alarme de batterie faible** | On découvre la panne trop tard | Bip discret et message aux joueurs proches quand le stock passe sous 20 % | 2 | 0.2 | Simple : `notify` du serveur et son local du client |
+
+**Règles communes :**
+- un équipement optionnel se pose et se raccorde à un onduleur comme une source (même action, même fil) ;
+- il s'use peu (−1 par 15 jours de jeu) ;
+- il n'apparaît sur le tableau de bord que s'il est présent ;
+- **au plus un exemplaire de chaque type par réseau** : un second n'apporte rien, et l'action « Raccorder » le refuse avec un message.
+
+**Aspect (placeholder)** : des sprites vanilla de `media/scripts/generated/items/moveable.txt`, à choisir au prototype. L'ordinateur de gestion reprend `appliances_com_01_72`, l'ordinateur de bureau (`moveable.txt:1800`).
+
+**Recettes** (tableau § 2.5) : à détailler quand D-11 sera tranchée. Base proposée : `ElectronicsScrap`, `ElectricWire`, `Amplifier`. L'ordinateur de gestion demande en plus un ordinateur vanilla démonté.
+
+### 2.5 Recettes
+
+Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translator.java:561-569`). Toutes sont en `category = Electrical`, avec l'action `MakingElectrical`, comme `MakeTimer` (`recipes_traps.txt:99-121`).
+
+| Recette | Niv. | Entrées (outils conservés entre crochets) | Sortie | XP |
 |---|---|---|---|---|
 | `LWMakeVoltageTester` | 1 | 1 `ElectronicsScrap`, 1 `ElectricWire`, 1 `LightBulb`, 1 `Base.Battery` ; [tournevis] | `VoltageTester` | 5 |
 | `LWSalvageSolarCell` | 2 | 1 `Base.Calculator` ; [tournevis] | 1 `SolarCell` | 3 |
@@ -88,85 +141,82 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | `LWMakeHeavyInverterKit` | 8 | 1 `InverterKit`, 4 `ElectronicsScrap`, 2 `Amplifier`, 2 `ElectricWire`, 1 `SheetMetal` ; [tournevis, pinces] | `HeavyInverterKit` | 30 |
 | `LWMakeWindTurbineKit` | 6 | 2 `Speaker` (aimants), 3 `ElectricWire`, 4 `ElectronicsScrap`, 2 `SheetMetal`, 2 `MetalBar`, 1 `Pipe`, 6 `Screws` ; [tournevis, pinces, marteau] | `WindTurbineKit` | 30 |
 | `LWMakeWaterWheelKit` (v0.2) | 7 | 8 `Plank`, 20 `Nails`, 2 `Speaker`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 1 `MetalBar` ; [marteau, tournevis] | `WaterWheelKit` | 30 |
-| `LWMakeDeepCycleBattery` | 6 | 2 `CarBattery1/2/3` (indifférent), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
+| `LWMakeDeepCycleBattery` | 6 | 2 batteries de voiture (`CarBattery1/2/3` indifférentes), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
 
-- **Apprentissage (à valider : D-6).** Pas de magazine de mod en v0.1. Chaque recette est connue automatiquement à son niveau requis (`AutoLearnAny = Electricity:n`, champ vanilla vu dans `recipes_traps.txt:99-121`).
-- **Équilibrage voulu** : les calculatrices sont la porte d'entrée du solaire (phase 1). À partir du niveau 8, le joueur n'en dépend plus.
+- **Apprentissage (à valider : D-6).** Recettes connues automatiquement à leur niveau (`AutoLearnAny = Electricity:n`, champ vu dans `recipes_traps.txt:99-121`).
+- **Équilibrage.** Les calculatrices sont la porte d'entrée du solaire ; au niveau 8, on n'en dépend plus.
 
 ---
 
-## 3. Production
+## 3. Sources : la production
 
 ### 3.1 Unités et pas de simulation
 
-- **Puissance** en watts (W), **énergie** en kilowattheures (kWh). Le joueur ne voit que ces deux unités.
-- **Pas de simulation** : le serveur calcule toutes les **10 minutes de jeu** (`architecture.md`, § 4). Énergie produite sur un pas = puissance × durée réelle écoulée en heures de jeu (1/6 h en général, davantage après une avance rapide).
-- **Météo globale.** Toute la carte partage la même météo (NM-12) : deux panneaux posés au même endroit produisent autant. Seules comptent la pose (ciel ouvert, rive), l'état et le niveau de l'installateur.
-- **Formule commune** :
-  `P_réelle = P_nominale × facteur_source × facteur_état × facteur_pose × multiplicateur_sandbox`.
-  - `facteur_état = 0,5 + 0,5 × état/100` : un appareil usé produit moins avant de tomber en panne.
-  - `facteur_pose` vient du niveau d'Électricité de l'installateur (§ 4.3).
+- **Unités.** Puissance en watts (W), énergie en kilowattheures (kWh).
+- **Pas de simulation.** Le serveur calcule toutes les **10 minutes de jeu** (`architecture.md`, § 4), **que des joueurs soient présents ou non**.
+- **Météo globale.** Toute la carte partage la même météo (NM-12). Ce qui distingue deux appareils, c'est leur pose (ciel ouvert, rive), leur état et le niveau de l'installateur.
+- **Formule commune** : `P = P_nominale × facteur_source × facteur_état × facteur_pose × multiplicateur_sandbox`.
+  - `facteur_état = 0,5 + 0,5 × état/100`.
   - Un appareil d'état 0 est en panne et produit 0.
+  - `facteur_pose` : voir § 4.3.
 
-### 3.2 Solaire
+### 3.2 Panneau photovoltaïque
 
 `facteur_source = S(t) × (1 − 0,8 × nuages) × (1 − neige_sur_panneau)`
 
 - **Courbe du jour** : `S(t) = max(0, sin(π × (t − aube) / (crépuscule − aube)))`.
-  - `t` = heure décimale (`getGameTime():getTimeOfDay()`).
-  - `aube` et `crépuscule` viennent de `getClimateManager():getSeason():getDawn()/getDusk()`, en heures décimales (`java/zombie/erosion/season/ErosionSeason.java:165-195`). Ne pas utiliser `getGameTime():getDawn()`, qui est un entier figé (`java/zombie/GameTime.java:1154-1164`).
-  - Le moteur ne calcule aucune hauteur du soleil (NM-12). Cette sinusoïde en tient lieu.
-- **Nuages** : `getClimateManager():getCloudIntensity()`, de 0 à 1 (`java/zombie/iso/weather/ClimateManager.java`, NM-12). Par temps couvert, il reste 20 % de la production.
+  - `t` est l'heure décimale (`getGameTime():getTimeOfDay()`).
+  - L'aube et le crépuscule viennent de `getClimateManager():getSeason():getDawn()` et `getDusk()`, en heures décimales (`java/zombie/erosion/season/ErosionSeason.java:165-195`). Ne pas utiliser `getGameTime():getDawn()`, qui est un entier figé (`java/zombie/GameTime.java:1154-1164`).
+  - Le moteur ne calcule pas la hauteur du soleil (NM-12) : la sinusoïde en tient lieu.
+- **Nuages** : `getCloudIntensity()`, de 0 à 1 (NM-12). Par ciel couvert, il reste 20 % de la production.
 - **Neige sur le panneau** (règle de mod) :
-  - quand `isSnowing()`, `neige_sur_panneau` gagne 0,1 par heure × intensité de neige, jusqu'à 1 ;
-  - elle fond de 0,05 par heure si la température dépasse 0 °C (`getTemperature()`) ;
-  - l'action « Déneiger le panneau » la remet à 0.
-- **Puissance nominale** : 100 W pour le panneau en kit.
-- **Ordres de grandeur**, pour un panneau neuf, ciel clair, `facteur_pose` = 1 :
-  - durée du jour : environ 14,8 h au solstice d'été et 9,5 h au solstice d'hiver, à la latitude fixe de 38° (calcul astronomique à partir de `ErosionSeason.java:79-80` et de `ErosionConfig.java:425`) ;
-  - l'intégrale de la sinusoïde vaut 2/π × durée du jour, soit **≈ 0,94 kWh par jour d'été** et **≈ 0,60 kWh par jour d'hiver** ;
-  - ciel moyennement couvert (nuages = 0,5) : 60 % de ces valeurs.
+  - pendant `isSnowing()`, elle augmente de 0,1 par heure × intensité ;
+  - elle fond de 0,05 par heure au-dessus de 0 °C ;
+  - l'action « Déneiger » la remet à 0.
+- **Puissance nominale : 100 W.**
+- **Ordres de grandeur** (panneau neuf, ciel clair) : à la latitude fixe de 38°, le jour dure environ 14,8 h l'été et 9,5 h l'hiver (`ErosionSeason.java:79-80`, `java/zombie/erosion/ErosionConfig.java:425`). Cela donne **≈ 0,94 kWh par jour d'été** et **≈ 0,60 kWh par jour d'hiver**, et 60 % de ces valeurs par ciel moyennement nuageux.
 
-### 3.3 Éolien
+### 3.3 Éolienne
 
 `facteur_source = f(v)`, avec `v = getWindspeedKph() × (1 + 0,15 × min(z, 3))`.
 
-- `getWindspeedKph()` va de 0 à 120 km/h (`ClimateManager.java:514-516`, NM-12).
-- Le bonus de hauteur est une règle de mod : +15 % par étage, jusqu'au 3e (posée sur un toit au niveau 2 : +30 %).
+- `getWindspeedKph()` va de 0 à 120 km/h (`java/zombie/iso/weather/ClimateManager.java:514-516`).
+- La hauteur est une règle de mod : +15 % par étage, jusqu'au 3e.
 
 | Vent `v` | `f(v)` |
 |---|---|
-| < 10 km/h (démarrage) | 0 |
+| < 10 km/h | 0 |
 | 10 à 45 km/h | `((v − 10) / 35)³` |
-| 45 à 85 km/h | 1 (puissance nominale) |
-| > 85 km/h (tempête) | 0, frein automatique ; risque de dégât (§ 4.5) |
+| 45 à 85 km/h | 1 |
+| > 85 km/h | 0 (frein automatique) ; risque de dégât (§ 4.4) |
 
-- **Puissance nominale** : 400 W.
-- **Ordres de grandeur** : brise de 25 km/h → 400 × (15/35)³ ≈ **31 W** ; vent de 40 km/h → ≈ **252 W** ; tempête → arrêt.
-- **Point incertain.** On ne connaît pas encore la répartition réelle du vent en jeu : la base est plafonnée à environ 78 km/h hors période météo (`java/zombie/iso/weather/ClimateValues.java:265-270`). Le prototype P5 relèvera le vent pendant plusieurs jours de jeu avant de figer ces seuils.
+- **Puissance nominale : 400 W.** À 25 km/h, l'éolienne produit ≈ **31 W** ; à 40 km/h, ≈ **252 W**.
+- **Point incertain** : la répartition réelle du vent n'est pas connue. La base plafonne vers 78 km/h hors période météo (`java/zombie/iso/weather/ClimateValues.java:265-270`). Le prototype P5 la mesurera.
 
-### 3.4 Hydraulique (v0.2)
+### 3.4 Roue à aubes (v0.2)
 
-`facteur_source = 1 × saison × gel`
+`facteur_source = saison × gel`
 
-- **Validation du site, à la pose seulement.**
-  - La case de pose est de la terre au niveau 0.
-  - Au moins une case voisine porte le drapeau `water` (`sq:getProperties():has(IsoFlagType.water)`, `media/lua/shared/Fishing/FishingUtils.lua:4-9`).
-  - Cette case d'eau est dans une rivière selon `Fishing.isRiver(x, y)` (`media/lua/shared/Fishing/FishingZones.lua:40-47`).
-  - Le courant moteur (`getFlow`) ne permet pas de distinguer rivière et lac (NM-13). Un lac ou un étang est refusé, avec un message.
-- **Saison** (règle de mod) : printemps × 1,2 ; été × 0,8 ; automne × 1,0 ; hiver × 1,0 (`getClimateManager():getSeasonName()`).
-- **Gel** : le moteur ne gèle jamais l'eau (NM-13). Option sandbox `LiveWire.RiverFreeze` (désactivée par défaut) : si la température reste sous −5 °C pendant 24 h, la roue s'arrête jusqu'à 12 h de dégel.
-- **Puissance nominale** : 120 W, **jour et nuit**, soit ≈ **2,9 kWh par jour**. La roue est la source la plus régulière, mais elle est liée à la géographie (rivières de Knox).
+- **Site validé à la pose** :
+  - case de terre au niveau 0 ;
+  - une case voisine porte le drapeau `water` (`media/lua/shared/Fishing/FishingUtils.lua:4-9`) ;
+  - cette case est une rivière selon `Fishing.isRiver(x, y)` (`media/lua/shared/Fishing/FishingZones.lua:40-47`).
+- **Pas de lac ni d'étang** : refusés, car le courant moteur ne permet pas de distinguer rivière et lac (NM-13).
+- **Saison** (règle de mod) : printemps × 1,2 ; été × 0,8 ; automne et hiver × 1,0.
+- **Gel** : le moteur ne gèle jamais l'eau (NM-13). Option `LiveWire.RiverFreeze`, désactivée par défaut : sous −5 °C pendant 24 h, la roue s'arrête jusqu'à 12 h de dégel.
+- **Puissance nominale : 120 W, jour et nuit**, soit ≈ **2,9 kWh par jour**.
 
-### 3.5 Exemple de bilan d'une base
+### 3.5 Exemple de bilan
 
-Base : un réfrigérateur-congélateur et 10 lumières, soit 170 W en continu en comptant la veille de l'onduleur (§ 5.1). Cela fait environ **4,1 kWh par jour**.
+Base : un réfrigérateur-congélateur et 10 lumières allumées, plus la consommation à vide de l'onduleur. Cela fait environ **170 W**, soit **4,1 kWh par jour**.
 
-| Installation | Été (kWh/jour) | Hiver (kWh/jour) | Verdict |
+| Installation | Été (kWh/j) | Hiver (kWh/j) | Verdict |
 |---|---|---|---|
-| 4 panneaux | 3,8 | 2,4 | Déficit, surtout l'hiver |
-| 6 panneaux + 1 éolienne (vent moyen 25 km/h, environ 0,7 kWh) | 6,3 | 4,3 | Juste suffisant |
+| 4 panneaux | 3,8 | 2,4 | Déficit |
+| 6 panneaux + 1 éolienne (vent moyen 25 km/h, ≈ 0,7 kWh) | 6,3 | 4,3 | Juste suffisant |
 | 1 roue à aubes + 2 panneaux | 4,8 | 4,1 | Stable |
+
+**Stock pour une nuit d'hiver** de 14 h : 170 W × 14 h ≈ 2,4 kWh utiles. Il faut donc environ 4 batteries de voiture standard (§ 5.1), ou 2 batteries stationnaires.
 
 ---
 
@@ -174,16 +224,16 @@ Base : un réfrigérateur-congélateur et 10 lumières, soit 170 W en continu en
 
 ### 4.1 Paliers
 
-Les niveaux vanilla vont de 0 à 10 (`Perks.Electricity`, `java/zombie/characters/skills/PerkFactory.java:83`). Le tableau intègre les idées de `IDEES.md` (« I-n ») selon le plan de versions du § 9.
+Les niveaux vanilla vont de 0 à 10 (`Perks.Electricity`, `java/zombie/characters/skills/PerkFactory.java:83`). « I-n » renvoie à l'idée n de `IDEES.md`.
 
 | Niv. | Débloque (version) | Effet continu |
 |---|---|---|
-| 0 | Lire un testeur fabriqué par un autre : « alimenté / non alimenté » seulement | — |
-| 1 | Testeur de tension (I-1, v0.1) | Lecture détaillée de la case (§ 5.4) |
-| 2 | Cellules de calculatrice (v0.1) ; câbler un banc de batteries (I-6, v0.1) ; chargeur de piles (I-2, v0.2) | Usure des batteries −5 % |
-| 3 | Panneaux photovoltaïques (I-9, v0.1) ; désarmer une alarme de maison (I-3, v0.3) | Rendement des panneaux qu'il installe : 0,85 |
-| 4 | Réparer les appareils, dont les cuisinières (I-5, v0.2) ; reconditionner une batterie (v0.1) | Lecture de l'autonomie du réseau |
-| 5 | **Onduleur** (I-6, v0.1) | Rendement de l'onduleur qu'il installe : 0,85 |
+| 0 | Lire un testeur : « alimenté / non alimenté » | — |
+| 1 | Testeur de tension (I-1, v0.1) | Lecture détaillée de la case (§ 6.4) |
+| 2 | Cellules de calculatrice ; **raccorder une batterie** (I-6, v0.1) ; chargeur de piles (I-2, v0.2) | Usure des batteries −5 % |
+| 3 | Panneaux photovoltaïques (I-9, v0.1) ; désarmer une alarme (I-3, v0.3) | Rendement de pose 0,85 |
+| 4 | Réparer les appareils, dont les cuisinières (I-5, v0.2) ; reconditionner une batterie (v0.1) | Lecture de l'autonomie |
+| 5 | **Onduleur** (I-6, v0.1) | — |
 | 6 | Éolienne (I-9, v0.1) ; batterie stationnaire (v0.1) ; pompe électrique (I-7, v0.2) | Usure des batteries −10 % |
 | 7 | Roue à aubes (I-9, v0.2) ; capteurs et alarme de base (I-4, v0.3) | Rendement de pose 0,95 |
 | 8 | Onduleur renforcé ; cellules à partir de déchets (v0.1) ; clôture électrifiée (I-8, v0.4) | Chance d'échec de réparation divisée par 2 |
@@ -191,50 +241,67 @@ Les niveaux vanilla vont de 0 à 10 (`Perks.Electricity`, `java/zombie/character
 
 ### 4.2 Expérience
 
-L'expérience est **toujours donnée sur le serveur** (`addXp` est sans effet sur un client MP : `java/zombie/Lua/LuaManager.java:9300-9316`, `knowledge/combat-and-xp.md:24`). Pour comparaison, le vanilla donne 5 XP pour réparer un générateur (`ISFixGenerator.lua:71`) et 2 pour démonter de l'électronique (`recipes_electrical.txt:37-81`).
+L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effet sur un client MP (`java/zombie/Lua/LuaManager.java:9300-9316`, `knowledge/combat-and-xp.md:24`). Pour repère, le vanilla donne 5 XP pour réparer un générateur (`ISFixGenerator.lua:71`).
 
 | Geste | XP | Limite |
 |---|---|---|
-| Recette du mod | colonne XP du § 2.4 | — |
-| Installer un appareil | 10 (panneau), 20 (éolienne, roue), 25 (onduleur) | — |
-| Raccorder un appareil | 3 | — |
-| Inspecter un appareil (action de 5 s) | 2 | 1 fois par appareil et par jour de jeu |
+| Recette du mod | colonne XP du § 2.5 | — |
+| Installer une source | 10 (panneau), 20 (éolienne, roue) | — |
+| Installer un onduleur | 25 | — |
+| Raccorder une source ou une batterie | 3 | — |
+| Inspecter un appareil (5 s) | 2 | 1 fois par appareil et par jour de jeu |
 | Mesurer au testeur | 1 | 1 fois par case et par heure de jeu |
-| Réparer un appareil | 5 + 1 par point de dégât réparé, au plus 15 | — |
+| Réparer | 5 + 1 par point réparé, au plus 15 | — |
 | Reconditionner une batterie | 8 | — |
-| Réarmer un onduleur disjoncté **en ayant corrigé la surcharge** | 5 | 1 fois par heure |
+| Réarmer un onduleur disjoncté après avoir corrigé la surcharge | 5 | 1 fois par heure |
 
 ### 4.3 Effets du niveau à l'installation
 
-- **Rendement de pose**, enregistré sur l'appareil au moment de l'installation : 0,85 (niv. 3 à 6), 0,95 (niv. 7-8), 1,0 (niv. 9-10).
-  - **Réinstaller pour en profiter.** Un électricien qui progresse peut démonter puis réinstaller l'appareil pour améliorer son rendement.
-- **Échec d'installation** : chance = `max(0, 30 − 5 × (niveau − niveau_requis))` %.
-  - Un échec fait perdre le temps de l'action et 10 points d'état au kit.
-  - Il ne se produit jamais au-delà de 6 niveaux au-dessus du niveau requis.
+- **Rendement de pose.** Il est enregistré sur l'appareil quand on l'installe : 0,85 (niv. 3 à 6), 0,95 (niv. 7-8), 1,0 (niv. 9-10). Il s'applique à la production d'une source et au rendement d'un onduleur (§ 5.2).
+- **Échec d'installation** : chance de `max(0, 30 − 5 × (niveau − niveau requis))` %. Un échec fait perdre le temps de l'action et 10 points d'état au kit.
 
-### 4.4 Usure
-
-Chaque appareil a un **état** de 0 à 100.
+### 4.4 Usure, pannes, réparation
 
 | Appareil | Usure normale | Accélérateurs |
 |---|---|---|
-| Panneau | −1 par 10 jours de jeu | Grêle, tempête : 1 chance sur 20 par heure d'orage de perdre 5 |
-| Éolienne | −1 par 4 jours de jeu | Vent > 85 km/h : 1 chance sur 6 par heure de perdre 5 à 15. Ignoré si le frein a été posé (niv. 7 et plus, réglage gratuit à l'inspection). |
-| Roue à aubes | −1 par 5 jours de jeu | Gel (si l'option est active) : −5 au dégel |
-| Onduleur | −1 par 7 jours de jeu | Chaque disjonction : −3 |
-| Batterie | voir ci-dessous | — |
+| Panneau | −1 par 10 jours de jeu | Orage : 1 chance sur 20 par heure de perdre 5 |
+| Éolienne | −1 par 4 jours de jeu | Vent > 85 km/h : 1 chance sur 6 par heure de perdre 5 à 15 ; ignoré avec le frein (niv. 7+, réglé à l'inspection) |
+| Roue à aubes | −1 par 5 jours de jeu | Dégel (si l'option est active) : −5 |
+| **Onduleur** | −1 par 5 jours de jeu **en marche** | Charge > 80 % de sa puissance maximale : usure × 2 ; chaque disjonction : −3 |
+| **Batterie** | Voir ci-dessous | — |
 
-**Batteries (règle de mod).**
-- La charge est portée par les utilisations de l'objet (`getCurrentUsesFloat`, de 0 à 1, `java/zombie/inventory/types/DrainableComboItem.java:91-100`). L'usure est portée par son état.
-- Usure par cycle équivalent complet (1 capacité nominale déchargée) : `100 / durée_de_vie` points d'état.
-  - Batterie de voiture : durée de vie de 150 cycles.
-  - Batterie stationnaire : 600 cycles.
-- Une décharge en dessous de 20 % double l'usure du pas.
-- **Capacité effective** = `capacité_nominale × (0,4 + 0,6 × état/100)`.
-- Une batterie d'état 0 est **morte** : elle ne stocke plus rien.
-- Autodécharge : 0,2 % de la charge par jour.
+**Batteries.**
+- **Où vivent la charge et l'usure.** La charge est portée par les utilisations de l'objet (`getCurrentUsesFloat`, de 0 à 1, `java/zombie/inventory/types/DrainableComboItem.java:91-100`). L'usure est portée par son état.
+- **Usure par cycle complet équivalent** : `100 / durée de vie` points. Durée de vie : 150 cycles pour une batterie de voiture, 600 pour une batterie stationnaire.
+- **Décharge profonde.** Une décharge en dessous de 20 % double l'usure du pas.
+- **Capacité effective** = `nominale × (0,4 + 0,6 × état/100)`. Une batterie d'état 0 est morte.
+- **Autodécharge** : 0,2 % par jour.
 
-**Capacités nominales.** Les trois batteries vanilla ont le même `UseDelta`. Leur capacité est donc une règle de mod (`drainable.txt:2336-2390`).
+**Réparer** (appareil arrêté ou en panne) :
+- coût : 1 `ElectronicsScrap` et 1 `ElectricWire` ;
+- gain : `5 + niveau` points d'état ;
+- échec : `max(5, 40 − 5 × niveau)` %, la pièce est perdue ;
+- au-delà de 90 points, il faut « Remettre à neuf » (niv. 8 : 4 `ElectronicsScrap` et 2 `ElectricWire`), qui ramène l'état à 100.
+
+**Reconditionner une batterie** (niv. 4, batterie en inventaire) :
+- coût : 1 `ElectronicsScrap` et 0,5 l d'eau ;
+- gain : +15 points d'état, sans dépasser 80 ;
+- impossible sur une batterie morte.
+
+**Panne d'onduleur** (état 0) : la base n'est plus alimentée. La production des sources est **perdue**, car l'onduleur assure aussi la charge des batteries ; les batteries gardent leur charge.
+
+---
+
+## 5. Batteries et onduleur : stocker, convertir, distribuer
+
+### 5.1 Batteries : stocker
+
+Une batterie est **posée au sol** (pose vanilla, sur une case qui supporte son poids) puis **raccordée** à un onduleur par l'action « Raccorder » (niv. 2). Elle reste un vrai objet :
+- on voit son modèle 3D au sol ;
+- sa charge apparaît dans son infobulle vanilla ;
+- on peut la ramasser à tout moment.
+
+**Ramasser une batterie la débranche** : son énergie part avec elle, et elle n'est plus comptée au pas suivant.
 
 | Batterie | Capacité nominale |
 |---|---|
@@ -243,63 +310,37 @@ Chaque appareil a un **état** de 0 à 100.
 | `Base.CarBattery3` | 0,90 kWh |
 | `LiveWire.DeepCycleBattery` | 1,50 kWh |
 
-### 4.5 Pannes et réparation
+Les trois batteries vanilla ont le même `UseDelta`, donc ces capacités sont une règle de mod (`drainable.txt:2336-2390`).
 
-- **Panne** quand l'état atteint 0 : l'appareil produit 0 ; l'onduleur s'arrête.
-- **Réparer** (action « Réparer », appareil arrêté ou en panne) :
-  - consomme 1 `ElectronicsScrap` et 1 `ElectricWire` ;
-  - rend `5 + niveau` points d'état ;
-  - échoue avec une chance de `max(5, 40 − 5 × niveau)` % : la pièce est perdue, l'état reste le même ;
-  - impossible au-delà de 90 : il faut « Remettre à neuf », niv. 8, avec 4 `ElectronicsScrap` et 2 `ElectricWire`, qui ramène à 100.
-- **Reconditionner une batterie** (niv. 4, batterie hors du banc) :
-  - consomme 1 `ElectronicsScrap` et 0,5 l d'eau ;
-  - rend +15 points d'état, sans dépasser 80 ;
-  - une batterie morte ne se reconditionne pas.
-- **Disjonction de l'onduleur.** Si la demande dépasse sa puissance maximale (§ 5.1) au moment d'un pas de simulation :
-  - l'onduleur s'éteint ;
-  - il perd 3 points d'état ;
-  - le joueur proche reçoit le message « L'onduleur a disjoncté (surcharge) » ;
-  - il faut l'action « Réarmer ».
+- **Stock du réseau** : somme des batteries raccordées.
+- **Répartition** : le surplus est réparti au prorata de la place libre de chaque batterie, et le déficit au prorata de sa charge.
+- **Rendement de charge** : 0,90 (pertes chimiques).
 
----
+### 5.2 Onduleur : convertir et distribuer
 
-## 5. Stockage, distribution et consommation
+**Ce qu'il fait.** L'onduleur est le **cœur du réseau** : sources et batteries s'y raccordent. Il remplit deux fonctions :
+- **conversion vers les batteries** : il régule la charge à partir de la production des sources ;
+- **conversion vers la base** : il fournit le courant aux appareils, à partir de la production du moment, puis des batteries.
 
-### 5.1 L'onduleur
-
-- **Ce que c'est.** L'onduleur est un vrai générateur du moteur, piloté par le mod. Le jeu le traite comme un générateur pour l'alimentation :
-  - **portée** : `GeneratorTileRange` cases (20 par défaut) et ±`GeneratorVerticalPowerRange` étages (3), réglages globaux du serveur (`java/zombie/SandboxOptions.java:248-249`) ;
-  - **consommation** : celle des appareils dans cette portée.
-- **Il est silencieux pour les zombies** : bruit de rayon 1 et de volume 1 (NM-2). **Les joueurs proches entendent quand même un ronronnement de générateur** tant qu'aucune tuile propre n'existe (NM-2, D-2).
-- **Il se pose dehors, sur une case sans pièce**, par exemple contre un mur extérieur ou sous un auvent ouvert, pour ne jamais intoxiquer la maison (NM-4). L'action « Installer » refuse toute case intérieure, avec un message.
-- **Caractéristiques.** Rendement de pose : § 4.3.
+**Caractéristiques :**
 
 | | Onduleur | Onduleur renforcé |
 |---|---|---|
 | Puissance maximale | 1 500 W | 3 000 W |
-| Consommation à vide | 20 W | 20 W |
+| Rendement (selon le niveau d'installation) | 0,85 à 0,95 | 0,85 à 0,95 |
+| Consommation à vide (en marche) | 20 W | 30 W |
+| Bruit | **très léger bourdonnement** | idem |
 
-  La consommation à vide correspond à la base de 0,02 du moteur (`IsoGenerator.java:253`), à l'échelle du § 5.3.
-- **Plusieurs onduleurs.** Un réseau n'a qu'un onduleur en v0.1. Les relais viendront en v0.4.
+- **Bruit.** Les zombies l'entendent dans un rayon de 2 cases (règle de mod, réglable). Pour les joueurs, c'est un son discret à choisir (D-8).
+- **Portée.** Il alimente les cases dans un rayon de `GeneratorTileRange` (20 par défaut) et ±`GeneratorVerticalPowerRange` étages (3 par défaut). Ce sont les réglages vanilla des générateurs (`java/zombie/SandboxOptions.java:248-249`), et ils s'appliquent donc aussi aux générateurs vanilla.
+- **Pose : n'importe où, intérieur compris.** Il ne rend jamais le bâtiment toxique, et l'action « Installer » n'exige qu'une case de sol libre.
+- **États** : marche, arrêt (manuel), **disjoncté** (surcharge), **en panne** (état 0), **à vide** (plus d'énergie disponible).
+- **Plusieurs onduleurs.** Un réseau n'a qu'un onduleur en v0.1, mais une base peut avoir plusieurs réseaux. Les onduleurs relais arrivent en v0.4.
 
-### 5.2 Les batteries : dans l'onduleur, ou dans un banc câblé
+### 5.3 Consommation : celle que le jeu attribue aux appareils
 
-- **Dans l'onduleur.** L'onduleur a un **compartiment intégré**. Le joueur l'ouvre comme une caisse et y range ses batteries de voiture (`Base.CarBattery1/2/3`) ou ses batteries stationnaires. C'est le cas courant : un seul objet à poser, rien à câbler.
-  - Le compartiment est le conteneur du sprite de substitution. Le moteur ne le crée pas tout seul pour un générateur : c'est le mod qui le crée (`architecture.md`, § 1.4).
-  - Sa taille est celle du meuble de substitution. Le stock doit aussi rester borné par le jeu : 4 batteries au plus, les suivantes sont ignorées et signalées.
-  - À confirmer au prototype P1 : un conteneur porté par un générateur se comporte comme un conteneur ordinaire, transferts MP compris (hypothèse).
-- **Dans un banc câblé** (facultatif). Un meuble conteneur vanilla, **câblé** à l'onduleur, ajoute de la place pour les grosses installations.
-- **Stock du réseau** : toutes les batteries reconnues du compartiment et des bancs câblés.
-- **Autres objets.** Un objet qui n'est pas une batterie peut être rangé dans le compartiment, mais il n'est pas compté.
-- **Charge et décharge uniformes** : à chaque pas, le surplus est réparti entre les batteries au prorata de la place libre, et le déficit au prorata de la charge.
-- Rendement de charge : 0,90. Rendement de décharge : celui de l'onduleur.
-- Un joueur peut ajouter ou retirer une batterie à tout moment : le stock est recalculé au pas suivant.
-- **Surplus perdu.** Si les batteries sont pleines, le surplus est perdu : le tableau de bord affiche « Production perdue ».
-
-### 5.3 Consommation : mesurée par le jeu
-
-- **Mesure.** Le mod ne devine pas la consommation : il lit celle que le moteur calcule pour l'onduleur (`getTotalPowerUsing`, NM-5) et la convertit en watts.
-- **Échelle** : 1 unité moteur par heure = **1 000 W** × `LiveWire.PowerScale` (1,0 par défaut). Cela donne :
+- **Valeurs vanilla.** Le mod reprend exactement les valeurs que le moteur attribue à chaque appareil allumé (`getGeneratorPowerConsumption`, NM-5).
+- **Échelle** : 1 unité moteur par heure = **1 000 W** × `LiveWire.PowerScale` (à valider : D-5).
 
 | Appareil (valeur moteur) | Consommation |
 |---|---|
@@ -312,21 +353,35 @@ Chaque appareil a un **état** de 0 à 100.
 | Réfrigérateur-congélateur (0,13) | 130 W |
 | Lave-linge et sèche-linge superposés (0,9 par partie active) | jusqu'à 1 800 W : fait disjoncter un onduleur simple |
 
-  Ces valeurs sont confirmées statiquement (NM-5). L'échelle est une **décision à valider (D-5)**.
-- **Bilan d'un pas** : `stock += (production × 0,9 − consommation / rendement_onduleur) × Δt`, borné par la capacité.
-- **Lien avec le carburant.** Le carburant moteur de l'onduleur reflète le stock (§ 3 de `architecture.md`). Le joueur n'a jamais à le remplir, et le menu vanilla est masqué.
-- **Stock vide** : l'onduleur s'éteint, le courant disparaît. Il se rallume seul quand le stock dépasse 2 % de la capacité.
+**Bilan d'un pas** de durée `Δt` (en heures) :
+```
+utile_de_la_production = min(production × eff_onduleur, demande)
+manque                 = demande − utile_de_la_production         (pris aux batteries)
+surplus                = production − utile_de_la_production / eff_onduleur
+stock                 += surplus × 0,90 × Δt              (régulation de charge et pertes chimiques)
+                         − manque / eff_onduleur × Δt
+```
+`production` est la puissance des sources (W), `demande` celle des appareils (W) et `eff_onduleur` le rendement de l'onduleur.
+Le stock est borné entre 0 et la capacité. Un surplus quand tout est plein est affiché « production perdue ».
 
-### 5.4 Le testeur de tension (diagnostic)
+**Surcharge et manque d'énergie :**
+- **Surcharge.** Si la demande dépasse la puissance maximale, l'onduleur **disjoncte** : la base n'est plus alimentée, il perd 3 points d'état, et il faut « Réarmer ».
+- **Manque d'énergie.** Si la production du moment et le stock ne couvrent plus la demande, l'onduleur passe **à vide** : le courant disparaît. Il se rallume seul quand le stock dépasse 2 % de la capacité, ou quand la production couvre 110 % de la demande pendant deux pas de suite. Ce seuil évite que la maison clignote au passage d'un nuage.
 
-| Niveau | Ce qu'affiche « Mesurer » sur une case |
-|---|---|
-| 0 | « Courant : oui / non » |
-| 1+ | Source : réseau public (`hasGridPower`), générateur ou onduleur Live Wire (`haveElectricity`, `java/zombie/iso/IsoGridSquare.java:8223-8228`) |
-| 2+ | Consommation de l'appareil visé (`getGeneratorPowerConsumption`, convertie en W) |
-| 4+ | Pour l'onduleur visé : production, demande, stock et autonomie estimée (heures) |
+**Installation minimale : une source et un onduleur, sans batterie.**
+- La maison est alimentée tant que la production du moment, multipliée par le rendement, couvre la demande. Exemple : 3 panneaux par beau temps alimentent un réfrigérateur-congélateur à midi, mais pas la nuit.
+- **La batterie est facultative** : elle ne sert qu'à garder le surplus pour plus tard.
 
-**Avertissement de recouvrement** : « plusieurs sources alimentent cette zone, chacune paie les appareils communs ». Ce comportement du moteur est expliqué au § 8.
+### 5.4 Quand aucun joueur n'est dans la zone
+
+L'installation **continue de fonctionner** (option `LiveWire.SimulateUnloaded`, activée par défaut, D-9) :
+- **les sources produisent** selon la météo et l'heure réelles du jeu ;
+- **les batteries se chargent et se déchargent** ;
+- **l'onduleur consomme** selon la dernière demande mesurée quand la zone était chargée. Elle ne peut pas être remesurée quand personne n'est là, car les appareils ne sont pas chargés ;
+- **les appareils de la maison restent alimentés** tant que l'énergie dure. Le réfrigérateur garde la nourriture au froid pendant l'absence, comme près d'un générateur vanilla. Si l'énergie s'épuise pendant l'absence, la maison est trouvée sans courant au retour ;
+- **l'usure continue.**
+
+**Limite connue** : comme en vanilla, le jeu évalue la nourriture au retour d'après l'état du courant **au moment du retour** (`java/zombie/inventory/types/Food.java:688-698`). Si l'énergie s'est épuisée la veille du retour, toute l'absence est comptée sans courant pour la nourriture.
 
 ---
 
@@ -334,71 +389,82 @@ Chaque appareil a un **état** de 0 à 100.
 
 ### 6.1 Menus contextuels (clic droit dans le monde)
 
-Toutes les options vont dans un sous-menu **« Live Wire »**. Une option impossible est grisée, avec une infobulle qui dit pourquoi (niveau, outil, pièce manquante).
+Toutes les options sont dans un sous-menu **« Live Wire »**. Une option impossible est grisée, avec une infobulle qui dit pourquoi.
 
 | Sur… | Options |
 |---|---|
 | Une case quelconque, testeur en inventaire | Mesurer |
-| Un kit en inventaire, case visée | Installer ici (avec l'aperçu « case valide / invalide » et la raison) |
-| Un appareil Live Wire | Inspecter · Raccorder à un onduleur · Débrancher · Réparer · Remettre à neuf · Déneiger (panneau) · Démonter |
-| L'onduleur | Ouvrir le tableau de bord · Allumer / Éteindre · Réarmer (après disjonction) · Inspecter · Réparer · Démonter |
-| L'onduleur (compartiment) | Ouvrir le compartiment : c'est l'ouverture de conteneur vanilla, avec les transferts d'objets habituels |
-| Un meuble conteneur | Câbler comme banc de batteries · Décâbler |
-| Une batterie hors du banc | Reconditionner |
+| Un kit en inventaire, case visée | Installer ici (case valide ou invalide, avec la raison) |
+| Une source | Inspecter · Raccorder à un onduleur · Débrancher · Réparer · Remettre à neuf · Déneiger (panneau) · Démonter |
+| Une batterie posée au sol | Raccorder à un onduleur · Débrancher · Inspecter (charge, état, cycles) |
+| L'onduleur | Ouvrir le tableau de bord · Allumer / Éteindre · Réarmer · Inspecter · Réparer · Remettre à neuf · Démonter |
+| Une batterie en inventaire | Reconditionner |
 
-Les options vanilla « Générateur » (infos, allumer, brancher, remplir, réparer, ramasser) n'apparaissent **jamais** sur l'onduleur. Les options « Ramasser », « Démonter » et « Détruire » vanilla sont refusées sur tous les appareils Live Wire (`architecture.md`, § 2.4).
+Les options vanilla « Ramasser », « Démonter » et « Détruire » sont refusées sur les sources et l'onduleur (`architecture.md`, § 2.4). Une batterie se ramasse normalement : c'est voulu (§ 5.1).
 
 ### 6.2 Tableau de bord du réseau
 
-Une fenêtre déplaçable, ouverte depuis l'onduleur. Elle est mise à jour toutes les 10 minutes de jeu tant qu'elle est ouverte et que le joueur reste à moins de 30 cases.
+Fenêtre déplaçable ouverte depuis l'onduleur. Elle est mise à jour toutes les 10 minutes de jeu tant qu'elle est ouverte et que le joueur reste à moins de 30 cases.
 
-- **En-tête** : nom du réseau (modifiable), état de l'onduleur (marche, arrêt, disjoncté, en panne).
-- **Production** : une ligne par appareil (type, état, puissance actuelle) et un total.
-- **Consommation** : la demande actuelle, en watts, avec la puissance maximale de l'onduleur.
-- **Stock** : barre de charge, en kWh et en %. Nombre de batteries, dont usées (état < 30).
-- **Autonomie** : « environ N h au rythme actuel », seulement au niveau 4 et plus.
-- **Alertes** : surcharge proche (> 90 %), batteries usées, appareil en panne, production perdue.
+- **En-tête** : nom du réseau (modifiable) et état de l'onduleur.
+- **Sources** : une ligne par source (type, état, puissance actuelle), puis le total.
+- **Batteries** : une ligne par batterie (type, charge, état), puis le stock total en kWh et en %.
+- **Onduleur** : demande actuelle / puissance maximale, rendement, état.
+- **Autonomie** : « environ N h au rythme actuel », à partir du niveau 4.
+- **Alertes** : surcharge proche (> 90 %), batterie usée (état < 30), appareil en panne, production perdue.
 
 ### 6.3 Textes à traduire
 
-Les clés suivent les préfixes imposés par `CLAUDE.md`. Liste complète dans `architecture.md`, § 7.
+Les clés suivent les préfixes imposés par `CLAUDE.md`. La liste complète est dans `architecture.md`, § 7.
 
-| Famille | Fichier | Exemples de clés |
+| Famille | Fichier | Exemples |
 |---|---|---|
-| Objets | `ItemName.json` | `LiveWire.VoltageTester`, `LiveWire.SolarPanelKit`, `LiveWire.InverterKit` |
-| Recettes | `Recipes.json` | `LWMakeVoltageTester`, `LWMakeInverterKit` |
-| Menus | `ContextMenu.json` | `ContextMenu_LW_Root`, `ContextMenu_LW_Install`, `ContextMenu_LW_Measure`, `ContextMenu_LW_Reset` |
-| Infobulles | `Tooltip.json` | `Tooltip_LW_NeedOutdoor`, `Tooltip_LW_NeedNoRoom`, `Tooltip_LW_NeedRiver`, `Tooltip_LW_NeedLevel` |
-| Interface | `IG_UI.json` | `IGUI_LW_Dashboard_Title`, `IGUI_LW_Production`, `IGUI_LW_Autonomy`, `IGUI_LW_Tripped` |
-| Options | `Sandbox.json` | `Sandbox_LiveWire`, `Sandbox_LiveWire_PowerScale`, `…_tooltip` |
+| Objets | `ItemName.json` | `LiveWire.VoltageTester`, `LiveWire.InverterKit` |
+| Recettes | `Recipes.json` | `LWMakeInverterKit` |
+| Menus | `ContextMenu.json` | `ContextMenu_LW_Root`, `ContextMenu_LW_Link`, `ContextMenu_LW_Reset` |
+| Infobulles | `Tooltip.json` | `Tooltip_LW_NeedOutdoor`, `Tooltip_LW_NeedRiver`, `Tooltip_LW_NeedLevel` |
+| Interface | `IG_UI.json` | `IGUI_LW_Dashboard_Title`, `IGUI_LW_Autonomy`, `IGUI_LW_Tripped` |
+| Options | `Sandbox.json` | `Sandbox_LiveWire_PowerScale`, `…_tooltip` |
 
-**Vocabulaire FR** repris du vanilla : « Électricité » pour la compétence (`IGUI_perks_Electricity`, `media/lua/shared/Translate/FR/IG_UI.json:214`), « générateur », « brancher », « coupure d'électricité » (`FR/Sandbox.json`, `ContextMenu.json`).
+**Vocabulaire FR vanilla** à reprendre : « Électricité » (`IGUI_perks_Electricity`, `media/lua/shared/Translate/FR/IG_UI.json:214`), « générateur », « brancher », « coupure d'électricité ».
+
+### 6.4 Le testeur de tension
+
+| Niveau | « Mesurer » sur une case |
+|---|---|
+| 0 | « Courant : oui / non » |
+| 1+ | Source du courant : réseau public, générateur vanilla ou onduleur Live Wire |
+| 2+ | Consommation de l'appareil visé, en W |
+| 4+ | Pour l'onduleur visé : production, demande, stock, autonomie |
+
+**Avertissement de recouvrement** : « plusieurs sources alimentent cette zone » (§ 8.2).
 
 ---
 
 ## 7. Options sandbox
 
-Page `LiveWire`. Toutes les valeurs ci-dessous sont proposées par défaut, et l'ensemble est **à valider**.
+Page `LiveWire`. Toutes ces valeurs par défaut sont **à valider**.
 
 | Option | Type | Bornes | Défaut | Effet |
 |---|---|---|---|---|
-| `LiveWire.PowerScale` | réel | 0,1 – 10 | 1,0 | Multiplie l'échelle « 1 unité moteur par heure = 1 000 W » (§ 5.3) : 2,0 rend chaque appareil deux fois plus gourmand |
+| `LiveWire.PowerScale` | réel | 0,1 – 10 | 1,0 | Multiplie l'échelle « 1 unité moteur par heure = 1 000 W » |
 | `LiveWire.SolarMultiplier` | réel | 0 – 10 | 1,0 | Production solaire |
 | `LiveWire.WindMultiplier` | réel | 0 – 10 | 1,0 | Production éolienne |
 | `LiveWire.HydroMultiplier` | réel | 0 – 10 | 1,0 | Production hydraulique |
-| `LiveWire.BatteryCapacityMultiplier` | réel | 0,1 – 10 | 1,0 | Capacité de toutes les batteries |
+| `LiveWire.BatteryCapacityMultiplier` | réel | 0,1 – 10 | 1,0 | Capacité des batteries |
 | `LiveWire.BatteryWearMultiplier` | réel | 0 – 10 | 1,0 | 0 = pas d'usure |
-| `LiveWire.DeviceWearMultiplier` | réel | 0 – 10 | 1,0 | 0 = pas d'usure |
-| `LiveWire.LinkRange` | entier | 4 – 30 | 12 | Distance maximale de raccordement (cases) |
+| `LiveWire.DeviceWearMultiplier` | réel | 0 – 10 | 1,0 | Usure des sources et des onduleurs ; 0 = aucune |
+| `LiveWire.InverterNoiseRadius` | entier | 0 – 10 | 2 | Rayon du bourdonnement entendu par les zombies ; 0 = silence |
+| `LiveWire.LinkRange` | entier | 4 – 30 | 12 | Distance maximale de raccordement |
 | `LiveWire.WirePerTiles` | entier | 0 – 20 | 4 | Cases par fil électrique ; 0 = câblage gratuit |
-| `LiveWire.StormDamage` | booléen | — | vrai | Dégâts de tempête et d'orage |
+| `LiveWire.StormDamage` | booléen | — | vrai | Dégâts d'orage et de tempête |
 | `LiveWire.RiverFreeze` | booléen | — | faux | Gel des roues à aubes |
-| `LiveWire.XPMultiplier` | réel | 0 – 10 | 1,0 | Expérience donnée par le mod (s'ajoute au multiplicateur vanilla) |
-| `LiveWire.SkillGates` | booléen | — | vrai | Faux = aucun niveau requis (parties détendues) |
-| `LiveWire.SimulateUnloaded` | booléen | — | vrai | Production, consommation et usure continuent quand personne n'est à proximité |
+| `LiveWire.XPMultiplier` | réel | 0 – 10 | 1,0 | Expérience du mod |
+| `LiveWire.SkillGates` | booléen | — | vrai | Faux = aucun niveau requis |
+| `LiveWire.SimulateUnloaded` | booléen | — | vrai | L'installation fonctionne quand personne n'est à proximité |
 
-- **Fichier** : `media/sandbox-options.txt`. Un seul fichier par mod est lu, sous `42.21/` sinon sous `common/` (`java/zombie/sandbox/CustomSandboxOptions.java:33-48`, `knowledge/mod-loading.md:146-152`).
-- **Lecture des valeurs** : sur le serveur, `getSandboxOptions():getOptionByName("LiveWire.X"):getValue()`.
+- **Fichier** : `media/sandbox-options.txt` (`java/zombie/sandbox/CustomSandboxOptions.java:33-48`, `knowledge/mod-loading.md:146-152`).
+- **Lecture** : `getSandboxOptions():getOptionByName("LiveWire.X"):getValue()`.
 
 ---
 
@@ -406,31 +472,32 @@ Page `LiveWire`. Toutes les valeurs ci-dessous sont proposées par défaut, et l
 
 ### 8.1 Le multijoueur vu du joueur
 
-- **Le serveur décide de tout** : production, stock, état, pannes et expérience. Un client modifié ne peut pas se donner de l'énergie (`architecture.md`, § 5).
-- **Une installation est commune** : tout joueur proche peut lire le tableau de bord et utiliser les menus. Les droits d'une safehouse s'appliquent (option vanilla `safehouseAllowInteract`, `media/lua/client/ISUI/ISWorldObjectContextMenu.lua:211-214`). Il n'y a pas de propriétaire en v0.1 (**à valider : D-7**).
-- **Latence** : une action (installer, raccorder, réarmer) prend effet à la réponse du serveur. Le tableau de bord peut avoir jusqu'à 10 minutes de jeu de retard.
-- **Absence de tous les joueurs** : l'installation continue de vivre si `SimulateUnloaded` est actif. Si le serveur est mis en pause quand il est vide (option `PauseEmpty`), le temps s'arrête et l'installation aussi (`knowledge/api-42-21.md:177`).
+- **Le serveur décide de tout** : production, stock, état, pannes, expérience.
+- **Installations communes**, sous les règles de safehouse vanilla (`media/lua/client/ISUI/ISWorldObjectContextMenu.lua:211-214`). Pas de propriétaire en v0.1 (**à valider : D-7**).
+- **Délais** : une action prend effet à la réponse du serveur ; le tableau de bord peut avoir jusqu'à 10 minutes de jeu de retard.
+- **Absence de tous les joueurs** : l'installation continue (§ 5.4). Si le serveur est mis en pause quand il est vide (`PauseEmpty`), le temps s'arrête, et l'installation aussi (`knowledge/api-42-21.md:177`).
 
 ### 8.2 Compatibilité avec les générateurs vanilla
 
-- **Ils restent intacts** : même menu, même carburant, même bruit. Live Wire ne touche que ses propres générateurs, reconnus par une marque ModData (`knowledge/power-and-lights.md:188-192`).
-- **Recouvrement.** Un générateur vanilla et un onduleur qui couvrent les mêmes appareils les paient **tous les deux** : le moteur n'exclut que les appareils déjà alimentés par le réseau public (NM-5). Le testeur avertit (§ 5.4). La bascule automatique (onduleur en veille quand un générateur vanilla tourne) est prévue en v0.2.
-- **Options globales partagées.** `GeneratorTileRange`, `GeneratorVerticalPowerRange`, `GeneratorFuelConsumption` et `AllowExteriorGenerator` s'appliquent aussi à l'onduleur.
-  - `GeneratorFuelConsumption` ne change pas l'énergie du mod : le mod divise par cette option (NM-5).
-  - Si l'option vaut 0, le mod mesure lui-même la consommation (`architecture.md`, § 1.3).
-- **Autres mods d'énergie.** Aucune dépendance et aucun code repris (`CLAUDE.md`). La coexistence avec un mod qui crée aussi des générateurs est probable, mais non vérifiée : deux mods qui intercepteraient les mêmes menus vanilla pourraient se gêner (`architecture.md`, risque R-9).
+- **Rien ne change pour eux.** Les générateurs vanilla gardent leur menu, leur carburant, leur bruit et leur toxicité. Live Wire ne crée aucun générateur du moteur.
+- **Zone couverte par les deux.** Un générateur vanilla allumé et un onduleur peuvent couvrir les mêmes appareils :
+  - le générateur vanilla les compte dans sa consommation de carburant (NM-5) ;
+  - l'onduleur les compte aussi dans sa demande ;
+  - **les deux paient donc**, et le testeur avertit.
+
+  En v0.2, une bascule automatique mettra l'onduleur en veille quand un générateur vanilla tourne dans sa zone (D-10).
+- **Réglages globaux partagés.** `GeneratorTileRange` et `GeneratorVerticalPowerRange` fixent aussi la portée de l'onduleur. `AllowExteriorGenerator` désactivé coupe le courant des cases extérieures pour les deux, car `haveElectricity` est faux sur une case `exterior` (`java/zombie/iso/IsoGridSquare.java:8223-8228`). `GeneratorFuelConsumption` n'a **aucun effet** sur Live Wire.
+- **Autres mods d'énergie.** Aucune dépendance, aucun code repris (`CLAUDE.md`). Un mod qui pose lui aussi des positions de générateur par script pourrait interférer (`architecture.md`, R-6).
 
 ---
 
-## 9. Périmètre des versions
-
-Le tableau décide du sort des 10 idées de `IDEES.md` : chacune est intégrée à une version ou reportée explicitement. Il est **à valider (D-1)**.
+## 9. Périmètre des versions (à valider : D-1)
 
 | Version | Contenu | Idées |
 |---|---|---|
-| **0.1 — Socle de production** | Testeur de tension ; banc de batteries (batteries vanilla et stationnaire) ; onduleur et onduleur renforcé ; panneaux photovoltaïques ; éolienne ; tableau de bord ; usure, pannes, réparation, reconditionnement ; paliers et expérience ; options sandbox ; EN et FR ; MP dédié | I-1, I-6, I-9 (solaire et éolien) |
-| **0.2 — Base autonome** | Roue à aubes ; charge du banc depuis un générateur vanilla ou le réseau public, en prélevant le carburant du générateur source ; bascule automatique ; chargeur de piles (classe vanilla `IsoCarBatteryCharger`, NM-14) ; réparation des cuisinières et micro-ondes (vrai état « cassé », NM-16) ; pompe électrique qui remplit un récupérateur placé au-dessus d'éviers raccordés à l'eau (`IsoObject:addFluid`, `java/zombie/iso/IsoObject.java:2700-2721`) | I-2, I-5 (partiel), I-7, I-9 (hydro) |
-| **0.3 — Sécurité** | Désarmer l'alarme d'une maison (`BuildingDef:setAlarmed`, sur le serveur, NM-15) ou d'un véhicule (`BaseVehicle:setAlarmed`) ; capteurs de mouvement reliés à une lumière ou une sirène de base | I-3, I-4 |
-| **0.4 — Fin de partie** | Clôture électrifiée (forte consommation, renversement des zombies) ; onduleurs relais pour alimenter un bâtiment au-delà de 20 cases | I-8, I-10 |
-| **Reportées sans date** | Dynamo à vélo : pas de vélo vanilla, l'idée reste ouverte en manivelle (endurance contre courant, `CharacterStat.ENDURANCE`). Réparation des réfrigérateurs, télévisions et radios en panne : le froid d'un réfrigérateur ne peut pas être bloqué depuis Lua (NM-16). Panneaux « récupérés sur les toits » : aucune tuile solaire vanilla n'a été trouvée (hypothèse) | I-9 (vélo), I-5 (réfrigérateurs) |
-| **Après les modèles définitifs** | Tuiles et modèles Blender ; son propre de l'onduleur (silence réel pour les joueurs, NM-2) ; câbles visibles | — |
+| **0.1 — Socle** | Testeur ; batteries posées et raccordées (vanilla et stationnaire), facultatives ; onduleur et onduleur renforcé ; panneaux ; éolienne ; disjoncteur (optionnel) ; tableau de bord ; usure, pannes, réparation, reconditionnement ; paliers et expérience ; sandbox ; EN et FR ; MP dédié ; fonctionnement sans joueur | I-1, I-6, I-9 (solaire et éolien) |
+| **0.2 — Base autonome** | Équipements optionnels : parafoudre, ordinateur de gestion, programmateur horaire, alarme de batterie faible (§ 2.4) ; roue à aubes ; charge des batteries depuis un générateur vanilla ou le réseau public (prélèvement du carburant du générateur source) ; bascule automatique ; chargeur de piles (`IsoCarBatteryCharger`, NM-14) ; réparation des cuisinières et micro-ondes (NM-16) ; pompe électrique qui remplit un récupérateur au-dessus d'éviers raccordés (`IsoObject:addFluid`, `java/zombie/iso/IsoObject.java:2700-2721`) | I-2, I-5 (partiel), I-7, I-9 (hydro) |
+| **0.3 — Sécurité** | Régulateur solaire optimisé (optionnel, § 2.4) ; désarmer l'alarme d'une maison (`BuildingDef:setAlarmed`, NM-15) ou d'un véhicule ; capteurs reliés à une lumière ou une sirène | I-3, I-4 |
+| **0.4 — Fin de partie** | Clôture électrifiée ; onduleurs relais pour un grand bâtiment | I-8, I-10 |
+| **Reportées sans date** | Dynamo à vélo : pas de vélo vanilla ; reste ouverte en manivelle, endurance contre courant (`CharacterStat.ENDURANCE`). Réparation des réfrigérateurs, télévisions et radios : le froid ne peut pas être bloqué depuis Lua (NM-16). Panneaux récupérés sur les toits : aucune tuile solaire vanilla trouvée (hypothèse) | I-9 (vélo), I-5 (réfrigérateurs) |
+| **Après les modèles définitifs** | Tuiles et modèles Blender ; son propre de l'onduleur ; câbles visibles | — |
