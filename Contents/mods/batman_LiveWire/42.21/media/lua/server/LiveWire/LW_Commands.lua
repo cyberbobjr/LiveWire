@@ -1,0 +1,164 @@
+-- Live Wire: client commands, fully re-validated on the authority
+-- (docs/architecture.md section 5.3). sendClientCommand also reaches this handler
+-- in single player, one tick later (knowledge/multiplayer.md:280-282).
+if isClient() then return end
+
+LiveWire = LiveWire or {}
+
+local Commands = {}
+LiveWire.Commands = Commands
+
+local P = LiveWire.Protocol
+Commands.ACT_RANGE = 3
+Commands.RATE_PER_SECOND = 4
+
+local rate = {}  -- username -> { windowStart = ms, count = n, warned = bool }
+
+local function allowRate(player)
+    local who = player:getUsername() or "local"
+    local now = getTimestampMs()
+    local r = rate[who]
+    if not r or now - r.windowStart >= 1000 then
+        r = { windowStart = now, count = 0, warned = r and r.warned or false }
+        rate[who] = r
+    end
+    r.count = r.count + 1
+    if r.count > Commands.RATE_PER_SECOND then
+        if not r.warned then
+            LiveWire.warn("command rate limit hit by " .. tostring(who))
+            r.warned = true
+        end
+        return false
+    end
+    return true
+end
+
+local function refuse(player, cmd, key)
+    LiveWire.notify(player, key, {}, true)
+end
+
+-- Chebyshev distance <= range on the same floor.
+function Commands.isNear(player, x, y, z, range)
+    if math.floor(player:getZ()) ~= z then return false end
+    return math.abs(player:getX() - (x + 0.5)) <= range + 0.5
+        and math.abs(player:getY() - (y + 0.5)) <= range + 0.5
+end
+
+-- Common checks for a command that touches a device.
+function Commands.checkDevice(player, id, range)
+    if not P.isDeviceId(id) then return nil, "Tooltip_LW_Invalid" end
+    local dev = LiveWire.Registry.device(id)
+    if not dev then return nil, "Tooltip_LW_Invalid" end
+    local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
+    if not sq then return nil, "Tooltip_LW_TooFar" end
+    if not Commands.isNear(player, dev.x, dev.y, dev.z, range or Commands.ACT_RANGE) then
+        return nil, "Tooltip_LW_TooFar"
+    end
+    if SafeHouse and not SafeHouse.isSafehouseAllowInteract(sq, player) then
+        return nil, "Tooltip_LW_Safehouse"
+    end
+    return dev, nil, sq
+end
+
+local handlers = {}
+
+local function gridOfInverter(id)
+    if not P.isDeviceId(id) then return nil end
+    local inv = LiveWire.Registry.device(id)
+    if not inv or inv.role ~= "inverter" or not inv.grid then return nil end
+    return LiveWire.Registry.grid(inv.grid), inv
+end
+
+-- Dashboard subscription, by inverter id (clients read it from the object mark).
+handlers[P.C_SUBSCRIBE] = function(player, args)
+    local grid, inv = gridOfInverter(args.inverter)
+    if not grid then return end
+    if not Commands.isNear(player, inv.x, inv.y, inv.z, LiveWire.Sim.SUBSCRIBE_RANGE) then return end
+    LiveWire.Sim.subscribe(player, grid.id)
+    local snap = LiveWire.Sim.snapshot(grid)
+    if snap and isServer() then
+        sendServerCommand(player, LiveWire.MODULE, P.S_SNAPSHOT, snap)
+    end
+end
+
+handlers[P.C_UNSUBSCRIBE] = function(player, args)
+    local grid = gridOfInverter(args.inverter)
+    if grid then LiveWire.Sim.unsubscribe(player, grid.id) end
+end
+
+handlers[P.C_UNLINK] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.device)
+    if not dev then return refuse(player, P.C_UNLINK, why) end
+    if dev.role == "inverter" or not dev.grid then return end
+    local grid = LiveWire.Registry.grid(dev.grid)
+    if dev.role == "battery" then
+        LiveWire.Sim.refresh(grid) -- settle its charge before it leaves
+        local _, item = LiveWire.Batteries.find(dev)
+        LiveWire.Batteries.forget(dev, item)
+        if item and isServer() then item:syncItemFields() end
+    else
+        LiveWire.Registry.unlink(dev)
+    end
+    LiveWire.Sim.refresh(grid)
+    LiveWire.notify(player, "IGUI_LW_Unlinked", {})
+end
+
+handlers[P.C_SET_INVERTER] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.inverter)
+    if not dev then return refuse(player, P.C_SET_INVERTER, why) end
+    if dev.role ~= "inverter" or not P.isBool(args.on) then return end
+    if args.on then
+        if dev.state == "off" then dev.state = "on" end
+    else
+        if dev.state == "on" or dev.state == "tripped" then dev.state = "off" end
+    end
+    LiveWire.Sim.refresh(LiveWire.Registry.grid(dev.grid))
+end
+
+handlers[P.C_RESET] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.inverter)
+    if not dev then return refuse(player, P.C_RESET, why) end
+    if dev.role ~= "inverter" or dev.state ~= "tripped" then return end
+    local grid = LiveWire.Registry.grid(dev.grid)
+    local def = LiveWire.Defs.devices[dev.model]
+    local demand = LiveWire.Demand.measure(dev) or (grid and grid.demand) or 0
+    if grid then grid.demand = demand end
+    if def and demand > def.maxW then
+        return refuse(player, P.C_RESET, "IGUI_LW_StillOverloaded")
+    end
+    dev.state = "on"
+    LiveWire.Xp.awardLimited(player, "reset:" .. dev.id, 5, 1)
+    LiveWire.Sim.refresh(grid)
+end
+
+handlers[P.C_RENAME] = function(player, args)
+    local grid = gridOfInverter(args.inverter)
+    if not grid then return end
+    local dev, why = Commands.checkDevice(player, grid.inverter)
+    if not dev then return refuse(player, P.C_RENAME, why) end
+    local name = P.cleanName(args.name)
+    if name then
+        grid.name = name
+        grid.rev = (grid.rev or 0) + 1
+        LiveWire.Sim.publish(grid)
+    end
+end
+
+handlers[P.C_REQUEST_ANCHORS] = function(player, args)
+    if isServer() then ModData.transmit(LiveWire.ANCHOR_KEY) end
+end
+
+local function onClientCommand(module, command, player, args)
+    if module ~= LiveWire.MODULE then return end
+    local R = LiveWire.Registry
+    if not R or not R.ready or R.readOnly then return end
+    if not player or player:isDead() then return end
+    if not allowRate(player) then return end
+    local h = handlers[command]
+    if not h then return end
+    args = args or {}
+    local ok, err = pcall(h, player, args)
+    if not ok then LiveWire.warn("command " .. tostring(command) .. " failed: " .. tostring(err)) end
+end
+
+Events.OnClientCommand.Add(onClientCommand)
