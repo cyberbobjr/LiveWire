@@ -157,5 +157,8 @@
     "IGUI_LW_Shed": "Niedrige Batterieladung: der Computer hat die Lampen ausgeschaltet.",
     "IGUI_LW_Alarm_On": "Alarm bei niedriger Batterie: klingelt",
     "IGUI_LW_Alarm_Armed": "Alarm bei niedriger Batterie: scharfgeschaltet",
-    "IGUI_LW_LowBattery": "Niedrige Batterieladung: noch %1%% übrig!"
+    "IGUI_LW_LowBattery": "Niedrige Batterieladung: noch %1%% übrig!",
+    "IGUI_LW_Adopted": "%1: Registrierung nachgeholt, das Gerät funktioniert jetzt.",
+    "IGUI_LW_NotRegistered": "Live Wire konnte dieses Gerät nicht registrieren (Details in der Konsole).",
+    "IGUI_LW_BackupCannotStart": "Der Notstromgenerator kann nicht starten: %1."
 }

@@ -24,5 +24,7 @@
     "Tooltip_LW_NeedDisk": "Erfordert den Live-Wire-Softwaredatenträger.",
     "Tooltip_LW_NeedSoftware": "Installiere zuerst die Live-Wire-Software (Datenträger) auf diesem Computer.",
     "Tooltip_LW_VoltageTester": "Rechtsklick auf ein Feld, um seine Leistung zu messen.",
-    "Tooltip_LW_DeepCycleBattery": "Speichert 1,5 kWh und hält viermal länger als eine Autobatterie."
+    "Tooltip_LW_DeepCycleBattery": "Speichert 1,5 kWh und hält viermal länger als eine Autobatterie.",
+    "Tooltip_LW_TooFarForCable": "Zu weit: %1 Felder, das Kabel reicht %2 Felder.",
+    "Tooltip_LW_TooManyFloors": "%1 Etagen Abstand: Das Kabel reicht nur %2 Etage(n) nach oben oder unten."
 }

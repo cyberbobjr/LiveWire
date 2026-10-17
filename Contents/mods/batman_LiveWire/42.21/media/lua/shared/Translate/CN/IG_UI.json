@@ -157,5 +157,8 @@
     "IGUI_LW_Shed": "电量低: 电脑已关闭灯具.",
     "IGUI_LW_Alarm_On": "低电量警报: 响铃中",
     "IGUI_LW_Alarm_Armed": "低电量警报: 已就绪",
-    "IGUI_LW_LowBattery": "电量低: 剩余 %1%%!"
+    "IGUI_LW_LowBattery": "电量低: 剩余 %1%%!",
+    "IGUI_LW_Adopted": "%1: 已补登记, 设备现在可以使用.",
+    "IGUI_LW_NotRegistered": "Live Wire 无法登记此设备 (详情见控制台).",
+    "IGUI_LW_BackupCannotStart": "备用发电机无法启动: %1."
 }

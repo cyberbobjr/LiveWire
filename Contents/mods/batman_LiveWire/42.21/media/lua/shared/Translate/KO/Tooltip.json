@@ -24,5 +24,7 @@
     "Tooltip_LW_NeedDisk": "Live Wire 소프트웨어 디스크가 필요합니다.",
     "Tooltip_LW_NeedSoftware": "먼저 이 컴퓨터에 Live Wire 소프트웨어(디스크)를 설치하세요.",
     "Tooltip_LW_VoltageTester": "타일을 우클릭하면 전력을 측정합니다.",
-    "Tooltip_LW_DeepCycleBattery": "1.5 kWh를 저장하며, 자동차 배터리보다 네 배 오래 갑니다."
+    "Tooltip_LW_DeepCycleBattery": "1.5 kWh를 저장하며, 자동차 배터리보다 네 배 오래 갑니다.",
+    "Tooltip_LW_TooFarForCable": "너무 멉니다: %1 타일, 전선은 %2 타일까지 닿습니다.",
+    "Tooltip_LW_TooManyFloors": "%1층 차이: 전선은 위아래로 %2층까지만 닿습니다."
 }

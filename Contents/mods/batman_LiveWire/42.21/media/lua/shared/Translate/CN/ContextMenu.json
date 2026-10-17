@@ -45,5 +45,7 @@
     "ContextMenu_LW_Debug_damageInverter": "损坏逆变器 (状况 10)",
     "ContextMenu_LW_Debug_trip": "使逆变器跳闸",
     "ContextMenu_LW_Debug_refuel": "为备用发电机加满燃料",
-    "ContextMenu_LW_Debug_reanchor": "重建电器列表和供电范围"
+    "ContextMenu_LW_Debug_reanchor": "重建电器列表和供电范围",
+    "ContextMenu_LW_InverterTooFar": "最近的逆变器距离 %1 格: 超出电缆范围 (%2 格)",
+    "ContextMenu_LW_InverterFloors": "最近的逆变器相差 %1 层: 电缆只能向上或向下连接 %2 层"
 }

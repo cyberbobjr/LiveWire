@@ -24,5 +24,7 @@
     "Tooltip_LW_NeedDisk": "Requer o disco do software Live Wire.",
     "Tooltip_LW_NeedSoftware": "Instale primeiro o software Live Wire (disco) neste computador.",
     "Tooltip_LW_VoltageTester": "Clique com o botão direito em uma casa para medir a energia dela.",
-    "Tooltip_LW_DeepCycleBattery": "Armazena 1,5 kWh e dura quatro vezes mais que uma bateria de carro."
+    "Tooltip_LW_DeepCycleBattery": "Armazena 1,5 kWh e dura quatro vezes mais que uma bateria de carro.",
+    "Tooltip_LW_TooFarForCable": "Longe demais: %1 casas, o cabo alcança %2 casas.",
+    "Tooltip_LW_TooManyFloors": "%1 andares de diferença: o cabo só alcança %2 andar(es) acima ou abaixo."
 }

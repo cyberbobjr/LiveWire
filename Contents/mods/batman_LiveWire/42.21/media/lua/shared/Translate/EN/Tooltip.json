@@ -7,6 +7,8 @@
     "Tooltip_LW_NeedOutdoor": "Must be placed outdoors, under the open sky.",
     "Tooltip_LW_NeedWaterSide": "Must be placed on the bank, next to water.",
     "Tooltip_LW_NoInverterInRange": "No inverter within cable range.",
+    "Tooltip_LW_TooFarForCable": "Too far: %1 tiles, the cable reaches %2 tiles.",
+    "Tooltip_LW_TooManyFloors": "%1 floors apart: the cable reaches %2 floor(s) up or down.",
     "Tooltip_LW_NotABattery": "This is not a usable battery.",
     "Tooltip_LW_DeadBattery": "This battery is dead.",
     "Tooltip_LW_TooGood": "This battery is in good condition already.",

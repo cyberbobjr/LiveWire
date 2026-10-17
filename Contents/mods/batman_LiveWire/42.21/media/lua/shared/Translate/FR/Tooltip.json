@@ -7,6 +7,8 @@
     "Tooltip_LW_NeedOutdoor": "Doit être posé dehors, à ciel ouvert.",
     "Tooltip_LW_NeedWaterSide": "Doit être posée sur la berge, au bord de l'eau.",
     "Tooltip_LW_NoInverterInRange": "Aucun onduleur à portée de câble.",
+    "Tooltip_LW_TooFarForCable": "Trop loin : %1 cases, le câble porte à %2 cases.",
+    "Tooltip_LW_TooManyFloors": "%1 étages d'écart : le câble ne va qu'à %2 étage(s) au-dessus ou au-dessous.",
     "Tooltip_LW_NotABattery": "Ce n'est pas une batterie utilisable.",
     "Tooltip_LW_DeadBattery": "Cette batterie est morte.",
     "Tooltip_LW_TooGood": "Cette batterie est déjà en bon état.",

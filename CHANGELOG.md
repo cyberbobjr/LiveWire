@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.1 — 2026-10-17
+
+### Fixes
+- Fridges and freezers now age correctly when the batteries run empty, or power comes back, while you are away.
+- Clear messages when a device is too far from the inverter or too many floors apart, with the distance.
+- A Live Wire device placed without being registered (conflict with another furniture mod) is now detected and registered.
+- Smoother game: devices are no longer searched by a large scan every 3 seconds, and the appliance list is rebuilt in small steps.
+- Backup generator: a message says why it cannot start (not connected, out of fuel, broken), and its fuel is no longer counted twice.
+
 ## 1.0.0 — 2026-10-17
 
 ### Features

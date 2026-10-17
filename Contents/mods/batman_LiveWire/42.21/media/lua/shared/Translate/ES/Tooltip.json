@@ -24,5 +24,7 @@
     "Tooltip_LW_NeedDisk": "Requiere el disco del software Live Wire.",
     "Tooltip_LW_NeedSoftware": "Instala primero el software Live Wire (disco) en este ordenador.",
     "Tooltip_LW_VoltageTester": "Clic derecho en una casilla para medir su potencia.",
-    "Tooltip_LW_DeepCycleBattery": "Almacena 1,5 kWh y dura cuatro veces más que una batería de coche."
+    "Tooltip_LW_DeepCycleBattery": "Almacena 1,5 kWh y dura cuatro veces más que una batería de coche.",
+    "Tooltip_LW_TooFarForCable": "Demasiado lejos: %1 casillas, el cable llega a %2 casillas.",
+    "Tooltip_LW_TooManyFloors": "%1 pisos de diferencia: el cable solo llega a %2 piso(s) arriba o abajo."
 }

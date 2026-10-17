@@ -45,5 +45,7 @@
     "ContextMenu_LW_Debug_damageInverter": "Wechselrichter beschädigen (Zustand 10)",
     "ContextMenu_LW_Debug_trip": "Wechselrichter auslösen",
     "ContextMenu_LW_Debug_refuel": "Notstromgenerator auftanken",
-    "ContextMenu_LW_Debug_reanchor": "Geräteliste und Versorgungsgebiet neu aufbauen"
+    "ContextMenu_LW_Debug_reanchor": "Geräteliste und Versorgungsgebiet neu aufbauen",
+    "ContextMenu_LW_InverterTooFar": "Nächster Wechselrichter %1 Felder entfernt: außerhalb der Kabelreichweite (%2 Felder)",
+    "ContextMenu_LW_InverterFloors": "Nächster Wechselrichter %1 Etagen entfernt: Das Kabel reicht nur %2 Etage(n) nach oben oder unten"
 }

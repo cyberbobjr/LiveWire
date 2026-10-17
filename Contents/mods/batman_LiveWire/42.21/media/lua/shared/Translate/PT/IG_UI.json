@@ -157,5 +157,8 @@
     "IGUI_LW_Shed": "Bateria fraca: o computador desligou as luzes.",
     "IGUI_LW_Alarm_On": "Alarme de bateria fraca: a tocar",
     "IGUI_LW_Alarm_Armed": "Alarme de bateria fraca: armado",
-    "IGUI_LW_LowBattery": "Bateria fraca: %1%% restantes!"
+    "IGUI_LW_LowBattery": "Bateria fraca: %1%% restantes!",
+    "IGUI_LW_Adopted": "%1: registo recuperado, o aparelho já funciona.",
+    "IGUI_LW_NotRegistered": "O Live Wire não conseguiu registar este aparelho (detalhes na consola).",
+    "IGUI_LW_BackupCannotStart": "O gerador de reserva não consegue arrancar: %1."
 }

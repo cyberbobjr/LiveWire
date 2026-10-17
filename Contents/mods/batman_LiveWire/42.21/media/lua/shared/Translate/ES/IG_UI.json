@@ -157,5 +157,8 @@
     "IGUI_LW_Shed": "Batería baja: el ordenador ha apagado las luces.",
     "IGUI_LW_Alarm_On": "Alarma de batería baja: sonando",
     "IGUI_LW_Alarm_Armed": "Alarma de batería baja: armada",
-    "IGUI_LW_LowBattery": "¡Batería baja: queda un %1 %%!"
+    "IGUI_LW_LowBattery": "¡Batería baja: queda un %1 %%!",
+    "IGUI_LW_Adopted": "%1: registro recuperado, el equipo ya funciona.",
+    "IGUI_LW_NotRegistered": "Live Wire no pudo registrar este equipo (detalles en la consola).",
+    "IGUI_LW_BackupCannotStart": "El generador de respaldo no puede arrancar: %1."
 }

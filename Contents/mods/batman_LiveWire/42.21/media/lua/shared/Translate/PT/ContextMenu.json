@@ -45,5 +45,7 @@
     "ContextMenu_LW_Debug_damageInverter": "Danificar o inversor (estado 10)",
     "ContextMenu_LW_Debug_trip": "Fazer disparar o inversor",
     "ContextMenu_LW_Debug_refuel": "Encher o gerador de reserva",
-    "ContextMenu_LW_Debug_reanchor": "Reconstruir a lista de aparelhos e a área com energia"
+    "ContextMenu_LW_Debug_reanchor": "Reconstruir a lista de aparelhos e a área com energia",
+    "ContextMenu_LW_InverterTooFar": "Inversor mais próximo a %1 casas: fora do alcance do cabo (%2 casas)",
+    "ContextMenu_LW_InverterFloors": "Inversor mais próximo a %1 pisos: o cabo só chega a %2 piso(s) acima ou abaixo"
 }

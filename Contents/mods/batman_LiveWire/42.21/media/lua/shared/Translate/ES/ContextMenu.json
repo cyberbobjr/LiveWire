@@ -45,5 +45,7 @@
     "ContextMenu_LW_Debug_damageInverter": "Dañar el inversor (estado 10)",
     "ContextMenu_LW_Debug_trip": "Hacer saltar el inversor",
     "ContextMenu_LW_Debug_refuel": "Llenar el generador de respaldo",
-    "ContextMenu_LW_Debug_reanchor": "Reconstruir la lista de equipos y la zona alimentada"
+    "ContextMenu_LW_Debug_reanchor": "Reconstruir la lista de equipos y la zona alimentada",
+    "ContextMenu_LW_InverterTooFar": "Inversor más cercano a %1 casillas: fuera del alcance del cable (%2 casillas)",
+    "ContextMenu_LW_InverterFloors": "Inversor más cercano a %1 pisos: el cable solo llega a %2 piso(s) arriba o abajo"
 }

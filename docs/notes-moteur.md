@@ -294,12 +294,12 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : la powerbank de Live Wire crée son conteneur (type `livewirepowerbank`) **avant** `transmitAddObjectToSquare`, avec `setExplored(true)` et `setHasBeenLooted(true)`. Elle ajoute la clé de titre et reprend l'icône de la caisse militaire. À vérifier en jeu : un 2e client voit le conteneur et ses transferts.
 
 ## 32. Générateur vanilla piloté par un mod : `setActivated`, `setFuel`, consommation horaire
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement) ; double décompte au rechargement : hypothèse
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement), y compris le double décompte au rechargement
 - Preuve :
   - `setActivated(b)` ne fait rien si l'état ne change pas ; sinon il rend le bâtiment toxique (case intérieure), remet `lastHour` à l'heure courante au démarrage, joue `Starting` / `Stopping`, recalcule la zone alimentée et se synchronise sur serveur et client (`java/zombie/iso/objects/IsoGenerator.java:462-490`).
   - `setFuel` borne à [0, 10] et se synchronise (`:448-456`) ; `getMaxFuel()` rend 10 (`:444-446`).
   - Le carburant ne baisse que dans `update`, donc seulement quand la case est chargée, une fois par heure de jeu entière écoulée depuis `lastHour`, de `totalPowerUsing × GeneratorFuelConsumption` (`:182-206`). Vide ou état à 0 : il s'arrête de lui-même (`:200-208`).
-- Conséquence : un mod peut démarrer et arrêter un générateur vanilla depuis le serveur, et y ajouter sa propre consommation par `setFuel`. Hors chargement, il doit tenir le compte lui-même et l'appliquer au chargement. Si `lastHour` n'est pas sauvegardé, la consommation vanilla au rechargement est d'au plus une heure ; sinon elle peut couvrir toute l'absence et s'ajouter au décompte du mod : à vérifier en jeu.
+- Conséquence : un mod peut démarrer et arrêter un générateur vanilla depuis le serveur, et y ajouter sa propre consommation par `setFuel`. Hors chargement, il doit tenir le compte lui-même et l'appliquer au chargement. `lastHour` est sauvegardé et relu (`IsoGenerator.java:377, 389`) : un générateur sauvegardé en marche brûle, à sa première mise à jour, toutes les heures de l'absence (boucle `:190-197`, arrêt à carburant ou état nul), en plus du décompte du mod. `getTotalPowerUsing()` rend ce débit horaire (`:655-657`). `setActivated(true)` remet `lastHour` à l'heure courante (`:470`) : l'arrêter puis le relancer au chargement annule ce rattrapage (avec les sons Stopping/Starting et le rafraîchissement des frigos de `setActivated`). Live Wire le fait dans `Backup.restore` et ne retire en marche que la part de carburant que le vanilla ne brûle pas déjà.
 
 ## 33. Sons de bip vanilla : aucun n'est déclaré en boucle dans les scripts
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; comportement de l'événement FMOD : hypothèse
@@ -343,7 +343,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 ## 40. Nourriture d'un frigo : vieillissement rattrapé d'un coup, avec l'électricité du moment
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; cas « joueur absent » confirmé en jeu (test en jeu automatique en solo, 2026-10-17)
 - Preuve : `Food.updateAge` applique tout le temps écoulé depuis `lastAged`, multiplié par `FridgeFactor` (0,2 par défaut) si `getSourceGrid():haveElectricity()` **au moment de l'appel** (`java/zombie/inventory/types/Food.java:668-702`). Les aliments d'un meuble ne sont pas mis à jour en continu : à l'ouverture, au passage d'un objet, et par le générateur vanilla **juste avant** chaque bascule (`IsoGenerator.updateFridgeFreezerItems`, `IsoGenerator.java:325-334`). En jeu : steak frais dans un frigo alimenté par un point d'alimentation de mod, joueur à 300 cases (zone déchargée), 10 heures de jeu, retour : +0,083 jour (froid), contre 0,417 sans courant.
-- Conséquence : un mod qui alimente des cases doit rattraper l'âge des aliments des frigos chargés avant de changer l'alimentation, et rétablir l'alimentation au chargement de la zone avant toute consultation. Une absence est comptée entière avec l'état trouvé au retour.
+- Conséquence : un mod qui alimente des cases doit rattraper l'âge des aliments des frigos chargés avant de changer l'alimentation, et rétablir l'alimentation au chargement de la zone avant toute consultation. Sans mod, une absence est comptée entière avec l'état trouvé au retour ; Live Wire rejoue les changements d'état de ses ancres (note 45).
 
 ## 41. `canPlaceMoveable` d'un objet mural rend l'objet mur, pas `true`
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu
@@ -366,4 +366,13 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé en jeu (crash au chargement) et statiquement
 - Preuve : `GameSoundScript.LoadClip` lit `distanceMax` et `distanceMin` par `Integer.parseInt` (`java/zombie/scripting/objects/GameSoundScript.java:65-73`) ; `distanceMin = 0.5` lève `NumberFormatException`, le son est retiré (« removing script due to load error »). En mode debug, `ScriptManager.Load` lève alors `IOException: Script load errors` (`ScriptManager.java:1547`) et la partie ne se charge plus.
 - Conséquence : valeurs entières seulement ; `tools/check_mod.py` le contrôle désormais.
+
+## 45. Rejouer le vieillissement d'un aliment : accesseurs exposés, `lastFrozenUpdate` sans accesseur
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; effet en jeu à vérifier
+- Preuve :
+  - `getAge/setAge/getLastAged/setLastAged` publics sur `InventoryItem` (`java/zombie/inventory/InventoryItem.java:2355-2368`), classes `Food` et `InventoryItem` exposées (`index-lua-exposed-classes.txt:298, 342`) ; `lastAged = -1` : jamais vieilli (`:155`).
+  - `Food.setFreezingTime` borne à [0, 100] et ne change `frozen` qu'aux bornes ; `setFrozen`, `canBeFrozen`, `getFreezingTime` publics (`java/zombie/inventory/types/Food.java:1955-1988`).
+  - `lastFrozenUpdate` n'a pas d'accesseur (`:117`) ; `updateAge` lance d'abord `updateFreezing` sur tout l'intervalle (`:671`, `:752-774`) puis ne vieillit pas si `lastAged` vaut l'heure courante (`:672-673`).
+  - Facteurs : `FridgeFactor` 1..6 = 0,4/0,3/0,2/0,1/0,03/0, `FoodRotSpeed` 1..5 = 1,7/1,4/1,0/0,7/0,4 (`:642-661`) ; gel 4 h au congélateur alimenté, dégel 1,5 h (3 h au réfrigérateur alimenté) (`:757-768`) ; réseau public jusqu'à `ElecShutModifier × 24` h (`:691-697`).
+- Conséquence : pour rejouer une absence par morceaux (courant puis coupure), calculer âge, temps de gel et drapeau, puis `setLastAged(maintenant)`, `updateAge()` (consomme l'intervalle de gel sans vieillir), `setFreezingTime`, `setFrozen`, `setAge`. Live Wire le fait au `LoadChunk` serveur d'après le journal d'état des ancres (`LW_FridgeCatchup.lua`).
 

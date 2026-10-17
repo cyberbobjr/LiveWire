@@ -24,5 +24,7 @@
     "Tooltip_LW_NeedDisk": "Live Wireソフトのディスクが必要です。",
     "Tooltip_LW_NeedSoftware": "先にこのコンピューターにLive Wireソフト(ディスク)をインストールしてください。",
     "Tooltip_LW_VoltageTester": "マスを右クリックすると、その電力を測定できます。",
-    "Tooltip_LW_DeepCycleBattery": "1.5 kWh蓄電でき、車両バッテリーの4倍長持ちします。"
+    "Tooltip_LW_DeepCycleBattery": "1.5 kWh蓄電でき、車両バッテリーの4倍長持ちします。",
+    "Tooltip_LW_TooFarForCable": "遠すぎます: %1マス、電線が届くのは%2マスまでです。",
+    "Tooltip_LW_TooManyFloors": "%1階離れています: 電線が届くのは上下%2階までです。"
 }

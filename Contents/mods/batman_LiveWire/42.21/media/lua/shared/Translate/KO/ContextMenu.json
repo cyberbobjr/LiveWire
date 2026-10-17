@@ -45,5 +45,7 @@
     "ContextMenu_LW_Debug_damageInverter": "인버터 손상 (상태 10)",
     "ContextMenu_LW_Debug_trip": "인버터 차단",
     "ContextMenu_LW_Debug_refuel": "예비 발전기 연료 채우기",
-    "ContextMenu_LW_Debug_reanchor": "기기 목록과 전력 범위 다시 설정"
+    "ContextMenu_LW_Debug_reanchor": "기기 목록과 전력 범위 다시 설정",
+    "ContextMenu_LW_InverterTooFar": "가장 가까운 인버터 %1 타일 거리: 전선 범위 밖 (%2 타일)",
+    "ContextMenu_LW_InverterFloors": "가장 가까운 인버터 %1층 차이: 전선은 위아래로 %2층까지만 닿습니다"
 }

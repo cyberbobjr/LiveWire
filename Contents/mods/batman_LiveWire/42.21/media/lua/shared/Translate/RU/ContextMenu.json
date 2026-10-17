@@ -45,5 +45,7 @@
     "ContextMenu_LW_Debug_damageInverter": "Повредить инвертор (состояние 10)",
     "ContextMenu_LW_Debug_trip": "Выбить инвертор",
     "ContextMenu_LW_Debug_refuel": "Заправить резервный генератор",
-    "ContextMenu_LW_Debug_reanchor": "Пересобрать список приборов и зону питания"
+    "ContextMenu_LW_Debug_reanchor": "Пересобрать список приборов и зону питания",
+    "ContextMenu_LW_InverterTooFar": "Ближайший инвертор в %1 клетках: вне досягаемости кабеля (%2 клеток)",
+    "ContextMenu_LW_InverterFloors": "Ближайший инвертор через %1 этаж(а): кабель достаёт только на %2 этаж(а) вверх или вниз"
 }

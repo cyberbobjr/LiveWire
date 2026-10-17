@@ -157,5 +157,8 @@
     "IGUI_LW_Shed": "Bateria baixa: o computador desligou as luzes.",
     "IGUI_LW_Alarm_On": "Alarme de bateria baixa: tocando",
     "IGUI_LW_Alarm_Armed": "Alarme de bateria baixa: armado",
-    "IGUI_LW_LowBattery": "Bateria baixa: restam %1%%!"
+    "IGUI_LW_LowBattery": "Bateria baixa: restam %1%%!",
+    "IGUI_LW_Adopted": "%1: registro recuperado, o aparelho já funciona.",
+    "IGUI_LW_NotRegistered": "O Live Wire não conseguiu registrar este aparelho (detalhes no console).",
+    "IGUI_LW_BackupCannotStart": "O gerador de reserva não consegue ligar: %1."
 }

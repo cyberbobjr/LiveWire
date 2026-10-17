@@ -157,5 +157,8 @@
     "IGUI_LW_Shed": "バッテリー残量不足: コンピューターが照明を消しました。",
     "IGUI_LW_Alarm_On": "低バッテリー警報: 鳴動中",
     "IGUI_LW_Alarm_Armed": "低バッテリー警報: 待機中",
-    "IGUI_LW_LowBattery": "バッテリー残量少: 残り%1%%!"
+    "IGUI_LW_LowBattery": "バッテリー残量少: 残り%1%%!",
+    "IGUI_LW_Adopted": "%1: 登録を復元しました。使用できます。",
+    "IGUI_LW_NotRegistered": "Live Wireはこの機器を登録できませんでした(詳細はコンソール)。",
+    "IGUI_LW_BackupCannotStart": "予備発電機を起動できません: %1。"
 }

@@ -157,5 +157,8 @@
     "IGUI_LW_Shed": "배터리 부족: 컴퓨터가 조명을 껐습니다.",
     "IGUI_LW_Alarm_On": "배터리 부족 경보: 울리는 중",
     "IGUI_LW_Alarm_Armed": "배터리 부족 경보: 대기 중",
-    "IGUI_LW_LowBattery": "배터리 부족: %1%% 남음!"
+    "IGUI_LW_LowBattery": "배터리 부족: %1%% 남음!",
+    "IGUI_LW_Adopted": "%1: 등록을 복구했습니다. 이제 작동합니다.",
+    "IGUI_LW_NotRegistered": "Live Wire가 이 기기를 등록하지 못했습니다 (자세한 내용은 콘솔 참조).",
+    "IGUI_LW_BackupCannotStart": "예비 발전기를 시동할 수 없습니다: %1."
 }
