@@ -6,7 +6,7 @@ module LiveWire
     }
 
     /* Placeholder visuals: vanilla icons and simple geometric world models
-       (media/models_X/LiveWire/*.glb) until the final Blender models exist. */
+       (.glb files in media/models_X/LiveWire) until the final Blender models exist. */
 
     item VoltageTester
     {
