@@ -16,9 +16,11 @@ module Base
 
     item Mov_LiveWire_WindTurbine
     {
+        /* The tile has no blades (animated overlay): the icon comes from the
+           script (tile property CustomItem). */
         DisplayCategory = Furniture,
         ItemType = base:moveable,
-        Icon = default,
+        Icon = LiveWireWindTurbine,
         Weight = 0.5,
         WorldObjectSprite = batman_livewire_01_4,
     }

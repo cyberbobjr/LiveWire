@@ -42,4 +42,16 @@ module LiveWire
         WorldStaticModel = CarBattery,
         Tooltip = Tooltip_LW_DeepCycleBattery,
     }
+
+    /* Management software disk: installs the Live Wire app on a Computer Mod
+       computer or laptop (optional mod; LW_ComputerMod.lua). Found in loot. */
+    item MonitorDisk
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.1,
+        Icon = Disc,
+        WorldStaticModel = Disk,
+        Tooltip = Tooltip_LW_MonitorDisk,
+    }
 }

@@ -32,23 +32,24 @@ module LiveWire
         }
     }
 
+    /* Dismantling a calculator, on the model of the vanilla DismantleElectronics
+       (same action, category and tags, no skill level): the vanilla recipe also
+       accepts calculators but only gives electronics scrap. */
     craftRecipe LWSalvageSolarCell
     {
-        timedAction = MakingElectrical,
+        timedAction = DismantleElectrical,
         time = 60,
-        NeedToBeLearn = true,
-        SkillRequired = Electricity:2,
-        AutoLearnAny = Electricity:2,
-        xpAward = Electricity:3,
-        Tags = AnySurfaceCraft,
+        Tags = InHandCraft;Electrical,
         category = Electrical,
+        xpAward = Electricity:3,
         inputs
         {
-            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
-            item 1 [Base.Calculator],
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Calculator] mode:destroy,
         }
         outputs
         {
+            item 1 Base.ElectronicsScrap,
             item 1 LiveWire.SolarCell,
         }
     }
@@ -89,7 +90,7 @@ module LiveWire
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
-            item 6 [LiveWire.SolarCell],
+            item 10 [LiveWire.SolarCell],
             item 1 [Base.SheetMetal],
             item 2 [Base.ElectricWire],
             item 4 [Base.Screws],
