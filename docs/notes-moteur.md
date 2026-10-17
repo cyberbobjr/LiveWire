@@ -196,3 +196,54 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - Dans un bâtiment toxique, un personnage non protégé gagne 1e-4 de fatigue et perd 0,1 point de santé au torse (et à la tête si la fatigue dépasse 0,8), **à chaque mise à jour**, multipliés par `getThirtyFPSMultiplier()` (`java/zombie/characters/IsoGameCharacter.java:8192-8202`).
   - L'état du bâtiment est envoyé aux clients par le paquet `ToxicBuilding` (`java/zombie/iso/areas/IsoBuilding.java:509-513`, `java/zombie/network/GameServer.java:3571-3582`, `java/zombie/network/GameClient.java:795-805`).
 - Conséquence : on ne peut pas « effacer » après coup la toxicité d'un générateur posé en intérieur sans dégâts répétés. Un générateur de mod qui doit pouvoir se poser à l'intérieur ne peut pas être un vrai `IsoGenerator`.
+
+## 21. Modèles 3D d'un mod : `.fbx`, `.glb` ou `.x`, pas `.obj`
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; échelle et orientation d'un `.glb` d'objet : hypothèse
+- Preuve :
+  - Le chargeur de maillage cherche, dans l'ordre, `media/models_x/<nom>.fbx`, `.glb`, `.x`, puis `media/models/<nom>.txt`. Le nom est mis en minuscules ; la recherche dans les fichiers des mods ne tient pas compte de la casse (`java/zombie/core/skinnedmodel/model/FileTask_AbstractLoadModel.java:63-122`, `java/zombie/ZomboidFileSystem.java:321-339`).
+  - Les trois formats passent par Assimp. Il n'existe aucun chemin pour `.obj` ni `.gltf`.
+  - Texture d'un modèle : `media/textures/<texture>.png`.
+  - Sans champ `texture`, c'est le nom du maillage qui sert (`java/zombie/scripting/objects/ModelScript.java:186-187`).
+- Conséquence : des formes simples générées en glTF binaire (`.glb`) suffisent comme modèles provisoires. Live Wire les produit avec `tools/make_placeholder_models.py`. Leur échelle en jeu reste à vérifier.
+
+## 22. Noms d'objets, recettes et `OnCreate` en 42.21
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
+- Preuve :
+  - **Nom affiché d'un objet** : clé `Module.Type` dans `ItemName.json`, sans préfixe `ItemName_` (`java/zombie/core/Translator.java:476-490`, `media/lua/shared/Translate/EN/ItemName.json:899`).
+  - **Nom d'une recette** : clé = nom de la recette dans `Recipes.json` (`Translator.java:561-569`).
+  - **Champ `OnCreate`** : chemin global pointé (`CraftRecipe.java:425-426`), appelé avec `(craftRecipeData, character)` (`CraftRecipeData.java:424-434`), après l'ajout des sorties.
+  - **Où `OnCreate` s'exécute** : seulement en solo ou sur le serveur (`media/lua/shared/Entity/TimedActions/ISHandcraftAction.lua:191-234`).
+  - **`Icon = X`** cherche la texture `Item_X`. Une icône vanilla peut servir à un objet de mod (`java/zombie/scripting/objects/Item.java:2031-2038`).
+  - **Résolution des noms** : un nom sans module se résout dans `Base` (`ScriptBucketCollection.java:82`). Il faut qualifier `WorldStaticModel = LiveWire.X`.
+- Conséquence : les fichiers de traduction et les scripts de Live Wire suivent ces formats. Les effets d'un `OnCreate` doivent être synchronisés vers le client du joueur (`syncItemFields`).
+
+## 23. `setCondition` d'un objet joue un son
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
+- Preuve :
+  - `InventoryItem.setCondition` joue le son de casse ou de dégât.
+  - `setConditionNoSound` règle la même valeur sans son (`java/zombie/inventory/InventoryItem.java:2549-2553`).
+  - La valeur est bornée à `ConditionMax`, puis `setBroken(c <= 0)` est appelé (`:2504-2518`).
+- Conséquence : un script qui fait vieillir un objet régulièrement (usure d'une batterie) utilise `setConditionNoSound`.
+
+## 24. Son local sur un émetteur libre : `playSoundImpl`, pas `playSound`
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; boucle de `FridgeHumA` : hypothèse
+- Preuve :
+  - Sur un client MP, `playSound` et `playSoundLooped` lancés sur un émetteur sans parent sont relayés aux autres joueurs par `PlayWorldSound`. Leur arrêt, lui, n'est pas relayé (`java/fmod/fmod/FMODSoundEmitter.java:380-461`, `:955-961`).
+  - `playSoundImpl(nom, false, nil)` reste local. La forme `playSoundImpl(nom, nil)` prend la surcharge `IsoGridSquare` et lève une NPE (`knowledge/kahlua-lua.md:124-128`).
+  - Les émetteurs de `getWorld():getFreeEmitter` sont avancés par le moteur, puis rendus à la réserve quand ils sont vides (`java/zombie/iso/IsoWorld.java:500-504`, `:2785-2802`).
+  - `FridgeHumA` est l'événement FMOD `Object/Fridge/FridgeA/Running`. Le moteur le joue en lui donnant le paramètre `Generator` (`java/zombie/audio/ObjectAmbientEmitters.java:675-705`).
+- Conséquence : le ronronnement de l'onduleur Live Wire est joué par chaque client pour lui seul, avec `playSoundImpl`. Il reste à vérifier en jeu que le son boucle sans ce paramètre.
+
+## 25. Texte de halo envoyé par le serveur : chaîne finale, donc sans traduction de mod
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
+- Preuve :
+  - Sur un serveur, `HaloTextHelper.addText` envoie le paquet `HaloText` avec le texte déjà composé (`java/zombie/characters/HaloTextHelper.java:109-131`, `HaloTextPacket.java:57`).
+  - Un serveur dédié ne charge pas les traductions des mods (`knowledge/api-42-21.md:145-150`).
+- Conséquence : le serveur envoie une clé et ses paramètres par `sendServerCommand`, et le client appelle `getText` puis `HaloTextHelper` (`LW_Notify.lua`, `LW_ClientState.lua`).
+
+## 26. Murs d'une case et objets muraux
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; noms des variantes `walls_decoration_01_104` à `_107` : hypothèse
+- Preuve :
+  - `IsoGridSquare.getWall(true)` rend le mur nord de la case, et `getWall(false)` le mur ouest (`java/zombie/iso/IsoGridSquare.java:3962`). Un mur est ou sud appartient à la case voisine.
+  - Les drapeaux de sprite `attachedN` et `attachedW` existent (`java/zombie/iso/SpriteDetails/IsoFlagType.java:79-82`). On les lit par `getSprite(nom):getProperties():has(IsoFlagType.attachedN)` (`java/zombie/core/properties/PropertyContainer.java:84`).
+- Conséquence : un objet mural se pose sur la case qui porte le mur, avec la variante de sprite dont le drapeau correspond au mur. Pour un clic devant un mur est ou sud, on prend la case voisine.
