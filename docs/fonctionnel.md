@@ -23,7 +23,7 @@ Trois règles de conception :
 | Phase | Situation | Ce que fait le joueur avec Live Wire |
 |---|---|---|
 | **1. Avant la coupure** (réseau public actif) | Le courant est partout. | Il récupère des batteries de voiture, des fils électriques, de l'électronique, des calculatrices et des livres d'électricité. Il fabrique un **testeur de tension** (niv. 1) et apprend à lire une installation. |
-| **2. La coupure** | Le générateur vanilla devient la seule source ; il attire les zombies. | Il installe un **banc de batteries** (niv. 2) et un **onduleur** (niv. 5) à l'extérieur de la maison. Les batteries, chargées pendant le jour, permettent d'éteindre le générateur la nuit. *En v0.1, la charge depuis un générateur vanilla n'existe pas encore (§ 9) : la phase 2 repose sur les premières sources renouvelables.* |
+| **2. La coupure** | Le générateur vanilla devient la seule source ; il attire les zombies. | Il installe un **onduleur** (niv. 5) à l'extérieur de la maison et range ses batteries de voiture dans son compartiment. Pour une grosse installation, il ajoute un banc câblé (niv. 2). Les batteries, chargées pendant le jour, permettent d'éteindre le générateur la nuit. *En v0.1, la charge depuis un générateur vanilla n'existe pas encore (§ 9) : la phase 2 repose sur les premières sources renouvelables.* |
 | **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou en plein champ (niv. 3) et une **petite éolienne** (niv. 6). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
 | **4. Base autonome** | Plus de carburant du tout. | Il installe une **roue à aubes** sur une rive de rivière (niv. 7, v0.2), qui produit jour et nuit. Il dimensionne l'installation (assez de batteries pour la nuit, onduleur assez puissant), entretient les appareils et remplace les batteries usées. |
 | **5. Fin de partie** (versions suivantes) | La base est stable. | Il ajoute une pompe électrique, des capteurs et une alarme, une clôture électrifiée, et des relais qui alimentent un grand bâtiment. |
@@ -69,8 +69,8 @@ Un appareil posé est un objet du monde portant une **marque Live Wire** (identi
 | Panneau photovoltaïque | `appliances_com_01_20` (antenne satellite) | `media/scripts/generated/items/moveable.txt:1854` | Case à ciel ouvert : `sq:isOutside()` (`java/zombie/iso/IsoGridSquare.java:7968-7970`). Toit plat accepté. |
 | Éolienne | `industry_01_4` (climatiseur) | `moveable.txt:1755` | Case `isOutside()`. Bonus si posée en hauteur (§ 3.3). |
 | Roue à aubes (v0.2) | `construction_01_5` (palette) | `moveable.txt:945` | Niveau 0, case de terre voisine d'une eau de rivière (§ 3.4). |
-| Onduleur | `location_business_machinery_01_32` (armoire à outils), à confirmer au prototype P1 | `moveable.txt:1017` | Case **sans pièce** (`sq:getRoom() == nil`), pour éviter la toxicité (NM-4). |
-| Banc de batteries | Aucun objet neuf : un **meuble conteneur vanilla** câblé (caisse en bois construite, caisse militaire, étagère métallique) | — | À portée de câble de l'onduleur. **À valider : D-4.** |
+| Onduleur, **avec compartiment à batteries intégré** | `location_business_machinery_01_32` (armoire à outils, qui porte un conteneur), à confirmer au prototype P1 | `moveable.txt:1017` | Case **sans pièce** (`sq:getRoom() == nil`), pour éviter la toxicité (NM-4). |
+| Banc de batteries supplémentaire (facultatif) | Aucun objet neuf : un **meuble conteneur vanilla** câblé (caisse en bois construite, caisse militaire, étagère métallique) | — | À portée de câble de l'onduleur, pour les grosses installations. **À valider : D-4.** |
 
 **Câblage (à valider : D-3).** Chaque appareil se raccorde à un onduleur par l'action « Raccorder ». Celle-ci exige une distance d'au plus `LinkRange` cases (12 par défaut) et un écart d'au plus 1 étage. Elle consomme `Base.ElectricWire` à raison de 1 fil pour 4 cases, arrondi au-dessus, au moins 1. Il n'y a pas de câble visible en v0.1.
 
@@ -282,9 +282,15 @@ Chaque appareil a un **état** de 0 à 100.
   La consommation à vide correspond à la base de 0,02 du moteur (`IsoGenerator.java:253`), à l'échelle du § 5.3.
 - **Plusieurs onduleurs.** Un réseau n'a qu'un onduleur en v0.1. Les relais viendront en v0.4.
 
-### 5.2 Le banc de batteries
+### 5.2 Les batteries : dans l'onduleur, ou dans un banc câblé
 
-- Un meuble conteneur vanilla, **câblé** à l'onduleur. Toutes les batteries reconnues qu'il contient forment le stock du réseau.
+- **Dans l'onduleur.** L'onduleur a un **compartiment intégré**. Le joueur l'ouvre comme une caisse et y range ses batteries de voiture (`Base.CarBattery1/2/3`) ou ses batteries stationnaires. C'est le cas courant : un seul objet à poser, rien à câbler.
+  - Le compartiment est le conteneur du sprite de substitution. Le moteur ne le crée pas tout seul pour un générateur : c'est le mod qui le crée (`architecture.md`, § 1.4).
+  - Sa taille est celle du meuble de substitution. Le stock doit aussi rester borné par le jeu : 4 batteries au plus, les suivantes sont ignorées et signalées.
+  - À confirmer au prototype P1 : un conteneur porté par un générateur se comporte comme un conteneur ordinaire, transferts MP compris (hypothèse).
+- **Dans un banc câblé** (facultatif). Un meuble conteneur vanilla, **câblé** à l'onduleur, ajoute de la place pour les grosses installations.
+- **Stock du réseau** : toutes les batteries reconnues du compartiment et des bancs câblés.
+- **Autres objets.** Un objet qui n'est pas une batterie peut être rangé dans le compartiment, mais il n'est pas compté.
 - **Charge et décharge uniformes** : à chaque pas, le surplus est réparti entre les batteries au prorata de la place libre, et le déficit au prorata de la charge.
 - Rendement de charge : 0,90. Rendement de décharge : celui de l'onduleur.
 - Un joueur peut ajouter ou retirer une batterie à tout moment : le stock est recalculé au pas suivant.
@@ -336,6 +342,7 @@ Toutes les options vont dans un sous-menu **« Live Wire »**. Une option imposs
 | Un kit en inventaire, case visée | Installer ici (avec l'aperçu « case valide / invalide » et la raison) |
 | Un appareil Live Wire | Inspecter · Raccorder à un onduleur · Débrancher · Réparer · Remettre à neuf · Déneiger (panneau) · Démonter |
 | L'onduleur | Ouvrir le tableau de bord · Allumer / Éteindre · Réarmer (après disjonction) · Inspecter · Réparer · Démonter |
+| L'onduleur (compartiment) | Ouvrir le compartiment : c'est l'ouverture de conteneur vanilla, avec les transferts d'objets habituels |
 | Un meuble conteneur | Câbler comme banc de batteries · Décâbler |
 | Une batterie hors du banc | Reconditionner |
 
