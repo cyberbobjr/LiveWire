@@ -25,7 +25,7 @@ The wind turbine tiles 4-7 have no blades: the client always draws a blade frame
 
 Needs pz-sprite-forge (MIT, https://github.com/Leeheejin/pz-sprite-forge).
 1. Render every cell, headless:
-       set PZ_FORGE=E:\\pz-tools\\pz-sprite-forge
+       set PZ_FORGE=<path to your pz-sprite-forge clone>
        blender -b --factory-startup -P source/tiles/build_livewire_tiles.py -- <cells-dir> [<group>... preview]
 2. Style and package (Python with Pillow):
        python source/tiles/build_livewire_tiles.py package <cells-dir> <project-root> [--no-preview]
