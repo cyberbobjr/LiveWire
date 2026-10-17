@@ -467,7 +467,9 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 **Écarts avec les sections précédentes :**
 - **Batterie** : elle se débranche en la ramassant, ou par la commande `unlink`. Son lien est porté par la ModData de l'objet d'inventaire (§ 3.1).
 - **Tableau de bord** : abonnement par identifiant d'onduleur (§ 5.2).
-- **Disjoncteur** : il se fixe sur un mur. La variante de sprite est choisie au moment de la pose, d'après les drapeaux `attachedN` / `attachedW` des candidats `walls_decoration_01_104` à `_107` (hypothèse à vérifier).
+- **Disjoncteur** : il se fixe sur un mur et reste sur la case cliquée. Son orientation (N, W, S, E) est choisie d'après les murs, et la variante de sprite d'après les drapeaux `attachedN/W/S/E` de l'applique `lighting_indoor_02_44` à `_47`. Un mur qui le porte est protégé de la masse (NM-30).
+- **Appareil disparu** : une source ou un équipement absent de sa case chargée est retiré du registre après deux constats, comme l'onduleur.
+- **Demande** : mêmes filtres que le moteur (`ItemContainer.isObjectPowered`, `AllowExteriorGenerator`, cases réellement alimentées : NM-27). Inventaire refait toutes les 30 minutes de jeu (NM-28).
 - **Hors v0.1** : la roue à aubes, la charge depuis un générateur vanilla, l'ordinateur de gestion et l'alarme de batterie faible arrivent en v0.2 (`fonctionnel.md`, § 9).
 - **Pas encore implémenté** : l'adoption d'un objet marqué inconnu du registre (§ 6.3). Un tel objet reste inerte.
 

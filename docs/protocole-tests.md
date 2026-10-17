@@ -40,6 +40,7 @@
    - **Attendu** : la maison reste alimentée, la charge baisse.
 4. Ramasser une batterie.
    - **Attendu** : elle disparaît du tableau de bord au pas suivant ; sa charge reste dans l'objet.
+   - Variante : « Live Wire » → « Débrancher … » sur une batterie au sol, qui doit avoir le même effet.
 5. **MP** : le 2e client voit la charge de la batterie au sol changer (infobulle).
 
 ## 3. Sans joueur dans la zone (exigence de l'utilisateur)
@@ -60,7 +61,9 @@
    - **Attendu** : le courant revient.
 3. Installer le disjoncteur contre un mur (clic droit au pied d'un mur), puis le raccorder. Recommencer la surcharge.
    - **Attendu** : l'onduleur disjoncte, mais son état ne baisse plus.
-4. **À noter** : orientation du disjoncteur contre un mur nord, ouest, est et sud. Le sprite colle-t-il au mur ?
+4. **À noter** : orientation du disjoncteur contre un mur nord, ouest, est et sud. Le sprite (applique murale provisoire) colle-t-il au mur ? Aucune lumière ne doit apparaître.
+5. Essayer de détruire à la masse le mur qui porte le disjoncteur.
+   - **Attendu** : refusé.
 
 ## 5. Éolienne, testeur, compétence
 

@@ -110,7 +110,7 @@ Le système de base reste **source → onduleur → maison**, avec une **batteri
 
 | Équipement | Problème réglé | Effet en jeu | Niv. | Version proposée | Faisabilité |
 |---|---|---|---|---|---|
-| **Disjoncteur** (sécurité) | Une surcharge use l'onduleur (−3 d'état à chaque disjonction) | **Se fixe sur un mur, comme un vrai disjoncteur** (mur nord ou ouest de la case visée, ou mur est ou sud de la case voisine). Raccordé à un onduleur, il coupe **avant** l'onduleur : plus de dégât en cas de surcharge. Le réarmement reste manuel | 3 | 0.1 | Simple : règle du pas de simulation ; orientation du sprite choisie d'après les drapeaux `attachedN` / `attachedW` (`IsoFlagType.java:79-82`), murs lus par `IsoGridSquare.getWall(boolean)` (`IsoGridSquare.java:3962`) |
+| **Disjoncteur** (sécurité) | Une surcharge use l'onduleur (−3 d'état à chaque disjonction) | **Se fixe sur un mur, comme un vrai disjoncteur**, sur l'un des quatre côtés de la case visée. Raccordé à un onduleur, il coupe **avant** l'onduleur : plus de dégât en cas de surcharge. Le réarmement reste manuel | 3 | 0.1 | Simple : règle du pas de simulation ; orientation du sprite choisie d'après les drapeaux `attachedN` / `attachedW` (`IsoFlagType.java:79-82`), murs lus par `IsoGridSquare.getWall(boolean)` (`IsoGridSquare.java:3962`) |
 | **Ordinateur de gestion** | Le tableau de bord ne montre que l'instant présent | Ajoute au tableau de bord un **historique de 48 h** (production, demande, stock), une **prévision d'autonomie** jusqu'au lever du soleil, et des alertes plus tôt. Avec le **délestage** (niv. 7), il éteint d'abord les lumières quand le stock passe sous 15 %, pour garder le réfrigérateur | 6 | 0.2 | Moyenne : l'historique est un tableau circulaire ; extinction des lumières sur le serveur par `IsoLightSwitch:setActive(false)`, qui se synchronise (`knowledge/power-and-lights.md:194-197`) |
 | **Alarme de batterie faible** | On découvre la panne trop tard | Bip discret et message aux joueurs proches quand le stock passe sous 20 % | 2 | 0.2 | Simple : `notify` du serveur et son local du client |
 
@@ -122,7 +122,7 @@ Le système de base reste **source → onduleur → maison**, avec une **batteri
 
 **Aspect (placeholder)** : des sprites vanilla de `media/scripts/generated/items/moveable.txt`, à choisir au prototype. L'ordinateur de gestion reprend `appliances_com_01_72`, l'ordinateur de bureau (`moveable.txt:1800`).
 
-**Aspect du disjoncteur (placeholder)** : la pendule murale carrée vanilla (`Mov_SquareWallClock`, sprite `walls_decoration_01_105`, `media/scripts/generated/items/moveable.txt`). Les noms des variantes tournées (`_104` à `_107`) sont une **hypothèse** à vérifier en jeu (prototype P1).
+**Aspect du disjoncteur (placeholder)** : l'applique murale vanilla `lighting_indoor_02_44` à `_47`, dont chaque variante est tournée vers un mur (`knowledge/power-and-lights.md:103`). Posée comme simple objet, elle n'éclaire pas. Le disjoncteur reste sur la case cliquée, contre son mur nord ou ouest, ou contre le mur sud ou est de la case voisine (NM-30). On ne peut pas détruire à la masse un mur qui le porte.
 
 **Recettes** : disjoncteur au § 2.5. Ordinateur de gestion et alarme de batterie faible : à détailler en v0.2.
 

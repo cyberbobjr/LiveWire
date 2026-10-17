@@ -247,3 +247,35 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - `IsoGridSquare.getWall(true)` rend le mur nord de la case, et `getWall(false)` le mur ouest (`java/zombie/iso/IsoGridSquare.java:3962`). Un mur est ou sud appartient à la case voisine.
   - Les drapeaux de sprite `attachedN` et `attachedW` existent (`java/zombie/iso/SpriteDetails/IsoFlagType.java:79-82`). On les lit par `getSprite(nom):getProperties():has(IsoFlagType.attachedN)` (`java/zombie/core/properties/PropertyContainer.java:84`).
 - Conséquence : un objet mural se pose sur la case qui porte le mur, avec la variante de sprite dont le drapeau correspond au mur. Pour un clic devant un mur est ou sud, on prend la case voisine.
+
+## 27. La portée réelle d'un générateur est une valeur statique
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
+- Preuve :
+  - `IsoGenerator.isPoweringSquare`, appelé par `haveElectricity`, lit les champs **statiques** `generatorRadius` (20), la portée verticale (3) et la portée en chunks (`java/zombie/iso/objects/IsoGenerator.java:65, 67, 89, 637-644`).
+  - Ces champs ne sont relus dans les options sandbox qu'à la construction d'un `IsoGenerator` (`:97-119`).
+- Conséquence :
+  - Tant qu'aucun générateur n'a été construit depuis le lancement, un `GeneratorTileRange` différent de 20 n'est pas appliqué par le moteur.
+  - Une ancre posée par un mod alimente donc le disque du moteur, pas forcément celui de l'option.
+  - Live Wire ne compte, ancre allumée, que les appareils dont la case est réellement alimentée (`sq:haveElectricity()`).
+
+## 28. `OnObjectAdded` ne part que chez les clients MP
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
+- Preuve :
+  - Le seul déclenchement de `OnObjectAdded` est dans `AddItemToMapPacket.processClient` (`java/zombie/network/packets/AddItemToMapPacket.java:59, 90`).
+  - `OnObjectAboutToBeRemoved` part des deux côtés (`java/zombie/iso/IsoGridSquare.java:4905`).
+- Conséquence : en solo et sur un serveur, un objet posé n'est pas signalé. Il faut le détecter par un balayage périodique ; Live Wire refait l'inventaire de la demande toutes les 30 minutes de jeu.
+
+## 29. Sprites de pendule : aiguilles animées sur tout objet
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
+- Preuve :
+  - `IsoObject` dessine des aiguilles pour tout sprite qui a un script d'horloge (`java/zombie/iso/IsoObject.java:5683-5701`).
+  - `walls_decoration_01_104` et `_105` ont un tel script (`media/scripts/generated/clocks.txt:45, 66`).
+  - `getSprite` sur un nom inconnu crée et garde en mémoire un sprite vide (`java/zombie/iso/sprite/IsoSpriteManager.java:53-58`).
+- Conséquence : ne pas prendre une pendule comme sprite de substitution. Le disjoncteur Live Wire utilise l'applique murale `lighting_indoor_02_44` à `_47`, dont les orientations sont connues (`knowledge/power-and-lights.md:103`). Posée comme simple `IsoObject`, elle n'éclaire pas.
+
+## 30. Objets muraux vanilla : posés sur la case cliquée, détruits avec leur mur
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
+- Preuve :
+  - Un objet tourné vers l'ouest exige un mur sur la case **est** voisine, et un objet tourné vers le nord un mur sur la case **sud**, tandis que l'objet reste sur la case cliquée (`media/lua/shared/Moveables/ISMoveableSpriteProps.lua:2651-2661`).
+  - Détruire un mur retire aussi les objets accrochés : `attachedN` / `attachedW` sur sa case, `attachedS` / `attachedE` sur la case voisine (`media/lua/shared/TimedActions/ISDestroyStuffAction.lua:163-200`).
+- Conséquence : le disjoncteur Live Wire reste sur la case cliquée, et son orientation (N, W, S ou E) est notée dans sa marque. La destruction vanilla d'un mur qui le porte est refusée.
