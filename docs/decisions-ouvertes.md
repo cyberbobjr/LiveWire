@@ -10,7 +10,8 @@ Ces choix reviennent à l'utilisateur.
 - fonctionnement sans joueur dans la zone ;
 - usure et léger bruit de l'onduleur acceptés ;
 - trois rôles distincts : source, batterie, onduleur ;
-- système minimal = source + onduleur, batterie facultative, autres équipements optionnels.
+- système minimal = source + onduleur, batterie facultative, autres équipements optionnels ;
+- chaque source a un micro-onduleur intégré qui lisse sa production ; pas de parafoudre, de programmateur horaire ni de régulateur solaire.
 
 ---
 
@@ -120,12 +121,12 @@ Chacun compte les appareils communs (NM-5).
 
 ## D-11. Équipements optionnels
 
-Liste détaillée dans `fonctionnel.md`, § 2.4 : disjoncteur, parafoudre, ordinateur de gestion, programmateur horaire, régulateur solaire optimisé, alarme de batterie faible.
+Liste détaillée dans `fonctionnel.md`, § 2.4 : disjoncteur, ordinateur de gestion, alarme de batterie faible. Parafoudre, programmateur horaire et régulateur solaire ont été retirés par l'utilisateur (2026-10-17). Le lissage de la production est assuré par le micro-onduleur intégré à chaque source.
 
 | Option | Règle | Conséquences |
 |---|---|---|
-| 1 | **Disjoncteur seul en 0.1** ; parafoudre, ordinateur de gestion, programmateur et alarme en 0.2 ; régulateur solaire en 0.3 | Le système de base reste simple au lancement. La sécurité la plus utile (pas d'usure en cas de surcharge) arrive tout de suite |
+| 1 | **Disjoncteur seul en 0.1** ; ordinateur de gestion et alarme de batterie faible en 0.2 | Le système de base reste simple au lancement. La sécurité la plus utile (pas d'usure en cas de surcharge) arrive tout de suite |
 | 2 | Aucun équipement optionnel avant la 0.2 | Le plus simple ; le disjoncteur manque aux joueurs qui découvrent la surcharge |
-| 3 | Les six dès la 0.1 | Riche, mais la 0.1 s'alourdit et chaque équipement ajoute des cas à tester |
+| 3 | Les trois dès la 0.1 | Riche, mais la 0.1 s'alourdit et chaque équipement ajoute des cas à tester |
 
 **Recommandation : option 1 — à valider.** Chaque équipement peut être retiré ou repoussé sans toucher au reste : ils ne changent que des paramètres du pas de simulation.
