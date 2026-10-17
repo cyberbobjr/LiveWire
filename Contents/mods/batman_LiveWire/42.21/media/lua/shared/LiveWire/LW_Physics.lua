@@ -60,6 +60,16 @@ function Physics.windFactor(v)
     return r * r * r
 end
 
+-- Water wheel: river flow by season, day and night (docs/fonctionnel.md 3.4,
+-- rule of the mod): spring x1.2, summer x0.8, autumn and winter x1.0. The engine
+-- never freezes water. `month` is GameTime:getMonth() (0 = January).
+function Physics.hydroFactor(month)
+    if month == nil then return 1 end
+    if month >= 2 and month <= 4 then return 1.2 end
+    if month >= 5 and month <= 7 then return 0.8 end
+    return 1
+end
+
 -- Built-in micro-inverter smoothing (first-order lag, tau in hours).
 function Physics.smooth(prev, raw, dtHours, tau)
     if prev == nil then return raw end

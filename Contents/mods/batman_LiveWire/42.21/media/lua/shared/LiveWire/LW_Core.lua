@@ -4,11 +4,11 @@
 
 LiveWire = LiveWire or {}
 
-LiveWire.VERSION = "0.1.0"
+LiveWire.VERSION = "0.1.1"
 LiveWire.MODULE = "LiveWire"          -- client/server command module
 LiveWire.DATA_KEY = "LiveWire"        -- global ModData: authoritative registry (server only)
 LiveWire.ANCHOR_KEY = "LiveWireAnchors" -- global ModData: public anchor table (all clients)
-LiveWire.SCHEMA = 1                   -- registry schema version (see LW_Migration.lua)
+LiveWire.SCHEMA = 2                   -- registry schema version (see LW_Migration.lua)
 LiveWire.STEP_HOURS = 1 / 6           -- nominal simulation step (EveryTenMinutes)
 
 function LiveWire.log(msg)

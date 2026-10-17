@@ -1,5 +1,6 @@
 -- Live Wire: when a chunk loads on the authority, push registry snapshots onto
--- the batteries it contains (nobody could touch them while unloaded), apply the
+-- the batteries it contains (nobody could touch them while unloaded), drop the
+-- devices destroyed while unloaded, apply the
 -- fuel a backup generator burnt while unloaded, and drop the
 -- demand inventory of nearby inverters (docs/architecture.md section 6.2).
 if isClient() then return end
@@ -17,14 +18,21 @@ local function onLoadChunk(chunk)
     local x1, y1 = x0 + CHUNK - 1, y0 + CHUNK - 1
     local reach = LiveWire.Config.tileRange() + CHUNK
     local R2 = reach * reach
-    for _, dev in pairs(R.devices()) do
-        if dev.x >= x0 and dev.x <= x1 and dev.y >= y0 and dev.y <= y1 then
-            if dev.role == "storage" then LiveWire.Batteries.restore(dev) end
-            if dev.role == "backup" then LiveWire.Backup.restore(dev) end
-        end
-        if dev.role == "inverter" then
-            local dx, dy = dev.x - (x0 + 4), dev.y - (y0 + 4)
-            if dx * dx + dy * dy <= R2 then LiveWire.Demand.invalidate(dev.id) end
+    -- Copy first: validate() may remove devices from the registry.
+    local list = {}
+    for _, dev in pairs(R.devices()) do list[#list + 1] = dev end
+    for i = 1, #list do
+        local dev = list[i]
+        local inChunk = dev.x >= x0 and dev.x <= x1 and dev.y >= y0 and dev.y <= y1
+        local alive = true
+        if inChunk and LiveWire.Defs.devices[dev.model] then alive = LiveWire.Devices.validate(dev) end
+        if alive then
+            if inChunk and dev.role == "storage" then LiveWire.Batteries.restore(dev) end
+            if inChunk and dev.role == "backup" then LiveWire.Backup.restore(dev) end
+            if dev.role == "inverter" then
+                local dx, dy = dev.x - (x0 + 4), dev.y - (y0 + 4)
+                if dx * dx + dy * dy <= R2 then LiveWire.Demand.invalidate(dev.id) end
+            end
         end
     end
 end

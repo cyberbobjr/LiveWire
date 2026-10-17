@@ -93,11 +93,20 @@ end
 
 handlers[P.C_UNLINK] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
+    if not dev and why == "Tooltip_LW_TooFar" then
+        -- Also allowed from the inverter of its network (inverter menu).
+        local d = P.isDeviceId(args.device) and LiveWire.Registry.device(args.device)
+        local g = d and d.grid and LiveWire.Registry.grid(d.grid)
+        if g and Commands.checkDevice(player, g.inverter) then dev = d end
+    end
     if not dev then return refuse(player, P.C_UNLINK, why) end
     if dev.role == "inverter" or not dev.grid then return end
     local grid = LiveWire.Registry.grid(dev.grid)
     -- A linked vanilla generator or computer leaves the registry entirely.
-    if not LiveWire.Registry.forgetVanilla(dev) then LiveWire.Registry.unlink(dev) end
+    if not LiveWire.Registry.forgetVanilla(dev) then
+        LiveWire.Registry.unlink(dev)
+        LiveWire.Devices.syncMark(dev)
+    end
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(player, "IGUI_LW_Unlinked", {})
 end

@@ -61,6 +61,9 @@ def main():
     check(P.windFactor(90) == 0, "storm cut-out")
     check(approx(P.windAtHeight(20, 2), 26), "height bonus")
     check(approx(P.windAtHeight(20, 9), 29), "height bonus capped at 3 floors")
+    check(approx(P.hydroFactor(3), 1.2) and approx(P.hydroFactor(6), 0.8) and P.hydroFactor(10) == 1,
+          "water wheel by season")
+    check(approx(120 * 24 * P.hydroFactor(0) / 1000, 2.88), "water wheel about 2.9 kWh a day")
 
     # Smoothing: one third of the gap per 10 minute step.
     s = P.smooth(100, 20, 1 / 6, 0.5)

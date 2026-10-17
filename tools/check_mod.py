@@ -111,7 +111,7 @@ def check_load(side_client, side_server, label):
         if err:
             fail("[%s] %s: load error: %s" % (label, rel, err))
     g = lua.globals()
-    for name in ("LWInstallAction", "LWDismantleAction", "LWLinkAction", "LWRepairAction",
+    for name in ("LWLinkAction", "LWRepairAction",
                  "LWInspectAction", "LWClearSnowAction", "LWMeasureAction", "LWReconditionAction"):
         v = g[name]
         if v is None or lua.eval("type")(v) != "table" or v["complete"] is None:

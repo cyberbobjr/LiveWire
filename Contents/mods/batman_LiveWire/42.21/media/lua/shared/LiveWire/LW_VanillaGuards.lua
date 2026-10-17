@@ -1,11 +1,10 @@
--- Live Wire: keep vanilla pick-up, scrap and destroy away from our placed devices.
--- Display side: ISMoveableSpriteProps:canPickUpMoveable / canScrapObject and
--- ISDestroyCursor:canDestroy. Authority side: ISMoveablesAction:complete and
--- ISDestroyStuffAction:complete, because the server never calls isValid
--- (knowledge/multiplayer.md:43-49, 230). Wrappers keep vanilla arguments and
--- returns. Batteries are NOT protected: picking one up is the normal way to unlink it.
--- Our file loads before the vanilla classes (lower-case path order), so wrappers
--- are installed on the first start-up event that finds each class.
+-- Live Wire: keep vanilla scrap and destroy away from our placed devices. Picking
+-- up, placing and rotating them is vanilla on purpose (LW_Placement.lua).
+-- Display side: ISMoveableSpriteProps:canScrapObject and ISDestroyCursor:canDestroy.
+-- Authority side: ISMoveablesAction:complete and ISDestroyStuffAction:complete,
+-- because the server never calls isValid (knowledge/multiplayer.md:43-49, 230).
+-- Wrappers keep vanilla arguments and returns. They are installed on the first
+-- start-up event that finds each class.
 
 LiveWire = LiveWire or {}
 
@@ -31,37 +30,23 @@ local function oursOnSquareWithSprite(sq, spriteName)
     return false
 end
 
--- Destroying a wall also removes the objects attached to it, on its square (attachedN/W)
--- and on the neighbour behind it (attachedS/E) (ISDestroyStuffAction.lua:163-200).
--- Refuse when one of our wall-mounted devices hangs on that wall.
+-- Destroying a wall also removes the objects attached to it
+-- (ISDestroyStuffAction.lua:163-200). Our wall devices (breaker, alarm) are
+-- placed on the square of their wall: refuse when the square holds one.
 local function carriesOurDevice(obj)
     local sq = obj and obj.getSquare and obj:getSquare()
-    if not sq then return false end
-    local cell = getCell()
-    local function hasFacing(s, facings)
-        if not s then return false end
-        local objs = s:getObjects()
-        for i = 0, objs:size() - 1 do
-            local m = LiveWire.Marks.get(objs:get(i))
-            if m and m.facing and facings[m.facing] then return true end
-        end
-        return false
+    if not sq or isOurs(obj) then return false end
+    local objs = sq:getObjects()
+    for i = 0, objs:size() - 1 do
+        local o = objs:get(i)
+        local model = isOurs(o) and LiveWire.Defs.modelOfObject(o)
+        if model and LiveWire.Defs.devices[model].facings == 2 then return true end
     end
-    if hasFacing(sq, { N = true, W = true }) then return true end
-    if hasFacing(cell:getGridSquare(sq:getX(), sq:getY() - 1, sq:getZ()), { S = true }) then return true end
-    if hasFacing(cell:getGridSquare(sq:getX() - 1, sq:getY(), sq:getZ()), { E = true }) then return true end
     return false
 end
 
-local function wrapPickUp()
-    if Guards.done.pickUp or not ISMoveableSpriteProps then return end
-    local original = ISMoveableSpriteProps.canPickUpMoveable
-    ISMoveableSpriteProps.canPickUpMoveable = function(self, _character, _square, _object)
-        if isOurs(_object) or (_object == nil and oursOnSquareWithSprite(_square, self.spriteName)) then
-            return false
-        end
-        return original(self, _character, _square, _object)
-    end
+local function wrapScrap()
+    if Guards.done.scrap or not ISMoveableSpriteProps then return end
     local originalScrap = ISMoveableSpriteProps.canScrapObject
     ISMoveableSpriteProps.canScrapObject = function(self, _character)
         if self.isFromObject and isOurs(self.object) then
@@ -69,7 +54,7 @@ local function wrapPickUp()
         end
         return originalScrap(self, _character)
     end
-    Guards.done.pickUp = true
+    Guards.done.scrap = true
 end
 
 local function wrapDestroyCursor()
@@ -86,7 +71,7 @@ local function wrapMoveablesAction()
     if Guards.done.moveables or not ISMoveablesAction then return end
     local original = ISMoveablesAction.complete
     ISMoveablesAction.complete = function(self)
-        if (self.mode == "pickup" or self.mode == "scrap")
+        if self.mode == "scrap"
             and (isOurs(self.object) or oursOnSquareWithSprite(self.square, self.origSpriteName)) then
             LiveWire.log("refused vanilla " .. tostring(self.mode) .. " on a Live Wire device")
             return false
@@ -110,7 +95,7 @@ local function wrapDestroyAction()
 end
 
 function Guards.install()
-    wrapPickUp()
+    wrapScrap()
     wrapDestroyCursor()
     wrapMoveablesAction()
     wrapDestroyAction()

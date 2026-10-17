@@ -2,12 +2,12 @@
     "LWMakeVoltageTester": "Make Voltage Tester",
     "LWSalvageSolarCell": "Salvage Solar Cell",
     "LWMakeSolarCellFromScrap": "Make Solar Cell from Scrap",
-    "LWMakeSolarPanelKit": "Make Solar Panel Kit",
-    "LWMakeInverterKit": "Make Inverter Kit",
-    "LWMakeHeavyInverterKit": "Make Heavy Inverter Kit",
-    "LWMakeWindTurbineKit": "Make Wind Turbine Kit",
-    "LWMakePowerBankKit": "Make Power Bank Kit",
-    "LWMakeBreakerKit": "Make Circuit Breaker Kit",
+    "LWMakeSolarPanelKit": "Make Solar Panel",
+    "LWMakeInverterKit": "Make Inverter",
+    "LWMakeWindTurbineKit": "Make Wind Turbine",
+    "LWMakeWaterWheel": "Make Water Wheel",
+    "LWMakePowerBankKit": "Make Power Bank",
+    "LWMakeBreakerKit": "Make Breaker Panel",
     "LWMakeDeepCycleBattery": "Make Deep-Cycle Battery",
-    "LWMakeBatteryAlarmKit": "Make Low Battery Alarm Kit"
+    "LWMakeBatteryAlarmKit": "Make Low Battery Alarm"
 }

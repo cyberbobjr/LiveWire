@@ -1,12 +1,12 @@
 {
     "LiveWire.VoltageTester": "Voltage Tester",
     "LiveWire.SolarCell": "Solar Cell",
-    "LiveWire.SolarPanelKit": "Solar Panel Kit",
-    "LiveWire.WindTurbineKit": "Wind Turbine Kit",
-    "LiveWire.InverterKit": "Inverter Kit",
-    "LiveWire.HeavyInverterKit": "Heavy Inverter Kit",
-    "LiveWire.PowerBankKit": "Power Bank Kit",
-    "LiveWire.BreakerKit": "Circuit Breaker Kit",
     "LiveWire.DeepCycleBattery": "Deep-Cycle Battery",
-    "LiveWire.BatteryAlarmKit": "Low Battery Alarm Kit"
+    "Base.Mov_LiveWire_SolarPanel": "Solar Panel",
+    "Base.Mov_LiveWire_WindTurbine": "Wind Turbine",
+    "Base.Mov_LiveWire_WaterWheel": "Water Wheel",
+    "Base.Mov_LiveWire_Inverter": "Inverter",
+    "Base.Mov_LiveWire_PowerBank": "Power Bank",
+    "Base.Mov_LiveWire_Breaker": "Breaker Panel",
+    "Base.Mov_LiveWire_BatteryAlarm": "Low Battery Alarm"
 }

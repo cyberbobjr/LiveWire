@@ -46,7 +46,7 @@ function Backup.register(gen, grid)
         state = "standby", fuel = gen:getFuel(), fuelSeen = gen:getFuel(),
         connected = gen:isConnected(), cond = gen:getCondition(),
     })
-    gen:getModData()[Backup.KEY] = { id = dev.id }
+    gen:getModData()[Backup.KEY] = { id = dev.id, inverter = grid.inverter }
     if isServer() then gen:transmitModData() end
     LiveWire.Registry.link(dev, grid)
     return dev

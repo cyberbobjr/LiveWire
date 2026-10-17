@@ -11,6 +11,7 @@ local DEFAULTS = {
     PowerScale = 1.0,
     SolarMultiplier = 1.0,
     WindMultiplier = 1.0,
+    HydroMultiplier = 1.0,
     BatteryCapacityMultiplier = 1.0,
     BatteryWearMultiplier = 1.0,
     DeviceWearMultiplier = 1.0,

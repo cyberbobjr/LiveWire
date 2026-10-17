@@ -112,7 +112,7 @@ end
 
 local function spawnKit(player)
     local list = {}
-    for _, def in pairs(LiveWire.Defs.devices) do list[#list + 1] = { def.kit, 1 } end
+    for _, def in pairs(LiveWire.Defs.devices) do list[#list + 1] = { def.item, 1 } end
     for i = 1, #DebugCommands.KIT do list[#list + 1] = DebugCommands.KIT[i] end
     for i = 1, #list do
         for _ = 1, list[i][2] do LiveWire.Install.giveItem(player, list[i][1]) end

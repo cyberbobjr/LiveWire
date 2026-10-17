@@ -19,11 +19,11 @@ local GRAPH_H = 40
 local RESUBSCRIBE_MS = 60 * 1000
 local CLOSE_RANGE = 30
 
--- Source families, in display order. Hydro is planned for v0.2.
+-- Source families, in display order.
 local FAMILIES = {
     { kind = "solar", key = "IGUI_LW_Family_Solar" },
     { kind = "wind", key = "IGUI_LW_Family_Wind" },
-    { kind = "hydro", key = "IGUI_LW_Family_Hydro", planned = true },
+    { kind = "hydro", key = "IGUI_LW_Family_Hydro" },
 }
 
 local Dashboard = ISCollapsableWindow:derive("LiveWireDashboard")
@@ -177,9 +177,7 @@ function Dashboard:buildRows(snap)
         for i = 1, #snap.sources do
             if snap.sources[i].kind == fam.kind then n = n + 1; w = w + snap.sources[i].w end
         end
-        if fam.planned and n == 0 then
-            text(T("IGUI_LW_Family_Line_Planned", T(fam.key)), 0.6, 0.6, 0.6)
-        else
+        do
             text(T("IGUI_LW_Family_Line", T(fam.key), n, w), 0.8, 0.95, 1)
             for i = 1, #snap.sources do
                 local s = snap.sources[i]

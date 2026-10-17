@@ -18,6 +18,12 @@ option LiveWire.WindMultiplier
     page = LiveWire, translation = LiveWire_WindMultiplier,
 }
 
+option LiveWire.HydroMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_HydroMultiplier,
+}
+
 option LiveWire.BatteryCapacityMultiplier
 {
     type = double, min = 0.1, max = 10.0, default = 1.0,

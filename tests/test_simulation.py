@@ -21,7 +21,7 @@ FILES = [
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
-    "server/LiveWire/LW_Commands.lua",
+    "server/LiveWire/LW_Commands.lua", "server/LiveWire/LW_Devices.lua",
 ]
 
 STUBS = r"""
@@ -42,6 +42,7 @@ function getGameTime()
     return {
         getWorldAgeHours = function() return WORLD.hours end,
         getTimeOfDay = function() return (WORLD.hours + 7) % 24 end,
+        getMonth = function() return WORLD.month or 6 end,
     }
 end
 function getClimateManager()
@@ -239,7 +240,7 @@ local container = { getItems = function() return list(ITEMS) end }
 local bank = LiveWire.Registry.addDevice({ role = "storage", model = "PowerBank", x = 101, y = 101, z = 0,
     cond = 100, level = 7, state = "ok", wearFactor = 1, slots = {} })
 local obj = { getContainer = function() return container end,
-              getModData = function() return { LiveWire = { id = bank.id, model = "PowerBank" } } end }
+              getModData = function() return { movableData = { LiveWire = { id = bank.id, model = "PowerBank" } } } end }
 local square = { getObjects = function() return list({ obj }) end }
 local realGetCell = getCell
 function getCell()

@@ -6,6 +6,8 @@
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Multiplier of the solar panel production.",
     "Sandbox_LiveWire_WindMultiplier": "Wind production",
     "Sandbox_LiveWire_WindMultiplier_tooltip": "Multiplier of the wind turbine production.",
+    "Sandbox_LiveWire_HydroMultiplier": "Hydro production",
+    "Sandbox_LiveWire_HydroMultiplier_tooltip": "Multiplier of the water wheel production.",
     "Sandbox_LiveWire_BatteryCapacityMultiplier": "Battery capacity",
     "Sandbox_LiveWire_BatteryCapacityMultiplier_tooltip": "Multiplier of the capacity of every battery.",
     "Sandbox_LiveWire_BatteryWearMultiplier": "Battery wear",

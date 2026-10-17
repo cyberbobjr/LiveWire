@@ -1,12 +1,12 @@
 {
     "LiveWire.VoltageTester": "Testeur de tension",
     "LiveWire.SolarCell": "Cellule photovoltaïque",
-    "LiveWire.SolarPanelKit": "Panneau photovoltaïque en kit",
-    "LiveWire.WindTurbineKit": "Éolienne en kit",
-    "LiveWire.InverterKit": "Onduleur en kit",
-    "LiveWire.HeavyInverterKit": "Onduleur renforcé en kit",
-    "LiveWire.PowerBankKit": "Powerbank en kit",
-    "LiveWire.BreakerKit": "Disjoncteur en kit",
     "LiveWire.DeepCycleBattery": "Batterie stationnaire",
-    "LiveWire.BatteryAlarmKit": "Alarme de batterie faible en kit"
+    "Base.Mov_LiveWire_SolarPanel": "Panneau photovoltaïque",
+    "Base.Mov_LiveWire_WindTurbine": "Éolienne",
+    "Base.Mov_LiveWire_WaterWheel": "Roue à aubes",
+    "Base.Mov_LiveWire_Inverter": "Onduleur",
+    "Base.Mov_LiveWire_PowerBank": "Powerbank",
+    "Base.Mov_LiveWire_Breaker": "Disjoncteur",
+    "Base.Mov_LiveWire_BatteryAlarm": "Alarme de batterie faible"
 }

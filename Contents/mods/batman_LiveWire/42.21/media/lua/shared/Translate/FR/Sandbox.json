@@ -6,6 +6,8 @@
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Multiplicateur de la production des panneaux photovoltaïques.",
     "Sandbox_LiveWire_WindMultiplier": "Production éolienne",
     "Sandbox_LiveWire_WindMultiplier_tooltip": "Multiplicateur de la production des éoliennes.",
+    "Sandbox_LiveWire_HydroMultiplier": "Production hydraulique",
+    "Sandbox_LiveWire_HydroMultiplier_tooltip": "Multiplicateur de la production des roues à aubes.",
     "Sandbox_LiveWire_BatteryCapacityMultiplier": "Capacité des batteries",
     "Sandbox_LiveWire_BatteryCapacityMultiplier_tooltip": "Multiplicateur de la capacité de toutes les batteries.",
     "Sandbox_LiveWire_BatteryWearMultiplier": "Usure des batteries",

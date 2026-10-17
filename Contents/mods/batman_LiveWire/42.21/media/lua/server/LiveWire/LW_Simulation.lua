@@ -28,6 +28,7 @@ local function weather()
         snowIntensity = cm:getSnowIntensity(),
         temperature = cm:getTemperature(),
         storm = cm:getIsThunderStorming(),
+        month = getGameTime():getMonth(),
         dawn = season:getDawn(),
         dusk = season:getDusk(),
     }
@@ -57,6 +58,8 @@ local function sourceRaw(src, def, w, t0, h)
     elseif def.kind == "wind" then
         factor = Physics.windFactor(Physics.windAtHeight(w.windKph, src.z))
             * LiveWire.Config.get("WindMultiplier")
+    elseif def.kind == "hydro" then
+        factor = Physics.hydroFactor(w.month) * LiveWire.Config.get("HydroMultiplier")
     end
     return def.nominalW * factor * Physics.conditionFactor(src.cond) * (src.eff or 0.85)
 end
@@ -433,6 +436,15 @@ function Sim.tick()
     if not R or not R.ready or R.readOnly then return end
     local now = getGameTime():getWorldAgeHours()
     local w = weather()
+    -- Devices destroyed without being picked up (zombies, sledgehammer).
+    local devIds = {}
+    for id, dev in pairs(R.devices()) do
+        if LiveWire.Defs.devices[dev.model] then devIds[#devIds + 1] = id end
+    end
+    for i = 1, #devIds do
+        local dev = R.device(devIds[i])
+        if dev then LiveWire.Devices.validate(dev) end
+    end
     local ids = {}
     for id in pairs(R.grids()) do ids[#ids + 1] = id end
     table.sort(ids)

@@ -1,6 +1,6 @@
 -- Live Wire: static definitions of devices and batteries (pure data).
--- Values come from docs/fonctionnel.md (sections 2 to 5). Sprites are vanilla
--- placeholders until the final tiles exist.
+-- Values come from docs/fonctionnel.md (sections 2 to 5). The tiles are
+-- geometric placeholders until the final models exist.
 
 LiveWire = LiveWire or {}
 
@@ -8,70 +8,81 @@ local Defs = {}
 LiveWire.Defs = Defs
 
 -- Placed devices, keyed by model name (stored in the registry: never rename).
+-- Each device is a tile of the mod tileset (source/tiles/build_livewire_tiles.py):
+-- `tile` is the index of its first sprite, `facings` the number of sprites (S, E,
+-- N, W; wall objects: S = north wall, E = west wall). Placing and picking up use
+-- the vanilla furniture cursor; the Electrical level and the screwdriver come from
+-- the tile properties (PickUpLevel, PickUpTool = Electrician). `item` is the
+-- placeable inventory item made by the recipe.
+Defs.SHEET = "batman_livewire_01"
+
 Defs.devices = {
     SolarPanel = {
         role = "source", kind = "solar",
-        kit = "LiveWire.SolarPanelKit",
-        sprite = "appliances_com_01_20",      -- placeholder: Mov_SatelliteDish
+        item = "Base.Mov_LiveWire_SolarPanel", tile = 0, facings = 4,
         nominalW = 100, level = 3, xp = 10,
         wearDays = 10, needsOutside = true,
     },
     WindTurbine = {
         role = "source", kind = "wind",
-        kit = "LiveWire.WindTurbineKit",
-        sprite = "industry_01_4",             -- placeholder: Mov_AirConditioner
+        item = "Base.Mov_LiveWire_WindTurbine", tile = 4, facings = 4,
         nominalW = 400, level = 6, xp = 20,
         wearDays = 4, needsOutside = true,
     },
+    WaterWheel = {
+        role = "source", kind = "hydro",
+        item = "Base.Mov_LiveWire_WaterWheel", tile = 8, facings = 4,
+        nominalW = 120, level = 7, xp = 20,
+        wearDays = 6, needsOutside = true, needsRiver = true,
+    },
     Inverter = {
         role = "inverter",
-        kit = "LiveWire.InverterKit",
-        sprite = "location_business_machinery_01_32", -- placeholder: Mov_CabinetTool
+        item = "Base.Mov_LiveWire_Inverter", tile = 12, facings = 4,
         maxW = 1500, idleW = 20, level = 5, xp = 25,
-        wearDays = 5,
-    },
-    HeavyInverter = {
-        role = "inverter",
-        kit = "LiveWire.HeavyInverterKit",
-        sprite = "location_business_machinery_01_32", -- placeholder: Mov_CabinetTool
-        maxW = 3000, idleW = 30, level = 8, xp = 30,
         wearDays = 5,
     },
     PowerBank = {
         role = "storage",
-        kit = "LiveWire.PowerBankKit",
-        -- Opens like a crate; batteries are dragged in and out with the vanilla
-        -- inventory. Placeholder sprite: Mov_MilitaryCrate. The container is created
-        -- by the mod at install time (LW_TimedActions.lua, LWInstallAction:complete).
-        sprite = "location_military_generic_01_1",
-        containerType = "livewirepowerbank",
-        containerCapacity = 40,
+        item = "Base.Mov_LiveWire_PowerBank", tile = 16, facings = 4,
+        -- The container comes from the tile (container = livewirepowerbank,
+        -- ContainerCapacity = 50): vanilla creates it at placement and marks it
+        -- explored, so no loot is generated in it.
         slots = 4,
         level = 2, xp = 5,
         wearDays = 30,
     },
     Breaker = {
         role = "option", kind = "breaker",
-        kit = "LiveWire.BreakerKit",
-        -- Wall-mounted, like a real breaker panel. Placeholder: vanilla wall light
-        -- (lighting_indoor_02_44 attachedW, _45 attachedN, _46 attachedS, _47 attachedE:
-        -- knowledge/power-and-lights.md:103). Placed as a plain IsoObject, it emits no
-        -- light. The variant is picked at install time from these flags.
-        sprite = "lighting_indoor_02_45",
-        wallSprites = { "lighting_indoor_02_44", "lighting_indoor_02_45",
-                        "lighting_indoor_02_46", "lighting_indoor_02_47" },
-        wallMounted = true,
+        item = "Base.Mov_LiveWire_Breaker", tile = 20, facings = 2,
         level = 3, xp = 5,
         wearDays = 15,
     },
     BatteryAlarm = {
         role = "option", kind = "alarm",
-        kit = "LiveWire.BatteryAlarmKit",
-        sprite = "appliances_com_01_70",      -- placeholder: Mov_Microphone
+        item = "Base.Mov_LiveWire_BatteryAlarm", tile = 22, facings = 2,
         level = 2, xp = 5,
         wearDays = 30,
     },
 }
+
+-- Sprite name -> model, and model of an inventory item.
+Defs.spriteToModel = {}
+Defs.itemToModel = {}
+for model, def in pairs(Defs.devices) do
+    for i = 0, def.facings - 1 do
+        Defs.spriteToModel[Defs.SHEET .. "_" .. tostring(def.tile + i)] = model
+    end
+    Defs.itemToModel[def.item] = model
+end
+
+-- Model of a placed object from its sprite, or nil.
+function Defs.modelOfObject(obj)
+    if not obj or not obj.getSprite then return nil end
+    local spr = obj:getSprite()
+    local name = spr and spr:getName()
+    if not name then return nil end
+    return Defs.spriteToModel[name]
+end
 
 -- Vanilla objects wired to an inverter. Their link is stored in their own ModData
 -- under these keys (never the device mark), so vanilla actions stay available.
@@ -100,12 +111,6 @@ Defs.SMOOTHING_TAU_HOURS = 0.5
 Defs.TRIP_CONDITION_LOSS = 3
 Defs.HEAVY_LOAD_RATIO = 0.80
 
--- Kit full type -> device model.
-Defs.kitToModel = {}
-for model, def in pairs(Defs.devices) do
-    Defs.kitToModel[def.kit] = model
-end
-
 -- Installation efficiency from the installer's Electrical level.
 function Defs.installEfficiency(level)
     if level >= 9 then return 1.0 end
@@ -124,13 +129,6 @@ end
 function Defs.deviceWearSkillFactor(level)
     if level >= 9 then return 0.75 end
     return 1.0
-end
-
--- Install failure chance in percent.
-function Defs.installFailChance(level, required)
-    local c = 30 - 5 * (level - required)
-    if c < 0 then c = 0 end
-    return c
 end
 
 -- Repair failure chance in percent (halved from level 8).

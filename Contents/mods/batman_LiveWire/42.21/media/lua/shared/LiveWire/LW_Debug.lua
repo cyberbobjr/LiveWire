@@ -15,7 +15,7 @@ Debug.RANGE = 30
 
 -- Debug actions: name -> needs a device id.
 Debug.ACTIONS = {
-    spawnKit = false,     -- every kit, batteries, wire and tools in the inventory
+    spawnKit = false,     -- every placeable device, batteries, wire and tools
     dump = true,          -- network state in the console and on screen
     battery100 = true, battery50 = true, battery15 = true, battery0 = true,
     advance1 = true, advance12 = true, -- run the simulation 1 h / 12 h now
