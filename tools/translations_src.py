@@ -60,6 +60,20 @@ for k, en, fr in [
     ("ContextMenu_LW_TurnOff", "Turn Off", "Éteindre"),
     ("ContextMenu_LW_Reset", "Reset", "Réarmer"),
     ("ContextMenu_LW_Recondition", "Recondition battery", "Reconditionner la batterie"),
+    ("ContextMenu_LW_Debug", "Debug", "Debug"),
+    ("ContextMenu_LW_Debug_spawnKit", "Give a full test kit", "Donner un kit de test complet"),
+    ("ContextMenu_LW_Debug_dump", "Show the network state (console)", "Afficher l'\u00e9tat du r\u00e9seau (console)"),
+    ("ContextMenu_LW_Debug_battery100", "Batteries to 100%%", "Batteries \u00e0 100 %%"),
+    ("ContextMenu_LW_Debug_battery50", "Batteries to 50%%", "Batteries \u00e0 50 %%"),
+    ("ContextMenu_LW_Debug_battery15", "Batteries to 15%% (alarm, backup)", "Batteries \u00e0 15 %% (alarme, secours)"),
+    ("ContextMenu_LW_Debug_battery0", "Batteries empty", "Batteries vides"),
+    ("ContextMenu_LW_Debug_advance1", "Run the simulation for 1 hour", "Faire tourner la simulation 1 heure"),
+    ("ContextMenu_LW_Debug_advance12", "Run the simulation for 12 hours", "Faire tourner la simulation 12 heures"),
+    ("ContextMenu_LW_Debug_repairAll", "Repair the whole network", "R\u00e9parer tout le r\u00e9seau"),
+    ("ContextMenu_LW_Debug_damageInverter", "Damage the inverter (condition 10)", "Ab\u00eemer l'onduleur (\u00e9tat 10)"),
+    ("ContextMenu_LW_Debug_trip", "Trip the inverter", "Faire disjoncter l'onduleur"),
+    ("ContextMenu_LW_Debug_refuel", "Fill the backup generator", "Remplir le g\u00e9n\u00e9rateur de secours"),
+    ("ContextMenu_LW_Debug_reanchor", "Rebuild the appliance list and the power area", "Reconstruire la liste des appareils et la zone aliment\u00e9e"),
 ]:
     add("ContextMenu", k, en, fr)
 
@@ -174,6 +188,9 @@ for k, en, fr in [
 
 # Backup generator, management computer, low battery alarm.
 for k, en, fr in [
+    ("IGUI_LW_Debug_Done", "Debug: %1 done.", "Debug : %1 fait."),
+    ("IGUI_LW_Debug_NoGrid", "Debug: this device is not on a network.", "Debug : cet appareil n'est sur aucun r\u00e9seau."),
+    ("IGUI_LW_Debug_Dump", "Network: %1 W produced, %2 W used, %3 / %4 kWh (details in the console)", "R\u00e9seau : %1 W produits, %2 W consomm\u00e9s, %3 / %4 kWh (d\u00e9tails dans la console)"),
     ("IGUI_LW_Model_BackupGenerator", "Backup generator", "G\u00e9n\u00e9rateur de secours"),
     ("IGUI_LW_Model_ManagementComputer", "Management computer", "Ordinateur de gestion"),
     ("IGUI_LW_Model_BatteryAlarm", "Low battery alarm", "Alarme de batterie faible"),

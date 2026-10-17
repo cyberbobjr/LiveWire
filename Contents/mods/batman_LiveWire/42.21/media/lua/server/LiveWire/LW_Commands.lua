@@ -62,6 +62,11 @@ end
 
 local handlers = {}
 
+-- Other server files add their commands here (LW_DebugCommands.lua).
+function Commands.register(command, fn)
+    handlers[command] = fn
+end
+
 local function gridOfInverter(id)
     if not P.isDeviceId(id) then return nil end
     local inv = LiveWire.Registry.device(id)

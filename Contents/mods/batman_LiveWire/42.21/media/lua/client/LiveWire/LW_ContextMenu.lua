@@ -172,7 +172,8 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     local kits = inv:getAllEvalRecurse(isKit)
     local hasTester = inv:getCountTypeRecurse("LiveWire.VoltageTester") > 0
 
-    if #devices == 0 and #vanilla == 0 and kits:size() == 0 and not hasTester then return end
+    local debug = LiveWire.Debug.allowed(player)
+    if #devices == 0 and #vanilla == 0 and kits:size() == 0 and not hasTester and not debug then return end
     if test then return ISWorldObjectContextMenu.setTest() end
 
     local root = context:addOption(getText("ContextMenu_LW_Root"), worldobjects, nil)
@@ -202,6 +203,22 @@ local function onFillWorld(playerNum, context, worldobjects, test)
 
     for i = 1, #devices do addDeviceOptions(sub, player, devices[i]) end
     for i = 1, #vanilla do addVanillaOptions(sub, player, vanilla[i].obj, vanilla[i].kind) end
+
+    if debug and LiveWire.DebugMenu then
+        -- Network to act on: a clicked device, else the nearest inverter.
+        local id = nil
+        if devices[1] then id = LiveWire.Marks.get(devices[1]).id end
+        for i = 1, #vanilla do
+            local m = I().vanillaMark(vanilla[i].obj)
+            if not id and m then id = m.id end
+        end
+        if not id then
+            local inv = I().nearestInverter(sq)
+            local m = inv and LiveWire.Marks.get(inv)
+            id = m and m.id
+        end
+        LiveWire.DebugMenu.fill(sub, player, id)
+    end
 
 end
 

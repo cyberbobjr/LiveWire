@@ -33,6 +33,8 @@ local function weather()
     }
 end
 
+Sim.weather = weather
+
 -- Mean of the solar curve over the time-of-day interval [t0, t0 + h], with wrap.
 local function solarMean(t0, h, w)
     local t1 = t0 + h

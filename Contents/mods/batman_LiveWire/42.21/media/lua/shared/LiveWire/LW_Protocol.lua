@@ -13,6 +13,7 @@ Protocol.C_SET_INVERTER = "setInverter"
 Protocol.C_RESET = "reset"
 Protocol.C_RENAME = "rename"
 Protocol.C_REQUEST_ANCHORS = "requestAnchors"
+Protocol.C_DEBUG = "debug"
 
 -- Server -> client.
 Protocol.S_SNAPSHOT = "snapshot"

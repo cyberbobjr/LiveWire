@@ -21,6 +21,7 @@ FILES = [
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
+    "server/LiveWire/LW_Commands.lua",
 ]
 
 STUBS = r"""
@@ -388,7 +389,40 @@ def scenario_alarm_repeat():
           % (g.A1, g.A2, g.A3))
 
 
+def scenario_debug():
+    """Debug commands: refused without -debug, applied with it."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 2; DEMAND = 0; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute("""
+        Capability = nil
+        DEBUG = false
+        function isDebugEnabled() return DEBUG end
+        -- No loaded square in these tests: the range check is stubbed.
+        function LiveWire.Commands.checkDevice(p, id) return LiveWire.Registry.device(id) end
+        local reg = LiveWire.Commands.register
+        function LiveWire.Commands.register(cmd, fn) ON_DEBUG = fn; return reg(cmd, fn) end
+        PLAYER = { getUsername = function() return "tester" end, getX = function() return 100 end,
+                   getY = function() return 100 end, getZ = function() return 0 end,
+                   isDead = function() return false end }
+    """)
+    for rel in ("shared/LiveWire/LW_Debug.lua", "server/LiveWire/LW_DebugCommands.lua"):
+        with open(os.path.join(LUA, rel), encoding="ascii") as f:
+            lua.execute(f.read())
+    g = lua.globals()
+    run(lua, 1 / 6)
+    lua.execute("ON_DEBUG(PLAYER, { action = 'battery15', device = INV.id })")
+    check(abs(g.GRID.stock / g.GRID.capacity - 0.5) < 0.05, "debug refused without -debug")
+    lua.execute("DEBUG = true; ON_DEBUG(PLAYER, { action = 'battery15', device = INV.id })")
+    check(abs(g.GRID.stock / g.GRID.capacity - 0.15) < 0.01, "debug battery15 applied (%.3f)"
+          % (g.GRID.stock / g.GRID.capacity))
+    lua.execute("ON_DEBUG(PLAYER, { action = 'damageInverter', device = INV.id })")
+    check(9.9 < g.INV.cond <= 10, "debug damageInverter applied (%.3f)" % g.INV.cond)
+    lua.execute("ON_DEBUG(PLAYER, { action = 'nope', device = INV.id })")
+
+
 def main():
+    scenario_debug()
     scenario_backup_computer_alarm()
     scenario_backup_empty()
     scenario_alarm_repeat()

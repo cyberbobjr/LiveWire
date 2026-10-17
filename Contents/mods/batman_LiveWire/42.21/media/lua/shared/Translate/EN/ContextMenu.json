@@ -13,5 +13,19 @@
     "ContextMenu_LW_TurnOn": "Turn On",
     "ContextMenu_LW_TurnOff": "Turn Off",
     "ContextMenu_LW_Reset": "Reset",
-    "ContextMenu_LW_Recondition": "Recondition battery"
+    "ContextMenu_LW_Recondition": "Recondition battery",
+    "ContextMenu_LW_Debug": "Debug",
+    "ContextMenu_LW_Debug_spawnKit": "Give a full test kit",
+    "ContextMenu_LW_Debug_dump": "Show the network state (console)",
+    "ContextMenu_LW_Debug_battery100": "Batteries to 100%%",
+    "ContextMenu_LW_Debug_battery50": "Batteries to 50%%",
+    "ContextMenu_LW_Debug_battery15": "Batteries to 15%% (alarm, backup)",
+    "ContextMenu_LW_Debug_battery0": "Batteries empty",
+    "ContextMenu_LW_Debug_advance1": "Run the simulation for 1 hour",
+    "ContextMenu_LW_Debug_advance12": "Run the simulation for 12 hours",
+    "ContextMenu_LW_Debug_repairAll": "Repair the whole network",
+    "ContextMenu_LW_Debug_damageInverter": "Damage the inverter (condition 10)",
+    "ContextMenu_LW_Debug_trip": "Trip the inverter",
+    "ContextMenu_LW_Debug_refuel": "Fill the backup generator",
+    "ContextMenu_LW_Debug_reanchor": "Rebuild the appliance list and the power area"
 }

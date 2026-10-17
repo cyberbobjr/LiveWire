@@ -13,5 +13,19 @@
     "ContextMenu_LW_TurnOn": "Allumer",
     "ContextMenu_LW_TurnOff": "Éteindre",
     "ContextMenu_LW_Reset": "Réarmer",
-    "ContextMenu_LW_Recondition": "Reconditionner la batterie"
+    "ContextMenu_LW_Recondition": "Reconditionner la batterie",
+    "ContextMenu_LW_Debug": "Debug",
+    "ContextMenu_LW_Debug_spawnKit": "Donner un kit de test complet",
+    "ContextMenu_LW_Debug_dump": "Afficher l'état du réseau (console)",
+    "ContextMenu_LW_Debug_battery100": "Batteries à 100 %%",
+    "ContextMenu_LW_Debug_battery50": "Batteries à 50 %%",
+    "ContextMenu_LW_Debug_battery15": "Batteries à 15 %% (alarme, secours)",
+    "ContextMenu_LW_Debug_battery0": "Batteries vides",
+    "ContextMenu_LW_Debug_advance1": "Faire tourner la simulation 1 heure",
+    "ContextMenu_LW_Debug_advance12": "Faire tourner la simulation 12 heures",
+    "ContextMenu_LW_Debug_repairAll": "Réparer tout le réseau",
+    "ContextMenu_LW_Debug_damageInverter": "Abîmer l'onduleur (état 10)",
+    "ContextMenu_LW_Debug_trip": "Faire disjoncter l'onduleur",
+    "ContextMenu_LW_Debug_refuel": "Remplir le générateur de secours",
+    "ContextMenu_LW_Debug_reanchor": "Reconstruire la liste des appareils et la zone alimentée"
 }
