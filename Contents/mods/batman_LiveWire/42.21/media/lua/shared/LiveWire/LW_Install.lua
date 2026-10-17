@@ -121,7 +121,7 @@ function Install.wiresFor(dist)
     return math.max(1, math.ceil(dist / per))
 end
 
--- Can `target` (device object or world battery) be linked to `inverterObj`?
+-- Can `target` (one of our placed devices) be linked to `inverterObj`?
 function Install.checkLink(character, target, inverterObj)
     if not target or not inverterObj then return false, "Tooltip_LW_Invalid" end
     local im = LiveWire.Marks.get(inverterObj)
@@ -135,18 +135,7 @@ function Install.checkLink(character, target, inverterObj)
     if dist > LiveWire.Config.get("LinkRange") or dz > 1 then
         return false, "Tooltip_LW_NoInverterInRange"
     end
-    if instanceof(target, "IsoWorldInventoryObject") then
-        local item = target:getItem()
-        if not item or not LiveWire.Defs.isBattery(item:getFullType()) then
-            return false, "Tooltip_LW_NotABattery"
-        end
-        if item:getCondition() <= 0 then return false, "Tooltip_LW_DeadBattery" end
-        if not Install.hasLevel(character, LiveWire.Defs.BATTERY_LINK_LEVEL) then
-            return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(LiveWire.Defs.BATTERY_LINK_LEVEL)
-        end
-    elseif not LiveWire.Marks.isOurs(target) then
-        return false, "Tooltip_LW_Invalid"
-    end
+    if not LiveWire.Marks.isOurs(target) then return false, "Tooltip_LW_Invalid" end
     local wires = Install.wiresFor(dist)
     if Install.countType(character, "Base.ElectricWire") < wires then
         return false, "Tooltip_LW_NeedWire", wires

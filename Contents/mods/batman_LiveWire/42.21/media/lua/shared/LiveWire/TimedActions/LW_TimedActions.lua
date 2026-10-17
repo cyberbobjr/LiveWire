@@ -111,6 +111,17 @@ function LWInstallAction:complete()
     })
     local obj = IsoObject.new(getCell(), sq, sprite)
     LiveWire.Marks.set(obj, dev.id, model, facing)
+    if def.containerType then
+        -- Power bank: our own container, created before the object is sent to clients,
+        -- marked as explored so that no loot is generated in it.
+        local c = ItemContainer.new(def.containerType, sq, obj)
+        c:setCapacity(def.containerCapacity or 40)
+        c:setExplored(true)
+        c:setHasBeenLooted(true)
+        obj:setContainer(c)
+        dev.wearFactor = LiveWire.Defs.batteryWearSkillFactor(level)
+        dev.slots = {}
+    end
     sq:transmitAddObjectToSquare(obj, -1)
 
     if def.role == "inverter" then
@@ -173,6 +184,10 @@ function LWDismantleAction:complete()
     if not I().screwdriver(ch) then return false end
     local def = LiveWire.Defs.devices[dev.model]
     if not def then return false end
+    if dev.role == "storage" and not LiveWire.Batteries.isEmpty(obj) then
+        LiveWire.notify(ch, "Tooltip_LW_EmptyFirst", {}, true)
+        return false
+    end
     if dev.role == "inverter" then
         LiveWire.Sim.updateAnchor(dev, false)
         LiveWire.Anchor.set(dev.id, R().anchors[dev.id] or dev, false)
@@ -205,7 +220,7 @@ function LWDismantleAction:new(character, target)
 end
 
 --------------------------------------------------------------------------------
--- Link a source, an optional device or a floor battery to an inverter.
+-- Link a source, a power bank or an optional device to an inverter.
 --------------------------------------------------------------------------------
 LWLinkAction = ISBaseTimedAction:derive("LWLinkAction")
 
@@ -246,42 +261,26 @@ function LWLinkAction:complete()
     if not grid then return false end
 
     -- Already on this network: nothing to do (no wire, no XP).
-    local already
-    if instanceof(target, "IsoWorldInventoryObject") then
-        local m = target:getItem() and LiveWire.Marks.getItem(target:getItem())
-        already = m and R().device(m.id)
-    else
-        already = deviceOf(target)
-    end
+    local already = deviceOf(target)
     if already and already.grid == grid.id then
         LiveWire.notify(ch, "Tooltip_LW_AlreadyLinked", {}, true)
         return false
     end
 
     -- Breaker: one per network, checked before anything is consumed.
-    if not instanceof(target, "IsoWorldInventoryObject") then
-        local tdev = deviceOf(target)
-        local tdef = tdev and LiveWire.Defs.devices[tdev.model]
-        if not tdev or tdev.role == "inverter" then return false end
-        if tdef and tdef.role == "option" and tdef.kind == "breaker" then
-            local existing = R().hasOption(grid, "breaker")
-            if existing and existing.id ~= tdev.id then
-                LiveWire.notify(ch, "Tooltip_LW_OneOptionPerGrid", {}, true)
-                return false
-            end
+    local tdev = deviceOf(target)
+    local tdef = tdev and LiveWire.Defs.devices[tdev.model]
+    if not tdev or tdev.role == "inverter" then return false end
+    if tdef and tdef.role == "option" and tdef.kind == "breaker" then
+        local existing = R().hasOption(grid, "breaker")
+        if existing and existing.id ~= tdev.id then
+            LiveWire.notify(ch, "Tooltip_LW_OneOptionPerGrid", {}, true)
+            return false
         end
     end
     if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
 
-    local dev
-    if instanceof(target, "IsoWorldInventoryObject") then
-        dev = LiveWire.Batteries.register(target, grid, I().level(ch))
-        if not dev then return false end
-        if isServer() then target:getItem():syncItemFields() end
-    else
-        dev = deviceOf(target)
-        R().link(dev, grid)
-    end
+    R().link(tdev, grid)
     LiveWire.Xp.award(ch, 3)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(ch, "IGUI_LW_Linked", {})

@@ -85,6 +85,9 @@ function Dashboard:buildLines(snap)
     else
         add(T("IGUI_LW_NoBattery"), 0.8, 0.8, 0.8)
     end
+    if (snap.extra or 0) > 0 then
+        add(T("IGUI_LW_TooManyBatteries", snap.extra), 1, 0.6, 0.3)
+    end
     if level >= 4 and snap.autonomyH then
         add(T("IGUI_LW_Autonomy", math.floor(snap.autonomyH + 0.5)))
     end

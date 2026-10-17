@@ -71,3 +71,12 @@ local function onServerCommand(module, command, args)
 end
 
 Events.OnServerCommand.Add(onServerCommand)
+
+-- Power bank button icon in the loot window: reuse the vanilla military crate icon
+-- (ContainerButtonIcons is read by type, ISInventoryPage.lua:1498-1499).
+local function onGameStart()
+    if ContainerButtonIcons and ContainerButtonIcons.militarycrate then
+        ContainerButtonIcons.livewirepowerbank = ContainerButtonIcons.militarycrate
+    end
+end
+Events.OnGameStart.Add(onGameStart)

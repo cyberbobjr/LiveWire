@@ -71,6 +71,17 @@ module LiveWire
         Tooltip = Tooltip_LW_HeavyInverterKit,
     }
 
+    item PowerBankKit
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 10.0,
+        Icon = CarBattery,
+        ConditionMax = 100,
+        WorldStaticModel = LiveWire.PowerBankKit_Ground,
+        Tooltip = Tooltip_LW_PowerBankKit,
+    }
+
     item BreakerKit
     {
         DisplayCategory = Electronics,

@@ -5,6 +5,7 @@
     "LiveWire.WindTurbineKit": "Wind Turbine Kit",
     "LiveWire.InverterKit": "Inverter Kit",
     "LiveWire.HeavyInverterKit": "Heavy Inverter Kit",
+    "LiveWire.PowerBankKit": "Power Bank Kit",
     "LiveWire.BreakerKit": "Circuit Breaker Kit",
     "LiveWire.DeepCycleBattery": "Deep-Cycle Battery"
 }

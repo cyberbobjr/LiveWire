@@ -122,7 +122,7 @@ function Registry.unlink(dev)
     dev.grid = nil
 end
 
--- Members of a grid by role: sources, batteries, options (each a list).
+-- Members of a grid by role: sources, power banks, options (each a list).
 function Registry.members(grid)
     local sources, batteries, options = {}, {}, {}
     for id in pairs(grid.members) do
@@ -130,7 +130,7 @@ function Registry.members(grid)
         if not dev then
             grid.members[id] = nil
         elseif dev.role == "source" then sources[#sources + 1] = dev
-        elseif dev.role == "battery" then batteries[#batteries + 1] = dev
+        elseif dev.role == "storage" then batteries[#batteries + 1] = dev
         elseif dev.role == "option" then options[#options + 1] = dev
         end
     end

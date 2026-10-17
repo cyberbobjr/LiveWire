@@ -1,4 +1,4 @@
--- Live Wire: "Live Wire" submenu on world objects and on batteries in the inventory.
+-- Live Wire: "Live Wire" submenu on world objects, and battery options in the inventory.
 -- Every option is re-checked by the authority in the timed action or command.
 if isServer() then return end
 
@@ -64,13 +64,6 @@ function Menu.onUnlink(player, id)
     LiveWire.Client.send(LiveWire.Protocol.C_UNLINK, { device = id })
 end
 
-function Menu.onUnlinkBattery(player, w)
-    local sq = w:getSquare()
-    if not sq or not w:getItem() then return end
-    LiveWire.Client.send(LiveWire.Protocol.C_UNLINK_BATTERY,
-        { x = sq:getX(), y = sq:getY(), z = sq:getZ(), item = w:getItem():getID() })
-end
-
 function Menu.onSetInverter(player, id, on)
     LiveWire.Client.send(LiveWire.Protocol.C_SET_INVERTER, { inverter = id, on = on })
 end
@@ -120,7 +113,12 @@ local function addDeviceOptions(sub, player, obj)
     ok, why, arg = LWRepairAction.canRepair(player, obj, true)
     if not ok then tip(ov, why, arg) end
     local d = menu:addOption(getText("ContextMenu_LW_Dismantle"), player, Menu.onDismantle, obj)
-    if not I().screwdriver(player) then tip(d, "Tooltip_LW_NeedScrewdriver") end
+    if not I().screwdriver(player) then
+        tip(d, "Tooltip_LW_NeedScrewdriver")
+    elseif def.role == "storage" then
+        local c = obj:getContainer()
+        if c and c:getItems():size() > 0 then tip(d, "Tooltip_LW_EmptyFirst") end
+    end
 end
 
 local function onFillWorld(playerNum, context, worldobjects, test)
@@ -143,20 +141,11 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     local objs = sq:getObjects()
     for i = 0, objs:size() - 1 do addObj(objs:get(i)) end
 
-    -- Batteries lying on the clicked square.
-    local batteries = {}
-    local wobjs = sq:getWorldObjects()
-    for i = 0, wobjs:size() - 1 do
-        local w = wobjs:get(i)
-        local item = w:getItem()
-        if item and LiveWire.Defs.isBattery(item:getFullType()) then batteries[#batteries + 1] = w end
-    end
-
     local inv = player:getInventory()
     local kits = inv:getAllEvalRecurse(isKit)
     local hasTester = inv:getCountTypeRecurse("LiveWire.VoltageTester") > 0
 
-    if #devices == 0 and #batteries == 0 and kits:size() == 0 and not hasTester then return end
+    if #devices == 0 and kits:size() == 0 and not hasTester then return end
     if test then return ISWorldObjectContextMenu.setTest() end
 
     local root = context:addOption(getText("ContextMenu_LW_Root"), worldobjects, nil)
@@ -186,15 +175,6 @@ local function onFillWorld(playerNum, context, worldobjects, test)
 
     for i = 1, #devices do addDeviceOptions(sub, player, devices[i]) end
 
-    for i = 1, #batteries do
-        local w = batteries[i]
-        local inverter = I().nearestInverter(sq)
-        local name = w:getItem():getDisplayName()
-        local o = sub:addOption(getText("ContextMenu_LW_LinkBattery", name), player, Menu.onLink, w, inverter)
-        local ok, why, arg = I().checkLink(player, w, inverter)
-        if not ok then tip(o, why, arg) end
-        sub:addOption(getText("ContextMenu_LW_UnlinkBattery", name), player, Menu.onUnlinkBattery, w)
-    end
 end
 
 local function onFillInventory(playerNum, context, items)

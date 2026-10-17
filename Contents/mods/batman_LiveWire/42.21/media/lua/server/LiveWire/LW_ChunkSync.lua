@@ -18,7 +18,7 @@ local function onLoadChunk(chunk)
     local R2 = reach * reach
     for _, dev in pairs(R.devices()) do
         if dev.x >= x0 and dev.x <= x1 and dev.y >= y0 and dev.y <= y1 then
-            if dev.role == "battery" then LiveWire.Batteries.restore(dev) end
+            if dev.role == "storage" then LiveWire.Batteries.restore(dev) end
         end
         if dev.role == "inverter" then
             local dx, dy = dev.x - (x0 + 4), dev.y - (y0 + 4)

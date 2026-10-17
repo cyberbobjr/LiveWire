@@ -46,6 +46,13 @@ module LiveWire
         scale = 1.0,
     }
 
+    model PowerBankKit_Ground
+    {
+        mesh = LiveWire/PowerBankKit,
+        texture = LiveWire/PowerBankKit,
+        scale = 1.0,
+    }
+
     model BreakerKit_Ground
     {
         mesh = LiveWire/BreakerKit,

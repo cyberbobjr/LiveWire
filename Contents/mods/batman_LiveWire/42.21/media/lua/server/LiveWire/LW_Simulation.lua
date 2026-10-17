@@ -84,19 +84,18 @@ local function weatherOnSource(src, def, w, h)
 end
 
 local function batteryWear(entry, drawn, h)
-    local dev = entry.dev
-    local def = LiveWire.Batteries.def(dev.model)
+    local def = LiveWire.Batteries.def(entry.model)
     if not def then return end
     if drawn > 0 then
         local deep = entry.capacity > 0
             and entry.charge / entry.capacity < Defs.DEEP_DISCHARGE_THRESHOLD
         local wear = Physics.batteryWear(drawn, def.capacityKWh, def.lifeCycles, deep,
-            LiveWire.Config.get("BatteryWearMultiplier") * (dev.wearFactor or 1))
+            LiveWire.Config.get("BatteryWearMultiplier") * (entry.wearFactor or 1))
         entry.cond = math.max(0, entry.cond - wear)
-        dev.cycles = (dev.cycles or 0) + drawn / def.capacityKWh
+        entry.cycles = (entry.cycles or 0) + drawn / def.capacityKWh
     end
     entry.charge = entry.charge * (1 - Defs.SELF_DISCHARGE_PER_DAY * h / 24)
-    entry.capacity = LiveWire.Batteries.capacity(dev, entry.cond)
+    entry.capacity = LiveWire.Batteries.capacity(entry.model, entry.cond)
     if entry.charge > entry.capacity then entry.charge = entry.capacity end
 end
 
@@ -124,13 +123,17 @@ function Sim.snapshot(grid)
                             w = math.floor((s.pOut or 0) + 0.5),
                             raw = math.floor((s.raw or 0) + 0.5), snow = s.snow or 0 }
     end
+    snap.extra = 0
     for i = 1, #batteries do
-        local b = batteries[i]
-        local cap = LiveWire.Batteries.capacity(b, b.cond or 0)
-        snap.batteries[i] = { id = b.id, model = b.model, charge = b.charge or 0,
-                              capacity = cap, cond = math.floor((b.cond or 0) + 0.5),
-                              cycles = b.cycles or 0 }
+        local bank = batteries[i]
+        snap.extra = snap.extra + (bank.extra or 0)
+        for _, sl in ipairs(bank.slots or {}) do
+            local cap = LiveWire.Batteries.capacity(sl.model, sl.cond or 0)
+            snap.batteries[#snap.batteries + 1] = { model = sl.model, charge = sl.charge or 0,
+                capacity = cap, cond = math.floor((sl.cond or 0) + 0.5), cycles = sl.cycles or 0 }
+        end
     end
+    snap.banks = #batteries
     for i = 1, #options do
         local o = options[i]
         snap.options[i] = { id = o.id, model = o.model, cond = math.floor((o.cond or 0) + 0.5) }
@@ -227,9 +230,10 @@ function Sim.stepGrid(grid, now, w)
     -- Sources and equipment removed by another path (admin, other mod): drop them after
     -- two consecutive checks of a loaded square.
     do
-        local s0, _, o0 = R.members(grid)
+        local s0, b0, o0 = R.members(grid)
         local all = {}
         for i = 1, #s0 do all[#all + 1] = s0[i] end
+        for i = 1, #b0 do all[#all + 1] = b0[i] end
         for i = 1, #o0 do all[#all + 1] = o0[i] end
         for i = 1, #all do
             local dev = all[i]
@@ -246,15 +250,13 @@ function Sim.stepGrid(grid, now, w)
         end
     end
 
-    local sources, batteryDevs = R.members(grid)
+    local sources, banks = R.members(grid)
     local entries = {}
-    for i = 1, #batteryDevs do
-        local entry, wasRead = LiveWire.Batteries.read(batteryDevs[i])
-        if entry then
-            entries[#entries + 1] = entry
-        elseif wasRead then
-            LiveWire.Batteries.forget(batteryDevs[i], nil)
-        end
+    local bankEntries = {}
+    for i = 1, #banks do
+        local list = LiveWire.Batteries.read(banks[i])
+        bankEntries[i] = list
+        for j = 1, #list do entries[#entries + 1] = list[j] end
     end
 
     local breaker = R.hasOption(grid, "breaker")
@@ -323,8 +325,8 @@ function Sim.stepGrid(grid, now, w)
     end
 
     local stock, capacity = 0, 0
+    for i = 1, #banks do LiveWire.Batteries.write(banks[i], bankEntries[i]) end
     for e = 1, #entries do
-        LiveWire.Batteries.write(entries[e])
         stock = stock + entries[e].charge
         capacity = capacity + entries[e].capacity
     end

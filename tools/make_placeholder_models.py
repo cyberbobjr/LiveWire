@@ -142,6 +142,7 @@ PLACEHOLDERS = {
     "InverterKit": (box(0.30, 0.18, 0.22), (90, 95, 100)),
     "HeavyInverterKit": (box(0.40, 0.24, 0.30), (60, 64, 70)),
     "BreakerKit": (box(0.20, 0.06, 0.26), (200, 205, 210)),
+    "PowerBankKit": (box(0.50, 0.35, 0.40), (50, 90, 60)),
     "SolarCell": (box(0.10, 0.005, 0.10), (30, 50, 110)),
 }
 

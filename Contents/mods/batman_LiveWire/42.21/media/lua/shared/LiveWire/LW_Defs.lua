@@ -37,6 +37,19 @@ Defs.devices = {
         maxW = 3000, idleW = 30, level = 8, xp = 30,
         wearDays = 5,
     },
+    PowerBank = {
+        role = "storage",
+        kit = "LiveWire.PowerBankKit",
+        -- Opens like a crate; batteries are dragged in and out with the vanilla
+        -- inventory. Placeholder sprite: Mov_MilitaryCrate. The container is created
+        -- by the mod at install time (LW_TimedActions.lua, LWInstallAction:complete).
+        sprite = "location_military_generic_01_1",
+        containerType = "livewirepowerbank",
+        containerCapacity = 40,
+        slots = 4,
+        level = 2, xp = 5,
+        wearDays = 30,
+    },
     Breaker = {
         role = "option", kind = "breaker",
         kit = "LiveWire.BreakerKit",
@@ -53,7 +66,7 @@ Defs.devices = {
     },
 }
 
--- Batteries: placed on the floor as normal items, then linked. Keyed by full type.
+-- Batteries stored in a power bank. Keyed by full type.
 Defs.batteries = {
     ["Base.CarBattery1"] = { capacityKWh = 0.40, lifeCycles = 150 },
     ["Base.CarBattery2"] = { capacityKWh = 0.60, lifeCycles = 150 },
@@ -61,7 +74,6 @@ Defs.batteries = {
     ["LiveWire.DeepCycleBattery"] = { capacityKWh = 1.50, lifeCycles = 600 },
 }
 
-Defs.BATTERY_LINK_LEVEL = 2
 Defs.CHARGE_EFFICIENCY = 0.90
 Defs.SELF_DISCHARGE_PER_DAY = 0.002
 Defs.DEEP_DISCHARGE_THRESHOLD = 0.20

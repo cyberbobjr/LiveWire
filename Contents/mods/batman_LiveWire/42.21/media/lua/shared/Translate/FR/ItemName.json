@@ -5,6 +5,7 @@
     "LiveWire.WindTurbineKit": "Éolienne en kit",
     "LiveWire.InverterKit": "Onduleur en kit",
     "LiveWire.HeavyInverterKit": "Onduleur renforcé en kit",
+    "LiveWire.PowerBankKit": "Powerbank en kit",
     "LiveWire.BreakerKit": "Disjoncteur en kit",
     "LiveWire.DeepCycleBattery": "Batterie stationnaire"
 }

@@ -35,12 +35,6 @@ function Marks.clear(holder)
     holder:getModData()[Marks.KEY] = nil
 end
 
--- Battery lying on the floor: the mark lives on the inventory item, because the
--- IsoWorldInventoryObject's own ModData is never saved (notes-moteur.md, note 10).
-function Marks.getItem(item)
-    return markOf(item)
-end
-
 -- Find our device object on a square by id.
 function Marks.findOnSquare(sq, id)
     if not sq then return nil end
@@ -49,19 +43,6 @@ function Marks.findOnSquare(sq, id)
         local o = objs:get(i)
         local m = markOf(o)
         if m and m.id == id then return o end
-    end
-    return nil
-end
-
--- Find a linked battery (world inventory object) on a square by device id.
-function Marks.findBatteryOnSquare(sq, id)
-    if not sq then return nil end
-    local wobjs = sq:getWorldObjects()
-    for i = 0, wobjs:size() - 1 do
-        local w = wobjs:get(i)
-        local item = w:getItem()
-        local m = item and markOf(item)
-        if m and m.id == id then return w, item end
     end
     return nil
 end

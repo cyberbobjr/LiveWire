@@ -91,44 +91,9 @@ handlers[P.C_UNLINK] = function(player, args)
     if not dev then return refuse(player, P.C_UNLINK, why) end
     if dev.role == "inverter" or not dev.grid then return end
     local grid = LiveWire.Registry.grid(dev.grid)
-    if dev.role == "battery" then
-        LiveWire.Sim.refresh(grid) -- settle its charge before it leaves
-        local _, item = LiveWire.Batteries.find(dev)
-        LiveWire.Batteries.forget(dev, item)
-        if item and isServer() then item:syncItemFields() end
-    else
-        LiveWire.Registry.unlink(dev)
-    end
+    LiveWire.Registry.unlink(dev)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(player, "IGUI_LW_Unlinked", {})
-end
-
--- Floor battery, found by square and item id (the client cannot see the item mark).
-handlers[P.C_UNLINK_BATTERY] = function(player, args)
-    local x, y, z, itemId = args.x, args.y, args.z, args.item
-    if type(x) ~= "number" or type(y) ~= "number" or type(z) ~= "number" or type(itemId) ~= "number" then return end
-    local sq = getCell():getGridSquare(x, y, z)
-    if not sq or not Commands.isNear(player, x, y, z, Commands.ACT_RANGE) then
-        return refuse(player, P.C_UNLINK_BATTERY, "Tooltip_LW_TooFar")
-    end
-    if SafeHouse and not SafeHouse.isSafehouseAllowInteract(sq, player) then
-        return refuse(player, P.C_UNLINK_BATTERY, "Tooltip_LW_Safehouse")
-    end
-    local wobjs = sq:getWorldObjects()
-    for i = 0, wobjs:size() - 1 do
-        local item = wobjs:get(i):getItem()
-        if item and item:getID() == itemId then
-            local m = LiveWire.Marks.getItem(item)
-            local dev = m and LiveWire.Registry.device(m.id)
-            if not dev then return refuse(player, P.C_UNLINK_BATTERY, "Tooltip_LW_NotLinked") end
-            local grid = dev.grid and LiveWire.Registry.grid(dev.grid)
-            if grid then LiveWire.Sim.refresh(grid) end
-            LiveWire.Batteries.forget(dev, item)
-            if grid then LiveWire.Sim.refresh(grid) end
-            LiveWire.notify(player, "IGUI_LW_Unlinked", {})
-            return
-        end
-    end
 end
 
 handlers[P.C_SET_INVERTER] = function(player, args)

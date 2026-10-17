@@ -182,6 +182,31 @@ module LiveWire
         }
     }
 
+    craftRecipe LWMakePowerBankKit
+    {
+        timedAction = MakingElectrical,
+        time = 300,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:2,
+        AutoLearnAny = Electricity:2,
+        xpAward = Electricity:8,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
+            item 2 [Base.ElectronicsScrap],
+            item 3 [Base.ElectricWire],
+            item 1 [Base.SheetMetal],
+            item 4 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 LiveWire.PowerBankKit,
+        }
+    }
+
     craftRecipe LWMakeBreakerKit
     {
         timedAction = MakingElectrical,

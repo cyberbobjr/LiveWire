@@ -107,10 +107,14 @@ for i = 1, NPANELS do
                             cond = 100, eff = 0.95, level = 7, state = "ok" })
     R.link(s, g)
 end
-for i = 1, NBATS do
-    local b = R.addDevice({ role = "battery", model = "Base.CarBattery2", x = 101, y = 100 + i, z = 0,
-                            cond = 100, charge = 0.5, wearFactor = 1, cycles = 0 })
-    R.link(b, g)
+if NBATS > 0 then
+    local slots = {}
+    for i = 1, NBATS do
+        slots[i] = { id = 1000 + i, model = "Base.CarBattery2", charge = 0.5, cond = 100, cycles = 0 }
+    end
+    local bank = R.addDevice({ role = "storage", model = "PowerBank", x = 101, y = 101, z = 0,
+                               cond = 100, level = 7, state = "ok", wearFactor = 1, slots = slots })
+    R.link(bank, g)
 end
 if BREAKER then
     local o = R.addDevice({ role = "option", model = "Breaker", x = 99, y = 100, z = 0,
@@ -155,8 +159,8 @@ def scenario_base():
     lua.execute("""
         BAT_OK = true
         for _, d in pairs(LiveWire.Registry.devices()) do
-            if d.role == "battery" and (d.charge < 0 or d.charge > 1 or d.cond < 0 or d.cond > 100) then
-                BAT_OK = false
+            for _, s in ipairs(d.slots or {}) do
+                if s.charge < 0 or s.charge > 1 or s.cond < 0 or s.cond > 100 then BAT_OK = false end
             end
         end
     """)
@@ -206,7 +210,62 @@ def scenario_catch_up():
     check(abs(lua.globals().GRID.lastTick - lua.globals().WORLD.hours) < 1e-6, "catch-up consumes the elapsed time")
 
 
+LOADED_BANK = r"""
+-- A loaded power bank at (101, 101, 0) holding five car batteries (4 slots).
+STATS_SENT = 0
+function sendItemStats() STATS_SENT = STATS_SENT + 1 end
+local function list(t)
+    return { size = function() return #t end, get = function(_, i) return t[i + 1] end }
+end
+local function battery(id, frac)
+    local it = { _frac = frac, _cond = 100, _md = {} }
+    function it:getFullType() return "Base.CarBattery2" end
+    function it:getID() return id end
+    function it:getCondition() return self._cond end
+    function it:setConditionNoSound(c) self._cond = c end
+    function it:getCurrentUsesFloat() return self._frac end
+    function it:setCurrentUsesFloat(f) self._frac = f end
+    function it:getModData() return self._md end
+    return it
+end
+ITEMS = { battery(1, 0.9), battery(2, 0.9), battery(3, 0.9), battery(4, 0.9), battery(5, 0.9) }
+local container = { getItems = function() return list(ITEMS) end }
+local bank = LiveWire.Registry.addDevice({ role = "storage", model = "PowerBank", x = 101, y = 101, z = 0,
+    cond = 100, level = 7, state = "ok", wearFactor = 1, slots = {} })
+local obj = { getContainer = function() return container end,
+              getModData = function() return { LiveWire = { id = bank.id, model = "PowerBank" } } end }
+local square = { getObjects = function() return list({ obj }) end }
+local realGetCell = getCell
+function getCell()
+    local c = realGetCell()
+    c.getGridSquare = function(_, x, y, z)
+        if x == 101 and y == 101 and z == 0 then return square end
+        return nil
+    end
+    return c
+end
+LiveWire.Registry.link(bank, GRID)
+BANK = bank
+"""
+
+
+def scenario_loaded_bank():
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 0; DEMAND = 150; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(LOADED_BANK)
+    run(lua, 4)
+    g = lua.globals()
+    bank = g.BANK
+    check(bank.extra == 1, "fifth battery is not counted (extra = %s)" % bank.extra)
+    check(len(list(bank.slots.values())) == 4, "four slots recorded")
+    fracs = [g.ITEMS[i]._frac for i in range(1, 6)]
+    check(all(f < 0.9 for f in fracs[:4]) and fracs[4] == 0.9, "night drain written on the 4 counted items only")
+    check(g.STATS_SENT > 0, "item stats sent to clients")
+
+
 def main():
+    scenario_loaded_bank()
     scenario_base()
     scenario_no_battery()
     scenario_overload(False)
