@@ -308,6 +308,7 @@ function LWInspectAction:complete()
     elseif def.role == "inverter" then
         LiveWire.notify(ch, "IGUI_LW_InspectInverter",
             { "IGUI_LW_Model_" .. dev.model, cond, "IGUI_LW_State_" .. tostring(dev.state) })
+        if dev.muffled then LiveWire.notify(ch, "IGUI_LW_InspectMuffled", {}) end
     else
         LiveWire.notify(ch, "IGUI_LW_InspectOther", { "IGUI_LW_Model_" .. dev.model, cond })
     end

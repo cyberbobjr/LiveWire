@@ -128,6 +128,8 @@ Logiciel de gestion sur un ordinateur vanilla, sans Computer Mod ni Laptop Mod.
 
 **Kit d'insonorisation** (`LiveWire.SoundproofKit`) : se monte sur l'onduleur avec un tournevis (« Insonoriser l'onduleur ») et se retire par « Retirer l'insonorisation » (le kit est rendu). Effets : plus de bourdonnement, les zombies ne l'entendent plus ; en contrepartie l'onduleur chauffe davantage et s'use 25 % plus vite. Le kit suit l'onduleur quand on le ramasse.
 
+Un onduleur insonorisé est recouvert de mousse acoustique grise sur le dessus, les côtés et l'arrière (l'écran reste visible), et « Insonorisé » s'affiche quand on l'inspecte et sur la page État de son écran.
+
 ## Équipements optionnels
 
 | Équipement | Effet | Niveau |

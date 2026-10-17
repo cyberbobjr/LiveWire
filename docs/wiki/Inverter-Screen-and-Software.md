@@ -79,6 +79,7 @@ The Soundproofing Kit (`LiveWire.SoundproofKit`, Electrical level 2) is fitted o
 | Hum | None |
 | Zombies | No longer hear the inverter |
 | Temperature and wear | The inverter runs warmer and wears 25 % faster |
+| Look | Grey acoustic foam on the top, sides and back; "Soundproofed" when inspected and on the Status page |
 
 The kit follows the inverter when it is picked up.
 

@@ -127,7 +127,7 @@ function Sim.snapshot(grid)
         grid = grid.id, rev = grid.rev or 0, name = grid.name or "",
         inverter = { id = inv.id, model = inv.model, state = inv.state,
                      cond = math.floor((inv.cond or 0) + 0.5), maxW = def.maxW or 0,
-                     eff = inv.eff or 0, powered = grid.powered == true },
+                     eff = inv.eff or 0, powered = grid.powered == true, muffled = inv.muffled == true },
         demand = math.floor((grid.demand or 0) + 0.5),
         production = math.floor((grid.production or 0) + 0.5),
         stock = grid.stock or 0, capacity = grid.capacity or 0,

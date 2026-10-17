@@ -158,6 +158,8 @@ Effective capacity = nominal × (0.4 + 0.6 × condition / 100) × `BatteryCapaci
 
 **Soundproofing kit** (`LiveWire.SoundproofKit`): fitted on the inverter with a screwdriver (**Soundproof the inverter**), removed with **Remove the soundproofing** (kit given back). Effects: no hum, zombies no longer hear it; the inverter runs warmer and wears 25 % faster. It follows the inverter when picked up.
 
+A soundproofed inverter is covered with grey acoustic foam on its top, sides and back (the screen stays visible), and "Soundproofed" shows when it is inspected and on the Status page of its screen.
+
 ## Optional equipment and the breaker
 
 | Equipment | Effect | Level |

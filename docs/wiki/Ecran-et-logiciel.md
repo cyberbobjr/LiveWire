@@ -65,6 +65,7 @@ Un son propre au mod, audible seulement à une case autour d'un onduleur allumé
 |---|
 | Plus de bourdonnement, les zombies n'entendent plus l'onduleur |
 | L'onduleur chauffe davantage et s'use 25 % plus vite |
+| Mousse acoustique grise sur le dessus, les côtés et l'arrière ; « Insonorisé » à l'inspection et sur la page État de l'écran |
 | Le kit suit l'onduleur quand on le ramasse |
 
 ## Voir aussi

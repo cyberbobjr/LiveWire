@@ -21,6 +21,7 @@ Overlays (attachedAnimSprite, set by the client, LW_Visuals.lua; no properties):
   48-63   wind turbine blades, frame f (0-3), facing k:  48 + 4 * f + k
   64-65   breaker tripped: red lamp                      S E
   66-67   alarm ringing: lit beacon                      S E
+  68-71   inverter soundproofed: acoustic foam panels    S E N W
 The wind turbine tiles 4-7 have no blades: the client always draws a blade frame.
 
 Needs pz-sprite-forge (MIT, https://github.com/Leeheejin/pz-sprite-forge).
@@ -86,6 +87,8 @@ PAINTS = {
     "greenlit": ("fabric", (0.40, 1.00, 0.40)),
     "screenlit": ("fabric", (0.55, 1.00, 0.70)),
     "redlit": ("fabric", (1.00, 0.30, 0.18)),
+    "foam": ("fabric", (0.17, 0.17, 0.19)),
+    "foamridge": ("fabric", (0.24, 0.24, 0.27)),
 }
 
 
@@ -335,6 +338,35 @@ def build_inverter_fault(k: Kit):
     return [k.box("inv_led_red_on", (-0.05, INV_FY - 0.0115, 0.60), (0.042, 0.003, 0.037), "redlit")]
 
 
+def build_inverter_muffle(k: Kit):
+    """Soundproofing kit: ribbed acoustic foam panels on the top, sides and back of the
+    inverter; the front (screen, lights, switch) stays uncovered."""
+    build_inverter(k)
+    mark_holdout(k.anchor)
+    w, d, h, z0 = 0.56, 0.38, 0.92, 0.04
+    t = 0.05
+    parts = []
+    zc, hh = z0 + h / 2 - 0.02, h - 0.10
+    for sx in (-1, 1):
+        x = sx * (w / 2 + t / 2 + 0.005)
+        parts.append(k.box(f"muf_side_{sx}", (x, 0.01, zc), (t, d - 0.02, hh), "foam"))
+        for r in range(6):
+            z = z0 + 0.12 + r * 0.14
+            parts.append(k.box(f"muf_side_{sx}_rib_{r}", (x + sx * t / 2, 0.01, z), (0.02, d - 0.06, 0.05),
+                               "foamridge"))
+    yb = d / 2 + t / 2 + 0.005
+    parts.append(k.box("muf_back", (0, yb, zc), (w + 2 * t, t, hh), "foam"))
+    for r in range(6):
+        parts.append(k.box(f"muf_back_rib_{r}", (0, yb + t / 2, z0 + 0.12 + r * 0.14), (w, 0.02, 0.05),
+                           "foamridge"))
+    zt = z0 + h + t / 2 + 0.005
+    parts.append(k.box("muf_top", (0, 0.03, zt), (w + 2 * t, d + 0.02, t), "foam"))
+    for r in range(4):
+        parts.append(k.box(f"muf_top_rib_{r}", (-0.21 + r * 0.14, 0.03, zt + t / 2), (0.05, d - 0.04, 0.02),
+                           "foamridge"))
+    return parts
+
+
 def build_powerbank(k: Kit):
     """Open-top battery rack holding four car batteries (opens like a crate)."""
     w, d, h = 0.86, 0.52, 0.42
@@ -430,6 +462,7 @@ OVERLAYS = [
 ] + [(f"wind_rotor{f}", [48 + 4 * f + i for i in range(4)], build_wind_rotor(f)) for f in range(4)] + [
     ("breaker_trip", [64, 65], build_breaker_trip),
     ("alarm_ring", [66, 67], build_alarm_ring),
+    ("inverter_muffle", [68, 69, 70, 71], build_inverter_muffle),
 ]
 ALL_GROUPS = GROUPS + OVERLAYS
 OVERLAY_KEYS = {key for key, _, _ in OVERLAYS}

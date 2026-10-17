@@ -1,6 +1,7 @@
 -- Live Wire: state lights and moving parts of the placed devices, drawn locally on
 -- each client as tile overlays (attachedAnimSprite, IsoObject.java:1821-1880):
---   inverter: lit screen when on, red light when tripped or broken;
+--   inverter: lit screen when on, red light when tripped or broken, acoustic
+--             foam panels when soundproofed;
 --   power bank and sources: green light when connected to an inverter;
 --   wind turbine: blades (the tile has none), turning with the wind;
 --   breaker: red lamp when tripped; alarm: lit beacon while it rings.
@@ -21,7 +22,9 @@ local FIRST_OVERLAY = 24
 -- Overlay sprites that exist in the pack (lights on the front are not drawn for the
 -- N and W facings, where the front is hidden).
 local EXISTS = {}
-for _, i in ipairs({ 24, 25, 28, 29, 32, 33, 36, 37, 40, 41, 44, 45, 64, 65, 66, 67 }) do EXISTS[i] = true end
+for _, i in ipairs({ 24, 25, 28, 29, 32, 33, 36, 37, 40, 41, 44, 45, 64, 65, 66, 67, 68, 69, 70, 71 }) do
+    EXISTS[i] = true
+end
 for i = 48, 63 do EXISTS[i] = true end
 
 V.SCAN_RADIUS = 18
@@ -103,6 +106,7 @@ function V.wanted(obj, now)
     if model == "Inverter" then
         if m and m.st == "on" then add(24 + f) end
         if m and (m.st == "tripped" or m.st == "broken") then add(28 + f) end
+        if m and m.muf then add(68 + f) end
     elseif model == "PowerBank" then
         if m and m.inv then add(32 + f) end
     elseif model == "SolarPanel" then
