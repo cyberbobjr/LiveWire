@@ -63,6 +63,7 @@ Live Wire Monitor показывает выработку, потреблени�
 
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Вики Live Wire (на английском языке)[/url] · Исходный код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
+[b]Совместимость с[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (необязательно): программа управления устанавливается с диска из компьютерной добычи и работает как приложение на их рабочем столе.
 [b]Совместимость[/b]: оригинальная разработка, не предназначена для совместной работы с другими модами энергосистем. Лицензия MIT.
 
 [h2]Поддержите проект[/h2]
