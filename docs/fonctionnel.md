@@ -106,15 +106,12 @@ Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscri
 
 ### 2.4 Équipements optionnels
 
-Le système de base reste **source → onduleur → maison**, avec une **batterie facultative**. Les équipements ci-dessous sont **tous optionnels** : aucun n'est nécessaire pour qu'une installation fonctionne. Chacun ajoute un seul avantage, facile à comprendre. Leur liste et leur version sont **à valider (D-11)**.
+Le système de base reste **source → onduleur → maison**, avec une **batterie facultative**. Les sources ont toutes un micro-onduleur intégré (§ 3.1), qui n'est pas un équipement à part. Les équipements ci-dessous sont **tous optionnels** : aucun n'est nécessaire pour qu'une installation fonctionne. Chacun ajoute un seul avantage, facile à comprendre. Leur liste et leur version sont **à valider (D-11)**.
 
 | Équipement | Problème réglé | Effet en jeu | Niv. | Version proposée | Faisabilité |
 |---|---|---|---|---|---|
 | **Disjoncteur** (sécurité) | Une surcharge use l'onduleur (−3 d'état à chaque disjonction) | Raccordé à un onduleur, il coupe **avant** l'onduleur : plus de dégât en cas de surcharge. Le réarmement reste manuel | 3 | 0.1 | Simple : règle du pas de simulation |
-| **Parafoudre** (sécurité) | Les orages et tempêtes abîment les sources | Annule les dégâts d'orage sur les sources raccordées au même onduleur | 5 | 0.2 | Simple : `getIsThunderStorming()` est déjà lu |
 | **Ordinateur de gestion** | Le tableau de bord ne montre que l'instant présent | Ajoute au tableau de bord un **historique de 48 h** (production, demande, stock), une **prévision d'autonomie** jusqu'au lever du soleil, et des alertes plus tôt. Avec le **délestage** (niv. 7), il éteint d'abord les lumières quand le stock passe sous 15 %, pour garder le réfrigérateur | 6 | 0.2 | Moyenne : l'historique est un tableau circulaire ; extinction des lumières sur le serveur par `IsoLightSwitch:setActive(false)`, qui se synchronise (`knowledge/power-and-lights.md:194-197`) |
-| **Programmateur horaire** | La maison consomme même quand on n'en a pas besoin | Coupe la distribution aux heures choisies, par exemple de 1 h à 6 h, pour économiser le stock. Les sources continuent de charger les batteries | 4 | 0.2 | Simple : état « arrêt » de l'onduleur piloté par l'heure |
-| **Régulateur solaire optimisé** | Le solaire produit peu par temps nuageux | +15 % de production solaire sur le réseau, +25 % sous les nuages | 7 | 0.3 | Simple : facteur dans la formule |
 | **Alarme de batterie faible** | On découvre la panne trop tard | Bip discret et message aux joueurs proches quand le stock passe sous 20 % | 2 | 0.2 | Simple : `notify` du serveur et son local du client |
 
 **Règles communes :**
@@ -159,6 +156,11 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
   - `facteur_état = 0,5 + 0,5 × état/100`.
   - Un appareil d'état 0 est en panne et produit 0.
   - `facteur_pose` : voir § 4.3.
+- **Micro-onduleur intégré à chaque source** (lissage). Chaque source contient un petit onduleur qui **lisse** sa production. Ce n'est ni un objet à poser, ni un équipement optionnel : il fait partie de la source.
+  - La puissance fournie au réseau suit la puissance brute avec un temps de réponse de 30 minutes de jeu : `P_fournie ← P_fournie + (P_brute − P_fournie) × min(1, Δt / 0,5 h)`. Pour un pas de 10 minutes, l'écart se réduit d'un tiers à chaque pas.
+  - Effet : un nuage qui passe ou une rafale de vent ne fait plus varier brutalement le courant. Au coucher du soleil, la production décroît en une demi-heure au lieu de tomber d'un coup.
+  - Équilibre énergétique : le lissage décale l'énergie dans le temps ; l'écart sur une journée est négligeable (règle de mod, sans équivalent dans le moteur).
+  - Le tableau de bord affiche la puissance **fournie** (lissée) ; l'inspection d'une source montre aussi la puissance brute.
 
 ### 3.2 Panneau photovoltaïque
 
@@ -366,7 +368,7 @@ Le stock est borné entre 0 et la capacité. Un surplus quand tout est plein est
 
 **Surcharge et manque d'énergie :**
 - **Surcharge.** Si la demande dépasse la puissance maximale, l'onduleur **disjoncte** : la base n'est plus alimentée, il perd 3 points d'état, et il faut « Réarmer ».
-- **Manque d'énergie.** Si la production du moment et le stock ne couvrent plus la demande, l'onduleur passe **à vide** : le courant disparaît. Il se rallume seul quand le stock dépasse 2 % de la capacité, ou quand la production couvre 110 % de la demande pendant deux pas de suite. Ce seuil évite que la maison clignote au passage d'un nuage.
+- **Manque d'énergie.** Si la production du moment et le stock ne couvrent plus la demande, l'onduleur passe **à vide** : le courant disparaît. Il se rallume seul quand le stock dépasse 2 % de la capacité, ou quand la production lissée couvre la demande. Grâce au micro-onduleur de chaque source (§ 3.1), la maison ne clignote pas au passage d'un nuage.
 
 **Installation minimale : une source et un onduleur, sans batterie.**
 - La maison est alimentée tant que la production du moment, multipliée par le rendement, couvre la demande. Exemple : 3 panneaux par beau temps alimentent un réfrigérateur-congélateur à midi, mais pas la nuit.
@@ -496,8 +498,8 @@ Page `LiveWire`. Toutes ces valeurs par défaut sont **à valider**.
 | Version | Contenu | Idées |
 |---|---|---|
 | **0.1 — Socle** | Testeur ; batteries posées et raccordées (vanilla et stationnaire), facultatives ; onduleur et onduleur renforcé ; panneaux ; éolienne ; disjoncteur (optionnel) ; tableau de bord ; usure, pannes, réparation, reconditionnement ; paliers et expérience ; sandbox ; EN et FR ; MP dédié ; fonctionnement sans joueur | I-1, I-6, I-9 (solaire et éolien) |
-| **0.2 — Base autonome** | Équipements optionnels : parafoudre, ordinateur de gestion, programmateur horaire, alarme de batterie faible (§ 2.4) ; roue à aubes ; charge des batteries depuis un générateur vanilla ou le réseau public (prélèvement du carburant du générateur source) ; bascule automatique ; chargeur de piles (`IsoCarBatteryCharger`, NM-14) ; réparation des cuisinières et micro-ondes (NM-16) ; pompe électrique qui remplit un récupérateur au-dessus d'éviers raccordés (`IsoObject:addFluid`, `java/zombie/iso/IsoObject.java:2700-2721`) | I-2, I-5 (partiel), I-7, I-9 (hydro) |
-| **0.3 — Sécurité** | Régulateur solaire optimisé (optionnel, § 2.4) ; désarmer l'alarme d'une maison (`BuildingDef:setAlarmed`, NM-15) ou d'un véhicule ; capteurs reliés à une lumière ou une sirène | I-3, I-4 |
+| **0.2 — Base autonome** | Équipements optionnels : ordinateur de gestion, alarme de batterie faible (§ 2.4) ; roue à aubes ; charge des batteries depuis un générateur vanilla ou le réseau public (prélèvement du carburant du générateur source) ; bascule automatique ; chargeur de piles (`IsoCarBatteryCharger`, NM-14) ; réparation des cuisinières et micro-ondes (NM-16) ; pompe électrique qui remplit un récupérateur au-dessus d'éviers raccordés (`IsoObject:addFluid`, `java/zombie/iso/IsoObject.java:2700-2721`) | I-2, I-5 (partiel), I-7, I-9 (hydro) |
+| **0.3 — Sécurité** | Désarmer l'alarme d'une maison (`BuildingDef:setAlarmed`, NM-15) ou d'un véhicule ; capteurs reliés à une lumière ou une sirène | I-3, I-4 |
 | **0.4 — Fin de partie** | Clôture électrifiée ; onduleurs relais pour un grand bâtiment | I-8, I-10 |
 | **Reportées sans date** | Dynamo à vélo : pas de vélo vanilla ; reste ouverte en manivelle, endurance contre courant (`CharacterStat.ENDURANCE`). Réparation des réfrigérateurs, télévisions et radios : le froid ne peut pas être bloqué depuis Lua (NM-16). Panneaux récupérés sur les toits : aucune tuile solaire vanilla trouvée (hypothèse) | I-9 (vélo), I-5 (réfrigérateurs) |
 | **Après les modèles définitifs** | Tuiles et modèles Blender ; son propre de l'onduleur ; câbles visibles | — |
