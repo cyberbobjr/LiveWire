@@ -40,7 +40,7 @@ Les faits établis sur `IsoGenerator` (NM-1 à NM-9) restent utiles : pour compr
 
 | # | Mécanisme | Pour | Contre | Verdict |
 |---|---|---|---|---|
-| A | **Ancre d'alimentation** : le mod pose lui-même la position de générateur de l'onduleur sur les chunks de sa portée, et la repose à chaque chargement | Onduleur posable partout, intérieur compris ; aucune toxicité, aucun incendie, aucun son imposé ; usure et bruit entièrement maîtrisés par le mod ; positions sauvegardées avec les chunks, donc courant **même sans joueur** | Purgées à chaque chargement (§ 1.4), donc il faut les reposer, sur le serveur **et** chez chaque client ; la consommation est mesurée par le mod (§ 1.5) ; les effets côté client (bourdonnement du réfrigérateur, lumière) sont à rafraîchir | **Retenue — à valider : D-2** |
+| A | **Ancre d'alimentation** : le mod pose lui-même la position de générateur de l'onduleur sur les chunks de sa portée, et la repose à chaque chargement | Onduleur posable partout, intérieur compris ; aucune toxicité, aucun incendie, aucun son imposé ; usure et bruit entièrement maîtrisés par le mod ; positions sauvegardées avec les chunks, donc courant **même sans joueur** | Purgées à chaque chargement (§ 1.4), donc il faut les reposer, sur le serveur **et** chez chaque client ; la consommation est mesurée par le mod (§ 1.5) ; les effets côté client (bourdonnement du réfrigérateur, lumière) sont à rafraîchir | **Retenue — validée : D-2** |
 | B | Vrai `IsoGenerator` sur la case de l'onduleur | Le moteur fait tout | Toxicité en intérieur (§ 1.2) | Écartée (exigence 1) |
 | C | Vrai `IsoGenerator` **caché** sur une case extérieure proche (« coffret de raccordement »), relié à l'onduleur intérieur | Le moteur mesure la consommation et gère le MP | Un second objet dehors ; disque de portée décentré ; immeubles sans case extérieure au même étage ; son de générateur vanilla imposé ; menu vanilla à bloquer | **Repli** si A échoue au prototype P1 |
 | D | Réseau public global (`ElecShutModifier`) | Aucun objet | Toute la carte ; réservé à l'admin en MP (`knowledge/power-and-lights.md:26-34`) | Écartée |
@@ -122,29 +122,35 @@ Le mod ne crée **aucun** objet tagué `Generator`, et aucun `IsoGenerator` (NM-
 Tout le mod vit sous `Contents/mods/batman_LiveWire/42.21/media/` (`CLAUDE.md`).
 
 ```
-lua/shared/LiveWire/LW_Core.lua            table globale LiveWire, version, journal
+lua/shared/LiveWire/LW_Core.lua            table globale LiveWire, version, journal, cles ModData
 lua/shared/LiveWire/LW_Config.lua          lecture des options sandbox
-lua/shared/LiveWire/LW_Defs.lua            sources, batteries, onduleurs (donnees)
-lua/shared/LiveWire/LW_Physics.lua         fonctions pures : solaire, eolien, hydro, batteries, onduleur
+lua/shared/LiveWire/LW_Defs.lua            sources, onduleurs, disjoncteur, batteries (donnees)
+lua/shared/LiveWire/LW_Physics.lua         fonctions pures : solaire, eolien, lissage, batteries, pas de reseau
 lua/shared/LiveWire/LW_Protocol.lua        noms de commandes, validation des arguments
-lua/shared/LiveWire/LW_Marks.lua           marque ModData des objets du mod
+lua/shared/LiveWire/LW_Marks.lua           marque ModData des objets et des batteries
 lua/shared/LiveWire/LW_Anchor.lua          application des ancres (serveur ET clients), LoadChunk
-lua/shared/LiveWire/LW_VanillaGuards.lua   enveloppes complete() des actions vanilla (autorite)
-lua/shared/LiveWire/TimedActions/LW_*.lua  actions chronometrees (complete() sur l'autorite)
-lua/server/LiveWire/LW_Registry.lua        registre, index par position, identifiants
+lua/shared/LiveWire/LW_Install.lua         regles de pose et de raccordement, outils d'inventaire
+lua/shared/LiveWire/LW_Notify.lua          messages au joueur (cles traduites cote client)
+lua/shared/LiveWire/LW_Recipes.lua         OnCreate de la batterie stationnaire
+lua/shared/LiveWire/LW_VanillaGuards.lua   enveloppes ramasser / demonter / detruire (affichage et autorite)
+lua/shared/LiveWire/TimedActions/LW_TimedActions.lua
+                                           installer, demonter, raccorder, reparer, inspecter,
+                                           deneiger, mesurer, reconditionner
+lua/server/LiveWire/LW_Registry.lua        registre, index par position, table publique des ancres
 lua/server/LiveWire/LW_Migration.lua       migrations de schema
-lua/server/LiveWire/LW_Simulation.lua      pas de simulation (EveryTenMinutes)
+lua/server/LiveWire/LW_Simulation.lua      pas de simulation (EveryTenMinutes), instantanes
 lua/server/LiveWire/LW_Demand.lua          inventaire des appareils et mesure de la demande
 lua/server/LiveWire/LW_Batteries.lua       batteries posees : lecture, ecriture, rapprochement
-lua/server/LiveWire/LW_Commands.lua        OnClientCommand, reponses
+lua/server/LiveWire/LW_ChunkSync.lua       au chargement d'un chunk : batteries, inventaires de demande
+lua/server/LiveWire/LW_Commands.lua        OnClientCommand, validation, limite de debit
 lua/server/LiveWire/LW_Xp.lua              experience (addXp sur l'autorite)
-lua/client/LiveWire/LW_ContextMenu.lua     sous-menu "Live Wire"
-lua/client/LiveWire/LW_HideVanilla.lua     filtres ramasser / demonter / detruire
+lua/client/LiveWire/LW_ClientState.lua     instantanes recus, messages traduits
+lua/client/LiveWire/LW_ContextMenu.lua     sous-menu "Live Wire" (monde et inventaire)
 lua/client/LiveWire/LW_Dashboard.lua       fenetre du tableau de bord
-lua/client/LiveWire/LW_ClientState.lua     cache des instantanes, rafraichissement visuel
-lua/client/LiveWire/LW_Hum.lua             bourdonnement local de l'onduleur (D-8)
-lua/shared/Translate/EN/*.json, FR/*.json
+lua/client/LiveWire/LW_Hum.lua             ronronnement local de l'onduleur (FridgeHumA, D-8)
+lua/shared/Translate/EN/*.json, FR/*.json  textes (generes par tools/translations_src.py)
 scripts/LiveWire_items.txt, LiveWire_recipes.txt, LiveWire_models.txt
+models_X/LiveWire/*.glb, textures/LiveWire/*.png   formes geometriques (tools/make_placeholder_models.py)
 sandbox-options.txt
 ```
 
@@ -320,11 +326,11 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
 
 | Sens | Commande | Arguments | Effet |
 |---|---|---|---|
-| C → S | `subscribe` / `unsubscribe` | `{ grid }` | Abonnement au tableau de bord (10 minutes réelles, renouvelé) |
-| C → S | `unlink` | `{ device }` | Débranche une source ou une batterie |
+| C → S | `subscribe` / `unsubscribe` | `{ inverter }` | Abonnement au tableau de bord (10 minutes réelles, renouvelé). Par identifiant d'onduleur, que le client lit dans la marque de l'objet |
+| C → S | `unlink` | `{ device }` | Débranche une source ou un équipement. Une batterie se débranche en la ramassant |
 | C → S | `setInverter` | `{ inverter, on }` | Allumage ou extinction manuels |
 | C → S | `reset` | `{ inverter }` | Réarme après une disjonction, si la demande est revenue sous le maximum |
-| C → S | `rename` | `{ grid, name }` | Nom de 24 caractères au plus |
+| C → S | `rename` | `{ inverter, name }` | Nom de 24 caractères au plus |
 | S → C | `snapshot` | `{ grid, rev, inverter, sources, batteries, demand, energy, capacity, alerts }` | Cache du client |
 | S → C | `notify` | `{ key, args }` | Message au joueur |
 | S → C | `refuse` | `{ cmd, key }` | Refus motivé |
@@ -436,3 +442,38 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 | **E8 — Compétence, usure, pannes, bourdonnement** | `LW_Xp`, paliers, usure, réparation, disjonction, `LW_Hum` | Expérience gagnée ; disjonction avec un lave-linge et sèche-linge superposés ; bourdonnement audible de près seulement | Expérience gagnée par le client non-admin |
 | **E9 — Protection et durcissement (P2, P7)** | `LW_HideVanilla`, `LW_VanillaGuards`, validation complète, débit | Liste P2 | Commandes forgées (débogage) toutes refusées ; protocole P7 |
 | **E10 — Équilibrage et finition (P5)** | Valeurs, textes, `workshop.txt` | Partie de 30 jours accélérée | Session à plusieurs ; journal relu. Publication par l'utilisateur, sur son poste (`CLAUDE.md`) |
+
+---
+
+## 10. État de l'implémentation v0.1 (2026-10-17)
+
+**Statut : code écrit, vérifié hors jeu, jamais lancé dans le jeu.** Le protocole de test en jeu est dans `docs/protocole-tests.md`.
+
+**Vérifications hors jeu passées :**
+- `python3 -I tools/check_mod.py` :
+  - syntaxe Lua 5.1 et ASCII de tous les fichiers ;
+  - chargement dans l'ordre du jeu pour trois contextes : solo, client MP, serveur dédié ;
+  - clés de traduction EN et FR ;
+  - gardes `isClient()` ;
+  - fichiers des modèles ;
+  - noms d'événements comparés à `LuaEventManager.java`.
+- `python3 -I tests/test_physics.py` : formules (soleil, vent, lissage, batteries, pas de réseau).
+- `python3 -I tests/test_simulation.py` : scénarios sans joueur à proximité :
+  - 3 jours avec 6 panneaux et 4 batteries ;
+  - source et onduleur sans batterie ;
+  - surcharge avec et sans disjoncteur ;
+  - rattrapage de 10 jours.
+
+**Écarts avec les sections précédentes :**
+- **Batterie** : elle se débranche en la ramassant, ou par la commande `unlink`. Son lien est porté par la ModData de l'objet d'inventaire (§ 3.1).
+- **Tableau de bord** : abonnement par identifiant d'onduleur (§ 5.2).
+- **Disjoncteur** : il se fixe sur un mur. La variante de sprite est choisie au moment de la pose, d'après les drapeaux `attachedN` / `attachedW` des candidats `walls_decoration_01_104` à `_107` (hypothèse à vérifier).
+- **Hors v0.1** : la roue à aubes, la charge depuis un générateur vanilla, l'ordinateur de gestion et l'alarme de batterie faible arrivent en v0.2 (`fonctionnel.md`, § 9).
+- **Pas encore implémenté** : l'adoption d'un objet marqué inconnu du registre (§ 6.3). Un tel objet reste inerte.
+
+**Points du moteur à confirmer en jeu, par ordre de risque :**
+1. **L'ancre** (R-1) : courant chez le 2e client, rechargement des chunks, purge, rafraîchissement des lumières.
+2. **Le ronronnement** `FridgeHumA` (R-5), qui dépend peut-être du paramètre FMOD `Generator` réglé d'habitude par le moteur.
+3. **Le disjoncteur mural** : variantes de sprite et rendu contre le mur.
+4. **Les modèles `.glb`** : échelle 1,0 et orientation.
+5. **L'icône et la recette** de la batterie stationnaire (`mode:destroy` sur des objets à charge).
