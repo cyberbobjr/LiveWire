@@ -465,7 +465,7 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 
 **Écarts avec les sections précédentes :**
 - **Batteries** : rangées dans une **powerbank** à conteneur, choix de l'utilisateur. Plus aucune batterie au sol.
-- **Tableau de bord** : abonnement par identifiant d'onduleur (§ 5.2).
+- **Interface de gestion** : abonnement par identifiant d'onduleur (§ 5.2). L'instantané porte en plus la zone couverte (`coverage`), la famille et la puissance nominale de chaque source, et la consommation par famille d'appareils (`appliances`, calculée par `LW_Demand.category` à partir des classes exposées `IsoLightSwitch`, `IsoTelevision`, `IsoRadio`, `IsoStove`, des quatre classes de lave-linge et sèche-linge, de `IsoCarBatteryCharger`, et des conteneurs `fridge` / `freezer`).
 - **Disjoncteur** : il se fixe sur un mur et reste sur la case cliquée. Son orientation (N, W, S, E) est choisie d'après les murs, et la variante de sprite d'après les drapeaux `attachedN/W/S/E` de l'applique `lighting_indoor_02_44` à `_47`. Un mur qui le porte est protégé de la masse (NM-30).
 - **Appareil disparu** : une source ou un équipement absent de sa case chargée est retiré du registre après deux constats, comme l'onduleur.
 - **Demande** : mêmes filtres que le moteur (`ItemContainer.isObjectPowered`, `AllowExteriorGenerator`, cases réellement alimentées : NM-27). Inventaire refait toutes les 30 minutes de jeu (NM-28).

@@ -340,7 +340,7 @@ Les trois batteries vanilla ont le même `UseDelta`, donc ces capacités sont un
 | Bruit | **très léger bourdonnement** | idem |
 
 - **Bruit.** Les zombies l'entendent dans un rayon de 2 cases (option `InverterNoiseRadius`). Les joueurs à moins de 12 cases entendent le **ronronnement de réfrigérateur vanilla `FridgeHumA`** (choix de l'utilisateur, D-8), joué localement par chaque client (`playSoundImpl`, sans paquet réseau).
-- **Portée.** Il alimente les cases dans un rayon de `GeneratorTileRange` (20 par défaut) et ±`GeneratorVerticalPowerRange` étages (3 par défaut). Ce sont les réglages vanilla des générateurs (`java/zombie/SandboxOptions.java:248-249`), et ils s'appliquent donc aussi aux générateurs vanilla.
+- **Portée : toute la maison, sans câblage.** Il alimente **tous les appareils** dans un rayon de `GeneratorTileRange` (20 par défaut) et sur ±`GeneratorVerticalPowerRange` étages (3 par défaut) : réfrigérateurs, lumières, cuisinières, télévisions, radios, machines à laver. On ne raccorde aucun appareil de la maison un par un ; seuls les équipements du mod (sources, powerbanks, disjoncteur) se raccordent à l'onduleur (choix de l'utilisateur, 2026-10-17). Ce sont les réglages vanilla des générateurs (`java/zombie/SandboxOptions.java:248-249`), et ils s'appliquent donc aussi aux générateurs vanilla.
 - **Pose : n'importe où, intérieur compris.** Il ne rend jamais le bâtiment toxique, et l'action « Installer » n'exige qu'une case de sol libre.
 - **États** : marche, arrêt (manuel), **disjoncté** (surcharge), **en panne** (état 0), **à vide** (plus d'énergie disponible).
 - **Plusieurs onduleurs.** Un réseau n'a qu'un onduleur en v0.1, mais une base peut avoir plusieurs réseaux. Les onduleurs relais arrivent en v0.4.
@@ -410,16 +410,24 @@ Toutes les options sont dans un sous-menu **« Live Wire »**. Une option imposs
 
 Les options vanilla « Ramasser », « Démonter » et « Détruire » sont refusées sur les sources et l'onduleur (`architecture.md`, § 2.4). Les batteries entrent et sortent de la powerbank par l'inventaire vanilla (§ 5.1).
 
-### 6.2 Tableau de bord du réseau
+### 6.2 Interface de gestion de l'onduleur
 
-Fenêtre déplaçable ouverte depuis l'onduleur. Elle est mise à jour toutes les 10 minutes de jeu tant qu'elle est ouverte et que le joueur reste à moins de 30 cases.
+**Ouverture.** Fenêtre déplaçable, ouverte par « Live Wire » → onduleur → « Ouvrir le tableau de bord ».
+- Elle est mise à jour toutes les 10 minutes de jeu tant qu'elle est ouverte.
+- Elle se ferme quand le joueur s'éloigne de plus de 30 cases.
 
-- **En-tête** : nom du réseau (modifiable) et état de l'onduleur.
-- **Sources** : une ligne par source (type, état, puissance actuelle), puis le total.
-- **Batteries** : une ligne par batterie (type, charge, état), puis le stock total en kWh et en %.
-- **Onduleur** : demande actuelle / puissance maximale, rendement, état.
-- **Autonomie** : « environ N h au rythme actuel », à partir du niveau 4.
-- **Alertes** : surcharge proche (> 90 %), batterie usée (état < 30), appareil en panne, production perdue.
+**Boutons :** Allumer, Éteindre, Réarmer. Chaque demande est revérifiée par le serveur.
+
+**Sections**, de haut en bas :
+
+| Section | Contenu |
+|---|---|
+| **Onduleur** | Nom du réseau, modèle, état (en marche, arrêté, à vide, disjoncté, en panne), état d'usure |
+| **Production et consommation** | Production actuelle en W, avec une jauge rapportée à la puissance nominale des sources. Consommation de la maison en W, rapportée à la puissance maximale de l'onduleur, avec une jauge bleue, orange au-delà de 70 %, puis rouge au-delà de 90 % (avec alerte de surcharge) |
+| **Batteries** | Nombre de powerbanks, stock total en kWh et en %, avec jauge. Autonomie estimée, à partir du niveau 4. Une ligne par batterie : charge en % et état d'usure ; orange si l'état est sous 30. Alertes : batteries non comptées (plus de 4 par powerbank), production perdue (batteries pleines) |
+| **Sources** | Groupées par famille : **Solaire**, **Éolien**, **Hydraulique**. Pour chaque famille : nombre de sources et puissance totale ; puis une ligne par source avec sa puissance fournie, son état et la neige sur un panneau. L'hydraulique affiche « dans une prochaine version » tant que la roue à aubes n'existe pas (v0.2) |
+| **Maison alimentée** | La zone couverte (rayon et étages). Puis les appareils en marche, **regroupés par famille** : réfrigérateurs et congélateurs, lumières, télévisions, radios, cuisinières et micro-ondes, lave-linge et sèche-linge, chargeurs de batterie, autres. Pour chaque famille : nombre d'appareils et consommation |
+| **Équipements** | Le disjoncteur, s'il est raccordé, avec son état |
 
 ### 6.3 Textes à traduire
 

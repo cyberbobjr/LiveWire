@@ -22,8 +22,13 @@
 3. Dehors, sur une case à ciel ouvert : installer 4 panneaux, puis « Raccorder à l'onduleur » sur chacun.
 4. En plein jour, attendre 10 à 20 minutes de jeu.
    - **Attendu** : les lumières de la maison s'allument à l'interrupteur, le réfrigérateur ronronne, aucun moodle de toxicité.
-5. Ouvrir le tableau de bord (onduleur → « Ouvrir le tableau de bord »).
-   - **Attendu** : production en W, demande en W, sources listées.
+5. Ouvrir l'interface de gestion (onduleur → « Ouvrir le tableau de bord »).
+   - **Attendu** :
+     - production et consommation en W, avec leurs jauges ;
+     - sources groupées par famille (Solaire avec les 4 panneaux, Éolien, Hydraulique « dans une prochaine version ») ;
+     - section « Maison alimentée » avec la zone (20 cases, 3 étages) et les familles d'appareils en marche (réfrigérateur, lumières…) avec leur consommation.
+   - Allumer ou éteindre une lumière, puis attendre 10 minutes de jeu : la ligne « Lumières » change.
+   - Boutons « Éteindre » puis « Allumer » : la maison s'éteint puis se rallume.
 6. **MP** : le 2e client voit les lumières allumées et entend le réfrigérateur.
 7. S'éloigner de deux cellules (plus de 150 cases), attendre une heure de jeu, revenir.
    - **Attendu** : le courant est présent **dès l'arrivée**.
