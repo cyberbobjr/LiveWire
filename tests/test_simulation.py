@@ -167,6 +167,10 @@ def scenario_base():
     check(lua.globals().BAT_OK, "battery charge and condition in range")
     a = lua.globals().LiveWire.Registry.anchors[inv.id]
     check(a is not None, "anchor published")
+    snap = lua.eval("LiveWire.Sim.snapshot(GRID)")
+    check(snap.coverage.radius == 20 and snap.coverage.floors == 3, "snapshot carries the covered area")
+    check(snap.sources[1].kind == "solar" and snap.sources[1].nominal == 100, "sources carry their family")
+    check(len(list(snap.batteries.values())) == 4 and snap.banks == 1, "snapshot lists the 4 batteries of the bank")
     return rec
 
 

@@ -59,8 +59,24 @@ local function build(inv)
     return list
 end
 
--- Demand in W for a loaded inverter device. Returns nil when the inverter square
--- is not loaded (the caller then keeps the last measured value).
+-- Appliance family shown in the inverter interface (classes exposed to Lua).
+local LAUNDRY = { "IsoClothingWasher", "IsoClothingDryer", "IsoCombinationWasherDryer", "IsoStackedWasherDryer" }
+function Demand.category(o)
+    if instanceof(o, "IsoLightSwitch") then return "light" end
+    if instanceof(o, "IsoTelevision") then return "tv" end
+    if instanceof(o, "IsoRadio") then return "radio" end
+    if instanceof(o, "IsoStove") then return "stove" end
+    for i = 1, #LAUNDRY do
+        if instanceof(o, LAUNDRY[i]) then return "laundry" end
+    end
+    if instanceof(o, "IsoCarBatteryCharger") then return "charger" end
+    if o:getContainerByType("fridge") or o:getContainerByType("freezer") then return "fridge" end
+    return "other"
+end
+
+-- Demand in W for a loaded inverter device, and its breakdown by appliance family
+-- ({ fridge = { n = 1, w = 130 }, ... }). Returns nil when the inverter square is
+-- not loaded (the caller then keeps the last measured value).
 function Demand.measure(inv)
     local cell = getCell()
     if not cell:getGridSquare(inv.x, inv.y, inv.z) then return nil end
@@ -78,6 +94,8 @@ function Demand.measure(inv)
     local anchorOn = anchor and anchor.on
     local exteriorOk = allowExterior()
     local total = 0
+    local scale = 1000 * (LiveWire.Config.get("PowerScale") or 1)
+    local breakdown = {}
     for i = 1, #entry.objects do
         local o = entry.objects[i]
         local sq = o:getSquare()
@@ -85,10 +103,17 @@ function Demand.measure(inv)
             and (exteriorOk or not sq:getProperties():has(IsoFlagType.exterior))
             and (not anchorOn or sq:haveElectricity()) then
             local p = o:getGeneratorPowerConsumption()
-            if p and p > 0 then total = total + p end
+            if p and p > 0 then
+                total = total + p
+                local cat = Demand.category(o)
+                local b = breakdown[cat] or { n = 0, w = 0 }
+                b.n = b.n + 1
+                b.w = b.w + p * scale
+                breakdown[cat] = b
+            end
         end
     end
-    return total * 1000 * (LiveWire.Config.get("PowerScale") or 1)
+    return total * scale, breakdown
 end
 
 -- Rebuild the inventory of every inverter in range when an object appears or vanishes.

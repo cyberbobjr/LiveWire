@@ -115,11 +115,18 @@ function Sim.snapshot(grid)
         production = math.floor((grid.production or 0) + 0.5),
         stock = grid.stock or 0, capacity = grid.capacity or 0,
         lost = grid.lost or 0,
-        sources = {}, batteries = {}, options = {},
+        sources = {}, batteries = {}, options = {}, appliances = {},
+        coverage = { radius = LiveWire.Config.tileRange(), floors = LiveWire.Config.verticalRange() },
     }
+    for cat, b in pairs(grid.appliances or {}) do
+        snap.appliances[#snap.appliances + 1] = { cat = cat, n = b.n, w = math.floor(b.w + 0.5) }
+    end
+    table.sort(snap.appliances, function(a, b) return a.w > b.w end)
     for i = 1, #sources do
         local s = sources[i]
-        snap.sources[i] = { id = s.id, model = s.model, cond = math.floor((s.cond or 0) + 0.5),
+        local sdef = Defs.devices[s.model] or {}
+        snap.sources[i] = { id = s.id, model = s.model, kind = sdef.kind or "other",
+                            nominal = sdef.nominalW or 0, cond = math.floor((s.cond or 0) + 0.5),
                             w = math.floor((s.pOut or 0) + 0.5),
                             raw = math.floor((s.raw or 0) + 0.5), snow = s.snow or 0 }
     end
@@ -222,8 +229,11 @@ function Sim.stepGrid(grid, now, w)
     if not loaded and not LiveWire.Config.get("SimulateUnloaded") then return end
 
     if loaded then
-        local d = LiveWire.Demand.measure(inv)
-        if d then grid.demand = d end
+        local d, breakdown = LiveWire.Demand.measure(inv)
+        if d then
+            grid.demand = d
+            grid.appliances = breakdown
+        end
     end
     local demandW = grid.demand or 0
 
