@@ -76,9 +76,12 @@ function LWLinkAction:complete()
     if not objectStillThere(target) or not objectStillThere(invObj) then return false end
     local tsq = target:getSquare()
     if not near(ch, tsq, 2) or not allowed(ch, tsq) then return false end
-    local ok, why, wires = I().checkLink(ch, target, invObj)
+    local ok, why, wires, extra = I().checkLink(ch, target, invObj)
     if not ok then
-        LiveWire.notify(ch, why, {}, true)
+        -- On refusal the third and fourth results are the message arguments.
+        LiveWire.notify(ch, why, { wires, extra }, true)
+        LiveWire.log("link refused for " .. tostring(ch:getUsername()) .. ": " .. tostring(why)
+            .. " " .. tostring(wires or "") .. " " .. tostring(extra or ""))
         return false
     end
     local inv = deviceOf(invObj)

@@ -16,6 +16,7 @@ Protocol.C_ACK_ALARM = "ackAlarm"
 Protocol.C_RENAME = "rename"
 Protocol.C_REQUEST_ANCHORS = "requestAnchors"
 Protocol.C_DEBUG = "debug"
+Protocol.C_ADOPT = "adopt"
 
 -- Server -> client.
 Protocol.S_SNAPSHOT = "snapshot"

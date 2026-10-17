@@ -93,6 +93,11 @@ function MP:placeMoveableInternal(_character, _square, _item, _spriteName, ...)
     if _square and modelOfSprite(_spriteName) and authority() then
         LiveWire.Devices.onPlaced(_character, _square, _spriteName)
     end
+    -- Any furniture placed (a fridge moved, a lamp...): rebuild the appliance list of
+    -- the inverters in range (LW_Demand.lua).
+    if _square and LiveWire.isAuthority() and LiveWire.Demand and LiveWire.Demand.invalidateAt then
+        LiveWire.Demand.invalidateAt(_square)
+    end
     return r
 end
 

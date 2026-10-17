@@ -65,7 +65,7 @@ local function markFromDevice(obj, dev)
     local st, pw = stateOf(dev)
     LiveWire.Marks.set(obj, { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
                               level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
-                              muf = dev.muffled == true or nil })
+                              muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z })
     dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
     if isServer() then obj:transmitModData() end
 end
@@ -95,13 +95,29 @@ function Devices.refreshStates(grid)
     end
 end
 
-function Devices.onPlaced(character, sq, spriteName)
-    if not ready() then return end
+-- Register the unbound object of sprite `spriteName` on `sq` (or keep the same
+-- device after a rotation). `adopted`: reported later by a client (C_ADOPT) instead
+-- of the placement wrapper, e.g. another mod replaced placeMoveableInternal: no
+-- experience, its own message. Returns the device or nil.
+local function register(character, sq, spriteName, adopted)
+    local where = LiveWire.posKey(sq:getX(), sq:getY(), sq:getZ())
+    if not ready() then
+        LiveWire.warn("cannot register " .. tostring(spriteName) .. " at " .. where
+            .. ": the registry is not ready or read-only")
+        if character and not adopted then LiveWire.notify(character, "IGUI_LW_NotRegistered", {}, true) end
+        return nil
+    end
     local model = LiveWire.Defs.spriteToModel[spriteName]
     local def = model and LiveWire.Defs.devices[model]
-    if not def then return end
+    if not def then return nil end
     local obj, mark = unboundObject(sq, spriteName)
-    if not obj then return end
+    if not obj then
+        if not adopted then
+            LiveWire.warn("placed " .. tostring(spriteName) .. " at " .. where
+                .. " but no unregistered object of that tile is on the square")
+        end
+        return nil
+    end
 
     -- Rotation: same device, same square, new object.
     if mark and Devices.pending[mark.id] then
@@ -109,7 +125,7 @@ function Devices.onPlaced(character, sq, spriteName)
         Devices.pending[mark.id] = nil
         if dev then
             markFromDevice(obj, dev)
-            return
+            return dev
         end
     end
 
@@ -132,10 +148,35 @@ function Devices.onPlaced(character, sq, spriteName)
         LiveWire.Sim.refresh(grid)
     end
     if character then
-        LiveWire.Xp.award(character, def.xp or 0)
-        LiveWire.notify(character, "IGUI_LW_Installed", { "IGUI_LW_Model_" .. model })
+        if adopted then
+            LiveWire.notify(character, "IGUI_LW_Adopted", { "IGUI_LW_Model_" .. model })
+        else
+            LiveWire.Xp.award(character, def.xp or 0)
+            LiveWire.notify(character, "IGUI_LW_Installed", { "IGUI_LW_Model_" .. model })
+        end
     end
-    LiveWire.log("placed " .. model .. " " .. dev.id .. " at " .. LiveWire.posKey(dev.x, dev.y, dev.z))
+    LiveWire.log((adopted and "adopted " or "placed ") .. model .. " " .. dev.id .. " at " .. where)
+    return dev
+end
+
+function Devices.onPlaced(character, sq, spriteName)
+    return register(character, sq, spriteName, false)
+end
+
+-- Register every unbound Live Wire tile of a loaded square (client report).
+function Devices.adoptSquare(character, sq)
+    local names = {}
+    local objs = sq:getObjects()
+    for i = 0, objs:size() - 1 do
+        local spr = objs:get(i):getSprite()
+        local name = spr and spr:getName()
+        if name and LiveWire.Defs.spriteToModel[name] then names[#names + 1] = name end
+    end
+    local n = 0
+    for i = 1, #names do
+        if register(character, sq, names[i], true) then n = n + 1 end
+    end
+    return n
 end
 
 -- Write the live state into the object's mark so that the picked-up item keeps it.

@@ -198,6 +198,23 @@ handlers[P.C_REQUEST_ANCHORS] = function(player, args)
     if isServer() then ModData.transmit(LiveWire.ANCHOR_KEY) end
 end
 
+-- A client sees a Live Wire tile without a valid mark for some seconds (placed by a
+-- path that skipped our placement wrapper): register it if it really is unbound.
+Commands.ADOPT_RANGE = 40
+handlers[P.C_ADOPT] = function(player, args)
+    local x, y, z = tonumber(args.x), tonumber(args.y), tonumber(args.z)
+    if not x or not y or not z then return end
+    x, y, z = math.floor(x), math.floor(y), math.floor(z)
+    if math.abs(player:getX() - x) > Commands.ADOPT_RANGE or math.abs(player:getY() - y) > Commands.ADOPT_RANGE
+        or math.abs(player:getZ() - z) > 3 then
+        return
+    end
+    local sq = getCell():getGridSquare(x, y, z)
+    if not sq then return end
+    if SafeHouse and not SafeHouse.isSafehouseAllowInteract(sq, player) then return end
+    LiveWire.Devices.adoptSquare(player, sq)
+end
+
 local function onClientCommand(module, command, player, args)
     if module ~= LiveWire.MODULE then return end
     local R = LiveWire.Registry

@@ -13,9 +13,13 @@ LiveWire.Menu = Menu
 
 local function I() return LiveWire.Install end
 
-local function tip(option, key, arg)
+local function tip(option, key, arg, arg2)
     local t = ISWorldObjectContextMenu.addToolTip()
-    t.description = getText(key, arg)
+    if arg2 ~= nil then
+        t.description = getText(key, arg, arg2)
+    else
+        t.description = getText(key, arg)
+    end
     option.toolTip = t
     option.notAvailable = true
 end
@@ -46,6 +50,27 @@ end
 
 local function tiles(d)
     return tostring(math.floor(d + 0.5))
+end
+
+-- Nearest Live Wire inverter seen by this client within maxDist tiles (any floor),
+-- as { obj, dist, dz }, or nil. Used to explain why nothing is in cable range.
+function Menu.nearestInverter(obj, maxDist)
+    local V = LiveWire.Visuals
+    local sq = obj and obj:getSquare()
+    if not V or not V.inverters or not sq then return nil end
+    local best = nil
+    local list = V.inverters()
+    for i = 1, #list do
+        local o = list[i]
+        local os = o:getSquare()
+        if os and o:getObjectIndex() ~= -1 and LiveWire.Marks.get(o) then
+            local d, dz = I().distance(sq:getX(), sq:getY(), sq:getZ(), os:getX(), os:getY(), os:getZ())
+            if d <= maxDist and (not best or d < best.dist) then
+                best = { obj = o, dist = d, dz = dz }
+            end
+        end
+    end
+    return best
 end
 
 local function queueNear(player, sq, action)
@@ -144,7 +169,14 @@ local function addLinkOptions(menu, player, obj, kind, linkId)
     local inverters = I().invertersInRange(sq)
     local range = tostring(LiveWire.Config.get("LinkRange"))
     if #inverters == 0 then
-        disabled(menu, getText("ContextMenu_LW_NoInverter", range))
+        local near = Menu.nearestInverter(obj, 2 * LiveWire.Config.get("LinkRange"))
+        if near and near.dz > I().LINK_FLOORS then
+            disabled(menu, getText("ContextMenu_LW_InverterFloors", tostring(near.dz), tostring(I().LINK_FLOORS)))
+        elseif near then
+            disabled(menu, getText("ContextMenu_LW_InverterTooFar", tostring(math.ceil(near.dist - 1e-9)), range))
+        else
+            disabled(menu, getText("ContextMenu_LW_NoInverter", range))
+        end
         return
     end
     local opt = menu:addOption(getText("ContextMenu_LW_LinkTo"), nil, nil)
@@ -154,8 +186,8 @@ local function addLinkOptions(menu, player, obj, kind, linkId)
         local inv = inverters[i]
         local o = sub:addOption(getText("ContextMenu_LW_InverterAt", tiles(inv.dist),
             tostring(I().wiresFor(inv.dist))), player, Menu.onLink, obj, inv.obj)
-        local ok, why, arg = I().checkLink(player, obj, inv.obj)
-        if not ok then tip(o, why, arg) end
+        local ok, why, arg, arg2 = I().checkLink(player, obj, inv.obj)
+        if not ok then tip(o, why, arg, arg2) end
     end
 end
 
@@ -206,8 +238,8 @@ local function addInverterOptions(menu, player, obj, mark)
         local e = free[i]
         local o = lsub:addOption(getText("ContextMenu_LW_DeviceAt", objectName(e), tiles(e.dist),
             tostring(I().wiresFor(e.dist))), player, Menu.onLink, e.obj, obj)
-        local ok, why, arg = I().checkLink(player, e.obj, obj)
-        if not ok then tip(o, why, arg) end
+        local ok, why, arg, arg2 = I().checkLink(player, e.obj, obj)
+        if not ok then tip(o, why, arg, arg2) end
     end
 
     local uo = menu:addOption(getText("ContextMenu_LW_UnlinkDevice"), nil, nil)
@@ -290,7 +322,8 @@ local function onFillWorld(playerNum, context, worldobjects, test)
         if kind == "device" then
             seen[o] = true
             devices[#devices + 1] = o
-        elseif kind and o:getSquare() and (I().vanillaMark(o) or #I().invertersInRange(o:getSquare()) > 0) then
+        elseif kind and o:getSquare() and (I().vanillaMark(o) or #I().invertersInRange(o:getSquare()) > 0
+                or Menu.nearestInverter(o, 2 * LiveWire.Config.get("LinkRange")) ~= nil) then
             seen[o] = true
             vanilla[#vanilla + 1] = { obj = o, kind = kind }
         end

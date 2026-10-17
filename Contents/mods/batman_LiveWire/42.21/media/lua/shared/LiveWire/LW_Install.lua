@@ -6,6 +6,9 @@ LiveWire = LiveWire or {}
 local Install = {}
 LiveWire.Install = Install
 
+-- Floors a cable can climb or go down between a device and its inverter.
+Install.LINK_FLOORS = 1
+
 local function notBroken(item)
     return not item:isBroken()
 end
@@ -110,8 +113,8 @@ function Install.vanillaMark(obj)
     return nil
 end
 
--- Can `target` (one of our devices, a vanilla generator or a vanilla computer) be
--- linked to `inverterObj`?
+-- linked to inverterObj? Returns true, nil, wires; or false, key, arg1, arg2.
+-- `target` is one of our devices, a vanilla generator or a vanilla computer.
 function Install.checkLink(character, target, inverterObj)
     if not target or not inverterObj then return false, "Tooltip_LW_Invalid" end
     local im = LiveWire.Marks.get(inverterObj)
@@ -122,8 +125,12 @@ function Install.checkLink(character, target, inverterObj)
     local ts, is = target:getSquare(), inverterObj:getSquare()
     if not ts or not is then return false, "Tooltip_LW_Invalid" end
     local dist, dz = Install.distance(ts:getX(), ts:getY(), ts:getZ(), is:getX(), is:getY(), is:getZ())
-    if dist > LiveWire.Config.get("LinkRange") or dz > 1 then
-        return false, "Tooltip_LW_NoInverterInRange"
+    if dz > Install.LINK_FLOORS then
+        return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(Install.LINK_FLOORS)
+    end
+    local range = LiveWire.Config.get("LinkRange")
+    if dist > range then
+        return false, "Tooltip_LW_TooFarForCable", tostring(math.ceil(dist - 1e-9)), tostring(range)
     end
     local kind = Install.linkKind(target)
     if not kind then return false, "Tooltip_LW_Invalid" end
@@ -160,7 +167,7 @@ function Install.objectsInRange(sq, wantRole, vanilla)
     local r = math.floor(range)
     local cell = getCell()
     local x0, y0, z0 = sq:getX(), sq:getY(), sq:getZ()
-    for z = z0 - 1, z0 + 1 do
+    for z = z0 - Install.LINK_FLOORS, z0 + Install.LINK_FLOORS do
         for x = x0 - r, x0 + r do
             for y = y0 - r, y0 + r do
                 local dx, dy = x - x0, y - y0
