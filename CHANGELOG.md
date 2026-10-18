@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 — 2026-10-18
+
+### Features
+- Optional mod "Live Wire - Viewpoint models" in the same item: 3D models of every Live Wire device, its lights, the wind turbine blades and the soundproofing foam for Project Viewpoint. Enable it only if you use Project Viewpoint.
+
 ## 1.0.1 — 2026-10-17
 
 ### Fixes

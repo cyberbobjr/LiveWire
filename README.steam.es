@@ -63,6 +63,7 @@ El servidor calcula todo y vuelve a comprobar cada petición. La instalación si
 
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Wiki de Live Wire (en inglés)[/url] · Código fuente: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este objeto también incluye el mod opcional [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) con modelos 3D de todos los equipos. Actívalo solo si usas Project Viewpoint.
 [b]Compatible con[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] y [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionales): el software de gestión se instala desde un disco encontrado en el botín de ordenadores y funciona como una aplicación en su escritorio.
 [b]Compatibilidad[/b]: creación original, no pensada para funcionar junto con otros mods de sistemas eléctricos. Licencia MIT.
 

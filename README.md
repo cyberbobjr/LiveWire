@@ -415,6 +415,10 @@ Version 1.0.0. Tested in game in single player during development (placement, co
 - Subscribe on the Steam Workshop (once published), or copy `Contents/mods/batman_LiveWire` into your `Zomboid/mods` folder.
 - Optional mods: Computer Mod (Workshop 3725497089) or Laptop Mod (3798992436) for the management software disk and desktop app.
 
+### Project Viewpoint
+
+The Workshop item also contains the optional mod **Live Wire - Viewpoint models** (`batman_LiveWireViewpoint`): 3D models of every device, its lights, blade frames and soundproofing foam for [Project Viewpoint](https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528). Enable it only if you use Project Viewpoint; without it, the mod does nothing. The models are generated from the same Blender geometry as the tiles (`source/viewpoint/export_viewpoint.py`).
+
 ### Licence and credits
 
 MIT licence (see [LICENSE](LICENSE)). Original creation: no code or asset from other mods.

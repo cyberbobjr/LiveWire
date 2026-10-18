@@ -1,0 +1,7 @@
+name=Live Wire - Viewpoint models
+id=batman_LiveWireViewpoint
+description=Optional: 3D models of the Live Wire devices (solar panel, wind turbine, water wheel, inverter, power bank, breaker, alarm, lights and soundproofing foam) for Project Viewpoint. Enable it only if you use Project Viewpoint; it does nothing without it.
+require=\batman_LiveWire
+poster=poster.png
+versionMin=42.21
+modversion=1.1.0

@@ -24,6 +24,7 @@ Project Zomboid Build 42.21 · id `batman_LiveWire` · EN/FR · licence MIT
 - [Compétence Électricité](#compétence-électricité)
 - [Options sandbox](#options-sandbox)
 - [Multijoueur, état, installation](#multijoueur-état-installation)
+- [Project Viewpoint](#project-viewpoint)
 - [Licence et crédits](#licence-et-crédits)
 - [Pour les développeurs](#pour-les-développeurs)
 
@@ -358,6 +359,10 @@ Page « LiveWire » des options sandbox.
 - copiez le dossier `Contents/mods/batman_LiveWire` dans `Zomboid/mods`.
 
 Mods facultatifs : Computer Mod (3725497089) ou Laptop Mod (3798992436) pour le logiciel de gestion installable par disque.
+
+## Project Viewpoint
+
+L'objet Workshop contient aussi le mod facultatif **Live Wire - Viewpoint models** (`batman_LiveWireViewpoint`) : les modèles 3D de tous les équipements, de leurs voyants, des pales et de la mousse d'insonorisation pour [Project Viewpoint](https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528). À activer seulement si vous utilisez Project Viewpoint ; sans lui, ce mod ne fait rien. Les modèles sont produits à partir de la même géométrie Blender que les tuiles (`source/viewpoint/export_viewpoint.py`).
 
 ## Licence et crédits
 
