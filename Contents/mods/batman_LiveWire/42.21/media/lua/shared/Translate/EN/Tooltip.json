@@ -31,5 +31,11 @@
     "Tooltip_LW_BarrelTooFar": "The barrel must stand next to the pump, on the same floor.",
     "Tooltip_LW_BarrelOtherPump": "This barrel is already connected to another pump.",
     "Tooltip_LW_PumpFull": "A pump takes at most %1 barrels.",
-    "Tooltip_LW_NeedPipe": "Needs a metal pipe."
+    "Tooltip_LW_NeedPipe": "Needs a metal pipe.",
+    "Tooltip_LW_AlreadyCoupled": "This inverter is already coupled.",
+    "Tooltip_LW_MasterIsSlave": "That inverter is itself coupled: choose its master.",
+    "Tooltip_LW_NeedCouplingKit": "Needs an inverter coupling kit.",
+    "Tooltip_LW_CoupledInverter": "This inverter is coupled: connect the equipment to its master.",
+    "Tooltip_LW_CoupleHasEquipment": "Disconnect every piece of equipment from this inverter first.",
+    "Tooltip_LW_TooManySlaves": "A master inverter takes at most %1 coupled inverters."
 }

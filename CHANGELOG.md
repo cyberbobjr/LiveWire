@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.0 — 2026-10-18
+
+### Features
+- Parallel inverters: couple up to 3 more inverters to a master inverter with an inverter coupling kit (new recipe, Electrical 6) and electric wire. The network's power becomes the sum of the inverters in service, up to 6,000 W, with one battery bank and one powered area. Each inverter has its own switch and wears as usual; a slave switched off or broken lowers the capacity, and the network trips if the demand is then too high. "Uncouple" makes a slave independent again and gives the kit back.
+- The inverter screen and the management software show how many coupled inverters are in service and the total capacity.
+
+### Fixes
+- Two independent inverters whose powered areas overlap no longer count the same appliances twice: each appliance is counted by the nearest switched-on inverter.
+
 ## 1.2.0 — 2026-10-18
 
 ### Features

@@ -11,5 +11,6 @@
     "LWMakeSoundproofKit": "인버터 방음 키트 만들기",
     "LWMakeDeepCycleBattery": "심방전 배터리 만들기",
     "LWMakeBatteryAlarmKit": "배터리 부족 경보기 만들기",
-    "LWMakeWaterPump": "물 펌프 만들기"
+    "LWMakeWaterPump": "물 펌프 만들기",
+    "LWMakeCouplingKit": "인버터 병렬 연결 키트 만들기"
 }

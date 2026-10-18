@@ -25,7 +25,7 @@ A energia acabou para sempre... mas as luzes não precisam acabar. Construa sua 
 [*][b]Roda d'água[/b] (7): na margem de um rio, no térreo.
 [*][b]Inversor[/b] (5): o coração da rede, pode ficar em ambientes internos.
 [*][b]Banco de baterias[/b] (2): abre como um caixote.
-[*][b]Opcionais[/b]: painel de disjuntores (desarma em vez de danificar o inversor), alarme de bateria baixa, kit de insonorização para o zumbido do inversor, gerador vanilla como reserva (ligado abaixo de 20% de bateria), computador de mesa vanilla como computador de gestão.
+[*][b]Opcionais[/b]: painel de disjuntores (desarma em vez de danificar o inversor), alarme de bateria baixa, kit de insonorização para o zumbido do inversor, gerador vanilla como reserva (ligado abaixo de 20% de bateria), computador de mesa vanilla como computador de gestão. Até 4 inversores acoplados em paralelo (6.000 W) com um kit de acoplamento.
 [/list]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]

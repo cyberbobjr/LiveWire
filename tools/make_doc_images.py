@@ -475,6 +475,8 @@ RECIPES = [
      [(1, "WaterWheel")]),
     ("LWMakeWaterPump", 6, [(3, "ElectronicsScrap"), (2, "ElectricWire"), (2, "MetalPipe"), (1, "SmallSheetMetal"),
                             (4, "Screws")], ["Screwdriver", "PipeWrench"], [(1, "WaterPump")]),
+    ("LWMakeCouplingKit", 6, [(2, "ElectronicsScrap"), (2, "ElectricWire"), (1, "Amplifier")], ["Screwdriver"],
+     [(1, "CouplingKit")]),
     ("LWMakeSolarCellFromScrap", 8, [(5, "ElectronicsScrap"), (1, "Aluminum")], ["Pliers"], [(1, "SolarCell")]),
 ]
 
@@ -483,7 +485,8 @@ MOD_ITEMS = {"VoltageTester": "LiveWire.VoltageTester", "SolarCell": "LiveWire.S
              "SolarPanel": "Base.Mov_LiveWire_SolarPanel", "WindTurbine": "Base.Mov_LiveWire_WindTurbine",
              "WaterWheel": "Base.Mov_LiveWire_WaterWheel", "Inverter": "Base.Mov_LiveWire_Inverter",
              "PowerBank": "Base.Mov_LiveWire_PowerBank", "Breaker": "Base.Mov_LiveWire_Breaker",
-             "BatteryAlarm": "Base.Mov_LiveWire_BatteryAlarm", "WaterPump": "Base.Mov_LiveWire_WaterPump"}
+             "BatteryAlarm": "Base.Mov_LiveWire_BatteryAlarm", "WaterPump": "Base.Mov_LiveWire_WaterPump",
+             "CouplingKit": "LiveWire.CouplingKit"}
 
 
 def load_json(path):

@@ -116,6 +116,15 @@ Overhaul.
 - Recipe LWMakeWaterPump: 3 Scrap Electronics, 2 Electrical Wire, 2 Iron Pipe, 1 Steel Sheet - Small, 4 Screws;
   screwdriver + pipe wrench kept; Electrical 6; xp 15.
 
+## Parallel inverters (1.3.0)
+- Master + up to 3 slaves (`Defs.MAX_SLAVES`). Couple: right-click an inverter > Couple to an inverter > master
+  within LinkRange, 1 floor apart; cost wire for the distance + 1 `LiveWire.CouplingKit` (recipe LWMakeCouplingKit,
+  Electrical 6: 2 Scrap Electronics, 2 Electrical Wire, 1 Amplifier, screwdriver kept). Slave must have no member.
+- One grid, one anchor (the master's). Capacity = 1,500 W x inverters in service (master on or tripped, slaves on and
+  cond > 0); idle 20 W per switched-on inverter; slaves wear like the master, heavy load over 80 % of the capacity.
+- Uncouple on the slave: new empty grid, kit given back, wire not. Master removed: slaves become independent.
+- Demand: an appliance covered by several switched-on independent inverters is counted by the nearest (ties: id).
+
 ## Optional equipment
 | Equipment | Effect | Level |
 |---|---|---|

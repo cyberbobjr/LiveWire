@@ -165,5 +165,9 @@
     "IGUI_LW_Model_WaterBarrel": "Barril de água",
     "IGUI_LW_BarrelLinked": "Barril ligado à bomba.",
     "IGUI_LW_BarrelUnlinked": "Barril desligado da bomba.",
-    "IGUI_LW_App_Pumps": "Bombas de água em serviço: %1, vazão: %2 L/h"
+    "IGUI_LW_App_Pumps": "Bombas de água em serviço: %1, vazão: %2 L/h",
+    "IGUI_LW_Coupled": "Inversores acoplados.",
+    "IGUI_LW_Uncoupled": "Inversor desacoplado: volta a ser independente.",
+    "IGUI_LW_LCD_Coupled": "Acoplados: %1 / %2 em serviço",
+    "IGUI_LW_App_Coupled": "Inversores acoplados: %1 / %2 em serviço"
 }

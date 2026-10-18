@@ -165,5 +165,9 @@
     "IGUI_LW_Model_WaterBarrel": "水桶",
     "IGUI_LW_BarrelLinked": "水桶已连接到水泵。",
     "IGUI_LW_BarrelUnlinked": "水桶已与水泵断开。",
-    "IGUI_LW_App_Pumps": "运行中的水泵：%1，流量：%2 升/小时"
+    "IGUI_LW_App_Pumps": "运行中的水泵：%1，流量：%2 升/小时",
+    "IGUI_LW_Coupled": "逆变器已并联。",
+    "IGUI_LW_Uncoupled": "逆变器已解除并联：恢复独立运行。",
+    "IGUI_LW_LCD_Coupled": "并联：%1 / %2 台运行中",
+    "IGUI_LW_App_Coupled": "并联逆变器：%1 / %2 台运行中"
 }

@@ -31,5 +31,11 @@
     "Tooltip_LW_BarrelTooFar": "水桶必须紧挨水泵，且在同一楼层。",
     "Tooltip_LW_BarrelOtherPump": "此水桶已连接到另一台水泵。",
     "Tooltip_LW_PumpFull": "一台水泵最多连接 %1 个水桶。",
-    "Tooltip_LW_NeedPipe": "需要一根金属管。"
+    "Tooltip_LW_NeedPipe": "需要一根金属管。",
+    "Tooltip_LW_AlreadyCoupled": "该逆变器已并联。",
+    "Tooltip_LW_MasterIsSlave": "该逆变器本身已并联：请选择它的主逆变器。",
+    "Tooltip_LW_NeedCouplingKit": "需要一套逆变器并联套件。",
+    "Tooltip_LW_CoupledInverter": "该逆变器已并联：请将设备连接到其主逆变器。",
+    "Tooltip_LW_CoupleHasEquipment": "请先断开该逆变器上的所有设备。",
+    "Tooltip_LW_TooManySlaves": "一台主逆变器最多可并联 %1 台逆变器。"
 }

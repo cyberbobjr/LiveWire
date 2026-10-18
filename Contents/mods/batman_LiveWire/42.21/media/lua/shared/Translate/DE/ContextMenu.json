@@ -62,5 +62,10 @@
     "ContextMenu_LW_PumpState_broken": "Außer Betrieb",
     "ContextMenu_LW_Debug_RemoveRelays": "Alle Wasserrelais entfernen",
     "ContextMenu_LW_ShowTaps": "Versorgte Wasserstellen anzeigen",
-    "ContextMenu_LW_HideTaps": "Versorgte Wasserstellen ausblenden"
+    "ContextMenu_LW_HideTaps": "Versorgte Wasserstellen ausblenden",
+    "ContextMenu_LW_CoupleTo": "An einen Wechselrichter koppeln",
+    "ContextMenu_LW_CoupleAt": "Hauptwechselrichter %1 Felder entfernt (%2 Kabel, 1 Set)",
+    "ContextMenu_LW_CoupledTo": "Gekoppelt mit dem Wechselrichter in %1 Feldern Entfernung",
+    "ContextMenu_LW_CoupledFar": "Gekoppelt mit einem Wechselrichter außerhalb der Sicht",
+    "ContextMenu_LW_Uncouple": "Entkoppeln"
 }

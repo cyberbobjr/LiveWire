@@ -12,6 +12,7 @@ La liste d'origine (dix fonctionnalités de la v0.1 : testeur, onduleur, batteri
 | 2 | 6 | Pompe électrique : eau courante depuis des barils | Consommateur | Moyenne à risquée |
 | 3 | 7 | Clôture électrifiée | Consommateur, à la demande | Moyenne à risquée |
 | 4 | — | Installations abandonnées à récupérer | Exploration, source d'équipements | Moyenne |
+| 5 | 6 | Onduleurs en parallèle (et fin du double comptage) | Capacité du réseau | Moyenne |
 
 Ordre de développement proposé : 1, puis 2, puis 3. Le chargeur réutilise presque tout l'existant. La clôture demande le plus de vérifications en multijoueur. L'idée 4 ne dépend pas des autres : elle peut venir à tout moment, idéalement après les modèles définitifs, pour que les installations trouvées aient bonne allure.
 
@@ -166,6 +167,37 @@ Les appareils 1 à 3 sont des **consommateurs raccordés** à l'onduleur. Ce son
 - Comment reconnaître depuis Lua un « chalet » ou un « bâtiment technique » ? Par les types de pièces de la carte vanilla (relevé à faire dans les tuiles) ou par la position, comme une maison isolée loin d'une ville.
 - Faut-il ajouter des indices pour guider le joueur (carte-cachette, note, émission radio) ou garder la découverte au hasard ?
 - En multijoueur : qui « possède » une installation trouvée ? Proposition : personne, les règles de safehouse vanilla s'appliquent (D-7).
+
+---
+
+### 5. Onduleurs en parallèle (Électricité 6)
+
+**Origine.** Question d'un joueur sur la page Workshop (2026-10-18) : « peut-on monter l'onduleur au-delà de 1 500 W ? ma base a 4 congélateurs ». Un autre joueur a répondu que « modifier un onduleur n'est pas réaliste ; plusieurs onduleurs serait plus réaliste ». Choix de l'utilisateur le 2026-10-18 : **onduleurs en parallèle**, la pratique réelle des installations autonomes, plutôt qu'un onduleur plus puissant ou des circuits par pièce.
+
+**État : implémentée pour la 1.3.0, non testée en jeu.**
+
+**Principe (comme dans la réalité).** Des onduleurs identiques sont couplés par un câble de synchronisation : un **maître** et jusqu'à **3 esclaves**. La maison voit un seul réseau, un seul parc de batteries, une seule zone alimentée ; la puissance disponible est la somme des onduleurs en service.
+
+**Règles.**
+
+| Sujet | Choix |
+|---|---|
+| Couplage | Clic droit sur un onduleur > « Coupler à un onduleur » > onduleur maître à portée de câble (`LinkRange`, 1 étage d'écart au plus). L'onduleur cliqué devient esclave. Coût : le fil électrique de la distance (comme un raccordement) et **1 kit de couplage** (`LiveWire.CouplingKit`, nouvelle recette, Électricité 6) |
+| Conditions | L'esclave ne doit avoir aucun équipement raccordé (sources, powerbank, options, générateur, ordinateur, pompe) ni esclave à lui ; le maître ne doit pas être lui-même esclave ; 3 esclaves au plus par maître (4 onduleurs) |
+| Capacité | 1 500 W par onduleur **en service** (allumé et en état) : jusqu'à 6 000 W. Le disjoncteur et la mise en sécurité comparent la demande à cette somme |
+| Zone alimentée | Une seule : celle du maître. L'esclave n'a ni ancre, ni zone, ni sources, ni batteries à lui |
+| Consommation à vide | 20 W par onduleur allumé |
+| Usure | Chaque onduleur en service s'use comme aujourd'hui ; la charge lourde (plus de 80 % de la capacité totale) double l'usure de tous |
+| Pannes | Un esclave éteint ou cassé compte pour 0 W. Si la demande dépasse alors ce qui reste, le réseau disjoncte (disjoncteur ou maître) |
+| Marche et arrêt | Chaque esclave a son interrupteur (Allumer / Éteindre). La remise en marche après disjonction se fait sur le maître ou sur le disjoncteur, comme aujourd'hui |
+| Découplage | « Découpler » sur l'esclave : il redevient un onduleur indépendant avec son propre réseau (vide), le kit de couplage est rendu, pas le fil |
+| Maître ramassé ou détruit | Ses esclaves redeviennent indépendants, chacun avec son réseau vide |
+| Affichage | Écran LCD (page État) et logiciel (carte de l'onduleur) : « Onduleurs couplés : n en service / total » et la capacité totale. Un esclave ouvre l'écran et le logiciel du maître |
+| Raccordement d'un équipement | Refusé sur un esclave (« Raccordez-le au maître ») |
+
+**Correctif lié : double comptage.** Aujourd'hui, deux onduleurs **indépendants** dont les zones se recouvrent comptent chacun tous les appareils de leur zone (`LW_Demand.lua:179-192`). Désormais, un appareil n'est compté que par l'onduleur allumé le plus proche qui le couvre (égalité : le plus petit identifiant). Si cet onduleur s'arrête, l'appareil passe au suivant au pas de calcul suivant.
+
+**Limites.** Le moteur alimente une zone, pas un circuit : des circuits séparés par pièce restent hors de portée (voir la discussion du 2026-10-18).
 
 ---
 

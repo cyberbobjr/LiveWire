@@ -11,5 +11,6 @@
     "Base.Mov_LiveWire_PowerBank": "Аккумуляторный блок",
     "Base.Mov_LiveWire_Breaker": "Щиток автоматов",
     "Base.Mov_LiveWire_BatteryAlarm": "Сигнализация низкого заряда",
-    "Base.Mov_LiveWire_WaterPump": "Водяной насос"
+    "Base.Mov_LiveWire_WaterPump": "Водяной насос",
+    "LiveWire.CouplingKit": "Комплект сцепки инверторов"
 }

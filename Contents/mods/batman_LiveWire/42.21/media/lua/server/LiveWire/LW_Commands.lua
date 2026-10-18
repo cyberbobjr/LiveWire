@@ -119,6 +119,26 @@ handlers[P.C_UNLINK] = function(player, args)
     LiveWire.notify(player, "IGUI_LW_Unlinked", {})
 end
 
+-- Make a slave independent again: it gets its own empty grid, the coupling kit goes
+-- back to the player (the wire does not come back).
+handlers[P.C_UNCOUPLE] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.inverter)
+    if not dev then return refuse(player, P.C_UNCOUPLE, why) end
+    if dev.role ~= "inverter" or not dev.coupled then return end
+    local R = LiveWire.Registry
+    local mgrid = R.grid(dev.grid)
+    local master = mgrid and R.device(mgrid.inverter)
+    R.uncouple(dev)
+    -- Anchor off until the first step of its new grid.
+    LiveWire.Sim.updateAnchor(dev, false)
+    LiveWire.Sim.refresh(R.grid(dev.grid))
+    if mgrid then LiveWire.Sim.refresh(mgrid) end
+    LiveWire.Devices.syncMark(dev)
+    if master then LiveWire.Devices.syncMark(master) end
+    LiveWire.Install.giveItem(player, LiveWire.Defs.COUPLING_KIT)
+    LiveWire.notify(player, "IGUI_LW_Uncoupled", {})
+end
+
 -- Disconnect one barrel from a pump: the pipe goes back to the player.
 handlers[P.C_UNLINK_BARREL] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.pump)
@@ -148,14 +168,17 @@ end
 handlers[P.C_RESET] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.inverter)
     if not dev then return refuse(player, P.C_RESET, why) end
+    -- A slave never trips: its master is the one to reset.
+    if dev.coupled then dev = LiveWire.Registry.device(dev.coupled) or dev end
     if dev.role ~= "inverter" or dev.state ~= "tripped" then return end
     local grid = LiveWire.Registry.grid(dev.grid)
     local def = LiveWire.Defs.devices[dev.model]
     local demand = LiveWire.Demand.measure(dev) or (grid and grid.demand) or 0
     if grid then grid.demand = demand end
-    if def and demand > def.maxW then
+    local cap = grid and LiveWire.Sim.capacityW(grid) or (def and def.maxW)
+    if cap and demand > cap then
         return LiveWire.notify(player, "IGUI_LW_StillOverloaded",
-            { tostring(math.floor(demand + 0.5)), tostring(def.maxW) }, true)
+            { tostring(math.floor(demand + 0.5)), tostring(cap) }, true)
     end
     dev.state = "on"
     LiveWire.Xp.awardLimited(player, "reset:" .. dev.id, 5, 1)
@@ -171,12 +194,12 @@ handlers[P.C_RESET_BREAKER] = function(player, args)
     local grid = dev.grid and LiveWire.Registry.grid(dev.grid)
     local inv = grid and LiveWire.Registry.device(grid.inverter)
     if inv then
-        local def = LiveWire.Defs.devices[inv.model]
         local demand = LiveWire.Demand.measure(inv) or grid.demand or 0
         grid.demand = demand
-        if def and demand > def.maxW then
+        local cap = LiveWire.Sim.capacityW(grid)
+        if demand > cap then
             return LiveWire.notify(player, "IGUI_LW_StillOverloaded",
-                { tostring(math.floor(demand + 0.5)), tostring(def.maxW) }, true)
+                { tostring(math.floor(demand + 0.5)), tostring(cap) }, true)
         end
     end
     dev.state = "ok"

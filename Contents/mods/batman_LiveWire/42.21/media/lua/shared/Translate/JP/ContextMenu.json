@@ -62,5 +62,10 @@
     "ContextMenu_LW_PumpState_broken": "故障中",
     "ContextMenu_LW_Debug_RemoveRelays": "すべての水中継を削除",
     "ContextMenu_LW_ShowTaps": "給水される蛇口を表示",
-    "ContextMenu_LW_HideTaps": "給水される蛇口を非表示"
+    "ContextMenu_LW_HideTaps": "給水される蛇口を非表示",
+    "ContextMenu_LW_CoupleTo": "インバーターに連結",
+    "ContextMenu_LW_CoupleAt": "親インバーター まで %1 マス（ワイヤー %2 本、キット 1 個）",
+    "ContextMenu_LW_CoupledTo": "%1 マス先のインバーターに連結済み",
+    "ContextMenu_LW_CoupledFar": "視界外のインバーターに連結済み",
+    "ContextMenu_LW_Uncouple": "連結を解除"
 }

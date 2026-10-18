@@ -31,5 +31,11 @@
     "Tooltip_LW_BarrelTooFar": "Das Fass muss neben der Pumpe stehen, auf demselben Stockwerk.",
     "Tooltip_LW_BarrelOtherPump": "Dieses Fass ist schon an eine andere Pumpe angeschlossen.",
     "Tooltip_LW_PumpFull": "Eine Pumpe nimmt höchstens %1 Fässer auf.",
-    "Tooltip_LW_NeedPipe": "Ein Metallrohr wird benötigt."
+    "Tooltip_LW_NeedPipe": "Ein Metallrohr wird benötigt.",
+    "Tooltip_LW_AlreadyCoupled": "Dieser Wechselrichter ist bereits gekoppelt.",
+    "Tooltip_LW_MasterIsSlave": "Dieser Wechselrichter ist selbst gekoppelt: Wählen Sie seinen Hauptwechselrichter.",
+    "Tooltip_LW_NeedCouplingKit": "Benötigt ein Kopplungsset für Wechselrichter.",
+    "Tooltip_LW_CoupledInverter": "Dieser Wechselrichter ist gekoppelt: Schließen Sie die Geräte an seinen Hauptwechselrichter an.",
+    "Tooltip_LW_CoupleHasEquipment": "Trennen Sie zuerst alle Geräte von diesem Wechselrichter.",
+    "Tooltip_LW_TooManySlaves": "Ein Hauptwechselrichter nimmt höchstens %1 gekoppelte Wechselrichter auf."
 }

@@ -54,6 +54,16 @@ module LiveWire
         Tooltip = Tooltip_LW_SoundproofKit,
     }
 
+    /* Coupling kit: consumed to couple a second inverter to a master inverter as a
+       slave (docs/IDEES.md, section 5); given back when the slave is uncoupled. */
+    item CouplingKit
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.3,
+        Icon = Amplifier,
+    }
+
     /* Management software disk: installs the Live Wire app on a Computer Mod
        computer or laptop (optional mod; LW_ComputerMod.lua). Found in loot. */
     item MonitorDisk

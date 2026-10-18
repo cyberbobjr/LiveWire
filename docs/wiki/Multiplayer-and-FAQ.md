@@ -14,7 +14,7 @@ Production, stock, states, failures and experience are computed by the **server*
 
 ## Status
 
-Version 1.0.0. Tested in game in single player during development: placement, container, linking, lights, breaker, alarm, LCD screen, software, powered area, rotation, pick-up, fridge while away, and the Computer Mod integration. **Multiplayer has not been tested in game yet.** Balancing values are starting values.
+Version 1.3.0. Tested in game in single player during development: placement, container, linking, lights, breaker, alarm, LCD screen, software, powered area, rotation, pick-up, fridge while away, and the Computer Mod integration. **Multiplayer has not been tested in game yet.** Balancing values are starting values.
 
 ## FAQ
 

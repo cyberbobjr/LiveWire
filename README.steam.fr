@@ -25,7 +25,7 @@ Le courant ne reviendra plus... mais les lumières, elles, peuvent rester allum�
 [*][b]Roue à aubes[/b] (7) : sur une berge de rivière, au rez-de-chaussée.
 [*][b]Onduleur[/b] (5) : le cœur du réseau, peut être installé à l'intérieur.
 [*][b]Powerbank[/b] (2) : s'ouvre comme une caisse.
-[*][b]En option[/b] : disjoncteur (il coupe au lieu d'endommager l'onduleur), alarme de batterie faible, kit d'insonorisation pour le bourdonnement de l'onduleur, générateur vanilla en secours (démarré sous 20 % de batterie), ordinateur de bureau vanilla comme ordinateur de gestion.
+[*][b]En option[/b] : disjoncteur (il coupe au lieu d'endommager l'onduleur), alarme de batterie faible, kit d'insonorisation pour le bourdonnement de l'onduleur, générateur vanilla en secours (démarré sous 20 % de batterie), ordinateur de bureau vanilla comme ordinateur de gestion. Jusqu'à 4 onduleurs couplés en parallèle (6 000 W) avec un kit de couplage.
 [/list]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]

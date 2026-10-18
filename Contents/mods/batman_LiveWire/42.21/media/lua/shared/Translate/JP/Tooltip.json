@@ -31,5 +31,11 @@
     "Tooltip_LW_BarrelTooFar": "ドラム缶はポンプの隣、同じ階にある必要があります。",
     "Tooltip_LW_BarrelOtherPump": "このドラム缶はすでに別のポンプに接続されています。",
     "Tooltip_LW_PumpFull": "ポンプに接続できるドラム缶は最大 %1 個です。",
-    "Tooltip_LW_NeedPipe": "金属パイプが必要です。"
+    "Tooltip_LW_NeedPipe": "金属パイプが必要です。",
+    "Tooltip_LW_AlreadyCoupled": "このインバーターは連結済みです。",
+    "Tooltip_LW_MasterIsSlave": "そのインバーターは連結済みです：親のインバーターを選んでください。",
+    "Tooltip_LW_NeedCouplingKit": "インバーター連結キットが必要です。",
+    "Tooltip_LW_CoupledInverter": "このインバーターは連結済みです：機器は親のインバーターに接続してください。",
+    "Tooltip_LW_CoupleHasEquipment": "先にこのインバーターから全ての機器を外してください。",
+    "Tooltip_LW_TooManySlaves": "親のインバーターに連結できるのは最大 %1 台までです。"
 }

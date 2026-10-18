@@ -31,5 +31,11 @@
     "Tooltip_LW_BarrelTooFar": "O barril deve estar ao lado da bomba, no mesmo andar.",
     "Tooltip_LW_BarrelOtherPump": "Este barril já está conectado a outra bomba.",
     "Tooltip_LW_PumpFull": "Uma bomba aceita no máximo %1 barris.",
-    "Tooltip_LW_NeedPipe": "É preciso um tubo de ferro."
+    "Tooltip_LW_NeedPipe": "É preciso um tubo de ferro.",
+    "Tooltip_LW_AlreadyCoupled": "Este inversor já está acoplado.",
+    "Tooltip_LW_MasterIsSlave": "Esse inversor já está acoplado: escolha o mestre dele.",
+    "Tooltip_LW_NeedCouplingKit": "É preciso um kit de acoplamento de inversores.",
+    "Tooltip_LW_CoupledInverter": "Este inversor está acoplado: conecte o equipamento ao mestre dele.",
+    "Tooltip_LW_CoupleHasEquipment": "Desconecte primeiro todo o equipamento deste inversor.",
+    "Tooltip_LW_TooManySlaves": "Um inversor mestre aceita no máximo %1 inversores acoplados."
 }

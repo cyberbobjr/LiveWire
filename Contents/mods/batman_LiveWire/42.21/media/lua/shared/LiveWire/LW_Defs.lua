@@ -131,6 +131,11 @@ Defs.HEAVY_LOAD_RATIO = 0.80
 Defs.SOUNDPROOF_KIT = "LiveWire.SoundproofKit"
 Defs.MUFFLED_WEAR = 1.25   -- a soundproofed inverter runs warmer
 
+-- Parallel inverters (docs/IDEES.md, section 5).
+Defs.MAX_SLAVES = 3                         -- 4 inverters per network
+Defs.COUPLING_KIT = "LiveWire.CouplingKit"
+Defs.COUPLING_LEVEL = 6
+
 -- Installation efficiency from the installer's Electrical level.
 function Defs.installEfficiency(level)
     if level >= 9 then return 1.0 end

@@ -25,7 +25,7 @@ El corte de luz es definitivo... pero las luces no tienen por qué serlo. Constr
 [*][b]Rueda hidráulica[/b] (7): en la orilla de un río, en la planta baja.
 [*][b]Inversor[/b] (5): el corazón de la red, puede instalarse en interiores.
 [*][b]Banco de baterías[/b] (2): se abre como una caja.
-[*][b]Opcional[/b]: panel de disyuntores (salta en lugar de dañar el inversor), alarma de batería baja, kit de insonorización para inversor (para el zumbido), generador del juego base como respaldo (se arranca con menos del 20 % de batería) y ordenador de sobremesa del juego base como ordenador de gestión.
+[*][b]Opcional[/b]: panel de disyuntores (salta en lugar de dañar el inversor), alarma de batería baja, kit de insonorización para inversor (para el zumbido), generador del juego base como respaldo (se arranca con menos del 20 % de batería) y ordenador de sobremesa del juego base como ordenador de gestión. Hasta 4 inversores acoplados en paralelo (6.000 W) con un kit de acoplamiento.
 [/list]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]

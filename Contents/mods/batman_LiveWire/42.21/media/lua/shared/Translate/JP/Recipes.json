@@ -11,5 +11,6 @@
     "LWMakeSoundproofKit": "インバーター防音キットを作る",
     "LWMakeDeepCycleBattery": "ディープサイクルバッテリーを作る",
     "LWMakeBatteryAlarmKit": "低バッテリー警報を作る",
-    "LWMakeWaterPump": "水ポンプを作る"
+    "LWMakeWaterPump": "水ポンプを作る",
+    "LWMakeCouplingKit": "インバーター連結キットを作る"
 }

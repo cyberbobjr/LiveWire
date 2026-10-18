@@ -164,6 +164,7 @@ function Panel:pageContent(snap)
     else
         L(T("IGUI_LW_LCD_Page_Status"))
         L(T("IGUI_LW_LCD_Inverter", T("IGUI_LW_State_" .. tostring(inv.state)), inv.cond))
+        if snap.coupled then L(T("IGUI_LW_LCD_Coupled", snap.coupled.n, snap.coupled.total)) end
         if inv.muffled then L(T("IGUI_LW_LCD_Muffled")) end
         if snap.breaker then
             L(T("IGUI_LW_LCD_Breaker", T("IGUI_LW_State_" .. tostring(snap.breaker.state))))

@@ -13,6 +13,18 @@ These four add-ons are not required to run a network, but they make it safer and
 
 The management computer and the backup generator are not crafted: they are vanilla objects found in the world. Link them from their own right-click menu (see [[Wiring|Wiring]]).
 
+## Parallel inverters (coupling)
+
+Real off-grid systems get more power by adding identical inverters in parallel, not by pushing one beyond its rating. Live Wire does the same:
+
+- Right-click an inverter > **Couple to an inverter** > a master inverter within cable range. The clicked inverter becomes a **slave**. Cost: the electric wire for the distance and 1 **inverter coupling kit** (recipe at Electrical 6).
+- The slave must have no equipment of its own; a master takes at most 3 slaves (4 inverters).
+- One network, one battery bank, one powered area (the master's). Capacity = 1,500 W × inverters in service; each switched-on inverter uses 20 W idle and wears as usual.
+- A slave switched off or broken no longer counts: if the demand then exceeds what is left, the breaker (or the master) trips. Each slave has its own On/Off switch; reset on the master or the breaker.
+- **Uncouple** on the slave makes it independent again (the kit is given back). A master picked up frees its slaves.
+- The LCD Status page and the software show "Coupled: n / total in service" and the total capacity.
+- Two independent inverters whose areas overlap no longer count the same appliances twice: each appliance is counted by the nearest switched-on inverter.
+
 ## When does the breaker trip?
 
 When the demand of the house appliances exceeds the inverter maximum, **1,500 W** (the 20 W idle consumption is not counted). It is checked at each simulation step: every 10 game minutes and right after an action. Example: a stacked washer + dryer running together (up to 1,800 W).

@@ -62,5 +62,10 @@
     "ContextMenu_LW_PumpState_broken": "Fuera de servicio",
     "ContextMenu_LW_Debug_RemoveRelays": "Quitar todos los relés de agua",
     "ContextMenu_LW_ShowTaps": "Mostrar los grifos alimentados",
-    "ContextMenu_LW_HideTaps": "Ocultar los grifos alimentados"
+    "ContextMenu_LW_HideTaps": "Ocultar los grifos alimentados",
+    "ContextMenu_LW_CoupleTo": "Acoplar a un inversor",
+    "ContextMenu_LW_CoupleAt": "Inversor maestro a %1 casillas (%2 cables, 1 kit)",
+    "ContextMenu_LW_CoupledTo": "Acoplado al inversor a %1 casillas",
+    "ContextMenu_LW_CoupledFar": "Acoplado a un inversor fuera de la vista",
+    "ContextMenu_LW_Uncouple": "Desacoplar"
 }

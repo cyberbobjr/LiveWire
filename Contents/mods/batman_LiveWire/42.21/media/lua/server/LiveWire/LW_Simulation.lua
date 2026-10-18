@@ -116,17 +116,60 @@ local function stockFraction(entries)
 end
 Sim.stockFraction = stockFraction
 
+-- Inverters of a grid that are in service (switched on and not broken): the master
+-- when its state is "on" or "tripped" (it is the one that trips), plus every slave whose
+-- state is "on" and cond > 0. Returns count, list of slave devices in service.
+function Sim.inService(grid)
+    local R = LiveWire.Registry
+    local inv = R.device(grid.inverter)
+    local n, list = 0, {}
+    if inv and (inv.state == "on" or inv.state == "tripped") then n = 1 end
+    local slaves = R.slaves(grid)
+    for i = 1, #slaves do
+        local sl = slaves[i]
+        if sl.state == "on" and (sl.cond or 0) > 0 then
+            n = n + 1
+            list[#list + 1] = sl
+        end
+    end
+    return n, list
+end
+
+-- Capacity of a grid in W: maxW of the model x number of inverters in service
+-- (at least the master's maxW, so that a lone inverter behaves exactly as before).
+function Sim.capacityW(grid)
+    local R = LiveWire.Registry
+    local inv = R.device(grid.inverter)
+    local def = inv and Defs.devices[inv.model] or {}
+    local n = Sim.inService(grid)
+    if n < 1 then n = 1 end
+    return (def.maxW or 0) * n
+end
+
+-- Idle consumption: idleW x number of switched-on inverters (master counts when on).
+function Sim.idleW(grid)
+    local R = LiveWire.Registry
+    local inv = R.device(grid.inverter)
+    local def = inv and Defs.devices[inv.model] or {}
+    local n = 0
+    if inv and inv.state == "on" then n = 1 end
+    local slaves = R.slaves(grid)
+    for i = 1, #slaves do
+        if slaves[i].state == "on" then n = n + 1 end
+    end
+    return (def.idleW or 0) * n
+end
+
 -- Public snapshot of a grid (primitive values only).
 function Sim.snapshot(grid)
     local R = LiveWire.Registry
     local inv = R.device(grid.inverter)
     if not inv then return nil end
-    local def = Defs.devices[inv.model] or {}
     local sources, batteries, options, backups, computers, pumps = R.members(grid)
     local snap = {
         grid = grid.id, rev = grid.rev or 0, name = grid.name or "",
         inverter = { id = inv.id, model = inv.model, state = inv.state,
-                     cond = math.floor((inv.cond or 0) + 0.5), maxW = def.maxW or 0,
+                     cond = math.floor((inv.cond or 0) + 0.5), maxW = Sim.capacityW(grid),
                      eff = inv.eff or 0, powered = grid.powered == true, muffled = inv.muffled == true },
         demand = math.floor((grid.demand or 0) + 0.5),
         production = math.floor((grid.production or 0) + 0.5),
@@ -163,7 +206,12 @@ function Sim.snapshot(grid)
         snap.options[i] = { id = o.id, model = o.model, cond = math.floor((o.cond or 0) + 0.5),
                             state = o.state or "ok" }
     end
-    local need = (grid.demand or 0) + (def.idleW or 0) - (grid.production or 0) * (inv.eff or 0.85)
+    local slaves = R.slaves(grid)
+    if #slaves > 0 then
+        local inService = Sim.inService(grid)
+        snap.coupled = { n = inService, total = 1 + #slaves }
+    end
+    local need = (grid.demand or 0) + Sim.idleW(grid) - (grid.production or 0) * (inv.eff or 0.85)
     if need > 0 and snap.stock > 0 then
         snap.autonomyH = snap.stock * 1000 * (inv.eff or 0.85) / need
     end
@@ -248,6 +296,12 @@ function Sim.updateAnchor(inv, on)
     end
 end
 
+-- A slave with no condition left breaks like the master (see the step below).
+local function breakSlave(sl)
+    sl.state = "broken"
+    LiveWire.notifyNear(sl.x, sl.y, sl.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Broken", {}, true)
+end
+
 function Sim.stepGrid(grid, now, w)
     local R = LiveWire.Registry
     local inv = R.device(grid.inverter)
@@ -296,6 +350,8 @@ function Sim.stepGrid(grid, now, w)
         for i = 1, #b0 do all[#all + 1] = b0[i] end
         for i = 1, #o0 do all[#all + 1] = o0[i] end
         for i = 1, #p0 do all[#all + 1] = p0[i] end
+        local sl0 = R.slaves(grid)
+        for i = 1, #sl0 do all[#all + 1] = sl0[i] end
         for i = 1, #all do
             local dev = all[i]
             local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
@@ -330,6 +386,7 @@ function Sim.stepGrid(grid, now, w)
     end
 
     local sources, banks, options, backups, computers, pumps = R.members(grid)
+    local slaves = R.slaves(grid)
     local entries = {}
     local bankEntries = {}
     for i = 1, #banks do
@@ -377,18 +434,23 @@ function Sim.stepGrid(grid, now, w)
         for e = 1, #entries do before[e] = entries[e].charge end
 
         if inv.state == "on" and (inv.cond or 0) <= 0 then inv.state = "broken" end
+        -- Capacity and idle use are taken again at each sub-step: slaves can break.
+        for s = 1, #slaves do
+            if slaves[s].state == "on" and (slaves[s].cond or 0) <= 0 then breakSlave(slaves[s]) end
+        end
+        local capW, idleNow = Sim.capacityW(grid), Sim.idleW(grid)
         -- A tripped breaker cuts the house: the inverter stays on (it still charges).
         local physState = inv.state
         if physState == "on" and breaker and breaker.state == "tripped" then physState = "tripped" end
         local r = Physics.stepGrid({
-            productionW = prodW + backupW, demandW = demandW, idleW = def.idleW, maxW = def.maxW,
+            productionW = prodW + backupW, demandW = demandW, idleW = idleNow, maxW = capW,
             eff = inv.eff, dt = h, wasOn = grid.powered == true, state = physState,
             batteries = entries,
         })
         totalLost = totalLost + r.lostKWh
 
         if r.tripped then
-            local args = { tostring(math.floor(demandW + 0.5)), tostring(def.maxW) }
+            local args = { tostring(math.floor(demandW + 0.5)), tostring(capW) }
             if breaker then
                 -- The breaker trips before the inverter, which is not damaged.
                 breaker.state = "tripped"
@@ -408,9 +470,20 @@ function Sim.stepGrid(grid, now, w)
 
         if r.on then
             local heavy = 1
-            if demandW > def.maxW * Defs.HEAVY_LOAD_RATIO then heavy = 2 end
+            if demandW > capW * Defs.HEAVY_LOAD_RATIO then heavy = 2 end
             if inv.muffled then heavy = heavy * Defs.MUFFLED_WEAR end
             wearDevice(inv, def, h, heavy)
+            -- Slaves in service wear with the same load, their own muffler included.
+            for s = 1, #slaves do
+                local sl = slaves[s]
+                if sl.state == "on" and (sl.cond or 0) > 0 then
+                    local sh = 1
+                    if demandW > capW * Defs.HEAVY_LOAD_RATIO then sh = 2 end
+                    if sl.muffled then sh = sh * Defs.MUFFLED_WEAR end
+                    wearDevice(sl, def, h, sh)
+                    if (sl.cond or 0) <= 0 then breakSlave(sl) end
+                end
+            end
             if (inv.cond or 0) <= 0 then
                 inv.state = "broken"
                 grid.powered = false
@@ -461,6 +534,16 @@ function Sim.stepGrid(grid, now, w)
     local radius = LiveWire.Config.get("InverterNoiseRadius")
     if on and loaded and radius > 0 and not inv.muffled then
         addSound(nil, inv.x, inv.y, inv.z, radius, 1)
+    end
+    -- Each slave in service hums at its own position (loaded squares only).
+    if on and radius > 0 then
+        for s = 1, #slaves do
+            local sl = slaves[s]
+            if sl.state == "on" and (sl.cond or 0) > 0 and not sl.muffled
+                and getCell():getGridSquare(sl.x, sl.y, sl.z) then
+                addSound(nil, sl.x, sl.y, sl.z, radius, 1)
+            end
+        end
     end
     -- Relays of the pumps follow the linked barrels and fixtures (loaded squares only).
     if LiveWire.Pump then

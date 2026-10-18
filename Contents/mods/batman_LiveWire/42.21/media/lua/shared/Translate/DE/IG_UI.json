@@ -165,5 +165,9 @@
     "IGUI_LW_Model_WaterBarrel": "Wasserfass",
     "IGUI_LW_BarrelLinked": "Fass an die Pumpe angeschlossen.",
     "IGUI_LW_BarrelUnlinked": "Fass von der Pumpe getrennt.",
-    "IGUI_LW_App_Pumps": "Wasserpumpen in Betrieb: %1, Durchfluss: %2 L/h"
+    "IGUI_LW_App_Pumps": "Wasserpumpen in Betrieb: %1, Durchfluss: %2 L/h",
+    "IGUI_LW_Coupled": "Wechselrichter gekoppelt.",
+    "IGUI_LW_Uncoupled": "Wechselrichter entkoppelt: Er ist wieder unabhängig.",
+    "IGUI_LW_LCD_Coupled": "Gekoppelt: %1 / %2 in Betrieb",
+    "IGUI_LW_App_Coupled": "Gekoppelte Wechselrichter: %1 / %2 in Betrieb"
 }

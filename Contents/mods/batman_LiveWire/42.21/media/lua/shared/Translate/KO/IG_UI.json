@@ -165,5 +165,9 @@
     "IGUI_LW_Model_WaterBarrel": "물통",
     "IGUI_LW_BarrelLinked": "물통을 펌프에 연결했습니다.",
     "IGUI_LW_BarrelUnlinked": "물통을 펌프에서 분리했습니다.",
-    "IGUI_LW_App_Pumps": "가동 중인 물 펌프: %1, 유량: %2 L/시간"
+    "IGUI_LW_App_Pumps": "가동 중인 물 펌프: %1, 유량: %2 L/시간",
+    "IGUI_LW_Coupled": "인버터를 병렬 연결했습니다.",
+    "IGUI_LW_Uncoupled": "인버터 연결을 해제했습니다: 다시 독립 상태입니다.",
+    "IGUI_LW_LCD_Coupled": "병렬: %1 / %2대 작동 중",
+    "IGUI_LW_App_Coupled": "병렬 인버터: %1 / %2대 작동 중"
 }

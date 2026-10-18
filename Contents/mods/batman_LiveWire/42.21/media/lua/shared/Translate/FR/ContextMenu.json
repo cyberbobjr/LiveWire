@@ -62,5 +62,10 @@
     "ContextMenu_LW_PumpState_broken": "Hors service",
     "ContextMenu_LW_Debug_RemoveRelays": "Retirer tous les relais d'eau",
     "ContextMenu_LW_ShowTaps": "Afficher les points d'eau alimentés",
-    "ContextMenu_LW_HideTaps": "Masquer les points d'eau alimentés"
+    "ContextMenu_LW_HideTaps": "Masquer les points d'eau alimentés",
+    "ContextMenu_LW_CoupleTo": "Coupler à un onduleur",
+    "ContextMenu_LW_CoupleAt": "Onduleur maître à %1 cases (%2 fils, 1 kit)",
+    "ContextMenu_LW_CoupledTo": "Couplé à l'onduleur à %1 cases",
+    "ContextMenu_LW_CoupledFar": "Couplé à un onduleur hors de vue",
+    "ContextMenu_LW_Uncouple": "Découpler"
 }

@@ -86,6 +86,11 @@ function Menu.onLink(player, target, inverter)
     queueNear(player, target:getSquare(), LWLinkAction:new(player, target, inverter))
 end
 
+-- The slave joins the master's grid; the authority re-checks it (LWCoupleAction).
+function Menu.onCouple(player, slave, master)
+    queueNear(player, slave:getSquare(), LWCoupleAction:new(player, slave, master))
+end
+
 function Menu.onRepair(player, obj, overhaul)
     queueNear(player, obj:getSquare(), LWRepairAction:new(player, obj, overhaul))
 end
@@ -100,6 +105,10 @@ end
 
 function Menu.onUnlink(player, id)
     LiveWire.Client.send(LiveWire.Protocol.C_UNLINK, { device = id })
+end
+
+function Menu.onUncouple(player, id)
+    LiveWire.Client.send(LiveWire.Protocol.C_UNCOUPLE, { inverter = id })
 end
 
 -- Water barrels: the barrel must stand next to the pump (LW_Install.lua). The server
@@ -213,17 +222,17 @@ local function addLinkOptions(menu, player, obj, kind, linkId)
     end
 end
 
--- Inverter: connect or disconnect the equipment around it.
-local function addInverterOptions(menu, player, obj, mark)
-    menu:addOption(getText("ContextMenu_LW_Panel"), player, Menu.onPanel, mark.id)
+-- Inverter switch (turn on or off, the inverter's own id).
+local function addSwitchOptions(menu, player, mark)
     if mark.st == "on" then
         menu:addOption(getText("ContextMenu_LW_TurnOff"), player, Menu.onSetInverter, mark.id, false)
     elseif mark.st == "off" then
         menu:addOption(getText("ContextMenu_LW_TurnOn"), player, Menu.onSetInverter, mark.id, true)
     end
-    if mark.st == "tripped" then
-        menu:addOption(getText("ContextMenu_LW_Reset"), player, Menu.onReset, mark.id)
-    end
+end
+
+-- Soundproofing kit: fit it or take it off.
+local function addMuffleOption(menu, player, obj, mark)
     if mark.muf then
         menu:addOption(getText("ContextMenu_LW_Unmuffle"), player, Menu.onMuffle, obj, true)
     else
@@ -231,9 +240,66 @@ local function addInverterOptions(menu, player, obj, mark)
         local ok, why, arg = LWMuffleAction.canDo(player, obj, false)
         if not ok then tip(o, why, arg) end
     end
+end
+
+-- Slave inverter (coupled to a master): its screen is the master's, and it has no
+-- reset, no range and no equipment lists, only the uncouple option.
+local function addSlaveOptions(menu, player, obj, mark)
+    menu:addOption(getText("ContextMenu_LW_Panel"), player, Menu.onPanel, mark.cpl)
+    addSwitchOptions(menu, player, mark)
+    local invObj = I().inverterById(obj:getSquare(), mark.cpl)
+    if invObj then
+        local sq, is = obj:getSquare(), invObj:getSquare()
+        local d = I().distance(sq:getX(), sq:getY(), sq:getZ(), is:getX(), is:getY(), is:getZ())
+        disabled(menu, getText("ContextMenu_LW_CoupledTo", tiles(d)))
+    else
+        disabled(menu, getText("ContextMenu_LW_CoupledFar"))
+    end
+    menu:addOption(getText("ContextMenu_LW_Uncouple"), player, Menu.onUncouple, mark.id)
+    addMuffleOption(menu, player, obj, mark)
+end
+
+-- Master or independent inverter: take a slave inverter in cable range (an inverter
+-- already coupled cannot be a master, and a slave never takes another slave).
+local function addCoupleOptions(menu, player, obj)
+    local inverters = I().invertersInRange(obj:getSquare())
+    local masters = {}
+    for i = 1, #inverters do
+        local m = LiveWire.Marks.get(inverters[i].obj)
+        if inverters[i].obj ~= obj and not (m and m.cpl) then masters[#masters + 1] = inverters[i] end
+    end
+    local co = menu:addOption(getText("ContextMenu_LW_CoupleTo"), nil, nil)
+    local csub = ISContextMenu:getNew(menu)
+    menu:addSubMenu(co, csub)
+    if #masters == 0 then
+        disabled(csub, getText("ContextMenu_LW_NoInverter", tostring(LiveWire.Config.get("LinkRange"))))
+        return
+    end
+    for i = 1, #masters do
+        local inv = masters[i]
+        local o = csub:addOption(getText("ContextMenu_LW_CoupleAt", tiles(inv.dist),
+            tostring(I().wiresFor(inv.dist))), player, Menu.onCouple, obj, inv.obj)
+        local ok, why, arg, arg2 = I().checkCouple(player, obj, inv.obj)
+        if not ok then tip(o, why, arg, arg2) end
+    end
+end
+
+-- Inverter: connect or disconnect the equipment around it.
+local function addInverterOptions(menu, player, obj, mark)
+    if mark.cpl then
+        addSlaveOptions(menu, player, obj, mark)
+        return
+    end
+    menu:addOption(getText("ContextMenu_LW_Panel"), player, Menu.onPanel, mark.id)
+    addSwitchOptions(menu, player, mark)
+    if mark.st == "tripped" then
+        menu:addOption(getText("ContextMenu_LW_Reset"), player, Menu.onReset, mark.id)
+    end
+    addMuffleOption(menu, player, obj, mark)
     local rangeKey = "ContextMenu_LW_ShowRange"
     if LiveWire.RangeView.isShown(mark.id) then rangeKey = "ContextMenu_LW_HideRange" end
     menu:addOption(getText(rangeKey), player, Menu.onShowRange, mark.id, obj:getSquare())
+    addCoupleOptions(menu, player, obj)
 
     local around = I().objectsInRange(obj:getSquare(), nil, true)
     local free, linked = {}, {}

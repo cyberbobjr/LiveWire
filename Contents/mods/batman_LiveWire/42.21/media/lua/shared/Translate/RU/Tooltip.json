@@ -31,5 +31,11 @@
     "Tooltip_LW_BarrelTooFar": "Бочка должна стоять рядом с насосом, на том же этаже.",
     "Tooltip_LW_BarrelOtherPump": "Эта бочка уже подключена к другому насосу.",
     "Tooltip_LW_PumpFull": "К одному насосу подключается не более %1 бочек.",
-    "Tooltip_LW_NeedPipe": "Нужна металлическая труба."
+    "Tooltip_LW_NeedPipe": "Нужна металлическая труба.",
+    "Tooltip_LW_AlreadyCoupled": "Этот инвертор уже сцеплен.",
+    "Tooltip_LW_MasterIsSlave": "Этот инвертор сам сцеплен: выберите его ведущий инвертор.",
+    "Tooltip_LW_NeedCouplingKit": "Нужен комплект сцепки инверторов.",
+    "Tooltip_LW_CoupledInverter": "Этот инвертор сцеплен: подключите оборудование к его ведущему инвертору.",
+    "Tooltip_LW_CoupleHasEquipment": "Сначала отключите от этого инвертора всё оборудование.",
+    "Tooltip_LW_TooManySlaves": "Ведущий инвертор принимает не более %1 сцепленных инверторов."
 }

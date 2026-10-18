@@ -153,6 +153,24 @@ function Demand.category(o)
     return "other"
 end
 
+-- Several independent inverters whose areas overlap: count each appliance once, on
+-- the nearest switched-on one (equal distance: smallest id). Slaves have no anchor.
+local function closerInverter(others, inv, sx, sy, sz, R2, V)
+    local ix, iy = sx - inv.x, sy - inv.y
+    local d2inv = ix * ix + iy * iy
+    for i = 1, #others do
+        local a = others[i]
+        local dx, dy = sx - a.x, sy - a.y
+        local d2 = dx * dx + dy * dy
+        if d2 <= R2 and math.abs(sz - a.z) <= V then
+            if d2 < d2inv or (d2 == d2inv and tostring(a.id) < tostring(inv.id)) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 -- Demand in W for a loaded inverter device, and its breakdown by appliance family
 -- ({ fridge = { n = 1, w = 130 }, ... }). Returns nil when the inverter square is
 -- not loaded, or while its list is being (re)built (the caller then keeps the last
@@ -184,6 +202,15 @@ function Demand.measure(inv)
     local total = 0
     local scale = 1000 * (LiveWire.Config.get("PowerScale") or 1)
     local breakdown = {}
+    -- Other switched-on anchors, collected once per call (see closerInverter).
+    local R = LiveWire.Config.tileRange()
+    local V = LiveWire.Config.verticalRange()
+    local others = {}
+    for aid, a in pairs(LiveWire.Registry.anchors or {}) do
+        if a.on == true and aid ~= inv.id then
+            others[#others + 1] = { id = aid, x = a.x, y = a.y, z = a.z }
+        end
+    end
     for i = 1, #entry.objects do
         local o = entry.objects[i]
         local sq = o:getSquare()
@@ -191,7 +218,8 @@ function Demand.measure(inv)
             and (exteriorOk or not sq:getProperties():has(IsoFlagType.exterior))
             and (not anchorOn or sq:haveElectricity()) then
             local p = o:getGeneratorPowerConsumption()
-            if p and p > 0 then
+            if p and p > 0 and (#others == 0
+                or not closerInverter(others, inv, sq:getX(), sq:getY(), sq:getZ(), R * R, V)) then
                 total = total + p
                 local cat = Demand.category(o)
                 local b = breakdown[cat] or { n = 0, w = 0 }

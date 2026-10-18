@@ -31,5 +31,11 @@
     "Tooltip_LW_BarrelTooFar": "Le baril doit être à côté de la pompe, au même étage.",
     "Tooltip_LW_BarrelOtherPump": "Ce baril est déjà raccordé à une autre pompe.",
     "Tooltip_LW_PumpFull": "Une pompe accepte au plus %1 barils.",
-    "Tooltip_LW_NeedPipe": "Il faut un tuyau en métal."
+    "Tooltip_LW_NeedPipe": "Il faut un tuyau en métal.",
+    "Tooltip_LW_AlreadyCoupled": "Cet onduleur est déjà couplé.",
+    "Tooltip_LW_MasterIsSlave": "Cet onduleur est lui-même couplé : choisissez son maître.",
+    "Tooltip_LW_NeedCouplingKit": "Il faut un kit de couplage d'onduleurs.",
+    "Tooltip_LW_CoupledInverter": "Cet onduleur est couplé : raccordez l'équipement à son maître.",
+    "Tooltip_LW_CoupleHasEquipment": "Débranchez d'abord tout l'équipement de cet onduleur.",
+    "Tooltip_LW_TooManySlaves": "Un onduleur maître accepte au plus %1 onduleurs couplés."
 }

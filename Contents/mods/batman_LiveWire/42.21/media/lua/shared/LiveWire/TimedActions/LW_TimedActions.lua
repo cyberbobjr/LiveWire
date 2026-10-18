@@ -166,6 +166,98 @@ function LWLinkAction:new(character, target, inverter)
 end
 
 --------------------------------------------------------------------------------
+-- Couple an inverter (slave) to a master inverter (docs/IDEES.md, section 5): the
+-- slave loses its own grid and anchor and joins the master's grid. complete() runs
+-- on the authority only.
+--------------------------------------------------------------------------------
+LWCoupleAction = ISBaseTimedAction:derive("LWCoupleAction")
+
+function LWCoupleAction:isValid()
+    return objectStillThere(self.slave) and objectStillThere(self.master)
+        and I().checkCouple(self.character, self.slave, self.master)
+end
+
+function LWCoupleAction:waitToStart()
+    self.character:faceThisObject(self.slave)
+    return self.character:shouldBeTurning()
+end
+
+function LWCoupleAction:update()
+    self.character:setMetabolicTarget(Metabolics.LightWork)
+end
+
+function LWCoupleAction:start()
+    self:setActionAnim("Loot")
+    self.character:SetVariable("LootPosition", "Low")
+end
+
+function LWCoupleAction:stop() ISBaseTimedAction.stop(self) end
+function LWCoupleAction:perform() ISBaseTimedAction.perform(self) end
+
+function LWCoupleAction:complete()
+    local ch, slaveObj, masterObj = self.character, self.slave, self.master
+    if not objectStillThere(slaveObj) or not objectStillThere(masterObj) then return false end
+    local ssq = slaveObj:getSquare()
+    if not near(ch, ssq, 2) or not allowed(ch, ssq) then return false end
+    local ok, why, wires, extra = I().checkCouple(ch, slaveObj, masterObj)
+    if not ok then
+        -- On refusal the third and fourth results are the message arguments.
+        LiveWire.notify(ch, why, { wires, extra }, true)
+        LiveWire.log("couple refused for " .. tostring(ch:getUsername()) .. ": " .. tostring(why)
+            .. " " .. tostring(wires or "") .. " " .. tostring(extra or ""))
+        return false
+    end
+    local sdev, mdev = deviceOf(slaveObj), deviceOf(masterObj)
+    if not sdev or not mdev or sdev.role ~= "inverter" or mdev.role ~= "inverter"
+        or sdev.coupled ~= nil or mdev.coupled ~= nil then
+        return false
+    end
+
+    -- The slave owns no equipment and no slave of its own (the registry is only
+    -- visible here, not on the client).
+    local sgrid = sdev.grid and R().grid(sdev.grid)
+    if not sgrid then return false end
+    local s1, s2, s3, s4, s5, s6 = R().members(sgrid)
+    if #s1 + #s2 + #s3 + #s4 + #s5 + #s6 > 0 or #R().slaves(sgrid) > 0 then
+        LiveWire.notify(ch, "Tooltip_LW_CoupleHasEquipment", {}, true)
+        return false
+    end
+    local mgrid = mdev.grid and R().grid(mdev.grid)
+    if not mgrid then return false end
+    if #R().slaves(mgrid) >= LiveWire.Defs.MAX_SLAVES then
+        LiveWire.notify(ch, "Tooltip_LW_TooManySlaves", { tostring(LiveWire.Defs.MAX_SLAVES) }, true)
+        return false
+    end
+
+    if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
+    if not I().consume(ch, LiveWire.Defs.COUPLING_KIT, 1) then return false end
+    -- The slave's anchor goes off, as when its device is removed (Devices.remove).
+    LiveWire.Sim.updateAnchor(sdev, false)
+    LiveWire.Anchor.set(sdev.id, R().anchors[sdev.id] or sdev, false)
+    LiveWire.Demand.invalidate(sdev.id)
+    R().couple(sdev, mgrid)
+    LiveWire.Devices.syncMark(sdev)
+    LiveWire.Devices.syncMark(mdev)
+    LiveWire.Xp.award(ch, 5)
+    LiveWire.Sim.refresh(mgrid)
+    LiveWire.notify(ch, "IGUI_LW_Coupled", {})
+    return true
+end
+
+function LWCoupleAction:getDuration()
+    if instant(self.character) then return 1 end
+    return 150
+end
+
+function LWCoupleAction:new(character, slave, master)
+    local o = ISBaseTimedAction.new(self, character)
+    o.slave = slave
+    o.master = master
+    o.maxTime = o:getDuration()
+    return o
+end
+
+--------------------------------------------------------------------------------
 -- Connect a water barrel to a water pump (one metal pipe, LW_Pump.lua). The
 -- barrel must stand next to the pump. complete() runs on the authority only.
 --------------------------------------------------------------------------------

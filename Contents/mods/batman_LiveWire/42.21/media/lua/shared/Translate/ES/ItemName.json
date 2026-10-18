@@ -11,5 +11,6 @@
     "Base.Mov_LiveWire_PowerBank": "Banco de baterías",
     "Base.Mov_LiveWire_Breaker": "Panel de disyuntores",
     "Base.Mov_LiveWire_BatteryAlarm": "Alarma de batería baja",
-    "Base.Mov_LiveWire_WaterPump": "Bomba de agua"
+    "Base.Mov_LiveWire_WaterPump": "Bomba de agua",
+    "LiveWire.CouplingKit": "Kit de acoplamiento de inversores"
 }

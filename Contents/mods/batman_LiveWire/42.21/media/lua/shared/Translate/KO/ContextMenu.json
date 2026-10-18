@@ -62,5 +62,10 @@
     "ContextMenu_LW_PumpState_broken": "고장",
     "ContextMenu_LW_Debug_RemoveRelays": "모든 물 릴레이 제거",
     "ContextMenu_LW_ShowTaps": "공급되는 수도꼭지 표시",
-    "ContextMenu_LW_HideTaps": "공급되는 수도꼭지 숨기기"
+    "ContextMenu_LW_HideTaps": "공급되는 수도꼭지 숨기기",
+    "ContextMenu_LW_CoupleTo": "인버터에 병렬 연결",
+    "ContextMenu_LW_CoupleAt": "마스터 인버터 %1칸 거리 (전선 %2개, 키트 1개)",
+    "ContextMenu_LW_CoupledTo": "%1칸 거리의 인버터에 병렬 연결됨",
+    "ContextMenu_LW_CoupledFar": "시야 밖 인버터에 병렬 연결됨",
+    "ContextMenu_LW_Uncouple": "병렬 연결 해제"
 }

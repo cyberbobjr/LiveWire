@@ -402,6 +402,29 @@ for f, k, en, fr in [
     add(f, k, en, fr)
 
 
+# Parallel inverters (1.3.0): coupling kit, recipe, menus, tooltips, panel and software.
+for f, k, en, fr in [
+    ("ItemName", "LiveWire.CouplingKit", "Inverter Coupling Kit", "Kit de couplage d'onduleurs"),
+    ("Recipes", "LWMakeCouplingKit", "Make Inverter Coupling Kit", "Fabriquer un kit de couplage d'onduleurs"),
+    ("ContextMenu", "ContextMenu_LW_CoupleTo", "Couple to an inverter", "Coupler à un onduleur"),
+    ("ContextMenu", "ContextMenu_LW_CoupleAt", "Master inverter %1 tiles away (%2 wires, 1 kit)", "Onduleur maître à %1 cases (%2 fils, 1 kit)"),
+    ("ContextMenu", "ContextMenu_LW_CoupledTo", "Coupled to the inverter %1 tiles away", "Couplé à l'onduleur à %1 cases"),
+    ("ContextMenu", "ContextMenu_LW_CoupledFar", "Coupled to an inverter out of sight", "Couplé à un onduleur hors de vue"),
+    ("ContextMenu", "ContextMenu_LW_Uncouple", "Uncouple", "Découpler"),
+    ("Tooltip", "Tooltip_LW_AlreadyCoupled", "This inverter is already coupled.", "Cet onduleur est déjà couplé."),
+    ("Tooltip", "Tooltip_LW_MasterIsSlave", "That inverter is itself coupled: choose its master.", "Cet onduleur est lui-même couplé : choisissez son maître."),
+    ("Tooltip", "Tooltip_LW_NeedCouplingKit", "Needs an inverter coupling kit.", "Il faut un kit de couplage d'onduleurs."),
+    ("Tooltip", "Tooltip_LW_CoupledInverter", "This inverter is coupled: connect the equipment to its master.", "Cet onduleur est couplé : raccordez l'équipement à son maître."),
+    ("Tooltip", "Tooltip_LW_CoupleHasEquipment", "Disconnect every piece of equipment from this inverter first.", "Débranchez d'abord tout l'équipement de cet onduleur."),
+    ("Tooltip", "Tooltip_LW_TooManySlaves", "A master inverter takes at most %1 coupled inverters.", "Un onduleur maître accepte au plus %1 onduleurs couplés."),
+    ("IG_UI", "IGUI_LW_Coupled", "Inverters coupled.", "Onduleurs couplés."),
+    ("IG_UI", "IGUI_LW_Uncoupled", "Inverter uncoupled: it is independent again.", "Onduleur découplé : il est de nouveau indépendant."),
+    ("IG_UI", "IGUI_LW_LCD_Coupled", "Coupled: %1 / %2 in service", "Couplés : %1 / %2 en service"),
+    ("IG_UI", "IGUI_LW_App_Coupled", "Coupled inverters: %1 / %2 in service", "Onduleurs couplés : %1 / %2 en service"),
+]:
+    add(f, k, en, fr)
+
+
 def main():
     for lang, idx in (("EN", 0), ("FR", 1)):
         d = os.path.join(OUT, lang)

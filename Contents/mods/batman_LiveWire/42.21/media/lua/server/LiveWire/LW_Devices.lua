@@ -39,9 +39,10 @@ local function unboundObject(sq, spriteName)
     return nil
 end
 
--- Inverter id of the network a device is linked to (an inverter: its own id).
+-- Inverter id of the network a device is linked to (an inverter: its own id, a slave:
+-- the master's id).
 local function inverterOf(dev)
-    if dev.role == "inverter" then return dev.id end
+    if dev.role == "inverter" then return dev.coupled or dev.id end
     local g = dev.grid and R().grid(dev.grid)
     return g and g.inverter or nil
 end
@@ -75,7 +76,7 @@ local function markFromDevice(obj, dev)
     LiveWire.Marks.set(obj, { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
                               level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
                               muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z,
-                              nb = nb, nr = nr })
+                              nb = nb, nr = nr, cpl = dev.coupled })
     dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
     if isServer() then obj:transmitModData() end
 end
@@ -92,6 +93,8 @@ end
 -- changed (called after each simulation step).
 function Devices.refreshStates(grid)
     local list = { R().device(grid.inverter) }
+    local slaves = R().slaves(grid)
+    for i = 1, #slaves do list[#list + 1] = slaves[i] end
     local _, _, options, _, _, pumps = R().members(grid)
     for i = 1, #options do list[#list + 1] = options[i] end
     for i = 1, #pumps do list[#list + 1] = pumps[i] end
@@ -209,19 +212,29 @@ end
 function Devices.remove(id)
     local dev = R().device(id)
     if not dev then return end
-    if dev.role == "inverter" then
+    -- A slave has no anchor of its own: only a master's anchor is switched off.
+    if dev.role == "inverter" and not dev.coupled then
         LiveWire.Sim.updateAnchor(dev, false)
         LiveWire.Anchor.set(dev.id, R().anchors[dev.id] or dev, false)
     end
     local grid = dev.grid and R().grid(dev.grid)
     local members = {}
+    local slaves = {}
     if dev.role == "inverter" and grid then
         for mid in pairs(grid.members) do members[#members + 1] = mid end
+        -- Only a master uncouples its slaves (a removed slave owns no grid).
+        if not dev.coupled then slaves = R().slaves(grid) end
     end
     if dev.role == "pump" and LiveWire.Pump then LiveWire.Pump.forget(dev) end
     R().removeDevice(dev.id)
     LiveWire.Demand.invalidate(dev.id)
     for i = 1, #members do Devices.syncMark(R().device(members[i])) end
+    -- A removed master uncouples its slaves: each one gets its own empty grid.
+    for i = 1, #slaves do
+        Devices.syncMark(slaves[i])
+        local g = slaves[i].grid and R().grid(slaves[i].grid)
+        if g then LiveWire.Sim.refresh(g) end
+    end
     if grid and R().grid(grid.id) then LiveWire.Sim.refresh(grid) end
     LiveWire.log("removed " .. tostring(dev.model) .. " " .. id)
 end

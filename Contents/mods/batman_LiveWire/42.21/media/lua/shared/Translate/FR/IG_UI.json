@@ -165,5 +165,9 @@
     "IGUI_LW_Model_WaterBarrel": "Baril d'eau",
     "IGUI_LW_BarrelLinked": "Baril raccordé à la pompe.",
     "IGUI_LW_BarrelUnlinked": "Baril débranché de la pompe.",
-    "IGUI_LW_App_Pumps": "Pompes à eau en service : %1, débit : %2 L/h"
+    "IGUI_LW_App_Pumps": "Pompes à eau en service : %1, débit : %2 L/h",
+    "IGUI_LW_Coupled": "Onduleurs couplés.",
+    "IGUI_LW_Uncoupled": "Onduleur découplé : il est de nouveau indépendant.",
+    "IGUI_LW_LCD_Coupled": "Couplés : %1 / %2 en service",
+    "IGUI_LW_App_Coupled": "Onduleurs couplés : %1 / %2 en service"
 }

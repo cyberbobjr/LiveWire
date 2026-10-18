@@ -11,5 +11,6 @@
     "Base.Mov_LiveWire_PowerBank": "电池组",
     "Base.Mov_LiveWire_Breaker": "断路器面板",
     "Base.Mov_LiveWire_BatteryAlarm": "低电量警报器",
-    "Base.Mov_LiveWire_WaterPump": "水泵"
+    "Base.Mov_LiveWire_WaterPump": "水泵",
+    "LiveWire.CouplingKit": "逆变器并联套件"
 }

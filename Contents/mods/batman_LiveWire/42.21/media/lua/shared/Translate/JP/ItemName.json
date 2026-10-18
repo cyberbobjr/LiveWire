@@ -11,5 +11,6 @@
     "Base.Mov_LiveWire_PowerBank": "バッテリーバンク",
     "Base.Mov_LiveWire_Breaker": "分電盤",
     "Base.Mov_LiveWire_BatteryAlarm": "低バッテリー警報",
-    "Base.Mov_LiveWire_WaterPump": "水ポンプ"
+    "Base.Mov_LiveWire_WaterPump": "水ポンプ",
+    "LiveWire.CouplingKit": "インバーター連結キット"
 }

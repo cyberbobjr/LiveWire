@@ -446,7 +446,89 @@ def scenario_pump_demand():
     check(bool(g.PUMP_RESET), "pumped litres reset after the demand step")
 
 
+SLAVE_SETUP = r"""
+-- A slave inverter (own empty grid first, then coupled to the master's grid).
+local R = LiveWire.Registry
+SLAVE = R.addDevice({ role = "inverter", model = "Inverter", x = 102, y = 100, z = 0,
+                      cond = 100, eff = 0.95, level = 7, state = "on" })
+R.createGrid(SLAVE)
+R.couple(SLAVE, GRID)
+"""
+
+
+def scenario_slave_capacity():
+    """Capacity and idle use follow the inverters in service."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 0; DEMAND = 0; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(SLAVE_SETUP)
+    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 3000, "master + slave on: capacity 3000 W")
+    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 40, "master + slave on: idle 40 W")
+    lua.execute("SLAVE.state = 'off'")
+    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 1500, "slave off: capacity 1500 W")
+    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 20, "slave off: idle 20 W")
+
+
+def scenario_slave_breaks():
+    """A slave with no condition left breaks in the step and leaves the capacity."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 0; DEMAND = 0; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(SLAVE_SETUP)
+    lua.execute("SLAVE.cond = 0")
+    lua.execute("LiveWire.Sim.stepGrid(GRID, WORLD.hours + 1 / 6, LiveWire.Sim.weather())")
+    check(lua.globals().SLAVE.state == "broken", "slave with cond 0 is broken after one step (%s)"
+          % lua.globals().SLAVE.state)
+    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 1500, "broken slave: capacity 1500 W")
+
+
+def scenario_slave_trip():
+    """2000 W fits master + slave (3000 W); without the slave (1500 W) it trips."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 0; DEMAND = 2000; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(SLAVE_SETUP)
+    run(lua, 1 / 6)
+    g = lua.globals()
+    check(g.INV.state == "on", "2000 W with master + slave on: not tripped (%s)" % g.INV.state)
+    lua.execute("SLAVE.state = 'off'")
+    run(lua, 1 / 6)
+    check(g.INV.state == "tripped", "2000 W with the slave off: master trips (%s)" % g.INV.state)
+
+
+def scenario_slave_removal():
+    """Removing the master uncouples its slave; removing a slave leaves the master's grid."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 0; DEMAND = 0; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(SLAVE_SETUP)
+    lua.execute("""
+        local R = LiveWire.Registry
+        local old = GRID.id
+        R.removeDevice(INV.id)
+        CHK_MASTER = SLAVE.coupled == nil and SLAVE.grid ~= nil and SLAVE.grid ~= old
+            and R.grid(SLAVE.grid) ~= nil
+    """)
+    check(lua.globals().CHK_MASTER, "removing the master: the slave is independent with a new grid")
+
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 0; DEMAND = 0; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(SLAVE_SETUP)
+    lua.execute("""
+        local R = LiveWire.Registry
+        R.removeDevice(SLAVE.id)
+        CHK_SLAVE = R.grid(INV.grid) == GRID and GRID.slaves[SLAVE.id] == nil
+            and R.device(SLAVE.id) == nil and R.device(INV.id) == INV
+    """)
+    check(lua.globals().CHK_SLAVE, "removing a slave: the master's grid stays intact")
+
+
 def main():
+    scenario_slave_capacity()
+    scenario_slave_breaks()
+    scenario_slave_trip()
+    scenario_slave_removal()
     scenario_pump_demand()
     scenario_debug()
     scenario_backup_computer_alarm()

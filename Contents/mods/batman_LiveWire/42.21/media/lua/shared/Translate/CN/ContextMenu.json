@@ -62,5 +62,10 @@
     "ContextMenu_LW_PumpState_broken": "故障",
     "ContextMenu_LW_Debug_RemoveRelays": "移除所有水中继器",
     "ContextMenu_LW_ShowTaps": "显示供水的水龙头",
-    "ContextMenu_LW_HideTaps": "隐藏供水的水龙头"
+    "ContextMenu_LW_HideTaps": "隐藏供水的水龙头",
+    "ContextMenu_LW_CoupleTo": "并联到一台逆变器",
+    "ContextMenu_LW_CoupleAt": "主逆变器距离 %1 格（%2 根电线，1 套件）",
+    "ContextMenu_LW_CoupledTo": "已并联到距离 %1 格的逆变器",
+    "ContextMenu_LW_CoupledFar": "已并联到视野外的一台逆变器",
+    "ContextMenu_LW_Uncouple": "解除并联"
 }

@@ -228,6 +228,11 @@ function App:drawOverview(ui, x, y, w, h, snap)
     ry = ry + sh + 2
     bar(ui, rx + 10, ry, inner, 8, (inv.cond or 0) / 100, inv.cond < 30 and C.red or C.green)
     ry = ry + 14
+    -- Coupled inverters: one line, when the card keeps room for it and its button.
+    if snap.coupled and ry + sh + 4 + sh + 10 <= y + h then
+        text(ui, T("IGUI_LW_App_Coupled", snap.coupled.n, snap.coupled.total), rx + 10, ry, C.dim, small, inner)
+        ry = ry + sh + 4
+    end
     local btnH = sh + 10
     if st == "on" then
         self:button(ui, rx + 10, ry, inner, btnH, T("ContextMenu_LW_TurnOff"), "off", "off")

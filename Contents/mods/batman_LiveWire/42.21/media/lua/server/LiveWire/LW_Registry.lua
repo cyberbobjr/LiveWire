@@ -109,6 +109,41 @@ function Registry.createGrid(inverter)
     return g
 end
 
+-- Slave inverters of a grid (sorted by id), dropping ids whose device is gone.
+function Registry.slaves(grid)
+    local out = {}
+    if not grid.slaves then return out end
+    local ids = {}
+    for id in pairs(grid.slaves) do ids[#ids + 1] = id end
+    table.sort(ids)
+    for i = 1, #ids do
+        local dev = data().devices[ids[i]]
+        if dev then out[#out + 1] = dev else grid.slaves[ids[i]] = nil end
+    end
+    return out
+end
+
+-- Couple `slave` (an inverter with its own empty grid) to `masterGrid`: its own grid
+-- and anchor are removed, it joins the master's grid as a slave.
+function Registry.couple(slave, masterGrid)
+    local own = slave.grid and data().grids[slave.grid]
+    if own and own.id ~= masterGrid.id then data().grids[own.id] = nil end
+    Registry.setAnchor(slave, nil)
+    slave.grid = masterGrid.id
+    slave.coupled = masterGrid.inverter
+    masterGrid.slaves = masterGrid.slaves or {}
+    masterGrid.slaves[slave.id] = true
+end
+
+-- Make a slave independent again: it leaves the master's grid and gets a new empty grid.
+function Registry.uncouple(slave)
+    local g = slave.grid and data().grids[slave.grid]
+    if g and g.slaves then g.slaves[slave.id] = nil end
+    slave.coupled = nil
+    slave.grid = nil
+    Registry.createGrid(slave)
+end
+
 function Registry.link(dev, grid)
     if dev.grid and dev.grid ~= grid.id then Registry.unlink(dev) end
     dev.grid = grid.id
@@ -170,9 +205,20 @@ end
 function Registry.removeDevice(id)
     local dev = data().devices[id]
     if not dev then return end
+    if dev.role == "inverter" and dev.coupled then
+        -- A slave owns no grid and no anchor: it only leaves its master's grid.
+        local g = dev.grid and data().grids[dev.grid]
+        if g and g.slaves then g.slaves[id] = nil end
+        indexRemove(dev)
+        data().devices[id] = nil
+        return
+    end
     if dev.role == "inverter" then
         local g = dev.grid and data().grids[dev.grid]
         if g then
+            -- The slaves lose their master: each becomes an independent inverter.
+            local slaves = Registry.slaves(g)
+            for i = 1, #slaves do Registry.uncouple(slaves[i]) end
             local vanilla = {}
             for mid in pairs(g.members) do
                 local m = data().devices[mid]

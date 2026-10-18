@@ -261,6 +261,29 @@ module LiveWire
         }
     }
 
+    craftRecipe LWMakeCouplingKit
+    {
+        timedAction = MakingElectrical,
+        time = 200,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:6,
+        AutoLearnAny = Electricity:6,
+        xpAward = Electricity:8,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 2 [Base.ElectronicsScrap],
+            item 2 [Base.ElectricWire],
+            item 1 [Base.Amplifier],
+        }
+        outputs
+        {
+            item 1 LiveWire.CouplingKit,
+        }
+    }
+
     craftRecipe LWMakeDeepCycleBattery
     {
         timedAction = MakingElectrical,

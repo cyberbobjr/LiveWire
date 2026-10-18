@@ -11,5 +11,6 @@
     "Base.Mov_LiveWire_PowerBank": "배터리 뱅크",
     "Base.Mov_LiveWire_Breaker": "차단기 패널",
     "Base.Mov_LiveWire_BatteryAlarm": "배터리 부족 경보기",
-    "Base.Mov_LiveWire_WaterPump": "물 펌프"
+    "Base.Mov_LiveWire_WaterPump": "물 펌프",
+    "LiveWire.CouplingKit": "인버터 병렬 연결 키트"
 }

@@ -62,5 +62,10 @@
     "ContextMenu_LW_PumpState_broken": "Out of order",
     "ContextMenu_LW_Debug_RemoveRelays": "Remove every water relay",
     "ContextMenu_LW_ShowTaps": "Show the supplied taps",
-    "ContextMenu_LW_HideTaps": "Hide the supplied taps"
+    "ContextMenu_LW_HideTaps": "Hide the supplied taps",
+    "ContextMenu_LW_CoupleTo": "Couple to an inverter",
+    "ContextMenu_LW_CoupleAt": "Master inverter %1 tiles away (%2 wires, 1 kit)",
+    "ContextMenu_LW_CoupledTo": "Coupled to the inverter %1 tiles away",
+    "ContextMenu_LW_CoupledFar": "Coupled to an inverter out of sight",
+    "ContextMenu_LW_Uncouple": "Uncouple"
 }

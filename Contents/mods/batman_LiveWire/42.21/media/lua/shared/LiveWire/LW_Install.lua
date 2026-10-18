@@ -122,6 +122,7 @@ function Install.checkLink(character, target, inverterObj)
         or LiveWire.Defs.devices[im.model].role ~= "inverter" then
         return false, "Tooltip_LW_NoInverterInRange"
     end
+    if im.cpl then return false, "Tooltip_LW_CoupledInverter" end
     local ts, is = target:getSquare(), inverterObj:getSquare()
     if not ts or not is then return false, "Tooltip_LW_Invalid" end
     local dist, dz = Install.distance(ts:getX(), ts:getY(), ts:getZ(), is:getX(), is:getY(), is:getZ())
@@ -148,6 +149,44 @@ function Install.checkLink(character, target, inverterObj)
     elseif kind == "computer" then need = LiveWire.Defs.COMPUTER_LEVEL end
     if need and not Install.hasLevel(character, need) then
         return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(need)
+    end
+    local wires = Install.wiresFor(dist)
+    if Install.countType(character, "Base.ElectricWire") < wires then
+        return false, "Tooltip_LW_NeedWire", wires
+    end
+    return true, nil, wires
+end
+
+-- Can `character` couple `slaveObj` (clicked inverter) to `masterObj`?
+-- Returns true, nil, wires; or false, key, arg1, arg2. Client tooltips and the
+-- authority (LWCoupleAction:complete) use the same rules. The registry-only conditions
+-- (slave has equipment or slaves, master full) are checked by the authority.
+function Install.checkCouple(character, slaveObj, masterObj)
+    local sm, mm = LiveWire.Marks.get(slaveObj), LiveWire.Marks.get(masterObj)
+    local sdef = sm and LiveWire.Defs.devices[sm.model]
+    local mdef = mm and LiveWire.Defs.devices[mm.model]
+    if not sdef or not mdef or sdef.role ~= "inverter" or mdef.role ~= "inverter"
+        or sm.id == mm.id then
+        return false, "Tooltip_LW_Invalid"
+    end
+    if sm.cpl then return false, "Tooltip_LW_AlreadyCoupled" end
+    if mm.cpl then return false, "Tooltip_LW_MasterIsSlave" end
+    local ss, ms = slaveObj:getSquare(), masterObj:getSquare()
+    if not ss or not ms then return false, "Tooltip_LW_Invalid" end
+    local dist, dz = Install.distance(ss:getX(), ss:getY(), ss:getZ(), ms:getX(), ms:getY(), ms:getZ())
+    if dz > Install.LINK_FLOORS then
+        return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(Install.LINK_FLOORS)
+    end
+    local range = LiveWire.Config.get("LinkRange")
+    if dist > range then
+        return false, "Tooltip_LW_TooFarForCable", tostring(math.ceil(dist - 1e-9)), tostring(range)
+    end
+    local coupling = LiveWire.Defs.COUPLING_LEVEL
+    if not Install.hasLevel(character, coupling) then
+        return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(coupling)
+    end
+    if Install.countType(character, LiveWire.Defs.COUPLING_KIT) < 1 then
+        return false, "Tooltip_LW_NeedCouplingKit"
     end
     local wires = Install.wiresFor(dist)
     if Install.countType(character, "Base.ElectricWire") < wires then

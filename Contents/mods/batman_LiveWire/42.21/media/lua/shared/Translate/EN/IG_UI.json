@@ -165,5 +165,9 @@
     "IGUI_LW_Model_WaterBarrel": "Water barrel",
     "IGUI_LW_BarrelLinked": "Barrel connected to the pump.",
     "IGUI_LW_BarrelUnlinked": "Barrel disconnected from the pump.",
-    "IGUI_LW_App_Pumps": "Water pumps in service: %1, flow: %2 L/h"
+    "IGUI_LW_App_Pumps": "Water pumps in service: %1, flow: %2 L/h",
+    "IGUI_LW_Coupled": "Inverters coupled.",
+    "IGUI_LW_Uncoupled": "Inverter uncoupled: it is independent again.",
+    "IGUI_LW_LCD_Coupled": "Coupled: %1 / %2 in service",
+    "IGUI_LW_App_Coupled": "Coupled inverters: %1 / %2 in service"
 }

@@ -13,6 +13,18 @@ Quatre équipements facultatifs renforcent un réseau. Chaque réseau en accepte
 
 Le générateur de secours et l'ordinateur ne se fabriquent pas : ce sont des objets vanilla trouvés dans le monde.
 
+## Onduleurs en parallèle (couplage)
+
+Dans une vraie installation autonome, on gagne de la puissance en ajoutant des onduleurs identiques en parallèle, pas en poussant un onduleur au-delà de sa capacité. Live Wire fait de même :
+
+- Clic droit sur un onduleur > **Coupler à un onduleur** > un onduleur maître à portée de câble. L'onduleur cliqué devient **esclave**. Coût : le fil électrique de la distance et 1 **kit de couplage d'onduleurs** (recette au niveau 6 d'Électricité).
+- L'esclave ne doit avoir aucun équipement raccordé ; un maître accepte au plus 3 esclaves (4 onduleurs).
+- Un seul réseau, un seul parc de batteries, une seule zone alimentée (celle du maître). Capacité = 1 500 W × onduleurs en service ; chaque onduleur allumé consomme 20 W à vide et s'use comme d'habitude.
+- Un esclave éteint ou cassé ne compte plus : si la demande dépasse alors ce qui reste, le disjoncteur (ou le maître) saute. Chaque esclave a son interrupteur ; on réarme sur le maître ou le disjoncteur.
+- **Découpler** sur l'esclave le rend de nouveau indépendant (le kit est rendu). Un maître ramassé libère ses esclaves.
+- La page État de l'écran LCD et le logiciel affichent « Couplés : n / total en service » et la capacité totale.
+- Deux onduleurs indépendants dont les zones se recouvrent ne comptent plus deux fois les mêmes appareils : chaque appareil est compté par l'onduleur allumé le plus proche.
+
 ## Quand le disjoncteur saute-t-il ?
 
 Quand la demande des appareils de la maison dépasse le maximum de l'onduleur, 1 500 W (les 20 W à vide ne comptent pas). La vérification a lieu à chaque pas de simulation : toutes les 10 minutes de jeu et juste après une action. Exemple : un lave-linge et un sèche-linge superposés qui tournent ensemble (jusqu'à 1 800 W).

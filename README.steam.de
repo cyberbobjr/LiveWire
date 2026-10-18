@@ -25,7 +25,7 @@ Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein e
 [*][b]Wasserrad[/b] (7): am Flussufer, im Erdgeschoss.
 [*][b]Wechselrichter[/b] (5): das Herzstück des Netzes, kann auch in Gebäuden stehen.
 [*][b]Batteriebank[/b] (2): öffnet sich wie eine Kiste.
-[*][b]Optional[/b]: Schutzschaltertafel (löst aus, statt den Wechselrichter zu beschädigen), Batteriealarm bei niedrigem Ladestand, Schalldämmset für das Brummen des Wechselrichters, Originalgenerator als Reserve (startet unter 20 % Batterieladung), Originalcomputer als Verwaltungsrechner.
+[*][b]Optional[/b]: Schutzschaltertafel (löst aus, statt den Wechselrichter zu beschädigen), Batteriealarm bei niedrigem Ladestand, Schalldämmset für das Brummen des Wechselrichters, Originalgenerator als Reserve (startet unter 20 % Batterieladung), Originalcomputer als Verwaltungsrechner. Bis zu 4 Wechselrichter lassen sich mit einem Kopplungsset parallel schalten (6.000 W).
 [/list]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]

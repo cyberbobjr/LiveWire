@@ -15,7 +15,7 @@ Production, stock, états, pannes et expérience sont calculés par le serveur ;
 
 ## État
 
-Version 1.0.0. Testé en jeu en solo pendant le développement : pose, conteneur, liaison, voyants, disjoncteur, alarme, écran LCD, logiciel, zone alimentée, rotation, ramassage, frigo pendant une absence, intégration du Computer Mod. Les valeurs d'équilibrage sont des valeurs de départ. Les tuiles sont des formes géométriques provisoires (modèles définitifs plus tard).
+Version 1.3.0. Testé en jeu en solo pendant le développement : pose, conteneur, liaison, voyants, disjoncteur, alarme, écran LCD, logiciel, zone alimentée, rotation, ramassage, frigo pendant une absence, intégration du Computer Mod. Les valeurs d'équilibrage sont des valeurs de départ. Les tuiles sont des formes géométriques provisoires (modèles définitifs plus tard).
 
 ## FAQ
 
