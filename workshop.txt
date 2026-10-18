@@ -78,4 +78,4 @@ description=[h2]Credits[/h2]
 description=
 description=Created by batmanfr. Original code, tiles and sounds; no content taken from other mods.
 tags=Build 42;Skills
-visibility=private
+visibility=public
