@@ -386,7 +386,7 @@ Page « LiveWire » des options sandbox.
 
 **Multijoueur.** Production, stock, états, pannes et expérience sont calculés par le serveur ; le client affiche et envoie des demandes que le serveur revérifie. Installations partagées selon les règles vanilla des refuges. Le logiciel peut avoir jusqu'à 10 minutes de jeu de retard. Si le serveur se met en pause quand il est vide, l'installation se met en pause aussi. Les générateurs vanilla sont inchangés ; si un générateur et un onduleur couvrent les mêmes appareils, les deux sont consommés. Outils de debug : `-debug` en solo, administrateurs en multijoueur. **Le multijoueur n'a pas encore été testé en jeu.**
 
-**État** : version 1.3.0. Testé en jeu en solo pendant le développement (pose, conteneur, raccordement, lumières, disjoncteur, alarme, écran LCD, logiciel, zone alimentée, rotation, ramassage, frigo pendant l'absence ; intégration du Computer Mod). Les valeurs d'équilibrage sont des valeurs de départ.
+**État** : version 1.3.1. Testé en jeu en solo pendant le développement (pose, conteneur, raccordement, lumières, disjoncteur, alarme, écran LCD, logiciel, zone alimentée, rotation, ramassage, frigo pendant l'absence ; intégration du Computer Mod). Les valeurs d'équilibrage sont des valeurs de départ.
 
 **Installation**
 - Abonnez-vous au mod sur le Workshop Steam (une fois publié), ou

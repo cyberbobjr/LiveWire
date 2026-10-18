@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1 — 2026-10-18
+
+### Improvements
+- Live Wire - Viewpoint models: 3D model of the water pump and of its blue light for Project Viewpoint.
+
 ## 1.3.0 — 2026-10-18
 
 ### Features

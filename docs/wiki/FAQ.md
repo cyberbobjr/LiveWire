@@ -2,7 +2,7 @@
 
 # FAQ
 
-Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.3.0). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Multiplayer has not been tested in game yet. For details, follow the links to the matching pages.
+Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.3.1). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Multiplayer has not been tested in game yet. For details, follow the links to the matching pages.
 
 ## Getting started
 

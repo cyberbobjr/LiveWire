@@ -36,7 +36,8 @@ ROT = [0, -90, 180, 90]  # S, E, N, W
 CELL, COLS = 8, 8
 
 #: Lit parts: the sprites push them towards a light colour (GLOW); the models use that colour directly.
-LIT = {"greenlit": (90, 255, 110), "screenlit": (150, 255, 190), "redlit": (255, 70, 40)}
+LIT = {"greenlit": (90, 255, 110), "screenlit": (150, 255, 190), "redlit": (255, 70, 40),
+       "bluelit": (80, 150, 255)}
 
 
 def srgb(c):
