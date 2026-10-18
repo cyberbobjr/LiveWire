@@ -63,6 +63,12 @@ Defs.devices = {
         level = 2, xp = 5,
         wearDays = 30,
     },
+    WaterPump = {
+        role = "pump",
+        item = "Base.Mov_LiveWire_WaterPump", tile = 72, facings = 4,
+        pumpW = 250, level = 6, xp = 20,
+        wearDays = 10,
+    },
 }
 
 -- Sprite name -> model, and model of an inventory item.
@@ -94,6 +100,18 @@ Defs.SHED_LEVEL = 7            -- load shedding by the management computer
 Defs.ALARM_BELOW = 0.20
 Defs.ALARM_RESET = 0.25
 Defs.ALARM_REPEAT_HOURS = 2
+
+-- Water pump (docs/IDEES.md, section 2).
+Defs.RELAY_SPRITE = Defs.SHEET .. "_76"   -- transparent tile, never in spriteToModel
+Defs.RELAY_KEY = "LiveWireRelay"          -- ModData of a relay: { pump = deviceId }
+Defs.BARREL_KEY = "LiveWireBarrel"        -- ModData of a linked barrel: { pump = deviceId }
+Defs.RELAY_LITRES = 25                    -- capacity of one relay tank
+Defs.PUMP_LITRES_PER_MINUTE = 5           -- flow of one pump
+Defs.PUMP_BARREL_RANGE = 1                -- the barrel must stand next to the pump (8 neighbouring squares), same floor
+Defs.PUMP_MAX_BARRELS = 8
+Defs.PUMP_PIPE = "Base.MetalPipe"         -- one per linked barrel, given back on unlink
+Defs.PUMP_NOISE_RADIUS = 2                -- zombies hear a running pump this far
+Defs.MIN_BARREL_CAPACITY = 20             -- litres: smaller fluid objects are not barrels
 
 -- Batteries stored in a power bank. Keyed by full type.
 Defs.batteries = {

@@ -43,6 +43,16 @@ Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein e
 
 Beispiel: ein Kühlschrank mit Gefrierfach und 10 Lampen verbrauchen zusammen etwa 4,1 kWh pro Tag. Ein Wasserrad und 2 Solarpanels decken das ganze Jahr über alles ab.
 
+[h2]Wasserpumpe (neu in 1.2.0)[/h2]
+
+[list]
+[*]Wasserfässer am Boden versorgen jetzt die Wasserstellen des ganzen Hauses: Spülen, Duschen, Badewannen und Toiletten funktionieren nach dem Wasserausfall wieder.
+[*]Stelle die [b]Wasserpumpe[/b] (Elektrik 6) neben Vanilla-Regensammler oder Fässer von [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (bis zu 8, je ein Eisenrohr) und verbinde sie mit dem Wechselrichter.
+[*]Schließe die Wasserstellen wie in Vanilla mit der Rohrzange an: Jede angeschlossene Wasserstelle im Umkreis von 15 Feldern (Sandbox) wird versorgt. Nur Wasser wird angenommen; Regenwasser kommt sauber heraus.
+[*]5 L pro Minute, 250 W beim Pumpen, ein leises Summen; sie stoppt von selbst, wenn alle Wasserstellen voll sind. "Versorgte Wasserstellen anzeigen" hebt sie blau hervor.
+[*]Vor dem Entfernen des Mods die Debug-/Admin-Aktion "Alle Wasserrelais entfernen" ausführen. Noch nicht im Spiel getestet: bitte Probleme melden.
+[/list]
+
 [h2]Rezepte[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_de.png[/img]

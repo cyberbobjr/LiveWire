@@ -10,5 +10,6 @@
     "LWMakeBreakerKit": "Fabricar panel de disyuntores",
     "LWMakeSoundproofKit": "Fabricar kit de insonorización para inversor",
     "LWMakeDeepCycleBattery": "Fabricar batería de ciclo profundo",
-    "LWMakeBatteryAlarmKit": "Fabricar alarma de batería baja"
+    "LWMakeBatteryAlarmKit": "Fabricar alarma de batería baja",
+    "LWMakeWaterPump": "Fabricar una bomba de agua"
 }

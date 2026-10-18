@@ -122,7 +122,7 @@ function Sim.snapshot(grid)
     local inv = R.device(grid.inverter)
     if not inv then return nil end
     local def = Defs.devices[inv.model] or {}
-    local sources, batteries, options, backups, computers = R.members(grid)
+    local sources, batteries, options, backups, computers, pumps = R.members(grid)
     local snap = {
         grid = grid.id, rev = grid.rev or 0, name = grid.name or "",
         inverter = { id = inv.id, model = inv.model, state = inv.state,
@@ -190,6 +190,15 @@ function Sim.snapshot(grid)
     end
     local brk = R.hasOption(grid, "breaker")
     if brk then snap.breaker = { id = brk.id, state = brk.state or "ok" } end
+    if #pumps > 0 then
+        -- Pumps in service and their flow (the only pump figures the software shows).
+        local n, flow = 0, 0
+        for i = 1, #pumps do
+            if pumps[i].state == "running" or pumps[i].state == "idle" then n = n + 1 end
+            flow = flow + (pumps[i].flowLph or 0)
+        end
+        snap.pumps = { n = n, flow = math.floor(flow + 0.5) }
+    end
     return snap
 end
 
@@ -281,11 +290,12 @@ function Sim.stepGrid(grid, now, w)
     -- Sources and equipment removed by another path (admin, other mod): drop them after
     -- two consecutive checks of a loaded square.
     do
-        local s0, b0, o0 = R.members(grid)
+        local s0, b0, o0, _, _, p0 = R.members(grid)
         local all = {}
         for i = 1, #s0 do all[#all + 1] = s0[i] end
         for i = 1, #b0 do all[#all + 1] = b0[i] end
         for i = 1, #o0 do all[#all + 1] = o0[i] end
+        for i = 1, #p0 do all[#all + 1] = p0[i] end
         for i = 1, #all do
             local dev = all[i]
             local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
@@ -319,7 +329,7 @@ function Sim.stepGrid(grid, now, w)
         end
     end
 
-    local sources, banks, options, backups, computers = R.members(grid)
+    local sources, banks, options, backups, computers, pumps = R.members(grid)
     local entries = {}
     local bankEntries = {}
     for i = 1, #banks do
@@ -327,6 +337,10 @@ function Sim.stepGrid(grid, now, w)
         bankEntries[i] = list
         for j = 1, #list do entries[#entries + 1] = list[j] end
     end
+    -- Water pumps draw power while they move water (LW_Pump.lua); the breaker and
+    -- the heavy-load test count them with the house demand.
+    local pumpW = LiveWire.Pump and LiveWire.Pump.demandW(pumps, dt) or 0
+    demandW = demandW + pumpW
 
     local breaker = R.hasOption(grid, "breaker")
     local tod = getGameTime():getTimeOfDay()
@@ -407,6 +421,12 @@ function Sim.stepGrid(grid, now, w)
             local odef = Defs.devices[options[o].model]
             if odef then wearDevice(options[o], odef, h) end
         end
+        -- Pump wear is applied per step to the running pumps only (approximation:
+        -- the duty of this step is not known here).
+        for p = 1, #pumps do
+            local pdef = Defs.devices[pumps[p].model]
+            if pdef and pumps[p].state == "running" then wearDevice(pumps[p], pdef, h) end
+        end
     end
 
     local stock, capacity = 0, 0
@@ -441,6 +461,10 @@ function Sim.stepGrid(grid, now, w)
     local radius = LiveWire.Config.get("InverterNoiseRadius")
     if on and loaded and radius > 0 and not inv.muffled then
         addSound(nil, inv.x, inv.y, inv.z, radius, 1)
+    end
+    -- Relays of the pumps follow the linked barrels and fixtures (loaded squares only).
+    if LiveWire.Pump then
+        for p = 1, #pumps do pcall(LiveWire.Pump.maintain, pumps[p]) end
     end
     -- State shown by the client (lights, menus): rewrite the marks that changed.
     LiveWire.Devices.refreshStates(grid)

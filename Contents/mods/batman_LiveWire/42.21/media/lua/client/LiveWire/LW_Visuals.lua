@@ -6,7 +6,7 @@
 --   wind turbine: blades (the tile has none), turning with the wind;
 --   breaker: red lamp when tripped; alarm: lit beacon while it rings.
 -- The state comes from the device mark (modData.movableData.LiveWire, sent by the
--- server: st, pw, inv). Only our own overlays (index >= 24) are touched; the list
+-- server: st, pw, inv). Only our own overlays (index 24 to 71) are touched; the list
 -- is rebuilt from the mark whenever it differs, so overlays saved with a single
 -- player world are corrected at the next update.
 -- Devices are tracked when their chunk loads, when the server adds them (MP), by a small scan around the player and a slow spread sweep (no full scan in one frame).
@@ -19,6 +19,13 @@ LiveWire.Visuals = V
 
 local PREFIX = LiveWire.Defs.SHEET .. "_"
 local FIRST_OVERLAY = 24
+local LAST_OVERLAY = 71   -- 72-75 are the water pump (base device), 76 the relay tank
+
+-- Overlay sprite indices: 24-71 (inverter, sources, breaker, alarm, wind blades) and
+-- 80-87 (water pump light; 84-87 are blank in the pack).
+local function isOverlay(n)
+    return (n >= FIRST_OVERLAY and n <= LAST_OVERLAY) or (n >= 80 and n <= 87)
+end
 
 -- Overlay sprites that exist in the pack (lights on the front are not drawn for the
 -- N and W facings, where the front is hidden).
@@ -27,6 +34,7 @@ for _, i in ipairs({ 24, 25, 28, 29, 32, 33, 36, 37, 40, 41, 44, 45, 64, 65, 66,
     EXISTS[i] = true
 end
 for i = 48, 63 do EXISTS[i] = true end
+for i = 80, 83 do EXISTS[i] = true end   -- pump light on top of the motor: all four facings
 
 V.NEAR_RADIUS = 4      -- squares around the player checked every NEAR_MS (single player placement)
 V.NEAR_MS = 1000
@@ -155,7 +163,7 @@ function V.wanted(obj, now)
     local idx = spriteIndex(obj)
     local model = LiveWire.Defs.modelOfObject(obj)
     local def = model and LiveWire.Defs.devices[model]
-    if not idx or not def or idx >= FIRST_OVERLAY then return {} end
+    if not idx or not def or isOverlay(idx) then return {} end
     local f = idx - def.tile
     local m = LiveWire.Marks.get(obj)
     local out = {}
@@ -179,6 +187,9 @@ function V.wanted(obj, now)
         if m and m.st == "tripped" then add(64 + f) end
     elseif model == "BatteryAlarm" then
         if m and m.st == "ringing" then add(66 + f) end
+    elseif model == "WaterPump" then
+        -- Blue light while the pump serves at least one relay tank (nr = relay count).
+        if m and m.inv and (m.nr or 0) > 0 then add(80 + f) end
     end
     table.sort(out)
     return out
@@ -195,7 +206,7 @@ local function current(obj)
         local name = spr and spr:getName()
         if name and string.sub(name, 1, #PREFIX) == PREFIX then
             local n = tonumber(string.sub(name, #PREFIX + 1))
-            if n and n >= FIRST_OVERLAY then
+            if n and isOverlay(n) then
                 idx[#idx + 1] = n
                 pos[#pos + 1] = i
             end
@@ -235,6 +246,16 @@ function V.inverters()
     for i = 1, #V.tracked do
         local o = V.tracked[i]
         if LiveWire.Defs.modelOfObject(o) == "Inverter" then out[#out + 1] = o end
+    end
+    return out
+end
+
+-- Water pumps seen by this client (for the pump hum). No overlay for the pump.
+function V.pumps()
+    local out = {}
+    for i = 1, #V.tracked do
+        local o = V.tracked[i]
+        if LiveWire.Defs.modelOfObject(o) == "WaterPump" then out[#out + 1] = o end
     end
     return out
 end

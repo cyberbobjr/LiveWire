@@ -12,6 +12,7 @@ Page « LiveWire » des options sandbox.
 | BatteryWearMultiplier / DeviceWearMultiplier | 1,0 | 0 à 10 | Usure ; 0 = aucune |
 | InverterNoiseRadius | 2 | 0 à 10 | Rayon du bourdonnement entendu par les zombies ; 0 = silencieux |
 | LinkRange | 12 | 4 à 30 | Distance de câble maximale |
+| PumpRange | 15 | 5 à 30 | Rayon autour d'une pompe à eau dans lequel ses points d'eau sont alimentés |
 | WirePerTiles | 4 | 0 à 20 | Cases par fil électrique ; 0 = câblage gratuit |
 | StormDamage | faux | | Dégâts d'orage et de vent fort |
 | XPMultiplier | 1,0 | 0 à 10 | Expérience donnée par le mod |

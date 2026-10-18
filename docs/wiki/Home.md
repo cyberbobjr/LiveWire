@@ -4,7 +4,7 @@
 
 ![Live Wire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png)
 
-Live Wire is a Project Zomboid **Build 42.21** mod (mod id `batman_LiveWire`). It adds solar panels, wind turbines and water wheels, batteries in a power bank, and an inverter that powers the house. The Electrical skill becomes a trade.
+Live Wire is a Project Zomboid **Build 42.21** mod (mod id `batman_LiveWire`). It adds solar panels, wind turbines and water wheels, batteries in a power bank, an inverter that powers the house, and a water pump that feeds its taps from water barrels. The Electrical skill becomes a trade.
 
 ---
 
@@ -16,6 +16,7 @@ Live Wire is a Project Zomboid **Build 42.21** mod (mod id `batman_LiveWire`). I
 - [Production and calculations](Production-and-Calculations)
 - [Inverter screen and software](Inverter-Screen-and-Software)
 - [Optional equipment](Optional-Equipment)
+- [Water pump](Water-Pump)
 - [Recipes](Recipes)
 - [Loot tables](Loot-Tables)
 - [Maintenance and skill](Maintenance-and-Skill)
@@ -28,6 +29,7 @@ Live Wire is a Project Zomboid **Build 42.21** mod (mod id `batman_LiveWire`). I
 
 - [Présentation](Presentation)
 - [Équipements](Equipements)
+- [Pompe à eau](Pompe-a-eau)
 - [Raccordement](Raccordement)
 - [Production et calculs](Production-et-calculs)
 - [Écran et logiciel](Ecran-et-logiciel)

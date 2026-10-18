@@ -47,5 +47,20 @@
     "ContextMenu_LW_Debug_refuel": "Abastecer o gerador de reserva",
     "ContextMenu_LW_Debug_reanchor": "Reconstruir a lista de aparelhos e a área alimentada",
     "ContextMenu_LW_InverterTooFar": "Inversor mais próximo a %1 casas: fora do alcance do cabo (%2 casas)",
-    "ContextMenu_LW_InverterFloors": "Inversor mais próximo a %1 andares: o cabo só alcança %2 andar(es) acima ou abaixo"
+    "ContextMenu_LW_InverterFloors": "Inversor mais próximo a %1 andares: o cabo só alcança %2 andar(es) acima ou abaixo",
+    "ContextMenu_LW_LinkBarrel": "Conectar um barril",
+    "ContextMenu_LW_UnlinkBarrel": "Desconectar o barril",
+    "ContextMenu_LW_BarrelAt": "Barril ao lado da bomba (1 tubo)",
+    "ContextMenu_LW_PumpAt": "Bomba ao lado deste barril (1 tubo)",
+    "ContextMenu_LW_NoBarrel": "Nenhum barril de água ao lado da bomba",
+    "ContextMenu_LW_BarrelLinked": "Conectado a uma bomba",
+    "ContextMenu_LW_BarrelNotWater": "Contém algo diferente de água",
+    "ContextMenu_LW_PumpState_running": "Bombeando",
+    "ContextMenu_LW_PumpState_idle": "Parada: todas as torneiras estão cheias",
+    "ContextMenu_LW_PumpState_nopower": "Parada: sem energia",
+    "ContextMenu_LW_PumpState_nobarrel": "Parada: sem água nos barris",
+    "ContextMenu_LW_PumpState_broken": "Fora de serviço",
+    "ContextMenu_LW_Debug_RemoveRelays": "Remover todos os relés de água",
+    "ContextMenu_LW_ShowTaps": "Mostrar as torneiras abastecidas",
+    "ContextMenu_LW_HideTaps": "Ocultar as torneiras abastecidas"
 }

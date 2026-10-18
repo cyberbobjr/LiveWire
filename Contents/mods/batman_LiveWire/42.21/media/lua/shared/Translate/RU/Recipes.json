@@ -10,5 +10,6 @@
     "LWMakeBreakerKit": "Собрать щиток автоматов",
     "LWMakeSoundproofKit": "Собрать комплект звукоизоляции инвертора",
     "LWMakeDeepCycleBattery": "Собрать аккумулятор глубокого разряда",
-    "LWMakeBatteryAlarmKit": "Собрать сигнализацию низкого заряда"
+    "LWMakeBatteryAlarmKit": "Собрать сигнализацию низкого заряда",
+    "LWMakeWaterPump": "Изготовить водяной насос"
 }

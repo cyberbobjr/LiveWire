@@ -47,5 +47,20 @@
     "ContextMenu_LW_Debug_damageInverter": "Damage the inverter (condition 10)",
     "ContextMenu_LW_Debug_trip": "Trip the inverter",
     "ContextMenu_LW_Debug_refuel": "Fill the backup generator",
-    "ContextMenu_LW_Debug_reanchor": "Rebuild the appliance list and the power area"
+    "ContextMenu_LW_Debug_reanchor": "Rebuild the appliance list and the power area",
+    "ContextMenu_LW_LinkBarrel": "Connect a barrel",
+    "ContextMenu_LW_UnlinkBarrel": "Disconnect the barrel",
+    "ContextMenu_LW_BarrelAt": "Barrel next to the pump (1 pipe)",
+    "ContextMenu_LW_PumpAt": "Pump next to this barrel (1 pipe)",
+    "ContextMenu_LW_NoBarrel": "No water barrel next to the pump",
+    "ContextMenu_LW_BarrelLinked": "Connected to a pump",
+    "ContextMenu_LW_BarrelNotWater": "Holds something other than water",
+    "ContextMenu_LW_PumpState_running": "Pumping",
+    "ContextMenu_LW_PumpState_idle": "Stopped: every tap is full",
+    "ContextMenu_LW_PumpState_nopower": "Stopped: no power",
+    "ContextMenu_LW_PumpState_nobarrel": "Stopped: no water in the barrels",
+    "ContextMenu_LW_PumpState_broken": "Out of order",
+    "ContextMenu_LW_Debug_RemoveRelays": "Remove every water relay",
+    "ContextMenu_LW_ShowTaps": "Show the supplied taps",
+    "ContextMenu_LW_HideTaps": "Hide the supplied taps"
 }

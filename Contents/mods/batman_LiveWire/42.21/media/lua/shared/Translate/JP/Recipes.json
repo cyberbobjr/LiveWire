@@ -10,5 +10,6 @@
     "LWMakeBreakerKit": "分電盤を作る",
     "LWMakeSoundproofKit": "インバーター防音キットを作る",
     "LWMakeDeepCycleBattery": "ディープサイクルバッテリーを作る",
-    "LWMakeBatteryAlarmKit": "低バッテリー警報を作る"
+    "LWMakeBatteryAlarmKit": "低バッテリー警報を作る",
+    "LWMakeWaterPump": "水ポンプを作る"
 }

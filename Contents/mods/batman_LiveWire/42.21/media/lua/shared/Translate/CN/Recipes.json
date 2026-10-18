@@ -10,5 +10,6 @@
     "LWMakeBreakerKit": "制作断路器面板",
     "LWMakeSoundproofKit": "制作逆变器隔音套件",
     "LWMakeDeepCycleBattery": "制作深循环电池",
-    "LWMakeBatteryAlarmKit": "制作低电量警报器"
+    "LWMakeBatteryAlarmKit": "制作低电量警报器",
+    "LWMakeWaterPump": "制作水泵"
 }

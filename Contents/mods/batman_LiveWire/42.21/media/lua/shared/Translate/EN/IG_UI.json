@@ -160,5 +160,10 @@
     "IGUI_LW_Shed": "Low battery: the computer switched the lights off.",
     "IGUI_LW_Alarm_On": "Low battery alarm: ringing",
     "IGUI_LW_Alarm_Armed": "Low battery alarm: armed",
-    "IGUI_LW_LowBattery": "Low battery: %1%% left!"
+    "IGUI_LW_LowBattery": "Low battery: %1%% left!",
+    "IGUI_LW_Model_WaterPump": "Water pump",
+    "IGUI_LW_Model_WaterBarrel": "Water barrel",
+    "IGUI_LW_BarrelLinked": "Barrel connected to the pump.",
+    "IGUI_LW_BarrelUnlinked": "Barrel disconnected from the pump.",
+    "IGUI_LW_App_Pumps": "Water pumps in service: %1, flow: %2 L/h"
 }

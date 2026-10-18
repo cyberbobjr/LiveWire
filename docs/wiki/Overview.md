@@ -40,6 +40,10 @@ Fridges and freezers keep food cold while you are away (area unloaded), as long 
 
 Engine limit: the power state found when the area reloads counts for the whole absence.
 
+## Running water (1.2.0)
+
+A water pump wired to the inverter keeps the house taps supplied from water barrels standing next to it (vanilla rain collectors or Useful Barrels): sinks, showers, baths and toilets work again after the water shut-off. Details in [[Water Pump|Water-Pump]].
+
 ## Equipment at a glance
 
 ![All devices with their key figures](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_en.png)

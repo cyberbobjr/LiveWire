@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "Радиус в клетках, в котором зомби слышат гул. 0 = бесшумно.",
     "Sandbox_LiveWire_LinkRange": "Дальность кабеля",
     "Sandbox_LiveWire_LinkRange_tooltip": "Максимальное расстояние в клетках между прибором и его инвертором.",
+    "Sandbox_LiveWire_PumpRange": "Дальность водяного насоса",
+    "Sandbox_LiveWire_PumpRange_tooltip": "Радиус в клетках вокруг водяного насоса, в котором питаются его раковины, душевые, ванны и туалеты.",
     "Sandbox_LiveWire_WirePerTiles": "Клеток на один провод",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "На каждые столько клеток кабеля расходуется один электрический провод. 0 = прокладка бесплатна.",
     "Sandbox_LiveWire_StormDamage": "Урон от непогоды",

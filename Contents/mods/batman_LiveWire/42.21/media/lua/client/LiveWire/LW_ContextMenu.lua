@@ -102,6 +102,17 @@ function Menu.onUnlink(player, id)
     LiveWire.Client.send(LiveWire.Protocol.C_UNLINK, { device = id })
 end
 
+-- Water barrels: the barrel must stand next to the pump (LW_Install.lua). The server
+-- re-checks everything (LWLinkBarrelAction:complete, C_UNLINK_BARREL).
+function Menu.onLinkBarrel(player, barrel, pump)
+    queueNear(player, barrel:getSquare(), LWLinkBarrelAction:new(player, barrel, pump))
+end
+
+function Menu.onUnlinkBarrel(player, pumpId, sq)
+    LiveWire.Client.send(LiveWire.Protocol.C_UNLINK_BARREL,
+        { pump = pumpId, x = sq:getX(), y = sq:getY(), z = sq:getZ() })
+end
+
 function Menu.onSetInverter(player, id, on)
     LiveWire.Client.send(LiveWire.Protocol.C_SET_INVERTER, { inverter = id, on = on })
 end
@@ -127,10 +138,21 @@ function Menu.onPanel(player, id)
 end
 
 function Menu.onShowRange(player, id, sq)
+    -- The inverter circle replaces a pump's taps view (a no-op when none is shown).
+    LiveWire.PumpView.hide()
     if LiveWire.RangeView.isShown(id) then
         LiveWire.RangeView.hide()
     else
         LiveWire.RangeView.show(id, sq:getX(), sq:getY(), sq:getZ())
+    end
+end
+
+-- Pump: the blue circle and the highlights of the supplied taps (LW_PumpView.lua).
+function Menu.onShowTaps(player, obj, id)
+    if LiveWire.PumpView.isShown(id) then
+        LiveWire.PumpView.hide()
+    else
+        LiveWire.PumpView.show(obj)
     end
 end
 
@@ -255,6 +277,64 @@ local function addInverterOptions(menu, player, obj, mark)
     end
 end
 
+-- Water pump: its state, and the barrels next to it to connect or disconnect.
+local function addPumpOptions(menu, player, obj, mark)
+    disabled(menu, getText("ContextMenu_LW_PumpState_" .. (mark.st or "idle")))
+    local showKey = "ContextMenu_LW_ShowTaps"
+    if LiveWire.PumpView.isShown(mark.id) then showKey = "ContextMenu_LW_HideTaps" end
+    menu:addOption(getText(showKey), player, Menu.onShowTaps, obj, mark.id)
+    local around = I().barrelsInRange(obj:getSquare())
+    local free, linked = {}, {}
+    for i = 1, #around do
+        local b = around[i]
+        local bm = I().barrelMark(b.obj)
+        if bm == nil then
+            free[#free + 1] = b
+        elseif bm.pump == mark.id then
+            linked[#linked + 1] = b
+        end
+    end
+    local lo = menu:addOption(getText("ContextMenu_LW_LinkBarrel"), nil, nil)
+    local lsub = ISContextMenu:getNew(menu)
+    menu:addSubMenu(lo, lsub)
+    if #free == 0 then disabled(lsub, getText("ContextMenu_LW_NoBarrel")) end
+    for i = 1, #free do
+        local o = lsub:addOption(getText("ContextMenu_LW_BarrelAt"), player, Menu.onLinkBarrel, free[i].obj, obj)
+        local ok, why = I().checkBarrelLink(player, free[i].obj, obj)
+        if not ok then tip(o, why) end
+    end
+
+    local uo = menu:addOption(getText("ContextMenu_LW_UnlinkBarrel"), nil, nil)
+    local usub = ISContextMenu:getNew(menu)
+    menu:addSubMenu(uo, usub)
+    if #linked == 0 then disabled(usub, getText("ContextMenu_LW_NothingLinked")) end
+    for i = 1, #linked do
+        usub:addOption(getText("ContextMenu_LW_BarrelAt"), player, Menu.onUnlinkBarrel, mark.id,
+            linked[i].obj:getSquare())
+    end
+end
+
+-- Water barrel next to a pump: connect it to a pump in range, or disconnect it.
+local function addBarrelOptions(menu, player, barrel)
+    local bm = I().barrelMark(barrel)
+    if bm then
+        disabled(menu, getText("ContextMenu_LW_BarrelLinked"))
+        menu:addOption(getText("ContextMenu_LW_UnlinkBarrel"), player, Menu.onUnlinkBarrel, bm.pump,
+            barrel:getSquare())
+        return
+    end
+    if I().barrelState(barrel) ~= "ok" then
+        disabled(menu, getText("ContextMenu_LW_BarrelNotWater"))
+        return
+    end
+    local pumps = I().pumpsInRange(barrel:getSquare())
+    for i = 1, #pumps do
+        local o = menu:addOption(getText("ContextMenu_LW_PumpAt"), player, Menu.onLinkBarrel, barrel, pumps[i].obj)
+        local ok, why = I().checkBarrelLink(player, barrel, pumps[i].obj)
+        if not ok then tip(o, why) end
+    end
+end
+
 -- Options for one of our placed devices.
 local function addDeviceOptions(root, player, obj)
     local mark = LiveWire.Marks.get(obj)
@@ -269,6 +349,7 @@ local function addDeviceOptions(root, player, obj)
     else
         addLinkOptions(menu, player, obj, "device", mark.id)
     end
+    if def.role == "pump" then addPumpOptions(menu, player, obj, mark) end
     if def.kind == "breaker" and mark.st == "tripped" then
         menu:addOption(getText("ContextMenu_LW_ResetBreaker"), player, Menu.onResetBreaker, mark.id)
     end
@@ -315,7 +396,8 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     -- Our devices among the clicked objects and on the clicked square.
     -- Vanilla generators and computers only when they are connected or an
     -- inverter is in range, so that their vanilla menus are not cluttered.
-    local devices, vanilla, seen = {}, {}, {}
+    -- Water barrels: only when linked, or a pump is next to them.
+    local devices, vanilla, barrels, seen = {}, {}, {}, {}
     local function addObj(o)
         if not o or seen[o] then return end
         local kind = I().linkKind(o)
@@ -326,6 +408,10 @@ local function onFillWorld(playerNum, context, worldobjects, test)
                 or Menu.nearestInverter(o, 2 * LiveWire.Config.get("LinkRange")) ~= nil) then
             seen[o] = true
             vanilla[#vanilla + 1] = { obj = o, kind = kind }
+        elseif not kind and o:getSquare() and I().isBarrelObject(o)
+                and (I().barrelMark(o) ~= nil or #I().pumpsInRange(o:getSquare()) > 0) then
+            seen[o] = true
+            barrels[#barrels + 1] = o
         end
     end
     for _, o in ipairs(worldobjects) do addObj(o) end
@@ -334,7 +420,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
 
     local hasTester = player:getInventory():getCountTypeRecurse("LiveWire.VoltageTester") > 0
     local debug = LiveWire.Debug.allowed(player)
-    if #devices == 0 and #vanilla == 0 and not hasTester and not debug then return end
+    if #devices == 0 and #vanilla == 0 and #barrels == 0 and not hasTester and not debug then return end
     if test then return ISWorldObjectContextMenu.setTest() end
 
     local root = context:addOption(getText("ContextMenu_LW_Root"), worldobjects, nil)
@@ -346,6 +432,12 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     end
     for i = 1, #devices do addDeviceOptions(sub, player, devices[i]) end
     for i = 1, #vanilla do addVanillaOptions(sub, player, vanilla[i].obj, vanilla[i].kind) end
+    for i = 1, #barrels do
+        local bopt = sub:addOption(getText("IGUI_LW_Model_WaterBarrel"), nil, nil)
+        local bmenu = ISContextMenu:getNew(sub)
+        sub:addSubMenu(bopt, bmenu)
+        addBarrelOptions(bmenu, player, barrels[i])
+    end
 
     if debug and LiveWire.DebugMenu then
         -- Network to act on: a clicked device, else the nearest inverter.

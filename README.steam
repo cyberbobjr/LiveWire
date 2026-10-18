@@ -43,6 +43,16 @@ The power is out for good... but the lights do not have to be. Build your own of
 
 Example: one fridge-freezer and 10 lights use about 4.1 kWh per day. A water wheel and 2 panels cover it all year round.
 
+[h2]Water pump (new in 1.2.0)[/h2]
+
+[list]
+[*]Barrels of water on the ground now run the taps of the whole house: sinks, showers, baths and toilets work again after the water shut-off.
+[*]Place the [b]water pump[/b] (Electrical 6) next to vanilla rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] barrels (up to 8, one iron pipe each) and wire it to the inverter.
+[*]Plumb the fixtures with a pipe wrench as in vanilla: every plumbed fixture within 15 tiles (sandbox) is supplied. Only water is accepted; rain water comes out clean.
+[*]5 L per minute, 250 W while pumping, a light hum; it stops by itself when every tap is full. "Show the supplied taps" highlights them in blue.
+[*]Before removing the mod, run the debug/admin action "Remove every water relay". Not tested in game yet: please report any problem.
+[/list]
+
 [h2]Recipes[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_en.png[/img]

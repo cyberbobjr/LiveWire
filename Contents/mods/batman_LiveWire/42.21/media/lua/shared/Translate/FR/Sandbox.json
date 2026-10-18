@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "Rayon en cases du bourdonnement entendu par les zombies. 0 = silencieux.",
     "Sandbox_LiveWire_LinkRange": "Portée des câbles",
     "Sandbox_LiveWire_LinkRange_tooltip": "Distance maximale en cases entre un appareil et son onduleur.",
+    "Sandbox_LiveWire_PumpRange": "Portée de la pompe à eau",
+    "Sandbox_LiveWire_PumpRange_tooltip": "Rayon en cases autour d'une pompe à eau dans lequel ses éviers, douches, baignoires et toilettes sont alimentés.",
     "Sandbox_LiveWire_WirePerTiles": "Cases par fil électrique",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "Un fil électrique est utilisé pour ce nombre de cases de câble. 0 = câblage gratuit.",
     "Sandbox_LiveWire_StormDamage": "Dégâts d'orage",

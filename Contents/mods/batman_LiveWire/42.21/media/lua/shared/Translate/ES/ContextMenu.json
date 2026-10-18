@@ -47,5 +47,20 @@
     "ContextMenu_LW_Debug_refuel": "Llenar el generador de respaldo",
     "ContextMenu_LW_Debug_reanchor": "Reconstruir la lista de equipos y la zona alimentada",
     "ContextMenu_LW_InverterTooFar": "Inversor más cercano a %1 casillas: fuera del alcance del cable (%2 casillas)",
-    "ContextMenu_LW_InverterFloors": "Inversor más cercano a %1 pisos: el cable solo llega a %2 piso(s) arriba o abajo"
+    "ContextMenu_LW_InverterFloors": "Inversor más cercano a %1 pisos: el cable solo llega a %2 piso(s) arriba o abajo",
+    "ContextMenu_LW_LinkBarrel": "Conectar un barril",
+    "ContextMenu_LW_UnlinkBarrel": "Desconectar el barril",
+    "ContextMenu_LW_BarrelAt": "Barril junto a la bomba (1 tubo)",
+    "ContextMenu_LW_PumpAt": "Bomba junto a este barril (1 tubo)",
+    "ContextMenu_LW_NoBarrel": "Ningún barril de agua junto a la bomba",
+    "ContextMenu_LW_BarrelLinked": "Conectado a una bomba",
+    "ContextMenu_LW_BarrelNotWater": "Contiene algo distinto del agua",
+    "ContextMenu_LW_PumpState_running": "Bombeando",
+    "ContextMenu_LW_PumpState_idle": "Parada: todos los grifos están llenos",
+    "ContextMenu_LW_PumpState_nopower": "Parada: sin corriente",
+    "ContextMenu_LW_PumpState_nobarrel": "Parada: no hay agua en los barriles",
+    "ContextMenu_LW_PumpState_broken": "Fuera de servicio",
+    "ContextMenu_LW_Debug_RemoveRelays": "Quitar todos los relés de agua",
+    "ContextMenu_LW_ShowTaps": "Mostrar los grifos alimentados",
+    "ContextMenu_LW_HideTaps": "Ocultar los grifos alimentados"
 }

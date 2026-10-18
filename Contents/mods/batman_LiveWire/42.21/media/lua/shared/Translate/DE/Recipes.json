@@ -10,5 +10,6 @@
     "LWMakeBreakerKit": "Schutzschaltertafel herstellen",
     "LWMakeSoundproofKit": "Schalldämmset für Wechselrichter herstellen",
     "LWMakeDeepCycleBattery": "Tiefzyklus-Batterie herstellen",
-    "LWMakeBatteryAlarmKit": "Batteriealarm herstellen"
+    "LWMakeBatteryAlarmKit": "Batteriealarm herstellen",
+    "LWMakeWaterPump": "Wasserpumpe herstellen"
 }

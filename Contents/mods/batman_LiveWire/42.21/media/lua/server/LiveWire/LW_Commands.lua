@@ -113,9 +113,24 @@ handlers[P.C_UNLINK] = function(player, args)
     if not LiveWire.Registry.forgetVanilla(dev) then
         LiveWire.Registry.unlink(dev)
         LiveWire.Devices.syncMark(dev)
+        if dev.role == "pump" and LiveWire.Pump then LiveWire.Pump.maintain(dev) end
     end
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(player, "IGUI_LW_Unlinked", {})
+end
+
+-- Disconnect one barrel from a pump: the pipe goes back to the player.
+handlers[P.C_UNLINK_BARREL] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.pump)
+    if not dev then return refuse(player, P.C_UNLINK_BARREL, why) end
+    if dev.role ~= "pump" or not LiveWire.Pump then return end
+    local x, y, z = tonumber(args.x), tonumber(args.y), tonumber(args.z)
+    if not x or not y or not z then return end
+    local key = LiveWire.posKey(math.floor(x), math.floor(y), math.floor(z))
+    if not dev.barrels or not dev.barrels[key] then return end
+    LiveWire.Pump.unlinkBarrel(dev, key)
+    LiveWire.Install.giveItem(player, LiveWire.Defs.PUMP_PIPE)
+    LiveWire.notify(player, "IGUI_LW_BarrelUnlinked", {})
 end
 
 handlers[P.C_SET_INVERTER] = function(player, args)

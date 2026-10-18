@@ -96,6 +96,26 @@ Overhaul.
   inverter"), removed with "Remove the soundproofing" (kit given back). Effects: no hum, zombies no longer hear it;
   the inverter runs warmer and wears 25 % faster. Follows the inverter when picked up.
 
+## Water pump (1.2.0, not tested in game yet)
+- Device `WaterPump`, item `Base.Mov_LiveWire_WaterPump`, tiles 72-75, blue "supplying" light 80-83, Electrical 6,
+  placed anywhere. Linked to an inverter with electric wire like any device; several pumps per network.
+- Barrels: any world object with a FluidContainer of 20 L or more holding only Water/TaintedWater (or empty):
+  vanilla rain collectors, Useful Barrels. Must stand on one of the 8 squares around the pump, same floor.
+  Up to 8 per pump; 1 `Base.MetalPipe` (vanilla "Iron Pipe") per barrel, given back on unlink.
+- Invisible relay tanks (IsoThumpable + FluidContainer 25 L, transparent tile 76) placed on z + 1 above each
+  plumbed fixture in a room within `PumpRange` (default 15, 5-30) tiles and ±3 floors of the pump, unless the
+  fixture already has another source (vanilla barrel upstairs, mains water running, other mod).
+- Every game minute, when the network is powered: up to 5 L moved from the barrels (fullest first) into the
+  relays. 250 W x duty while pumping; stops (no power, no sound) when every relay is full. Light hum (client),
+  zombies hear it within 2 tiles. Wear only while running (wearDays 10).
+- Tainted rain water comes out clean at a plumbed tap (vanilla IsoObject purification).
+- Rain fills unloaded barrels by the engine (MetaEntity), nothing simulated by the mod.
+- "Show the supplied taps": blue circle (range) + blue highlight on supplied fixtures, linked barrels, pump.
+- Software (Equipment tab): pumps in service and total flow (L/h) only.
+- Debug/admin action "Remove every water relay" before uninstalling the mod.
+- Recipe LWMakeWaterPump: 3 Scrap Electronics, 2 Electrical Wire, 2 Iron Pipe, 1 Steel Sheet - Small, 4 Screws;
+  screwdriver + pipe wrench kept; Electrical 6; xp 15.
+
 ## Optional equipment
 | Equipment | Effect | Level |
 |---|---|---|

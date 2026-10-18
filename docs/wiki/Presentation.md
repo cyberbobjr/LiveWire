@@ -29,6 +29,10 @@ Une source et un onduleur suffisent. Sans batterie, la maison ne tourne que sur 
 
 ![Dedans : onduleur, powerbank, ordinateur, alarme et disjoncteur](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot5.png)
 
+## Eau courante (1.2.0)
+
+Une pompe à eau raccordée à l'onduleur alimente les points d'eau de la maison depuis des barils posés à côté d'elle (récupérateurs d'eau de pluie vanilla ou Useful Barrels) : éviers, douches, baignoires et toilettes refonctionnent après la coupure d'eau. Détails dans [Pompe à eau](Pompe-a-eau).
+
 ## Frigos pendant une absence
 
 Frigos et congélateurs gardent la nourriture au froid pendant que vous êtes loin (zone déchargée), tant qu'il y a du courant. Vérifié en jeu : un steak frais dans un frigo alimenté, joueur à 300 cases, 10 heures de jeu : vieillissement de 0,083 jour (froid) au lieu de 0,417 jour (chaud).

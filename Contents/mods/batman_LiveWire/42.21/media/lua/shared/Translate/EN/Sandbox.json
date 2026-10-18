@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "Radius in tiles of the hum heard by zombies. 0 = silent.",
     "Sandbox_LiveWire_LinkRange": "Cable range",
     "Sandbox_LiveWire_LinkRange_tooltip": "Maximum distance in tiles between a device and its inverter.",
+    "Sandbox_LiveWire_PumpRange": "Water pump range",
+    "Sandbox_LiveWire_PumpRange_tooltip": "Radius in tiles around a water pump where its sinks, showers, baths and toilets are supplied.",
     "Sandbox_LiveWire_WirePerTiles": "Tiles per electric wire",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "One electric wire is used per this many tiles of cable. 0 = free cabling.",
     "Sandbox_LiveWire_StormDamage": "Storm damage",

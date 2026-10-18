@@ -19,6 +19,7 @@ Every device is a real mod tile, placed like vanilla furniture. Each recipe give
 | Power bank | Storage, 4 batteries counted; opens like a crate (capacity 50) | Anywhere; picked up only when empty | 2 |
 | Breaker panel | Safety, optional | On a wall (north or west) | 3 |
 | Low battery alarm | Alert, optional | On a wall | 2 |
+| Water pump | Feeds the house taps from water barrels, 250 W while pumping | Anywhere, next to its barrels | 6 |
 
 ## Batteries
 
@@ -41,6 +42,7 @@ Effective capacity = nominal x (0.4 + 0.6 x condition / 100) x `BatteryCapacityM
 - Sources and power bank: green "connected" light.
 - Breaker: red lamp when tripped.
 - Alarm: beacon lit while ringing.
+- Water pump: blue light when it supplies at least one tap.
 
 ## Placement rules
 
@@ -49,6 +51,7 @@ Effective capacity = nominal x (0.4 + 0.6 x condition / 100) x `BatteryCapacityM
 - A picked-up device keeps its condition.
 - Solar panel and wind turbine: outdoors (open sky).
 - Water wheel: river bank, ground floor, next to river water. Lakes and ponds are refused.
+- Water pump: anywhere; its barrels must stand on the 8 squares around it (see [[Water Pump|Water-Pump]]).
 - A refused square shows the reason in red in the cursor panel.
 
 ## See also

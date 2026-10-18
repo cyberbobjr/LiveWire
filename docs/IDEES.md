@@ -1,6 +1,6 @@
 # Live Wire (`batman_LiveWire`) — idées
 
-État : idées retenues par l'utilisateur le 2026-10-18, après la version 1.1.0. **Aucun code, rien n'est prototypé ni testé en jeu.** Chaque idée doit encore être tranchée dans `decisions-ouvertes.md`, une question à la fois, avant tout développement.
+État : idées retenues par l'utilisateur le 2026-10-18, après la version 1.1.0. **La pompe (idée 2) est implémentée en 1.2.0, non testée en jeu ; les autres idées n'ont aucun code.** Chaque idée doit encore être tranchée dans `decisions-ouvertes.md`, une question à la fois, avant tout développement.
 
 La liste d'origine (dix fonctionnalités de la v0.1 : testeur, onduleur, batteries, sources, disjoncteur…) est réalisée ou abandonnée. Elle reste dans l'historique Git de ce fichier.
 
@@ -47,6 +47,8 @@ Les appareils 1 à 3 sont des **consommateurs raccordés** à l'onduleur. Ce son
 
 ### 2. Pompe électrique : l'eau courante depuis des barils (Électricité 6)
 
+**État : implémentée dans la version 1.2.0, non testée en jeu.** Les choix ci-dessous sont ceux retenus ; les écarts de réalisation sont notés dans ce texte (relais de 25 L, remplissage chaque minute, son, plusieurs pompes, logiciel, barils à côté de la pompe).
+
 **Principe.** Une pompe électrique est raccordée d'un côté à l'onduleur, de l'autre à un ou plusieurs barils d'eau. Tant qu'elle a du courant, elle alimente en eau la maison : éviers, baignoires, douches et toilettes raccordés de la zone desservie tirent l'eau des barils, quel que soit l'étage. Les barils restent dehors, au sol, où la pluie les remplit.
 
 **Exigences de l'utilisateur (2026-10-18, non négociables).**
@@ -62,17 +64,17 @@ Les appareils 1 à 3 sont des **consommateurs raccordés** à l'onduleur. Ce son
 - **Seule l'eau est autorisée** (exigence de l'utilisateur, 2026-10-18) : eau propre ou croupie, rien d'autre. L'eau croupie n'est pas un problème : un point d'eau raccordé la rend propre (voir ci-dessous). Un baril qui contient un autre fluide (essence, alcool…), même mélangé à de l'eau, est refusé au raccordement, avec la raison affichée. S'il reçoit un autre fluide après coup, la pompe ne le touche plus tant qu'il n'a pas été vidé.
 
 **Ce que fait le moteur (confirmé statiquement, Java 42.21.0 et Lua vanilla ; détails dans `notes-moteur.md`, n° 46 et 47).**
-- **Plomberie** : un point d'eau raccordé à la clé à molette tire son eau d'une source cherchée seulement à l'étage juste au-dessus (`z + 1`), dans le carré 3 × 3 au-dessus de lui. Cette source doit être un `IsoThumpable` à capacité de fluide (`IsoObject.java:2379-2441`). Un baril Useful Barrels, simple `IsoObject` auquel ce mod ajoute un `FluidContainer`, n'est donc jamais une source de plomberie vanilla.
+- **Plomberie** : un point d'eau raccordé à la clé anglaise tire son eau d'une source cherchée seulement à l'étage juste au-dessus (`z + 1`), dans le carré 3 × 3 au-dessus de lui. Cette source doit être un `IsoThumpable` à capacité de fluide (`IsoObject.java:2379-2441`). Un baril Useful Barrels, simple `IsoObject` auquel ce mod ajoute un `FluidContainer`, n'est donc jamais une source de plomberie vanilla.
 - **Pluie hors zone chargée : déjà assurée par le jeu.** Quand une zone se décharge, tout objet dont le `FluidContainer` capte la pluie (`rainCatcher > 0`) est confié à une `MetaEntity`. Elle garde l'information « dehors », continue de recevoir la pluie et est sauvegardée. Ses composants reviennent sur l'objet au rechargement de la zone (`GameEntityManager.java:190-200`, `:270-295` ; `MetaEntity.java:42`, `:65-84` ; `FluidContainer.java:1227` ; `FluidContainerUpdateSystem.java:54`, `:71-85`).
   - Vanilla : `RainFactor = 0.4` pour le récupérateur (`media/scripts/generated/entities/outdoors/entity_raincollector.txt`).
   - Useful Barrels : 0,3, mais **seulement une fois le couvercle découpé** (`EnableRainFactor`). Un baril fermé ne capte pas la pluie, chargé ou non.
   - **Le mod n'a donc rien à simuler pour la pluie.** Il ne doit surtout pas vider ni remplacer le composant d'un baril, ce qui casserait ce mécanisme.
 
 **Mécanisme retenu : un réservoir relais invisible au-dessus de chaque point d'eau desservi.** Validé par l'utilisateur le 2026-10-18 : le but est que des barils posés au sol alimentent la maison, et les barils invisibles créés pour cela par le mod ne le dérangent pas.
-- La pompe pose sur la case `z + 1`, au-dessus de chaque point d'eau raccordé de sa zone, un **relais** : un `IsoThumpable` invisible, non bloquant, portant son propre `FluidContainer` de **10 L** sans captage de pluie. Le jeu y voit une source vanilla normale.
-- Le point d'eau se raccorde ensuite par l'action vanilla (clé à molette). Le menu « Raccorder » apparaît parce qu'une source existe au-dessus.
+- La pompe pose sur la case `z + 1`, au-dessus de chaque point d'eau raccordé de sa zone, un **relais** : un `IsoThumpable` invisible, non bloquant, portant son propre `FluidContainer` de **25 L** sans captage de pluie. Le jeu y voit une source vanilla normale.
+- Le point d'eau se raccorde ensuite par l'action vanilla (clé anglaise). Le menu « Raccorder » apparaît parce qu'une source existe au-dessus.
 - Le serveur **déplace réellement** l'eau des barils vers les relais qui ne sont pas pleins. Pas de compte fictif : l'eau quitte vraiment les barils.
-  - Quand : à chaque pas de simulation et aussitôt après une prise d'eau. L'événement `OnWaterAmountChange` arrive sur le relais pour une prise par `useFluid` (boire, se laver), mais sur le **point d'eau** pour un remplissage de récipient (`transferFluidTo`) : écouter les deux.
+  - Quand : chaque minute de jeu, tant que la pompe a du courant et des barils. Aucun écouteur `OnWaterAmountChange` : le remplissage suit la minute de jeu, il ne réagit pas à chaque prise d'eau.
   - Ordre de prise : le baril le plus plein d'abord.
   - Qualité : sans importance. Le relais peut contenir de l'eau croupie : le point d'eau raccordé la donne **propre** au joueur, comme en vanilla avec un baril à l'étage (confirmé statiquement, `notes-moteur.md` n° 48).
 - Débit : **5 L par minute de jeu** au plus. Consommation : **250 W** pendant que la pompe pompe, rien quand tous les relais sont pleins.
@@ -87,8 +89,9 @@ Les appareils 1 à 3 sont des **consommateurs raccordés** à l'onduleur. Ce son
 |---|---|
 | Nombre | **Plusieurs pompes par réseau** (le logiciel affiche le nombre de pompes en service). Chacune a ses barils ; un point d'eau à portée de deux pompes est desservi par la plus proche |
 | Raccordement à l'onduleur | Menu et fil électrique, comme les autres équipements (D-3, D-19) |
-| Raccordement d'un baril | Menu « Raccorder un baril » sur la pompe ou sur le baril. Baril à **4 cases** au plus de la pompe, même étage. Coût : **1 tuyau métallique `Base.MetalPipe`** par baril, rendu au débranchement. Jusqu'à **8 barils** par pompe |
-| Points d'eau desservis | Points d'eau raccordés dans un rayon de **20 cases et ±3 étages autour de la pompe**, comme la zone alimentée de l'onduleur (réglages vanilla des générateurs) |
+| Raccordement d'un baril | Menu « Raccorder un baril » sur la pompe ou sur le baril. Baril **à côté** de la pompe : l'une de ses 8 cases voisines, même étage. Coût : **1 tuyau en métal `Base.MetalPipe`** par baril, rendu au débranchement. Jusqu'à **8 barils** par pompe |
+| Points d'eau desservis | Points d'eau raccordés situés dans une pièce, dans un cercle de **15 cases** autour de la pompe (nouvelle option sandbox `PumpRange`, 5 à 30, choix de l'utilisateur du 2026-10-18) et ±3 étages (`GeneratorVerticalPowerRange`) |
+| Visualisation (choix de l'utilisateur, 2026-10-18) | Option « Afficher les points d'eau alimentés » sur la pompe : cercle bleu au sol (portée) et surbrillance bleue des points d'eau desservis, des barils raccordés et de la pompe. **Voyant bleu** sur le dessus de la pompe tant qu'elle dessert au moins un point d'eau (calque de tuile 80-83) |
 | Priorité vanilla | La pompe **ne pose jamais de relais** au-dessus d'un point d'eau qui a déjà une autre source (baril vanilla à l'étage, réseau d'eau encore en service, autre mod). Le vanilla et les autres mods passent d'abord, ce qui règle aussi la coexistence avec LG Extended Plumbing sans déclarer d'incompatibilité |
 | Invisibilité du relais | Tuile transparente dédiée dans `batman_livewire_01`, sans propriété de collision. Objet non attaquable (`setIsThumpable(false)`), traversable, sans nom de meuble, donc pas ramassable au curseur. Marque ModData `LiveWire_relay` |
 | Case au-dessus absente (maison de plain-pied sans case à l'étage) | Le serveur crée la case `z + 1` avant de poser le relais. Le cas est à valider en premier dans le prototype (voir ci-dessous) |
@@ -96,6 +99,7 @@ Les appareils 1 à 3 sont des **consommateurs raccordés** à l'onduleur. Ce son
 | Désinstallation du mod | Commande admin et debug « Retirer tous les relais d'eau », d'après le registre serveur des relais. À lancer avant de retirer le mod, et à documenter dans le README et la page Workshop |
 | Écran LCD et logiciel | **Seulement deux informations** (choix de l'utilisateur, 2026-10-18) : le **nombre de pompes en service** et le **débit des pompes** (litres par heure de jeu). Rien d'autre : ni litres en réserve, ni barils, ni points d'eau. L'état d'un baril refusé se lit à son raccordement, dans son menu |
 | Usure | Comme les sources : usure lente, réparation au tournevis avec déchets électroniques. Hors service à 0 % |
+| Son | Bourdonnement léger de moteur pendant la marche, entendu à 4,5 cases ; les zombies l'entendent à 2 cases. Rien quand la pompe est à l'arrêt. |
 | Multijoueur | Le serveur pose, remplit et retire les relais, et les transmet aux clients (`transmitAddObjectToSquare`). La prise d'eau d'un client est appliquée par le serveur (`useFluid` n'agit que sur l'autorité, `IsoObject.java:2690-2700`). Les commandes client de raccordement sont revérifiées sur le serveur (distance, fluide, objets en main) |
 
 **Plan de repli si le relais échoue au prototype** (invisibilité, sauvegarde ou multijoueur) : la pompe remplit à la place un récupérateur vanilla que le joueur pose lui-même à l'étage, au-dessus des points d'eau. C'est de la plomberie 100 % vanilla, moins confortable mais sans objet caché.

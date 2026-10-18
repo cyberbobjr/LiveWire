@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "Radio en casillas del zumbido que oyen los zombis. 0 = silencioso.",
     "Sandbox_LiveWire_LinkRange": "Alcance de los cables",
     "Sandbox_LiveWire_LinkRange_tooltip": "Distancia máxima en casillas entre un equipo y su inversor.",
+    "Sandbox_LiveWire_PumpRange": "Alcance de la bomba de agua",
+    "Sandbox_LiveWire_PumpRange_tooltip": "Radio en casillas alrededor de una bomba de agua donde se abastecen sus fregaderos, duchas, bañeras e inodoros.",
     "Sandbox_LiveWire_WirePerTiles": "Casillas por cable eléctrico",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "Se usa un cable eléctrico por cada este número de casillas de cable. 0 = cableado gratuito.",
     "Sandbox_LiveWire_StormDamage": "Daños por tormenta",

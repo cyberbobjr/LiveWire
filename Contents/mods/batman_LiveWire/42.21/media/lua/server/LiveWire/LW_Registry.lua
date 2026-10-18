@@ -123,9 +123,9 @@ function Registry.unlink(dev)
 end
 
 -- Members of a grid by role: sources, power banks, options, backup generators,
--- management computers (each a list, sorted by id for a stable order).
+-- management computers, water pumps (each a list, sorted by id for a stable order).
 function Registry.members(grid)
-    local sources, batteries, options, backups, computers = {}, {}, {}, {}, {}
+    local sources, batteries, options, backups, computers, pumps = {}, {}, {}, {}, {}, {}
     local ids = {}
     for id in pairs(grid.members) do ids[#ids + 1] = id end
     table.sort(ids)
@@ -139,9 +139,10 @@ function Registry.members(grid)
         elseif dev.role == "option" then options[#options + 1] = dev
         elseif dev.role == "backup" then backups[#backups + 1] = dev
         elseif dev.role == "computer" then computers[#computers + 1] = dev
+        elseif dev.role == "pump" then pumps[#pumps + 1] = dev
         end
     end
-    return sources, batteries, options, backups, computers
+    return sources, batteries, options, backups, computers, pumps
 end
 
 -- Vanilla objects (generator, computer) only exist in the registry through their

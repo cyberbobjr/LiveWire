@@ -10,5 +10,6 @@
     "Base.Mov_LiveWire_Inverter": "Inversor",
     "Base.Mov_LiveWire_PowerBank": "Banco de Baterias",
     "Base.Mov_LiveWire_Breaker": "Quadro Disjuntor",
-    "Base.Mov_LiveWire_BatteryAlarm": "Alarme de Bateria Fraca"
+    "Base.Mov_LiveWire_BatteryAlarm": "Alarme de Bateria Fraca",
+    "Base.Mov_LiveWire_WaterPump": "Bomba de água"
 }

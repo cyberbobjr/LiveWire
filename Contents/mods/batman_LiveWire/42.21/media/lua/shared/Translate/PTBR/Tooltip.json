@@ -26,5 +26,10 @@
     "Tooltip_LW_VoltageTester": "Clique com o botão direito em uma casa para medir a energia dela.",
     "Tooltip_LW_DeepCycleBattery": "Armazena 1,5 kWh e dura quatro vezes mais que uma bateria de carro.",
     "Tooltip_LW_TooFarForCable": "Longe demais: %1 casas, o cabo alcança %2 casas.",
-    "Tooltip_LW_TooManyFloors": "%1 andares de diferença: o cabo só alcança %2 andar(es) acima ou abaixo."
+    "Tooltip_LW_TooManyFloors": "%1 andares de diferença: o cabo só alcança %2 andar(es) acima ou abaixo.",
+    "Tooltip_LW_BarrelNotWater": "Só um barril com água (ou vazio) pode ser conectado.",
+    "Tooltip_LW_BarrelTooFar": "O barril deve estar ao lado da bomba, no mesmo andar.",
+    "Tooltip_LW_BarrelOtherPump": "Este barril já está conectado a outra bomba.",
+    "Tooltip_LW_PumpFull": "Uma bomba aceita no máximo %1 barris.",
+    "Tooltip_LW_NeedPipe": "É preciso um tubo de ferro."
 }

@@ -214,3 +214,136 @@ function Install.inverterById(sq, id)
     end
     return nil
 end
+
+-- Water barrels for the water pump (docs/IDEES.md, section 2). Any world object
+-- with a FluidContainer of at least MIN_BARREL_CAPACITY litres: vanilla rain
+-- collectors and modded barrels alike. Our own tiles, relays and plumbed fixtures
+-- are never barrels. Install.linkKind is NOT changed: barrels never join the
+-- inverter lists.
+function Install.isRelay(obj)
+    if not obj or not obj.getModData then return false end
+    return obj:getModData()[LiveWire.Defs.RELAY_KEY] ~= nil
+end
+
+function Install.isPump(obj)
+    if not LiveWire.Marks.isOurs(obj) then return false end
+    local m = LiveWire.Marks.get(obj)
+    local def = m and LiveWire.Defs.devices[m.model]
+    return def ~= nil and def.role == "pump"
+end
+
+function Install.isBarrelObject(obj)
+    if not obj or instanceof(obj, "IsoWorldInventoryObject") then return false end
+    if LiveWire.Marks.isOurs(obj) or Install.isRelay(obj) then return false end
+    local spr = obj:getSprite()
+    local props = spr and spr:getProperties()
+    if props and props:has(IsoFlagType.waterPiped) then return false end
+    if obj:getUsesExternalWaterSource() then return false end
+    local fc = obj:getFluidContainer()
+    return fc ~= nil and fc:getCapacity() >= LiveWire.Defs.MIN_BARREL_CAPACITY
+end
+
+-- "ok" when the barrel holds only water (Water and/or TaintedWater) or nothing,
+-- "notwater" otherwise, nil when obj is not a barrel.
+function Install.barrelState(obj)
+    if not Install.isBarrelObject(obj) then return nil end
+    local fc = obj:getFluidContainer()
+    local total = fc:getAmount()
+    local water = fc:getSpecificFluidAmount(Fluid.Water) + fc:getSpecificFluidAmount(Fluid.TaintedWater)
+    if total <= 0.001 or total - water <= 0.001 then return "ok" end
+    return "notwater"
+end
+
+-- The BARREL_KEY table { pump = deviceId } of a barrel, or nil.
+function Install.barrelMark(obj)
+    if not obj or not obj.getModData then return nil end
+    local m = obj:getModData()[LiveWire.Defs.BARREL_KEY]
+    if type(m) == "table" and m.pump ~= nil then return m end
+    return nil
+end
+
+-- Chebyshev distance on the same floor: a square is "near" when it is the pump
+-- square or one of its 8 neighbours (PUMP_BARREL_RANGE), diagonals included.
+function Install.nearSquares(sq1, sq2)
+    local dx, dy = math.abs(sq1:getX() - sq2:getX()), math.abs(sq1:getY() - sq2:getY())
+    local near = math.max(dx, dy) <= LiveWire.Defs.PUMP_BARREL_RANGE and sq1:getZ() == sq2:getZ()
+    return near, math.sqrt(dx * dx + dy * dy)
+end
+
+-- Water barrels next to the pump square, same floor, nearest first:
+-- { obj, dist, state }. Loaded squares only.
+function Install.barrelsInRange(sq)
+    local out = {}
+    if not sq then return out end
+    local range = LiveWire.Defs.PUMP_BARREL_RANGE
+    local cell = getCell()
+    local x0, y0, z0 = sq:getX(), sq:getY(), sq:getZ()
+    for x = x0 - range, x0 + range do
+        for y = y0 - range, y0 + range do
+            local s = cell:getGridSquare(x, y, z0)
+            if s then
+                local _, dist = Install.nearSquares(sq, s)
+                local objs = s:getObjects()
+                for i = 0, objs:size() - 1 do
+                    local o = objs:get(i)
+                    local state = Install.barrelState(o)
+                    if state then out[#out + 1] = { obj = o, dist = dist, state = state } end
+                end
+            end
+        end
+    end
+    table.sort(out, function(a, b) return a.dist < b.dist end)
+    return out
+end
+
+-- Pumps next to a barrel square (PUMP_BARREL_RANGE), same floor, nearest first:
+-- { obj, dist }. Loaded squares only.
+function Install.pumpsInRange(sq)
+    local out = {}
+    if not sq then return out end
+    local range = LiveWire.Defs.PUMP_BARREL_RANGE
+    local cell = getCell()
+    local x0, y0, z0 = sq:getX(), sq:getY(), sq:getZ()
+    for x = x0 - range, x0 + range do
+        for y = y0 - range, y0 + range do
+            local s = cell:getGridSquare(x, y, z0)
+            if s then
+                local near, dist = Install.nearSquares(sq, s)
+                local objs = s:getObjects()
+                for i = 0, objs:size() - 1 do
+                    local o = objs:get(i)
+                    if near and Install.isPump(o) then out[#out + 1] = { obj = o, dist = dist } end
+                end
+            end
+        end
+    end
+    table.sort(out, function(a, b) return a.dist < b.dist end)
+    return out
+end
+
+-- Can `character` link `barrel` to `pumpObj`? Returns true, or false, key, arg.
+function Install.checkBarrelLink(character, barrel, pumpObj)
+    if not Install.isPump(pumpObj) then return false, "Tooltip_LW_Invalid" end
+    if not Install.isBarrelObject(barrel) then return false, "Tooltip_LW_Invalid" end
+    if Install.barrelState(barrel) ~= "ok" then return false, "Tooltip_LW_BarrelNotWater" end
+    local ps, bs = pumpObj:getSquare(), barrel:getSquare()
+    if not ps or not bs then return false, "Tooltip_LW_Invalid" end
+    if not Install.nearSquares(ps, bs) then
+        return false, "Tooltip_LW_BarrelTooFar"
+    end
+    local pm = LiveWire.Marks.get(pumpObj)
+    local bm = Install.barrelMark(barrel)
+    if bm and bm.pump == pm.id then return false, "Tooltip_LW_AlreadyLinked" end
+    if bm then return false, "Tooltip_LW_BarrelOtherPump" end
+    local pumpDef = LiveWire.Defs.devices.WaterPump
+    if not Install.hasLevel(character, pumpDef.level) then
+        return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(pumpDef.level)
+    end
+    if (pm.nb or 0) >= LiveWire.Defs.PUMP_MAX_BARRELS then
+        return false, "Tooltip_LW_PumpFull", tostring(LiveWire.Defs.PUMP_MAX_BARRELS)
+    end
+    if Install.countType(character, LiveWire.Defs.PUMP_PIPE) < 1 then
+        return false, "Tooltip_LW_NeedPipe"
+    end
+    return true
+end

@@ -47,5 +47,20 @@
     "ContextMenu_LW_Debug_refuel": "Notstromgenerator auftanken",
     "ContextMenu_LW_Debug_reanchor": "Geräteliste und Versorgungsgebiet neu aufbauen",
     "ContextMenu_LW_InverterTooFar": "Nächster Wechselrichter %1 Felder entfernt: außerhalb der Kabelreichweite (%2 Felder)",
-    "ContextMenu_LW_InverterFloors": "Nächster Wechselrichter %1 Etagen entfernt: Das Kabel reicht nur %2 Etage(n) nach oben oder unten"
+    "ContextMenu_LW_InverterFloors": "Nächster Wechselrichter %1 Etagen entfernt: Das Kabel reicht nur %2 Etage(n) nach oben oder unten",
+    "ContextMenu_LW_LinkBarrel": "Fass anschließen",
+    "ContextMenu_LW_UnlinkBarrel": "Fass abtrennen",
+    "ContextMenu_LW_BarrelAt": "Fass neben der Pumpe (1 Rohr)",
+    "ContextMenu_LW_PumpAt": "Pumpe neben diesem Fass (1 Rohr)",
+    "ContextMenu_LW_NoBarrel": "Kein Wasserfass neben der Pumpe",
+    "ContextMenu_LW_BarrelLinked": "An eine Pumpe angeschlossen",
+    "ContextMenu_LW_BarrelNotWater": "Enthält etwas anderes als Wasser",
+    "ContextMenu_LW_PumpState_running": "Pumpt",
+    "ContextMenu_LW_PumpState_idle": "Angehalten: alle Zapfstellen sind voll",
+    "ContextMenu_LW_PumpState_nopower": "Angehalten: kein Strom",
+    "ContextMenu_LW_PumpState_nobarrel": "Angehalten: kein Wasser in den Fässern",
+    "ContextMenu_LW_PumpState_broken": "Außer Betrieb",
+    "ContextMenu_LW_Debug_RemoveRelays": "Alle Wasserrelais entfernen",
+    "ContextMenu_LW_ShowTaps": "Versorgte Wasserstellen anzeigen",
+    "ContextMenu_LW_HideTaps": "Versorgte Wasserstellen ausblenden"
 }

@@ -26,5 +26,10 @@
     "Tooltip_LW_NeedDisk": "Il faut le disque du logiciel Live Wire.",
     "Tooltip_LW_NeedSoftware": "Installez d'abord le logiciel Live Wire (disque) sur cet ordinateur.",
     "Tooltip_LW_VoltageTester": "Clic droit sur une case pour mesurer le courant.",
-    "Tooltip_LW_DeepCycleBattery": "Stocke 1,5 kWh et dure quatre fois plus qu'une batterie de voiture."
+    "Tooltip_LW_DeepCycleBattery": "Stocke 1,5 kWh et dure quatre fois plus qu'une batterie de voiture.",
+    "Tooltip_LW_BarrelNotWater": "Seul un baril contenant de l'eau (ou vide) peut être raccordé.",
+    "Tooltip_LW_BarrelTooFar": "Le baril doit être à côté de la pompe, au même étage.",
+    "Tooltip_LW_BarrelOtherPump": "Ce baril est déjà raccordé à une autre pompe.",
+    "Tooltip_LW_PumpFull": "Une pompe accepte au plus %1 barils.",
+    "Tooltip_LW_NeedPipe": "Il faut un tuyau en métal."
 }

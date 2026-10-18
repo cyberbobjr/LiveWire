@@ -115,6 +115,7 @@ function LWLinkAction:complete()
 
     R().link(tdev, grid)
     LiveWire.Devices.syncMark(tdev)
+    if tdef and tdef.role == "pump" and LiveWire.Pump then LiveWire.Pump.maintain(tdev) end
     LiveWire.Xp.award(ch, 3)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(ch, "IGUI_LW_Linked", {})
@@ -160,6 +161,69 @@ function LWLinkAction:new(character, target, inverter)
     local o = ISBaseTimedAction.new(self, character)
     o.target = target
     o.inverter = inverter
+    o.maxTime = o:getDuration()
+    return o
+end
+
+--------------------------------------------------------------------------------
+-- Connect a water barrel to a water pump (one metal pipe, LW_Pump.lua). The
+-- barrel must stand next to the pump. complete() runs on the authority only.
+--------------------------------------------------------------------------------
+LWLinkBarrelAction = ISBaseTimedAction:derive("LWLinkBarrelAction")
+
+function LWLinkBarrelAction:isValid()
+    return objectStillThere(self.barrel) and objectStillThere(self.pump)
+        and I().checkBarrelLink(self.character, self.barrel, self.pump)
+end
+
+function LWLinkBarrelAction:waitToStart()
+    self.character:faceThisObject(self.barrel)
+    return self.character:shouldBeTurning()
+end
+
+function LWLinkBarrelAction:update()
+    self.character:setMetabolicTarget(Metabolics.LightWork)
+end
+
+function LWLinkBarrelAction:start()
+    self:setActionAnim("Loot")
+    self.character:SetVariable("LootPosition", "Low")
+end
+
+function LWLinkBarrelAction:stop() ISBaseTimedAction.stop(self) end
+function LWLinkBarrelAction:perform() ISBaseTimedAction.perform(self) end
+
+function LWLinkBarrelAction:complete()
+    local ch, barrel, pumpObj = self.character, self.barrel, self.pump
+    if not LiveWire.Pump then return false end
+    if not objectStillThere(barrel) or not objectStillThere(pumpObj) then return false end
+    local bsq = barrel:getSquare()
+    if not near(ch, bsq, 2) or not allowed(ch, bsq) then return false end
+    local ok, why = I().checkBarrelLink(ch, barrel, pumpObj)
+    if not ok then
+        LiveWire.notify(ch, why, {}, true)
+        LiveWire.log("barrel link refused for " .. tostring(ch:getUsername()) .. ": " .. tostring(why))
+        return false
+    end
+    local dev = deviceOf(pumpObj)
+    local def = dev and LiveWire.Defs.devices[dev.model]
+    if not dev or not def or def.role ~= "pump" then return false end
+    if not I().consume(ch, LiveWire.Defs.PUMP_PIPE, 1) then return false end
+    LiveWire.Pump.linkBarrel(dev, barrel)
+    LiveWire.Xp.award(ch, 3)
+    LiveWire.notify(ch, "IGUI_LW_BarrelLinked", {})
+    return true
+end
+
+function LWLinkBarrelAction:getDuration()
+    if instant(self.character) then return 1 end
+    return 150
+end
+
+function LWLinkBarrelAction:new(character, barrel, pump)
+    local o = ISBaseTimedAction.new(self, character)
+    o.barrel = barrel
+    o.pump = pump
     o.maxTime = o:getDuration()
     return o
 end

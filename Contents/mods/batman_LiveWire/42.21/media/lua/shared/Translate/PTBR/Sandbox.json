@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "Raio em casas do zumbido ouvido pelos zumbis. 0 = silencioso.",
     "Sandbox_LiveWire_LinkRange": "Alcance dos cabos",
     "Sandbox_LiveWire_LinkRange_tooltip": "Distância máxima em casas entre um aparelho e o seu inversor.",
+    "Sandbox_LiveWire_PumpRange": "Alcance da bomba d'água",
+    "Sandbox_LiveWire_PumpRange_tooltip": "Raio em casas ao redor de uma bomba d'água onde são abastecidas suas pias, chuveiros, banheiras e vasos sanitários.",
     "Sandbox_LiveWire_WirePerTiles": "Casas por fio elétrico",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "Um fio elétrico é usado a cada este número de casas de cabo. 0 = fiação gratuita.",
     "Sandbox_LiveWire_StormDamage": "Dano de tempestade",

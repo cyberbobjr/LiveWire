@@ -26,5 +26,10 @@
     "Tooltip_LW_VoltageTester": "マスを右クリックすると、その電力を測定できます。",
     "Tooltip_LW_DeepCycleBattery": "1.5 kWh蓄電でき、車両バッテリーの4倍長持ちします。",
     "Tooltip_LW_TooFarForCable": "遠すぎます: %1マス、電線が届くのは%2マスまでです。",
-    "Tooltip_LW_TooManyFloors": "%1階離れています: 電線が届くのは上下%2階までです。"
+    "Tooltip_LW_TooManyFloors": "%1階離れています: 電線が届くのは上下%2階までです。",
+    "Tooltip_LW_BarrelNotWater": "水が入っている（または空の）ドラム缶だけ接続できます。",
+    "Tooltip_LW_BarrelTooFar": "ドラム缶はポンプの隣、同じ階にある必要があります。",
+    "Tooltip_LW_BarrelOtherPump": "このドラム缶はすでに別のポンプに接続されています。",
+    "Tooltip_LW_PumpFull": "ポンプに接続できるドラム缶は最大 %1 個です。",
+    "Tooltip_LW_NeedPipe": "金属パイプが必要です。"
 }

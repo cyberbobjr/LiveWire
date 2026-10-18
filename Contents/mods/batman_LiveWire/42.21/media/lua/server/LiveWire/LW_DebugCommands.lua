@@ -125,6 +125,26 @@ local function spawnKit(player)
     end
 end
 
+-- Remove every loaded water relay of every pump. Relays on unloaded squares keep
+-- their registry entry and are cleaned when their chunk loads (LW_Pump.lua).
+local function removeRelays(player)
+    local Rg = R()
+    local removed, remaining = 0, 0
+    if not LiveWire.Pump then return end
+    for _, dev in pairs(Rg.devices()) do
+        if dev.role == "pump" and dev.relays then
+            local keys = {}
+            for key in pairs(dev.relays) do keys[#keys + 1] = key end
+            for i = 1, #keys do
+                LiveWire.Pump.removeRelay(dev, keys[i])
+                if dev.relays[keys[i]] then remaining = remaining + 1 else removed = removed + 1 end
+            end
+        end
+    end
+    LiveWire.log("debug removeRelays: " .. tostring(removed) .. " relay(s) removed, "
+        .. tostring(remaining) .. " left in unloaded areas")
+end
+
 local function onDebug(player, args)
     if not LiveWire.Debug.allowed(player) then
         LiveWire.warn("debug command refused for " .. tostring(player:getUsername()))
@@ -135,6 +155,10 @@ local function onDebug(player, args)
     LiveWire.log("debug " .. action .. " by " .. tostring(player:getUsername())
         .. " on " .. tostring(args.device))
     if action == "spawnKit" then return spawnKit(player) end
+    if action == "removeRelays" then
+        removeRelays(player)
+        return LiveWire.notify(player, "IGUI_LW_Debug_Done", { action })
+    end
 
     local dev, why = LiveWire.Commands.checkDevice(player, args.device, LiveWire.Debug.RANGE)
     if not dev then return LiveWire.notify(player, why, {}, true) end

@@ -160,5 +160,10 @@
     "IGUI_LW_LowBattery": "Bateria fraca: %1%% restantes!",
     "IGUI_LW_Adopted": "%1: registo recuperado, o aparelho já funciona.",
     "IGUI_LW_NotRegistered": "O Live Wire não conseguiu registar este aparelho (detalhes na consola).",
-    "IGUI_LW_BackupCannotStart": "O gerador de reserva não consegue arrancar: %1."
+    "IGUI_LW_BackupCannotStart": "O gerador de reserva não consegue arrancar: %1.",
+    "IGUI_LW_Model_WaterPump": "Bomba de água",
+    "IGUI_LW_Model_WaterBarrel": "Barril de água",
+    "IGUI_LW_BarrelLinked": "Barril ligado à bomba.",
+    "IGUI_LW_BarrelUnlinked": "Barril desligado da bomba.",
+    "IGUI_LW_App_Pumps": "Bombas de água em serviço: %1, vazão: %2 L/h"
 }

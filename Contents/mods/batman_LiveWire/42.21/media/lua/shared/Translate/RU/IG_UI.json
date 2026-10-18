@@ -160,5 +160,10 @@
     "IGUI_LW_LowBattery": "Низкий заряд: осталось %1%%!",
     "IGUI_LW_Adopted": "%1: регистрация восстановлена, устройство работает.",
     "IGUI_LW_NotRegistered": "Live Wire не удалось зарегистрировать это устройство (подробности в консоли).",
-    "IGUI_LW_BackupCannotStart": "Резервный генератор не может запуститься: %1."
+    "IGUI_LW_BackupCannotStart": "Резервный генератор не может запуститься: %1.",
+    "IGUI_LW_Model_WaterPump": "Водяной насос",
+    "IGUI_LW_Model_WaterBarrel": "Бочка с водой",
+    "IGUI_LW_BarrelLinked": "Бочка подключена к насосу.",
+    "IGUI_LW_BarrelUnlinked": "Бочка отключена от насоса.",
+    "IGUI_LW_App_Pumps": "Работающих водяных насосов: %1, расход: %2 л/ч"
 }

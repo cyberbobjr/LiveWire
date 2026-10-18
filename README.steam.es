@@ -43,6 +43,16 @@ El corte de luz es definitivo... pero las luces no tienen por qué serlo. Constr
 
 Ejemplo: un frigorífico-congelador y 10 luces consumen unos 4,1 kWh al día. Una rueda hidráulica y 2 paneles lo cubren todo el año.
 
+[h2]Bomba de agua (novedad en 1.2.0)[/h2]
+
+[list]
+[*]Los barriles de agua en el suelo alimentan ahora los puntos de agua de toda la casa: fregaderos, duchas, bañeras e inodoros vuelven a funcionar tras el corte de agua.
+[*]Coloca la [b]bomba de agua[/b] (Electricidad 6) junto a recolectores de lluvia vanilla o barriles de [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (hasta 8, un tubo de hierro cada uno) y conéctala al inversor.
+[*]Conecta los puntos de agua con una llave de tubo como en vanilla: cada punto conectado a menos de 15 casillas (sandbox) recibe agua. Solo se acepta agua; el agua de lluvia sale limpia.
+[*]5 L por minuto, 250 W al bombear, un leve zumbido; se detiene sola cuando todos los puntos de agua están llenos. "Mostrar los puntos de agua alimentados" los resalta en azul.
+[*]Antes de quitar el mod, ejecuta la acción debug/admin "Quitar todos los relés de agua". Aún no probada en el juego: informa de cualquier problema.
+[/list]
+
 [h2]Recetas[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_es.png[/img]

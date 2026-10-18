@@ -160,5 +160,10 @@
     "IGUI_LW_LowBattery": "Niedrige Batterieladung: noch %1%% übrig!",
     "IGUI_LW_Adopted": "%1: Registrierung nachgeholt, das Gerät funktioniert jetzt.",
     "IGUI_LW_NotRegistered": "Live Wire konnte dieses Gerät nicht registrieren (Details in der Konsole).",
-    "IGUI_LW_BackupCannotStart": "Der Notstromgenerator kann nicht starten: %1."
+    "IGUI_LW_BackupCannotStart": "Der Notstromgenerator kann nicht starten: %1.",
+    "IGUI_LW_Model_WaterPump": "Wasserpumpe",
+    "IGUI_LW_Model_WaterBarrel": "Wasserfass",
+    "IGUI_LW_BarrelLinked": "Fass an die Pumpe angeschlossen.",
+    "IGUI_LW_BarrelUnlinked": "Fass von der Pumpe getrennt.",
+    "IGUI_LW_App_Pumps": "Wasserpumpen in Betrieb: %1, Durchfluss: %2 L/h"
 }

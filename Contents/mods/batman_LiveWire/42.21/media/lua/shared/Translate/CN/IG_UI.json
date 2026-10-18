@@ -160,5 +160,10 @@
     "IGUI_LW_LowBattery": "电量低: 剩余 %1%%!",
     "IGUI_LW_Adopted": "%1: 已补登记, 设备现在可以使用.",
     "IGUI_LW_NotRegistered": "Live Wire 无法登记此设备 (详情见控制台).",
-    "IGUI_LW_BackupCannotStart": "备用发电机无法启动: %1."
+    "IGUI_LW_BackupCannotStart": "备用发电机无法启动: %1.",
+    "IGUI_LW_Model_WaterPump": "水泵",
+    "IGUI_LW_Model_WaterBarrel": "水桶",
+    "IGUI_LW_BarrelLinked": "水桶已连接到水泵。",
+    "IGUI_LW_BarrelUnlinked": "水桶已与水泵断开。",
+    "IGUI_LW_App_Pumps": "运行中的水泵：%1，流量：%2 升/小时"
 }

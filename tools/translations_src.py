@@ -344,6 +344,9 @@ SANDBOX = [
      "Radius in tiles of the hum heard by zombies. 0 = silent.", "Rayon en cases du bourdonnement entendu par les zombies. 0 = silencieux."),
     ("LinkRange", "Cable range", "Portée des câbles",
      "Maximum distance in tiles between a device and its inverter.", "Distance maximale en cases entre un appareil et son onduleur."),
+    ("PumpRange", "Water pump range", "Portée de la pompe à eau",
+     "Radius in tiles around a water pump where its sinks, showers, baths and toilets are supplied.",
+     "Rayon en cases autour d'une pompe à eau dans lequel ses éviers, douches, baignoires et toilettes sont alimentés."),
     ("WirePerTiles", "Tiles per electric wire", "Cases par fil électrique",
      "One electric wire is used per this many tiles of cable. 0 = free cabling.", "Un fil électrique est utilisé pour ce nombre de cases de câble. 0 = câblage gratuit."),
     ("StormDamage", "Storm damage", "Dégâts d'orage",
@@ -363,6 +366,40 @@ add("Sandbox", "Sandbox_LiveWire", "Live Wire", "Live Wire")
 for name, en, fr, ten, tfr in SANDBOX:
     add("Sandbox", "Sandbox_LiveWire_" + name, en, fr)
     add("Sandbox", "Sandbox_LiveWire_" + name + "_tooltip", ten, tfr)
+
+
+# Water pump (1.2.0): items, recipe, menus, tooltips, software line.
+for f, k, en, fr in [
+    ("ItemName", "Base.Mov_LiveWire_WaterPump", "Water Pump", "Pompe à eau"),
+    ("Moveables", "Live_Wire_Water_Pump", "Water Pump", "Pompe à eau"),
+    ("Recipes", "LWMakeWaterPump", "Make Water Pump", "Fabriquer une pompe à eau"),
+    ("IG_UI", "IGUI_LW_Model_WaterPump", "Water pump", "Pompe à eau"),
+    ("IG_UI", "IGUI_LW_Model_WaterBarrel", "Water barrel", "Baril d'eau"),
+    ("IG_UI", "IGUI_LW_BarrelLinked", "Barrel connected to the pump.", "Baril raccordé à la pompe."),
+    ("IG_UI", "IGUI_LW_BarrelUnlinked", "Barrel disconnected from the pump.", "Baril débranché de la pompe."),
+    ("IG_UI", "IGUI_LW_App_Pumps", "Water pumps in service: %1, flow: %2 L/h", "Pompes à eau en service : %1, débit : %2 L/h"),
+    ("ContextMenu", "ContextMenu_LW_LinkBarrel", "Connect a barrel", "Raccorder un baril"),
+    ("ContextMenu", "ContextMenu_LW_UnlinkBarrel", "Disconnect the barrel", "Débrancher le baril"),
+    ("ContextMenu", "ContextMenu_LW_BarrelAt", "Barrel next to the pump (1 pipe)", "Baril à côté de la pompe (1 tuyau)"),
+    ("ContextMenu", "ContextMenu_LW_PumpAt", "Pump next to this barrel (1 pipe)", "Pompe à côté de ce baril (1 tuyau)"),
+    ("ContextMenu", "ContextMenu_LW_NoBarrel", "No water barrel next to the pump", "Aucun baril d'eau à côté de la pompe"),
+    ("ContextMenu", "ContextMenu_LW_BarrelLinked", "Connected to a pump", "Raccordé à une pompe"),
+    ("ContextMenu", "ContextMenu_LW_BarrelNotWater", "Holds something other than water", "Contient autre chose que de l'eau"),
+    ("ContextMenu", "ContextMenu_LW_PumpState_running", "Pumping", "Pompe en marche"),
+    ("ContextMenu", "ContextMenu_LW_PumpState_idle", "Stopped: every tap is full", "À l'arrêt : tous les points d'eau sont pleins"),
+    ("ContextMenu", "ContextMenu_LW_PumpState_nopower", "Stopped: no power", "À l'arrêt : pas de courant"),
+    ("ContextMenu", "ContextMenu_LW_PumpState_nobarrel", "Stopped: no water in the barrels", "À l'arrêt : pas d'eau dans les barils"),
+    ("ContextMenu", "ContextMenu_LW_PumpState_broken", "Out of order", "Hors service"),
+    ("ContextMenu", "ContextMenu_LW_Debug_RemoveRelays", "Remove every water relay", "Retirer tous les relais d'eau"),
+    ("ContextMenu", "ContextMenu_LW_ShowTaps", "Show the supplied taps", "Afficher les points d'eau alimentés"),
+    ("ContextMenu", "ContextMenu_LW_HideTaps", "Hide the supplied taps", "Masquer les points d'eau alimentés"),
+    ("Tooltip", "Tooltip_LW_BarrelNotWater", "Only a barrel holding water (or empty) can be connected.", "Seul un baril contenant de l'eau (ou vide) peut être raccordé."),
+    ("Tooltip", "Tooltip_LW_BarrelTooFar", "The barrel must stand next to the pump, on the same floor.", "Le baril doit être à côté de la pompe, au même étage."),
+    ("Tooltip", "Tooltip_LW_BarrelOtherPump", "This barrel is already connected to another pump.", "Ce baril est déjà raccordé à une autre pompe."),
+    ("Tooltip", "Tooltip_LW_PumpFull", "A pump takes at most %1 barrels.", "Une pompe accepte au plus %1 barils."),
+    ("Tooltip", "Tooltip_LW_NeedPipe", "Needs a metal pipe.", "Il faut un tuyau en métal."),
+]:
+    add(f, k, en, fr)
 
 
 def main():

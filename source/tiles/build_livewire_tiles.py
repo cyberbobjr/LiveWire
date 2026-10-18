@@ -11,6 +11,11 @@ Contract with the Lua code (LW_Defs.lua): never renumber these indices.
   20-21   breaker panel        S E (wall object: north wall, west wall)
   22-23   low battery alarm    S E (wall object: north wall, west wall)
 
+Added in 1.2.0:
+  72-75   water pump           S E N W
+  76      water relay tank     (transparent, placed by the server above plumbed fixtures)
+  80-83   water pump serving taps: blue light   S E N W
+
 Overlays (attachedAnimSprite, set by the client, LW_Visuals.lua; no properties):
   24-27   inverter running: lit screen and green light   S E N W
   28-31   inverter fault: red light                      S E N W
@@ -89,6 +94,7 @@ PAINTS = {
     "redlit": ("fabric", (1.00, 0.30, 0.18)),
     "foam": ("fabric", (0.17, 0.17, 0.19)),
     "foamridge": ("fabric", (0.24, 0.24, 0.27)),
+    "bluelit": ("fabric", (0.35, 0.60, 1.00)),
 }
 
 
@@ -398,6 +404,23 @@ def build_powerbank_led(k: Kit):
 BRK_W, BRK_D, BRK_H, BRK_Z = 0.30, 0.08, 0.40, 1.40
 
 
+def build_pump(k: Kit):
+    """Water pump on a steel base plate: horizontal motor, pump body and a vertical
+    outlet pipe on the front end. Placeholder shape, front towards -Y."""
+    k.box("pump_plate", (0, 0, 0.025), (0.60, 0.40, 0.05), "steel")
+    k.cyl("pump_motor", (-0.08, 0, 0.17), 0.12, 0.35, "darksteel", rot=(0, math.radians(90), 0))
+    k.cyl("pump_body", (0.17, 0, 0.17), 0.10, 0.15, "steel", rot=(0, math.radians(90), 0))
+    k.rod("pump_outlet", (0.17, 0, 0.17), (0.17, 0, 0.52), 0.035, "steel")
+
+
+def build_pump_led(k: Kit):
+    """Blue status light on top of the motor (cylinder radius 0.12, axis at z = 0.17: top
+    at z = 0.29), so that it shows for the four facings, unlike the front lights."""
+    build_pump(k)
+    mark_holdout(k.anchor)
+    return [k.box("pump_led_on", (-0.08, 0, 0.2935), (0.09, 0.09, 0.007), "bluelit")]
+
+
 def build_breaker(k: Kit):
     """Small wall breaker box on the north wall (y = +0.5)."""
     w, d, h, zc = BRK_W, BRK_D, BRK_H, BRK_Z
@@ -449,6 +472,7 @@ GROUPS = [
     ("powerbank", [16, 17, 18, 19], build_powerbank),
     ("breaker", [20, 21], build_breaker),
     ("alarm", [22, 23], build_alarm),
+    ("pump", [72, 73, 74, 75], build_pump),
 ]
 
 # Overlays drawn over a base tile (base rendered as a holdout).
@@ -463,6 +487,7 @@ OVERLAYS = [
     ("breaker_trip", [64, 65], build_breaker_trip),
     ("alarm_ring", [66, 67], build_alarm_ring),
     ("inverter_muffle", [68, 69, 70, 71], build_inverter_muffle),
+    ("pump_led", [80, 81, 82, 83], build_pump_led),
 ]
 ALL_GROUPS = GROUPS + OVERLAYS
 OVERLAY_KEYS = {key for key, _, _ in OVERLAYS}
@@ -491,7 +516,8 @@ def build(subject, mats) -> None:
     """Showcase of every object (editable .blend, preview)."""
     k = Kit(subject, mats)
     spots = {"solar": (-2.2, -0.6), "wind": (-1.1, 0.4), "hydro": (0.0, -0.8), "inverter": (1.1, 0.4),
-             "powerbank": (2.2, -0.4), "breaker": (0.5, 1.0), "alarm": (1.6, 1.0)}
+             "powerbank": (2.2, -0.4), "breaker": (0.5, 1.0), "alarm": (1.6, 1.0),
+             "pump": (2.8, 0.6)}
     for key, _, fn in GROUPS:
         x, y = spots[key]
         if key == "wind":
@@ -591,9 +617,11 @@ PROPS = [
                      "PickUpWeight": "30", "PickUpLevel": "3", **_TOOLS}),
     (range(22, 24), {"CustomName": "Battery Alarm", "MoveType": "WallObject", "Material": "MetalPlates",
                      "PickUpWeight": "10", "PickUpLevel": "2", **_TOOLS}),
+    (range(72, 76), {"CustomName": "Water Pump", "solidtrans": "", "BlocksPlacement": "",
+                     "Material": "MetalPlates", "PickUpWeight": "80", "PickUpLevel": "6", **_TOOLS}),
 ]
 FACING_NAMES = ["S", "E", "N", "W"]
-TOTAL = 72
+TOTAL = 88
 
 
 def styled_cells(group_dir: Path, work: Path, overlay: bool = False) -> list:
@@ -623,6 +651,7 @@ GLOW = {
     "inverter_on": (120, 255, 150), "inverter_fault": (255, 50, 30), "powerbank_led": (60, 255, 60),
     "solar_led": (60, 255, 60), "wind_led": (60, 255, 60), "hydro_led": (60, 255, 60),
     "breaker_trip": (255, 40, 20), "alarm_ring": (255, 50, 25),
+    "pump_led": (60, 140, 255),
 }
 
 

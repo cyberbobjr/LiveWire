@@ -22,6 +22,7 @@ FILES = [
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
     "server/LiveWire/LW_Commands.lua", "server/LiveWire/LW_Devices.lua",
+    "server/LiveWire/LW_Pump.lua",
 ]
 
 STUBS = r"""
@@ -426,7 +427,27 @@ def scenario_debug():
     lua.execute("ON_DEBUG(PLAYER, { action = 'nope', device = INV.id })")
 
 
+def scenario_pump_demand():
+    # Two pumps: one moved 150 L over 1 h (duty 0.5 of 300 L/h -> 125 W), one moved nothing.
+    lua = make()
+    lua.execute("""
+        local P = LiveWire.Pump
+        local a = { model = "WaterPump", pumped = 150 }
+        local b = { model = "WaterPump", pumped = 0 }
+        PUMP_W = P.demandW({ a, b }, 1)
+        PUMP_FLOW_A = a.flowLph
+        PUMP_FLOW_B = b.flowLph
+        PUMP_RESET = (a.pumped == 0 and b.pumped == 0)
+    """)
+    g = lua.globals()
+    check(abs(g.PUMP_W - 125) < 1e-6, "pump demand 125 W for 150 L in 1 h (%s)" % g.PUMP_W)
+    check(abs(g.PUMP_FLOW_A - 150) < 1e-6, "pump flow 150 L/h (%s)" % g.PUMP_FLOW_A)
+    check(abs(g.PUMP_FLOW_B - 0) < 1e-9, "idle pump flow 0 L/h")
+    check(bool(g.PUMP_RESET), "pumped litres reset after the demand step")
+
+
 def main():
+    scenario_pump_demand()
     scenario_debug()
     scenario_backup_computer_alarm()
     scenario_backup_empty()

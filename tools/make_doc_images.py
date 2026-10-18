@@ -473,6 +473,8 @@ RECIPES = [
     ("LWMakeWaterWheel", 7, [(8, "Plank"), (20, "Nails"), (2, "Speaker"), (3, "ElectricWire"),
                              (4, "ElectronicsScrap"), (1, "MetalBar")], ["Hammer", "Screwdriver"],
      [(1, "WaterWheel")]),
+    ("LWMakeWaterPump", 6, [(3, "ElectronicsScrap"), (2, "ElectricWire"), (2, "MetalPipe"), (1, "SmallSheetMetal"),
+                            (4, "Screws")], ["Screwdriver", "PipeWrench"], [(1, "WaterPump")]),
     ("LWMakeSolarCellFromScrap", 8, [(5, "ElectronicsScrap"), (1, "Aluminum")], ["Pliers"], [(1, "SolarCell")]),
 ]
 
@@ -481,7 +483,7 @@ MOD_ITEMS = {"VoltageTester": "LiveWire.VoltageTester", "SolarCell": "LiveWire.S
              "SolarPanel": "Base.Mov_LiveWire_SolarPanel", "WindTurbine": "Base.Mov_LiveWire_WindTurbine",
              "WaterWheel": "Base.Mov_LiveWire_WaterWheel", "Inverter": "Base.Mov_LiveWire_Inverter",
              "PowerBank": "Base.Mov_LiveWire_PowerBank", "Breaker": "Base.Mov_LiveWire_Breaker",
-             "BatteryAlarm": "Base.Mov_LiveWire_BatteryAlarm"}
+             "BatteryAlarm": "Base.Mov_LiveWire_BatteryAlarm", "WaterPump": "Base.Mov_LiveWire_WaterPump"}
 
 
 def load_json(path):
@@ -574,7 +576,7 @@ def recipes(lang):
 # (icon key, figures shown under the name; language-neutral)
 EQUIP = [("SolarPanel", "100 W"), ("WindTurbine", "400 W \u00b7 10-85 km/h"), ("WaterWheel", "120 W"),
          ("Inverter", "1500 W max"), ("PowerBank", "4 \u00d7 "), ("Breaker", "> 1500 W"),
-         ("BatteryAlarm", "< 20 %")]
+         ("BatteryAlarm", "< 20 %"), ("WaterPump", "250 W · 5 L/min")]
 
 
 def sprite(key):

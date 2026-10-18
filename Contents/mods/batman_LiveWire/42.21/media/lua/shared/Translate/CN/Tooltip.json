@@ -26,5 +26,10 @@
     "Tooltip_LW_VoltageTester": "右键点击地砖以测量其电力.",
     "Tooltip_LW_DeepCycleBattery": "可储存 1.5 kWh, 寿命是汽车电池的四倍.",
     "Tooltip_LW_TooFarForCable": "太远: %1 格, 电缆只能连到 %2 格.",
-    "Tooltip_LW_TooManyFloors": "相差 %1 层: 电缆只能向上或向下连接 %2 层."
+    "Tooltip_LW_TooManyFloors": "相差 %1 层: 电缆只能向上或向下连接 %2 层.",
+    "Tooltip_LW_BarrelNotWater": "只能连接装有水（或空）的水桶。",
+    "Tooltip_LW_BarrelTooFar": "水桶必须紧挨水泵，且在同一楼层。",
+    "Tooltip_LW_BarrelOtherPump": "此水桶已连接到另一台水泵。",
+    "Tooltip_LW_PumpFull": "一台水泵最多连接 %1 个水桶。",
+    "Tooltip_LW_NeedPipe": "需要一根金属管。"
 }

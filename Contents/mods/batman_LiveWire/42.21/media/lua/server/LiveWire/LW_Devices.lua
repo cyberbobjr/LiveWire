@@ -53,6 +53,7 @@ local function stateOf(dev)
     if dev.role == "inverter" then
         return dev.state or "off", (g and g.powered == true and dev.state == "on") or false
     end
+    if dev.role == "pump" then return dev.state or "idle", false end
     local def = LiveWire.Defs.devices[dev.model]
     if def and def.kind == "alarm" then
         if g and g.alarmOn and (dev.cond or 0) > 0 then return "ringing", false end
@@ -63,9 +64,18 @@ end
 
 local function markFromDevice(obj, dev)
     local st, pw = stateOf(dev)
+    -- Pumps: number of linked barrels (connect menu limit) and of relay tanks (shown
+    -- as "nr" by the tap view).
+    local nb, nr = nil, nil
+    if dev.role == "pump" then
+        nb, nr = 0, 0
+        for _ in pairs(dev.barrels or {}) do nb = nb + 1 end
+        for _ in pairs(dev.relays or {}) do nr = nr + 1 end
+    end
     LiveWire.Marks.set(obj, { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
                               level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
-                              muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z })
+                              muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z,
+                              nb = nb, nr = nr })
     dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
     if isServer() then obj:transmitModData() end
 end
@@ -82,8 +92,9 @@ end
 -- changed (called after each simulation step).
 function Devices.refreshStates(grid)
     local list = { R().device(grid.inverter) }
-    local _, _, options = R().members(grid)
+    local _, _, options, _, _, pumps = R().members(grid)
     for i = 1, #options do list[#list + 1] = options[i] end
+    for i = 1, #pumps do list[#list + 1] = pumps[i] end
     for i = 1, #list do
         local dev = list[i]
         if dev then
@@ -140,6 +151,11 @@ local function register(character, sq, spriteName, adopted)
     if def.role == "storage" then
         dev.wearFactor = LiveWire.Defs.batteryWearSkillFactor(level)
         dev.slots = {}
+    end
+    if def.role == "pump" then
+        dev.barrels = {}
+        dev.relays = {}
+        dev.state = "idle"
     end
     markFromDevice(obj, dev)
     if def.role == "inverter" then
@@ -202,6 +218,7 @@ function Devices.remove(id)
     if dev.role == "inverter" and grid then
         for mid in pairs(grid.members) do members[#members + 1] = mid end
     end
+    if dev.role == "pump" and LiveWire.Pump then LiveWire.Pump.forget(dev) end
     R().removeDevice(dev.id)
     LiveWire.Demand.invalidate(dev.id)
     for i = 1, #members do Devices.syncMark(R().device(members[i])) end

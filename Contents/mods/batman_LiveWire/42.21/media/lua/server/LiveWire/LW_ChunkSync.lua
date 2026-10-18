@@ -42,6 +42,10 @@ local function onLoadChunk(chunk)
             end
         end
     end
+    if LiveWire.Pump then
+        local ok, err = pcall(LiveWire.Pump.onLoadChunk, chunk)
+        if not ok then LiveWire.warn("pump relay cleanup failed: " .. tostring(err)) end
+    end
 end
 
 Events.LoadChunk.Add(onLoadChunk)

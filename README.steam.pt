@@ -43,6 +43,16 @@ A eletricidade acabou para sempre... mas as luzes não têm de acabar. Construa 
 
 Exemplo: um frigorífico com congelador e 10 candeeiros consomem cerca de 4,1 kWh por dia. Uma roda de água e 2 painéis cobrem tudo o ano inteiro.
 
+[h2]Bomba de água (novidade da 1.2.0)[/h2]
+
+[list]
+[*]Os barris de água no chão alimentam agora os pontos de água de toda a casa: lava-loiças, chuveiros, banheiras e sanitas voltam a funcionar após o corte de água.
+[*]Coloque a [b]bomba de água[/b] (Eletricidade 6) junto de coletores de chuva vanilla ou barris do [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (até 8, um tubo de ferro cada) e ligue-a ao inversor.
+[*]Ligue os pontos de água com uma chave de tubos como no vanilla: cada ponto ligado a menos de 15 quadrados (sandbox) é abastecido. Só é aceite água; a água da chuva sai limpa.
+[*]5 L por minuto, 250 W ao bombear, um ligeiro zumbido; para sozinha quando todos os pontos de água estão cheios. "Mostrar os pontos de água abastecidos" realça-os a azul.
+[*]Antes de remover o mod, execute a ação debug/admin "Remover todos os relés de água". Ainda não testada no jogo: reporte qualquer problema.
+[/list]
+
 [h2]Receitas[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_pt.png[/img]

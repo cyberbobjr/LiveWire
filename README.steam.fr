@@ -43,6 +43,16 @@ Le courant ne reviendra plus... mais les lumières, elles, peuvent rester allum�
 
 Exemple : un réfrigérateur-congélateur et 10 lampes consomment environ 4,1 kWh par jour. Une roue à aubes et 2 panneaux couvrent le tout toute l'année.
 
+[h2]Pompe à eau (nouveauté 1.2.0)[/h2]
+
+[list]
+[*]Des barils d'eau posés au sol alimentent maintenant les points d'eau de toute la maison : éviers, douches, baignoires et toilettes refonctionnent après la coupure d'eau.
+[*]Posez la [b]pompe à eau[/b] (Électricité 6) à côté de récupérateurs d'eau de pluie vanilla ou de barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (jusqu'à 8, un tuyau en métal chacun) et raccordez-la à l'onduleur.
+[*]Raccordez les points d'eau à la clé anglaise comme en vanilla : chaque point d'eau raccordé à moins de 15 cases (option sandbox) est alimenté. Seule l'eau est acceptée ; l'eau de pluie sort propre.
+[*]5 L par minute, 250 W pendant le pompage, un léger ronronnement ; elle s'arrête seule quand tous les points d'eau sont pleins. « Afficher les points d'eau alimentés » les surligne en bleu.
+[*]Avant de retirer le mod, lancez l'action debug/admin « Retirer tous les relais d'eau ». Pas encore testée en jeu : merci de signaler tout problème.
+[/list]
+
 [h2]Recettes[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_fr.png[/img]

@@ -17,10 +17,12 @@ LiveWire.RangeView = RV
 RV.HIDE_DISTANCE = 60
 RV.SEGMENTS = 96
 RV.COLOR = { r = 0.25, g = 0.9, b = 1.0, a = 0.9 }
+RV.PUMP_COLOR = { r = 0.30, g = 0.55, b = 1.0, a = 0.9 }
 
 RV.inverterId = nil
 RV.center = nil       -- { x, y, z }
 RV.element = nil
+RV.opts = nil         -- optional { radius, color, floors } of the current view (nil = inverter)
 
 local Overlay = ISUIElement:derive("LiveWireRangeOverlay")
 
@@ -40,11 +42,13 @@ function Overlay:render()
     if not c or not player then return end
     local idx = player:getPlayerNum()
     local z = c.z
+    local opts = RV.opts or {}
+    local R = opts.radius or LiveWire.Config.tileRange()
+    local floors = opts.floors or LiveWire.Config.verticalRange()
     local pz = math.floor(player:getZ())
-    if math.abs(pz - c.z) <= LiveWire.Config.verticalRange() then z = pz end
-    local R = LiveWire.Config.tileRange()
+    if math.abs(pz - c.z) <= floors then z = pz end
     local cx, cy = c.x + 0.5, c.y + 0.5
-    local col = RV.COLOR
+    local col = opts.color or RV.COLOR
     local px, py = nil, nil
     for i = 0, RV.SEGMENTS do
         local ang = 2 * math.pi * i / RV.SEGMENTS
@@ -69,13 +73,16 @@ function RV.hide()
         RV.element:removeFromUIManager()
         RV.element = nil
     end
-    RV.inverterId, RV.center = nil, nil
+    RV.inverterId, RV.center, RV.opts = nil, nil, nil
 end
 
-function RV.show(inverterId, x, y, z)
+-- `opts` (optional) changes the circle: radius in tiles, colour, vertical range.
+-- Without it the circle is the inverter's powered area.
+function RV.show(inverterId, x, y, z, opts)
     RV.hide()
     RV.inverterId = inverterId
     RV.center = { x = x, y = y, z = z }
+    RV.opts = opts
     local el = Overlay:new()
     el:initialise()
     el:addToUIManager()

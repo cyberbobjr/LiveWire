@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "丧尸能听到嗡嗡声的半径 (格). 0 = 无声.",
     "Sandbox_LiveWire_LinkRange": "电缆范围",
     "Sandbox_LiveWire_LinkRange_tooltip": "设备与逆变器之间的最大距离 (格).",
+    "Sandbox_LiveWire_PumpRange": "水泵范围",
+    "Sandbox_LiveWire_PumpRange_tooltip": "水泵周围的范围（格），此范围内的水槽、淋浴、浴缸和马桶将获得供水。",
     "Sandbox_LiveWire_WirePerTiles": "每根电线对应的格数",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "每这么多格电缆消耗一根电线. 0 = 免费布线.",
     "Sandbox_LiveWire_StormDamage": "暴风雨损坏",

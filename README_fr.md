@@ -17,6 +17,7 @@ Project Zomboid Build 42.21 · id `batman_LiveWire` · EN/FR · licence MIT
 - [Raccorder les éléments](#raccorder-les-éléments)
 - [Écran de l'onduleur et logiciel de gestion](#écran-de-londuleur-et-logiciel-de-gestion)
 - [Équipements optionnels](#équipements-optionnels)
+- [Pompe à eau](#pompe-à-eau)
 - [Tables de calcul](#tables-de-calcul)
 - [Recettes](#recettes)
 - [Tables de butin](#tables-de-butin)
@@ -60,6 +61,7 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 | Powerbank | Stockage, 4 batteries comptées ; s'ouvre comme une caisse (capacité 50) | Partout ; ramassée seulement vide | 2 |
 | Disjoncteur | Sécurité, facultatif | Sur un mur (nord ou ouest) | 3 |
 | Alarme de batterie faible | Alerte, facultatif | Sur un mur | 2 |
+| Pompe à eau | Consommateur, 250 W en pompant : amène l'eau des barils aux robinets | Toute case d'étage, intérieur ou extérieur | 6 |
 
 **Batteries** (jamais au sol : glissez-les dans la powerbank avec l'inventaire vanilla) :
 
@@ -74,7 +76,7 @@ Capacité effective = nominale × (0,4 + 0,6 × état/100) × `BatteryCapacityMu
 
 ![La powerbank ouverte comme une caisse](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot3.png)
 
-**Voyants sur les tuiles** : écran de l'onduleur allumé quand il fonctionne, voyant rouge en cas de défaut ; voyant vert « connecté » sur les sources et la powerbank ; lampe rouge du disjoncteur quand il a sauté ; gyrophare de l'alarme allumé tant qu'elle sonne.
+**Voyants sur les tuiles** : écran de l'onduleur allumé quand il fonctionne, voyant rouge en cas de défaut ; voyant vert « connecté » sur les sources et la powerbank ; lampe rouge du disjoncteur quand il a sauté ; gyrophare de l'alarme allumé tant qu'elle sonne ; voyant bleu sur la pompe à eau tant qu'elle dessert au moins un point d'eau.
 
 ![Intérieur : onduleur, powerbank, ordinateur, alarme et disjoncteur muraux](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot5.png)
 
@@ -143,6 +145,20 @@ Un onduleur insonorisé est recouvert de mousse acoustique grise sur le dessus, 
 ### Quand le disjoncteur saute-t-il ?
 
 Quand la demande des appareils de la maison dépasse le maximum de l'onduleur, **1 500 W** (les 20 W à vide ne comptent pas). Le contrôle a lieu à chaque pas de simulation : toutes les 10 minutes de jeu et juste après une action. Exemple : un lave-linge et un sèche-linge superposés qui tournent ensemble (jusqu'à 1 800 W). Sans disjoncteur, c'est l'onduleur qui saute et perd 3 points d'état (réinitialisation sur l'onduleur).
+
+## Pompe à eau
+
+Un appareil posé comme les autres (niveau 6). Elle pompe l'eau des barils vers les robinets de la maison. Pas encore testée en jeu.
+
+- Raccordez la pompe à l'onduleur avec du fil électrique, comme pour tout appareil.
+- Raccordez chaque baril d'eau (récupérateur d'eau de pluie vanilla, ou baril du mod facultatif Useful Barrels) avec un **tuyau en métal** (`Base.MetalPipe`, rendu au débranchement). Le baril doit être à côté de la pompe : l'une de ses 8 cases voisines, au même étage. Jusqu'à 8 barils par pompe. Seul un baril qui contient de l'eau (ou vide) peut être raccordé.
+- Au-dessus de chaque évier, baignoire, douche ou toilette raccordé, situé dans une pièce à **15 cases** au plus de la pompe (option `PumpRange`, de 5 à 30) et jusqu'à 3 étages au-dessus ou en dessous, la pompe garde un réservoir relais invisible de 25 L. La plomberie vanilla y prend l'eau : raccordez le point d'eau avec la clé anglaise comme d'habitude (« Raccorder la plomberie de… »).
+- Aucun relais n'est posé au-dessus d'un robinet qui a déjà une autre source d'eau (baril vanilla à l'étage, eau courante, autre mod).
+- Tant que le réseau a du courant, la pompe remplit les relais depuis ses barils, à 5 L par minute de jeu au plus. Elle consomme 250 W seulement en pompant, et s'arrête quand tous les robinets sont pleins. Un léger bourdonnement de moteur s'entend à 4,5 cases pendant la marche ; les zombies l'entendent à 2 cases.
+- Seule l'eau est déplacée ; la pluie remplit toujours les barils comme avant. L'eau croupie sort propre au robinet, comme en vanilla.
+- Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les points d'eau desservis, les barils raccordés et la pompe sont surlignés en bleu. Un voyant bleu s'allume sur la pompe tant qu'elle dessert au moins un point d'eau.
+- Plusieurs pompes par réseau. L'onglet Équipements du logiciel affiche le nombre de pompes en service et leur débit (L/h), rien d'autre.
+- **Avant de retirer le mod**, lancez l'action de débogage « Retirer tous les relais d'eau » (menu Live Wire > Débogage, avec les droits d'administrateur en multijoueur), sinon les tuiles invisibles des relais restent dans la sauvegarde.
 
 ## Tables de calcul
 
@@ -216,9 +232,11 @@ Les recettes sont dans le menu d'artisanat, catégorie Électricité, et s'appre
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Speaker.png" width="24" height="24"> Haut-parleur<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/MetalBar.png" width="24" height="24"> Barre en métal<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pipe.png" width="24" height="24"> Tuyau en plastique<br>6 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Hammer.png" width="24" height="24"> | Électricité 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/WindTurbine.png" width="32" height="32"> **Éolienne** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/CarBattery1.png" width="24" height="24"> Batterie de voiture (toutes)<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ScrapMetal.png" width="24" height="24"> Ferraille | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> | Électricité 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/DeepCycleBattery.png" width="32" height="32"> **Batterie stationnaire** |
 | 8 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Plank.png" width="24" height="24"> Planche<br>20 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Nails.png" width="24" height="24"> Clous<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Speaker.png" width="24" height="24"> Haut-parleur<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/MetalBar.png" width="24" height="24"> Barre en métal | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Hammer.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> | Électricité 7 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/WaterWheel.png" width="32" height="32"> **Roue à aubes** |
+| 3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/MetalPipe.png" width="24" height="24"> Tuyau en métal<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/PipeWrench.png" width="24" height="24"> | Électricité 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/WaterPump.png" width="32" height="32"> **Pompe à eau** |
 | 5 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Aluminum.png" width="24" height="24"> Aluminium | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/Pliers.png" width="24" height="24"> | Électricité 8 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/icons/SolarCell.png" width="32" height="32"> **Cellule photovoltaïque** |
 
 L'ordinateur de gestion et le générateur de secours ne se fabriquent pas : ce sont des objets vanilla que l'on trouve dans le monde.
+| 3 × Pièces électroniques<br>2 × Fil électrique<br>2 × Tuyau en métal<br>1 × Petite plaque en métal<br>4 × Vis | Tournevis, clé à molette (gardés) | Électricité 6 | **Pompe à eau** |
 
 ## Tables de butin
 
@@ -302,6 +320,7 @@ Par ailleurs : 1 cellule photovoltaïque par calculatrice démontée (sans nivea
 | Roue à aubes | −1 tous les 6 jours | — |
 | Onduleur | −1 tous les 5 jours en marche | Charge > 80 % : usure × 2 ; chaque déclenchement sans disjoncteur : −3 ; insonorisé : × 1,25 |
 | Disjoncteur | −1 tous les 15 jours | — |
+| Pompe à eau | −1 tous les 10 jours en pompant | — |
 | Powerbank, alarme | −1 tous les 30 jours | — |
 | Batterie | 100 / durée de vie par cycle complet | Décharge sous 20 % : usure doublée ; autodécharge 0,2 % par jour |
 
@@ -339,6 +358,7 @@ Page « LiveWire » des options sandbox.
 | `BatteryWearMultiplier` / `DeviceWearMultiplier` | 1,0 | 0-10 | Usure ; 0 = aucune |
 | `InverterNoiseRadius` | 2 | 0-10 | Rayon du bourdonnement entendu par les zombies ; 0 = silencieux |
 | `LinkRange` | 12 | 4-30 | Distance de câble maximale |
+| `PumpRange` | 15 | 5-30 | Rayon autour d'une pompe à eau dans lequel ses points d'eau sont alimentés |
 | `WirePerTiles` | 4 | 0-20 | Cases par fil électrique ; 0 = câblage gratuit |
 | `StormDamage` | désactivé | — | Dégâts d'orage et de vent fort |
 | `XPMultiplier` | 1,0 | 0-10 | Expérience donnée par le mod |

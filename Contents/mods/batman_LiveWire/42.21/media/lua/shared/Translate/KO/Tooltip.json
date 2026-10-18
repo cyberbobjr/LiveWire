@@ -26,5 +26,10 @@
     "Tooltip_LW_VoltageTester": "타일을 우클릭하면 전력을 측정합니다.",
     "Tooltip_LW_DeepCycleBattery": "1.5 kWh를 저장하며, 자동차 배터리보다 네 배 오래 갑니다.",
     "Tooltip_LW_TooFarForCable": "너무 멉니다: %1 타일, 전선은 %2 타일까지 닿습니다.",
-    "Tooltip_LW_TooManyFloors": "%1층 차이: 전선은 위아래로 %2층까지만 닿습니다."
+    "Tooltip_LW_TooManyFloors": "%1층 차이: 전선은 위아래로 %2층까지만 닿습니다.",
+    "Tooltip_LW_BarrelNotWater": "물이 들어 있거나 빈 물통만 연결할 수 있습니다.",
+    "Tooltip_LW_BarrelTooFar": "물통은 펌프 바로 옆, 같은 층에 있어야 합니다.",
+    "Tooltip_LW_BarrelOtherPump": "이 물통은 이미 다른 펌프에 연결되어 있습니다.",
+    "Tooltip_LW_PumpFull": "펌프 하나에는 최대 %1개의 물통을 연결할 수 있습니다.",
+    "Tooltip_LW_NeedPipe": "금속 파이프가 필요합니다."
 }

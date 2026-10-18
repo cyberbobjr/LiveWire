@@ -20,4 +20,18 @@ module Base
             volume = 0.045,
         }
     }
+
+    sound LiveWirePumpHum
+    {
+        category = Object,
+        loop = true,
+        is3D = true,
+        clip
+        {
+            file = media/sound/LiveWirePumpHum.ogg,
+            distanceMin = 1,
+            distanceMax = 4,
+            volume = 0.05,
+        }
+    }
 }

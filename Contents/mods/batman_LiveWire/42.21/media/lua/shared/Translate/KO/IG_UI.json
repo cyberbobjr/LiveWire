@@ -160,5 +160,10 @@
     "IGUI_LW_LowBattery": "배터리 부족: %1%% 남음!",
     "IGUI_LW_Adopted": "%1: 등록을 복구했습니다. 이제 작동합니다.",
     "IGUI_LW_NotRegistered": "Live Wire가 이 기기를 등록하지 못했습니다 (자세한 내용은 콘솔 참조).",
-    "IGUI_LW_BackupCannotStart": "예비 발전기를 시동할 수 없습니다: %1."
+    "IGUI_LW_BackupCannotStart": "예비 발전기를 시동할 수 없습니다: %1.",
+    "IGUI_LW_Model_WaterPump": "물 펌프",
+    "IGUI_LW_Model_WaterBarrel": "물통",
+    "IGUI_LW_BarrelLinked": "물통을 펌프에 연결했습니다.",
+    "IGUI_LW_BarrelUnlinked": "물통을 펌프에서 분리했습니다.",
+    "IGUI_LW_App_Pumps": "가동 중인 물 펌프: %1, 유량: %2 L/시간"
 }

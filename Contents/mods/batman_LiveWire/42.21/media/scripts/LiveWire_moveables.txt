@@ -69,4 +69,13 @@ module Base
         Weight = 0.5,
         WorldObjectSprite = batman_livewire_01_22,
     }
+
+    item Mov_LiveWire_WaterPump
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = default,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_72,
+    }
 }

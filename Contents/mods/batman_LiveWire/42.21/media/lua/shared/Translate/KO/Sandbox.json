@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "좀비가 들을 수 있는 웅웅거림의 반경(타일)입니다. 0 = 무음.",
     "Sandbox_LiveWire_LinkRange": "전선 연결 범위",
     "Sandbox_LiveWire_LinkRange_tooltip": "기기와 인버터 사이의 최대 거리(타일)입니다.",
+    "Sandbox_LiveWire_PumpRange": "워터 펌프 범위",
+    "Sandbox_LiveWire_PumpRange_tooltip": "워터 펌프 주변(타일)에서 싱크대, 샤워기, 욕조, 변기에 물을 공급하는 반경입니다.",
     "Sandbox_LiveWire_WirePerTiles": "전선 1개당 타일 수",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "이 타일 수의 배선마다 전선 1개를 사용합니다. 0 = 배선 무료.",
     "Sandbox_LiveWire_StormDamage": "폭풍 피해",

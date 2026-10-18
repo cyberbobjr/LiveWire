@@ -10,5 +10,6 @@
     "Base.Mov_LiveWire_Inverter": "Инвертор",
     "Base.Mov_LiveWire_PowerBank": "Аккумуляторный блок",
     "Base.Mov_LiveWire_Breaker": "Щиток автоматов",
-    "Base.Mov_LiveWire_BatteryAlarm": "Сигнализация низкого заряда"
+    "Base.Mov_LiveWire_BatteryAlarm": "Сигнализация низкого заряда",
+    "Base.Mov_LiveWire_WaterPump": "Водяной насос"
 }

@@ -415,7 +415,11 @@ function App:drawEquipment(ui, x, y, w, h, snap)
         row(T("IGUI_LW_Model_ManagementComputer"), snap.computer.powered and T("IGUI_LW_State_on") or T("IGUI_LW_State_off"),
             snap.computer.powered and C.green or C.amber)
     end
-    if not snap.breaker and not snap.alarm and not bk and not snap.computer then
+    if snap.pumps then
+        text(ui, T("IGUI_LW_App_Pumps", tostring(snap.pumps.n), tostring(snap.pumps.flow)), x + 10, cy, C.text)
+        cy = cy + fh(UIFont.Small) + 4
+    end
+    if not snap.breaker and not snap.alarm and not bk and not snap.computer and not snap.pumps then
         text(ui, T("IGUI_LW_None"), x + 10, cy, C.dim)
     end
 end

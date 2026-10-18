@@ -47,5 +47,20 @@
     "ContextMenu_LW_Debug_refuel": "예비 발전기 연료 채우기",
     "ContextMenu_LW_Debug_reanchor": "기기 목록과 전력 범위 다시 설정",
     "ContextMenu_LW_InverterTooFar": "가장 가까운 인버터 %1 타일 거리: 전선 범위 밖 (%2 타일)",
-    "ContextMenu_LW_InverterFloors": "가장 가까운 인버터 %1층 차이: 전선은 위아래로 %2층까지만 닿습니다"
+    "ContextMenu_LW_InverterFloors": "가장 가까운 인버터 %1층 차이: 전선은 위아래로 %2층까지만 닿습니다",
+    "ContextMenu_LW_LinkBarrel": "물통 연결",
+    "ContextMenu_LW_UnlinkBarrel": "물통 분리",
+    "ContextMenu_LW_BarrelAt": "펌프 옆 물통 (파이프 1개)",
+    "ContextMenu_LW_PumpAt": "이 물통 옆 펌프 (파이프 1개)",
+    "ContextMenu_LW_NoBarrel": "펌프 옆에 물통이 없습니다",
+    "ContextMenu_LW_BarrelLinked": "펌프에 연결됨",
+    "ContextMenu_LW_BarrelNotWater": "물이 아닌 다른 것이 들어 있습니다",
+    "ContextMenu_LW_PumpState_running": "펌핑 중",
+    "ContextMenu_LW_PumpState_idle": "정지: 모든 수도꼭지가 가득 찼습니다",
+    "ContextMenu_LW_PumpState_nopower": "정지: 전력 없음",
+    "ContextMenu_LW_PumpState_nobarrel": "정지: 물통에 물이 없습니다",
+    "ContextMenu_LW_PumpState_broken": "고장",
+    "ContextMenu_LW_Debug_RemoveRelays": "모든 물 릴레이 제거",
+    "ContextMenu_LW_ShowTaps": "공급되는 수도꼭지 표시",
+    "ContextMenu_LW_HideTaps": "공급되는 수도꼭지 숨기기"
 }

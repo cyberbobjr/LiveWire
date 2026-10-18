@@ -5,5 +5,6 @@
     "Live_Wire_Inverter": "Инвертор",
     "Live_Wire_Power_Bank": "Аккумуляторный блок",
     "Live_Wire_Breaker_Panel": "Щиток автоматов",
-    "Live_Wire_Battery_Alarm": "Сигнализация низкого заряда"
+    "Live_Wire_Battery_Alarm": "Сигнализация низкого заряда",
+    "Live_Wire_Water_Pump": "Водяной насос"
 }

@@ -47,5 +47,20 @@
     "ContextMenu_LW_Debug_damageInverter": "Abîmer l'onduleur (état 10)",
     "ContextMenu_LW_Debug_trip": "Faire disjoncter l'onduleur",
     "ContextMenu_LW_Debug_refuel": "Remplir le générateur de secours",
-    "ContextMenu_LW_Debug_reanchor": "Reconstruire la liste des appareils et la zone alimentée"
+    "ContextMenu_LW_Debug_reanchor": "Reconstruire la liste des appareils et la zone alimentée",
+    "ContextMenu_LW_LinkBarrel": "Raccorder un baril",
+    "ContextMenu_LW_UnlinkBarrel": "Débrancher le baril",
+    "ContextMenu_LW_BarrelAt": "Baril à côté de la pompe (1 tuyau)",
+    "ContextMenu_LW_PumpAt": "Pompe à côté de ce baril (1 tuyau)",
+    "ContextMenu_LW_NoBarrel": "Aucun baril d'eau à côté de la pompe",
+    "ContextMenu_LW_BarrelLinked": "Raccordé à une pompe",
+    "ContextMenu_LW_BarrelNotWater": "Contient autre chose que de l'eau",
+    "ContextMenu_LW_PumpState_running": "Pompe en marche",
+    "ContextMenu_LW_PumpState_idle": "À l'arrêt : tous les points d'eau sont pleins",
+    "ContextMenu_LW_PumpState_nopower": "À l'arrêt : pas de courant",
+    "ContextMenu_LW_PumpState_nobarrel": "À l'arrêt : pas d'eau dans les barils",
+    "ContextMenu_LW_PumpState_broken": "Hors service",
+    "ContextMenu_LW_Debug_RemoveRelays": "Retirer tous les relais d'eau",
+    "ContextMenu_LW_ShowTaps": "Afficher les points d'eau alimentés",
+    "ContextMenu_LW_HideTaps": "Masquer les points d'eau alimentés"
 }

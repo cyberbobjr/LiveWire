@@ -26,5 +26,10 @@
     "Tooltip_LW_VoltageTester": "Rechtsklick auf ein Feld, um seine Leistung zu messen.",
     "Tooltip_LW_DeepCycleBattery": "Speichert 1,5 kWh und hält viermal länger als eine Autobatterie.",
     "Tooltip_LW_TooFarForCable": "Zu weit: %1 Felder, das Kabel reicht %2 Felder.",
-    "Tooltip_LW_TooManyFloors": "%1 Etagen Abstand: Das Kabel reicht nur %2 Etage(n) nach oben oder unten."
+    "Tooltip_LW_TooManyFloors": "%1 Etagen Abstand: Das Kabel reicht nur %2 Etage(n) nach oben oder unten.",
+    "Tooltip_LW_BarrelNotWater": "Nur ein Fass mit Wasser (oder leer) kann angeschlossen werden.",
+    "Tooltip_LW_BarrelTooFar": "Das Fass muss neben der Pumpe stehen, auf demselben Stockwerk.",
+    "Tooltip_LW_BarrelOtherPump": "Dieses Fass ist schon an eine andere Pumpe angeschlossen.",
+    "Tooltip_LW_PumpFull": "Eine Pumpe nimmt höchstens %1 Fässer auf.",
+    "Tooltip_LW_NeedPipe": "Ein Metallrohr wird benötigt."
 }

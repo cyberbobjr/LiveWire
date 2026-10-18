@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.0 — 2026-10-18
+
+### Features
+- Water pump (Electrical 6): linked to the inverter with electric wire, it moves water from water barrels into the house taps, on any floor and with no player nearby. Barrels are vanilla rain collectors or the barrels of the optional mod Useful Barrels; each one is connected with one iron pipe and must stand next to the pump (one of its 8 neighbouring squares, same floor); up to 8 barrels per pump. Only water is moved; rain keeps filling the barrels as before.
+- Invisible relay tanks (25 L) are placed above the plumbed sinks, baths, showers and toilets within 15 tiles of the pump (new sandbox option `PumpRange`, 5-30) and up to 3 floors up or down. Vanilla plumbing takes its water from them, so the taps are connected with the pipe wrench as usual.
+- The pump draws 250 W only while pumping (5 L per game minute at most) and stops when every tap is full. A light motor hum is heard within 4.5 tiles while it runs; zombies hear it within 2 tiles.
+- "Show the supplied taps" on the pump: a blue circle for the range and a blue highlight on the supplied taps, the connected barrels and the pump. A blue light shows on the pump while it supplies at least one tap.
+- The management software shows the number of pumps in service and their flow.
+- Debug and administrator action "Remove every water relay", to run before removing the mod.
+- Translations in English, French and the other languages of the mod.
+- The poster and the Workshop preview show the water pump and a water barrel.
+
 ## 1.1.0 — 2026-10-18
 
 ### Features

@@ -9,6 +9,7 @@ LiveWire.Protocol = Protocol
 Protocol.C_SUBSCRIBE = "subscribe"
 Protocol.C_UNSUBSCRIBE = "unsubscribe"
 Protocol.C_UNLINK = "unlink"
+Protocol.C_UNLINK_BARREL = "unlinkBarrel"
 Protocol.C_SET_INVERTER = "setInverter"
 Protocol.C_RESET = "reset"
 Protocol.C_RESET_BREAKER = "resetBreaker"

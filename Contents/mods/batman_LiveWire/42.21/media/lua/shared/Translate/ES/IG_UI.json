@@ -160,5 +160,10 @@
     "IGUI_LW_LowBattery": "¡Batería baja: queda un %1 %%!",
     "IGUI_LW_Adopted": "%1: registro recuperado, el equipo ya funciona.",
     "IGUI_LW_NotRegistered": "Live Wire no pudo registrar este equipo (detalles en la consola).",
-    "IGUI_LW_BackupCannotStart": "El generador de respaldo no puede arrancar: %1."
+    "IGUI_LW_BackupCannotStart": "El generador de respaldo no puede arrancar: %1.",
+    "IGUI_LW_Model_WaterPump": "Bomba de agua",
+    "IGUI_LW_Model_WaterBarrel": "Barril de agua",
+    "IGUI_LW_BarrelLinked": "Barril conectado a la bomba.",
+    "IGUI_LW_BarrelUnlinked": "Barril desconectado de la bomba.",
+    "IGUI_LW_App_Pumps": "Bombas de agua en servicio: %1, caudal: %2 L/h"
 }

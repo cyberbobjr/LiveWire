@@ -47,5 +47,20 @@
     "ContextMenu_LW_Debug_refuel": "Заправить резервный генератор",
     "ContextMenu_LW_Debug_reanchor": "Пересобрать список приборов и зону питания",
     "ContextMenu_LW_InverterTooFar": "Ближайший инвертор в %1 клетках: вне досягаемости кабеля (%2 клеток)",
-    "ContextMenu_LW_InverterFloors": "Ближайший инвертор через %1 этаж(а): кабель достаёт только на %2 этаж(а) вверх или вниз"
+    "ContextMenu_LW_InverterFloors": "Ближайший инвертор через %1 этаж(а): кабель достаёт только на %2 этаж(а) вверх или вниз",
+    "ContextMenu_LW_LinkBarrel": "Подключить бочку",
+    "ContextMenu_LW_UnlinkBarrel": "Отключить бочку",
+    "ContextMenu_LW_BarrelAt": "Бочка рядом с насосом (1 труба)",
+    "ContextMenu_LW_PumpAt": "Насос рядом с этой бочкой (1 труба)",
+    "ContextMenu_LW_NoBarrel": "Рядом с насосом нет бочки с водой",
+    "ContextMenu_LW_BarrelLinked": "Подключено к насосу",
+    "ContextMenu_LW_BarrelNotWater": "Содержит не только воду",
+    "ContextMenu_LW_PumpState_running": "Качает",
+    "ContextMenu_LW_PumpState_idle": "Остановлен: все краны полны",
+    "ContextMenu_LW_PumpState_nopower": "Остановлен: нет питания",
+    "ContextMenu_LW_PumpState_nobarrel": "Остановлен: в бочках нет воды",
+    "ContextMenu_LW_PumpState_broken": "Неисправен",
+    "ContextMenu_LW_Debug_RemoveRelays": "Удалить все водяные реле",
+    "ContextMenu_LW_ShowTaps": "Показать питаемые краны",
+    "ContextMenu_LW_HideTaps": "Скрыть питаемые краны"
 }

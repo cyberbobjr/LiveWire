@@ -160,5 +160,10 @@
     "IGUI_LW_LowBattery": "バッテリー残量少: 残り%1%%!",
     "IGUI_LW_Adopted": "%1: 登録を復元しました。使用できます。",
     "IGUI_LW_NotRegistered": "Live Wireはこの機器を登録できませんでした(詳細はコンソール)。",
-    "IGUI_LW_BackupCannotStart": "予備発電機を起動できません: %1。"
+    "IGUI_LW_BackupCannotStart": "予備発電機を起動できません: %1。",
+    "IGUI_LW_Model_WaterPump": "水ポンプ",
+    "IGUI_LW_Model_WaterBarrel": "水のドラム缶",
+    "IGUI_LW_BarrelLinked": "ドラム缶をポンプに接続しました。",
+    "IGUI_LW_BarrelUnlinked": "ドラム缶をポンプから外しました。",
+    "IGUI_LW_App_Pumps": "稼働中の水ポンプ: %1、流量: %2 L/時"
 }

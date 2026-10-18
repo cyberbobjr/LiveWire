@@ -4,8 +4,9 @@
 -- players (knowledge/sounds-and-noise.md:13-17, FMODSoundEmitter.java:380-461).
 -- Sound of the mod (media/sound/LiveWireInverterHum.ogg, looped), heard only one
 -- tile around a switched-on inverter (powered or not), on the same floor. Silent
--- when the inverter is soundproofed (kit, mark field muf). Each player sets its
--- volume in Options > Mods (0 = off).
+-- when the inverter is soundproofed (kit, mark field muf). The water pump has its own
+-- motor sound (LiveWirePumpHum), heard within PUMP_RANGE while it runs (mark st
+-- "running"). Each player sets its volume in Options > Mods (0 = off).
 if isServer() then return end
 
 LiveWire = LiveWire or {}
@@ -14,7 +15,9 @@ local Hum = {}
 LiveWire.Hum = Hum
 
 Hum.SOUND = "LiveWireInverterHum"
+Hum.PUMP_SOUND = "LiveWirePumpHum"
 Hum.RANGE = 1.5   -- tiles from the inverter centre: one tile around it
+Hum.PUMP_RANGE = 4.5   -- tiles from the pump centre while it runs
 Hum.CHECK_MS = 250
 Hum.active = {}   -- inverter object -> { em = emitter, id = sound ref, volume }
 local lastCheck = 0
@@ -42,7 +45,7 @@ function Hum.stop(obj)
     Hum.active[obj] = nil
 end
 
-function Hum.start(obj, volume)
+function Hum.start(obj, volume, sound)
     local h = Hum.active[obj]
     if playing(h) then
         if h.volume ~= volume then
@@ -54,7 +57,7 @@ function Hum.start(obj, volume)
     local sq = obj:getSquare()
     local em = getWorld():getFreeEmitter(sq:getX() + 0.5, sq:getY() + 0.5, sq:getZ())
     if not em then return end
-    local ref = em:playSoundImpl(Hum.SOUND, false, nil)
+    local ref = em:playSoundImpl(sound or Hum.SOUND, false, nil)
     if ref and ref ~= 0 then em:setVolume(ref, volume) end
     Hum.active[obj] = { em = em, id = ref, volume = volume }
 end
@@ -67,6 +70,16 @@ local function wantsHum(player, obj)
     if math.floor(player:getZ()) ~= sq:getZ() then return false end
     local dx, dy = player:getX() - (sq:getX() + 0.5), player:getY() - (sq:getY() + 0.5)
     return dx * dx + dy * dy <= Hum.RANGE * Hum.RANGE
+end
+
+local function wantsPump(player, obj)
+    if obj:getObjectIndex() == -1 or not obj:getSquare() then return false end
+    local m = LiveWire.Marks.get(obj)
+    if not m or m.st ~= "running" then return false end
+    local sq = obj:getSquare()
+    if math.floor(player:getZ()) ~= sq:getZ() then return false end
+    local dx, dy = player:getX() - (sq:getX() + 0.5), player:getY() - (sq:getY() + 0.5)
+    return dx * dx + dy * dy <= Hum.PUMP_RANGE * Hum.PUMP_RANGE
 end
 
 local function update()
@@ -84,6 +97,14 @@ local function update()
             if wantsHum(player, o) then
                 seen[o] = true
                 Hum.start(o, volume)
+            end
+        end
+        local pumps = LiveWire.Visuals.pumps()
+        for i = 1, #pumps do
+            local o = pumps[i]
+            if wantsPump(player, o) then
+                seen[o] = true
+                Hum.start(o, volume, Hum.PUMP_SOUND)
             end
         end
     end

@@ -47,5 +47,20 @@
     "ContextMenu_LW_Debug_refuel": "予備発電機に燃料を補給",
     "ContextMenu_LW_Debug_reanchor": "機器リストと電力範囲を再構築",
     "ContextMenu_LW_InverterTooFar": "最寄りのインバーターは%1マス先: 電線の範囲外(%2マス)",
-    "ContextMenu_LW_InverterFloors": "最寄りのインバーターは%1階離れています: 電線が届くのは上下%2階まで"
+    "ContextMenu_LW_InverterFloors": "最寄りのインバーターは%1階離れています: 電線が届くのは上下%2階まで",
+    "ContextMenu_LW_LinkBarrel": "ドラム缶を接続",
+    "ContextMenu_LW_UnlinkBarrel": "ドラム缶を外す",
+    "ContextMenu_LW_BarrelAt": "ポンプの隣のドラム缶（パイプ1本）",
+    "ContextMenu_LW_PumpAt": "このドラム缶の隣のポンプ（パイプ1本）",
+    "ContextMenu_LW_NoBarrel": "ポンプの隣に水のドラム缶がありません",
+    "ContextMenu_LW_BarrelLinked": "ポンプに接続済み",
+    "ContextMenu_LW_BarrelNotWater": "水以外の物が入っています",
+    "ContextMenu_LW_PumpState_running": "稼働中",
+    "ContextMenu_LW_PumpState_idle": "停止中: すべての水栓が満水です",
+    "ContextMenu_LW_PumpState_nopower": "停止中: 電源がありません",
+    "ContextMenu_LW_PumpState_nobarrel": "停止中: ドラム缶に水がありません",
+    "ContextMenu_LW_PumpState_broken": "故障中",
+    "ContextMenu_LW_Debug_RemoveRelays": "すべての水中継を削除",
+    "ContextMenu_LW_ShowTaps": "給水される蛇口を表示",
+    "ContextMenu_LW_HideTaps": "給水される蛇口を非表示"
 }

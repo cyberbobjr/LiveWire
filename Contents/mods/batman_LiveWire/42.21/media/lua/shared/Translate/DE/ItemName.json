@@ -10,5 +10,6 @@
     "Base.Mov_LiveWire_Inverter": "Wechselrichter",
     "Base.Mov_LiveWire_PowerBank": "Batteriebank",
     "Base.Mov_LiveWire_Breaker": "Schutzschaltertafel",
-    "Base.Mov_LiveWire_BatteryAlarm": "Batteriealarm"
+    "Base.Mov_LiveWire_BatteryAlarm": "Batteriealarm",
+    "Base.Mov_LiveWire_WaterPump": "Wasserpumpe"
 }

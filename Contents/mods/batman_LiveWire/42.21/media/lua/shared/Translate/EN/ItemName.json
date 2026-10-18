@@ -10,5 +10,6 @@
     "Base.Mov_LiveWire_Inverter": "Inverter",
     "Base.Mov_LiveWire_PowerBank": "Power Bank",
     "Base.Mov_LiveWire_Breaker": "Breaker Panel",
-    "Base.Mov_LiveWire_BatteryAlarm": "Low Battery Alarm"
+    "Base.Mov_LiveWire_BatteryAlarm": "Low Battery Alarm",
+    "Base.Mov_LiveWire_WaterPump": "Water Pump"
 }

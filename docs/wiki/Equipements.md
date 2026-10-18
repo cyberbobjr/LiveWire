@@ -17,11 +17,13 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 | Powerbank | Stockage, 4 batteries comptées ; s'ouvre comme une caisse (capacité 50) | Partout ; ramassée seulement vide | 2 |
 | Disjoncteur | Sécurité, facultatif | Sur un mur (nord ou ouest) | 3 |
 | Alarme de batterie faible | Alerte, facultatif | Sur un mur | 2 |
+| Pompe à eau | Alimente les points d'eau de la maison depuis des barils, 250 W pendant le pompage | N'importe où, à côté de ses barils | 6 |
 
 ## Règles de pose
 
 - Panneau et éolienne : à l'extérieur, sous ciel ouvert.
 - Roue à aubes : berge d'une rivière, rez-de-chaussée, à côté de l'eau de la rivière (lacs et étangs refusés).
+- Pompe à eau : n'importe où ; ses barils doivent être sur les 8 cases autour d'elle (voir [[Pompe à eau|Pompe-a-eau]]).
 - Une case refusée affiche la raison en rouge dans le panneau du curseur.
 
 ## Voyants
@@ -30,6 +32,7 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 - Sources et powerbank : voyant vert « connecté ».
 - Disjoncteur : lampe rouge quand il a sauté.
 - Alarme : gyrophare allumé pendant la sonnerie.
+- Pompe à eau : voyant bleu quand elle dessert au moins un point d'eau.
 
 ## Batteries
 

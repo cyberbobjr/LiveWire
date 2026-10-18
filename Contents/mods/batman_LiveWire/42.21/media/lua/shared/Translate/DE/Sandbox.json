@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "Radius in Feldern des Brummens, das Zombies hören. 0 = lautlos.",
     "Sandbox_LiveWire_LinkRange": "Kabelreichweite",
     "Sandbox_LiveWire_LinkRange_tooltip": "Maximaler Abstand in Feldern zwischen einem Gerät und seinem Wechselrichter.",
+    "Sandbox_LiveWire_PumpRange": "Reichweite der Wasserpumpe",
+    "Sandbox_LiveWire_PumpRange_tooltip": "Radius in Feldern um eine Wasserpumpe, in dem ihre Spülen, Duschen, Badewannen und Toiletten versorgt werden.",
     "Sandbox_LiveWire_WirePerTiles": "Felder pro Stromkabel",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "Ein Stromkabel wird pro so vielen Feldern Kabel verbraucht. 0 = kostenlose Verkabelung.",
     "Sandbox_LiveWire_StormDamage": "Sturmschaden",

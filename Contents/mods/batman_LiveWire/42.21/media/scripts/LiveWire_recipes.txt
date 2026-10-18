@@ -235,6 +235,32 @@ module LiveWire
         }
     }
 
+    craftRecipe LWMakeWaterPump
+    {
+        timedAction = MakingElectrical,
+        time = 400,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:6,
+        AutoLearnAny = Electricity:6,
+        xpAward = Electricity:15,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 tags[base:pipewrench] mode:keep flags[Prop2],
+            item 3 [Base.ElectronicsScrap],
+            item 2 [Base.ElectricWire],
+            item 2 [Base.MetalPipe],
+            item 1 [Base.SmallSheetMetal],
+            item 4 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 Base.Mov_LiveWire_WaterPump,
+        }
+    }
+
     craftRecipe LWMakeDeepCycleBattery
     {
         timedAction = MakingElectrical,

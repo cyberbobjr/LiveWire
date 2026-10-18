@@ -26,5 +26,10 @@
     "Tooltip_LW_NeedDisk": "Requires the Live Wire software disk.",
     "Tooltip_LW_NeedSoftware": "Install the Live Wire software (disk) on this computer first.",
     "Tooltip_LW_VoltageTester": "Right-click a tile to measure its power.",
-    "Tooltip_LW_DeepCycleBattery": "Stores 1.5 kWh and lasts four times longer than a car battery."
+    "Tooltip_LW_DeepCycleBattery": "Stores 1.5 kWh and lasts four times longer than a car battery.",
+    "Tooltip_LW_BarrelNotWater": "Only a barrel holding water (or empty) can be connected.",
+    "Tooltip_LW_BarrelTooFar": "The barrel must stand next to the pump, on the same floor.",
+    "Tooltip_LW_BarrelOtherPump": "This barrel is already connected to another pump.",
+    "Tooltip_LW_PumpFull": "A pump takes at most %1 barrels.",
+    "Tooltip_LW_NeedPipe": "Needs a metal pipe."
 }

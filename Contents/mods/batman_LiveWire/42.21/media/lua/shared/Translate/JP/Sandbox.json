@@ -18,6 +18,8 @@
     "Sandbox_LiveWire_InverterNoiseRadius_tooltip": "ゾンビに聞こえるうなり音の範囲(マス)。0で無音。",
     "Sandbox_LiveWire_LinkRange": "電線の届く範囲",
     "Sandbox_LiveWire_LinkRange_tooltip": "機器とインバーターの間の最大距離(マス)です。",
+    "Sandbox_LiveWire_PumpRange": "水ポンプの範囲",
+    "Sandbox_LiveWire_PumpRange_tooltip": "水ポンプの周囲(マス)で、そこから給水される流し台、シャワー、浴槽、トイレの範囲です。",
     "Sandbox_LiveWire_WirePerTiles": "電線1本あたりのマス数",
     "Sandbox_LiveWire_WirePerTiles_tooltip": "この距離ごとに電線1本を使います。0で配線は無料です。",
     "Sandbox_LiveWire_StormDamage": "嵐の被害",
