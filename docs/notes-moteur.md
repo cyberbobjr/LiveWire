@@ -376,3 +376,31 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - Facteurs : `FridgeFactor` 1..6 = 0,4/0,3/0,2/0,1/0,03/0, `FoodRotSpeed` 1..5 = 1,7/1,4/1,0/0,7/0,4 (`:642-661`) ; gel 4 h au congélateur alimenté, dégel 1,5 h (3 h au réfrigérateur alimenté) (`:757-768`) ; réseau public jusqu'à `ElecShutModifier × 24` h (`:691-697`).
 - Conséquence : pour rejouer une absence par morceaux (courant puis coupure), calculer âge, temps de gel et drapeau, puis `setLastAged(maintenant)`, `updateAge()` (consomme l'intervalle de gel sans vieillir), `setFreezingTime`, `setFrozen`, `setAge`. Live Wire le fait au `LoadChunk` serveur d'après le journal d'état des ancres (`LW_FridgeCatchup.lua`).
 
+
+## 46. Plomberie : la source d'un point d'eau raccordé est un `IsoThumpable` à fluide, à l'étage juste au-dessus
+- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement (relu directement)
+- Preuve :
+  - `ISPlumbItem:complete` pose `canBeWaterPiped = false`, `setUsesExternalWaterSource(true)` et envoie `IsoObjectChange.USES_EXTERNAL_WATER_SOURCE` (`media/lua/shared/TimedActions/ISPlumbItem.lua`).
+  - Un objet raccordé renvoie toutes ses lectures et prises d'eau (`getFluidAmount`, `getFluidCapacity`, `useFluid`, `emptyFluid`…) vers sa source, recherchée de nouveau quand l'ancienne n'existe plus ou est vide (`checkExternalFluidSource`, `java/zombie/iso/IsoObject.java:2570-2578`, `:2580-2700`).
+  - `FindExternalWaterSource(x, y, z)` ne regarde que `z + 1`, d'abord la case au-dessus puis les 8 voisines, et préfère un objet qui contient du fluide à un objet vide (`:2408-2429`). Un objet à grille de sprites cherche au-dessus de chacune de ses cases (`:2379-2399`).
+  - `FindWaterSourceOnSquare` ne retient qu'un `IsoThumpable` sans sprite `solidfloor`, non raccordé lui-même (pas de chaîne de sources), de capacité de fluide > 0 (`:2431-2441`).
+  - Le menu « Raccorder » exige un point d'eau dans une pièce avec une source trouvée au-dessus, ou le réseau d'eau encore en service (`java/zombie/iso/ISWorldObjectContextMenuLogic.java:456-459`).
+- Conséquence : un objet du monde qui n'est pas un `IsoThumpable` (par exemple un objet posé auquel un mod ajoute un composant `FluidContainer`) n'alimente jamais la plomberie vanilla. Pour desservir un point d'eau depuis une réserve placée ailleurs, il faut un `IsoThumpable` à fluide à `z + 1` dans le carré 3 × 3 au-dessus, rempli par script.
+
+## 47. Récupérateurs d'eau en 42.21 : pluie par le système Java des entités, y compris hors zone chargée (`MetaEntity`)
+- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement (relu directement) ; remplissage hors zone chargée à vérifier en jeu
+- Preuve :
+  - `SRainBarrelSystem:isValidIsoObject` rend toujours `false` (`media/lua/server/RainBarrel/SRainBarrelSystem.lua:28-31`) : le système global Lua ne suit plus aucun récupérateur.
+  - La pluie est ajoutée par `FluidContainerUpdateSystem.updateEntity`, sur l'autorité seulement (`GameClient.client` exclu), à tout `FluidContainer` d'une entité dehors avec `rainCatcher > 0` : `0.005 × intensité × (0,5 si neige) × rainCatcher × 2,4 s` par mise à jour, `Water` si le contenu est de l'eau propre, sinon `TaintedWater`, sans événement `OnWaterAmountChange` (`java/zombie/entity/components/fluids/FluidContainerUpdateSystem.java:41-85` ; `EntitySimulation.getGameSecondsPerTick` = 2,4, `java/zombie/entity/EntitySimulation.java:31-33`).
+  - Un `FluidContainer` avec `rainCatcher > 0` « mérite le stockage méta » (`FluidContainer.java:1227-1229`). Au déchargement, ses composants passent dans une `MetaEntity` qui garde `isOutside` de la case (`MetaEntity.java:42`, `:132-134`), reste mise à jour (`FluidContainerUpdateSystem.java:54`) et est sauvegardée (`:65-84`) ; une `MetaTag` sur l'objet les lui rend au rechargement (`java/zombie/entity/GameEntityManager.java:190-200`, `:270-295`).
+  - `RainFactor = 0.4` pour l'entité vanilla `RainCollector` (`media/scripts/generated/entities/outdoors/entity_raincollector.txt`).
+- Conséquence : un récupérateur, ou tout objet auquel un mod ajoute un `FluidContainer` avec `setRainCatcher(> 0)`, se remplit de pluie même zone déchargée, sans code de mod. Ne pas remplacer ni vider le composant d'un tel objet pour le « simuler ». Un ajout de pluie ne se détecte que par sondage du contenu.
+
+## 48. Plomberie : un point d'eau raccordé rend propre l'eau croupie de sa source
+- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement (relu directement) ; à vérifier en jeu
+- Preuve :
+  - `createSampleAndPurifyWater` copie le contenu de la source en changeant chaque `TaintedWater` en `Water` (`java/zombie/iso/IsoObject.java:2760-2772`).
+  - Un point d'eau raccordé (`usesExternalWaterSource`) l'utilise pour remplir un récipient : l'eau purifiée va dans la cible, la quantité prise est retirée de la source, puis `OnWaterAmountChange` est déclenché **sur le point d'eau**, pas sur la source (`transferFluidTo`, `:2782-2800`).
+  - Le nom affiché et le fluide principal viennent aussi d'un échantillon purifié (`getFluidUiName` `:2911-2921`, `getPrimaryFluid` `:2884-2893`), et `isTaintedWater` rend `false` dès que la source contient du fluide (`:2987-2997`).
+  - Une prise directe (`useFluid`, `:2666-2700`) est renvoyée à la source, qui déclenche `OnWaterAmountChange` sur elle-même (`:2690-2697`).
+- Conséquence : un baril d'eau de pluie (croupie) raccordé à la plomberie donne de l'eau potable par l'évier, la douche ou les toilettes. Pour suivre les prises d'eau d'une source, écouter `OnWaterAmountChange` à la fois sur la source et sur les points d'eau qui la tirent.
