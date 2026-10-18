@@ -364,6 +364,11 @@ Mods facultatifs : Computer Mod (3725497089) ou Laptop Mod (3798992436) pour le 
 
 L'objet Workshop contient aussi le mod facultatif **Live Wire - Viewpoint models** (`batman_LiveWireViewpoint`) : les modèles 3D de tous les équipements, de leurs voyants, des pales et de la mousse d'insonorisation pour [Project Viewpoint](https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528). À activer seulement si vous utilisez Project Viewpoint ; sans lui, ce mod ne fait rien. Les modèles sont produits à partir de la même géométrie Blender que les tuiles (`source/viewpoint/export_viewpoint.py`).
 
+![Viewpoint](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png)
+![Viewpoint](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png)
+
+*Les équipements Live Wire vus avec Project Viewpoint.*
+
 ## Licence et crédits
 
 Licence MIT (voir [LICENSE](LICENSE)).

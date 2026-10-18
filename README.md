@@ -419,6 +419,11 @@ Version 1.0.0. Tested in game in single player during development (placement, co
 
 The Workshop item also contains the optional mod **Live Wire - Viewpoint models** (`batman_LiveWireViewpoint`): 3D models of every device, its lights, blade frames and soundproofing foam for [Project Viewpoint](https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528). Enable it only if you use Project Viewpoint; without it, the mod does nothing. The models are generated from the same Blender geometry as the tiles (`source/viewpoint/export_viewpoint.py`).
 
+![Viewpoint](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png)
+![Viewpoint](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png)
+
+*Live Wire devices seen with Project Viewpoint.*
+
 ### Licence and credits
 
 MIT licence (see [LICENSE](LICENSE)). Original creation: no code or asset from other mods.

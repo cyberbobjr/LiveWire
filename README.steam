@@ -64,6 +64,8 @@ The server computes everything and re-checks every request. The installation kee
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: this item also contains the optional mod [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) with 3D models of every device. Enable it only if you use Project Viewpoint.
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
 [b]Compatible with[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional): the management software installs from a disk found in computer loot and runs as an app on their desktop.
 [b]Compatibility[/b]: original creation, not meant to run together with other power-system mods. Licence MIT.
 

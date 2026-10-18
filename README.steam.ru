@@ -64,6 +64,8 @@ Live Wire Monitor показывает выработку, потреблени�
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Вики Live Wire (на английском языке)[/url] · Исходный код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: в этот предмет также входит необязательный мод [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) с 3D-моделями всех устройств. Включайте его только с Project Viewpoint.
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
 [b]Совместимость с[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (необязательно): программа ставится с диска из компьютерной добычи.
 [b]Совместимость[/b]: оригинальная разработка, не предназначена для совместной работы с другими модами энергосистем. Лицензия MIT.
 
