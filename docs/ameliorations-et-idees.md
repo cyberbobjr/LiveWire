@@ -29,7 +29,7 @@
   - Ajouter un drapeau de registre `pumpsDisabled`, posé par la commande. Tant qu'il est posé, `Pump.maintain` et `Pump.step` ne font rien.
   - La commande vide `dev.relays` des pompes après avoir noté les positions. Ces positions vont dans une liste `pendingRelayRemoval`, que `Pump.onLoadChunk` purge au chargement.
   - Le journal donne le nombre de relais restant hors zone chargée. Un drapeau « Réactiver les pompes » lève le blocage.
-- **Statut.** Confirmé statiquement. **Priorité haute, effort S.**
+- **Statut.** Confirmé statiquement. **Priorité haute, effort S.** **Statut : corrigé (commit dc553a5), à vérifier en jeu** (drapeau `pumpsDisabled` ; les entrées `dev.relays` sont vidées, ce qui suffit à `onLoadChunk` sans liste `pendingRelayRemoval` ; action de debug `enablePumps`).
 
 ### C02 — Le logiciel de gestion ne commande l'onduleur que de très près (et reste muet en MP depuis un autre étage)
 - **Problème.**
@@ -44,7 +44,7 @@
   - l'ordinateur est alimenté (`Computer.powered`).
 
   L'abonnement accepte un écart d'étage jusqu'à `verticalRange()`.
-- **Statut.** Confirmé statiquement ; à vérifier en jeu (cas réel : ordinateur à 6 cases, puis à l'étage). **Priorité haute, effort S-M.**
+- **Statut.** Confirmé statiquement ; à vérifier en jeu (cas réel : ordinateur à 6 cases, puis à l'étage). **Priorité haute, effort S-M.** **Statut : corrigé (commit dc553a5), à vérifier en jeu** (argument `via` ; distance à l'ordinateur 6 cases, celle de fermeture de l'écran, au lieu de `ACT_RANGE` ; un ordinateur du Computer Mod non raccordé par câble reste soumis à l'ancienne règle).
 
 ### C03 — Synchronisation des relais à chaque minute de jeu : recalcul de l'éclairage chez tous les clients
 - **Problème.**
@@ -56,7 +56,7 @@
   - Ne synchroniser un relais que lorsqu'il franchit un seuil : vide ou non vide, plein, ou tous les 5 L déplacés depuis la dernière synchro (compteur dans `dev.relays[key]`).
   - Synchroniser les barils au plus une fois par pas de 10 minutes.
   - La plomberie du client n'a besoin que de savoir s'il reste de l'eau.
-- **Statut.** Confirmé statiquement (chemin Java) ; coût à mesurer en jeu. **Priorité moyenne, effort S.**
+- **Statut.** Confirmé statiquement (chemin Java) ; coût à mesurer en jeu. **Priorité moyenne, effort S.** **Statut : corrigé (commit dc553a5), à vérifier en jeu** (mémoire de session, pas de compteur sauvegardé dans `dev.relays`).
 
 ### C04 — Balayages synchrones de la pompe et de sa vue
 - **Problème.**
@@ -124,7 +124,7 @@
   - Les traductions CN, JP et KO du mod sont livrées, mais l'écran LCD les affiche vides ou en carrés.
 - **Risque.** Traduction ; bug visible pour trois langues livrées.
 - **Correction proposée.** `lcdFont()` rend `UIFont.Small` (qui a une variante par langue) quand `Translator.getLanguage():name()` est CN, CH, JP, KO ou TH. Vérifier aussi le thaï, que le mod ne livre pas.
-- **Statut.** Confirmé statiquement (glyphes de la police) ; rendu à vérifier en jeu. **Priorité haute, effort S.**
+- **Statut.** Confirmé statiquement (glyphes de la police) ; rendu à vérifier en jeu. **Priorité haute, effort S.** **Statut : corrigé (commit dc553a5), à vérifier en jeu** (`LiveWire.Client.lcdFont()`, CN, CH, JP, KO, TH).
 
 ### C11 — La table publique des ancres expose toutes les bases et leur historique à chaque client
 - **Problème.**
