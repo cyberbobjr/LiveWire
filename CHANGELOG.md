@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.3.2 — 2026-10-21
 
 ### Fixes
 - Management software: the Switch on, Switch off and Reset buttons now work from the linked computer, even when the inverter is several tiles away or on another floor; in multiplayer the software no longer stays on "waiting" when the computer is on another floor than the inverter.
