@@ -73,6 +73,11 @@ Live Wire Monitor: выработка, потребление, аккумуля�
 [b]Совместим с[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (необязательно).
 [b]Совместимость[/b]: не для совместной работы с другими модами энергосистем. Лицензия MIT.
 
+[h2]Discord[/h2]
+
+Вопросы, ошибки или идеи? Присоединяйтесь к Discord:
+[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+
 [h2]Поддержите проект[/h2]
 
 Нравится мод? Кофе помогает новым функциям и переводам.

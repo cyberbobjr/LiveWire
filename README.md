@@ -6,6 +6,8 @@
 
 Project Zomboid Build 42.21 · mod id `batman_LiveWire` · EN/FR · MIT licence
 
+[Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453) · Questions, bug reports, ideas: [Discord](https://discord.gg/QEsBya7hUA)
+
 Version française : [README_fr.md](README_fr.md)
 
 ![Solar panels and a wind turbine outdoors](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png)

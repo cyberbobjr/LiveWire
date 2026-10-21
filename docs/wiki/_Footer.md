@@ -1,1 +1,1 @@
-Live Wire · Project Zomboid Build 42.21 · MIT licence · [Repository](https://github.com/cyberbobjr/LiveWire)
+Live Wire · Project Zomboid Build 42.21 · MIT licence · [Repository](https://github.com/cyberbobjr/LiveWire) · [Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453) · [Discord](https://discord.gg/QEsBya7hUA)

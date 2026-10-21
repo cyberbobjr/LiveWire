@@ -6,6 +6,8 @@
 
 Project Zomboid Build 42.21 · id `batman_LiveWire` · EN/FR · licence MIT
 
+[Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453) · Questions, bugs, idées : [Discord](https://discord.gg/QEsBya7hUA)
+
 [English version: README.md](README.md)
 
 ![Installation extérieure : panneaux photovoltaïques et éolienne](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png)

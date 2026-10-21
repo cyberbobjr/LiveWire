@@ -79,6 +79,11 @@ El servidor calcula todo y vuelve a comprobar cada petición. La instalación si
 [b]Compatible con[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] y [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionales): el software de gestión se instala desde un disco encontrado en el botín de ordenadores y funciona como una aplicación en su escritorio.
 [b]Compatibilidad[/b]: creación original, no pensada para funcionar junto con otros mods de sistemas eléctricos. Licencia MIT.
 
+[h2]Discord[/h2]
+
+¿Preguntas, errores o ideas? Únete al Discord:
+[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+
 [h2]Apoya el proyecto[/h2]
 
 ¿Te gusta el mod? Un café ayuda a financiar nuevas funciones y traducciones.
