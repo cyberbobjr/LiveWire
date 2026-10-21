@@ -1,0 +1,35 @@
+// pz-autotest configuration of Live Wire (.claude/tools/pz-autotest/README.md):
+//   python .claude/tools/pz-autotest/pz_autotest.py sp LiveWire --wait-idle 3600
+//   python .claude/tools/pz-autotest/pz_autotest.py mp LiveWire --clients 1 --wait-idle 3600
+{
+  "name": "LiveWire",
+  "gameVersion": "42.21",
+  "mods": [
+    {"path": "Contents/mods/batman_LiveWire"}
+  ],
+  "hooks": "autotest/lw_hooks.lua",
+  "params": {},
+  "sp": {
+    "save": "2026-10-17_17-50-04",
+    "gameMode": "Sandbox",
+    "saveMods": "replace",
+    "timeoutSec": 900,
+    "startDelaySec": 5
+  },
+  // Dedicated server + client 1 (autotest/lw_mp_hooks.lua): the server installs a network next to the
+  // player and checks the software commands (C02); the client subscribes and switches the inverter.
+  "mp": {
+    "hooks": "autotest/lw_mp_hooks.lua",
+    "serverName": "lwtest_pzat_mp",
+    "port": 17393,
+    // Medium house of Muldraugh (media/maps/Muldraugh, KY/spawnpoints.lua): fixed spawn, no choice screen.
+    "spawn": "10656,10137,0",
+    "clients": 1,
+    "clientXmx": "4096m",
+    "serverRun": true,
+    "clientRun": true,
+    "timeoutSec": 900,
+    "joinTimeoutSec": 600,
+    "params": {"clientWaitSec": "180"}
+  }
+}
