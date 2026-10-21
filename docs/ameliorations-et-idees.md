@@ -254,7 +254,7 @@
   - Ajouter au crochet un scénario pompe : poser, raccorder un récupérateur, vérifier le relais, tirer de l'eau, ramasser, puis exécuter C01.
   - Ajouter un scénario couplage : coupler, découpler, retirer le maître.
   - Ajouter une section `mp` à `autotest.json` (serveur et deux clients, l'un non admin), sur le modèle des autres mods de l'utilisateur.
-- **Statut.** Confirmé statiquement. **Priorité haute, effort M.**
+- **Statut : corrigé (commit c849ab6), à vérifier en jeu.** Hooks locaux (hors dépôt) : pompe et couplage en solo dans `autotest/lw_hooks.lua`, section `mp` et `autotest/lw_mp_hooks.lua` (serveur + 1 client admin ; pas de client non admin). Prototype P-pompe (sauvegarde, invisibilité) non couvert.
 
 ### C26 — README : limite des frigos dépassée par la 1.0.1
 - **Problème.** `README.md:53` dit encore que l'état trouvé au retour vaut pour toute l'absence. Or la 1.0.1 rejoue l'absence d'après le journal des ancres (`CHANGELOG.md`, 1.0.1 ; `LW_FridgeCatchup.lua`).
