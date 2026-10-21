@@ -16,7 +16,8 @@ Debug.RANGE = 30
 -- Debug actions: name -> needs a device id.
 Debug.ACTIONS = {
     spawnKit = false,     -- every placeable device, batteries, wire and tools
-    removeRelays = false, -- every water relay of every pump (before removing the mod)
+    removeRelays = false, -- every water relay of every pump, pumps disabled (before removing the mod)
+    enablePumps = false,  -- lift the block set by removeRelays
     dump = true,          -- network state in the console and on screen
     battery100 = true, battery50 = true, battery15 = true, battery0 = true,
     advance1 = true, advance12 = true, -- run the simulation 1 h / 12 h now

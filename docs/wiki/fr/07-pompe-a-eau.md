@@ -51,7 +51,7 @@ La pompe ne s'use que pendant qu'elle tourne (1 point d'état par 10 jours de po
 
 ## Avant de retirer le mod
 
-Lancez d'abord l'action de debug ou d'administration **Retirer tous les relais d'eau** (clic droit > Live Wire, mode debug en solo, admin en multijoueur), puis sauvegardez. Les réservoirs des zones non chargées sont retirés au prochain chargement de leur zone, tant que le mod est encore installé.
+Lancez d'abord l'action de debug ou d'administration **Retirer tous les relais d'eau** (clic droit > Live Wire, mode debug en solo, admin en multijoueur), puis sauvegardez. L'action arrête aussi toutes les pompes, pour qu'aucun réservoir ne revienne. Les réservoirs des zones non chargées sont retirés au prochain chargement de leur zone, tant que le mod est encore installé. Pour réutiliser les pompes sans retirer le mod, lancez l'action de debug **Réactiver les pompes à eau**.
 
 ## Voir aussi
 

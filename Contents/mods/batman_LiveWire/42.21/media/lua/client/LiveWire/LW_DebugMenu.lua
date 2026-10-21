@@ -26,6 +26,7 @@ function DebugMenu.fill(sub, player, deviceId)
     sub:addSubMenu(opt, menu)
     menu:addOption(getText("ContextMenu_LW_Debug_spawnKit"), player, DebugMenu.onAction, "spawnKit", nil)
     menu:addOption(getText("ContextMenu_LW_Debug_RemoveRelays"), player, DebugMenu.onAction, "removeRelays", nil)
+    menu:addOption(getText("ContextMenu_LW_Debug_EnablePumps"), player, DebugMenu.onAction, "enablePumps", nil)
     if not deviceId then return end
     for i = 1, #ORDER do
         menu:addOption(getText("ContextMenu_LW_Debug_" .. ORDER[i]), player, DebugMenu.onAction, ORDER[i], deviceId)

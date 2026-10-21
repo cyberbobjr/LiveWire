@@ -61,6 +61,7 @@
     "ContextMenu_LW_PumpState_nobarrel": "Stopped: no water in the barrels",
     "ContextMenu_LW_PumpState_broken": "Out of order",
     "ContextMenu_LW_Debug_RemoveRelays": "Remove every water relay",
+    "ContextMenu_LW_Debug_EnablePumps": "Enable the water pumps again",
     "ContextMenu_LW_ShowTaps": "Show the supplied taps",
     "ContextMenu_LW_HideTaps": "Hide the supplied taps",
     "ContextMenu_LW_CoupleTo": "Couple to an inverter",

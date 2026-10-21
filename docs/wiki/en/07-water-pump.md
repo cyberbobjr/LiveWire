@@ -51,7 +51,7 @@ The pump wears only while it runs (1 condition point per 10 days of pumping) and
 
 ## Before removing the mod
 
-Run the debug or admin action **Remove every water relay** first (right-click > Live Wire, debug mode in single player, admin in multiplayer), then save. Tanks in areas that are not loaded are removed the next time their area loads, while the mod is still installed.
+Run the debug or admin action **Remove every water relay** first (right-click > Live Wire, debug mode in single player, admin in multiplayer), then save. The action also stops every pump, so that no tank comes back. Tanks in areas that are not loaded are removed the next time their area loads, while the mod is still installed. To use the pumps again without removing the mod, run the debug action **Enable the water pumps again**.
 
 ## See also
 

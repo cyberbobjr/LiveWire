@@ -39,6 +39,7 @@ function Screen:new(x, y, w, h, player, inverterId, computer)
     o.player = player
     o.computer = computer
     o.app = LiveWire.SoftwareApp.new(player, inverterId)
+    o.app.computer = computer
     o.openedAt = getTimestampMs()
     o.moveWithMouse = true
     o.background = false
@@ -90,7 +91,7 @@ function Screen:render()
         self:drawRect(sx, sy, SCREEN_W, SCREEN_H, 1, 0, 0, 0)
         local s = getText("IGUI_LW_App_Booting")
         local dots = string.rep(".", math.floor((now - self.openedAt) / 250) % 4)
-        self:drawText(s .. dots, sx + 20, sy + 20, 0.3, 0.9, 0.4, 1, UIFont.Code or UIFont.Small)
+        self:drawText(s .. dots, sx + 20, sy + 20, 0.3, 0.9, 0.4, 1, LiveWire.Client.lcdFont())
     else
         local barH = getTextManager():getFontHeight(UIFont.Small) + 4
         self.app:draw(self, sx, sy, SCREEN_W, SCREEN_H - barH)

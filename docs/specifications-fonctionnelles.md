@@ -466,7 +466,7 @@ Poser, tourner et **ramasser** un équipement passent par le menu et le curseur 
 - Elle est mise à jour toutes les 10 minutes de jeu tant qu'elle est ouverte.
 - Elle se ferme quand le joueur s'éloigne de plus de 30 cases.
 
-**Boutons :** Allumer, Éteindre, Réarmer. Chaque demande est revérifiée par le serveur.
+**Boutons :** Allumer, Éteindre, Réarmer. Chaque demande est revérifiée par le serveur. Depuis le logiciel de gestion, les boutons agissent de l'ordinateur de gestion raccordé (alimenté, joueur à 6 cases au plus), quelle que soit la distance ou l'étage de l'onduleur dans la portée du câble.
 
 **Sections**, de haut en bas :
 

@@ -61,6 +61,7 @@
     "ContextMenu_LW_PumpState_nobarrel": "정지: 물통에 물이 없습니다",
     "ContextMenu_LW_PumpState_broken": "고장",
     "ContextMenu_LW_Debug_RemoveRelays": "모든 물 릴레이 제거",
+    "ContextMenu_LW_Debug_EnablePumps": "물 펌프 다시 활성화",
     "ContextMenu_LW_ShowTaps": "공급되는 수도꼭지 표시",
     "ContextMenu_LW_HideTaps": "공급되는 수도꼭지 숨기기",
     "ContextMenu_LW_CoupleTo": "인버터에 병렬 연결",

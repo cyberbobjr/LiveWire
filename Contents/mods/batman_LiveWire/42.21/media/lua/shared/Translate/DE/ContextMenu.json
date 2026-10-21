@@ -61,6 +61,7 @@
     "ContextMenu_LW_PumpState_nobarrel": "Angehalten: kein Wasser in den Fässern",
     "ContextMenu_LW_PumpState_broken": "Außer Betrieb",
     "ContextMenu_LW_Debug_RemoveRelays": "Alle Wasserrelais entfernen",
+    "ContextMenu_LW_Debug_EnablePumps": "Wasserpumpen wieder aktivieren",
     "ContextMenu_LW_ShowTaps": "Versorgte Wasserstellen anzeigen",
     "ContextMenu_LW_HideTaps": "Versorgte Wasserstellen ausblenden",
     "ContextMenu_LW_CoupleTo": "An einen Wechselrichter koppeln",

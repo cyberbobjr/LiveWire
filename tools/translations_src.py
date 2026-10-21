@@ -391,6 +391,7 @@ for f, k, en, fr in [
     ("ContextMenu", "ContextMenu_LW_PumpState_nobarrel", "Stopped: no water in the barrels", "À l'arrêt : pas d'eau dans les barils"),
     ("ContextMenu", "ContextMenu_LW_PumpState_broken", "Out of order", "Hors service"),
     ("ContextMenu", "ContextMenu_LW_Debug_RemoveRelays", "Remove every water relay", "Retirer tous les relais d'eau"),
+    ("ContextMenu", "ContextMenu_LW_Debug_EnablePumps", "Enable the water pumps again", "Réactiver les pompes à eau"),
     ("ContextMenu", "ContextMenu_LW_ShowTaps", "Show the supplied taps", "Afficher les points d'eau alimentés"),
     ("ContextMenu", "ContextMenu_LW_HideTaps", "Hide the supplied taps", "Masquer les points d'eau alimentés"),
     ("Tooltip", "Tooltip_LW_BarrelNotWater", "Only a barrel holding water (or empty) can be connected.", "Seul un baril contenant de l'eau (ou vide) peut être raccordé."),

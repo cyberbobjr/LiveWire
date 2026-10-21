@@ -161,9 +161,17 @@ local function wantedRelays(dev, linked)
     return wanted
 end
 
+-- Pumps disabled by the debug tool "remove every water relay" (before removing the
+-- mod): no relay is placed and no water is moved until "enable the pumps again".
+function Pump.disabled()
+    local d = R() and R().data
+    return d ~= nil and d.pumpsDisabled == true
+end
+
 -- Place the wanted relays, remove the loaded ones that are no longer wanted.
 function Pump.maintain(dev)
     if not dev or dev.role ~= "pump" or not dev.relays then return end
+    if Pump.disabled() then return end
     if not getCell():getGridSquare(dev.x, dev.y, dev.z) then return end
     local before = countOf(dev.relays)
     local grid = dev.grid and R().grid(dev.grid)
@@ -266,12 +274,45 @@ local function needsOf(dev)
             local fc = relay:getFluidContainer()
             local need = fc:getFreeCapacity()
             if need > 0.001 then
-                list[#list + 1] = { obj = relay, fc = fc, need = need }
+                list[#list + 1] = { obj = relay, fc = fc, need = need, key = keys[i], before = fc:getAmount() }
                 total = total + need
             end
         end
     end
     return list, total
+end
+
+-- Relay and barrel synchronisation (C03). obj:sync() makes every nearby client
+-- recalculate paths and lighting of the square (IsoThumpable.syncIsoObjectReceive),
+-- and the client plumbing only needs to know whether water is left. A relay is synced
+-- when it stops being empty, becomes full, or SYNC_LITRES moved since its last sync;
+-- a barrel at most every BARREL_SYNC_MINUTES, or when it becomes empty.
+-- Session memory only: after a restart the first transfer syncs.
+Pump.SYNC_LITRES = 5
+Pump.BARREL_SYNC_MINUTES = 10
+local relaySynced = {}    -- posKey -> litres at the last sync
+local barrelSyncedAt = {} -- posKey -> world age (minutes) of the last sync
+
+local function syncRelay(rn)
+    local amount = rn.fc:getAmount()
+    local last = relaySynced[rn.key]
+    if rn.before <= 0.001 or rn.fc:getFreeCapacity() <= 0.001 or last == nil
+        or math.abs(amount - last) >= Pump.SYNC_LITRES then
+        rn.obj:sync()
+        relaySynced[rn.key] = amount
+    end
+end
+
+local function syncBarrel(src)
+    local sq = src.obj:getSquare()
+    local key = sq and LiveWire.posKey(sq:getX(), sq:getY(), sq:getZ()) or tostring(src.obj)
+    local now = getGameTime():getWorldAgeHours() * 60
+    local last = barrelSyncedAt[key]
+    if src.fc:getAmount() <= 0.001 or last == nil or now - last >= Pump.BARREL_SYNC_MINUTES
+        or now < last then
+        src.obj:sync()
+        barrelSyncedAt[key] = now
+    end
 end
 
 local function setState(dev, state)
@@ -283,6 +324,7 @@ end
 
 -- One game minute of service for one pump.
 function Pump.step(dev)
+    if Pump.disabled() then return end
     if not getCell():getGridSquare(dev.x, dev.y, dev.z) then return end
     if checkBarrels(dev) then LiveWire.Devices.syncMark(dev) end
 
@@ -302,7 +344,7 @@ function Pump.step(dev)
     if #sources == 0 then return setState(dev, "nobarrel") end
 
     local moved = 0
-    local touched = {}
+    local touchedRelays, touchedBarrels = {}, {}
     for _, rn in ipairs(needs) do
         local want = math.min(rn.need, dev.budget - moved)
         for _, src in ipairs(sources) do
@@ -313,14 +355,15 @@ function Pump.step(dev)
                 local tainted = src.fc:getSpecificFluidAmount(Fluid.TaintedWater) > 0
                 src.fc:removeFluid(n)
                 rn.fc:addFluid(tainted and Fluid.TaintedWater or Fluid.Water, n)
-                touched[src.obj] = true
-                touched[rn.obj] = true
+                touchedBarrels[src.obj] = src
+                touchedRelays[rn.obj] = rn
                 moved = moved + n
                 want = want - n
             end
         end
     end
-    for obj in pairs(touched) do obj:sync() end
+    for _, rn in pairs(touchedRelays) do syncRelay(rn) end
+    for _, src in pairs(touchedBarrels) do syncBarrel(src) end
     dev.budget = dev.budget - moved
     dev.pumped = (dev.pumped or 0) + moved
 

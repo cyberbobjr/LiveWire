@@ -90,19 +90,21 @@ Module `"LiveWire"` (`LW_Protocol.lua`). Client → serveur par `sendClientComma
 
 | Commande | Arguments | Contrôles propres | Effet |
 |---|---|---|---|
-| `subscribe` | `{ inverter }` | onduleur à 30 cases au plus | Abonne au tableau de bord ; renvoie un `snapshot` |
+| `subscribe` | `{ inverter, via? }` | onduleur à 30 cases au plus et à `verticalRange()` étages au plus, **ou** `via` valide (ci-dessous) | Abonne au tableau de bord ; renvoie un `snapshot` |
 | `unsubscribe` | `{ inverter }` | — | Désabonne |
 | `unlink` | `{ device }` | à 3 cases de l'appareil **ou** de l'onduleur de son réseau | Débranche ; un générateur ou ordinateur vanilla sort du registre |
 | `uncouple` | `{ inverter }` | esclave couplé | Le rend indépendant (nouveau réseau vide), rend `LiveWire.CouplingKit` |
 | `unlinkBarrel` | `{ pump, x, y, z }` | baril raccordé à cette pompe | Débranche le baril, rend `Base.MetalPipe` |
-| `setInverter` | `{ inverter, on }` | `on` booléen | `off` → `on`, ou `on`/`tripped` → `off` |
-| `reset` | `{ inverter }` | onduleur `tripped` (un esclave renvoie au maître) ; demande mesurée ≤ capacité | `state = "on"`, 1 XP limité par appareil |
+| `setInverter` | `{ inverter, on, via? }` | `on` booléen ; `checkDevice` sur l'onduleur **ou** `via` valide | `off` → `on`, ou `on`/`tripped` → `off` |
+| `reset` | `{ inverter, via? }` | `checkDevice` sur l'onduleur **ou** `via` valide ; onduleur `tripped` (un esclave renvoie au maître) ; demande mesurée ≤ capacité | `state = "on"`, 1 XP limité par appareil |
 | `resetBreaker` | `{ device }` | disjoncteur `tripped` ; demande ≤ capacité | `state = "ok"` |
 | `ackAlarm` | `{ device }` | alarme sonnante | `grid.alarmAck = true` |
 | `rename` | `{ inverter, name }` | nom nettoyé (caractères de contrôle retirés, 24 caractères) | Renomme le réseau. **Aucun client ne l'envoie en 1.3.1** |
 | `requestAnchors` | `{}` | serveur seulement | `ModData.transmit("LiveWireAnchors")`. **Non envoyée en 1.3.1** : le client utilise `ModData.request` |
 | `adopt` | `{ x, y, z }` | à 40 cases et 3 étages au plus ; refuge | Enregistre une tuile Live Wire posée sans marque valide |
 | `debug` | `{ action, device }` | `Debug.allowed` (§ 3.4) | Action de debug |
+
+`via = { x, y, z }` : position de l'ordinateur sur lequel tourne le logiciel de gestion (`SoftwareApp:via()`). `Commands.checkVia` l'accepte si un ordinateur de gestion (`role = "computer"`) du réseau de l'onduleur est sur cette case, alimenté (`Computer.powered`), si le joueur est à 6 cases au plus de cette case au même étage (`Commands.SOFTWARE_RANGE`, distance de fermeture de l'écran) et si la règle de refuge l'autorise sur cette case. Un ordinateur du Computer Mod non raccordé par câble n'a pas d'entrée au registre : ses commandes restent soumises à `checkDevice`.
 
 Les actions longues (raccorder, réparer, inspecter…) ne sont pas des commandes : ce sont les actions chronométrées du § 2.6.
 
@@ -119,7 +121,7 @@ Diffusion supplémentaire : `ModData.transmit("LiveWireAnchors")` à chaque chan
 
 ### 3.4 Debug et administration
 
-`LW_Debug.lua`, `LW_DebugCommands.lua`. Autorisé : en solo avec `isDebugEnabled()` ; sur serveur, `checkPermissions(joueur, Capability.ChangeAndReloadServerOptions)` **et** `getRole():hasCapability(...)`. Portée 30 cases. Actions : `spawnKit`, `removeRelays` (sans appareil), `dump`, `battery100`, `battery50`, `battery15`, `battery0`, `advance1`, `advance12`, `repairAll`, `damageInverter`, `trip`, `refuel`, `reanchor`.
+`LW_Debug.lua`, `LW_DebugCommands.lua`. Autorisé : en solo avec `isDebugEnabled()` ; sur serveur, `checkPermissions(joueur, Capability.ChangeAndReloadServerOptions)` **et** `getRole():hasCapability(...)`. Portée 30 cases. `removeRelays` pose `data.pumpsDisabled = true` (registre) : `Pump.maintain` et `Pump.step` ne font plus rien ; les relais chargés sont retirés et **toutes** les entrées `dev.relays` sont vidées, si bien que `Pump.onLoadChunk` retire les relais des zones non chargées au chargement de leur chunk. `enablePumps` efface le drapeau et relance `Pump.maintain` sur chaque pompe. Actions : `spawnKit`, `removeRelays` et `enablePumps` (sans appareil), `dump`, `battery100`, `battery50`, `battery15`, `battery0`, `advance1`, `advance12`, `repairAll`, `damageInverter`, `trip`, `refuel`, `reanchor`.
 
 ### 3.5 Instantané (`Sim.snapshot`)
 

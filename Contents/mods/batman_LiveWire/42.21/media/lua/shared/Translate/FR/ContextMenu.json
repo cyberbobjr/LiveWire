@@ -61,6 +61,7 @@
     "ContextMenu_LW_PumpState_nobarrel": "À l'arrêt : pas d'eau dans les barils",
     "ContextMenu_LW_PumpState_broken": "Hors service",
     "ContextMenu_LW_Debug_RemoveRelays": "Retirer tous les relais d'eau",
+    "ContextMenu_LW_Debug_EnablePumps": "Réactiver les pompes à eau",
     "ContextMenu_LW_ShowTaps": "Afficher les points d'eau alimentés",
     "ContextMenu_LW_HideTaps": "Masquer les points d'eau alimentés",
     "ContextMenu_LW_CoupleTo": "Coupler à un onduleur",

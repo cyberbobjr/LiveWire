@@ -48,6 +48,15 @@ function App.new(player, inverterId, options)
     return o
 end
 
+-- Position of the computer the software runs on (self.computer, set by the host), sent
+-- with the commands so that the server accepts them from the linked computer (C02).
+function App:via()
+    local c = self.computer
+    local sq = c and c.getSquare and c:getSquare()
+    if not sq then return nil end
+    return { x = sq:getX(), y = sq:getY(), z = sq:getZ() }
+end
+
 function App:snapshot()
     return self.inverterId and LiveWire.Client.snapshot(self.inverterId) or nil
 end
@@ -58,7 +67,7 @@ function App:update()
     local now = getTimestampMs()
     if now - self.lastSubscribe >= RESUBSCRIBE_MS then
         self.lastSubscribe = now
-        LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE, { inverter = self.inverterId })
+        LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE, { inverter = self.inverterId, via = self:via() })
     end
 end
 
@@ -501,10 +510,10 @@ function App:act(action)
     if string.sub(action, 1, 4) == "tab:" then
         self.tab = string.sub(action, 5)
     elseif action == "on" or action == "off" then
-        LiveWire.Client.send(P.C_SET_INVERTER, { inverter = self.inverterId, on = action == "on" })
+        LiveWire.Client.send(P.C_SET_INVERTER, { inverter = self.inverterId, on = action == "on", via = self:via() })
         self.lastSubscribe = 0
     elseif action == "reset" then
-        LiveWire.Client.send(P.C_RESET, { inverter = self.inverterId })
+        LiveWire.Client.send(P.C_RESET, { inverter = self.inverterId, via = self:via() })
         self.lastSubscribe = 0
     end
     getSoundManager():playUISound("UIActivateButton")

@@ -125,12 +125,14 @@ local function spawnKit(player)
     end
 end
 
--- Remove every loaded water relay of every pump. Relays on unloaded squares keep
--- their registry entry and are cleaned when their chunk loads (LW_Pump.lua).
+-- Remove every water relay of every pump, and disable the pumps so that they do not
+-- place them again. Loaded relays go now; the entries of relays on unloaded squares
+-- are dropped too, so Pump.onLoadChunk removes those relays when their chunk loads.
 local function removeRelays(player)
     local Rg = R()
     local removed, remaining = 0, 0
     if not LiveWire.Pump then return end
+    Rg.data.pumpsDisabled = true
     for _, dev in pairs(Rg.devices()) do
         if dev.role == "pump" and dev.relays then
             local keys = {}
@@ -138,11 +140,25 @@ local function removeRelays(player)
             for i = 1, #keys do
                 LiveWire.Pump.removeRelay(dev, keys[i])
                 if dev.relays[keys[i]] then remaining = remaining + 1 else removed = removed + 1 end
+                dev.relays[keys[i]] = nil
             end
+            dev.state = "idle"
+            LiveWire.Devices.syncMark(dev)
         end
     end
-    LiveWire.log("debug removeRelays: " .. tostring(removed) .. " relay(s) removed, "
-        .. tostring(remaining) .. " left in unloaded areas")
+    LiveWire.log("debug removeRelays: pumps disabled, " .. tostring(removed) .. " relay(s) removed, "
+        .. tostring(remaining) .. " left in unloaded areas (removed when their chunk loads)")
+end
+
+-- Lift the block set by removeRelays: the pumps place their relays again.
+local function enablePumps(player)
+    local Rg = R()
+    if not LiveWire.Pump then return end
+    Rg.data.pumpsDisabled = nil
+    for _, dev in pairs(Rg.devices()) do
+        if dev.role == "pump" then LiveWire.Pump.maintain(dev) end
+    end
+    LiveWire.log("debug enablePumps: pumps enabled again")
 end
 
 local function onDebug(player, args)
@@ -155,8 +171,8 @@ local function onDebug(player, args)
     LiveWire.log("debug " .. action .. " by " .. tostring(player:getUsername())
         .. " on " .. tostring(args.device))
     if action == "spawnKit" then return spawnKit(player) end
-    if action == "removeRelays" then
-        removeRelays(player)
+    if action == "removeRelays" or action == "enablePumps" then
+        if action == "removeRelays" then removeRelays(player) else enablePumps(player) end
         return LiveWire.notify(player, "IGUI_LW_Debug_Done", { action })
     end
 

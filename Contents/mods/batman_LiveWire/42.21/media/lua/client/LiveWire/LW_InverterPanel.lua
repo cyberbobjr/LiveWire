@@ -25,7 +25,7 @@ local PAGES = 5
 local function T(key, ...) return getText(key, ...) end
 
 local function lcdFont()
-    return UIFont.Code or UIFont.Small
+    return LiveWire.Client.lcdFont()
 end
 
 function Panel.open(player, inverterId)

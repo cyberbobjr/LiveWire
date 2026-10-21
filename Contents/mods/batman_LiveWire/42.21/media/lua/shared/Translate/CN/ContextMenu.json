@@ -61,6 +61,7 @@
     "ContextMenu_LW_PumpState_nobarrel": "已停止：水桶里没有水",
     "ContextMenu_LW_PumpState_broken": "故障",
     "ContextMenu_LW_Debug_RemoveRelays": "移除所有水中继器",
+    "ContextMenu_LW_Debug_EnablePumps": "重新启用水泵",
     "ContextMenu_LW_ShowTaps": "显示供水的水龙头",
     "ContextMenu_LW_HideTaps": "隐藏供水的水龙头",
     "ContextMenu_LW_CoupleTo": "并联到一台逆变器",

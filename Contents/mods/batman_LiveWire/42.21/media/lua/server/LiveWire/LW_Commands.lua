@@ -10,6 +10,9 @@ LiveWire.Commands = Commands
 
 local P = LiveWire.Protocol
 Commands.ACT_RANGE = 3
+-- Distance to the management computer for a software command: the distance at which
+-- our computer screen closes (LW_SoftwareScreen.lua CLOSE_RANGE).
+Commands.SOFTWARE_RANGE = 6
 Commands.RATE_PER_SECOND = 4
 
 local rate = {}  -- username -> { windowStart = ms, count = n, warned = bool }
@@ -37,9 +40,9 @@ local function refuse(player, cmd, key)
     LiveWire.notify(player, key, {}, true)
 end
 
--- Chebyshev distance <= range on the same floor.
-function Commands.isNear(player, x, y, z, range)
-    if math.floor(player:getZ()) ~= z then return false end
+-- Chebyshev distance <= range on the same floor (or within `floors` floors).
+function Commands.isNear(player, x, y, z, range, floors)
+    if math.abs(math.floor(player:getZ()) - z) > (floors or 0) then return false end
     return math.abs(player:getX() - (x + 0.5)) <= range + 0.5
         and math.abs(player:getY() - (y + 0.5)) <= range + 0.5
 end
@@ -58,6 +61,42 @@ function Commands.checkDevice(player, id, range)
         return nil, "Tooltip_LW_Safehouse"
     end
     return dev, nil, sq
+end
+
+-- Command sent by the management software (C02): `via` = {x, y, z} of the computer it
+-- runs on. Accepted when the player stands at that computer, and a powered management
+-- computer of the inverter's network is on that square.
+function Commands.checkVia(player, via, inv)
+    if type(via) ~= "table" or not inv or not inv.grid then return false end
+    local x, y, z = tonumber(via.x), tonumber(via.y), tonumber(via.z)
+    if not x or not y or not z then return false end
+    x, y, z = math.floor(x), math.floor(y), math.floor(z)
+    local grid = LiveWire.Registry.grid(inv.grid)
+    if not grid or not LiveWire.Computer then return false end
+    if not Commands.isNear(player, x, y, z, Commands.SOFTWARE_RANGE) then return false end
+    local sq = getCell():getGridSquare(x, y, z)
+    if not sq then return false end
+    if SafeHouse and not SafeHouse.isSafehouseAllowInteract(sq, player) then return false end
+    local list = LiveWire.Registry.devicesAt(x, y, z)
+    for i = 1, #list do
+        local d = list[i]
+        if d.role == "computer" and d.grid == grid.id and LiveWire.Computer.powered(d, grid) then
+            return true
+        end
+    end
+    return false
+end
+
+-- An inverter command (switch, reset): from the inverter itself, or from the
+-- management software on a computer of its network.
+local function checkInverterCommand(player, args)
+    local dev, why = Commands.checkDevice(player, args.inverter)
+    if dev then return dev end
+    local inv = P.isDeviceId(args.inverter) and LiveWire.Registry.device(args.inverter)
+    if inv and inv.role == "inverter" and Commands.checkVia(player, args.via, inv) then
+        return inv
+    end
+    return nil, why
 end
 
 local handlers = {}
@@ -85,7 +124,11 @@ end
 handlers[P.C_SUBSCRIBE] = function(player, args)
     local grid, inv = gridOfInverter(args.inverter)
     if not grid then return end
-    if not Commands.isNear(player, inv.x, inv.y, inv.z, LiveWire.Sim.SUBSCRIBE_RANGE) then return end
+    if not Commands.isNear(player, inv.x, inv.y, inv.z, LiveWire.Sim.SUBSCRIBE_RANGE,
+            LiveWire.Config.verticalRange())
+        and not Commands.checkVia(player, args.via, inv) then
+        return
+    end
     LiveWire.Sim.subscribe(player, grid.id)
     local snap = LiveWire.Sim.snapshot(grid)
     if snap and isServer() then
@@ -154,7 +197,7 @@ handlers[P.C_UNLINK_BARREL] = function(player, args)
 end
 
 handlers[P.C_SET_INVERTER] = function(player, args)
-    local dev, why = Commands.checkDevice(player, args.inverter)
+    local dev, why = checkInverterCommand(player, args)
     if not dev then return refuse(player, P.C_SET_INVERTER, why) end
     if dev.role ~= "inverter" or not P.isBool(args.on) then return end
     if args.on then
@@ -166,7 +209,7 @@ handlers[P.C_SET_INVERTER] = function(player, args)
 end
 
 handlers[P.C_RESET] = function(player, args)
-    local dev, why = Commands.checkDevice(player, args.inverter)
+    local dev, why = checkInverterCommand(player, args)
     if not dev then return refuse(player, P.C_RESET, why) end
     -- A slave never trips: its master is the one to reset.
     if dev.coupled then dev = LiveWire.Registry.device(dev.coupled) or dev end

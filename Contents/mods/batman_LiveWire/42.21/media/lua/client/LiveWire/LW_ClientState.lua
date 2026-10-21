@@ -43,6 +43,25 @@ function Client.snapshot(inverterId)
     return Client.snapshots[inverterId]
 end
 
+-- Font of the LCD screens (inverter panel, computer boot). UIFont.Code
+-- (zomboidCode.fnt) has no CJK or Thai glyphs in any language, so these languages use
+-- UIFont.Small, which has a font per language (vanilla list: ISLcdBar.unsupported).
+local NO_CODE_FONT = { CH = true, CN = true, JP = true, KO = true, TH = true }
+local lcdFontCache = nil
+
+function Client.lcdFont()
+    if not lcdFontCache then
+        local lang = Translator and Translator.getLanguage and Translator.getLanguage()
+        local name = lang and tostring(lang:name()) or ""
+        if NO_CODE_FONT[name] or not UIFont.Code then
+            lcdFontCache = UIFont.Small
+        else
+            lcdFontCache = UIFont.Code
+        end
+    end
+    return lcdFontCache
+end
+
 function Client.send(command, args)
     sendClientCommand(getPlayer(), LiveWire.MODULE, command, args or {})
 end

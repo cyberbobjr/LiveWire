@@ -61,6 +61,7 @@
     "ContextMenu_LW_PumpState_nobarrel": "Parada: sem água nos barris",
     "ContextMenu_LW_PumpState_broken": "Fora de serviço",
     "ContextMenu_LW_Debug_RemoveRelays": "Remover todos os relés de água",
+    "ContextMenu_LW_Debug_EnablePumps": "Reativar as bombas de água",
     "ContextMenu_LW_ShowTaps": "Mostrar as torneiras abastecidas",
     "ContextMenu_LW_HideTaps": "Ocultar as torneiras abastecidas",
     "ContextMenu_LW_CoupleTo": "Acoplar a um inversor",

@@ -61,6 +61,7 @@
     "ContextMenu_LW_PumpState_nobarrel": "Остановлен: в бочках нет воды",
     "ContextMenu_LW_PumpState_broken": "Неисправен",
     "ContextMenu_LW_Debug_RemoveRelays": "Удалить все водяные реле",
+    "ContextMenu_LW_Debug_EnablePumps": "Снова включить водяные насосы",
     "ContextMenu_LW_ShowTaps": "Показать питаемые краны",
     "ContextMenu_LW_HideTaps": "Скрыть питаемые краны",
     "ContextMenu_LW_CoupleTo": "Сцепить с инвертором",

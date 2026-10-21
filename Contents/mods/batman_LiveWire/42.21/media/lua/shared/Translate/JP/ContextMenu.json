@@ -61,6 +61,7 @@
     "ContextMenu_LW_PumpState_nobarrel": "停止中: ドラム缶に水がありません",
     "ContextMenu_LW_PumpState_broken": "故障中",
     "ContextMenu_LW_Debug_RemoveRelays": "すべての水中継を削除",
+    "ContextMenu_LW_Debug_EnablePumps": "水ポンプを再び有効にする",
     "ContextMenu_LW_ShowTaps": "給水される蛇口を表示",
     "ContextMenu_LW_HideTaps": "給水される蛇口を非表示",
     "ContextMenu_LW_CoupleTo": "インバーターに連結",

@@ -173,7 +173,7 @@ Un appareil posé comme les autres (niveau 6). Elle pompe l'eau des barils vers 
 - Seule l'eau est déplacée ; la pluie remplit toujours les barils comme avant. L'eau croupie sort propre au robinet, comme en vanilla.
 - Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les points d'eau desservis, les barils raccordés et la pompe sont surlignés en bleu. Un voyant bleu s'allume sur la pompe tant qu'elle dessert au moins un point d'eau.
 - Plusieurs pompes par réseau. L'onglet Équipements du logiciel affiche le nombre de pompes en service et leur débit (L/h), rien d'autre.
-- **Avant de retirer le mod**, lancez l'action de débogage « Retirer tous les relais d'eau » (menu Live Wire > Débogage, avec les droits d'administrateur en multijoueur), sinon les tuiles invisibles des relais restent dans la sauvegarde.
+- **Avant de retirer le mod**, lancez l'action de débogage « Retirer tous les relais d'eau » (menu Live Wire > Débogage, avec les droits d'administrateur en multijoueur), sinon les tuiles invisibles des relais restent dans la sauvegarde. L'action arrête aussi toutes les pompes jusqu'à l'action de débogage « Réactiver les pompes à eau ».
 
 ## Tables de calcul
 

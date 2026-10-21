@@ -202,7 +202,7 @@ A consumer placed like the other devices (level 6). It pumps water from water ba
 - Only water is moved, and the rain keeps filling the barrels as before. Tainted water comes out clean at the tap, as in vanilla.
 - Right-click the pump > **Show the supplied taps**: a blue circle shows the range, and the supplied taps, the connected barrels and the pump are highlighted in blue. The pump has a blue light while it supplies at least one tap.
 - Several pumps per network. The software Equipment tab shows the number of pumps in service and their flow (L/h), nothing else.
-- **Before removing the mod**, run the debug action "Remove every water relay" (Live Wire menu > Debug, with administrator rights in multiplayer), otherwise the invisible relay tiles stay in the saved world.
+- **Before removing the mod**, run the debug action "Remove every water relay" (Live Wire menu > Debug, with administrator rights in multiplayer), otherwise the invisible relay tiles stay in the saved world. The action also stops every pump until the debug action "Enable the water pumps again".
 
 ## Calculations
 

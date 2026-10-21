@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+- Management software: the Switch on, Switch off and Reset buttons now work from the linked computer, even when the inverter is several tiles away or on another floor; in multiplayer the software no longer stays on "waiting" when the computer is on another floor than the inverter.
+- "Remove every water relay" now really removes them: the pumps stop until "Enable the water pumps again", so the tanks are not placed back, and tanks in areas that are not loaded are removed when the area loads.
+- Inverter screen and computer start-up text: readable in Chinese, Japanese and Korean (the LCD font has no glyphs for these languages).
+- Water pump: the tanks and barrels it fills are synchronised less often, which avoids frequent lighting recalculations near a running pump in multiplayer.
+
 ## 1.3.1 — 2026-10-18
 
 ### Improvements
