@@ -26,7 +26,7 @@ Placement.modelOfSprite = modelOfSprite
 
 -- A neighbour of `sq` (8 directions) is river water: water flag
 -- (FishingUtils.lua:4-9) inside a river zone of the fishing code
--- (FishingZones.lua:40-47). Lakes and ponds are refused (docs/fonctionnel.md 3.4).
+-- (FishingZones.lua:40-47). Lakes and ponds are refused (docs/specifications-fonctionnelles.md 3.4).
 function Placement.nextToRiver(sq)
     local cell = getCell()
     for dx = -1, 1 do

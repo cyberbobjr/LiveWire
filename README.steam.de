@@ -6,7 +6,7 @@ Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein e
 
 [h2]So funktioniert es[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_de.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_de.png[/img]
 
 [list]
 [*][b]Quellen[/b] erzeugen Strom: Solarpanel 100 W, Windturbine 400 W, Wasserrad 120 W. So viele, wie du pro Wechselrichter möchtest.
@@ -17,7 +17,7 @@ Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein e
 
 [h2]Ausrüstung[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_de.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_de.png[/img]
 
 [list]
 [*][b]Solarpanel[/b] (Elektrotechnik 3): im Freien, unter freiem Himmel. Flachdächer funktionieren.
@@ -28,12 +28,12 @@ Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein e
 [*][b]Optional[/b]: Schutzschaltertafel (löst aus, statt den Wechselrichter zu beschädigen), Batteriealarm bei niedrigem Ladestand, Schalldämmset für das Brummen des Wechselrichters, Originalgenerator als Reserve (startet unter 20 % Batterieladung), Originalcomputer als Verwaltungsrechner. Bis zu 4 Wechselrichter lassen sich mit einem Kopplungsset parallel schalten (6.000 W).
 [/list]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
 
 [h2]Erzeugung[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_de.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_de.png[/img]
 
 [list]
 [*][b]Solar[/b]: etwa 0,94 kWh an einem Sommertag, etwa 0,60 im Winter. Wolken und Schnee verringern die Leistung.
@@ -55,7 +55,7 @@ Beispiel: ein Kühlschrank mit Gefrierfach und 10 Lampen verbrauchen zusammen et
 
 [h2]Rezepte[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_de.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_de.png[/img]
 
 Kategorie Elektrotechnik, wird automatisch ab der nötigen Stufe gelernt. Solarzellen stammen aus zerlegten Taschenrechnern oder werden als Beute gefunden; fertige Ausrüstung kann auch in Elektrikerwerkstätten, Baumärkten und Garagen auftauchen.
 
@@ -63,7 +63,7 @@ Kategorie Elektrotechnik, wird automatisch ab der nötigen Stufe gelernt. Solarz
 
 Live Wire Monitor zeigt Erzeugung, Verbrauch, Batterien, einen 48-Stunden-Verlauf und eine Prognose "bis Sonnenaufgang". Mit dem optionalen Computer Mod oder Laptop Mod kommt er auf einer Diskette, die in der Computerbeute zu finden ist. Ansonsten läuft er auf einem mit dem Wechselrichter verbundenen Originalcomputer.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
 [h2]Mehrspieler[/h2]
 
@@ -74,8 +74,8 @@ Der Server berechnet alles und prüft jede Anfrage erneut. Die Installation läu
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki (auf Englisch)[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieses Item enthält auch die optionale Mod [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) mit 3D-Modellen aller Geräte. Nur aktivieren, wenn du Project Viewpoint nutzt.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Kompatibel mit[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional): Die Verwaltungssoftware wird von einer Diskette aus Computer-Beute installiert und läuft als App auf deren Desktop.
 [b]Kompatibilität[/b]: eigenständige Neuschöpfung, nicht dafür gedacht, zusammen mit anderen Mods für Stromsysteme zu laufen. Lizenz MIT.
 

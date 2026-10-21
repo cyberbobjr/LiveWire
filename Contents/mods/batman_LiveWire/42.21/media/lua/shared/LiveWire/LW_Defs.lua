@@ -1,5 +1,5 @@
 -- Live Wire: static definitions of devices and batteries (pure data).
--- Values come from docs/fonctionnel.md (sections 2 to 5). The tiles are
+-- Values come from docs/specifications-fonctionnelles.md (sections 2 to 5). The tiles are
 -- geometric placeholders until the final models exist.
 
 LiveWire = LiveWire or {}
@@ -101,7 +101,7 @@ Defs.ALARM_BELOW = 0.20
 Defs.ALARM_RESET = 0.25
 Defs.ALARM_REPEAT_HOURS = 2
 
--- Water pump (docs/IDEES.md, section 2).
+-- Water pump (docs/annexes/recherches/idees-initiales.md, section 2).
 Defs.RELAY_SPRITE = Defs.SHEET .. "_76"   -- transparent tile, never in spriteToModel
 Defs.RELAY_KEY = "LiveWireRelay"          -- ModData of a relay: { pump = deviceId }
 Defs.BARREL_KEY = "LiveWireBarrel"        -- ModData of a linked barrel: { pump = deviceId }
@@ -131,7 +131,7 @@ Defs.HEAVY_LOAD_RATIO = 0.80
 Defs.SOUNDPROOF_KIT = "LiveWire.SoundproofKit"
 Defs.MUFFLED_WEAR = 1.25   -- a soundproofed inverter runs warmer
 
--- Parallel inverters (docs/IDEES.md, section 5).
+-- Parallel inverters (docs/annexes/recherches/idees-initiales.md, section 5).
 Defs.MAX_SLAVES = 3                         -- 4 inverters per network
 Defs.COUPLING_KIT = "LiveWire.CouplingKit"
 Defs.COUPLING_LEVEL = 6

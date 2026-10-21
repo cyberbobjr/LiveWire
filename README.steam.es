@@ -6,7 +6,7 @@ El corte de luz es definitivo... pero las luces no tienen por qué serlo. Constr
 
 [h2]Cómo funciona[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_es.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_es.png[/img]
 
 [list]
 [*][b]Fuentes[/b] producen: panel solar 100 W, aerogenerador 400 W, rueda hidráulica 120 W. Tantas como quieras por inversor.
@@ -17,7 +17,7 @@ El corte de luz es definitivo... pero las luces no tienen por qué serlo. Constr
 
 [h2]Equipo[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_es.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_es.png[/img]
 
 [list]
 [*][b]Panel solar[/b] (Electrónica 3): al aire libre, con cielo abierto. Los tejados planos también sirven.
@@ -28,12 +28,12 @@ El corte de luz es definitivo... pero las luces no tienen por qué serlo. Constr
 [*][b]Opcional[/b]: panel de disyuntores (salta en lugar de dañar el inversor), alarma de batería baja, kit de insonorización para inversor (para el zumbido), generador del juego base como respaldo (se arranca con menos del 20 % de batería) y ordenador de sobremesa del juego base como ordenador de gestión. Hasta 4 inversores acoplados en paralelo (6.000 W) con un kit de acoplamiento.
 [/list]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
 
 [h2]Producción[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_es.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_es.png[/img]
 
 [list]
 [*][b]Solar[/b]: unos 0,94 kWh por día de verano, unos 0,60 en invierno. Las nubes y la nieve la reducen.
@@ -55,7 +55,7 @@ Ejemplo: un frigorífico-congelador y 10 luces consumen unos 4,1 kWh al día. Un
 
 [h2]Recetas[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_es.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_es.png[/img]
 
 Categoría Electrónica, aprendida automáticamente al nivel requerido. Las células solares salen de calculadoras desmontadas o se encuentran como botín; también pueden aparecer equipos ya hechos en tiendas de electricistas, ferreterías y garajes.
 
@@ -63,7 +63,7 @@ Categoría Electrónica, aprendida automáticamente al nivel requerido. Las cél
 
 Live Wire Monitor muestra la producción, el consumo, las baterías, un historial de 48 h y una previsión "hasta el amanecer". Con el Computer Mod o el Laptop Mod opcionales, llega en un disco que se encuentra en el botín de ordenadores. Si no, un ordenador de sobremesa del juego base conectado al inversor lo ejecuta.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
 [h2]Multijugador[/h2]
 
@@ -74,8 +74,8 @@ El servidor calcula todo y vuelve a comprobar cada petición. La instalación si
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Wiki de Live Wire (en inglés)[/url] · Código fuente: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este objeto también incluye el mod opcional [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) con modelos 3D de todos los equipos. Actívalo solo si usas Project Viewpoint.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Compatible con[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] y [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionales): el software de gestión se instala desde un disco encontrado en el botín de ordenadores y funciona como una aplicación en su escritorio.
 [b]Compatibilidad[/b]: creación original, no pensada para funcionar junto con otros mods de sistemas eléctricos. Licencia MIT.
 

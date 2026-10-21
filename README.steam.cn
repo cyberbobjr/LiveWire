@@ -6,7 +6,7 @@
 
 [h2]工作原理[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_cn.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_cn.png[/img]
 
 [list]
 [*][b]电源[/b]负责发电：太阳能板 100 W，风力涡轮机 400 W，水轮机 120 W。每台逆变器可接任意数量。
@@ -17,7 +17,7 @@
 
 [h2]设备[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_cn.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_cn.png[/img]
 
 [list]
 [*][b]太阳能板[/b]（电工 3 级）：需在室外、露天处安装。平屋顶也可以。
@@ -28,12 +28,12 @@
 [*][b]可选件[/b]：断路器面板（跳闸而不是损坏逆变器）、低电量警报器、逆变器隔音套件（消除嗡嗡声）、原版发电机作为备用（电池低于 20% 时启动）、原版台式电脑作为管理电脑。 使用耦合套件最多可并联 4 台逆变器（6000 W）。
 [/list]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
 
 [h2]发电[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_cn.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_cn.png[/img]
 
 [list]
 [*][b]太阳能[/b]：夏季每天约 0.94 kWh，冬季约 0.60 kWh。云层和积雪会降低发电量。
@@ -55,7 +55,7 @@
 
 [h2]配方[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_cn.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_cn.png[/img]
 
 分类为"电工"，达到所需等级后自动学会。太阳能电池可从拆解的计算器获得，也可以在电工、五金店和车库中找到现成的设备。
 
@@ -63,7 +63,7 @@
 
 Live Wire Monitor 显示发电、用电、电池、48 小时历史记录，以及"直到日出"的预测。安装可选的 Computer Mod 或 Laptop Mod 后，它会出现在电脑战利品中找到的光盘上。否则，连接到逆变器的原版台式电脑即可运行它。
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
 [h2]多人游戏[/h2]
 
@@ -74,8 +74,8 @@ Live Wire Monitor 显示发电、用电、电池、48 小时历史记录，以�
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire 维基（英文版）[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：本物品还包含可选模组 [b]Live Wire - Viewpoint models[/b]（batman_LiveWireViewpoint），提供所有设备的 3D 模型。仅在使用 Project Viewpoint 时启用。
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]兼容[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（可选）：管理软件可从电脑类战利品中找到的光盘安装，并作为应用在其桌面上运行。
 [b]兼容性[/b]：原创作品，不保证与其他电力系统模组同时运行。许可证：MIT。
 

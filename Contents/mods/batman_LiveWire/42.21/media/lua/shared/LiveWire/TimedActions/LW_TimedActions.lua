@@ -166,7 +166,7 @@ function LWLinkAction:new(character, target, inverter)
 end
 
 --------------------------------------------------------------------------------
--- Couple an inverter (slave) to a master inverter (docs/IDEES.md, section 5): the
+-- Couple an inverter (slave) to a master inverter (docs/annexes/recherches/idees-initiales.md, section 5): the
 -- slave loses its own grid and anchor and joins the master's grid. complete() runs
 -- on the authority only.
 --------------------------------------------------------------------------------

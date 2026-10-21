@@ -4,7 +4,7 @@
 -- (ISMoveableSpriteProps.lua:1403-1404, 2423-2424; an IsoThumpable keeps its
 -- whole ModData). It carries the device state that must follow the object
 -- (condition, installation efficiency). The server registry stays authoritative:
--- a client can rewrite an object's ModData (docs/notes-moteur.md, note 11).
+-- a client can rewrite an object's ModData (docs/annexes/recherches/notes-moteur.md, note 11).
 
 LiveWire = LiveWire or {}
 

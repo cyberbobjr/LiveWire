@@ -1,4 +1,4 @@
--- Live Wire: water pump service (authority only, docs/IDEES.md section 2).
+-- Live Wire: water pump service (authority only, docs/annexes/recherches/idees-initiales.md section 2).
 -- A pump moves water from the water barrels linked to it into invisible relay tanks
 -- (IsoThumpable with a FluidContainer) placed on the square ABOVE each plumbed fixture
 -- it serves: vanilla plumbing finds the relay as an external water source

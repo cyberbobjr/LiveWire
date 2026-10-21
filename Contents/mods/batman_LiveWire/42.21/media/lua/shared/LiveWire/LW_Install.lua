@@ -254,7 +254,7 @@ function Install.inverterById(sq, id)
     return nil
 end
 
--- Water barrels for the water pump (docs/IDEES.md, section 2). Any world object
+-- Water barrels for the water pump (docs/annexes/recherches/idees-initiales.md, section 2). Any world object
 -- with a FluidContainer of at least MIN_BARREL_CAPACITY litres: vanilla rain
 -- collectors and modded barrels alike. Our own tiles, relays and plumbed fixtures
 -- are never barrels. Install.linkKind is NOT changed: barrels never join the

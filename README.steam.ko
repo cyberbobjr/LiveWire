@@ -6,7 +6,7 @@
 
 [h2]작동 방식[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_ko.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ko.png[/img]
 
 [list]
 [*][b]발전원[/b]은 전력을 생산합니다: 태양광 패널 100 W, 풍력 터빈 400 W, 물레방아 120 W. 인버터 하나에 원하는 만큼 연결할 수 있습니다.
@@ -17,7 +17,7 @@
 
 [h2]장비[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_ko.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_ko.png[/img]
 
 [list]
 [*][b]태양광 패널[/b](전기공학 3): 실외, 하늘이 트인 곳. 평지붕에도 설치할 수 있습니다.
@@ -28,12 +28,12 @@
 [*][b]선택 사항[/b]: 차단기 패널(인버터를 망가뜨리는 대신 차단), 배터리 부족 경보기, 인버터의 웅웅거림을 줄이는 방음 키트, 예비 전원으로 쓰는 바닐라 발전기(배터리 20% 미만에서 가동), 관리용 컴퓨터로 쓰는 바닐라 데스크톱 컴퓨터. 연결 키트로 인버터를 최대 4대까지 병렬 연결할 수 있습니다(6,000 W).
 [/list]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
 
 [h2]생산[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_ko.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ko.png[/img]
 
 [list]
 [*][b]태양광[/b]: 여름 하루 약 0.94 kWh, 겨울 약 0.60 kWh. 구름과 눈이 생산량을 줄입니다.
@@ -55,7 +55,7 @@
 
 [h2]제작 레시피[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_ko.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_ko.png[/img]
 
 "전기공학" 범주이며, 필요한 레벨에 도달하면 자동으로 습득합니다. 태양광 셀은 분해한 계산기에서 얻거나 루트로 발견할 수 있습니다. 완성된 장비는 전기 기사, 철물점, 차고에서도 나올 수 있습니다.
 
@@ -63,7 +63,7 @@
 
 Live Wire Monitor는 생산량, 소비량, 배터리, 48시간 기록, 그리고 "일출까지" 예측을 보여줍니다. 선택 사항인 Computer Mod 또는 Laptop Mod를 쓰면 컴퓨터 루트에서 찾을 수 있는 디스크로 제공됩니다. 그렇지 않으면 인버터에 연결된 바닐라 데스크톱 컴퓨터에서 실행됩니다.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
 [h2]멀티플레이[/h2]
 
@@ -74,8 +74,8 @@ Live Wire Monitor는 생산량, 소비량, 배터리, 48시간 기록, 그리고
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire 위키 (영어 문서)[/url] · 소스 코드: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: 이 아이템에는 모든 장치의 3D 모델을 담은 선택 모드 [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint)도 포함되어 있습니다. Project Viewpoint를 사용할 때만 활성화하세요.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]호환[/b]: [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 및 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (선택): 관리 소프트웨어는 컴퓨터 전리품에서 찾은 디스크로 설치하며, 해당 바탕 화면에서 앱으로 실행됩니다.
 [b]호환성[/b]: 독자적으로 만든 모드이며, 다른 전력 시스템 모드와 함께 쓰도록 설계되지 않았습니다. 라이선스 MIT.
 

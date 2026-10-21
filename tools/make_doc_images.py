@@ -2,9 +2,9 @@
 
     python tools/make_doc_images.py [LANG ...]      (default: all languages)
 
-Writes docs/img/<name>_<lang>.png: diagram (how it works), production (charts), recipe_book (recipes,
+Writes docs/images/diagrams/<name>_<lang>.png: diagram (how it works), production (charts), recipe_book (recipes,
 640 px wide for the Steam page), equipment (device board).
-Only Pillow is needed. Figures come from the mod's model (docs/wiki/_facts.md); the solar day is the
+Only Pillow is needed. Figures come from the mod's model (docs/annexes/conception/fiche-des-faits.md); the solar day is the
 sine curve of LW_Physics.solarCurve with the day lengths that give the documented 0.94 / 0.60 kWh.
 Item names come from the game's translations (vanilla items) and the mod's translations (mod items).
 """
@@ -16,8 +16,8 @@ import sys
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "docs", "img")
-ICONS = os.path.join(ROOT, "docs", "icons")
+OUT = os.path.join(ROOT, "docs", "images", "diagrams")
+ICONS = os.path.join(ROOT, "docs", "images", "icons")
 MOD_TR = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media", "lua", "shared", "Translate")
 GAME_TR = os.environ.get("PZ_TRANSLATE", r"D:\SteamLibrary\steamapps\common\ProjectZomboid\media\lua\shared\Translate")
 FONTS = os.environ.get("FONTS_DIR", r"C:\Windows\Fonts")
@@ -583,7 +583,7 @@ EQUIP = [("SolarPanel", "100 W"), ("WindTurbine", "400 W \u00b7 10-85 km/h"), ("
 
 
 def sprite(key):
-    """Tile sprite from the mod's pack, extracted once into docs/icons/tiles (see collect step)."""
+    """Tile sprite from the mod's pack, extracted once into docs/images/icons/tiles (see collect step)."""
     p = os.path.join(ICONS, "tiles", key + ".png")
     if not os.path.exists(p):
         p = os.path.join(ICONS, key + ".png")

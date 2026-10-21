@@ -1,0 +1,87 @@
+> Version française : [Tables de butin](../fr/09-tables-de-butin.md)
+
+# Loot Tables
+
+Live Wire adds three items to the vanilla loot lists, and a few other ways to get solar cells.
+
+## How to read the tables
+
+Project Zomboid tests each item independently at each roll of a container list. A **weight** of W gives about W % per roll at normal loot rarity (before sandbox loot settings and zombie density). The **Rolls** column is the number of rolls of that vanilla list.
+
+Approximate chance per container = 1 - (1 - W / 100)^Rolls. For placeable furniture items like the solar panel, vanilla applies the "Other" loot modifier (0.6 at normal rarity).
+
+## Solar cell (`LiveWire.SolarCell`, always)
+
+| Vanilla list | Where | Weight | Rolls | Chance per container |
+|---|---|---|---|---|
+| GarageTools | Garage tool storage | 2 | 4 | 7.8 % |
+| CrateTools | Tool crates | 1 | 4 | 3.9 % |
+| GarageMetalwork | Garage metalwork storage | 1 | 4 | 3.9 % |
+| MechanicShelfElectric | Mechanic shop, electrical shelf | 2 | 4 | 7.8 % |
+| ElectricianTools | Electrician's tools | 3 | 3 | 8.7 % |
+| MetalShopTools | Metal shop tools | 1 | 4 | 3.9 % |
+| WireFactoryElectric | Wire factory, electrical | 2 | 4 | 7.8 % |
+| ToolStoreMisc | Hardware store, miscellaneous | 2 | 4 | 7.8 % |
+
+## Ready-made solar panel (`Base.Mov_LiveWire_SolarPanel`, always; furniture, x 0.6 at normal rarity)
+
+| Vanilla list | Where | Weight | Rolls | Chance per container |
+|---|---|---|---|---|
+| GarageTools | Garage tool storage | 0.3 | 4 | 0.7 % |
+| CrateTools | Tool crates | 0.3 | 4 | 0.7 % |
+| GarageMetalwork | Garage metalwork storage | 0.2 | 4 | 0.5 % |
+| ToolStoreMisc | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
+| ToolStoreTools | Hardware store, tools | 0.3 | 4 | 0.7 % |
+
+## Ready-made Live Wire equipment
+
+Found already built, in addition to the crafting recipes (sandbox loot settings apply).
+
+| Equipment | Vanilla list | Where | Weight | Rolls | ≈ chance per container |
+|---|---|---|---|---|---|
+| <img src="../../images/icons/VoltageTester.png" width="24" height="24"> **Voltage Tester** | `ElectricianTools` | Electrician's tools | 3 | 3 | 8.7 % |
+|  | `ToolStoreTools` | Hardware store, tools | 1 | 4 | 3.9 % |
+|  | `GarageTools` | Garage tool storage | 1 | 4 | 3.9 % |
+|  | `CrateTools` | Tool crates | 1 | 4 | 3.9 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 3.9 % |
+| <img src="../../images/icons/DeepCycleBattery.png" width="24" height="24"> **Deep-Cycle Battery** | `CarSupplyBatteries` | Car parts store, batteries | 2 | 4 | 7.8 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 1 | 4 | 3.9 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 0.3 | 4 | 1.2 % |
+| <img src="../../images/icons/Inverter.png" width="24" height="24"> **Inverter** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 0.5 | 3 | 0.9 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 0.5 | 4 | 1.2 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.2 | 4 | 0.5 % |
+|  | `GarageTools` | Garage tool storage | 0.1 | 4 | 0.2 % |
+| <img src="../../images/icons/Breaker.png" width="24" height="24"> **Breaker Panel** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 1 | 3 | 1.8 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 2.4 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
+|  | `GarageTools` | Garage tool storage | 0.3 | 4 | 0.7 % |
+|  | `CrateTools` | Tool crates | 0.3 | 4 | 0.7 % |
+| <img src="../../images/icons/PowerBank.png" width="24" height="24"> **Power Bank** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 0.5 | 3 | 0.9 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 0.5 | 4 | 1.2 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.3 | 4 | 0.7 % |
+|  | `GarageTools` | Garage tool storage | 0.2 | 4 | 0.5 % |
+| <img src="../../images/icons/BatteryAlarm.png" width="24" height="24"> **Low Battery Alarm** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 1 | 3 | 1.8 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 2.4 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
+| <img src="../../images/icons/WindTurbine.png" width="24" height="24"> **Wind Turbine** (furniture: × 0.6 included) | `ToolStoreMisc` | Hardware store, miscellaneous | 0.1 | 4 | 0.2 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 0.1 | 4 | 0.2 % |
+
+## Management software disk (`LiveWire.MonitorDisk`, only when the Computer Mod is active)
+
+| Vanilla list | Where | Weight | Rolls | Chance per container |
+|---|---|---|---|---|
+| ElectronicStoreComputers | Electronics store, computers | 2 | 1 | 2.0 % |
+| CrateComputer | Computer crates | 2 | 4 | 7.8 % |
+| BookstoreComputer | Bookstore, computer section | 1 | 4 | 3.9 % |
+| UniversityDesk_Computer | University desk, computing | 1 | 4 | 3.9 % |
+| UniversityDesk_Electrical | University desk, electrical | 2 | 4 | 7.8 % |
+| OfficeDesk | Office desks | 0.3 | 4 | 1.2 % |
+
+## Other ways to get solar cells
+
+- Dismantle a calculator: 1 solar cell each, no level required.
+- At Electrical level 8, make a solar cell from 5 electronics scrap + 1 aluminum.
+
+## See also
+
+[Recipes](08-recipes.md) - [Equipment](02-equipment.md) - [Inverter Screen and Software](05-inverter-screen-and-software.md) - [Multiplayer](12-multiplayer.md)

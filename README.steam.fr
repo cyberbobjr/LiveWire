@@ -6,7 +6,7 @@ Le courant ne reviendra plus... mais les lumières, elles, peuvent rester allum�
 
 [h2]Fonctionnement[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_fr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
 [list]
 [*][b]Les sources[/b] produisent : panneau photovoltaïque 100 W, éolienne 400 W, roue à aubes 120 W. Autant que vous voulez par onduleur.
@@ -17,7 +17,7 @@ Le courant ne reviendra plus... mais les lumières, elles, peuvent rester allum�
 
 [h2]Équipements[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_fr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png[/img]
 
 [list]
 [*][b]Panneau photovoltaïque[/b] (Électricité 3) : à l'extérieur, ciel dégagé. Les toits plats conviennent.
@@ -28,12 +28,12 @@ Le courant ne reviendra plus... mais les lumières, elles, peuvent rester allum�
 [*][b]En option[/b] : disjoncteur (il coupe au lieu d'endommager l'onduleur), alarme de batterie faible, kit d'insonorisation pour le bourdonnement de l'onduleur, générateur vanilla en secours (démarré sous 20 % de batterie), ordinateur de bureau vanilla comme ordinateur de gestion. Jusqu'à 4 onduleurs couplés en parallèle (6 000 W) avec un kit de couplage.
 [/list]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
 
 [h2]Production[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_fr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_fr.png[/img]
 
 [list]
 [*][b]Solaire[/b] : environ 0,94 kWh par journée d'été, environ 0,60 en hiver. Les nuages et la neige la réduisent.
@@ -55,7 +55,7 @@ Exemple : un réfrigérateur-congélateur et 10 lampes consomment environ 4,1 kW
 
 [h2]Recettes[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_fr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png[/img]
 
 Recettes de la catégorie Électricité, apprises automatiquement au niveau requis. Les cellules photovoltaïques viennent de calculatrices démontées ou se trouvent dans le butin ; des équipements tout faits peuvent aussi apparaître chez les électriciens, les quincailleries et les garages.
 
@@ -63,7 +63,7 @@ Recettes de la catégorie Électricité, apprises automatiquement au niveau requ
 
 Live Wire Monitor affiche la production, la consommation, les batteries, un historique de 48 h et une prévision « jusqu'au lever du soleil ». Avec le Computer Mod ou le Laptop Mod (en option), il est fourni sur un disque trouvé dans le butin informatique. Sinon, un ordinateur de bureau vanilla raccordé à l'onduleur le fait fonctionner.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
 [h2]Multijoueur[/h2]
 
@@ -71,11 +71,11 @@ Le serveur calcule tout et revérifie chaque requête. L'installation continue d
 
 [h2]Documentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/Presentation]Wiki Live Wire (français)[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/01-presentation]Wiki Live Wire (français)[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint), avec les modèles 3D de tous les équipements. À activer seulement si vous utilisez Project Viewpoint.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Compatible avec[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs) : le logiciel de gestion s'installe depuis un disque trouvé dans le butin informatique et fonctionne comme une application sur leur bureau.
 [b]Compatibilité[/b] : création originale, non prévue pour fonctionner avec d'autres mods de système électrique. Licence MIT.
 

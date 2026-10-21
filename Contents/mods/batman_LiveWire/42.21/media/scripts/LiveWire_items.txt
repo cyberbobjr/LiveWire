@@ -55,7 +55,7 @@ module LiveWire
     }
 
     /* Coupling kit: consumed to couple a second inverter to a master inverter as a
-       slave (docs/IDEES.md, section 5); given back when the slave is uncoupled. */
+       slave (docs/annexes/recherches/idees-initiales.md, section 5); given back when the slave is uncoupled. */
     item CouplingKit
     {
         DisplayCategory = Electronics,

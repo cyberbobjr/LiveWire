@@ -195,7 +195,7 @@ function Demand.measure(inv)
     -- Same filters as IsoGenerator.setSurroundingElectricity (IsoGenerator.java:274-286):
     -- not already on the public grid, exterior squares only if AllowExteriorGenerator.
     -- While our anchor is on, only count squares the engine really powers
-    -- (the engine generator range is a static value, notes-moteur.md note 27).
+    -- (the engine generator range is a static value, docs/annexes/recherches/notes-moteur.md note 27).
     local anchor = LiveWire.Registry.anchors and LiveWire.Registry.anchors[inv.id]
     local anchorOn = anchor and anchor.on
     local exteriorOk = allowExterior()

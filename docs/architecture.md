@@ -1,9 +1,9 @@
 # Live Wire — architecture
 
-État : **conception, aucun code**. Rien n'a été prototypé ni testé en jeu.
+État au 2026-10-21 : document de conception écrit pour la v0.1 (2026-10-17), complété par les mises à jour des sections 0 et 10. Le code est implémenté jusqu'à la version 1.3.1. Les contrats techniques **à jour** (registre schéma 2, commandes réseau, ModData des objets, options) sont dans [`specifications-techniques.md`](specifications-techniques.md), qui fait foi en cas d'écart avec les sections 3 et 5 ci-dessous.
 
 - Les chemins `java/…` et `media/…` sont relatifs à la racine du dépôt de référence `pz-source-42.21`.
-- « NM-n » renvoie à `docs/notes-moteur.md`, « D-n » à `docs/decisions-ouvertes.md`, « § F-n » à `docs/fonctionnel.md`.
+- « NM-n » renvoie à [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md), « D-n » à [`decisions.md`](decisions.md), « § F-n » à la section n de [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md) (identifiants F01… dans son tableau d'en-tête).
 - Les extraits Lua sont **illustratifs** : ce n'est pas du code livré.
 
 **Exigences de l'utilisateur** (2026-10-17), non négociables :
@@ -24,7 +24,7 @@ Cette section prime sur le reste du document quand ils divergent.
 - **Raccordement** : `Install.objectsInRange` parcourt les cases chargées à `LinkRange` (±1 étage) ; le menu de l'onduleur liste les équipements libres et raccordés. « Débrancher » est accepté près de l'équipement ou près de son onduleur.
 - **Supprimés** : `LWInstallAction`, `LWDismantleAction`, l'onduleur renforcé, les kits d'inventaire et leurs modèles 3D.
 - **Migration** : schéma 2. Les équipements du schéma 1 (sprites vanilla) passent dans `legacy.schema1` et leurs ancres sont retirées ; les anciens objets restent dans le monde comme simples meubles.
-- **Test en jeu** : fait par l'utilisateur (`protocole-tests.md`).
+- **Test en jeu** : fait par l'utilisateur ([`annexes/tests/protocole-tests.md`](annexes/tests/protocole-tests.md)).
 
 ## 0 bis. Mise à jour 0.1.2 (2026-10-17)
 
@@ -475,7 +475,7 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 
 ## 10. État de l'implémentation v0.1 (2026-10-17)
 
-**Statut : code écrit, vérifié hors jeu, jamais lancé dans le jeu.** Le protocole de test en jeu est dans `docs/protocole-tests.md`.
+**Statut : code écrit, vérifié hors jeu, jamais lancé dans le jeu.** Le protocole de test en jeu est dans [`annexes/tests/protocole-tests.md`](annexes/tests/protocole-tests.md).
 
 **Vérifications hors jeu passées :**
 - `python3 -I tools/check_mod.py` :

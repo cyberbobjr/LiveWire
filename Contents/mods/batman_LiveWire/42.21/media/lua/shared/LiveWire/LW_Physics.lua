@@ -1,6 +1,6 @@
 -- Live Wire: pure energy formulas (no game API calls).
 -- Units: power in W, energy in kWh, time in game hours.
--- Formulas: docs/fonctionnel.md sections 3 to 5. Tested offline by tests/test_physics.py.
+-- Formulas: docs/specifications-fonctionnelles.md sections 3 to 5. Tested offline by tests/test_physics.py.
 
 LiveWire = LiveWire or {}
 
@@ -60,7 +60,7 @@ function Physics.windFactor(v)
     return r * r * r
 end
 
--- Water wheel: river flow by season, day and night (docs/fonctionnel.md 3.4,
+-- Water wheel: river flow by season, day and night (docs/specifications-fonctionnelles.md 3.4,
 -- rule of the mod): spring x1.2, summer x0.8, autumn and winter x1.0. The engine
 -- never freezes water. `month` is GameTime:getMonth() (0 = January).
 function Physics.hydroFactor(month)

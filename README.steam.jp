@@ -6,7 +6,7 @@
 
 [h2]仕組み[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_jp.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_jp.png[/img]
 
 [list]
 [*][b]発電源[/b]が発電: ソーラーパネル 100 W、風力発電機 400 W、水車 120 W。インバーター1台につきいくつでも接続できる。
@@ -17,7 +17,7 @@
 
 [h2]機器[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_jp.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_jp.png[/img]
 
 [list]
 [*][b]ソーラーパネル[/b]（電気工学3）: 屋外で空が開けた場所に設置。陸屋根でも可。
@@ -28,12 +28,12 @@
 [*][b]オプション[/b]: 分電盤（インバーターを壊す代わりにブレーカーが落ちる）、低バッテリー警報、インバーターのうなり音を抑える防音キット、バッテリー残量20%未満で始動するバックアップ用のバニラの発電機、管理用コンピューターとして使うバニラのデスクトップPC。 連結キットで最大 4 台のインバーターを並列接続できます（6000 W）。
 [/list]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
 
 [h2]発電量[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_jp.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_jp.png[/img]
 
 [list]
 [*][b]太陽光[/b]: 夏の日は約0.94 kWh、冬は約0.60 kWh。雲と雪で減る。
@@ -55,7 +55,7 @@
 
 [h2]レシピ[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_jp.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_jp.png[/img]
 
 カテゴリー「電気工学」。必要なレベルに達すると自動的に習得される。太陽電池は分解した電卓から作れるほか、戦利品としても見つかる。完成品の機器は電気店、ホームセンター、ガレージにも出現することがある。
 
@@ -63,7 +63,7 @@
 
 Live Wire Monitor は、発電量、消費量、バッテリー、48時間の履歴、「日の出まで」の予測を表示する。任意の Computer Mod または Laptop Mod を入れると、コンピューター用の戦利品で見つかるディスクとして入手できる。なければ、インバーターに接続したバニラのデスクトップPCで動かせる。
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
 [h2]マルチプレイ[/h2]
 
@@ -74,8 +74,8 @@ Live Wire Monitor は、発電量、消費量、バッテリー、48時間の履
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki（英語版）[/url] · ソースコード: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：このアイテムには任意MOD [b]Live Wire - Viewpoint models[/b]（batman_LiveWireViewpoint）も含まれ、全機器の3Dモデルを提供します。Project Viewpoint を使う場合のみ有効にしてください。
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]対応MOD[/b]：[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] と [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（任意）。管理ソフトはパソコン系の戦利品で見つかるディスクからインストールでき、そのデスクトップ上のアプリとして動作する。
 [b]互換性[/b]: 独自に作成したMODで、他の電力系MODと同時に動かすことは想定していない。ライセンスはMIT。
 

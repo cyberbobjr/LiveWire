@@ -6,7 +6,7 @@
 
 [h2]Как это работает[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_ru.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ru.png[/img]
 
 [list]
 [*][b]Источники[/b]: панель 100 W, ветряк 400 W, водяное колесо 120 W, сколько угодно на инвертор.
@@ -17,19 +17,19 @@
 
 [h2]Оборудование[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_ru.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_ru.png[/img]
 
 [list]
 [*]Панель (Электрика 3) и ветряк (6) — на улице; водяное колесо (7) — на берегу реки; инвертор (5) можно ставить в доме; аккумуляторный блок (2) открывается как ящик.
 [*][b]Дополнительно[/b]: щиток автоматов, сигнализация низкого заряда, звукоизоляция инвертора, обычный генератор как резерв (ниже 20%), обычный компьютер для управления. До 4 инверторов параллельно (6 000 W) с комплектом связи.
 [/list]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
 
 [h2]Производство[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_ru.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ru.png[/img]
 
 [list]
 [*][b]Солнце[/b]: ~0,94 kWh летом, ~0,60 зимой; облака и снег снижают.
@@ -49,7 +49,7 @@
 
 [h2]Рецепты[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_ru.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_ru.png[/img]
 
 Категория «Электрика», изучаются автоматически. Солнечные ячейки — из калькуляторов или добычи; готовое оборудование встречается у электриков, в хозмагазинах и гаражах.
 
@@ -57,7 +57,7 @@
 
 Live Wire Monitor: выработка, потребление, аккумуляторы, история за 48 ч и прогноз «до рассвета». С Computer Mod или Laptop Mod — на диске из добычи, иначе на подключённом обычном компьютере.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
 [h2]Мультиплеер[/h2]
 
@@ -68,8 +68,8 @@ Live Wire Monitor: выработка, потребление, аккумуля�
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Вики Live Wire (англ.)[/url] · Код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: необязательный мод [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) с 3D-моделями устройств — только для Project Viewpoint.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Совместим с[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (необязательно).
 [b]Совместимость[/b]: не для совместной работы с другими модами энергосистем. Лицензия MIT.
 

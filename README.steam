@@ -6,7 +6,7 @@ The power is out for good... but the lights do not have to be. Build your own of
 
 [h2]How it works[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/diagram_en.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 
 [list]
 [*][b]Sources[/b] produce: solar panel 100 W, wind turbine 400 W, water wheel 120 W. As many as you want per inverter.
@@ -17,7 +17,7 @@ The power is out for good... but the lights do not have to be. Build your own of
 
 [h2]Equipment[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/equipment_en.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_en.png[/img]
 
 [list]
 [*][b]Solar panel[/b] (Electrical 3): outdoors, open sky. Flat roofs work.
@@ -28,12 +28,12 @@ The power is out for good... but the lights do not have to be. Build your own of
 [*][b]Optional[/b]: breaker panel (trips instead of damaging the inverter), low battery alarm, soundproofing kit for the inverter hum, vanilla generator as a backup (started under 20% battery), vanilla desktop computer as management computer. Up to 4 inverters can be coupled in parallel (6,000 W) with an inverter coupling kit.
 [/list]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/onduleur.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
 
 [h2]Production[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/production_en.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_en.png[/img]
 
 [list]
 [*][b]Solar[/b]: about 0.94 kWh per summer day, about 0.60 in winter. Clouds and snow reduce it.
@@ -55,7 +55,7 @@ Example: one fridge-freezer and 10 lights use about 4.1 kWh per day. A water whe
 
 [h2]Recipes[/h2]
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/img/recipe_book_en.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
 
 Category Electrical, learnt automatically at the required level. Solar cells come from dismantled calculators or are found as loot; ready-made equipment can also turn up in electricians', hardware stores and garages.
 
@@ -63,7 +63,7 @@ Category Electrical, learnt automatically at the required level. Solar cells com
 
 Live Wire Monitor shows production, consumption, batteries, 48 h history and a forecast "until sunrise". With the optional Computer Mod or Laptop Mod it comes on a disk found in computer loot. Otherwise a vanilla desktop computer linked to the inverter runs it.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/livewire_monitor_without_compute.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
 [h2]Multiplayer[/h2]
 
@@ -74,8 +74,8 @@ The server computes everything and re-checks every request. The installation kee
 [url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: this item also contains the optional mod [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) with 3D models of every device. Enable it only if you use Project Viewpoint.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/shots/viewpoint2.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Compatible with[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional): the management software installs from a disk found in computer loot and runs as an app on their desktop.
 [b]Compatibility[/b]: original creation, not meant to run together with other power-system mods. Licence MIT.
 
