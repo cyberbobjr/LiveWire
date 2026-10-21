@@ -1,7 +1,9 @@
 {
     "Sandbox_LiveWire": "Live Wire",
     "Sandbox_LiveWire_PowerScale": "전력 배율",
-    "Sandbox_LiveWire_PowerScale_tooltip": "모든 가전제품의 소비량에 곱해집니다 (1 = 냉장고 한 대가 130 W를 사용).",
+    "Sandbox_LiveWire_PowerScale_tooltip": "소비 전력 프로필에 더해 각 가전의 소비량을 곱합니다(1 = 변경 없음).",
+    "Sandbox_LiveWire_ConsumptionProfile": "소비 전력 프로필",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "켜진 가전제품이 소비하는 전력. 게임 값: 엔진 고유 값(조명 2 W, 냉장·냉동고 130 W). 현실적 1993: 당시 가정의 평균 소비(조명 60 W, TV 80 W, 레인지 2000 W). 초현실적 1993: 더 오래되고 전기를 많이 먹는 가전(조명 100 W, 레인지 3000 W, 건조기 5000 W). 편안함: 게임 값의 절반.",
     "Sandbox_LiveWire_SolarMultiplier": "태양광 발전량",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "태양광 패널 발전량의 배율입니다.",
     "Sandbox_LiveWire_WindMultiplier": "풍력 발전량",
@@ -33,5 +35,9 @@
     "Sandbox_LiveWire_BackupStartPercent": "예비 발전기 시작 (퍼센트)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "배터리가 이 퍼센트 아래로 떨어지면 예비 발전기가 시작합니다.",
     "Sandbox_LiveWire_BackupStopPercent": "예비 발전기 정지 (퍼센트)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "배터리가 이 퍼센트에 도달하면 예비 발전기가 멈춥니다."
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "배터리가 이 퍼센트에 도달하면 예비 발전기가 멈춥니다.",
+    "Sandbox_LiveWire_ConsumptionProfile_option1": "초현실적 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option2": "현실적 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option3": "게임 값",
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "편안함"
 }

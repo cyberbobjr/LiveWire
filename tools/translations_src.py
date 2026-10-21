@@ -326,8 +326,11 @@ for k, en, fr in [
 
 SANDBOX = [
     ("PowerScale", "Power scale", "Échelle de puissance",
-     "Multiplies the consumption of every appliance (1 = a fridge-freezer draws 130 W).",
-     "Multiplie la consommation de chaque appareil (1 = un réfrigérateur-congélateur consomme 130 W)."),
+     "Multiplies the consumption of every appliance, on top of the consumption profile (1 = no change).",
+     "Multiplie la consommation de chaque appareil, en plus du profil de consommation (1 = aucun changement)."),
+    ("ConsumptionProfile", "Consumption profile", "Profil de consommation",
+     "Power drawn by switched-on appliances. Game values: the engine's own values (light 2 W, fridge-freezer 130 W). Realistic 1993: average household draws of the time (light 60 W, TV 80 W, cooker 2,000 W). Ultra-realistic 1993: older, hungrier appliances (light 100 W, cooker 3,000 W, dryer 5,000 W). Comfort: half the game values.",
+     "Puissance consommée par les appareils allumés. Valeurs du jeu : celles du moteur (lumière 2 W, réfrigérateur-congélateur 130 W). Réaliste 1993 : consommations moyennes d'un foyer de l'époque (lumière 60 W, télévision 80 W, cuisinière 2 000 W). Ultra-réaliste 1993 : appareils plus anciens et plus gourmands (lumière 100 W, cuisinière 3 000 W, sèche-linge 5 000 W). Confort : la moitié des valeurs du jeu."),
     ("SolarMultiplier", "Solar production", "Production solaire",
      "Multiplier of the solar panel production.", "Multiplicateur de la production des panneaux photovoltaïques."),
     ("WindMultiplier", "Wind production", "Production éolienne",
@@ -366,6 +369,14 @@ add("Sandbox", "Sandbox_LiveWire", "Live Wire", "Live Wire")
 for name, en, fr, ten, tfr in SANDBOX:
     add("Sandbox", "Sandbox_LiveWire_" + name, en, fr)
     add("Sandbox", "Sandbox_LiveWire_" + name + "_tooltip", ten, tfr)
+# Values of the ConsumptionProfile enum (EnumSandboxOption: Sandbox_<valueTranslation>_option<n>).
+for i, en, fr in [
+    (1, "Ultra-realistic 1993", "Ultra-réaliste 1993"),
+    (2, "Realistic 1993", "Réaliste 1993"),
+    (3, "Game values", "Valeurs du jeu"),
+    (4, "Comfort", "Confort"),
+]:
+    add("Sandbox", "Sandbox_LiveWire_ConsumptionProfile_option%d" % i, en, fr)
 
 
 # Water pump (1.2.0): items, recipe, menus, tooltips, software line.

@@ -200,7 +200,7 @@ function Demand.measure(inv)
     local anchorOn = anchor and anchor.on
     local exteriorOk = allowExterior()
     local total = 0
-    local scale = 1000 * (LiveWire.Config.get("PowerScale") or 1)
+    local profile = LiveWire.Consumption.profile()
     local breakdown = {}
     -- Other switched-on anchors, collected once per call (see closerInverter).
     local R = LiveWire.Config.tileRange()
@@ -217,19 +217,19 @@ function Demand.measure(inv)
         if sq and o:getObjectIndex() ~= -1 and not ItemContainer.isObjectPowered(o, false)
             and (exteriorOk or not sq:getProperties():has(IsoFlagType.exterior))
             and (not anchorOn or sq:haveElectricity()) then
-            local p = o:getGeneratorPowerConsumption()
-            if p and p > 0 and (#others == 0
+            local w = LiveWire.Consumption.watts(o, profile)
+            if w > 0 and (#others == 0
                 or not closerInverter(others, inv, sq:getX(), sq:getY(), sq:getZ(), R * R, V)) then
-                total = total + p
+                total = total + w
                 local cat = Demand.category(o)
                 local b = breakdown[cat] or { n = 0, w = 0 }
                 b.n = b.n + 1
-                b.w = b.w + p * scale
+                b.w = b.w + w
                 breakdown[cat] = b
             end
         end
     end
-    return total * scale, breakdown
+    return total, breakdown
 end
 
 -- An appliance removed near an inverter: rebuild its list (a moved fridge comes back

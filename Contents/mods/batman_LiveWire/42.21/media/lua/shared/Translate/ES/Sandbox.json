@@ -1,7 +1,9 @@
 {
     "Sandbox_LiveWire": "Live Wire",
     "Sandbox_LiveWire_PowerScale": "Escala de potencia",
-    "Sandbox_LiveWire_PowerScale_tooltip": "Multiplica el consumo de cada electrodoméstico (1 = un frigorífico-congelador consume 130 W).",
+    "Sandbox_LiveWire_PowerScale_tooltip": "Multiplica el consumo de cada aparato, además del perfil de consumo (1 = sin cambio).",
+    "Sandbox_LiveWire_ConsumptionProfile": "Perfil de consumo",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Potencia consumida por los aparatos encendidos. Valores del juego: los del motor (luz 2 W, frigorífico-congelador 130 W). Realista 1993: consumos medios de un hogar de la época (luz 60 W, televisor 80 W, cocina 2.000 W). Ultrarrealista 1993: aparatos más antiguos y más gastones (luz 100 W, cocina 3.000 W, secadora 5.000 W). Comodidad: la mitad de los valores del juego.",
     "Sandbox_LiveWire_SolarMultiplier": "Producción solar",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Multiplicador de la producción de los paneles solares.",
     "Sandbox_LiveWire_WindMultiplier": "Producción eólica",
@@ -33,5 +35,9 @@
     "Sandbox_LiveWire_BackupStartPercent": "Arranque del respaldo (porcentaje)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Un generador de respaldo arranca cuando las baterías bajan de este porcentaje.",
     "Sandbox_LiveWire_BackupStopPercent": "Parada del respaldo (porcentaje)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "El generador de respaldo se detiene cuando las baterías alcanzan este porcentaje."
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "El generador de respaldo se detiene cuando las baterías alcanzan este porcentaje.",
+    "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarrealista 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option2": "Realista 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option3": "Valores del juego",
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Comodidad"
 }

@@ -1,7 +1,9 @@
 {
     "Sandbox_LiveWire": "Live Wire",
     "Sandbox_LiveWire_PowerScale": "Масштаб потребления",
-    "Sandbox_LiveWire_PowerScale_tooltip": "Умножает потребление каждого прибора (1 = холодильник-морозилка потребляет 130 W).",
+    "Sandbox_LiveWire_PowerScale_tooltip": "Умножает потребление каждого прибора поверх профиля потребления (1 = без изменений).",
+    "Sandbox_LiveWire_ConsumptionProfile": "Профиль потребления",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Мощность, потребляемая включёнными приборами. Значения игры: значения движка (свет 2 Вт, холодильник с морозилкой 130 Вт). Реалистично 1993: средняя бытовая нагрузка того времени (свет 60 Вт, телевизор 80 Вт, плита 2000 Вт). Ультрареалистично 1993: более старые и прожорливые приборы (свет 100 Вт, плита 3000 Вт, сушилка 5000 Вт). Комфорт: половина значений игры.",
     "Sandbox_LiveWire_SolarMultiplier": "Выработка солнечных панелей",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Множитель выработки солнечной панели.",
     "Sandbox_LiveWire_WindMultiplier": "Выработка ветряных турбин",
@@ -33,5 +35,9 @@
     "Sandbox_LiveWire_BackupStartPercent": "Запуск резерва (процент)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Резервный генератор запускается, когда заряд аккумуляторов падает ниже этого процента.",
     "Sandbox_LiveWire_BackupStopPercent": "Остановка резерва (процент)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Резервный генератор останавливается, когда заряд аккумуляторов достигает этого процента."
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Резервный генератор останавливается, когда заряд аккумуляторов достигает этого процента.",
+    "Sandbox_LiveWire_ConsumptionProfile_option1": "Ультрареалистично 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option2": "Реалистично 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option3": "Значения игры",
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Комфорт"
 }

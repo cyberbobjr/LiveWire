@@ -1,7 +1,9 @@
 {
     "Sandbox_LiveWire": "Live Wire",
     "Sandbox_LiveWire_PowerScale": "Power scale",
-    "Sandbox_LiveWire_PowerScale_tooltip": "Multiplies the consumption of every appliance (1 = a fridge-freezer draws 130 W).",
+    "Sandbox_LiveWire_PowerScale_tooltip": "Multiplies the consumption of every appliance, on top of the consumption profile (1 = no change).",
+    "Sandbox_LiveWire_ConsumptionProfile": "Consumption profile",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Power drawn by switched-on appliances. Game values: the engine's own values (light 2 W, fridge-freezer 130 W). Realistic 1993: average household draws of the time (light 60 W, TV 80 W, cooker 2,000 W). Ultra-realistic 1993: older, hungrier appliances (light 100 W, cooker 3,000 W, dryer 5,000 W). Comfort: half the game values.",
     "Sandbox_LiveWire_SolarMultiplier": "Solar production",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Multiplier of the solar panel production.",
     "Sandbox_LiveWire_WindMultiplier": "Wind production",
@@ -33,5 +35,9 @@
     "Sandbox_LiveWire_BackupStartPercent": "Backup start (percent)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "A backup generator starts when the batteries fall below this percentage.",
     "Sandbox_LiveWire_BackupStopPercent": "Backup stop (percent)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "The backup generator stops once the batteries reach this percentage."
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "The backup generator stops once the batteries reach this percentage.",
+    "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultra-realistic 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option2": "Realistic 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option3": "Game values",
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Comfort"
 }

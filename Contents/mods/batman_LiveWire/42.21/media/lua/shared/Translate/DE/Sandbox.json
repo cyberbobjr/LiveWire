@@ -1,7 +1,9 @@
 {
     "Sandbox_LiveWire": "Live Wire",
     "Sandbox_LiveWire_PowerScale": "Leistungsskala",
-    "Sandbox_LiveWire_PowerScale_tooltip": "Multipliziert den Verbrauch jedes Geräts (1 = ein Kühlschrank-Gefrierschrank zieht 130 W).",
+    "Sandbox_LiveWire_PowerScale_tooltip": "Multipliziert den Verbrauch jedes Geräts, zusätzlich zum Verbrauchsprofil (1 = keine Änderung).",
+    "Sandbox_LiveWire_ConsumptionProfile": "Verbrauchsprofil",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Leistung eingeschalteter Geräte. Spielwerte: die Werte der Engine (Licht 2 W, Kühl-Gefrier-Kombination 130 W). Realistisch 1993: durchschnittlicher Haushaltsverbrauch jener Zeit (Licht 60 W, Fernseher 80 W, Herd 2.000 W). Ultrarealistisch 1993: ältere, hungrigere Geräte (Licht 100 W, Herd 3.000 W, Trockner 5.000 W). Komfort: die Hälfte der Spielwerte.",
     "Sandbox_LiveWire_SolarMultiplier": "Solarerzeugung",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Multiplikator der Erzeugung der Solarpanels.",
     "Sandbox_LiveWire_WindMultiplier": "Winderzeugung",
@@ -33,5 +35,9 @@
     "Sandbox_LiveWire_BackupStartPercent": "Notstart (Prozent)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Ein Notstromgenerator startet, wenn die Batterien unter diesen Prozentsatz fallen.",
     "Sandbox_LiveWire_BackupStopPercent": "Notstopp (Prozent)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Der Notstromgenerator stoppt, sobald die Batterien diesen Prozentsatz erreichen."
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Der Notstromgenerator stoppt, sobald die Batterien diesen Prozentsatz erreichen.",
+    "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarealistisch 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option2": "Realistisch 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option3": "Spielwerte",
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Komfort"
 }

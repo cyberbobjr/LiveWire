@@ -675,11 +675,11 @@ function LWMeasureAction:complete()
         for i = 0, objs:size() - 1 do
             local o = objs:get(i)
             if o:couldBePoweredByGenerator() then
-                best = math.max(best, o:getGeneratorPowerConsumption() or 0)
+                best = math.max(best, LiveWire.Consumption.watts(o))
             end
         end
         if best > 0 then
-            local w = math.floor(best * 1000 * LiveWire.Config.get("PowerScale") + 0.5)
+            local w = math.floor(best + 0.5)
             LiveWire.notify(ch, "IGUI_LW_Measure_Draw", { tostring(w) })
         end
     end

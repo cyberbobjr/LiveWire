@@ -1,7 +1,9 @@
 {
     "Sandbox_LiveWire": "Live Wire",
     "Sandbox_LiveWire_PowerScale": "Escala de energia",
-    "Sandbox_LiveWire_PowerScale_tooltip": "Multiplica o consumo de cada aparelho (1 = um frigorífico com arca consome 130 W).",
+    "Sandbox_LiveWire_PowerScale_tooltip": "Multiplica o consumo de cada aparelho, além do perfil de consumo (1 = sem alteração).",
+    "Sandbox_LiveWire_ConsumptionProfile": "Perfil de consumo",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Potência consumida pelos aparelhos ligados. Valores do jogo: os do motor (luz 2 W, frigorífico-congelador 130 W). Realista 1993: consumos médios de uma casa da época (luz 60 W, televisor 80 W, fogão 2000 W). Ultrarrealista 1993: aparelhos mais antigos e mais gastadores (luz 100 W, fogão 3000 W, máquina de secar 5000 W). Conforto: metade dos valores do jogo.",
     "Sandbox_LiveWire_SolarMultiplier": "Produção solar",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Multiplicador da produção dos painéis solares.",
     "Sandbox_LiveWire_WindMultiplier": "Produção eólica",
@@ -33,5 +35,9 @@
     "Sandbox_LiveWire_BackupStartPercent": "Arranque da reserva (percentagem)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Um gerador de reserva arranca quando as baterias descem abaixo desta percentagem.",
     "Sandbox_LiveWire_BackupStopPercent": "Paragem da reserva (percentagem)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "O gerador de reserva para quando as baterias atingirem esta percentagem."
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "O gerador de reserva para quando as baterias atingirem esta percentagem.",
+    "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarrealista 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option2": "Realista 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option3": "Valores do jogo",
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Conforto"
 }

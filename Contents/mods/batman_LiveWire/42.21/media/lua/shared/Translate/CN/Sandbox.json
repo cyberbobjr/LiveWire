@@ -1,7 +1,9 @@
 {
     "Sandbox_LiveWire": "Live Wire",
     "Sandbox_LiveWire_PowerScale": "功率倍率",
-    "Sandbox_LiveWire_PowerScale_tooltip": "乘以每台电器的耗电量 (1 = 一台冰箱冷冻柜耗电 130 W).",
+    "Sandbox_LiveWire_PowerScale_tooltip": "在耗电方案之外，再乘以每个电器的耗电（1 = 不变）。",
+    "Sandbox_LiveWire_ConsumptionProfile": "耗电方案",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "开启的电器消耗的功率。游戏数值：引擎自带数值（灯 2 W，冰箱冷柜 130 W）。写实 1993：当年家庭的平均耗电（灯 60 W，电视 80 W，电炉 2000 W）。极度写实 1993：更老旧、更耗电的电器（灯 100 W，电炉 3000 W，烘干机 5000 W）。舒适：游戏数值的一半。",
     "Sandbox_LiveWire_SolarMultiplier": "太阳能发电量",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "太阳能板发电量的倍率.",
     "Sandbox_LiveWire_WindMultiplier": "风力发电量",
@@ -33,5 +35,9 @@
     "Sandbox_LiveWire_BackupStartPercent": "备用发电机启动 (百分比)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "电池低于此百分比时备用发电机启动.",
     "Sandbox_LiveWire_BackupStopPercent": "备用发电机停止 (百分比)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "电池达到此百分比时备用发电机停止."
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "电池达到此百分比时备用发电机停止.",
+    "Sandbox_LiveWire_ConsumptionProfile_option1": "极度写实 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option2": "写实 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option3": "游戏数值",
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "舒适"
 }

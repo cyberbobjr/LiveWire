@@ -1,7 +1,9 @@
 {
     "Sandbox_LiveWire": "Live Wire",
     "Sandbox_LiveWire_PowerScale": "電力スケール",
-    "Sandbox_LiveWire_PowerScale_tooltip": "すべての機器の消費電力を倍率で変えます(1 = 冷蔵庫・冷凍庫は130 W)。",
+    "Sandbox_LiveWire_PowerScale_tooltip": "消費電力プロファイルに加えて、各家電の消費を倍率で変更します（1 = 変更なし）。",
+    "Sandbox_LiveWire_ConsumptionProfile": "消費電力プロファイル",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "電源の入った家電の消費電力。ゲームの値：エンジン本来の値（照明 2 W、冷凍冷蔵庫 130 W）。リアル 1993：当時の家庭の平均消費（照明 60 W、テレビ 80 W、コンロ 2000 W）。超リアル 1993：より古く電気を食う家電（照明 100 W、コンロ 3000 W、乾燥機 5000 W）。快適：ゲームの値の半分。",
     "Sandbox_LiveWire_SolarMultiplier": "太陽光発電量",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "ソーラーパネルの発電量の倍率です。",
     "Sandbox_LiveWire_WindMultiplier": "風力発電量",
@@ -33,5 +35,9 @@
     "Sandbox_LiveWire_BackupStartPercent": "予備発電機の始動(パーセント)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "バッテリーがこの割合を下回ると予備発電機が始動します。",
     "Sandbox_LiveWire_BackupStopPercent": "予備発電機の停止(パーセント)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "バッテリーがこの割合に達すると予備発電機が停止します。"
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "バッテリーがこの割合に達すると予備発電機が停止します。",
+    "Sandbox_LiveWire_ConsumptionProfile_option1": "超リアル 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option2": "リアル 1993",
+    "Sandbox_LiveWire_ConsumptionProfile_option3": "ゲームの値",
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "快適"
 }

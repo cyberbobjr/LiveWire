@@ -16,7 +16,7 @@ LUA = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media"
 
 FILES = [
     "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua",
-    "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",
+    "shared/LiveWire/LW_Consumption.lua", "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",
     "shared/LiveWire/LW_Notify.lua", "shared/LiveWire/LW_Anchor.lua", "shared/LiveWire/LW_Install.lua",
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua", "server/LiveWire/LW_Simulation.lua",
@@ -524,7 +524,65 @@ def scenario_slave_removal():
     check(lua.globals().CHK_SLAVE, "removing a slave: the master's grid stays intact")
 
 
+CONSUMPTION = r"""
+-- Appliance stubs: class name, engine value and state.
+local function obj(cls, p, extra)
+    local o = { cls = cls, p = p, piped = 0, fridge = false, freezer = false }
+    for k, v in pairs(extra or {}) do o[k] = v end
+    function o:getGeneratorPowerConsumption() return self.p end
+    function o:getPipedFuelAmount() return self.piped end
+    function o:getContainerByType(t)
+        if t == "fridge" and self.fridge then return {} end
+        if t == "freezer" and self.freezer then return {} end
+        return nil
+    end
+    function o:isMicrowave() return self.micro == true end
+    function o:isWasherActivated() return self.washerOn == true end
+    function o:isDryerActivated() return self.dryerOn == true end
+    function o:isModeDryer() return self.dryerMode == true end
+    return o
+end
+function instanceof(o, cls) return o.cls == cls end
+APPS = {
+    light = obj("IsoLightSwitch", 0.002),
+    lightOff = obj("IsoLightSwitch", 0),
+    ff = obj("IsoObject", 0.13, { fridge = true, freezer = true }),
+    freezer = obj("IsoObject", 0.08, { freezer = true }),
+    micro = obj("IsoStove", 0.09, { micro = true }),
+    stove = obj("IsoStove", 0.09),
+    stacked = obj("IsoStackedWasherDryer", 1.8, { washerOn = true, dryerOn = true }),
+    combo = obj("IsoCombinationWasherDryer", 0.09, { dryerMode = true }),
+    piped = obj("IsoObject", 0.03, { piped = 5, fridge = true }),
+    modded = obj("IsoModdedThing", 0.2),
+}
+function W(name, profile) return LiveWire.Consumption.watts(APPS[name], profile) end
+"""
+
+
+def scenario_consumption_profiles():
+    lua = make()
+    lua.execute(CONSUMPTION)
+    W = lua.globals().W
+    near = lambda a, b: abs(a - b) < 1e-6
+    # Default profile = engine values x 1000 (no change for existing saves).
+    check(lua.eval("LiveWire.Consumption.profile()") == 3, "default profile is the game values")
+    check(near(W("light"), 2) and near(W("ff"), 130) and near(W("stacked"), 1800), "game values unchanged")
+    check(W("lightOff") == 0 and W("lightOff", 2) == 0, "an appliance switched off draws nothing")
+    check(near(W("light", 2), 60) and near(W("ff", 2), 130) and near(W("freezer", 2), 90), "realistic 1993")
+    check(near(W("stove", 2), 2000) and near(W("micro", 2), 1100), "realistic cooker and microwave")
+    check(near(W("stacked", 2), 3500) and near(W("combo", 2), 2000), "realistic laundry by function")
+    check(near(W("light", 1), 100) and near(W("stacked", 1), 5700), "ultra-realistic 1993")
+    check(near(W("stacked", 4), 90) and near(W("ff", 4), 65), "comfort halves and fixes the stacked laundry")
+    check(near(W("piped", 2), 30) and near(W("modded", 2), 200) and near(W("modded", 4), 100),
+          "gas and unknown appliances keep the engine value")
+    lua.execute('SandboxVars = { LiveWire = { ConsumptionProfile = 2, PowerScale = 2 } }')
+    check(near(W("light"), 120), "sandbox profile and PowerScale both apply")
+    lua.execute('SandboxVars = { LiveWire = { ConsumptionProfile = 9 } }')
+    check(near(W("light"), 2), "an unknown profile falls back to the game values")
+
+
 def main():
+    scenario_consumption_profiles()
     scenario_slave_capacity()
     scenario_slave_breaks()
     scenario_slave_trip()

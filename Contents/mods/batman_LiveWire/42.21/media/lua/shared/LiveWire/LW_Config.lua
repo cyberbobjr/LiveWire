@@ -9,6 +9,7 @@ LiveWire.Config = Config
 
 local DEFAULTS = {
     PowerScale = 1.0,
+    ConsumptionProfile = 3,
     SolarMultiplier = 1.0,
     WindMultiplier = 1.0,
     HydroMultiplier = 1.0,

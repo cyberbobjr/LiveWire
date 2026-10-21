@@ -6,6 +6,13 @@ option LiveWire.PowerScale
     page = LiveWire, translation = LiveWire_PowerScale,
 }
 
+option LiveWire.ConsumptionProfile
+{
+    type = enum, numValues = 4, default = 3,
+    page = LiveWire, translation = LiveWire_ConsumptionProfile,
+    valueTranslation = LiveWire_ConsumptionProfile,
+}
+
 option LiveWire.SolarMultiplier
 {
     type = double, min = 0.0, max = 10.0, default = 1.0,
