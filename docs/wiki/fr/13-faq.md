@@ -32,7 +32,7 @@ Tout son réseau est déconnecté. Le tourner conserve les liaisons. Une source 
 ## Production
 
 **Combien de panneaux faut-il pour une maison ?**
-Aucune limite : les productions s'additionnent. Exemple pour un frigo-congélateur et 10 lumières (environ 4,1 kWh par jour) : 4 panneaux donnent 3,8 kWh en été et 2,4 en hiver (déficit), 6 panneaux plus 1 éolienne donnent 6,3 et 4,3, et 1 roue à aubes plus 2 panneaux donnent 4,8 et 4,1. Voir [Production et calculs](04-production-et-calculs.md).
+Aucune limite : les productions s'additionnent. Une journée de référence (frigo-congélateur, 10 lumières pendant 6 h, télévision pendant 3 h) demande environ 3,8 kWh avec les valeurs du jeu et 7,4 kWh en Réaliste 1993. En hiver, 6 panneaux plus 1 éolienne donnent environ 4,3 kWh (assez pour les valeurs du jeu), et 1 roue à aubes plus 8 panneaux environ 7,7 kWh (assez pour Réaliste 1993). Voir [Production et calculs](04-production-et-calculs.md#exemple-de-dimensionnement).
 
 **Quelle vitesse de vent faut-il à l'éolienne ?**
 Rien en dessous de 10 km/h, 100 % (400 W) de 45 à 85 km/h, et frein automatique au-delà de 85 km/h. Entre les deux, 25 km/h donnent environ 31 W et 40 km/h environ 252 W. Le vent compte +15 % par étage jusqu'au 3e. Voir [Production et calculs](04-production-et-calculs.md).
@@ -52,7 +52,7 @@ Une nuit d'hiver de 14 h pour un frigo-congélateur et 10 lumières demande envi
 Oui, tant qu'il y a du courant. Le serveur simule toutes les 10 minutes de jeu même sans personne à proximité (option `SimulateUnloaded`). Vérifié en solo : un steak dans un frigo alimenté, joueur à 300 cases pendant 10 heures de jeu, a vieilli de 0,083 jour au lieu de 0,417. L'état d'alimentation trouvé au rechargement de la zone compte pour toute l'absence. Voir [Premiers pas](01-premiers-pas.md).
 
 **Qu'est-ce qui consomme ?**
-Lumière 2 W, radio 10 W, télévision 30 W, frigo seul 80 W, cuisinière, micro-ondes, lave-linge et sèche-linge 90 W chacun, frigo-congélateur 130 W, lave-linge + sèche-linge superposés jusqu'à 1 800 W. L'onduleur lui-même consomme 20 W au repos. Voir [Production et calculs](04-production-et-calculs.md).
+Cela dépend de l'option sandbox `ConsumptionProfile`. Avec les valeurs du jeu (défaut) : lumière 2 W, radio 10 W, télévision 30 W, frigo seul 80 W, cuisinière, micro-ondes, lave-linge et sèche-linge 90 W chacun, frigo-congélateur 130 W, lave-linge + sèche-linge superposés jusqu'à 1 800 W. Avec Réaliste 1993 : lumière 60 W, télévision 80 W, frigo-congélateur 130 W, cuisinière électrique 2 000 W, sèche-linge 3 000 W. L'onduleur lui-même consomme 20 W au repos. Voir [Production et calculs](04-production-et-calculs.md#consommation-des-appareils).
 
 **Pourquoi le disjoncteur (ou l'onduleur) a-t-il sauté ?**
 La demande des appareils de la maison a dépassé 1 500 W, par exemple un lave-linge + sèche-linge superposés. Avec un disjoncteur, c'est lui qui saute et l'onduleur ne subit aucun dommage ; utilisez « Réarmer le disjoncteur » une fois la charge réduite. Sans disjoncteur, l'onduleur saute et perd 3 points d'état ; utilisez « Réarmer » sur lui. Voir [Équipements optionnels](06-equipements-optionnels.md).
@@ -99,7 +99,7 @@ Il est conçu pour : production, stock, états, pannes et expérience sont calcu
 L'ID du mod est `batman_LiveWire`. L'ID Workshop est `3821807453`. On peut aussi copier `Contents/mods/batman_LiveWire` dans `Zomboid/mods`. Voir [Premiers pas](01-premiers-pas.md#installation).
 
 **Quelles options sandbox comptent pour un serveur ?**
-Page « Live Wire » : `PowerScale`, multiplicateurs de sources (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, multiplicateurs d'usure, `LinkRange`, `WirePerTiles`, `SkillGates` et `SimulateUnloaded` (activé par défaut). Si le serveur se met en pause quand il est vide, l'installation aussi. Voir [Options sandbox](11-options-sandbox.md).
+Page « Live Wire » : `ConsumptionProfile` (ultra-réaliste 1993, réaliste 1993, valeurs du jeu, confort), `PowerScale`, multiplicateurs de sources (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, multiplicateurs d'usure, `LinkRange`, `WirePerTiles`, `SkillGates` et `SimulateUnloaded` (activé par défaut). Si le serveur se met en pause quand il est vide, l'installation aussi. Voir [Options sandbox](11-options-sandbox.md).
 
 **Qui peut utiliser une installation, et y a-t-il du retard ?**
 Les installations partagées suivent les règles vanilla des refuges. Le logiciel peut avoir jusqu'à 10 minutes de jeu de retard. Les générateurs vanilla ne changent pas : si un générateur et un onduleur couvrent les mêmes appareils, les deux consomment. Voir [Multijoueur](12-multijoueur.md).

@@ -32,7 +32,7 @@ Its whole network is disconnected. Rotating it keeps the links. A picked-up sour
 ## Production
 
 **How many panels does a house need?**
-There is no limit; productions add up. Example for a fridge-freezer and 10 lights (about 4.1 kWh per day): 4 panels give 3.8 kWh in summer and 2.4 in winter (deficit), 6 panels plus 1 wind turbine give 6.3 and 4.3, and 1 water wheel plus 2 panels give 4.8 and 4.1. See [Production and calculations](04-production-and-calculations.md).
+There is no limit; productions add up. A reference day (fridge-freezer, 10 lights for 6 h, TV for 3 h) needs about 3.8 kWh with the game values and 7.4 kWh with Realistic 1993. In winter, 6 panels plus 1 wind turbine give about 4.3 kWh (enough for the game values), and 1 water wheel plus 8 panels about 7.7 kWh (enough for Realistic 1993). See [Production and calculations](04-production-and-calculations.md#sizing-example).
 
 **What wind speed does the turbine need?**
 It produces nothing below 10 km/h, reaches 100 % (400 W) from 45 to 85 km/h, and brakes automatically above 85 km/h. In between, 25 km/h gives about 31 W and 40 km/h about 252 W. Wind counts +15 % per floor up to the 3rd. See [Production and calculations](04-production-and-calculations.md).
@@ -52,7 +52,7 @@ A 14 h winter night for a fridge-freezer and 10 lights needs about 2.4 kWh: roug
 Yes, as long as there is power. The server simulates every 10 game minutes even with nobody nearby (sandbox `SimulateUnloaded`). Checked in single player: a steak in a powered fridge with the player 300 tiles away for 10 game hours aged 0.083 day instead of 0.417. The power state found when the area reloads counts for the whole absence. See [Getting started](01-getting-started.md).
 
 **What consumes power?**
-Light 2 W, radio 10 W, television 30 W, fridge alone 80 W, stove, microwave, washer and dryer 90 W each, fridge-freezer 130 W, a stacked washer + dryer up to 1,800 W. The inverter itself uses 20 W idle. See [Production and calculations](04-production-and-calculations.md).
+It depends on the sandbox `ConsumptionProfile`. With the default game values: light 2 W, radio 10 W, television 30 W, fridge alone 80 W, stove, microwave, washer and dryer 90 W each, fridge-freezer 130 W, a stacked washer + dryer up to 1,800 W. With Realistic 1993: light 60 W, television 80 W, fridge-freezer 130 W, electric cooker 2,000 W, dryer 3,000 W. The inverter itself uses 20 W idle. See [Production and calculations](04-production-and-calculations.md#appliance-consumption).
 
 **Why did the breaker (or the inverter) trip?**
 The demand of the house appliances went above 1,500 W, for example a stacked washer + dryer. With a breaker panel, the breaker trips and the inverter takes no damage; use "Reset the breaker" once the load is lower. Without a breaker, the inverter trips and loses 3 condition points; use "Reset" on it. See [Optional equipment](06-optional-equipment.md).
@@ -99,7 +99,7 @@ It is designed for it: production, stock, states, failures and experience are co
 The Mod ID is `batman_LiveWire`. The Workshop ID is `3821807453`. You can also copy `Contents/mods/batman_LiveWire` into `Zomboid/mods`. See [Getting started](01-getting-started.md#installation).
 
 **Which sandbox options matter for a server?**
-Page "Live Wire": `PowerScale`, source multipliers (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, wear multipliers, `LinkRange`, `WirePerTiles`, `SkillGates` and `SimulateUnloaded` (default on). If the server pauses when empty, the installation pauses too. See [Sandbox options](11-sandbox-options.md).
+Page "Live Wire": `ConsumptionProfile` (ultra-realistic 1993, realistic 1993, game values, comfort), `PowerScale`, source multipliers (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, wear multipliers, `LinkRange`, `WirePerTiles`, `SkillGates` and `SimulateUnloaded` (default on). If the server pauses when empty, the installation pauses too. See [Sandbox options](11-sandbox-options.md).
 
 **Who can use an installation, and does it lag?**
 Shared installations follow the vanilla safehouse rules. The software may lag up to 10 game minutes. Vanilla generators are unchanged: if a generator and an inverter cover the same appliances, both pay. See [Multiplayer](12-multiplayer.md).

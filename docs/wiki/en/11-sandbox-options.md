@@ -6,7 +6,8 @@ Server and game settings are on the **LiveWire** page of the sandbox options.
 
 | Option | Default | Range | Effect |
 |---|---|---|---|
-| `PowerScale` | 1.0 | 0.1-10 | 1 engine power unit per hour = 1,000 W x this |
+| `ConsumptionProfile` | Game values | Ultra-realistic 1993, Realistic 1993, Game values, Comfort | Power drawn by switched-on appliances; see the table in [Production and Calculations](04-production-and-calculations.md#appliance-consumption) |
+| `PowerScale` | 1.0 | 0.1-10 | Multiplies the consumption given by the profile (1 = no change) |
 | `SolarMultiplier` / `WindMultiplier` / `HydroMultiplier` | 1.0 | 0-10 | Production per source family |
 | `BatteryCapacityMultiplier` | 1.0 | 0.1-10 | Battery capacity |
 | `BatteryWearMultiplier` / `DeviceWearMultiplier` | 1.0 | 0-10 | Wear; 0 = none |

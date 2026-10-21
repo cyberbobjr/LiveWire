@@ -27,7 +27,7 @@ Dans une vraie installation autonome, on gagne de la puissance en ajoutant des o
 
 ## Quand le disjoncteur saute-t-il ?
 
-Quand la demande des appareils de la maison dépasse le maximum de l'onduleur, 1 500 W (les 20 W à vide ne comptent pas). La vérification a lieu à chaque pas de simulation : toutes les 10 minutes de jeu et juste après une action. Exemple : un lave-linge et un sèche-linge superposés qui tournent ensemble (jusqu'à 1 800 W).
+Quand la demande des appareils de la maison dépasse le maximum de l'onduleur, 1 500 W (les 20 W à vide ne comptent pas). La vérification a lieu à chaque pas de simulation : toutes les 10 minutes de jeu et juste après une action. Exemples : un lave-linge et un sèche-linge superposés qui tournent ensemble (1 800 W avec les valeurs du jeu) ; avec les profils de consommation 1993, une cuisinière électrique ou un sèche-linge seul.
 
 Sans disjoncteur, c'est l'onduleur qui saute et perd 3 points d'état (réarmement sur l'onduleur).
 

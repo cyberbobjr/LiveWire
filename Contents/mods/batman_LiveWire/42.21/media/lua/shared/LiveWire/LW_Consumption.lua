@@ -3,7 +3,7 @@
 -- (IsoGenerator.java:283); the profile then gives its draw in W while on. The values are
 -- averages over a 10-minute step (a fridge compressor cycles), not start-up peaks.
 -- 1 = ultra-realistic 1993, 2 = realistic 1993, 3 = engine values (default), 4 = comfort.
--- Sources and rationale: docs/specifications-fonctionnelles.md, section 7.3.
+-- Sources and rationale: docs/specifications-fonctionnelles.md, section 5.3.
 
 LiveWire = LiveWire or {}
 

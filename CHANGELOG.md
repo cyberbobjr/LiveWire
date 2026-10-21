@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### New features
+- Consumption profile (sandbox option, Live Wire page): choose how much power switched-on appliances draw. "Game values" (default) keeps the current behaviour. "Realistic 1993" uses typical household draws of the time (light 60 W, TV 80 W, fridge-freezer 130 W, electric cooker 2,000 W, dryer 3,000 W). "Ultra-realistic 1993" uses older, hungrier appliances. "Comfort" halves the game values. The voltage tester shows the draw of the chosen profile.
+
 ## 1.3.2 — 2026-10-21
 
 ### Fixes

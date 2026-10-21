@@ -169,7 +169,8 @@ Exemple commenté (schéma 1) et explication des champs : [`architecture.md`](ar
 
 | Option | Type | Défaut | Bornes | Effet |
 |---|---|---|---|---|
-| `LiveWire.PowerScale` | double | 1,0 | 0,1-10 | Multiplie la consommation de chaque appareil (1 = frigo-congélateur à 130 W) |
+| `LiveWire.ConsumptionProfile` | enum (`numValues = 4`, `valueTranslation`) | 3 | 1-4 | Profil de consommation (`LW_Consumption.lua`) : 1 ultra-réaliste 1993, 2 réaliste 1993, 3 valeurs du jeu, 4 confort. Valeur inconnue = 3 |
+| `LiveWire.PowerScale` | double | 1,0 | 0,1-10 | Multiplie la consommation donnée par le profil (1 = aucun changement) |
 | `LiveWire.SolarMultiplier` | double | 1,0 | 0-10 | Production solaire |
 | `LiveWire.WindMultiplier` | double | 1,0 | 0-10 | Production éolienne |
 | `LiveWire.HydroMultiplier` | double | 1,0 | 0-10 | Production de la roue à aubes |

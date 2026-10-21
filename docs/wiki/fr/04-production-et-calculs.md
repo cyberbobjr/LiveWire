@@ -73,7 +73,7 @@ Jour et nuit, environ 2,9 kWh par jour. Rivières seulement (le moteur ne sait p
 - Surplus × 0,90 (rendement de charge).
 - Autodécharge : 0,2 % par jour.
 - Batterie pleine : la production en trop est perdue (affichée « Production perdue »).
-- Échelle d'énergie : 1 unité de puissance du moteur par heure = 1 000 W (option PowerScale).
+- La consommation des appareils dépend de l'option `ConsumptionProfile` (ci-dessous).
 
 ## Ordre d'alimentation de l'onduleur
 
@@ -81,27 +81,60 @@ L'onduleur couvre d'abord la demande avec la production du moment (× rendement)
 
 ## Consommation des appareils
 
-Valeurs du moteur vanilla, appareils allumés.
+L'option sandbox **`ConsumptionProfile`** (« Profil de consommation ») fixe la puissance consommée par chaque appareil allumé. Ce sont des **moyennes sur un pas de 10 minutes**, pas des pointes au démarrage : le compresseur d'un frigo s'arrête et redémarre. Un frigo-congélateur qui tire 300 à 400 W quand il tourne consomme donc environ 130 W en moyenne.
 
-| Appareil | Consommation |
-|---|---|
-| Lumière | 2 W |
-| Radio sur secteur | 10 W |
-| Télévision | 30 W |
-| Frigo seul | 80 W |
-| Cuisinière, micro-ondes, lave-linge, sèche-linge | 90 W |
-| Frigo-congélateur | 130 W |
-| Lave-linge et sèche-linge superposés | jusqu'à 1 800 W |
+| Appareil (allumé) | Ultra-réaliste 1993 | Réaliste 1993 | Valeurs du jeu (défaut) | Confort |
+|---|---|---|---|---|
+| Lumière (un interrupteur, donc une pièce) | 100 W | 60 W | 2 W | 1 W |
+| Radio sur secteur | 40 W | 20 W | 10 W | 5 W |
+| Télévision | 120 W | 80 W | 30 W | 15 W |
+| Frigo seul ou congélateur seul | 130 W | 90 W | 80 W | 40 W |
+| Frigo-congélateur | 180 W | 130 W | 130 W | 65 W |
+| Cuisinière électrique | 3 000 W | 2 000 W | 90 W | 45 W |
+| Micro-ondes | 1 500 W | 1 100 W | 90 W | 45 W |
+| Lave-linge | 700 W | 500 W | 90 W | 45 W |
+| Sèche-linge | 5 000 W | 3 000 W | 90 W | 45 W |
+| Lave-linge séchant (lavage / séchage) | 700 / 3 000 W | 500 / 2 000 W | 90 W | 45 W |
+| Lave-linge + sèche-linge superposés (par moitié en marche) | 700 + 5 000 W | 500 + 3 000 W | 900 + 900 W | 45 + 45 W |
+| Chargeur de batterie de voiture | 250 W | 150 W | 50 W | 25 W |
+| Appareil au gaz (commandes seulement) et appareils ajoutés par d'autres mods | valeur du jeu | valeur du jeu | valeur du jeu | moitié |
+
+- **Valeurs du jeu** : celles du moteur, utilisées par le générateur vanilla (1 unité de puissance du moteur par heure = 1 000 W). Une base coûte donc autant sur un onduleur que sur un générateur vanilla. Elles sont très basses pour les lumières, les télévisions et les cuisinières. Le lave-linge + sèche-linge superposé vanilla est au contraire étrangement élevé (0,9 par moitié au lieu de 0,09).
+- **Réaliste 1993** : consommations courantes d'un foyer de l'époque. Ampoules à incandescence de 60 W, téléviseur cathodique de 63 cm, frigo-congélateur des années 90 (environ 1 100 kWh par an), cuisinière et sèche-linge électriques en 240 V.
+- **Ultra-réaliste 1993** : appareils plus anciens et plus gourmands. Plafonniers de 100 W, grand téléviseur cathodique, frigo des années 80, cuisinière et sèche-linge à pleine puissance.
+- **Confort** : la moitié des valeurs du jeu, avec le lave-linge + sèche-linge superposé corrigé.
+- `PowerScale` multiplie le résultat du profil (1 = aucun changement). L'onduleur consomme toujours 20 W à vide.
+- Un appareil de deux cases avec un frigo ou un congélateur sur chacune (grands frigos de magasin) compte deux fois, comme avec un générateur vanilla : c'est un appareil plus gros.
+- Le profil peut changer en cours de partie : la demande suit à la mesure suivante.
+
+### Ce que changent les profils réalistes
+
+La limite de l'onduleur reste **1 500 W** (jusqu'à 6 000 W avec des [onduleurs couplés](06-equipements-optionnels.md)), dans l'ordre de grandeur des onduleurs autonomes des années 90. Avec les profils 1993 :
+
+- Une cuisinière électrique (2 000 ou 3 000 W) ou un sèche-linge fait disjoncter un onduleur seul. Cuisinez au gaz, au poêle à bois ou au feu de camp, ou couplez des onduleurs. Un disjoncteur protège l'onduleur.
+- Les lumières deviennent la principale charge de nuit : éteignez les pièces vides.
 
 ## Exemple de dimensionnement
 
-Un frigo-congélateur et 10 lumières font environ 170 W (avec les 20 W de l'onduleur à vide), soit 4,1 kWh par jour. Une nuit d'hiver de 14 h demande environ 2,4 kWh : compter environ 4 batteries de voiture ou 2 batteries stationnaires.
+Journée de référence : un frigo-congélateur toute la journée, 10 lumières pendant 6 heures, la télévision pendant 3 heures, plus l'onduleur à vide (20 W). Lumières et télévision servent la nuit. Une nuit d'hiver dure 14 heures.
 
-| Installation | Été (kWh/jour) | Hiver (kWh/jour) | Verdict pour 4,1 kWh/jour |
+| Profil | Demande le soir | Énergie par jour | Nuit d'hiver | Batteries pour la nuit |
+|---|---|---|---|---|
+| Ultra-réaliste 1993 | 1 300 W | 11,2 kWh | 9,2 kWh | environ 16 batteries de voiture ou 7 stationnaires |
+| Réaliste 1993 | 810 W | 7,4 kWh | 5,9 kWh | environ 10 batteries de voiture ou 4 stationnaires |
+| Valeurs du jeu | 180 W | 3,8 kWh | 2,3 kWh | environ 4 batteries de voiture ou 2 stationnaires |
+| Confort | 90 W | 2,1 kWh | 1,3 kWh | environ 3 batteries de voiture ou 1 stationnaire |
+
+(Batterie de voiture standard : 0,6 kWh ; batterie stationnaire : 1,5 kWh ; batteries neuves en parfait état.)
+
+Production d'hiver des sources : panneau solaire environ 0,6 kWh/jour, roue à aubes environ 2,9 kWh/jour, éolienne environ 0,7 kWh/jour avec un vent moyen de 25 km/h.
+
+| Installation | Été (kWh/jour) | Hiver (kWh/jour) | Suffisant pour |
 |---|---|---|---|
-| 4 panneaux photovoltaïques | 3,8 | 2,4 | Déficit |
-| 6 panneaux + 1 éolienne (vent moyen 25 km/h, environ 0,7 kWh) | 6,3 | 4,3 | Juste suffisant |
-| 1 roue à aubes + 2 panneaux | 4,8 | 4,1 | Stable |
+| 4 panneaux | 3,8 | 2,4 | Confort |
+| 6 panneaux + 1 éolienne | 6,3 | 4,3 | Valeurs du jeu |
+| 1 roue à aubes + 8 panneaux | 9,8 | 7,7 | Réaliste 1993 |
+| 2 roues à aubes + 9 panneaux | 13,1 | 11,2 | Ultra-réaliste 1993 (tout juste) |
 
 ## Combien de panneaux ?
 

@@ -84,31 +84,64 @@ Produces day and night, about 2.9 kWh per day (120 W x 24 h). Rivers only: the e
 
 ## Inverter supply order
 
-The inverter supplies the demand from the **current production first** (x efficiency), then from the **batteries**. It can only restart when production covers the demand or the batteries hold more than 2 % of their capacity. Energy scale: 1 engine power unit per hour = 1,000 W (sandbox `PowerScale`).
+The inverter supplies the demand from the **current production first** (x efficiency), then from the **batteries**. It can only restart when production covers the demand or the batteries hold more than 2 % of their capacity. Appliance consumption depends on the sandbox `ConsumptionProfile` (below).
 
 ## Appliance consumption
 
-Vanilla engine values, switched on:
+The sandbox option **`ConsumptionProfile`** sets how much power each switched-on appliance draws. Values are **averages over a 10-minute step**, not start-up peaks: a fridge compressor cycles on and off, so a fridge-freezer that pulls 300-400 W while running averages about 130 W.
 
-| Appliance | Consumption |
-|---|---|
-| Light | 2 W |
-| Radio on mains | 10 W |
-| Television | 30 W |
-| Fridge alone | 80 W |
-| Stove, microwave, washer, dryer | 90 W |
-| Fridge-freezer | 130 W |
-| Stacked washer + dryer | up to 1,800 W |
+| Appliance (switched on) | Ultra-realistic 1993 | Realistic 1993 | Game values (default) | Comfort |
+|---|---|---|---|---|
+| Light (one switch, i.e. one room) | 100 W | 60 W | 2 W | 1 W |
+| Radio on mains | 40 W | 20 W | 10 W | 5 W |
+| Television | 120 W | 80 W | 30 W | 15 W |
+| Fridge alone or freezer alone | 130 W | 90 W | 80 W | 40 W |
+| Fridge-freezer | 180 W | 130 W | 130 W | 65 W |
+| Electric cooker | 3,000 W | 2,000 W | 90 W | 45 W |
+| Microwave | 1,500 W | 1,100 W | 90 W | 45 W |
+| Washer | 700 W | 500 W | 90 W | 45 W |
+| Dryer | 5,000 W | 3,000 W | 90 W | 45 W |
+| Combination washer-dryer (washing / drying) | 700 / 3,000 W | 500 / 2,000 W | 90 W | 45 W |
+| Stacked washer + dryer (each half running) | 700 + 5,000 W | 500 + 3,000 W | 900 + 900 W | 45 + 45 W |
+| Car battery charger | 250 W | 150 W | 50 W | 25 W |
+| Gas appliance (controls only) and appliances added by other mods | game value | game value | game value | half |
+
+- **Game values** are the engine's own values, the ones the vanilla generator uses (1 engine power unit per hour = 1,000 W). A base therefore costs the same on an inverter as on a vanilla generator. They are very low for lights, TVs and cookers, and the vanilla stacked washer + dryer is oddly high (0.9 per half instead of 0.09).
+- **Realistic 1993** uses typical household draws of the time: 60 W incandescent bulbs, a 25" CRT TV, a 1990s fridge-freezer (about 1,100 kWh a year), a 240 V electric range and dryer.
+- **Ultra-realistic 1993** uses older, hungrier appliances: 100 W fixtures, a large CRT, a 1980s fridge, a full-power range and dryer.
+- **Comfort** halves the game values and fixes the stacked washer + dryer.
+- `PowerScale` multiplies the result of the profile (1 = no change). The inverter itself always uses 20 W idle.
+- An appliance that spans two tiles with a fridge or freezer on each (large shop fridges) counts twice, like with a vanilla generator: it is a bigger appliance.
+- The profile can be changed during a game: the demand follows at the next measurement.
+
+### What the realistic profiles change
+
+The inverter limit stays **1,500 W** (up to 6,000 W with [coupled inverters](06-optional-equipment.md)), in line with the off-grid inverters of the 1990s. In the 1993 profiles:
+
+- An electric cooker (2,000 or 3,000 W) or a dryer trips a single inverter: cook on gas, a wood stove or a campfire, or couple inverters. A breaker panel protects the inverter.
+- Lights become the main night load: switch off empty rooms.
 
 ## Sizing example
 
-One fridge-freezer and 10 lights is about 170 W (with the inverter idle 20 W), i.e. **4.1 kWh per day**. A 14 h winter night needs about 2.4 kWh: roughly 4 car batteries or 2 deep-cycle batteries.
+A reference day: one fridge-freezer all day, 10 lights for 6 hours, the TV for 3 hours, plus the inverter idle (20 W). Lights and TV are used at night. A winter night lasts 14 hours.
 
-| Installation | Summer (kWh/day) | Winter (kWh/day) | Verdict for 4.1 kWh/day |
+| Profile | Evening demand | Energy per day | Winter night | Batteries for the night |
+|---|---|---|---|---|
+| Ultra-realistic 1993 | 1,300 W | 11.2 kWh | 9.2 kWh | about 16 car batteries or 7 deep-cycle |
+| Realistic 1993 | 810 W | 7.4 kWh | 5.9 kWh | about 10 car batteries or 4 deep-cycle |
+| Game values | 180 W | 3.8 kWh | 2.3 kWh | about 4 car batteries or 2 deep-cycle |
+| Comfort | 90 W | 2.1 kWh | 1.3 kWh | about 3 car batteries or 1 deep-cycle |
+
+(Standard car battery: 0.6 kWh; deep-cycle battery: 1.5 kWh; new batteries in full condition.)
+
+Winter production of the sources: solar panel about 0.6 kWh/day, water wheel about 2.9 kWh/day, wind turbine about 0.7 kWh/day with an average 25 km/h wind.
+
+| Installation | Summer (kWh/day) | Winter (kWh/day) | Enough for |
 |---|---|---|---|
-| 4 solar panels | 3.8 | 2.4 | Deficit |
-| 6 panels + 1 wind turbine (average wind 25 km/h, about 0.7 kWh) | 6.3 | 4.3 | Just enough |
-| 1 water wheel + 2 panels | 4.8 | 4.1 | Stable |
+| 4 solar panels | 3.8 | 2.4 | Comfort |
+| 6 panels + 1 wind turbine | 6.3 | 4.3 | Game values |
+| 1 water wheel + 8 panels | 9.8 | 7.7 | Realistic 1993 |
+| 2 water wheels + 9 panels | 13.1 | 11.2 | Ultra-realistic 1993 (just) |
 
 ## How many panels?
 

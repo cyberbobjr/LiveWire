@@ -36,7 +36,7 @@
 | D-2 | Mécanisme d'alimentation | **Ancre d'alimentation** posée par le mod, reposée à chaque chargement, sur le serveur et chez les clients (`architecture.md`, § 1.4). Repli si le prototype P1 échoue : vrai générateur caché dehors |
 | D-3 | Raccordement | Explicite, par menu, en consommant du fil électrique (1 fil pour 4 cases, portée 12) |
 | D-4 | Batteries | Rangées dans une **powerbank** qui s'ouvre comme une caisse (4 batteries comptées). Plus de batterie au sol. Choix de l'utilisateur, le 2026-10-17 : « rangement ouvrable », préféré à des emplacements gérés par menu et à une capacité fixe. Depuis 0.1.1, le conteneur vient de la tuile (`container = livewirepowerbank`, capacité 50) : le jeu le crée et le marque exploré à la pose, donc sans butin |
-| D-5 | Échelle d'énergie | 1 unité de consommation moteur par heure = 1 000 W (option `PowerScale`) |
+| D-5 | Échelle d'énergie | 1 unité de consommation moteur par heure = 1 000 W (option `PowerScale`) ; c'est le profil « valeurs du jeu » de D-28 |
 | D-6 | Apprentissage des recettes | Automatique au niveau requis |
 | D-7 | Propriété en multijoueur | Installations communes, règles de safehouse vanilla |
 | D-8 | Bruit de l'onduleur | Zombies : rayon 2 (option `InverterNoiseRadius`). Joueurs : ronronnement de réfrigérateur vanilla **`FridgeHumA`**, choisi par l'utilisateur, joué localement |
@@ -64,4 +64,4 @@
 | D-8 (révisé 2) | Volume du bourdonnement (2026-10-17) | Jugé insupportable au premier essai : volume divisé par 10 (0,045), portée 6 cases, sifflement aigu retiré |
 | D-8 (révisé 3) | Portée du bourdonnement (2026-10-17, utilisateur) | **Une case** autour de l'onduleur, au même étage : son coupé au-delà de 1,5 case du centre (atténuation du son : pleine force jusqu'à 0,5 case, nulle à 2). **Volume réglable par joueur** dans *Options > Mods > Live Wire* (0 = coupé) |
 | D-27 | Kit d'insonorisation (2026-10-17, choix de l'utilisateur) | Fabriqué au niveau 2 d'Électricité (4 planches, 10 clous, 4 bandes de tissu, marteau gardé), posé sur l'onduleur avec un tournevis (« Insonoriser l'onduleur »), retiré en le rendant. Effets : plus de bourdonnement pour les joueurs, plus de bruit pour les zombies, usure de l'onduleur +25 %. Il suit l'onduleur quand on le ramasse |
-
+| D-28 | Profils de consommation (2026-10-21, demande de l'utilisateur après un retour Workshop) | Option sandbox **liste** `ConsumptionProfile` plutôt que des multiplicateurs chiffrés : ultra-réaliste 1993, réaliste 1993, **valeurs du jeu (défaut, sauvegardes inchangées)**, confort. L'état allumé reste celui du moteur ; le profil donne la puissance par type d'appareil. Appareils de deux cases toujours comptés deux fois (comme le vanilla) ; limite de l'onduleur inchangée (1 500 W, 6 000 W couplés) |

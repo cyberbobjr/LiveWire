@@ -60,7 +60,7 @@ L = {
         "c_solar": "Solar panel over one day (new panel)", "summer": "Summer, clear sky", "winter": "Winter, clear sky",
         "overcast": "Summer, overcast", "hour": "Hour", "c_wind": "Wind turbine power vs wind speed",
         "wind_axis": "Wind (km/h)", "brake": "brake above 85 km/h", "c_daily": "Energy per day vs a typical house",
-        "need": "need 4.1 kWh/day (fridge-freezer + 10 lights)", "s_summer": "Summer", "s_winter": "Winter",
+        "need": "need 3.8 kWh/day (game values profile)", "s_summer": "Summer", "s_winter": "Winter",
         "g1": "4 solar panels", "g2": "6 panels\n+ 1 wind turbine", "g3": "1 water wheel\n+ 2 panels",
         "recipes": "RECIPES", "no_level": "no level", "tools": "Tools (kept)", "level": "%s %d",
         "any_car_battery": "Car Battery (any)",
@@ -78,7 +78,7 @@ L = {
         "winter": "Hiver, ciel dégagé", "overcast": "Été, ciel couvert", "hour": "Heure",
         "c_wind": "Puissance de l'éolienne selon le vent", "wind_axis": "Vent (km/h)", "brake": "frein au-delà de 85 km/h",
         "c_daily": "Énergie par jour face à une maison type",
-        "need": "besoin 4,1 kWh/jour (réfrigérateur-congélateur + 10 lampes)", "s_summer": "Été", "s_winter": "Hiver",
+        "need": "besoin 3,8 kWh/jour (profil valeurs du jeu)", "s_summer": "Été", "s_winter": "Hiver",
         "g1": "4 panneaux solaires", "g2": "6 panneaux\n+ 1 éolienne", "g3": "1 roue à aubes\n+ 2 panneaux",
         "recipes": "RECETTES", "no_level": "sans niveau", "tools": "Outils (conservés)", "level": "%s %d",
         "any_car_battery": "Batterie de voiture (toutes)",
@@ -95,7 +95,7 @@ L = {
         "winter": "Winter, klarer Himmel", "overcast": "Sommer, bedeckt", "hour": "Uhrzeit",
         "c_wind": "Leistung des Windrads nach Windstärke", "wind_axis": "Wind (km/h)", "brake": "Bremse über 85 km/h",
         "c_daily": "Energie pro Tag für ein typisches Haus",
-        "need": "Bedarf 4,1 kWh/Tag (Kühl-Gefrierschrank + 10 Lampen)", "s_summer": "Sommer", "s_winter": "Winter",
+        "need": "Bedarf 3,8 kWh/Tag (Profil Spielwerte)", "s_summer": "Sommer", "s_winter": "Winter",
         "g1": "4 Solarmodule", "g2": "6 Module\n+ 1 Windrad", "g3": "1 Wasserrad\n+ 2 Module",
         "recipes": "REZEPTE", "no_level": "ohne Stufe", "tools": "Werkzeuge (bleiben)", "level": "%s %d",
         "any_car_battery": "Autobatterie (beliebig)",
@@ -113,7 +113,7 @@ L = {
         "winter": "Invierno, cielo despejado", "overcast": "Verano, nublado", "hour": "Hora",
         "c_wind": "Potencia del aerogenerador según el viento", "wind_axis": "Viento (km/h)",
         "brake": "freno por encima de 85 km/h", "c_daily": "Energía por día frente a una casa típica",
-        "need": "necesidad 4,1 kWh/día (nevera-congelador + 10 luces)", "s_summer": "Verano", "s_winter": "Invierno",
+        "need": "necesidad 3,8 kWh/día (perfil valores del juego)", "s_summer": "Verano", "s_winter": "Invierno",
         "g1": "4 paneles solares", "g2": "6 paneles\n+ 1 aerogenerador", "g3": "1 rueda hidráulica\n+ 2 paneles",
         "recipes": "RECETAS", "no_level": "sin nivel", "tools": "Herramientas (se conservan)", "level": "%s %d",
         "any_car_battery": "Batería de coche (cualquiera)",
@@ -130,7 +130,7 @@ L = {
         "winter": "Inverno, céu limpo", "overcast": "Verão, nublado", "hour": "Hora",
         "c_wind": "Potência da turbina eólica conforme o vento", "wind_axis": "Vento (km/h)",
         "brake": "freio acima de 85 km/h", "c_daily": "Energia por dia para uma casa típica",
-        "need": "consumo 4,1 kWh/dia (geladeira-freezer + 10 luzes)", "s_summer": "Verão", "s_winter": "Inverno",
+        "need": "consumo 3,8 kWh/dia (perfil valores do jogo)", "s_summer": "Verão", "s_winter": "Inverno",
         "g1": "4 painéis solares", "g2": "6 painéis\n+ 1 turbina eólica", "g3": "1 roda d'água\n+ 2 painéis",
         "recipes": "RECEITAS", "no_level": "sem nível", "tools": "Ferramentas (mantidas)", "level": "%s %d",
         "any_car_battery": "Bateria de carro (qualquer)",
@@ -147,7 +147,7 @@ L = {
         "winter": "Inverno, céu limpo", "overcast": "Verão, encoberto", "hour": "Hora",
         "c_wind": "Potência da turbina eólica consoante o vento", "wind_axis": "Vento (km/h)",
         "brake": "travão acima de 85 km/h", "c_daily": "Energia por dia para uma casa típica",
-        "need": "consumo 4,1 kWh/dia (frigorífico-congelador + 10 luzes)", "s_summer": "Verão", "s_winter": "Inverno",
+        "need": "consumo 3,8 kWh/dia (perfil valores do jogo)", "s_summer": "Verão", "s_winter": "Inverno",
         "g1": "4 painéis solares", "g2": "6 painéis\n+ 1 turbina eólica", "g3": "1 roda de água\n+ 2 painéis",
         "recipes": "RECEITAS", "no_level": "sem nível", "tools": "Ferramentas (mantidas)", "level": "%s %d",
         "any_car_battery": "Bateria de carro (qualquer)",
@@ -163,7 +163,7 @@ L = {
         "c_solar": "Солнечная панель за сутки (новая панель)", "summer": "Лето, ясно", "winter": "Зима, ясно",
         "overcast": "Лето, пасмурно", "hour": "Час", "c_wind": "Мощность ветряка в зависимости от ветра",
         "wind_axis": "Ветер (км/ч)", "brake": "тормоз выше 85 км/ч", "c_daily": "Энергия в сутки для типичного дома",
-        "need": "нужно 4,1 кВт·ч/сутки (холодильник с морозилкой + 10 ламп)", "s_summer": "Лето", "s_winter": "Зима",
+        "need": "нужно 3,8 кВт·ч/сутки (профиль «значения игры»)", "s_summer": "Лето", "s_winter": "Зима",
         "g1": "4 солнечные\nпанели", "g2": "6 панелей\n+ 1 ветряк", "g3": "1 водяное колесо\n+ 2 панели",
         "recipes": "РЕЦЕПТЫ", "no_level": "без уровня", "tools": "Инструменты (остаются)", "level": "%s %d",
         "any_car_battery": "Автомобильный аккумулятор (любой)",
@@ -179,7 +179,7 @@ L = {
         "c_solar": "太阳能板一天的输出（新板）", "summer": "夏季，晴天", "winter": "冬季，晴天",
         "overcast": "夏季，阴天", "hour": "时", "c_wind": "风力发电机功率与风速",
         "wind_axis": "风速 (km/h)", "brake": "超过 85 km/h 制动", "c_daily": "每日发电量与典型房屋需求",
-        "need": "需求 4.1 kWh/天（冷藏冷冻冰箱 + 10 盏灯）", "s_summer": "夏季", "s_winter": "冬季",
+        "need": "需求 3.8 kWh/天（游戏数值方案）", "s_summer": "夏季", "s_winter": "冬季",
         "g1": "4 块太阳能板", "g2": "6 块板\n+ 1 台风力发电机", "g3": "1 个水车\n+ 2 块板",
         "recipes": "配方", "no_level": "无等级", "tools": "工具（保留）", "level": "%s %d",
         "any_car_battery": "汽车电池（任意）",
@@ -195,7 +195,7 @@ L = {
         "c_solar": "ソーラーパネルの1日の出力（新品）", "summer": "夏・晴れ", "winter": "冬・晴れ",
         "overcast": "夏・曇り", "hour": "時", "c_wind": "風速による風力タービンの出力",
         "wind_axis": "風速 (km/h)", "brake": "85 km/h 超でブレーキ", "c_daily": "1日の発電量と標準的な家の消費",
-        "need": "必要量 4.1 kWh/日（冷凍冷蔵庫 + 照明10個）", "s_summer": "夏", "s_winter": "冬",
+        "need": "必要量 3.8 kWh/日（ゲームの値）", "s_summer": "夏", "s_winter": "冬",
         "g1": "ソーラー\nパネル4枚", "g2": "パネル6枚\n+ 風力タービン1基", "g3": "水車1基\n+ パネル2枚",
         "recipes": "レシピ", "no_level": "レベル不要", "tools": "道具（消費しない）", "level": "%s %d",
         "any_car_battery": "車のバッテリー（種類問わず）",
@@ -211,7 +211,7 @@ L = {
         "c_solar": "하루 동안의 태양광 패널 출력 (새 패널)", "summer": "여름, 맑음", "winter": "겨울, 맑음",
         "overcast": "여름, 흐림", "hour": "시", "c_wind": "풍속에 따른 풍력 터빈 출력",
         "wind_axis": "풍속 (km/h)", "brake": "85 km/h 초과 시 제동", "c_daily": "하루 발전량과 일반 가정 소비",
-        "need": "필요량 4.1 kWh/일 (냉장냉동고 + 조명 10개)", "s_summer": "여름", "s_winter": "겨울",
+        "need": "필요량 3.8 kWh/일 (게임 값 프로필)", "s_summer": "여름", "s_winter": "겨울",
         "g1": "태양광 패널 4개", "g2": "패널 6개\n+ 풍력 터빈 1대", "g3": "물레방아 1개\n+ 패널 2개",
         "recipes": "레시피", "no_level": "레벨 없음", "tools": "도구 (유지)", "level": "%s %d",
         "any_car_battery": "자동차 배터리 (아무거나)",
@@ -435,7 +435,7 @@ def production(lang):
             text(d, (x + bw / 2, by1 - val / ymax * (by1 - by0) + 4), ("%.1f" % val).replace(
                 ".", "," if lang in ("FR", "DE", "ES", "PTBR", "PT", "RU") else "."), font(lang, 12, True), CARD, anchor="ma")
         text(d, (bx0 + i * gw + gw / 2, by1 + 8), t[g], font(lang, 12), INK, anchor="ma")
-    py = by1 - 4.1 / ymax * (by1 - by0)
+    py = by1 - 3.8 / ymax * (by1 - by0)
     for x in range(bx0, bx1, 12):
         d.line((x, py, min(x + 6, bx1), py), fill=GREEN, width=3)
     text(d, (810, 400), t["need"], font(lang, 12), GREEN, anchor="lm")

@@ -254,15 +254,23 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 
 ### 3.5 Exemple de bilan
 
-Base : un réfrigérateur-congélateur et 10 lumières allumées, plus la consommation à vide de l'onduleur. Cela fait environ **170 W**, soit **4,1 kWh par jour**.
+Journée de référence : un réfrigérateur-congélateur toute la journée, 10 lumières pendant 6 h, la télévision pendant 3 h, plus la consommation à vide de l'onduleur (20 W). Les valeurs dépendent du profil de consommation (§ 5.3).
 
-| Installation | Été (kWh/j) | Hiver (kWh/j) | Verdict |
+| Profil | Demande le soir | Énergie par jour | Nuit d'hiver (14 h) | Batteries pour la nuit |
+|---|---|---|---|---|
+| Ultra-réaliste 1993 | 1 300 W | 11,2 kWh | 9,2 kWh | ≈ 16 batteries de voiture ou 7 stationnaires |
+| Réaliste 1993 | 810 W | 7,4 kWh | 5,9 kWh | ≈ 10 batteries de voiture ou 4 stationnaires |
+| Valeurs du jeu (défaut) | 180 W | 3,8 kWh | 2,3 kWh | ≈ 4 batteries de voiture ou 2 stationnaires |
+| Confort | 90 W | 2,1 kWh | 1,3 kWh | ≈ 3 batteries de voiture ou 1 stationnaire |
+
+| Installation | Été (kWh/j) | Hiver (kWh/j) | Suffisant pour |
 |---|---|---|---|
-| 4 panneaux | 3,8 | 2,4 | Déficit |
-| 6 panneaux + 1 éolienne (vent moyen 25 km/h, ≈ 0,7 kWh) | 6,3 | 4,3 | Juste suffisant |
-| 1 roue à aubes + 2 panneaux | 4,8 | 4,1 | Stable |
+| 4 panneaux | 3,8 | 2,4 | Confort |
+| 6 panneaux + 1 éolienne (vent moyen 25 km/h, ≈ 0,7 kWh) | 6,3 | 4,3 | Valeurs du jeu |
+| 1 roue à aubes + 8 panneaux | 9,8 | 7,7 | Réaliste 1993 |
+| 2 roues à aubes + 9 panneaux | 13,1 | 11,2 | Ultra-réaliste 1993 (tout juste) |
 
-**Stock pour une nuit d'hiver** de 14 h : 170 W × 14 h ≈ 2,4 kWh utiles. Il faut donc environ 4 batteries de voiture standard (§ 5.1), ou 2 batteries stationnaires.
+Batterie de voiture standard : 0,6 kWh ; batterie stationnaire : 1,5 kWh (§ 5.1), neuves.
 
 ---
 
@@ -384,21 +392,35 @@ Les trois batteries vanilla ont le même `UseDelta`, donc ces capacités sont un
 - **États** : marche, arrêt (manuel), **disjoncté** (surcharge), **en panne** (état 0), **à vide** (plus d'énergie disponible).
 - **Plusieurs onduleurs.** Un réseau n'a qu'un onduleur en v0.1, mais une base peut avoir plusieurs réseaux. Les onduleurs relais arrivent en v0.4.
 
-### 5.3 Consommation : celle que le jeu attribue aux appareils
+### 5.3 Consommation : profil choisi dans les options sandbox
 
-- **Valeurs vanilla.** Le mod reprend exactement les valeurs que le moteur attribue à chaque appareil allumé (`getGeneratorPowerConsumption`, NM-5).
-- **Échelle** : 1 unité moteur par heure = **1 000 W** × `LiveWire.PowerScale` (validé : D-5).
+- **L'état vient du moteur.** Un appareil est allumé quand `getGeneratorPowerConsumption() > 0` (NM-5) : le moteur décide toujours de ce qui consomme. Le **profil** `LiveWire.ConsumptionProfile` (D-28) fixe la puissance de l'appareil allumé (`shared/LiveWire/LW_Consumption.lua`).
+- **Moyennes sur un pas de 10 minutes**, pas pointes de démarrage : un compresseur de frigo fonctionne par cycles.
+- **Valeurs du jeu** (profil 3, défaut) : 1 unité moteur par heure = **1 000 W** (D-5), comme avant l'option. Aucune sauvegarde existante ne change.
+- `LiveWire.PowerScale` multiplie le résultat du profil.
 
-| Appareil (valeur moteur) | Consommation |
-|---|---|
-| Lumière allumée (0,002) | 2 W |
-| Radio sur secteur (0,01) | 10 W |
-| Télévision (0,03) | 30 W |
-| Réfrigérateur seul (0,08) | 80 W |
-| Cuisinière ou micro-ondes allumé (0,09) | 90 W |
-| Lave-linge, sèche-linge (0,09) | 90 W |
-| Réfrigérateur-congélateur (0,13) | 130 W |
-| Lave-linge et sèche-linge superposés (0,9 par partie active) | jusqu'à 1 800 W : fait disjoncter un onduleur simple |
+| Appareil allumé (valeur moteur) | Ultra-réaliste 1993 | Réaliste 1993 | Valeurs du jeu | Confort |
+|---|---|---|---|---|
+| Lumière, un interrupteur (0,002) | 100 W | 60 W | 2 W | 1 W |
+| Radio sur secteur (0,01) | 40 W | 20 W | 10 W | 5 W |
+| Télévision (0,03) | 120 W | 80 W | 30 W | 15 W |
+| Réfrigérateur seul ou congélateur seul (0,08) | 130 W | 90 W | 80 W | 40 W |
+| Réfrigérateur-congélateur (0,13) | 180 W | 130 W | 130 W | 65 W |
+| Cuisinière électrique (0,09) | 3 000 W | 2 000 W | 90 W | 45 W |
+| Micro-ondes (0,09, `IsoStove:isMicrowave`) | 1 500 W | 1 100 W | 90 W | 45 W |
+| Lave-linge (0,09) | 700 W | 500 W | 90 W | 45 W |
+| Sèche-linge (0,09) | 5 000 W | 3 000 W | 90 W | 45 W |
+| Lave-linge séchant, lavage / séchage (0,09, `isModeDryer`) | 700 / 3 000 W | 500 / 2 000 W | 90 W | 45 W |
+| Lave-linge + sèche-linge superposés, par moitié en marche (0,9 chacune) | 700 + 5 000 W | 500 + 3 000 W | 900 + 900 W | 45 + 45 W |
+| Chargeur de batterie de voiture (0,05) | 250 W | 150 W | 50 W | 25 W |
+| Appareil au gaz (`getPipedFuelAmount() > 0`, 0,03) et appareils d'autres mods | valeur moteur × 1 000 | idem | idem | moitié |
+
+**Justification des valeurs 1993** (ordres de grandeur, non sourcés ligne à ligne) : ampoule à incandescence de 60 W (100 W pour un plafonnier) ; téléviseur cathodique de 63 cm ≈ 80 W ; réfrigérateur-congélateur américain du début des années 90 ≈ 1 100 kWh/an (≈ 130 W de moyenne), plus ancien ≈ 1 600 kWh/an ; cuisinière électrique en 240 V, 2 à 3 kW en marche ; sèche-linge électrique 3 à 5 kW ; micro-ondes 1 000 à 1 500 W absorbés ; chargeur de batterie de 10 A ≈ 150 W.
+
+**Limites.**
+- Un appareil de deux cases dont chaque case porte un frigo ou un congélateur compte deux fois, comme avec le générateur vanilla (`IsoGenerator.java:279-285`).
+- Avec les profils 1993, une cuisinière ou un sèche-linge dépasse les 1 500 W d'un onduleur seul. La disjonction est voulue (onduleurs autonomes de l'époque) ; parade : onduleurs couplés ou cuisson au gaz.
+- Le profil est relu à chaque mesure : un changement en cours de partie s'applique à la mesure suivante.
 
 **Bilan d'un pas** de durée `Δt` (en heures) :
 ```
@@ -492,7 +514,7 @@ Les clés suivent les préfixes imposés par `CLAUDE.md`. La liste complète est
 | Menus | `ContextMenu.json` | `ContextMenu_LW_Root`, `ContextMenu_LW_Link`, `ContextMenu_LW_Reset` |
 | Infobulles | `Tooltip.json` | `Tooltip_LW_NeedOutdoor`, `Tooltip_LW_NeedRiver`, `Tooltip_LW_NeedLevel` |
 | Interface | `IG_UI.json` | `IGUI_LW_Dashboard_Title`, `IGUI_LW_Autonomy`, `IGUI_LW_Tripped` |
-| Options | `Sandbox.json` | `Sandbox_LiveWire_PowerScale`, `…_tooltip` |
+| Options | `Sandbox.json` | `Sandbox_LiveWire_PowerScale`, `…_tooltip`, `Sandbox_LiveWire_ConsumptionProfile_option1` à `_option4` (valeurs de la liste) |
 
 **Vocabulaire FR vanilla** à reprendre : « Électricité » (`IGUI_perks_Electricity`, `media/lua/shared/Translate/FR/IG_UI.json:214`), « générateur », « brancher », « coupure d'électricité ».
 
@@ -535,7 +557,8 @@ Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
 
 | Option | Type | Bornes | Défaut | Effet |
 |---|---|---|---|---|
-| `LiveWire.PowerScale` | réel | 0,1 – 10 | 1,0 | Multiplie l'échelle « 1 unité moteur par heure = 1 000 W » |
+| `LiveWire.ConsumptionProfile` | liste | 1 – 4 | 3 | Profil de consommation : ultra-réaliste 1993, réaliste 1993, valeurs du jeu, confort (§ 5.3) |
+| `LiveWire.PowerScale` | réel | 0,1 – 10 | 1,0 | Multiplie la consommation donnée par le profil |
 | `LiveWire.SolarMultiplier` | réel | 0 – 10 | 1,0 | Production solaire |
 | `LiveWire.WindMultiplier` | réel | 0 – 10 | 1,0 | Production éolienne |
 | `LiveWire.HydroMultiplier` | réel | 0 – 10 | 1,0 | Production hydraulique |

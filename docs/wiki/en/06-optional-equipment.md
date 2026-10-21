@@ -27,7 +27,7 @@ Real off-grid systems get more power by adding identical inverters in parallel, 
 
 ## When does the breaker trip?
 
-When the demand of the house appliances exceeds the inverter maximum, **1,500 W** (the 20 W idle consumption is not counted). It is checked at each simulation step: every 10 game minutes and right after an action. Example: a stacked washer + dryer running together (up to 1,800 W).
+When the demand of the house appliances exceeds the inverter maximum, **1,500 W** (the 20 W idle consumption is not counted). It is checked at each simulation step: every 10 game minutes and right after an action. Examples: a stacked washer + dryer running together (1,800 W with the game values); with the 1993 consumption profiles, an electric cooker or a dryer alone.
 
 Without a breaker, the **inverter** trips and loses 3 condition points; reset it on the inverter. With a breaker, the breaker trips instead; reset it on the breaker ("Reset the breaker"), which is refused while the load is still too high. Switch off some appliances first.
 
