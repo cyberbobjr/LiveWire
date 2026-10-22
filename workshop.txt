@@ -14,6 +14,7 @@ description=
 description=[list]
 description=[*][b]Sources[/b] produce: solar panel 100 W, wind turbine 400 W, water wheel 120 W. As many as you want per inverter.
 description=[*][b]The inverter[/b] (1,500 W max) powers every appliance within 20 tiles and 3 floors up or down. No wiring per appliance: fridges, lights, stoves, TVs and radios work as in vanilla.
+description=[*][b]Consumption profile[/b] (sandbox): Game values (default), Realistic 1993 (light 60 W, TV 80 W, electric cooker 2,000 W), Ultra-realistic 1993 or Comfort.
 description=[*][b]The power bank[/b] stores the surplus: it counts 4 batteries (car batteries or deep-cycle batteries). Without batteries, the house runs on current production only.
 description=[*][b]Cables[/b]: electric wire, 1 per 4 tiles, range 12 tiles. Right-click a device > "Live Wire" > "Connect to an inverter".
 description=[/list]

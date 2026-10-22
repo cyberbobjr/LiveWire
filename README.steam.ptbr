@@ -11,6 +11,7 @@ A energia acabou para sempre... mas as luzes não precisam acabar. Construa sua 
 [list]
 [*][b]Fontes[/b] produzem: painel solar 100 W, turbina eólica 400 W, roda d'água 120 W. Quantas quiser por inversor.
 [*][b]O inversor[/b] (máx. 1.500 W) alimenta todo aparelho a até 20 casas e 3 andares acima ou abaixo. Sem fiação por aparelho: geladeiras, luzes, fogões, TVs e rádios funcionam como no jogo original.
+[*][b]Perfil de consumo[/b] (sandbox): Valores do jogo (padrão), Realista 1993 (luz 60 W, TV 80 W, fogão elétrico 2.000 W), Ultrarrealista 1993 ou Conforto.
 [*][b]O banco de baterias[/b] armazena o excedente: conta como 4 baterias (baterias de carro ou de ciclo profundo). Sem baterias, a casa funciona apenas com a produção atual.
 [*][b]Cabos[/b]: fio elétrico, 1 a cada 4 casas, alcance de 12 casas. Clique com o botão direito em um aparelho > "Live Wire" > "Conectar a um inversor".
 [/list]

@@ -11,6 +11,7 @@ El corte de luz es definitivo... pero las luces no tienen por qué serlo. Constr
 [list]
 [*][b]Fuentes[/b] producen: panel solar 100 W, aerogenerador 400 W, rueda hidráulica 120 W. Tantas como quieras por inversor.
 [*][b]El inversor[/b] (1.500 W máx.) alimenta todos los aparatos a 20 casillas y 3 pisos por encima o por debajo. No hay que cablear cada aparato: neveras, luces, cocinas, televisores y radios funcionan como en el juego base.
+[*][b]Perfil de consumo[/b] (sandbox): Valores del juego (por defecto), Realista 1993 (luz 60 W, televisor 80 W, cocina eléctrica 2.000 W), Ultrarrealista 1993 o Comodidad.
 [*][b]El banco de baterías[/b] almacena el excedente: equivale a 4 baterías (de coche o de ciclo profundo). Sin baterías, la casa funciona solo con la producción del momento.
 [*][b]Cables[/b]: cable eléctrico, 1 por cada 4 casillas, alcance de 12 casillas. Clic derecho en un aparato > "Live Wire" > "Conectar a un inversor".
 [/list]

@@ -11,6 +11,7 @@ Le courant ne reviendra plus... mais les lumières, elles, peuvent rester allum�
 [list]
 [*][b]Les sources[/b] produisent : panneau photovoltaïque 100 W, éolienne 400 W, roue à aubes 120 W. Autant que vous voulez par onduleur.
 [*][b]L'onduleur[/b] (1 500 W max) alimente chaque appareil situé à moins de 20 cases et à 3 étages au-dessus ou en dessous. Aucun câblage par appareil : frigos, lampes, cuisinières, télés et radios fonctionnent comme dans le vanilla.
+[*][b]Profil de consommation[/b] (sandbox) : Valeurs du jeu (défaut), Réaliste 1993 (lumière 60 W, télé 80 W, cuisinière électrique 2 000 W), Ultra-réaliste 1993 ou Confort.
 [*][b]La powerbank[/b] stocke le surplus : elle compte pour 4 batteries (batteries de voiture ou batteries stationnaires). Sans batteries, la maison ne fonctionne qu'avec la production en cours.
 [*][b]Câbles[/b] : fil électrique, 1 pour 4 cases, portée de 12 cases. Clic droit sur un appareil > "Live Wire" > "Raccorder à un onduleur".
 [/list]
