@@ -5,7 +5,7 @@
 | Mod | **Live Wire** (`id=batman_LiveWire`, sous-mod facultatif `batman_LiveWireViewpoint`) |
 | Version analysée | **1.3.1** (`CHANGELOG.md`, `mod.info` : `modversion=1.3.1`) |
 | Build cible | Project Zomboid 42.21 (sources de référence : Java décompilé 42.21.0, `media/` vanilla installé) |
-| Date | 2026-10-21 |
+| Date | 2026-10-21 ; **avancement mis à jour le 2026-10-23** (version publiée : 1.4.0 ; corrections C01, C02, C03 et C10 publiées depuis la 1.3.2) |
 | Périmètre lu | Tout le Lua de `Contents/mods/batman_LiveWire/42.21/media/lua` (shared, server, client, actions chronométrées, butin), scripts (`LiveWire_*.txt`), `sandbox-options.txt`, traductions (contrôlées par `tools/check_mod.py`), sous-mod Viewpoint, `README.md`, `CLAUDE.md`, `CHANGELOG.md`, `docs/` (décisions, idées retenues et écartées, spécifications, architecture, protocole de tests), `tests/`, `tools/`, `autotest/`, base moteur `.claude/pz-knowledge` |
 | Vérifications faites | `python tools/check_mod.py` : OK ; `python tests/test_physics.py` et `tests/test_simulation.py` : OK. **Aucun test en jeu** n'a été fait pour ce document |
 
@@ -14,6 +14,68 @@
 **Statuts.**
 - *Confirmé statiquement* : établi par la lecture du code du mod et du jeu.
 - *À vérifier en jeu* : déduit du code, mais l'effet réel dépend du moteur ou de la machine.
+
+## Tableau de bord — ce qui est fait et ce qui reste
+
+**Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé. « Publié » = présent dans une version du Workshop (première version qui le contient) ; « non publié » = sur `main` mais pas encore publié. Aucun point n'est aujourd'hui « non publié » : les corrections ont été livrées en 1.3.2 et la 1.4.0 (profils de consommation) n'en a pas ajouté. Détail de chaque point dans les parties 1 et 2 ; tests en jeu automatiques décrits dans `docs/annexes/tests/protocole-tests.md`.
+
+**Bilan** : améliorations de code **4 faites, 1 en partie, 21 à faire** (sur 26) ; idées de fonctionnalités **0 faite, 0 en partie, 20 à faire** (sur 20).
+
+### Améliorations de code
+
+| ID | Sujet | État | Testé | Publié | Commit | Ce qui reste |
+|---|---|---|---|---|---|---|
+| C01 | « Retirer tous les relais d'eau » sans effet durable | ✅ Corrigé | — (à vérifier en jeu) | 1.3.2 | `dc553a5` | Vérifier en jeu (retrait, puis chargement d'une zone qui gardait des relais) |
+| C02 | Logiciel : commandes depuis l'ordinateur raccordé, autre étage | ✅ Corrigé | MP (pz-autotest 2026-10-21, même étage et étage voisin) | 1.3.2 | `dc553a5` | Ordinateur du Computer Mod non raccordé par câble : ancienne règle |
+| C03 | Synchro des relais à chaque minute (éclairage recalculé) | ✅ Corrigé | — (coût à mesurer en jeu) | 1.3.2 | `dc553a5` | Mesurer en MP près d'une pompe |
+| C04 | Balayages synchrones de la pompe et de sa vue | ⬜ À faire | — | — | — | Tout |
+| C05 | Balayage complet du disque à chaque bascule d'ancre | ⬜ À faire | — | — | — | Tout |
+| C06 | Chargement de chunk qui parcourt tout le registre | ⬜ À faire | — | — | — | Tout |
+| C07 | Baril déplacé : marque orpheline | ⬜ À faire | — | — | — | Tout |
+| C08 | Deux pompes : « la plus proche dessert » non codée | ⬜ À faire | — | — | — | Tout |
+| C09 | Secours qui annule la marche ou l'arrêt manuel | ⬜ À faire | — | — | — | Tout |
+| C10 | Écran LCD illisible en CN, JP, KO | ✅ Corrigé | — (rendu à vérifier en jeu) | 1.3.2 | `dc553a5` | Vérifier l'écran en CN, JP, KO |
+| C11 | Table publique des ancres (positions et journal) | ⬜ À faire | — | — | — | Tout |
+| C12 | Journal d'alimentation trop court | ⬜ À faire | — | — | — | Tout |
+| C13 | Erreur de `Pump.maintain` avalée | ⬜ À faire | — | — | — | Tout |
+| C14 | Constante `LiveWire.VERSION` périmée | ⬜ À faire | — | — | — | Tout |
+| C15 | Commandes réseau mortes (`C_RENAME`…) | ⬜ À faire | — | — | — | Tout |
+| C16 | Instantané recalculé à chaque image en solo | ⬜ À faire | — | — | — | Tout |
+| C17 | Seuils du générateur de secours non contrôlés | ⬜ À faire | — | — | — | Tout |
+| C18 | Débit de la pompe : réserve accumulée à vide | ⬜ À faire | — | — | — | Tout |
+| C19 | Nettoyage des relais limité aux étages −1 à 7 | ⬜ À faire | — | — | — | Tout |
+| C20 | Bruit pour les zombies : une impulsion par pas | ⬜ À faire | — | — | — | Tout |
+| C21 | Pas « tout ou rien » quand le stock manque | ⬜ À faire | — | — | — | Tout |
+| C22 | Inspecter et déneiger sans safehouse ; frein définitif | ⬜ À faire | — | — | — | Tout |
+| C23 | Tables jamais purgées ; XP du testeur | ⬜ À faire | — | — | — | Tout |
+| C24 | Adoption de tuiles et marques réécrites par un client | ⬜ À faire | — | — | — | Tout |
+| C25 | Tests pompe, relais, couplage et MP | 🟡 En partie | solo 36/36, MP 12/12 + 6/6 (pz-autotest 2026-10-21) | outil hors mod | `c849ab6`, `df5091d` | Client non admin ; prototype P-pompe (sauvegarde, invisibilité) ; scénario du retrait des relais (C01) |
+| C26 | README : limite des frigos dépassée par la 1.0.1 | ⬜ À faire | — | — | — | Tout |
+
+### Idées de fonctionnalités
+
+| ID | Idée | État | Remarque |
+|---|---|---|---|
+| I01 | Afficher les consommateurs | ⬜ Proposée | Dépend de C04 |
+| I02 | Afficher les raccordements | ⬜ Proposée |  |
+| I03 | Prévision de production sur trois jours | ⬜ Proposée |  |
+| I04 | Journal des événements du réseau | ⬜ Proposée |  |
+| I05 | Nommer son réseau | ⬜ Proposée | Dépend de C15 |
+| I06 | Compteurs cumulés et carburant économisé | ⬜ Proposée |  |
+| I07 | Orientation des panneaux solaires | ⬜ Proposée |  |
+| I08 | Ombre des arbres et des bâtiments | ⬜ Proposée | I07 conseillé |
+| I09 | Encrassement et nettoyage des panneaux | ⬜ Proposée |  |
+| I10 | Batteries et froid | ⬜ Proposée |  |
+| I11 | Tester une batterie au testeur | ⬜ Proposée |  |
+| I12 | Recycler les batteries mortes | ⬜ Proposée |  |
+| I13 | Démonter un équipement hors service | ⬜ Proposée |  |
+| I14 | Frein manuel de l'éolienne | ⬜ Proposée | Dépend de C22 |
+| I15 | Intervention sous tension | ⬜ Proposée |  |
+| I16 | Arroseur de potager sur la pompe | ⬜ Proposée | Après C03 (fait) et C04 |
+| I17 | Approvisionnement en fil électrique | ⬜ Proposée | Dépend de I15 si le danger est retenu |
+| I18 | Petite API pour les mods d'extension | ⬜ Proposée | Garde de version : C14 |
+| I19 | Bascule avec un générateur vanilla | ⬜ Proposée |  |
+| I20 | Couper l'alarme au tableau électrique | ⬜ Proposée |  |
 
 ---
 
@@ -29,7 +91,8 @@
   - Ajouter un drapeau de registre `pumpsDisabled`, posé par la commande. Tant qu'il est posé, `Pump.maintain` et `Pump.step` ne font rien.
   - La commande vide `dev.relays` des pompes après avoir noté les positions. Ces positions vont dans une liste `pendingRelayRemoval`, que `Pump.onLoadChunk` purge au chargement.
   - Le journal donne le nombre de relais restant hors zone chargée. Un drapeau « Réactiver les pompes » lève le blocage.
-- **Statut.** Confirmé statiquement. **Priorité haute, effort S.** **Statut : corrigé (commit dc553a5), à vérifier en jeu** (drapeau `pumpsDisabled` ; les entrées `dev.relays` sont vidées, ce qui suffit à `onLoadChunk` sans liste `pendingRelayRemoval` ; action de debug `enablePumps`).
+- **Statut.** Confirmé statiquement. **Priorité haute, effort S.**
+- **Avancement : ✅ corrigé, publié en 1.3.2 (commit dc553a5), à vérifier en jeu** — drapeau `pumpsDisabled` ; les entrées `dev.relays` sont vidées, ce qui suffit à `onLoadChunk` sans liste `pendingRelayRemoval` ; action de debug `enablePumps`. Retrait non couvert par pz-autotest.
 
 ### C02 — Le logiciel de gestion ne commande l'onduleur que de très près (et reste muet en MP depuis un autre étage)
 - **Problème.**
@@ -44,7 +107,8 @@
   - l'ordinateur est alimenté (`Computer.powered`).
 
   L'abonnement accepte un écart d'étage jusqu'à `verticalRange()`.
-- **Statut.** Confirmé statiquement ; à vérifier en jeu (cas réel : ordinateur à 6 cases, puis à l'étage). **Priorité haute, effort S-M.** **Statut : corrigé (commit dc553a5), à vérifier en jeu** (argument `via` ; distance à l'ordinateur 6 cases, celle de fermeture de l'écran, au lieu de `ACT_RANGE` ; un ordinateur du Computer Mod non raccordé par câble reste soumis à l'ancienne règle).
+- **Statut.** Confirmé statiquement ; à vérifier en jeu (cas réel : ordinateur à 6 cases, puis à l'étage). **Priorité haute, effort S-M.**
+- **Avancement : ✅ corrigé, publié en 1.3.2 (commit dc553a5)** — argument `via` ; distance à l'ordinateur 6 cases, celle de fermeture de l'écran, au lieu de `ACT_RANGE` ; un ordinateur du Computer Mod non raccordé par câble reste soumis à l'ancienne règle. Testé en MP par pz-autotest le 2026-10-21 (commandes et abonnement depuis l'ordinateur, même étage et étage voisin ; refus sans `via` ou avec une fausse position).
 
 ### C03 — Synchronisation des relais à chaque minute de jeu : recalcul de l'éclairage chez tous les clients
 - **Problème.**
@@ -56,7 +120,8 @@
   - Ne synchroniser un relais que lorsqu'il franchit un seuil : vide ou non vide, plein, ou tous les 5 L déplacés depuis la dernière synchro (compteur dans `dev.relays[key]`).
   - Synchroniser les barils au plus une fois par pas de 10 minutes.
   - La plomberie du client n'a besoin que de savoir s'il reste de l'eau.
-- **Statut.** Confirmé statiquement (chemin Java) ; coût à mesurer en jeu. **Priorité moyenne, effort S.** **Statut : corrigé (commit dc553a5), à vérifier en jeu** (mémoire de session, pas de compteur sauvegardé dans `dev.relays`).
+- **Statut.** Confirmé statiquement (chemin Java) ; coût à mesurer en jeu. **Priorité moyenne, effort S.**
+- **Avancement : ✅ corrigé, publié en 1.3.2 (commit dc553a5), à vérifier en jeu** — mémoire de session, pas de compteur sauvegardé dans `dev.relays` ; gain réel à mesurer en MP.
 
 ### C04 — Balayages synchrones de la pompe et de sa vue
 - **Problème.**
@@ -68,6 +133,7 @@
   - Garder par pompe une liste des points d'eau (`waterPiped`). Elle est construite par un travail étalé sur plusieurs ticks, comme `Demand` (`server/LiveWire/LW_Demand.lua`), et invalidée par la pose de meubles et par `LoadChunk`.
   - Côté client, construire la liste une fois à l'ouverture de la vue, puis ne revérifier que les cases des relais.
 - **Statut.** Confirmé statiquement ; coût à mesurer. **Priorité moyenne, effort M.**
+- **Avancement : ⬜ à faire.**
 
 ### C05 — Balayage complet du disque à chaque changement d'état d'une ancre
 - **Problème.**
@@ -78,12 +144,14 @@
   - Sur l'autorité, réutiliser la liste d'objets déjà construite par `Demand.inventories[inv.id].objects` (frigos compris) au lieu de rebalayer.
   - Côté client, étaler `refreshVisuals` sur quelques ticks (file de cases), ou ne traiter que les objets `couldBePoweredByGenerator`, retenus par un balayage étalé.
 - **Statut.** Confirmé statiquement. **Priorité basse à moyenne, effort M.**
+- **Avancement : ⬜ à faire.**
 
 ### C06 — Chaque chargement de chunk parcourt tout le registre
 - **Problème.** `LW_ChunkSync.onLoadChunk` copie **tous** les appareils du registre dans une liste, à chaque `LoadChunk` (`server/LiveWire/LW_ChunkSync.lua:29-44`). Un joueur qui se déplace charge des dizaines de chunks par seconde. Le coût vaut donc chunks × appareils de tout le serveur.
 - **Risque.** Performance sur un serveur qui compte beaucoup de bases.
 - **Correction proposée.** Indexer le registre par chunk (`byChunk["cx,cy"]`), en le tenant à jour dans `addDevice`, `moveDevice` et `removeDevice` (`server/LiveWire/LW_Registry.lua:87-98`, `:205-239`). Ne parcourir les onduleurs que pour l'invalidation de la demande.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S-M.**
+- **Avancement : ⬜ à faire.**
 
 ### C07 — Baril déplacé : marque orpheline qui bloque tout nouveau raccordement
 - **Problème.**
@@ -97,6 +165,7 @@
   - Écrire la position dans la marque (`{ pump, x, y, z }`). Côté serveur, la marque est orpheline si la position ne correspond plus, ou si la pompe ne liste pas cette case.
   - Dans ce cas, l'effacer dans `checkBarrelLink`, `C_UNLINK_BARREL` et `onLoadChunk`. Le client affiche le baril comme libre.
 - **Statut.** Mécanisme confirmé statiquement ; conservation de la ModData d'un récupérateur ramassé à vérifier en jeu. **Priorité moyenne, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C08 — Deux pompes : la règle « la plus proche dessert » n'est pas codée
 - **Problème.**
@@ -107,6 +176,7 @@
   - **coder la règle** : quand la source trouvée est le relais d'une autre pompe plus lointaine, réattribuer la marque `RELAY_KEY`, et la retirer de la liste de l'autre pompe au pas suivant ;
   - **documenter** la règle réelle (« la première raccordée »).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C09 — Le générateur de secours annule la marche ou l'arrêt manuel du joueur
 - **Problème.** Tant qu'il est chargé, `Backup.step` impose `setActivated(run)` à chaque sous-pas (`server/LiveWire/LW_Backup.lua:154`), et `Backup.restore` fait de même au chargement (`:192`). Si le joueur éteint le générateur par le menu vanilla, par exemple pour échapper à la toxicité à l'intérieur, le mod le rallume dans les 10 minutes de jeu. Le seul moyen de l'arrêter est de le débrancher.
@@ -115,6 +185,7 @@
   - Mémoriser `dev.lastSet`. Si `gen:isActivated() ~= dev.lastSet`, le joueur a agi : passer en état `manual`, respecter son choix et l'afficher sur l'écran LCD et dans le logiciel.
   - Proposer « Reprendre le mode automatique » dans le menu du générateur.
 - **Statut.** Confirmé statiquement ; à vérifier en jeu. **Priorité moyenne, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C10 — Écran LCD illisible en chinois, japonais et coréen
 - **Problème.**
@@ -124,7 +195,8 @@
   - Les traductions CN, JP et KO du mod sont livrées, mais l'écran LCD les affiche vides ou en carrés.
 - **Risque.** Traduction ; bug visible pour trois langues livrées.
 - **Correction proposée.** `lcdFont()` rend `UIFont.Small` (qui a une variante par langue) quand `Translator.getLanguage():name()` est CN, CH, JP, KO ou TH. Vérifier aussi le thaï, que le mod ne livre pas.
-- **Statut.** Confirmé statiquement (glyphes de la police) ; rendu à vérifier en jeu. **Priorité haute, effort S.** **Statut : corrigé (commit dc553a5), à vérifier en jeu** (`LiveWire.Client.lcdFont()`, CN, CH, JP, KO, TH).
+- **Statut.** Confirmé statiquement (glyphes de la police) ; rendu à vérifier en jeu. **Priorité haute, effort S.**
+- **Avancement : ✅ corrigé, publié en 1.3.2 (commit dc553a5), à vérifier en jeu** — `LiveWire.Client.lcdFont()`, CN, CH, JP, KO, TH.
 
 ### C11 — La table publique des ancres expose toutes les bases et leur historique à chaque client
 - **Problème.**
@@ -136,6 +208,7 @@
   - Bande passante : la table grossit avec le nombre de bases.
 - **Correction proposée.** Déplacer `log` et `log0` dans le registre serveur (`data.anchorLogs`), et ne publier que `{x, y, z, on}`. En option, plus tard : envoyer à chaque client seulement les ancres proches, par `sendServerCommand` lors de ses chargements de chunks.
 - **Statut.** Confirmé statiquement. **Priorité basse** (serveur entre amis, voir les préférences de l'utilisateur sur l'anti-triche). **Effort** S pour le journal, M pour la diffusion par proximité.
+- **Avancement : ⬜ à faire.**
 
 ### C12 — Le journal d'alimentation est trop court pour une longue absence
 - **Problème.**
@@ -144,18 +217,21 @@
 - **Risque.** Persistance ; équilibre de la nourriture.
 - **Correction proposée.** Une fois le journal sorti de la table publique (C11), le borner **dans le temps** (par exemple 60 jours de jeu) plutôt qu'en nombre. Fusionner les entrées qu'aucun aliment chargé ne peut plus concerner.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C13 — Erreur de `Pump.maintain` avalée sans trace
 - **Problème.** `pcall(LiveWire.Pump.maintain, pumps[p])` ignore son résultat (`LW_Simulation.lua:550`). Toute erreur de pose ou de retrait des relais disparaît, alors que `Pump.tickMinute` journalise les siennes (`LW_Pump.lua:348-349`).
 - **Risque.** Maintenabilité : un diagnostic de la pompe en MP sans aucune trace.
 - **Correction proposée.** `local ok, err = pcall(...)`, puis `LiveWire.warn(...)` en cas d'échec, comme ailleurs.
 - **Statut.** Confirmé statiquement. **Priorité moyenne** (coût quasi nul), **effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C14 — Constante de version périmée
 - **Problème.** `LiveWire.VERSION = "0.1.2"` (`shared/LiveWire/LW_Core.lua:7`) alors que le mod est en 1.3.1.
 - **Risque.** Maintenabilité : un journal ou un rapport de bug trompeur.
 - **Correction proposée.** Mettre la constante à jour, l'écrire dans le journal au démarrage (`registry ready`), et faire comparer par `tools/check_mod.py` `VERSION` à `modversion` de `mod.info`.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C15 — Commandes réseau mortes ou à moitié branchées
 - **Problème.**
@@ -164,6 +240,7 @@
 - **Risque.** Maintenabilité.
 - **Correction proposée.** Brancher le renommage (voir I05) et retirer les autres constantes, ou les documenter comme réservées.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C16 — En solo, l'instantané est recalculé à chaque image
 - **Problème.**
@@ -173,12 +250,14 @@
 - **Risque.** Performance faible mais permanente tant qu'une fenêtre est ouverte.
 - **Correction proposée.** Garder un cache par `(grid.id, grid.rev)` dans `Client.snapshot` côté autorité. `rev` change à chaque pas et à chaque commande.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C17 — Seuils du générateur de secours non contrôlés
 - **Problème.** Les options autorisent un seuil de démarrage supérieur au seuil d'arrêt : démarrage de 0 à 90, arrêt de 10 à 100 (`media/sandbox-options.txt:93-101`). L'hystérésis de `Backup.step` (`LW_Backup.lua:131-139`) se réduit alors à « arrêt au seuil de démarrage », sans message.
 - **Risque.** Réglage incohérent et silencieux.
 - **Correction proposée.** Calculer `stop = max(stop, start + 5)` dans `Backup.step`, le journaliser une fois, et le préciser dans l'infobulle de l'option.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C18 — Débit de la pompe : réserve accumulée à vide et constante en dur
 - **Problème.**
@@ -187,6 +266,7 @@
 - **Risque.** Équilibrage et maintenabilité, impact faible.
 - **Correction proposée.** N'ajouter le budget que lorsqu'il y a un besoin, et définir `Defs.PUMP_BUDGET_MAX`.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C19 — Nettoyage des relais limité aux étages −1 à 7
 - **Problème.**
@@ -196,6 +276,7 @@
 - **Risque.** Persistance (cas rare).
 - **Correction proposée.** Utiliser `chunk:getMinLevel()` et `chunk:getMaxLevel()` sans autre borne.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C20 — Bruit pour les zombies : une seule impulsion par pas
 - **Problème.**
@@ -206,6 +287,7 @@
   - émettre le bruit de l'onduleur chaque minute de jeu (sur `EveryOneMinute`, pour les onduleurs chargés en marche) ;
   - documenter que le bruit est volontairement négligeable.
 - **Statut.** Confirmé statiquement ; effet réel sur les zombies à vérifier en jeu. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C21 — Pas « tout ou rien » quand le stock ne couvre pas le pas
 - **Problème.**
@@ -215,6 +297,7 @@
 - **Risque.** Équilibrage : une coupure perçue comme prématurée, sur l'écran comme au retour.
 - **Correction proposée.** Servir une fraction du pas (`on` pendant `stock / besoin` du sous-pas), puis couper. Retenir la fraction pour l'historique.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort M** (tests hors jeu à étendre).
+- **Avancement : ⬜ à faire.**
 
 ### C22 — Inspecter et déneiger sans contrôle de safehouse ; frein de l'éolienne définitif
 - **Problème.**
@@ -223,6 +306,7 @@
 - **Risque.** Faible en MP ; ergonomie.
 - **Correction proposée.** Ajouter `allowed()`. Transformer le frein en interrupteur explicite (voir I14).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C23 — Tables en mémoire jamais purgées ; expérience du testeur exploitable
 - **Problème.**
@@ -231,6 +315,7 @@
 - **Risque.** Mémoire (faible) ; expérience trop facile à obtenir.
 - **Correction proposée.** Purger les entrées de plus de 24 h de jeu une fois par heure de jeu. Limiter l'expérience de mesure par joueur (par exemple 5 XP par heure de jeu, toutes cases confondues).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C24 — Adoption de tuiles et marques réécrites par un client
 - **Problème.**
@@ -241,6 +326,7 @@
   - Rendement fixe de 0,85 pour une tuile adoptée.
   - Avant de supprimer, vérifier sur l'autorité que la **tuile** (sprite) a disparu, pas seulement la marque. Si la tuile est encore là, réécrire la marque depuis le registre.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ### C25 — Tests : pompe, relais et couplage ne sont couverts qu'en hors-jeu partiel ; aucun scénario MP
 - **Problème.**
@@ -254,13 +340,15 @@
   - Ajouter au crochet un scénario pompe : poser, raccorder un récupérateur, vérifier le relais, tirer de l'eau, ramasser, puis exécuter C01.
   - Ajouter un scénario couplage : coupler, découpler, retirer le maître.
   - Ajouter une section `mp` à `autotest.json` (serveur et deux clients, l'un non admin), sur le modèle des autres mods de l'utilisateur.
-- **Statut : corrigé (commit c849ab6), à vérifier en jeu.** Hooks locaux (hors dépôt) : pompe et couplage en solo dans `autotest/lw_hooks.lua`, section `mp` et `autotest/lw_mp_hooks.lua` (serveur + 1 client admin ; pas de client non admin). Prototype P-pompe (sauvegarde, invisibilité) non couvert.
+- **Statut.** Confirmé statiquement. **Priorité haute, effort M.**
+- **Avancement : 🟡 en partie (commits c849ab6, df5091d ; outil hors mod)** — pompe et couplage en solo dans `autotest/lw_hooks.lua`, section `mp` et `autotest/lw_mp_hooks.lua` (serveur + 1 client admin ; pas de client non admin). Runs pz-autotest du 2026-10-21 : solo 36/36, MP 12/12 côté serveur et 6/6 côté client. Restent : client non admin, prototype P-pompe (sauvegarde, invisibilité), scénario du retrait des relais (C01).
 
 ### C26 — README : limite des frigos dépassée par la 1.0.1
 - **Problème.** `README.md:53` dit encore que l'état trouvé au retour vaut pour toute l'absence. Or la 1.0.1 rejoue l'absence d'après le journal des ancres (`CHANGELOG.md`, 1.0.1 ; `LW_FridgeCatchup.lua`).
 - **Risque.** Documentation joueur fausse (la même phrase existe probablement dans les autres README).
 - **Correction proposée.** Reformuler, à faire après la réorganisation de la documentation en cours : « l'absence est rejouée d'après les 16 derniers changements de courant » (voir C12).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
+- **Avancement : ⬜ à faire.**
 
 ---
 
@@ -277,6 +365,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Une commande ponctuelle, limitée en débit ; aucune donnée d'un autre réseau n'est envoyée.
 - **Dépendances.** C04, pour ne pas reproduire le balayage synchrone côté client.
 - **Effort.** M.
+- **Avancement : ⬜ proposée.**
 
 ### I02 — « Afficher les raccordements » : le câblage du réseau
 - **Description.** Des lignes dessinées au sol de l'onduleur vers chaque source, powerbank, option, pompe ou ordinateur raccordé, avec une couleur par rôle, et en pointillé quand l'appareil est sur un autre étage.
@@ -287,6 +376,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun : affichage local, à partir de données déjà envoyées.
 - **Dépendances.** Aucune.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I03 — Prévision de production sur trois jours
 - **Description.** Un onglet « Prévisions » du logiciel montre, pour aujourd'hui, demain et après-demain, la production attendue en kWh par famille (solaire d'après les nuages, éolien d'après le vent). Il compare cette production à la consommation moyenne des 48 dernières heures et conclut : « réserve suffisante », « prévoir le générateur ».
@@ -297,6 +387,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Calcul sur le serveur, ajouté à l'instantané seulement quand l'ordinateur est alimenté (comme `history`).
 - **Dépendances.** Ordinateur de gestion raccordé.
 - **Effort.** M.
+- **Avancement : ⬜ proposée.**
 
 ### I04 — Journal des événements du réseau
 - **Description.** L'onglet Historique du logiciel ajoute une liste horodatée des 30 derniers événements : disjonction de l'onduleur ou du disjoncteur, réarmement, batterie faible, démarrage et arrêt du générateur, délestage, appareil hors service, couplage. L'écran LCD montre le dernier sur sa page État.
@@ -307,6 +398,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Quelques dizaines d'octets dans l'instantané des abonnés.
 - **Dépendances.** Aucune.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I05 — Nommer son réseau
 - **Description.** « Renommer le réseau » dans le menu de l'onduleur et dans l'en-tête du logiciel, avec une saisie de 24 caractères au plus. Le nom apparaît sur l'écran LCD, dans le logiciel, à l'inspection et dans les messages d'alarme (« Batterie faible — Chalet nord »).
@@ -317,6 +409,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun nouveau paquet hors la commande existante.
 - **Dépendances.** C15.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I06 — Compteurs cumulés et « carburant économisé »
 - **Description.** Chaque source compte ses kWh produits depuis sa pose, et chaque réseau ses kWh consommés, perdus (batteries pleines) et fournis par le générateur de secours. Le logiciel affiche aussi l'équivalent en litres d'essence qu'aurait brûlés un générateur vanilla pour la même consommation.
@@ -328,6 +421,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Quelques nombres en plus dans l'instantané.
 - **Dépendances.** Aucune.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I07 — Orientation des panneaux solaires
 - **Description.** La rotation du panneau, déjà possible avec le curseur vanilla, compte :
@@ -343,6 +437,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun : calcul serveur.
 - **Dépendances.** Nouvelle option sandbox `SolarOrientation` (vrai par défaut) pour les parties existantes.
 - **Effort.** S-M.
+- **Avancement : ⬜ proposée.**
 
 ### I08 — Ombre des arbres et des bâtiments
 - **Description.** Un panneau sous ou juste au sud d'un arbre, ou au pied d'un mur plus haut, perd une part de sa production. Le message de pose prévient : « Ombragé par un arbre : −40 % ».
@@ -354,6 +449,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun.
 - **Dépendances.** I07 conseillé (même passage dans `sourceRaw`). Le risque R-9 (`isOutside()` sous un arbre) est à revoir en même temps.
 - **Effort.** M.
+- **Avancement : ⬜ proposée.**
 
 ### I09 — Encrassement et nettoyage des panneaux
 - **Description.** La production d'un panneau baisse lentement avec la poussière, et plus vite en automne (feuilles) ou après un incendie proche. « Nettoyer le panneau » avec un chiffon et un peu d'eau rend le rendement. L'action « Déneiger » devient « Nettoyer », et la neige compte comme une salissure.
@@ -366,6 +462,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun, en dehors de l'action chronométrée.
 - **Dépendances.** Option sandbox pour la désactiver.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I10 — Batteries et froid
 - **Description.** Une powerbank posée **dehors** perd de la capacité utile par grand froid : −20 % à 0 °C, −40 % à −15 °C. La charge reste intacte et la capacité revient au dégel. Une powerbank à l'intérieur n'est pas touchée.
@@ -376,6 +473,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun.
 - **Dépendances.** Option sandbox (désactivée par défaut, pour ne pas changer l'équilibre des parties existantes).
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I11 — Tester une batterie au testeur de tension
 - **Description.** Clic droit sur une batterie de l'inventaire > « Tester la batterie ». Le message dépend du niveau :
@@ -389,6 +487,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Une notification.
 - **Dépendances.** Aucune.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I12 — Recycler les batteries mortes
 - **Description.** Une batterie à 0 % d'état n'est aujourd'hui qu'un déchet (capacité nulle, `Physics.batteryCapacity`). Une recette d'Électricité 5 « Récupérer les plaques » donne de la ferraille et un « bloc de plaques ». Deux blocs, de l'eau et un boîtier de batterie usagé donnent une batterie à décharge profonde reconstruite à 30-40 %.
@@ -399,6 +498,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun : recette vanilla, `OnCreate` sur le serveur.
 - **Dépendances.** Nouvel objet intermédiaire (traductions, icône).
 - **Effort.** S-M.
+- **Avancement : ⬜ proposée.**
 
 ### I13 — Démonter un équipement hors service pour ses pièces
 - **Description.** Un équipement à 0 % qu'on ne peut pas réviser (niveau 8 exigé, `LW_TimedActions.lua:328`) peut être « démonté pour pièces » dès le niveau 3. Il donne des déchets électroniques, du fil, et des cellules pour un panneau. L'équipement est détruit.
@@ -409,6 +509,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Une action chronométrée, revérifiée dans `complete()`.
 - **Dépendances.** Aucune.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I14 — Frein manuel de l'éolienne
 - **Description.** « Serrer le frein » et « Desserrer le frein » dans le menu de l'éolienne, dès le niveau 7. Frein serré : production nulle et aucun dégât de tempête. Une alerte d'orage peut rappeler de le serrer. Le voyant vert de l'éolienne clignote tant que le frein est serré.
@@ -417,6 +518,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Une commande de plus, revérifiée (distance, safehouse).
 - **Dépendances.** C22.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I15 — Intervention sous tension : risque de décharge
 - **Description.** Raccorder, réparer ou débrancher un équipement pendant que l'onduleur est en marche et que la maison est alimentée donne une petite chance de décharge. La chance baisse avec le niveau, et devient nulle au niveau 6 ou si l'onduleur est éteint. Effets : douleur et brûlure légère à la main, objet lâché. L'onduleur, lui, exige déjà d'être éteint pour sa propre réparation (`LW_TimedActions.lua:382-385`).
@@ -427,6 +529,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Dégâts décidés par le serveur, comme le reste.
 - **Dépendances.** Aucune.
 - **Effort.** S-M.
+- **Avancement : ⬜ proposée.**
 
 ### I16 — Arroseur de potager branché sur la pompe
 - **Description.** Un petit arroseur, nouvelle tuile posée au sol, se raccorde à une pompe comme un baril. Tant que la pompe a du courant et de l'eau, il arrose les plantes vanilla dans un rayon de 2 à 3 cases. La quantité suit le besoin de chaque plante, à raison de 200 ml par dose, prélevés **réellement** dans les barils, comme pour les relais.
@@ -438,6 +541,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Tout sur l'autorité. Synchronisation par le système de culture vanilla.
 - **Dépendances.** Pompe ; C03 et C04 avant d'ajouter du travail à la minute.
 - **Effort.** M-L.
+- **Avancement : ⬜ proposée.**
 
 ### I17 — Approvisionnement en fil électrique
 - **Description.** Le mod consomme beaucoup de `Base.ElectricWire` : 1 fil pour 4 cases à chaque raccordement, pour la réparation et la révision. Une recette « Récupérer le câblage » d'Électricité 2 tirerait du fil de rallonges, lampes et petits appareils vanilla, et une action lente « Arracher le câblage d'un mur » en tirerait d'une maison sans courant public.
@@ -448,6 +552,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Recette ou action chronométrée classique.
 - **Dépendances.** I15, si le danger est retenu.
 - **Effort.** S.
+- **Avancement : ⬜ proposée.**
 
 ### I18 — Petite API pour les mods d'extension
 - **Description.** Une table publique `LiveWire.API` qui permet à un autre mod :
@@ -461,6 +566,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Le mod d'extension doit être actif sur le serveur et les clients, comme tout mod.
 - **Dépendances.** Documentation développeur ; garde de version (`LiveWire.VERSION`, C14).
 - **Effort.** S-M.
+- **Avancement : ⬜ proposée.**
 
 ### I19 — Bascule automatique avec un générateur vanilla (approfondissement de D-10)
 - **Description.** La spécification annonce depuis la 0.1 la bascule de la v0.2 (`docs/specifications-fonctionnelles.md`, § 8.2) : un générateur vanilla **non raccordé** qui tourne dans la zone de l'onduleur ne fait plus payer deux fois. L'onduleur cesse de compter les appareils déjà alimentés par ce générateur, et l'écran affiche « Appoint : générateur vanilla ».
@@ -471,6 +577,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Calcul serveur seulement.
 - **Dépendances.** Aucune.
 - **Effort.** M.
+- **Avancement : ⬜ proposée.**
 
 ### I20 — Couper l'alarme d'une maison au tableau électrique (approfondissement de I-3)
 - **Description.** Prévue en 0.3 (§ 9 de la spécification), non écartée. Un électricien d'Électricité 3, avec testeur et tournevis, peut « Neutraliser l'alarme » d'un bâtiment depuis un mur intérieur. Action longue, bruyante en cas d'échec : l'alarme se déclenche.
@@ -481,6 +588,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Action chronométrée revérifiée. Règles de safehouse.
 - **Dépendances.** Aucune.
 - **Effort.** S-M.
+- **Avancement : ⬜ proposée.**
 
 ### Remarques sur les idées déjà retenues
 - **Chargeur de piles (idée 1).** Le moteur a déjà une classe `IsoCarBatteryCharger` (`java/zombie/iso/objects/IsoCarBatteryCharger.java`), que `Demand.category` range en `charger`. Vérifier son comportement avec l'ancre : il pourrait recharger les batteries de voiture vanilla sans aucun code. Le chargeur de piles du mod peut en reprendre le principe (consommation lue par `getGeneratorPowerConsumption`) plutôt que d'ajouter une demande à part.
@@ -491,16 +599,18 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 
 ## Partie 3 — Priorisation : les 5 actions les plus rentables
 
+Avancement au 2026-10-23 indiqué devant chaque action.
+
 | Rang | Action | Pourquoi maintenant | Effort | Risque de la correction |
 |---|---|---|---|---|
-| 1 | **C02** — commandes et abonnement du logiciel depuis l'ordinateur raccordé | Bug visible dès qu'on utilise l'ordinateur de gestion (Électricité 6), et logiciel muet en MP depuis un autre étage | S-M | Faible : un argument de plus, revérifié par le serveur |
-| 2 | **C01** — vraie procédure de retrait des relais | Le README promet une désinstallation propre que le code ne tient pas ; des objets restent dans les sauvegardes | S | Faible |
-| 3 | **C10** — police de l'écran LCD pour CN, JP et KO | Trois traductions livrées et illisibles sur l'écran principal | S | Très faible |
-| 4 | **C25 + C03** — scénario d'autotest pompe et couplage (SP puis MP), avec la synchro des relais limitée | 1.2.0 et 1.3.0 ne sont pas testées en jeu ; la synchro des relais est le premier coût côté client à mesurer pendant ce test | M | Faible ; le test peut révéler d'autres défauts de la pompe |
-| 5 | **I04 + I05** — journal des événements et nom du réseau | Gain joueur net pour un code minime : le serveur repère déjà les événements et sait renommer (C15) | S | Très faible |
+| 1 | ✅ **C02** — commandes et abonnement du logiciel depuis l'ordinateur raccordé | Bug visible dès qu'on utilise l'ordinateur de gestion (Électricité 6), et logiciel muet en MP depuis un autre étage | S-M | Faible : un argument de plus, revérifié par le serveur |
+| 2 | ✅ **C01** — vraie procédure de retrait des relais | Le README promet une désinstallation propre que le code ne tient pas ; des objets restent dans les sauvegardes | S | Faible |
+| 3 | ✅ **C10** — police de l'écran LCD pour CN, JP et KO | Trois traductions livrées et illisibles sur l'écran principal | S | Très faible |
+| 4 | 🟡 **C25 + C03** (C03 fait, C25 en partie) — scénario d'autotest pompe et couplage (SP puis MP), avec la synchro des relais limitée | 1.2.0 et 1.3.0 ne sont pas testées en jeu ; la synchro des relais est le premier coût côté client à mesurer pendant ce test | M | Faible ; le test peut révéler d'autres défauts de la pompe |
+| 5 | ⬜ **I04 + I05** — journal des événements et nom du réseau | Gain joueur net pour un code minime : le serveur repère déjà les événements et sait renommer (C15) | S | Très faible |
 
-Corrections presque gratuites à grouper avec la première livraison : C13 (journaliser l'erreur de `maintain`), C14 (version), C17 (seuils du secours), C19 (étages du nettoyage).
+Corrections presque gratuites à grouper avec la prochaine livraison (toutes ⬜) : C13 (journaliser l'erreur de `maintain`), C14 (version), C17 (seuils du secours), C19 (étages du nettoyage).
 
 ---
 
-*Ce document est une **proposition**. Aucune des corrections ou fonctionnalités ci-dessus n'est implémentée. Chacune doit être validée par l'utilisateur, une question à la fois, selon la méthode de `docs/decisions.md`, avant tout développement. Aucun test en jeu n'a été fait pour l'établir : les points « à vérifier en jeu » restent des déductions.*
+*Ce document est une **proposition** mise à jour au fil des corrections : l'état de chaque point est dans le tableau de bord en tête (C01, C02, C03 et C10 corrigés et publiés en 1.3.2, C25 en partie). Chaque point encore à faire doit être validé par l'utilisateur, une question à la fois, selon la méthode de `docs/decisions.md`, avant tout développement. Aucun test en jeu n'a été fait pour établir les constats : les points « à vérifier en jeu » restent des déductions.*
