@@ -120,7 +120,7 @@ Préparation rapide : lancer en `-debug`, puis « Live Wire » → « Debug » �
 
 ## Tests automatiques (pz-autotest)
 
-Les fichiers `autotest.json` et `autotest/` restent sur le poste de développement (exclus du dépôt). Depuis le dossier parent des projets, `pz-autotest` lance le jeu sans personne devant le PC ; un seul jeu à la fois (`--wait-idle`).
+Les fichiers `autotest.json` et `autotest/` sont versionnés avec le projet (`df5091d`). Depuis le dossier parent des projets, `pz-autotest` lance le jeu sans personne devant le PC ; un seul jeu à la fois (`--wait-idle`).
 
 ```powershell
 python .claude/tools/pz-autotest/pz_autotest.py check LiveWire                              # configuration et hooks
@@ -133,6 +133,7 @@ python .claude/tools/pz-autotest/pz_autotest.py mp LiveWire -P client=0         
 - **Solo** (`lw_hooks.lua`) : pose, raccordement, disjoncteur, alarme, menus, écran, rotation, ramassage, frigo pendant l'absence, puis (C25) **pompe** (pose, raccordement à l'onduleur, baril relié par l'action réelle, relais au-dessus d'un point d'eau rempli depuis le baril avec l'eau publique coupée en mémoire, débranchement du baril qui rend le tuyau et retire le relais, ramassage) et **couplage** (esclave couplé : capacité doublée, découplage qui rend le kit, retrait du maître qui libère l'esclave). Sans point d'eau à 12 cases de la pompe, la partie relais est `SKIP`.
 - **MP** (`lw_mp_hooks.lua`, monde neuf au point de départ fixe de `mp.spawn`) : côté serveur, réseau posé à côté du joueur par le vrai code de pose et l'action de raccordement (onduleur A à 5 cases au même étage, onduleur B à l'étage voisin s'il existe, sinon `SKIP`), banc de batteries rempli, pas de simulation, puis commandes du logiciel (C02) : refusées sans `via` hors de 3 cases, acceptées depuis l'ordinateur raccordé et alimenté, refusées avec une fausse position, abonnement depuis l'ordinateur. Côté client : marques reçues, instantané reçu après abonnement depuis l'ordinateur (y compris à l'autre étage), onduleur A éteint puis rallumé par `sendClientCommand` et nouvel état vu dans la marque. Le serveur attend ces commandes (`clientWaitSec`, 180 s).
 - Résultat : code 0 = OK ; `runs/<date>-<mode>-<jeton>/summary.txt`. Les lignes `SKIP` ne comptent ni comme réussite ni comme échec.
+- **Dernière campagne** (2026-10-21, mod 1.3.2, code de sortie 0, aucune erreur Lua, aucun `SKIP`) : `sp` 36/36 (`runs/20261021-155813-sp-fcf24007adbf`, avec les captures `lw_*.png`) ; `mp` 1 client, serveur 12/12 et client 6/6 (`runs/20261021-161745-mp-d1415cf8a1d9`). Les profils de consommation de la 1.4.0 (2026-10-22) sont venus après : cette campagne ne les couvre pas, à relancer.
 
 ## Que rapporter
 
