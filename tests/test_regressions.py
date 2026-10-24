@@ -26,6 +26,26 @@ class Regressions(unittest.TestCase):
         assert(#R.devicesInChunk(4,4)==0)
         ''')
 
+    def test_pump_maintenance_error_is_logged_and_next_pump_is_served(self):
+        self.run_lua('''
+        local R=LiveWire.Registry
+        local inv=R.addDevice({role="inverter",model="Inverter",x=0,y=0,z=0,cond=100,state="on"})
+        local grid=R.createGrid(inv)
+        local first=R.addDevice({role="pump",model="WaterPump",x=1,y=0,z=0,cond=100,barrels={},relays={}})
+        local second=R.addDevice({role="pump",model="WaterPump",x=2,y=0,z=0,cond=100,barrels={},relays={}})
+        R.link(first,grid);R.link(second,grid)
+        local calls,warnings=0,{}
+        LiveWire.warn=function(message) warnings[#warnings+1]=message end
+        LiveWire.Pump.maintain=function(dev)
+            calls=calls+1
+            if dev.id==first.id then error("test maintenance failure") end
+        end
+        LiveWire.Sim.refresh(grid)
+        assert(calls==2 and #warnings==1)
+        assert(string.find(warnings[1],first.id,1,true))
+        assert(string.find(warnings[1],"test maintenance failure",1,true))
+        ''')
+
     def test_barrel_position_membership_and_legacy_mark(self):
         self.run_lua('''
         local R, I, D = LiveWire.Registry, LiveWire.Install, LiveWire.Defs

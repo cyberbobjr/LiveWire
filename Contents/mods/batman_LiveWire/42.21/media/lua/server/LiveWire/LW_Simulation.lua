@@ -549,7 +549,12 @@ function Sim.stepGrid(grid, now, w)
     end
     -- Relays of the pumps follow the linked barrels and fixtures (loaded squares only).
     if LiveWire.Pump then
-        for p = 1, #pumps do pcall(LiveWire.Pump.maintain, pumps[p]) end
+        for p = 1, #pumps do
+            local ok, err = pcall(LiveWire.Pump.maintain, pumps[p])
+            if not ok then
+                LiveWire.warn("pump maintenance failed for " .. tostring(pumps[p].id) .. ": " .. tostring(err))
+            end
+        end
     end
     -- State shown by the client (lights, menus): rewrite the marks that changed.
     LiveWire.Devices.refreshStates(grid)
