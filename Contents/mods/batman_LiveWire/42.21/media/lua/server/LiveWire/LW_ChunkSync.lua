@@ -35,6 +35,7 @@ local function onLoadChunk(chunk)
         if alive then
             if inChunk and dev.role == "storage" then LiveWire.Batteries.restore(dev) end
             if inChunk and dev.role == "backup" then LiveWire.Backup.restore(dev) end
+            if inChunk and dev.role == "inverter" then LiveWire.Devices.syncMark(dev) end
         end
     end
     for id in pairs(R.inverters) do

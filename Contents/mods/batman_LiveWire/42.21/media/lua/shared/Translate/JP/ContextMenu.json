@@ -71,5 +71,6 @@
     "ContextMenu_LW_Uncouple": "連結を解除",
     "ContextMenu_LW_ApplyBrake": "風力タービンのブレーキをかける",
     "ContextMenu_LW_ReleaseBrake": "風力タービンのブレーキを解除",
-    "ContextMenu_LW_ResumeBackup": "自動バックアップを再開"
+    "ContextMenu_LW_ResumeBackup": "自動バックアップを再開",
+    "ContextMenu_LW_RenameNetwork": "電力網の名前を変更"
 }

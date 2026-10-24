@@ -71,5 +71,6 @@
     "ContextMenu_LW_Uncouple": "Uncouple",
     "ContextMenu_LW_ApplyBrake": "Apply the wind turbine brake",
     "ContextMenu_LW_ReleaseBrake": "Release the wind turbine brake",
-    "ContextMenu_LW_ResumeBackup": "Resume automatic backup"
+    "ContextMenu_LW_ResumeBackup": "Resume automatic backup",
+    "ContextMenu_LW_RenameNetwork": "Rename network"
 }

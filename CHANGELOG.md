@@ -3,6 +3,10 @@
 ## Unreleased
 
 ### Fixes
+- Pump maintenance failures are logged with the pump identifier while other pumps continue to be maintained.
+- The runtime version matches the shipped mod metadata and is included in the registry startup log; offline checks enforce the match for both mods.
+- Networks can be renamed from the inverter menu and the management software's equipment tab. Computer commands use the same distance, power and safehouse checks as the other software controls; obsolete unused protocol commands were removed.
+- The English and French README descriptions now explain the retained history used to replay fridge power changes during an absence.
 - Moved water barrels no longer keep an orphaned pump link that prevents reconnection; existing barrel marks are checked and upgraded when read by the authority.
 - Backup generators respect manual starts and stops, including chunk reloads. Use "Resume automatic backup" to return to battery thresholds.
 - Inspecting a wind turbine no longer applies its brake. Electrical level 7 can explicitly apply or release it; an applied brake stops production and the blade animation. The brake follows the turbine when picked up. Inspection and snow clearing now respect safehouse permissions on the authority.

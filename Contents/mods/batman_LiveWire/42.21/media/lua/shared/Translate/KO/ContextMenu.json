@@ -71,5 +71,6 @@
     "ContextMenu_LW_Uncouple": "병렬 연결 해제",
     "ContextMenu_LW_ApplyBrake": "풍력 터빈 브레이크 작동",
     "ContextMenu_LW_ReleaseBrake": "풍력 터빈 브레이크 해제",
-    "ContextMenu_LW_ResumeBackup": "자동 비상 전원 재개"
+    "ContextMenu_LW_ResumeBackup": "자동 비상 전원 재개",
+    "ContextMenu_LW_RenameNetwork": "전력망 이름 변경"
 }

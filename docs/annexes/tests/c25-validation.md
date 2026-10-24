@@ -103,3 +103,28 @@ clients, l'hypothèse moyenne ci-dessus donne environ 67 Kio/s sortants ; 100 ba
 groupées représenteraient environ 124 Mo au total. Aucune fréquence courte
 systématique n'est établie. C11 est différé ; mesurer un gros serveur en conditions
 réelles avant toute optimisation.
+
+## Suite autorisée : C13, C14, C26, C15
+
+- **C13** : erreur de maintenance journalisée en anglais avec l'identifiant de la
+  pompe ; les pompes suivantes restent traitées. Injection d'erreur hors jeu.
+- **C14** : version Lua 1.4.0 alignée avec les deux `mod.info`, annoncée au démarrage
+  du registre et contrôlée par `tools/check_mod.py`.
+- **C26** : README EN et FR corrigés sur le rattrapage des frigos et sa limite de
+  16 changements conservés par onduleur.
+- **C15** : éditeur vanilla commun au menu et au logiciel (onglet Équipements),
+  validation serveur réutilisant les règles `via`, marques/instantanés à jour,
+  nettoyage des trois constantes de protocole et du gestionnaire inutilisés.
+  L'affichage du nom dans le LCD, l'inspection et les alarmes reste proposé dans I05.
+
+Validation sur ce lot :
+
+| Passage | Résultat | Dossier dans `runs/` |
+|---|---|---|
+| SP ciblé avec vraie boîte de renommage | **13/13**, code 0 | `20261024-124314-sp-ba8517dfad80` |
+| MP ciblé avec joueur ordinaire et renommage synchronisé | **14/14 serveur, 7/7 client**, code 0 | `20261024-124803-mp-29f7ba39fff3` |
+| MP logiciel depuis ordinateurs raccordés, même étage et étage voisin | **14/14 serveur, 6/6 client**, code 0 | `20261024-124942-mp-6773eabd4b99` |
+
+Vérifications hors jeu finales : `tools/check_mod.py` avec sources 42.21.0, tests
+physiques et simulation : OK ; `tests/test_regressions.py` : **11/11**. Les campagnes
+ci-dessus ne signalent aucune nouvelle erreur Lua. Aucun envoi Workshop.

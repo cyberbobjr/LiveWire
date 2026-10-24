@@ -292,18 +292,16 @@ end
 handlers[P.C_RENAME] = function(player, args)
     local grid = gridOfInverter(args.inverter)
     if not grid then return end
-    local dev, why = Commands.checkDevice(player, grid.inverter)
+    local dev, why = checkInverterCommand(player, args)
     if not dev then return refuse(player, P.C_RENAME, why) end
     local name = P.cleanName(args.name)
     if name then
         grid.name = name
         grid.rev = (grid.rev or 0) + 1
+        local master = LiveWire.Registry.device(grid.inverter)
+        if master then LiveWire.Devices.syncMark(master) end
         LiveWire.Sim.publish(grid)
     end
-end
-
-handlers[P.C_REQUEST_ANCHORS] = function(player, args)
-    if isServer() then ModData.transmit(LiveWire.ANCHOR_KEY) end
 end
 
 -- A client sees a Live Wire tile without a valid mark for some seconds (placed by a

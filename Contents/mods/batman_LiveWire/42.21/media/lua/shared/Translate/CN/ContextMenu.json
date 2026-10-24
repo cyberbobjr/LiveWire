@@ -71,5 +71,6 @@
     "ContextMenu_LW_Uncouple": "解除并联",
     "ContextMenu_LW_ApplyBrake": "启用风力涡轮机制动",
     "ContextMenu_LW_ReleaseBrake": "解除风力涡轮机制动",
-    "ContextMenu_LW_ResumeBackup": "恢复自动备用供电"
+    "ContextMenu_LW_ResumeBackup": "恢复自动备用供电",
+    "ContextMenu_LW_RenameNetwork": "重命名电网"
 }

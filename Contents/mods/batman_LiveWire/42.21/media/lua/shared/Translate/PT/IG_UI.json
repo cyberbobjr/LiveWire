@@ -170,5 +170,6 @@
     "IGUI_LW_Uncoupled": "Inversor desacoplado: volta a ser independente.",
     "IGUI_LW_LCD_Coupled": "Acoplados: %1 / %2 em serviço",
     "IGUI_LW_App_Coupled": "Inversores acoplados: %1 / %2 em serviço",
-    "IGUI_LW_Backup_manual": "controlo manual"
+    "IGUI_LW_Backup_manual": "controlo manual",
+    "IGUI_LW_RenameNetworkPrompt": "Nome da rede (até %1 caracteres; deixar vazio para apagar)"
 }

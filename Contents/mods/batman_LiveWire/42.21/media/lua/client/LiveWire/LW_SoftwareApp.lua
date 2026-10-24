@@ -6,6 +6,7 @@
 -- Data: the inverter snapshot (LW_ClientState.lua); commands are re-checked by the
 -- server.
 if isServer() then return end
+require "LiveWire/LW_NetworkName"
 
 LiveWire = LiveWire or {}
 
@@ -399,6 +400,9 @@ end
 
 function App:drawEquipment(ui, x, y, w, h, snap)
     local cy = card(ui, x, y, w, h, T("IGUI_LW_Options"))
+    local nameH = fh(UIFont.Small) + 10
+    self:button(ui, x + 10, cy, w - 20, nameH, T("ContextMenu_LW_RenameNetwork"), "rename")
+    cy = cy + nameH + 8
     local function row(name, stateText, c)
         led(ui, x + 10, cy + 3, c)
         text(ui, name, x + 26, cy, C.text)
@@ -515,6 +519,9 @@ function App:act(action)
     elseif action == "reset" then
         LiveWire.Client.send(P.C_RESET, { inverter = self.inverterId, via = self:via() })
         self.lastSubscribe = 0
+    elseif action == "rename" then
+        local snap = self:snapshot()
+        LiveWire.NetworkName.open(getPlayer(), self.inverterId, snap and snap.name or "", self:via())
     end
     getSoundManager():playUISound("UIActivateButton")
 end

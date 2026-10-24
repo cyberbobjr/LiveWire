@@ -444,6 +444,10 @@ add("ContextMenu", "ContextMenu_LW_ResumeBackup", "Resume automatic backup", "Re
 add("IG_UI", "IGUI_LW_Backup_manual", "manual control", "commande manuelle")
 
 
+add("ContextMenu", "ContextMenu_LW_RenameNetwork", "Rename network", "Renommer le réseau")
+add("IG_UI", "IGUI_LW_RenameNetworkPrompt", "Network name (up to %1 characters; leave empty to clear)", "Nom du réseau (%1 caractères maximum ; vide pour effacer)")
+
+
 def main():
     for lang, idx in (("EN", 0), ("FR", 1)):
         d = os.path.join(OUT, lang)

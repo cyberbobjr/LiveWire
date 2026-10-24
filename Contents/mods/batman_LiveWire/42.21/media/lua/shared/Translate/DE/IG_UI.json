@@ -170,5 +170,6 @@
     "IGUI_LW_Uncoupled": "Wechselrichter entkoppelt: Er ist wieder unabhängig.",
     "IGUI_LW_LCD_Coupled": "Gekoppelt: %1 / %2 in Betrieb",
     "IGUI_LW_App_Coupled": "Gekoppelte Wechselrichter: %1 / %2 in Betrieb",
-    "IGUI_LW_Backup_manual": "manuelle Steuerung"
+    "IGUI_LW_Backup_manual": "manuelle Steuerung",
+    "IGUI_LW_RenameNetworkPrompt": "Netzname (maximal %1 Zeichen; leer lassen zum Löschen)"
 }

@@ -71,5 +71,6 @@
     "ContextMenu_LW_Uncouple": "Entkoppeln",
     "ContextMenu_LW_ApplyBrake": "Windradbremse anziehen",
     "ContextMenu_LW_ReleaseBrake": "Windradbremse lösen",
-    "ContextMenu_LW_ResumeBackup": "Automatische Notstromversorgung fortsetzen"
+    "ContextMenu_LW_ResumeBackup": "Automatische Notstromversorgung fortsetzen",
+    "ContextMenu_LW_RenameNetwork": "Stromnetz umbenennen"
 }

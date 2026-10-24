@@ -71,5 +71,6 @@
     "ContextMenu_LW_Uncouple": "Расцепить",
     "ContextMenu_LW_ApplyBrake": "Включить тормоз ветрогенератора",
     "ContextMenu_LW_ReleaseBrake": "Отпустить тормоз ветрогенератора",
-    "ContextMenu_LW_ResumeBackup": "Возобновить автоматическое резервное питание"
+    "ContextMenu_LW_ResumeBackup": "Возобновить автоматическое резервное питание",
+    "ContextMenu_LW_RenameNetwork": "Переименовать сеть"
 }

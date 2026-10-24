@@ -65,6 +65,7 @@ end
 
 local function markFromDevice(obj, dev)
     local st, pw = stateOf(dev)
+    local g = dev.grid and R().grid(dev.grid)
     -- Pumps: number of linked barrels (connect menu limit) and of relay tanks (shown
     -- as "nr" by the tap view).
     local nb, nr = nil, nil
@@ -76,7 +77,8 @@ local function markFromDevice(obj, dev)
     LiveWire.Marks.set(obj, { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
                               level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
                               muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z,
-                              nb = nb, nr = nr, cpl = dev.coupled, br = dev.brake == true })
+                              nb = nb, nr = nr, cpl = dev.coupled, br = dev.brake == true,
+                              nm = dev.role == "inverter" and g and g.name or nil })
     dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
     if isServer() then obj:transmitModData() end
 end

@@ -16,7 +16,6 @@ Protocol.C_RESET = "reset"
 Protocol.C_RESET_BREAKER = "resetBreaker"
 Protocol.C_ACK_ALARM = "ackAlarm"
 Protocol.C_RENAME = "rename"
-Protocol.C_REQUEST_ANCHORS = "requestAnchors"
 Protocol.C_DEBUG = "debug"
 Protocol.C_ADOPT = "adopt"
 Protocol.C_RESUME_BACKUP = "resumeBackup"
@@ -25,8 +24,6 @@ Protocol.C_SET_BRAKE = "setBrake"
 -- Server -> client.
 Protocol.S_SNAPSHOT = "snapshot"
 Protocol.S_NOTIFY = "notify"
-Protocol.S_REFUSE = "refuse"
-Protocol.S_ANCHORS = "anchors"
 Protocol.S_BEEP = "beep"
 
 Protocol.MAX_NAME = 24

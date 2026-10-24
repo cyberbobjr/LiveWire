@@ -202,10 +202,21 @@ local function authorityDone()
         end)
         if isServer() then
             sendServerCommand(S.player,"LWFixTest","scene",{wind=device(S.wind).id,
-                backup=S.backup.id,x=device(S.pump).x,y=device(S.pump).y,z=device(S.pump).z,pump=S.pdev.id})
+                backup=S.backup.id,inverter=device(S.inv).id,
+                x=device(S.pump).x,y=device(S.pump).y,z=device(S.pump).z,pump=S.pdev.id})
             S.stage="network"; S.networkAt=getTimestampMs()
             return false
         end
+        local dialog=LiveWire.NetworkName.open(S.player,device(S.inv).id,"")
+        dialog.entry:setText("North SP")
+        dialog:onClick(dialog.yes)
+        S.stage="rename";S.renameAt=getTimestampMs()
+        return false
+    end
+    if S.stage=="rename" then
+        if S.grid.name~="North SP" and getTimestampMs()-S.renameAt<10000 then return false end
+        rec(S.grid.name=="North SP" and LiveWire.Marks.get(S.inv).nm=="North SP",
+            "C15 real name dialog updates registry and physical mark")
         S.stage="end"
     end
     if S.stage=="network" then
@@ -298,6 +309,17 @@ function H.client.done()
         end
         if not mark or mark.manual~=false then return false end
         rec(true,"MP automatic backup resume synchronized")
+        LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE,{inverter=scene.inverter})
+        local dialog=LiveWire.NetworkName.open(getPlayer(),scene.inverter,"")
+        dialog.entry:setText("North MP")
+        dialog:onClick(dialog.yes)
+        S.stage="rename"
+    elseif S.stage=="rename" then
+        local snapshot=LiveWire.Client.snapshot(scene.inverter)
+        local inverter=LiveWire.Marks.findOnSquare(ps,scene.inverter)
+        local m=inverter and LiveWire.Marks.get(inverter)
+        if not snapshot or snapshot.name~="North MP" or not m or m.nm~="North MP" then return false end
+        rec(true,"C15 real name dialog and name snapshot synchronized for regular user")
         local pumpSq=getCell():getGridSquare(scene.x,scene.y,scene.z)
         local pump=pumpSq and LiveWire.Marks.findOnSquare(pumpSq,scene.pump)
         if not pump then return false end

@@ -137,4 +137,9 @@ python .claude/tools/pz-autotest/pz_autotest.py mp LiveWire -P client=0         
 
 ## Que rapporter
 
+La [campagne C25](c25-validation.md) ajoute les vrais arrêts/redémarrages SP et MP,
+deux observateurs MP, l'invisibilité et le retrait C01 chargé/déchargé. Commandes :
+`python autotest/run_c25.py sp` puis `python autotest/run_c25.py mp`, depuis la racine
+du projet ; attendre la fin complète d'une campagne avant de lancer la suivante.
+
 Pour chaque étape : réussi ou échoué, ce qui a été vu, et les lignes du journal. Les constats confirmés iront dans `docs/annexes/recherches/notes-moteur.md` avec le statut « confirmé en jeu ».

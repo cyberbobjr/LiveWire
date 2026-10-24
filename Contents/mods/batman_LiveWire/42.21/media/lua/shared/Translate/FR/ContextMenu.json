@@ -71,5 +71,6 @@
     "ContextMenu_LW_Uncouple": "Découpler",
     "ContextMenu_LW_ApplyBrake": "Serrer le frein de l'éolienne",
     "ContextMenu_LW_ReleaseBrake": "Desserrer le frein de l'éolienne",
-    "ContextMenu_LW_ResumeBackup": "Reprendre le secours automatique"
+    "ContextMenu_LW_ResumeBackup": "Reprendre le secours automatique",
+    "ContextMenu_LW_RenameNetwork": "Renommer le réseau"
 }

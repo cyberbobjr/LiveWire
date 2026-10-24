@@ -170,5 +170,6 @@
     "IGUI_LW_Uncoupled": "Инвертор расцеплен: он снова независим.",
     "IGUI_LW_LCD_Coupled": "Сцеплены: %1 / %2 в работе",
     "IGUI_LW_App_Coupled": "Сцепленные инверторы: %1 / %2 в работе",
-    "IGUI_LW_Backup_manual": "ручное управление"
+    "IGUI_LW_Backup_manual": "ручное управление",
+    "IGUI_LW_RenameNetworkPrompt": "Название сети (до %1 символов; оставьте пустым для удаления)"
 }

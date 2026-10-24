@@ -71,5 +71,6 @@
     "ContextMenu_LW_Uncouple": "Desacoplar",
     "ContextMenu_LW_ApplyBrake": "Activar el freno del aerogenerador",
     "ContextMenu_LW_ReleaseBrake": "Soltar el freno del aerogenerador",
-    "ContextMenu_LW_ResumeBackup": "Reanudar el suministro de respaldo automático"
+    "ContextMenu_LW_ResumeBackup": "Reanudar el suministro de respaldo automático",
+    "ContextMenu_LW_RenameNetwork": "Cambiar nombre de la red"
 }

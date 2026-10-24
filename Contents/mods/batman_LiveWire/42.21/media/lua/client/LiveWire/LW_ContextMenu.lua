@@ -5,6 +5,7 @@
 -- disconnect. Every option is re-checked by the authority in the timed action or
 -- command.
 if isServer() then return end
+require "LiveWire/LW_NetworkName"
 
 LiveWire = LiveWire or {}
 
@@ -130,6 +131,11 @@ function Menu.onReset(player, id)
     LiveWire.Client.send(LiveWire.Protocol.C_RESET, { inverter = id })
 end
 
+function Menu.onRename(player, id, current)
+    local snap = LiveWire.Client.snapshot(id)
+    LiveWire.NetworkName.open(player, id, current or (snap and snap.name) or "")
+end
+
 -- Management software on a linked computer: inside the Computer Mod screen when
 -- that mod handles this computer, else on our own computer screen.
 function Menu.onSoftware(player, id, computer)
@@ -224,6 +230,9 @@ end
 
 -- Inverter switch (turn on or off, the inverter's own id).
 local function addSwitchOptions(menu, player, mark)
+    if not mark.cpl then
+        menu:addOption(getText("ContextMenu_LW_RenameNetwork"), player, Menu.onRename, mark.id, mark.nm)
+    end
     if mark.st == "on" then
         menu:addOption(getText("ContextMenu_LW_TurnOff"), player, Menu.onSetInverter, mark.id, false)
     elseif mark.st == "off" then

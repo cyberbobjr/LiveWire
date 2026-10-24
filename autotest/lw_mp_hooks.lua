@@ -171,6 +171,16 @@ local function checkCommands(net)
         net.tag .. ": software commands accepted from the linked computer only",
         "refused without via=" .. tostring(refused) .. " off=" .. tostring(off) .. " on=" .. tostring(on)
             .. " refused with a wrong via=" .. tostring(fake))
+    local previous=grid.name
+    command(LiveWire.Protocol.C_RENAME,{inverter=net.id,name="No via"})
+    local renameRefused=grid.name==previous
+    command(LiveWire.Protocol.C_RENAME,{inverter=net.id,name="North computer",via=viaOf(net.comp)})
+    local renameAccepted=grid.name=="North computer"
+    command(LiveWire.Protocol.C_RENAME,{inverter=net.id,name="Wrong via",via={x=inv.x,y=inv.y,z=inv.z}})
+    local renameFakeRefused=grid.name=="North computer"
+    command(LiveWire.Protocol.C_RENAME,{inverter=net.id,name=previous,via=viaOf(net.comp)})
+    rep.rec(renameRefused and renameAccepted and renameFakeRefused,
+        net.tag .. ": C15 rename accepted only from the powered linked computer")
     command(LiveWire.Protocol.C_SUBSCRIBE, { inverter = net.id, via = viaOf(net.comp) })
     local subs = LiveWire.Sim.subscribers[grid.id]
     rep.rec(subs ~= nil and subs[S.player:getUsername()] ~= nil, net.tag .. ": subscription from the computer")
