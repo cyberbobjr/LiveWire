@@ -252,6 +252,23 @@ def check_events(pz):
                 fail("%s: unknown event %s" % (os.path.relpath(p, ROOT), ev))
 
 
+def check_versions():
+    """The Lua runtime and both shipped mods must announce the same release."""
+    core_path = os.path.join(LUA, "shared", "LiveWire", "LW_Core.lua")
+    with open(core_path, encoding="ascii") as stream:
+        match = re.search(r'LiveWire\.VERSION\s*=\s*"([^"]+)"', stream.read())
+    if not match:
+        fail("LW_Core.lua: missing literal LiveWire.VERSION")
+        return
+    version = match.group(1)
+    infos = glob.glob(os.path.join(ROOT, "Contents", "mods", "*", "42.21", "mod.info"))
+    for path in infos:
+        with open(path, encoding="utf-8-sig") as stream:
+            match = re.search(r'^modversion\s*=\s*(\S+)\s*$', stream.read(), re.MULTILINE)
+        if not match or match.group(1) != version:
+            fail("%s: modversion must match LiveWire.VERSION (%s)" % (os.path.relpath(path, ROOT), version))
+
+
 def main():
     pz = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(ROOT), "pz-source-42.21")
     check_lua()
@@ -262,6 +279,7 @@ def main():
     check_models()
     check_sound_scripts()
     check_events(pz)
+    check_versions()
     print("OK" if not FAILS else "%d problem(s)" % len(FAILS))
     return 1 if FAILS else 0
 

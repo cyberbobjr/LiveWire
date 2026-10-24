@@ -29,7 +29,7 @@ function Registry.init()
     Registry.ready = true
     local n = 0
     for _ in pairs(d.devices) do n = n + 1 end
-    LiveWire.log("registry ready: " .. tostring(n) .. " device(s)")
+    LiveWire.log("version " .. tostring(LiveWire.VERSION) .. ", registry ready: " .. tostring(n) .. " device(s)")
 end
 
 function Registry.newId(prefix)
