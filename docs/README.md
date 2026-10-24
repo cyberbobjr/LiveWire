@@ -11,6 +11,7 @@ Structure commune à tous les projets : [`../../docs/structure-documentaire.md`]
 | [`architecture.md`](architecture.md) | Architecture logicielle : mécanisme d'alimentation (ancres), modules, modèle de données, boucle de simulation, protocole, persistance, risques |
 | [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md) | Ce que fait le mod pour le joueur et l'administrateur, fonctionnalités F01 à F23 |
 | [`specifications-techniques.md`](specifications-techniques.md) | Contrats précis : objets, appareils, commandes réseau, ModData, options sandbox, traductions, compatibilités |
+| [`developpement.md`](developpement.md) | Contraintes de développement du projet : périmètre (deux mods), architecture à préserver, création indépendante, outils, dépôt |
 | [`decisions.md`](decisions.md) | Exigences de l'utilisateur et journal des décisions validées (D-n) |
 | [`ameliorations-et-idees.md`](ameliorations-et-idees.md) | Améliorations de code et idées de fonctionnalités (propositions et suivi des correctifs autorisés) |
 | [`wiki/`](wiki/) | Source du wiki GitHub : [anglais](wiki/en/Home.md), [français](wiki/fr/Home.md) |

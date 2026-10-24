@@ -2,7 +2,7 @@
 
 État au 2026-10-21 : document de conception écrit pour la v0.1 (2026-10-17), complété par les mises à jour des sections 0 et 10. Le code est implémenté jusqu'à la version 1.3.1. Les contrats techniques **à jour** (registre schéma 2, commandes réseau, ModData des objets, options) sont dans [`specifications-techniques.md`](specifications-techniques.md), qui fait foi en cas d'écart avec les sections 3 et 5 ci-dessous.
 
-- Les chemins `java/…` et `media/…` sont relatifs à la racine du dépôt de référence `pz-source-42.21`.
+- Les chemins `java/…` et `media/…` sont relatifs à la racine du dépôt de sources de référence de l'utilisateur (Java décompilé 42.21 et `media/` vanilla).
 - « NM-n » renvoie à [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md), « D-n » à [`decisions.md`](decisions.md), « § F-n » à la section n de [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md) (identifiants F01… dans son tableau d'en-tête).
 - Les extraits Lua sont **illustratifs** : ce n'est pas du code livré.
 
@@ -142,7 +142,7 @@ Le mod ne crée **aucun** objet tagué `Generator`, et aucun `IsoGenerator` (NM-
 
 ### 2.1 Arborescence
 
-Tout le mod vit sous `Contents/mods/batman_LiveWire/42.21/media/` (`CLAUDE.md`).
+Tout le mod vit sous `Contents/mods/batman_LiveWire/42.21/media/` (`developpement.md`).
 
 ```
 lua/shared/LiveWire/LW_Core.lua            table globale LiveWire, version, journal, cles ModData
@@ -198,7 +198,7 @@ sandbox-options.txt
 - **Une seule globale : `LiveWire`.** Ses sous-tables : `Config`, `Defs`, `Physics`, `Protocol`, `Marks`, `Anchor`, `Registry`, `Sim`, `Demand`, `Batteries`, `Xp`, `Client`.
 - **Exception : les actions chronométrées.** Elles sont globales par nécessité, car `NetTimedAction` les retrouve par leur nom de classe (`java/zombie/core/NetTimedAction.java:145-172`) : `LWLinkAction`, `LWRepairAction`, `LWInspectAction`, `LWReconditionAction`, `LWClearSnowAction`, `LWMeasureAction`.
 - **Préfixe `LW`** pour les recettes, les clés de traduction et les identifiants.
-- **Règles Kahlua** (`CLAUDE.md`, `knowledge/kahlua-lua.md`) :
+- **Règles Kahlua** (`developpement.md`, base moteur `kahlua-lua.md`) :
   - aucun littéral non ASCII dans les `.lua` ;
   - `ZombRand` plutôt que `math.random` ;
   - chaque abonnement à un événement se fait une seule fois, au chargement du fichier.
@@ -267,7 +267,7 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
 }
 ```
 
-- **Identifiants** : `d<n>` et `g<n>`. Jamais réutilisés, jamais modifiés (`CLAUDE.md`).
+- **Identifiants** : `d<n>` et `g<n>`. Jamais réutilisés, jamais modifiés (`developpement.md`).
 - **Taille** : environ 200 octets par appareil. Cette table n'est **jamais** diffusée entière (§ 5).
 
 ### 3.3 Versions et migration
@@ -469,7 +469,7 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 | **E7 — Diagnostic et tableau de bord** | Testeur, `LW_Dashboard`, abonnements | Mesures cohérentes aux niveaux 0, 2 et 4 | Deux joueurs ouvrent la fenêtre ; aucune diffusion hors abonnés |
 | **E8 — Compétence, usure, pannes, bourdonnement** | `LW_Xp`, paliers, usure, réparation, disjonction, `LW_Hum` | Expérience gagnée ; disjonction avec un lave-linge et sèche-linge superposés ; bourdonnement audible de près seulement | Expérience gagnée par le client non-admin |
 | **E9 — Protection et durcissement (P2, P7)** | `LW_HideVanilla`, `LW_VanillaGuards`, validation complète, débit | Liste P2 | Commandes forgées (débogage) toutes refusées ; protocole P7 |
-| **E10 — Équilibrage et finition (P5)** | Valeurs, textes, `workshop.txt` | Partie de 30 jours accélérée | Session à plusieurs ; journal relu. Publication par l'utilisateur, sur son poste (`CLAUDE.md`) |
+| **E10 — Équilibrage et finition (P5)** | Valeurs, textes, `workshop.txt` | Partie de 30 jours accélérée | Session à plusieurs ; journal relu. Publication par l'utilisateur, sur son poste (`developpement.md`) |
 
 ---
 
@@ -521,7 +521,7 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 ## 11. Correctifs des blocages et performances — 2026-10-24
 
 Le pattern modulaire événementiel avec serveur autoritaire reste inchangé (règles
-dans `AGENTS.md`). Le [plan de réalisation](annexes/plans/correctifs-blocages-performances.md)
+dans `developpement.md`). Le [plan de réalisation](annexes/plans/correctifs-blocages-performances.md)
 porte les résultats de validation de cette campagne.
 
 - `shared/LW_SquareScan.lua` : curseur circulaire reprenable, sans dépendance au

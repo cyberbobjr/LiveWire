@@ -483,7 +483,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Intérêt joueur.** Choisir les bonnes batteries à ranger dans la powerbank, et savoir quand reconditionner. Aujourd'hui, les cycles (`LiveWireCycles`) ne sont visibles nulle part.
 - **Faisabilité moteur.**
   - Action chronométrée courte. Sa `complete()` sur l'autorité lit `getCurrentUsesFloat`, `getCondition` et la ModData des cycles, qui reste sur le serveur (`server/LiveWire/LW_Batteries.lua:9`), puis envoie une notification traduite côté client.
-  - Ce choix évite d'envelopper `ISToolTipInv:render`, qu'interdit `CLAUDE.md` (aucun crochet de rendu par image).
+  - Ce choix évite d'envelopper `ISToolTipInv:render`, qu'interdit `developpement.md` (aucun crochet de rendu par image).
 - **Impact MP.** Une notification.
 - **Dépendances.** Aucune.
 - **Effort.** S.

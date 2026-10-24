@@ -2,7 +2,7 @@
 
 Faits nouveaux et réutilisables sur le moteur, établis pendant la conception de Live Wire, à reporter dans la base maîtresse `knowledge/`.
 
-- **Sources** : dépôt de référence `cyberbobjr/pz-source-42.21`. Les chemins `java/…` et `media/…` sont relatifs à sa racine.
+- **Sources** : dépôt de sources de référence de l'utilisateur (Java décompilé 42.21 et `media/` vanilla). Les chemins `java/…` et `media/…` sont relatifs à sa racine.
 - **Statuts** :
   - « confirmé statiquement » : lecture du code, sans test en jeu ;
   - « hypothèse » : déduction non vérifiée.

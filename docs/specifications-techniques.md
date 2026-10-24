@@ -99,8 +99,7 @@ Module `"LiveWire"` (`LW_Protocol.lua`). Client → serveur par `sendClientComma
 | `reset` | `{ inverter, via? }` | `checkDevice` sur l'onduleur **ou** `via` valide ; onduleur `tripped` (un esclave renvoie au maître) ; demande mesurée ≤ capacité | `state = "on"`, 1 XP limité par appareil |
 | `resetBreaker` | `{ device }` | disjoncteur `tripped` ; demande ≤ capacité | `state = "ok"` |
 | `ackAlarm` | `{ device }` | alarme sonnante | `grid.alarmAck = true` |
-| `rename` | `{ inverter, name }` | nom nettoyé (caractères de contrôle retirés, 24 caractères) | Renomme le réseau. **Aucun client ne l'envoie en 1.3.1** |
-| `requestAnchors` | `{}` | serveur seulement | `ModData.transmit("LiveWireAnchors")`. **Non envoyée en 1.3.1** : le client utilise `ModData.request` |
+| `rename` | `{ inverter, name, via? }` | nom nettoyé (caractères de contrôle retirés, 24 caractères), proximité de l'onduleur ou ordinateur raccordé alimenté via `checkVia`, safehouse | Renomme le réseau depuis le menu de l'onduleur ou l'onglet Équipements du logiciel ; vide efface le nom |
 | `adopt` | `{ x, y, z }` | à 40 cases et 3 étages au plus ; refuge | Enregistre une tuile Live Wire posée sans marque valide |
 | `debug` | `{ action, device }` | `Debug.allowed` (§ 3.4) | Action de debug |
 | `setBrake` | `{ device, brake }` | éolienne, booléen, niveau d'Électricité 7 ajusté par sandbox, distance et safehouse via `checkDevice` | Frein explicite réversible ; production nulle lorsqu'il est serré |
@@ -117,7 +116,6 @@ Les actions longues (raccorder, réparer, inspecter…) ne sont pas des commande
 | `snapshot` | instantané du réseau (§ 3.5) | Aux abonnés, après chaque pas ou changement |
 | `notify` | `{ key, args, bad }` | Message à traduire côté client (`args` remplace `%1`, `%2`… ; une valeur peut elle-même être une clé, par exemple `IGUI_LW_Model_<modèle>`) |
 | `beep` | `{ x, y, z }` | Bip de l'alarme de batterie faible |
-| `refuse`, `anchors` | — | Déclarées dans `LW_Protocol.lua` mais **jamais envoyées** en 1.3.1 (les refus passent par `notify` avec `bad = true`) |
 
 Diffusion supplémentaire : `ModData.transmit("LiveWireAnchors")` à chaque changement d'ancre ; `transmitModData()` des objets marqués.
 
@@ -171,6 +169,12 @@ Exemple commenté (schéma 1) et explication des champs : [`architecture.md`](ar
 | Ordinateur du Computer Mod | `ComputerModLiveWireInstalled` (données de l'ordinateur via `ComputerModComputerTypes`, préfixe imposé par la synchronisation de ce mod) | Logiciel installé |
 
 ### 4.4 Migrations
+
+Complément du 2026-10-24 : la marque de l'onduleur porte `nm`, reflet du nom du
+réseau pour préremplir le menu de renommage, sans nouvelle version de schéma.
+Elle est actualisée après renommage et au chargement du chunk. Les constantes
+inutilisées `C_REQUEST_ANCHORS`, `S_REFUSE`, `S_ANCHORS` et leur gestionnaire mort
+sont retirés ; la table d'ancres continue de passer par `ModData.request/transmit`.
 
 `server/LiveWire/LW_Migration.lua`, lancé à `OnInitGlobalModData`. Étapes idempotentes et journalisées ; aucune suppression (les données inconnues vont dans `legacy`). Étape 1 → 2 (0.1.1) : les appareils en sprites vanilla passent dans `legacy.schema1`, leurs ancres sont retirées. Un schéma plus récent que le code met le registre en lecture seule (simulation suspendue).
 
@@ -235,7 +239,7 @@ Multijoueur : conçu pour un serveur dédié autoritaire, **non testé en jeu en
 
 ## 8. Outillage et tests
 
-- `tools/check_mod.py` : contrôles statiques (ordre de chargement, syntaxe Lua, ASCII, traductions, définitions ↔ scripts, options, modèles, événements connus d'après `pz-source-42.21`).
+- `tools/check_mod.py` : contrôles statiques (ordre de chargement, syntaxe Lua, ASCII, traductions, définitions ↔ scripts, options, modèles, événements connus d'après les sources de référence).
 - `tests/test_physics.py`, `tests/test_simulation.py` : tests hors jeu sous Lua 5.1 (`lupa`) ; ils ne prouvent rien sur le moteur.
 - `autotest.json` + `autotest/*.lua` : configuration de l'outil `pz-autotest` (tests en jeu non surveillés).
 - Documentation générée : `tools/make_doc_images.py` (→ `docs/images/diagrams/`), `tools/make_doc_tables.py` (→ `docs/wiki/<langue>/_tables.md`).

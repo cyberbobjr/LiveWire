@@ -1,7 +1,7 @@
 # Correctifs des blocages et performances
 
 Autorisation utilisateur : 2026-10-24, C07, C09, C22, C04, C05, C06, C16 et partie
-mémoire de C23. Conserver l'architecture modulaire autoritaire validée, cf. AGENTS.md.
+mémoire de C23. Conserver l'architecture modulaire autoritaire validée, cf. `docs/developpement.md`.
 
 ## Ordre de réalisation
 
@@ -87,6 +87,6 @@ puis la même commande avec `mp` à la place de `sp`. Les campagnes existantes u
 - C07 est vérifié avec de vrais objets à des positions différentes et des marques
   héritées ; le cycle vanilla complet ramassage/inventaire/repose du baril reste
   à contrôler manuellement. Les anciennes marques sont migrées à la lecture.
-- Le prototype P-pompe complet (sauvegarde et invisibilité des relais) et le scénario
-  de désinstallation C01 restent à compléter dans C25. Le test MP non administrateur
-  est maintenant couvert. Le rendu Project Viewpoint n'a pas été testé.
+- Le prototype P-pompe (sauvegarde et invisibilité des relais) et le scénario C01 ont
+  ensuite été complétés : voir [la validation C25](../tests/c25-validation.md).
+  Le test MP non administrateur est couvert. Le rendu Project Viewpoint n'a pas été testé.

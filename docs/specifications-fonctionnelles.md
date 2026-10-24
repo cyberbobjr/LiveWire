@@ -2,7 +2,7 @@
 
 État au 2026-10-21 : **implémenté jusqu'à la version 1.3.1** du mod (`Contents/mods/batman_LiveWire/42.21`). Ce document est né en phase de conception (2026-10-17) : ses sections 1 à 9 décrivent la v0.1 et ses justifications ; la section 10 résume les fonctionnalités ajoutées ensuite. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage. Les contrats techniques à jour (objets, commandes, ModData, options) sont dans [`specifications-techniques.md`](specifications-techniques.md) ; le guide du joueur est le [wiki](wiki/fr/Home.md).
 
-- **Sources des faits du moteur** : le dépôt de référence `pz-source-42.21` (chemins relatifs à sa racine) et [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) (« NM-n » = note n).
+- **Sources des faits du moteur** : le dépôt de sources de référence de l'utilisateur (Java décompilé 42.21 et `media/` vanilla ; chemins relatifs à sa racine) et [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) (« NM-n » = note n).
 - **Choix de l'utilisateur** : toutes les décisions de [`decisions.md`](decisions.md) (« D-n ») ont été **validées le 2026-10-17**. Ce document décrit ce qui est implémenté en v0.1 (non testé en jeu).
 
 **Exigences de l'utilisateur** (2026-10-17), non négociables :
@@ -505,7 +505,7 @@ Poser, tourner et **ramasser** un équipement passent par le menu et le curseur 
 
 ### 6.3 Textes à traduire
 
-Les clés suivent les préfixes imposés par `CLAUDE.md`. La liste complète est dans `architecture.md`, § 7.
+Les clés suivent les préfixes imposés par `developpement.md`. La liste complète est dans `architecture.md`, § 7.
 
 | Famille | Fichier | Exemples |
 |---|---|---|
@@ -600,7 +600,7 @@ Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
 
   En v0.2, une bascule automatique mettra l'onduleur en veille quand un générateur vanilla tourne dans sa zone (D-10).
 - **Réglages globaux partagés.** `GeneratorTileRange` et `GeneratorVerticalPowerRange` fixent aussi la portée de l'onduleur. `AllowExteriorGenerator` désactivé coupe le courant des cases extérieures pour les deux, car `haveElectricity` est faux sur une case `exterior` (`java/zombie/iso/IsoGridSquare.java:8223-8228`). `GeneratorFuelConsumption` n'a **aucun effet** sur Live Wire.
-- **Autres mods d'énergie.** Aucune dépendance, aucun code repris (`CLAUDE.md`). Un mod qui pose lui aussi des positions de générateur par script pourrait interférer (`architecture.md`, R-6).
+- **Autres mods d'énergie.** Aucune dépendance, aucun code repris (`developpement.md`). Un mod qui pose lui aussi des positions de générateur par script pourrait interférer (`architecture.md`, R-6).
 
 ---
 
