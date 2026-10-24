@@ -7,7 +7,7 @@
 | Build cible | Project Zomboid 42.21 (sources de référence : Java décompilé 42.21.0, `media/` vanilla installé) |
 | Date | 2026-10-21 ; **avancement mis à jour le 2026-10-24** (version publiée : 1.4.0 ; corrections C01, C02, C03 et C10 publiées depuis la 1.3.2) |
 | Périmètre lu | Tout le Lua de `Contents/mods/batman_LiveWire/42.21/media/lua` (shared, server, client, actions chronométrées, butin), scripts (`LiveWire_*.txt`), `sandbox-options.txt`, traductions (contrôlées par `tools/check_mod.py`), sous-mod Viewpoint, `README.md`, `CLAUDE.md`, `CHANGELOG.md`, `docs/` (décisions, idées retenues et écartées, spécifications, architecture, protocole de tests), `tests/`, `tools/`, `autotest/`, base moteur `.claude/pz-knowledge` |
-| Vérifications faites | `python tools/check_mod.py` : OK ; `python tests/test_physics.py` et `tests/test_simulation.py` : OK. Constats initiaux sans test en jeu ; campagne du 2026-10-24 : SP complet 36/36, ciblé 12/12 ; MP ciblé 14/14 serveur et 6/6 client (voir le plan de campagne) |
+| Vérifications faites | `python tools/check_mod.py` : OK ; `python tests/test_physics.py` et `tests/test_simulation.py` : OK. Constats initiaux sans test en jeu ; campagne du 2026-10-24 : SP complet 36/36, ciblé 13/13 ; MP ciblé 14/14 serveur et 7/7 client ; C25 : trois phases SP et trois phases MP, deux clients (voir la validation C25) |
 
 **Note sur les chemins.** `docs/` est en cours de réorganisation. Les renvois ci-dessous utilisent les nouveaux noms : `docs/decisions.md` (ancien `decisions-ouvertes.md`), `docs/annexes/recherches/idees-initiales.md` (ancien `IDEES.md`), `docs/specifications-fonctionnelles.md` (ancien `fonctionnel.md`), `docs/annexes/tests/protocole-tests.md`. Les numéros de ligne des problèmes décrivent l’analyse initiale en 1.3.1 ; les avancements du 2026-10-24 renvoient au plan de campagne pour les nouvelles preuves. Ces anciens numéros renvoient aux fichiers Lua de `Contents/mods/batman_LiveWire/42.21/media/lua/`, sauf mention contraire. Les identifiants `C..` (améliorations) et `I..` (idées) de ce document sont propres aux propositions ; les `F..` désignent les fonctionnalités de `specifications-fonctionnelles.md`.
 
@@ -17,15 +17,15 @@
 
 ## Tableau de bord — ce qui est fait et ce qui reste
 
-**Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé. « Publié » = présent dans une version du Workshop (première version qui le contient) ; « non publié » = sur `main` mais pas encore publié. Les corrections C04, C05, C06, C07, C09, C16 et C22 sont maintenant réalisées localement, **non publiées** ; la partie mémoire de C23 est réalisée. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Preuves et limites : [campagne du 2026-10-24](annexes/plans/correctifs-blocages-performances.md). Détail de chaque point dans les parties 1 et 2 ; tests en jeu automatiques décrits dans `docs/annexes/tests/protocole-tests.md`.
+**Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé · ⏸ différé après décision utilisateur. « Publié » = présent dans une version du Workshop (première version qui le contient) ; « non publié » = sur `main` mais pas encore publié. Les corrections C04, C05, C06, C07, C09, C16 et C22 sont maintenant réalisées localement, **non publiées** ; la partie mémoire de C23 est réalisée. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Preuves et limites : [campagne du 2026-10-24](annexes/plans/correctifs-blocages-performances.md). Détail de chaque point dans les parties 1 et 2 ; tests en jeu automatiques décrits dans `docs/annexes/tests/protocole-tests.md`.
 
-**Bilan** : améliorations de code **11 faites, 2 en partie, 13 à faire** (sur 26) ; idées de fonctionnalités **0 faite, 1 en partie, 19 à faire** (sur 20).
+**Bilan** : améliorations de code **16 faites, 1 en partie, 8 à faire, 1 différée** (sur 26) ; idées de fonctionnalités **0 faite, 2 en partie, 18 à faire** (sur 20).
 
 ### Améliorations de code
 
 | ID | Sujet | État | Testé | Publié | Commit | Ce qui reste |
 |---|---|---|---|---|---|---|
-| C01 | « Retirer tous les relais d'eau » sans effet durable | ✅ Corrigé | — (à vérifier en jeu) | 1.3.2 | `dc553a5` | Vérifier en jeu (retrait, puis chargement d'une zone qui gardait des relais) |
+| C01 | « Retirer tous les relais d'eau » sans effet durable | ✅ Corrigé | SP + MP, retrait chargé/déchargé et redémarrage (2026-10-24) | 1.3.2 | `dc553a5` | Validation C25 terminée |
 | C02 | Logiciel : commandes depuis l'ordinateur raccordé, autre étage | ✅ Corrigé | MP (pz-autotest 2026-10-21, même étage et étage voisin) | 1.3.2 | `dc553a5` | Ordinateur du Computer Mod non raccordé par câble : ancienne règle |
 | C03 | Synchro des relais à chaque minute (éclairage recalculé) | ✅ Corrigé | — (coût à mesurer en jeu) | 1.3.2 | `dc553a5` | Mesurer en MP près d'une pompe |
 | C04 | Balayages synchrones de la pompe et de sa vue | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Mesure des FPS en charge réelle à compléter |
@@ -35,11 +35,11 @@
 | C08 | Deux pompes : « la plus proche dessert » non codée | ⬜ À faire | — | — | — | Tout |
 | C09 | Secours qui annule la marche ou l'arrêt manuel | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Suivi dans le plan de campagne |
 | C10 | Écran LCD illisible en CN, JP, KO | ✅ Corrigé | — (rendu à vérifier en jeu) | 1.3.2 | `dc553a5` | Vérifier l'écran en CN, JP, KO |
-| C11 | Table publique des ancres (positions et journal) | ⬜ À faire | — | — | — | Tout |
+| C11 | Table publique des ancres (positions et journal) | ⏸ Différé | Coût modélisé ; état stable vérifié SP/MP | — | — | Diffusion conservée ; réexaminer sur gros serveur si coût constaté |
 | C12 | Journal d'alimentation trop court | ⬜ À faire | — | — | — | Tout |
-| C13 | Erreur de `Pump.maintain` avalée | ⬜ À faire | — | — | — | Tout |
-| C14 | Constante `LiveWire.VERSION` périmée | ⬜ À faire | — | — | — | Tout |
-| C15 | Commandes réseau mortes (`C_RENAME`…) | ⬜ À faire | — | — | — | Tout |
+| C13 | Erreur de `Pump.maintain` avalée | ✅ Corrigé | Injection d’erreur hors jeu ; SP/MP de non-régression | Non publié | `bca619e` | — |
+| C14 | Constante `LiveWire.VERSION` périmée | ✅ Corrigé | Contrôle automatique ; journal de démarrage SP/MP | Non publié | `c222136` | — |
+| C15 | Commandes réseau mortes (`C_RENAME`…) | ✅ Corrigé | Dialogue réel SP/MP ; ordinateur raccordé vérifié en MP | Non publié | `47410e5` | Compléments de I05 distincts |
 | C16 | Instantané recalculé à chaque image en solo | ✅ Corrigé | SP + régressions hors jeu | Non publié | Travail local | Mesure des FPS en charge réelle à compléter |
 | C17 | Seuils du générateur de secours non contrôlés | ⬜ À faire | — | — | — | Tout |
 | C18 | Débit de la pompe : réserve accumulée à vide | ⬜ À faire | — | — | — | Tout |
@@ -49,8 +49,8 @@
 | C22 | Inspecter et déneiger sans safehouse ; frein définitif | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Suivi dans le plan de campagne |
 | C23 | Tables jamais purgées ; XP du testeur | 🟡 En partie | Régressions hors jeu + SP/MP | Non publié (purge) | Travail local | Plafond global d'XP du testeur (purge mémoire faite) |
 | C24 | Adoption de tuiles et marques réécrites par un client | ⬜ À faire | — | — | — | Tout |
-| C25 | Tests pompe, relais, couplage et MP | 🟡 En partie | solo 36/36, MP 12/12 + 6/6 ; ciblés SP 12/12, MP 14/14 + 6/6 (2026-10-24) | outil hors mod | `c849ab6`, `df5091d` | Prototype P-pompe (sauvegarde, invisibilité) ; retrait des relais C01 (client non admin couvert le 2026-10-24) |
-| C26 | README : limite des frigos dépassée par la 1.0.1 | ⬜ À faire | — | — | — | Tout |
+| C25 | Tests pompe, relais, couplage et MP | ✅ Terminé | SP 3/3 phases ; MP 3/3 phases, 2 clients ; droits ordinaires couverts séparément | Outil hors mod | `b242a36` | — |
+| C26 | README : limite des frigos dépassée par la 1.0.1 | ✅ Corrigé | README EN et FR relus | Non publié | `21cc584` | — |
 
 ### Idées de fonctionnalités
 
@@ -60,7 +60,7 @@
 | I02 | Afficher les raccordements | ⬜ Proposée |  |
 | I03 | Prévision de production sur trois jours | ⬜ Proposée |  |
 | I04 | Journal des événements du réseau | ⬜ Proposée |  |
-| I05 | Nommer son réseau | ⬜ Proposée | Dépend de C15 |
+| I05 | Nommer son réseau | 🟡 En partie, non publié | Menu et logiciel réalisés avec C15 ; affichages LCD, inspection et alarme restent proposés |
 | I06 | Compteurs cumulés et carburant économisé | ⬜ Proposée |  |
 | I07 | Orientation des panneaux solaires | ⬜ Proposée |  |
 | I08 | Ombre des arbres et des bâtiments | ⬜ Proposée | I07 conseillé |
@@ -208,7 +208,7 @@
   - Bande passante : la table grossit avec le nombre de bases.
 - **Correction proposée.** Déplacer `log` et `log0` dans le registre serveur (`data.anchorLogs`), et ne publier que `{x, y, z, on}`. En option, plus tard : envoyer à chaque client seulement les ancres proches, par `sendServerCommand` lors de ses chargements de chunks.
 - **Statut.** Confirmé statiquement. **Priorité basse** (serveur entre amis, voir les préférences de l'utilisateur sur l'anti-triche). **Effort** S pour le journal, M pour la diffusion par proximité.
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ⏸ différé après décision utilisateur du 2026-10-24. La diffusion communautaire est acceptée. Pas d’envoi si état et position restent identiques (100 appels stables vérifiés en SP/MP). Modèle de sérialisation : environ 6 Ko/événement/client pour 10 bases, 62 Ko pour 100 bases, avec 16 changements d’historique. Pas de restriction ajoutée ; étudier le trafic réel si serveur très chargé. Voir [mesures et hypothèses](annexes/tests/c25-validation.md).
 
 ### C12 — Le journal d'alimentation est trop court pour une longue absence
 - **Problème.**
@@ -224,14 +224,14 @@
 - **Risque.** Maintenabilité : un diagnostic de la pompe en MP sans aucune trace.
 - **Correction proposée.** `local ok, err = pcall(...)`, puis `LiveWire.warn(...)` en cas d'échec, comme ailleurs.
 - **Statut.** Confirmé statiquement. **Priorité moyenne** (coût quasi nul), **effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié. Les erreurs de maintenance sont journalisées en anglais avec l’identifiant de la pompe ; les autres pompes continuent. Test hors jeu par injection d’erreur et campagnes SP/MP.
 
 ### C14 — Constante de version périmée
 - **Problème.** `LiveWire.VERSION = "0.1.2"` (`shared/LiveWire/LW_Core.lua:7`) alors que le mod est en 1.3.1.
 - **Risque.** Maintenabilité : un journal ou un rapport de bug trompeur.
 - **Correction proposée.** Mettre la constante à jour, l'écrire dans le journal au démarrage (`registry ready`), et faire comparer par `tools/check_mod.py` `VERSION` à `modversion` de `mod.info`.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié. `LiveWire.VERSION = "1.4.0"`, journal de démarrage avec version ; `tools/check_mod.py` compare les deux variantes `mod.info` livrées à cette constante.
 
 ### C15 — Commandes réseau mortes ou à moitié branchées
 - **Problème.**
@@ -240,7 +240,7 @@
 - **Risque.** Maintenabilité.
 - **Correction proposée.** Brancher le renommage (voir I05) et retirer les autres constantes, ou les documenter comme réservées.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié. Renommage par boîte de saisie vanilla depuis le menu de l’onduleur et l’onglet Équipements du logiciel ; commande existante, nom nettoyé et borné à 24 caractères. Contrôle `via` des ordinateurs raccordés, distance et safehouse côté serveur ; nom dans les instantanés et la marque de l’onduleur. Constantes/gestionnaire `C_REQUEST_ANCHORS`, `S_REFUSE`, `S_ANCHORS` inutilisés retirés. Compléments d’affichage de I05 non inclus.
 
 ### C16 — En solo, l'instantané est recalculé à chaque image
 - **Problème.**
@@ -328,7 +328,7 @@
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
 - **Avancement : ⬜ à faire.**
 
-### C25 — Tests : pompe, relais et couplage ne sont couverts qu'en hors-jeu partiel ; aucun scénario MP
+### C25 — Tests pompe, relais, couplage et persistance SP/MP
 - **Problème.**
   - Le crochet `autotest/lw_hooks.lua` ne mentionne ni la pompe, ni les relais, ni le couplage (0 occurrence de « pump » ou « relay »).
   - Le protocole manuel (`docs/annexes/tests/protocole-tests.md`) n'a pas de section pompe ni onduleurs couplés.
@@ -341,14 +341,14 @@
   - Ajouter un scénario couplage : coupler, découpler, retirer le maître.
   - Ajouter une section `mp` à `autotest.json` (serveur et deux clients, l'un non admin), sur le modèle des autres mods de l'utilisateur.
 - **Statut.** Confirmé statiquement. **Priorité haute, effort M.**
-- **Avancement : 🟡 en partie (commits c849ab6, df5091d ; outil hors mod)** — pompe et couplage en solo dans `autotest/lw_hooks.lua`, section `mp` et `autotest/lw_mp_hooks.lua` (serveur + 1 client admin ; pas de client non admin). Runs pz-autotest du 2026-10-21 : solo 36/36, MP 12/12 côté serveur et 6/6 côté client. Client non admin et refus de safehouse couverts par la campagne du 2026-10-24. Restent : prototype P-pompe (sauvegarde, invisibilité), scénario du retrait des relais (C01).
+- **Avancement :** ✅ terminé le 2026-10-24 (`b242a36`, outil hors mod). Création sur case z+1 neuve, persistance de 7,25 L/25 L et de la marque après vrais redémarrages, invisibilité du sprite chargé, retrait C01 en zone chargée puis réellement déchargée, nettoyage au retour et absence de recréation après le dernier redémarrage. Trois phases SP et trois phases MP réussies ; serveur dédié et deux clients, assertions sur chacun. Droits ordinaires couverts par la campagne ciblée distincte. [Protocole, résultats et limites](annexes/tests/c25-validation.md).
 
 ### C26 — README : limite des frigos dépassée par la 1.0.1
 - **Problème.** `README.md:53` dit encore que l'état trouvé au retour vaut pour toute l'absence. Or la 1.0.1 rejoue l'absence d'après le journal des ancres (`CHANGELOG.md`, 1.0.1 ; `LW_FridgeCatchup.lua`).
 - **Risque.** Documentation joueur fausse (la même phrase existe probablement dans les autres README).
 - **Correction proposée.** Reformuler, à faire après la réorganisation de la documentation en cours : « l'absence est rejouée d'après les 16 derniers changements de courant » (voir C12).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`21cc584`). README anglais et français : rattrapage depuis les 16 derniers changements d’alimentation par onduleur, limite pour une absence dépassant cet historique.
 
 ---
 
@@ -409,7 +409,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun nouveau paquet hors la commande existante.
 - **Dépendances.** C15.
 - **Effort.** S.
-- **Avancement : ⬜ proposée.**
+- **Avancement : 🟡 en partie, non publié (2026-10-24).** Renommage par menu et onglet Équipements du logiciel, nom affiché dans le logiciel ; affichages LCD, inspection et messages d’alarme non réalisés.
 
 ### I06 — Compteurs cumulés et « carburant économisé »
 - **Description.** Chaque source compte ses kWh produits depuis sa pose, et chaque réseau ses kWh consommés, perdus (batteries pleines) et fournis par le générateur de secours. Le logiciel affiche aussi l'équivalent en litres d'essence qu'aurait brûlés un générateur vanilla pour la même consommation.
@@ -609,8 +609,10 @@ Avancement au 2026-10-23 indiqué devant chaque action.
 | 4 | 🟡 **C25 + C03** (C03 fait, C25 en partie) — scénario d'autotest pompe et couplage (SP puis MP), avec la synchro des relais limitée | 1.2.0 et 1.3.0 ne sont pas testées en jeu ; la synchro des relais est le premier coût côté client à mesurer pendant ce test | M | Faible ; le test peut révéler d'autres défauts de la pompe |
 | 5 | ⬜ **I04 + I05** — journal des événements et nom du réseau | Gain joueur net pour un code minime : le serveur repère déjà les événements et sait renommer (C15) | S | Très faible |
 
-Corrections presque gratuites encore proposées pour une prochaine livraison (toutes ⬜) : C13 (journaliser l'erreur de `maintain`), C14 (version), C17 (seuils du secours), C19 (étages du nettoyage).
+Corrections presque gratuites encore proposées : C17 (seuils du secours), C19 (étages du nettoyage). C13 et C14 sont réalisés ; C25 est terminé. La priorisation du tableau ci-dessus décrit la revue du 2026-10-23, avant ces campagnes.
 
 ---
 
 *Mise à jour du 2026-10-24 : la demande utilisateur autorise la campagne groupée C04, C05, C06, C07, C09, C16, C22 et la mémoire de C23. Ces correctifs sont locaux et non publiés. Les autres propositions restent soumises aux décisions utilisateur. Les constats d’origine sont issus de la lecture du code ; les nouveaux essais et leurs limites sont détaillés dans le [plan de campagne](annexes/plans/correctifs-blocages-performances.md).*
+
+La demande complémentaire du 2026-10-24 autorise C25 puis C13, C14, C26 et C15. C11 est différé selon la préférence communautaire de l’utilisateur ; aucun changement de diffusion n’a été effectué.
