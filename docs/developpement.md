@@ -29,10 +29,9 @@ migration de pattern**.
 - Les parcours bornés sont indépendants des règles de pompe et de présentation. Conserver les contrats existants,
   éviter les dépendances circulaires et les abstractions sans usage concret (principes SOLID).
 
-Plan et preuves de la campagne en cours :
-[`annexes/plans/correctifs-blocages-performances.md`](annexes/plans/correctifs-blocages-performances.md).
-La dernière campagne CXX et ses exclusions sont suivies dans
-[`annexes/plans/correctifs-restants-cxx.md`](annexes/plans/correctifs-restants-cxx.md).
+Les scénarios, résultats et limites des campagnes CXX sont regroupés dans le
+[bilan de validation](annexes/tests/validation.md). Le
+[suivi](ameliorations-et-idees.md) indique les correctifs réalisés, différés et exclus.
 
 ## Règle de création indépendante
 

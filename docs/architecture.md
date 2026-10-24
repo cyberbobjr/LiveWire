@@ -521,8 +521,8 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 ## 11. Correctifs des blocages et performances — 2026-10-24
 
 Le pattern modulaire événementiel avec serveur autoritaire reste inchangé (règles
-dans `developpement.md`). Le [plan de réalisation](annexes/plans/correctifs-blocages-performances.md)
-porte les résultats de validation de cette campagne.
+dans `developpement.md`). Le [bilan de validation](annexes/tests/validation.md)
+regroupe les scénarios, résultats et limites de cette campagne.
 
 - `shared/LW_SquareScan.lua` : curseur circulaire reprenable, sans dépendance au
   monde ni aux règles métier. Les services lui fournissent le traitement d'une case.
@@ -547,8 +547,8 @@ porte les résultats de validation de cette campagne.
 
 ## 12. Derniers correctifs CXX — 2026-10-24
 
-Le [plan des correctifs restants](annexes/plans/correctifs-restants-cxx.md) conserve
-le même pattern et exclut les idées IXX, C20 et C11 (différé).
+Cette campagne conserve le même pattern et exclut les idées IXX, C20 et C11
+(différé). Les résultats figurent dans le [bilan de validation](annexes/tests/validation.md).
 
 - `Pump` possède l'attribution des relais et le débit. Il consulte l'index par
   chunk du registre pour les pompes concurrentes ; le transfert garde l'objet

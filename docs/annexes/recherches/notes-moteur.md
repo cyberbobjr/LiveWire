@@ -1,18 +1,21 @@
-# Notes moteur — faits établis pour Live Wire
+# Live Wire — notes sur le moteur
 
-Faits nouveaux et réutilisables sur le moteur, établis pendant la conception de Live Wire, à reporter dans la base maîtresse `knowledge/`.
+Références techniques utilisées par le projet. Les numéros restent stables :
+« NM-n » dans les spécifications désigne la note n de ce document.
 
-- **Sources** : dépôt de sources de référence de l'utilisateur (Java décompilé 42.21 et `media/` vanilla). Les chemins `java/…` et `media/…` sont relatifs à sa racine.
-- **Statuts** :
-  - « confirmé statiquement » : lecture du code, sans test en jeu ;
-  - « hypothèse » : déduction non vérifiée.
-- **Rien n'a été testé en jeu.**
-- **Méthode** : la plupart des faits ont été relevés par des recherches en lecture seule menées en parallèle. Les points marqués « relu directement » ont été revérifiés ligne à ligne pendant la rédaction.
+- **Sources** : Java décompilé et fichiers vanilla de la Build 42.21.0.
+  Les chemins `java/…` et `media/…` sont relatifs à la racine de ces sources.
+  Les numéros de ligne correspondent à cette version, pas aux versions ultérieures.
+- **Lecture statique** : comportement relevé dans les sources, sans preuve en jeu.
+- **Confirmation en jeu** : essai identifié dans la note, avec son périmètre.
+- **Hypothèse / à vérifier** : comportement déduit ou vérification encore manquante.
 
----
+Les dates et niveaux de validation sont propres à chaque note. Les résultats
+SP/MP récents du mod sont regroupés dans le [bilan de validation](../tests/validation.md) ;
+ils ne valident pas automatiquement l'ensemble des mécanismes décrits ici.
 
 ## 1. Le script d'un générateur est retrouvé par son sprite, pas par `generatorFullType`
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
 - Preuve :
   - Pour le bruit et l'usure, `IsoGenerator.update` lit le script d'objet donné par `getGeneratorItemType()` (`java/zombie/iso/objects/IsoGenerator.java:167`).
   - Cette méthode cherche le nom du sprite dans une table construite une fois : les objets tagués `ItemTag.GENERATOR` qui ont un `WorldObjectSprite` (`:137-147`). À défaut, elle rend `Base.Generator` (`:149-155`).
@@ -20,7 +23,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : un générateur de mod qui veut ses propres `SoundRadius`, `SoundVolume` et `ConditionLowerChanceOneIn` a besoin d'un sprite qu'aucun autre objet tagué `Generator` n'utilise.
 
 ## 2. Bruit d'un générateur : valeurs du script, rayon nul possible, son FMOD impossible à couper depuis Lua
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement, sauf la ligne de `WorldSoundManager`)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
 - Preuve :
   - Rayon et volume valent 20 **seulement** si le script est introuvable ou si le champ vaut 0 ou moins. Dans une pièce, le rayon est divisé par 2 en entier. L'émission passe par `addSoundRepeating` à chaque mise à jour, sur l'autorité (`IsoGenerator.java:168-181`).
   - Un rayon ≤ 0 n'émet rien (`java/zombie/WorldSoundManager.java:110`).
@@ -33,7 +36,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - Sans tuile de mod qui enregistre sa propre valeur `GeneratorSound` (associée à des sons de mod `<valeur>Loop`, `Starting`, `Stopping`, `Backfire`, `FailedToStart`), un générateur de mod fait entendre aux joueurs le ronflement d'un générateur vanilla (hypothèse sur l'absence de tout autre levier).
 
 ## 3. Usure horaire, incendie et explosion ; `setFuel(0)` n'éteint pas tout de suite
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
 - Preuve (`IsoGenerator.java:182-239`) :
   - À chaque passage d'heure, en rattrapant les heures écoulées depuis `lastHour`, l'état perd 1 ou 2 points avec une chance de 1 sur `ConditionLowerChanceOneIn`. Le champ est lu dans le script, et vaut 30 si le script est introuvable.
   - La boucle s'arrête dès que le carburant ou l'état tombe à 0.
@@ -47,7 +50,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - être éteint explicitement par `setActivated(false)` quand l'énergie manque.
 
 ## 4. Toxicité : seulement si la case est dans une pièce et sans drapeau `exterior`
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
 - Preuve :
   - Chaque heure de marche : `if (!sq.has(exterior) && sq.getBuilding() != null) building.setToxic(activated)` (`IsoGenerator.java:183-185`). Même test à l'allumage et à l'extinction (`:466-468`).
   - `getBuilding()` passe par `getRoom()` (`java/zombie/iso/IsoGridSquare.java:7805-7811`) : une case sans pièce n'a pas de bâtiment.
@@ -64,7 +67,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : la consommation réelle mesurée par le moteur se lit sur l'autorité par `gen:getTotalPowerUsing() / GeneratorFuelConsumption`, mais cette lecture est impossible si l'option vaut 0. Repli : sommer soi-même `obj:getGeneratorPowerConsumption()` (méthode publique) sur les cases dans la portée.
 
 ## 6. Poser au sol un objet tagué `Generator` crée un `IsoGenerator`
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
 - Preuve : `IsoGridSquare.AddWorldInventoryItem` transforme en `new IsoGenerator(item, …)` tout objet dont le type contient `.Generator`, ou qui est tagué `GENERATOR` et a un `WorldObjectSprite` (`java/zombie/iso/IsoGridSquare.java:5210-5214`). C'est le chemin de tout dépôt au sol vanilla.
 - Autres usages du tag :
   - option d'inventaire « prendre à deux mains » (`media/lua/client/ISUI/ISInventoryPaneContextMenu.lua:274`, `:406-408`) ;
@@ -89,7 +92,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - `ISWorldObjectContextMenu.createMenu` remplit `fetchVars`, déclenche `OnPreFillWorldObjectContextMenu`, puis délègue à `ISWorldObjectContextMenuLogic.createMenuEntries` (`media/lua/client/ISUI/ISWorldObjectContextMenu.lua:183-209`).
   - `doGeneratorMenu` ne lit que `fetch.generator` (`java/zombie/iso/ISWorldObjectContextMenuLogic.java:1444-1445`).
   - Les rappels Lua (`onTakeGenerator`, `onPlugGenerator`, `onActivateGenerator`, `onFixGenerator`, `onAddFuelGenerator`, `onInfoGenerator`) sont retrouvés par leur nom à chaque construction du menu (par exemple `:1465`, `:1514`).
-  - Le menu « Ajouter du carburant » exige un générateur arrêté (`:1493`), mais l'action `ISAddFuel` ne le vérifie pas (`media/lua/shared/TimedActions/ISAddFuel.lua:5-9`). C'est une précision à `knowledge/power-and-lights.md:183`.
+  - Le menu « Ajouter du carburant » exige un générateur arrêté (`:1493`), mais l'action `ISAddFuel` ne le vérifie pas (`media/lua/shared/TimedActions/ISAddFuel.lua:5-9`).
 - Conséquences :
   - Mettre `ISWorldObjectContextMenu.fetchVars.generator = nil` dans `OnPreFillWorldObjectContextMenu` supprime tout le sous-menu pour ce générateur.
   - Côté serveur, il faut en plus envelopper le `complete()` de `ISTakeGenerator`, `ISAddFuel`, `ISPlugGenerator`, `ISActivateGenerator`, `ISFixGenerator`, `ISMoveablesAction` et `ISDestroyStuffAction`.
@@ -159,7 +162,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : la réparation d'appareils (idée n° 5) est faisable proprement pour les cuisinières et micro-ondes. Pour le froid, le seul levier est de ne pas alimenter.
 
 ## 17. Un `IsoGenerator` ne crée pas les conteneurs de son sprite
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement) ; comportement MP du conteneur ajouté par script : hypothèse
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; comportement MP du conteneur ajouté par script : hypothèse
 - Preuve :
   - `IsoGenerator.addToWorld` ne fait qu'ajouter l'objet aux listes de mise à jour, sans appeler `super.addToWorld` (`java/zombie/iso/objects/IsoGenerator.java:399-405`). C'est pourtant `IsoObject.addToWorld` qui appelle `createContainersFromSpriteProperties()` (`java/zombie/iso/IsoObject.java:4176-4182`).
   - Cette méthode est publique (`IsoObject.java:4900`) ; elle ne fait rien si un conteneur existe déjà.
@@ -167,7 +170,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : pour donner un compartiment à un générateur de mod, il faut appeler `createContainersFromSpriteProperties()` sur l'autorité et sur chaque client qui reçoit l'objet. Une fois créé, le conteneur serait sauvegardé avec l'objet. À vérifier en jeu : transmission initiale et transferts MP.
 
 ## 18. Positions de générateur : envoyées aux clients avec le chunk, purgées aussi chez eux, et `LoadChunk` des deux côtés
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement) ; effet visible chez un client : hypothèse
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; effet visible chez un client : hypothèse
 - Preuve :
   - Le client télécharge chaque chunk et le relit par `LoadFromBuffer` (`java/zombie/iso/WorldStreamer.java:661`). Cette lecture lit aussi la liste `generatorsTouchingThisChunk` (`java/zombie/iso/IsoChunk.java:3318-3331`).
   - La purge `IsoGenerator.chunkLoaded` (`IsoChunk.java:3526`) est suivie de l'événement `LoadChunk`, déclenché sans condition de côté (`IsoChunk.java:3613`).
@@ -181,7 +184,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   Une position posée sur une case qui existe (par exemple celle d'un objet de mod) est purgée au chargement suivant si le mod a disparu : il n'y a pas de fuite de courant à la désinstallation.
 
 ## 19. `checkHaveElectricity` : effets côté client d'un changement d'alimentation
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
 - Preuve :
   - `IsoObject.checkHaveElectricity()` ne fait rien sur un serveur. Sur un client, elle :
     - met un réfrigérateur alimenté dans la liste des objets mis à jour ;
@@ -191,7 +194,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : après avoir posé ou retiré des positions par script, appeler `obj:checkHaveElectricity()` côté client sur les appareils du disque.
 
 ## 20. Toxicité : dégâts à chaque mise à jour, état transmis par paquet
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
 - Preuve :
   - Dans un bâtiment toxique, un personnage non protégé gagne 1e-4 de fatigue et perd 0,1 point de santé au torse (et à la tête si la fatigue dépasse 0,8), **à chaque mise à jour**, multipliés par `getThirtyFPSMultiplier()` (`java/zombie/characters/IsoGameCharacter.java:8192-8202`).
   - L'état du bâtiment est envoyé aux clients par le paquet `ToxicBuilding` (`java/zombie/iso/areas/IsoBuilding.java:509-513`, `java/zombie/network/GameServer.java:3571-3582`, `java/zombie/network/GameClient.java:795-805`).
@@ -229,7 +232,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; boucle de `FridgeHumA` : hypothèse
 - Preuve :
   - Sur un client MP, `playSound` et `playSoundLooped` lancés sur un émetteur sans parent sont relayés aux autres joueurs par `PlayWorldSound`. Leur arrêt, lui, n'est pas relayé (`java/fmod/fmod/FMODSoundEmitter.java:380-461`, `:955-961`).
-  - `playSoundImpl(nom, false, nil)` reste local. La forme `playSoundImpl(nom, nil)` prend la surcharge `IsoGridSquare` et lève une NPE (`knowledge/kahlua-lua.md:124-128`).
+  - `playSoundImpl(nom, false, nil)` reste local. La forme `playSoundImpl(nom, nil)` prend la surcharge `IsoGridSquare` et lève une NPE (`java/fmod/fmod/FMODSoundEmitter.java`, surcharges de `playSoundImpl`).
   - Les émetteurs de `getWorld():getFreeEmitter` sont avancés par le moteur, puis rendus à la réserve quand ils sont vides (`java/zombie/iso/IsoWorld.java:500-504`, `:2785-2802`).
   - `FridgeHumA` est l'événement FMOD `Object/Fridge/FridgeA/Running`. Le moteur le joue en lui donnant le paramètre `Generator` (`java/zombie/audio/ObjectAmbientEmitters.java:675-705`).
 - Conséquence : le ronronnement de l'onduleur Live Wire est joué par chaque client pour lui seul, avec `playSoundImpl`. Il reste à vérifier en jeu que le son boucle sans ce paramètre.
@@ -238,7 +241,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
 - Preuve :
   - Sur un serveur, `HaloTextHelper.addText` envoie le paquet `HaloText` avec le texte déjà composé (`java/zombie/characters/HaloTextHelper.java:109-131`, `HaloTextPacket.java:57`).
-  - Un serveur dédié ne charge pas les traductions des mods (`knowledge/api-42-21.md:145-150`).
+  - Au démarrage, le serveur dédié charge les traductions avant les mods ; sans rechargement explicite des tables, les clés des mods restent absentes (`java/zombie/network/GameServer.java:637-639, 1354-1355`, `java/zombie/core/Translator.java:145-149, 267-279`).
 - Conséquence : le serveur envoie une clé et ses paramètres par `sendServerCommand`, et le client appelle `getText` puis `HaloTextHelper` (`LW_Notify.lua`, `LW_ClientState.lua`).
 
 ## 26. Murs d'une case et objets muraux
@@ -271,7 +274,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
   - `IsoObject` dessine des aiguilles pour tout sprite qui a un script d'horloge (`java/zombie/iso/IsoObject.java:5683-5701`).
   - `walls_decoration_01_104` et `_105` ont un tel script (`media/scripts/generated/clocks.txt:45, 66`).
   - `getSprite` sur un nom inconnu crée et garde en mémoire un sprite vide (`java/zombie/iso/sprite/IsoSpriteManager.java:53-58`).
-- Conséquence : ne pas prendre une pendule comme sprite de substitution. Le disjoncteur Live Wire utilise l'applique murale `lighting_indoor_02_44` à `_47`, dont les orientations sont connues (`knowledge/power-and-lights.md:103`). Posée comme simple `IsoObject`, elle n'éclaire pas.
+- Conséquence : ne pas prendre une pendule comme sprite de substitution. Une applique murale utilisable comme substitut est `lighting_indoor_02_44` à `_47`, dont les orientations sont connues (`newtiledefinitions.tiles.txt:103406-103502`). Posée comme simple `IsoObject`, elle n'éclaire pas.
 
 ## 30. Objets muraux vanilla : posés sur la case cliquée, détruits avec leur mur
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement
@@ -294,7 +297,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : la powerbank de Live Wire crée son conteneur (type `livewirepowerbank`) **avant** `transmitAddObjectToSquare`, avec `setExplored(true)` et `setHasBeenLooted(true)`. Elle ajoute la clé de titre et reprend l'icône de la caisse militaire. À vérifier en jeu : un 2e client voit le conteneur et ses transferts.
 
 ## 32. Générateur vanilla piloté par un mod : `setActivated`, `setFuel`, consommation horaire
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (relu directement), y compris le double décompte au rechargement
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement, y compris le double décompte au rechargement
 - Preuve :
   - `setActivated(b)` ne fait rien si l'état ne change pas ; sinon il rend le bâtiment toxique (case intérieure), remet `lastHour` à l'heure courante au démarrage, joue `Starting` / `Stopping`, recalcule la zone alimentée et se synchronise sur serveur et client (`java/zombie/iso/objects/IsoGenerator.java:462-490`).
   - `setFuel` borne à [0, 10] et se synchronise (`:448-456`) ; `getMaxFuel()` rend 10 (`:444-446`).
@@ -307,7 +310,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : jouer un tel son localement (`playSoundImpl(nom, false, nil)`) et l'arrêter soi-même après une durée fixe, qu'il boucle ou non.
 
 ## 34. Outils de debug d'un mod : solo `-debug` et admin MP
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (`knowledge/logs-and-tools.md:159, 198`, `knowledge/multiplayer.md:123, 129-132`, `java/zombie/Lua/LuaManager.java:2913-2919`)
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement (`java/zombie/Lua/LuaManager.java:2913-2919` ; contrôle de rôle décrit ci-dessous)
 - Preuve : `isDebugEnabled()` rend `Core.debug` ; `checkPermissions` rend vrai hors serveur MP et quand la connexion est introuvable ; `ChangeAndReloadServerOptions` n'appartient qu'au rôle `admin` intégré.
 - Conséquence : côté client, `getRole():hasCapability(cap)` pour l'affichage ; côté serveur, `checkPermissions(p, cap)` **et** `p:getRole():hasCapability(cap)` ; en solo, `isDebugEnabled()`. Sur un serveur dédié, `isDebugEnabled()` est faux sauf `-Ddebug` : ne pas l'utiliser pour les admins.
 
@@ -358,7 +361,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Un meuble posable dont la tuile porte `CustomItem` garde l'icône de son script (`Moveable.java:128-141`, `getCustomIcon`) : utile quand la tuile seule n'est pas représentative (pales en calque).
 
 ## 43. Calque changé souvent : marquer l'objet « en animation » (rendu FBO)
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : cause confirmée statiquement ; disparition observée en jeu par l'utilisateur ; correction à vérifier en jeu
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : cause confirmée statiquement ; disparition observée en jeu ; correction à vérifier en jeu
 - Preuve : avec le rendu par chunks, un objet est dessiné dans la texture du chunk et redessiné seulement quand le chunk est invalidé. `FBORenderCell.isObjectRenderLayer_MinusFloor` sort de ce chemin les objets `isAnimating()` (`java/zombie/iso/fboRenderChunk/FBORenderCell.java:1627`), dessinés à chaque image. Les seuls calques « animés » reconnus sont les aiguilles d'horloge et les calques `_on_` (`IsoObject.hasAnimatedAttachments`, `IsoObject.java:5640-5650`). Le drapeau n'est remis à faux qu'à la fin d'une animation 3D d'objet (`IsoObjectAnimations.java:81`).
 - Conséquence : un calque changé plusieurs fois par seconde (pales d'éolienne) disparaissait dès qu'il tournait. Appeler `obj:setAnimating(true)` sur l'objet, côté client.
 
@@ -368,7 +371,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : valeurs entières seulement ; `tools/check_mod.py` le contrôle désormais.
 
 ## 45. Rejouer le vieillissement d'un aliment : accesseurs exposés, `lastFrozenUpdate` sans accesseur
-- Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; effet en jeu à vérifier
+- Build : 42.21.0 — Date : 2026-10-17 — Statut : accesseurs confirmés statiquement ; rattrapage alimentaire vérifié en SP/MP le 2026-10-24 (voir le bilan), sans validation exhaustive du gel/dégel
 - Preuve :
   - `getAge/setAge/getLastAged/setLastAged` publics sur `InventoryItem` (`java/zombie/inventory/InventoryItem.java:2355-2368`), classes `Food` et `InventoryItem` exposées (`index-lua-exposed-classes.txt:298, 342`) ; `lastAged = -1` : jamais vieilli (`:155`).
   - `Food.setFreezingTime` borne à [0, 100] et ne change `frozen` qu'aux bornes ; `setFrozen`, `canBeFrozen`, `getFreezingTime` publics (`java/zombie/inventory/types/Food.java:1955-1988`).
@@ -378,7 +381,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 
 
 ## 46. Plomberie : la source d'un point d'eau raccordé est un `IsoThumpable` à fluide, à l'étage juste au-dessus
-- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement (relu directement)
+- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement
 - Preuve :
   - `ISPlumbItem:complete` pose `canBeWaterPiped = false`, `setUsesExternalWaterSource(true)` et envoie `IsoObjectChange.USES_EXTERNAL_WATER_SOURCE` (`media/lua/shared/TimedActions/ISPlumbItem.lua`).
   - Un objet raccordé renvoie toutes ses lectures et prises d'eau (`getFluidAmount`, `getFluidCapacity`, `useFluid`, `emptyFluid`…) vers sa source, recherchée de nouveau quand l'ancienne n'existe plus ou est vide (`checkExternalFluidSource`, `java/zombie/iso/IsoObject.java:2570-2578`, `:2580-2700`).
@@ -388,7 +391,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : un objet du monde qui n'est pas un `IsoThumpable` (par exemple un objet posé auquel un mod ajoute un composant `FluidContainer`) n'alimente jamais la plomberie vanilla. Pour desservir un point d'eau depuis une réserve placée ailleurs, il faut un `IsoThumpable` à fluide à `z + 1` dans le carré 3 × 3 au-dessus, rempli par script.
 
 ## 47. Récupérateurs d'eau en 42.21 : pluie par le système Java des entités, y compris hors zone chargée (`MetaEntity`)
-- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement (relu directement) ; remplissage hors zone chargée à vérifier en jeu
+- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement ; remplissage hors zone chargée à vérifier en jeu
 - Preuve :
   - `SRainBarrelSystem:isValidIsoObject` rend toujours `false` (`media/lua/server/RainBarrel/SRainBarrelSystem.lua:28-31`) : le système global Lua ne suit plus aucun récupérateur.
   - La pluie est ajoutée par `FluidContainerUpdateSystem.updateEntity`, sur l'autorité seulement (`GameClient.client` exclu), à tout `FluidContainer` d'une entité dehors avec `rainCatcher > 0` : `0.005 × intensité × (0,5 si neige) × rainCatcher × 2,4 s` par mise à jour, `Water` si le contenu est de l'eau propre, sinon `TaintedWater`, sans événement `OnWaterAmountChange` (`java/zombie/entity/components/fluids/FluidContainerUpdateSystem.java:41-85` ; `EntitySimulation.getGameSecondsPerTick` = 2,4, `java/zombie/entity/EntitySimulation.java:31-33`).
@@ -397,7 +400,7 @@ Faits nouveaux et réutilisables sur le moteur, établis pendant la conception d
 - Conséquence : un récupérateur, ou tout objet auquel un mod ajoute un `FluidContainer` avec `setRainCatcher(> 0)`, se remplit de pluie même zone déchargée, sans code de mod. Ne pas remplacer ni vider le composant d'un tel objet pour le « simuler ». Un ajout de pluie ne se détecte que par sondage du contenu.
 
 ## 48. Plomberie : un point d'eau raccordé rend propre l'eau croupie de sa source
-- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement (relu directement) ; à vérifier en jeu
+- Build : 42.21.0 — Date : 2026-10-18 — Statut : confirmé statiquement ; à vérifier en jeu
 - Preuve :
   - `createSampleAndPurifyWater` copie le contenu de la source en changeant chaque `TaintedWater` en `Water` (`java/zombie/iso/IsoObject.java:2760-2772`).
   - Un point d'eau raccordé (`usesExternalWaterSource`) l'utilise pour remplir un récipient : l'eau purifiée va dans la cible, la quantité prise est retirée de la source, puis `OnWaterAmountChange` est déclenché **sur le point d'eau**, pas sur la source (`transferFluidTo`, `:2782-2800`).

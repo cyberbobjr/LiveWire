@@ -4,7 +4,7 @@
 
 Writes docs/images/diagrams/<name>_<lang>.png: diagram (how it works), production (charts), recipe_book (recipes,
 640 px wide for the Steam page), equipment (device board).
-Only Pillow is needed. Figures come from the mod's model (docs/annexes/conception/fiche-des-faits.md); the solar day is the
+Only Pillow is needed. Figures come from the mod's model (docs/specifications-techniques.md); the solar day is the
 sine curve of LW_Physics.solarCurve with the day lengths that give the documented 0.94 / 0.60 kWh.
 Item names come from the game's translations (vanilla items) and the mod's translations (mod items).
 """

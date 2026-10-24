@@ -278,7 +278,7 @@ Batterie de voiture standard : 0,6 kWh ; batterie stationnaire : 1,5 kWh (§ 5.1
 
 ### 4.1 Paliers
 
-Les niveaux vanilla vont de 0 à 10 (`Perks.Electricity`, `java/zombie/characters/skills/PerkFactory.java:83`). « I-n » renvoie à l'idée n de [`annexes/recherches/idees-initiales.md`](annexes/recherches/idees-initiales.md).
+Les niveaux vanilla vont de 0 à 10 (`Perks.Electricity`, `java/zombie/characters/skills/PerkFactory.java:83`). Les références « I-n » de ce calendrier sont les identifiants historiques du programme initial ; elles sont distinctes des identifiants IXX du [suivi actuel](ameliorations-et-idees.md) et des sections de l'annexe de conception.
 
 | Niv. | Débloque (version) | Effet continu |
 |---|---|---|
@@ -627,7 +627,7 @@ Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
 
 ## 10. Fonctionnalités ajoutées après la 0.1
 
-Conception et justification détaillées : [`annexes/recherches/idees-initiales.md`](annexes/recherches/idees-initiales.md) (idées 2 et 5). Guide du joueur : [wiki](wiki/fr/Home.md).
+Conception et justification détaillées : [`annexes/conception/choix-et-extensions.md`](annexes/conception/choix-et-extensions.md) (idées 2 et 5). Guide du joueur : [wiki](wiki/fr/Home.md).
 
 ### 10.1 Pompe à eau (F20, version 1.2.0)
 

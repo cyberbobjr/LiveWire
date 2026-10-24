@@ -2,8 +2,6 @@
 
 Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétence Électricité un métier : panneaux solaires, éoliennes et roues à aubes, batteries en powerbank, onduleur qui alimente la maison et pompe à eau.
 
-Structure commune à tous les projets : [`../../docs/structure-documentaire.md`](../../docs/structure-documentaire.md) (hors dépôt).
-
 ## Documents
 
 | Document | Rôle |
@@ -16,10 +14,7 @@ Structure commune à tous les projets : [`../../docs/structure-documentaire.md`]
 | [`ameliorations-et-idees.md`](ameliorations-et-idees.md) | Améliorations de code et idées de fonctionnalités (propositions et suivi des correctifs autorisés) |
 | [`wiki/`](wiki/) | Source du wiki GitHub : [anglais](wiki/en/Home.md), [français](wiki/fr/Home.md) |
 | [`images/`](images/) | Images de la documentation, du README, du wiki et de la page Steam |
-| [`annexes/`](annexes/) | Documents de travail rangés par thème |
-| [`annexes/plans/correctifs-blocages-performances.md`](annexes/plans/correctifs-blocages-performances.md) | Campagne C04–C09, C16, C22 et mémoire C23 : plan, périmètre et preuves SP/MP |
-| [`annexes/plans/correctifs-restants-cxx.md`](annexes/plans/correctifs-restants-cxx.md) | Derniers correctifs CXX autorisés : C08, C12, C17–C19, C21, C23 et C24 ; C11 différé, C20 et IXX exclus |
-| [`annexes/tests/correctifs-restants-cxx.md`](annexes/tests/correctifs-restants-cxx.md) | Scénarios, résultats et limites de validation des derniers CXX en SP/MP avec redémarrage |
+| [`annexes/`](annexes/) | Références de conception, notes moteur et validation |
 
 ## Wiki
 
@@ -56,7 +51,7 @@ Les pages Steam (`README.steam*`, `workshop.txt`) et les README de la racine cha
 
 | Document | Rôle |
 |---|---|
-| [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) | Faits du moteur établis pendant le développement (NM-n), à reporter dans la base de connaissances |
-| [`annexes/recherches/idees-initiales.md`](annexes/recherches/idees-initiales.md) | Idées retenues le 2026-10-18 et leur étude (pompe, onduleurs en parallèle…) |
-| [`annexes/conception/fiche-des-faits.md`](annexes/conception/fiche-des-faits.md) | Fiche des chiffres vérifiés pour les rédacteurs du README et du wiki (anglais, établie en 0.1.2) |
-| [`annexes/tests/protocole-tests.md`](annexes/tests/protocole-tests.md) | Protocole de test en jeu |
+| [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) | 48 notes moteur sourcées (NM-n), avec Build, date et niveau de validation |
+| [`annexes/conception/choix-et-extensions.md`](annexes/conception/choix-et-extensions.md) | Motivations de la pompe et du couplage ; propositions et questions ouvertes |
+| [`annexes/tests/protocole-tests.md`](annexes/tests/protocole-tests.md) | Préparation, commandes de reproduction et contrôles SP/MP |
+| [`annexes/tests/validation.md`](annexes/tests/validation.md) | Bilan des campagnes du 2026-10-24, résultats, conditions et limites |

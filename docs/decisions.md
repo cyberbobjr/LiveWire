@@ -73,5 +73,5 @@ et « performances » de la revue : C07, C09, C22, C04, C05, C06, C16 et purge m
 de C23, avec planification, principes SOLID et essais SP/MP. L’architecture modulaire
 autoritaire existante est conservée ; aucun changement de pattern ni de schéma
 persistant. Le frein explicite réversible fait partie de C22. Les autres idées
-restent proposées, notamment les compléments visuels/alerte de I14 et le plafond
-global d’expérience de C23. Voir le [plan et les preuves](annexes/plans/correctifs-blocages-performances.md).
+restent proposées, notamment les compléments visuels/alerte de I14. Le plafond global d’expérience de C23 a ensuite été réalisé ;
+voir le [suivi actualisé](ameliorations-et-idees.md) et le [bilan de validation](annexes/tests/validation.md).
