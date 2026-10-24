@@ -627,6 +627,9 @@ local function runPumpAndCoupling()
             debugAction("battery100")
             LiveWire.Sim.refresh(gridOfInverter())
             LiveWire.Pump.maintain(pdev)
+            -- Discovery is asynchronous (C04); drain its bounded ticks in this
+            -- synchronous functional fixture before checking relay creation.
+            for _ = 1, 220 do LiveWire.Pump.tickDiscovery() end
             local nRelay = relaysOf(pdev)
             local barrel0 = S.barrel:getFluidContainer():getAmount()
             LiveWire.Pump.step(pdev)

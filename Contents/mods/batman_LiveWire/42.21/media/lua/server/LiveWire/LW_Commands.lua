@@ -17,6 +17,15 @@ Commands.RATE_PER_SECOND = 4
 
 local rate = {}  -- username -> { windowStart = ms, count = n, warned = bool }
 
+function Commands.purgeRate()
+    local now, stale = getTimestampMs(), {}
+    for who, r in pairs(rate) do
+        if now - r.windowStart >= 60000 or now < r.windowStart then stale[#stale + 1] = who end
+    end
+    for i = 1, #stale do rate[stale[i]] = nil end
+end
+Events.EveryHours.Add(Commands.purgeRate)
+
 local function allowRate(player)
     local who = player:getUsername() or "local"
     local now = getTimestampMs()
@@ -100,6 +109,24 @@ local function checkInverterCommand(player, args)
 end
 
 local handlers = {}
+
+handlers[P.C_RESUME_BACKUP] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.device)
+    if not dev then return refuse(player, P.C_RESUME_BACKUP, why) end
+    if dev.role ~= "backup" or not LiveWire.Backup.resume(dev) then return end
+    LiveWire.Sim.refresh(LiveWire.Registry.grid(dev.grid))
+end
+
+handlers[P.C_SET_BRAKE] = function(player, args)
+    local dev, why = Commands.checkDevice(player, args.device)
+    if not dev then return refuse(player, P.C_SET_BRAKE, why) end
+    local def = LiveWire.Defs.devices[dev.model]
+    if not def or def.kind ~= "wind" or not P.isBool(args.brake)
+        or LiveWire.Install.level(player) < LiveWire.Config.requiredLevel(7) then return end
+    dev.brake = args.brake
+    LiveWire.Devices.syncMark(dev)
+    LiveWire.Sim.refresh(dev.grid and LiveWire.Registry.grid(dev.grid))
+end
 
 -- Other server files add their commands here (LW_DebugCommands.lua).
 function Commands.register(command, fn)

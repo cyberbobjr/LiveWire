@@ -169,5 +169,6 @@
     "IGUI_LW_Coupled": "インバーターを連結しました。",
     "IGUI_LW_Uncoupled": "インバーターの連結を解除しました：独立した状態に戻ります。",
     "IGUI_LW_LCD_Coupled": "連結：%1 / %2 台稼働中",
-    "IGUI_LW_App_Coupled": "連結インバーター：%1 / %2 台稼働中"
+    "IGUI_LW_App_Coupled": "連結インバーター：%1 / %2 台稼働中",
+    "IGUI_LW_Backup_manual": "手動制御"
 }

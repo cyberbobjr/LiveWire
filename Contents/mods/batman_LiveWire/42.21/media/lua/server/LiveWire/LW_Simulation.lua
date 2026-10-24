@@ -51,6 +51,7 @@ end
 
 local function sourceRaw(src, def, w, t0, h)
     if (src.cond or 0) <= 0 then return 0 end
+    if def.kind == "wind" and src.brake then return 0 end
     local factor = 0
     if def.kind == "solar" then
         factor = Physics.solarFactor(solarMean(t0, h, w), w.clouds, src.snow or 0)
@@ -418,6 +419,7 @@ function Sim.stepGrid(grid, now, w)
                 weatherOnSource(src, sdef, w, h)
                 src.raw = sourceRaw(src, sdef, w, t0, h)
                 src.pOut = Physics.smooth(src.pOut, src.raw, h, Defs.SMOOTHING_TAU_HOURS)
+                if sdef.kind == "wind" and src.brake then src.pOut = 0 end
                 prodW = prodW + src.pOut
                 wearDevice(src, sdef, h)
             end

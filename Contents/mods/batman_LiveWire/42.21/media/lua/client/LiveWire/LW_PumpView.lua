@@ -5,6 +5,7 @@
 -- tanks as its external water source (IsoObject.FindExternalWaterSource).
 -- The highlight is re-applied on every refresh: another code may clear it.
 if isServer() then return end
+require "LiveWire/LW_SquareScan"
 
 LiveWire = LiveWire or {}
 
@@ -16,6 +17,9 @@ PV.obj = nil            -- the pump object shown
 PV.id = nil             -- its device id (mark)
 PV.hl = {}              -- object -> true, objects currently highlighted by this view
 PV.lastRefresh = 0
+PV.SQUARES_PER_TICK = 250
+PV.fixtures = {}
+PV.dirty = false
 
 local function defs() return LiveWire.Defs end
 
@@ -55,34 +59,13 @@ local function collect(pumpSq, id)
         if m and m.pump == id then add(barrels[i].obj) end
     end
 
-    local cell = getCell()
-    local px, py, pz = pumpSq:getX(), pumpSq:getY(), pumpSq:getZ()
-    local range = LiveWire.Config.get("PumpRange")
-    local r = math.floor(range)
-    local r2 = range * range
-    local vertical = LiveWire.Config.verticalRange()
-    for z = pz - vertical, pz + vertical do
-        for x = px - r, px + r do
-            for y = py - r, py + r do
-                local dx, dy = x - px, y - py
-                if dx * dx + dy * dy <= r2 then
-                    local sq = cell:getGridSquare(x, y, z)
-                    if sq and sq:getRoom() ~= nil then
-                        local objs = sq:getObjects()
-                        local src, looked = nil, false
-                        for i = 0, objs:size() - 1 do
-                            local o = objs:get(i)
-                            if not instanceof(o, "IsoWorldInventoryObject") and hasWaterPipe(o) then
-                                if not looked then
-                                    src = IsoObject.FindExternalWaterSource(sq)
-                                    looked = true
-                                end
-                                if src ~= nil and servedBy(src, id) then add(o) end
-                            end
-                        end
-                    end
-                end
-            end
+    for i = 1, #PV.fixtures do
+        local o = PV.fixtures[i]
+        local sq = o:getSquare()
+        if sq and o:getObjectIndex() ~= -1
+            and getCell():getGridSquare(sq:getX(), sq:getY(), sq:getZ()) == sq then
+            local src = IsoObject.FindExternalWaterSource(sq)
+            if src and servedBy(src, id) then add(o) end
         end
     end
     return list, set
@@ -107,6 +90,7 @@ function PV.hide()
     clearHighlights()
     if PV.id and LiveWire.RangeView.isShown(PV.id) then LiveWire.RangeView.hide() end
     PV.obj, PV.id = nil, nil
+    PV.fixtures, PV.job, PV.found, PV.dirty = {}, nil, nil, false
 end
 
 -- Re-collect the supplied objects and update the highlights.
@@ -146,12 +130,50 @@ function PV.show(pumpObj)
     local sq = pumpObj:getSquare()
     if not mark or not sq then return end
     PV.obj, PV.id = pumpObj, mark.id
+    PV.dirty = true
     LiveWire.RangeView.show(mark.id, sq:getX(), sq:getY(), sq:getZ(), {
         radius = LiveWire.Config.get("PumpRange"),
         color = LiveWire.RangeView.PUMP_COLOR,
     })
     PV.lastRefresh = getTimestampMs()
     PV.refresh()
+end
+
+function PV.invalidateAt(sq)
+    if not PV.id or not sq or not PV.obj then return end
+    local ps = PV.obj:getSquare()
+    if not ps then return end
+    local dx, dy = sq:getX() - ps:getX(), sq:getY() - ps:getY()
+    local reach = LiveWire.Config.get("PumpRange") + 8
+    if dx * dx + dy * dy <= reach * reach then PV.dirty = true end
+end
+
+function PV.tickDiscovery()
+    if not PV.id then return end
+    local sq = PV.obj and PV.obj:getSquare()
+    if not sq then return end
+    if PV.dirty and not PV.job then
+        PV.dirty = false
+        PV.job = LiveWire.SquareScan.new(sq:getX(), sq:getY(), sq:getZ(),
+            LiveWire.Config.get("PumpRange"), LiveWire.Config.verticalRange())
+        PV.found = {}
+    end
+    if not PV.job then return end
+    local done = LiveWire.SquareScan.step(PV.job, PV.SQUARES_PER_TICK, function(x, y, z)
+        local fs = getCell():getGridSquare(x, y, z)
+        if not fs or not fs:getRoom() then return end
+        local objs = fs:getObjects()
+        for i = 0, objs:size() - 1 do
+            local o = objs:get(i)
+            if not instanceof(o, "IsoWorldInventoryObject") and hasWaterPipe(o) then
+                PV.found[#PV.found + 1] = o
+            end
+        end
+    end)
+    if done then
+        PV.fixtures, PV.found, PV.job = PV.found, nil, nil
+        PV.refresh()
+    end
 end
 
 local function onTick()
@@ -169,6 +191,7 @@ local function onTick()
         PV.hide()
         return
     end
+    PV.tickDiscovery()
     local now = getTimestampMs()
     if now - PV.lastRefresh >= PV.REFRESH_MS then
         PV.lastRefresh = now
@@ -177,3 +200,23 @@ local function onTick()
 end
 
 Events.OnTick.Add(onTick)
+
+Events.LoadChunk.Add(function(chunk)
+    if not PV.id then return end
+    local cx, cy = LiveWire.Anchor.chunkCoords(chunk)
+    if cx then
+        -- A loaded square at any floor is enough to invalidate by horizontal range.
+        for z = chunk:getMinLevel(), chunk:getMaxLevel() do
+            for i = 0, 63 do
+                local sq = chunk:getGridSquare(i % 8, math.floor(i / 8), z)
+                if sq then PV.invalidateAt(sq); return end
+            end
+        end
+    end
+end)
+Events.OnObjectAdded.Add(function(obj)
+    if obj and obj.getSquare then PV.invalidateAt(obj:getSquare()) end
+end)
+Events.OnObjectAboutToBeRemoved.Add(function(obj)
+    if obj and obj.getSquare then PV.invalidateAt(obj:getSquare()) end
+end)

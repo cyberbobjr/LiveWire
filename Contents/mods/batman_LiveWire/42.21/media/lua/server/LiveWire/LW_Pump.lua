@@ -6,6 +6,7 @@
 -- FluidContainer is never replaced. Runs every game minute (tickMinute) and on link
 -- changes (maintain).
 if isClient() then return end
+require "LiveWire/LW_SquareScan"
 
 LiveWire = LiveWire or {}
 
@@ -106,59 +107,124 @@ end
 -- Other sources (vanilla barrel, other mod, another pump) take precedence.
 -- The served area is a horizontal circle of PumpRange tiles (sandbox option), on the
 -- floors given by Config.verticalRange().
+Pump.SQUARES_PER_TICK = 250
+Pump.REBUILD_HOURS = 2
+Pump.inventories = {} -- session only: fixture positions, discovery cursor, dirty flag
+local queue = {}
+
+function Pump.invalidateAt(sq, margin)
+    if not sq then return end
+    local range = LiveWire.Config.get("PumpRange") + (margin or 0)
+    for id, entry in pairs(Pump.inventories) do
+        local dev = R().device(id)
+        if dev then
+            local dx, dy = sq:getX() - dev.x, sq:getY() - dev.y
+            if dx * dx + dy * dy <= range * range then entry.dirty = true end
+        end
+    end
+end
+
+local function inventory(dev)
+    local entry = Pump.inventories[dev.id]
+    if not entry then
+        entry = { fixtures = {}, dirty = true, builtAt = -1 }
+        Pump.inventories[dev.id] = entry
+    end
+    local range, vertical = LiveWire.Config.get("PumpRange"), LiveWire.Config.verticalRange()
+    if entry.x ~= dev.x or entry.y ~= dev.y or entry.z ~= dev.z
+        or entry.range ~= range or entry.vertical ~= vertical then entry.dirty = true end
+    local now = getGameTime():getWorldAgeHours()
+    if (entry.dirty or now - entry.builtAt >= Pump.REBUILD_HOURS) and not entry.job then
+        entry.x, entry.y, entry.z = dev.x, dev.y, dev.z
+        entry.range, entry.vertical = range, vertical
+        entry.job = LiveWire.SquareScan.new(dev.x, dev.y, dev.z, range, vertical)
+        entry.found, entry.dirty = {}, false
+        queue[#queue + 1] = dev.id
+    end
+    return entry
+end
+
+-- Re-evaluate only known fixtures; source ownership and public water can change
+-- without furniture moving. Preserve the original stable x/y/z discovery order.
 local function wantedRelays(dev, linked)
     local wanted = {}
     if not linked then return wanted end
-    local cell = getCell()
-    local range = LiveWire.Config.get("PumpRange")
-    local r = math.floor(range)
-    local vertical = LiveWire.Config.verticalRange()
-    for z = dev.z - vertical, dev.z + vertical do
-        for x = dev.x - r, dev.x + r do
-            for y = dev.y - r, dev.y + r do
-                local dx, dy = x - dev.x, y - dev.y
-                if dx * dx + dy * dy <= range * range then
-                    local sq = cell:getGridSquare(x, y, z)
-                    if sq and sq:getRoom() ~= nil then
-                        local objs = sq:getObjects()
-                        for i = 0, objs:size() - 1 do
-                            local o = objs:get(i)
-                            local spr = o:getSprite()
-                            local props = spr and spr:getProperties()
-                            if not instanceof(o, "IsoWorldInventoryObject") and props
-                                and props:has(IsoFlagType.waterPiped) and not gridRuns(o) then
-                                local src = IsoObject.FindExternalWaterSource(sq)
-                                -- One relay serves the 3x3 below it: a fixture already covered by
-                                -- a relay wanted earlier in this scan needs no other one (this also
-                                -- merges relays placed side by side by an older version).
-                                local shared = false
-                                for ox = -1, 1 do
-                                    for oy = -1, 1 do
-                                        if wanted[LiveWire.posKey(x + ox, y + oy, z + 1)] then shared = true end
-                                    end
-                                end
-                                if shared then
-                                    -- covered
-                                elseif src == nil then
-                                    wanted[LiveWire.posKey(x, y, z + 1)] = { x = x, y = y, z = z + 1 }
-                                elseif LiveWire.Install.isRelay(src) then
-                                    -- Keep the relay vanilla found (it may stand above a
-                                    -- neighbouring fixture).
-                                    local m = src:getModData()[Defs.RELAY_KEY]
-                                    local ss = src:getSquare()
-                                    if m and m.pump == dev.id and ss then
-                                        wanted[LiveWire.posKey(ss:getX(), ss:getY(), ss:getZ())] =
-                                            { x = ss:getX(), y = ss:getY(), z = ss:getZ() }
-                                    end
-                                end
+    local entry = inventory(dev)
+    for i = 1, #entry.fixtures do
+        local pos = entry.fixtures[i]
+        local x, y, z = pos.x, pos.y, pos.z
+        local sq = getCell():getGridSquare(x, y, z)
+        local dx, dy = x - dev.x, y - dev.y
+        if sq and sq:getRoom() and dx * dx + dy * dy <= entry.range * entry.range
+            and math.abs(z - dev.z) <= entry.vertical then
+            local objs = sq:getObjects()
+            for j = 0, objs:size() - 1 do
+                local o = objs:get(j)
+                local spr = o:getSprite()
+                local props = spr and spr:getProperties()
+                if not instanceof(o, "IsoWorldInventoryObject") and props
+                    and props:has(IsoFlagType.waterPiped) and not gridRuns(o) then
+                    local shared = false
+                    for ox = -1, 1 do
+                        for oy = -1, 1 do
+                            if wanted[LiveWire.posKey(x + ox, y + oy, z + 1)] then shared = true end
+                        end
+                    end
+                    if not shared then
+                        local src = IsoObject.FindExternalWaterSource(sq)
+                        if not src and z < 31 then
+                            wanted[LiveWire.posKey(x, y, z + 1)] = { x = x, y = y, z = z + 1 }
+                        elseif src and LiveWire.Install.isRelay(src) then
+                            local m, ss = src:getModData()[Defs.RELAY_KEY], src:getSquare()
+                            if m and m.pump == dev.id and ss then
+                                wanted[LiveWire.posKey(ss:getX(), ss:getY(), ss:getZ())] =
+                                    { x = ss:getX(), y = ss:getY(), z = ss:getZ() }
                             end
                         end
                     end
+                    break
                 end
             end
         end
     end
     return wanted
+end
+
+function Pump.tickDiscovery()
+    if not R() or not R().ready or R().readOnly then return end
+    local budget = Pump.SQUARES_PER_TICK
+    while budget > 0 and #queue > 0 do
+        local id = queue[1]
+        local dev, entry = R().device(id), Pump.inventories[id]
+        if not dev or not entry or not entry.job or Pump.disabled() then
+            table.remove(queue, 1)
+            Pump.inventories[id] = nil
+        else
+            local done, used = LiveWire.SquareScan.step(entry.job, budget, function(x, y, z)
+                local sq = getCell():getGridSquare(x, y, z)
+                if not sq or not sq:getRoom() then return end
+                local objs = sq:getObjects()
+                for i = 0, objs:size() - 1 do
+                    local obj = objs:get(i)
+                    local spr = obj:getSprite()
+                    local props = spr and spr:getProperties()
+                    if not instanceof(obj, "IsoWorldInventoryObject") and props
+                        and props:has(IsoFlagType.waterPiped) then
+                        entry.found[#entry.found + 1] = { x = x, y = y, z = z }
+                        break
+                    end
+                end
+            end)
+            budget = budget - used
+            if done then
+                entry.job = nil
+                entry.fixtures, entry.found = entry.found, nil
+                entry.builtAt = getGameTime():getWorldAgeHours()
+                table.remove(queue, 1)
+                Pump.maintain(dev)
+            end
+        end
+    end
 end
 
 -- Pumps disabled by the debug tool "remove every water relay" (before removing the
@@ -199,9 +265,9 @@ function Pump.linkBarrel(dev, barrel)
     local sq = barrel:getSquare()
     if not sq then return end
     local key = LiveWire.posKey(sq:getX(), sq:getY(), sq:getZ())
-    barrel:getModData()[Defs.BARREL_KEY] = { pump = dev.id }
-    if isServer() then barrel:transmitModData() end
     dev.barrels[key] = { x = sq:getX(), y = sq:getY(), z = sq:getZ() }
+    barrel:getModData()[Defs.BARREL_KEY] = { pump = dev.id, x = sq:getX(), y = sq:getY(), z = sq:getZ() }
+    if isServer() then barrel:transmitModData() end
     LiveWire.Devices.syncMark(dev)
     Pump.maintain(dev)
 end
@@ -416,6 +482,7 @@ end
 
 -- A pump is removed: its relays go, and the barrel marks of loaded barrels are cleared.
 function Pump.forget(dev)
+    Pump.inventories[dev.id] = nil
     local keys = {}
     for key in pairs(dev.relays or {}) do keys[#keys + 1] = key end
     for i = 1, #keys do Pump.removeRelay(dev, keys[i]) end
@@ -435,6 +502,14 @@ end
 function Pump.onLoadChunk(chunk)
     local Rg = R()
     if not Rg or not Rg.ready or Rg.readOnly then return end
+    local invalidated = false
+    for z = chunk:getMinLevel(), chunk:getMaxLevel() do
+        if invalidated then break end
+        for i = 0, 63 do
+            local sq = chunk:getGridSquare(i % 8, math.floor(i / 8), z)
+            if sq then Pump.invalidateAt(sq, 16); invalidated = true; break end
+        end
+    end
     local zMin = math.max(-1, chunk:getMinLevel())
     local zMax = math.min(7, chunk:getMaxLevel())
     for z = zMin, zMax do
@@ -454,9 +529,7 @@ function Pump.onLoadChunk(chunk)
                                 doomed[#doomed + 1] = o
                             end
                         elseif o.getModData and o:getModData()[Defs.BARREL_KEY] ~= nil then
-                            local m = o:getModData()[Defs.BARREL_KEY]
-                            local dev = type(m) == "table" and Rg.device(m.pump)
-                            if not dev or dev.role ~= "pump" then clear[#clear + 1] = o end
+                            if not LiveWire.Install.barrelMark(o) then clear[#clear + 1] = o end
                         end
                     end
                     for i = 1, #doomed do sq:transmitRemoveItemFromSquare(doomed[i]) end
@@ -471,3 +544,8 @@ function Pump.onLoadChunk(chunk)
 end
 
 Events.EveryOneMinute.Add(Pump.tickMinute)
+
+Events.OnTick.Add(Pump.tickDiscovery)
+Events.OnObjectAboutToBeRemoved.Add(function(obj)
+    if obj and obj.getSquare then Pump.invalidateAt(obj:getSquare()) end
+end)

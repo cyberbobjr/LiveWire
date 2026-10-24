@@ -517,3 +517,30 @@ Chaque étape se termine par un protocole en **solo**, puis en **MP dédié** : 
 6. **Le générateur de secours** : démarrage et arrêt par `setActivated`, double décompte possible du carburant au rechargement de la zone (NM-32).
 7. **L'ordinateur** : variantes de sprite tournées (`_73` à `_75` supposées), courant sur sa case, délestage des lumières.
 8. **Le bip** `TelevisionTestBeep` : audible, coupé après 3 s (NM-33).
+
+## 11. Correctifs des blocages et performances — 2026-10-24
+
+Le pattern modulaire événementiel avec serveur autoritaire reste inchangé (règles
+dans `AGENTS.md`). Le [plan de réalisation](annexes/plans/correctifs-blocages-performances.md)
+porte les résultats de validation de cette campagne.
+
+- `shared/LW_SquareScan.lua` : curseur circulaire reprenable, sans dépendance au
+  monde ni aux règles métier. Les services lui fournissent le traitement d'une case.
+- `server/LW_Pump.lua` : inventaires de positions des points d'eau, invalidation,
+  file de découverte unique et budget global de 250 positions par tick pour toutes
+  les pompes. Réévaluation des sources d'eau depuis la liste mise en cache ; aucune
+  règle d'attribution entre pompes n'est modifiée (C08 reste distinct).
+- `client/LW_PumpView.lua` : même curseur pour découvrir les meubles, puis contrôle
+  des objets connus toutes les deux secondes ; fermeture = abandon du travail.
+- `shared/LW_Anchor.lua` : index des frigos chargés alimenté au chargement des chunks
+  et à la pose de meubles. Les aliments vieillissent avant la bascule ; le
+  rafraîchissement visuel est différé avec un budget global de 250 positions par tick.
+  Les références aux frigos déchargés sont rejetées à l'usage et purgées chaque heure.
+- `server/LW_Registry.lua` : index de session `byChunk` et ensemble des onduleurs,
+  reconstruits à l'initialisation, maintenus sur ajout/déplacement/retrait. Aucun
+  changement de schéma persistant. `ChunkSync` consomme une liste détachée du chunk.
+- `client/LW_ClientState.lua` : cache solo lié au registre, au réseau et à `rev`.
+- `server/LW_Backup.lua` : propriétaire du mode manuel et du dernier état physique
+  observé ; restauration du carburant en conservant l'intention manuelle.
+- `Commands` et `Xp` conservent chacun leur limiteur et sa purge. Les commandes du
+  frein et du secours passent par les mêmes contrôles d'autorité que les autres.

@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+- Moved water barrels no longer keep an orphaned pump link that prevents reconnection; existing barrel marks are checked and upgraded when read by the authority.
+- Backup generators respect manual starts and stops, including chunk reloads. Use "Resume automatic backup" to return to battery thresholds.
+- Inspecting a wind turbine no longer applies its brake. Electrical level 7 can explicitly apply or release it; an applied brake stops production and the blade animation. The brake follows the turbine when picked up. Inspection and snow clearing now respect safehouse permissions on the authority.
+
+### Performance
+- Water pumps discover fixtures in bounded background jobs, cache their positions and invalidate the cache on furniture changes and chunk loads. The supplied-taps view also builds its fixture list over several frames.
+- Power changes age food through an index of loaded fridges and spread client visual refreshes across frames.
+- Chunk loading looks up devices through a chunk index instead of copying the entire registry.
+- Solo interface snapshots are reused until the network revision changes.
+- Expired command-rate and XP cooldown entries are purged hourly while active cooldowns remain intact.
+
 ## 1.4.0 — 2026-10-22
 
 ### New features

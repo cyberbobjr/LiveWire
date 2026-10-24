@@ -90,6 +90,11 @@ end
 local origPlace = MP.placeMoveableInternal
 function MP:placeMoveableInternal(_character, _square, _item, _spriteName, ...)
     local r = origPlace(self, _character, _square, _item, _spriteName, ...)
+    if _square then
+        if LiveWire.Pump then LiveWire.Pump.invalidateAt(_square) end
+        if LiveWire.PumpView then LiveWire.PumpView.invalidateAt(_square) end
+        if LiveWire.Anchor then LiveWire.Anchor.rememberSquare(_square) end
+    end
     if _square and modelOfSprite(_spriteName) and authority() then
         LiveWire.Devices.onPlaced(_character, _square, _spriteName)
     end

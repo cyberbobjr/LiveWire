@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "親インバーター まで %1 マス（ワイヤー %2 本、キット 1 個）",
     "ContextMenu_LW_CoupledTo": "%1 マス先のインバーターに連結済み",
     "ContextMenu_LW_CoupledFar": "視界外のインバーターに連結済み",
-    "ContextMenu_LW_Uncouple": "連結を解除"
+    "ContextMenu_LW_Uncouple": "連結を解除",
+    "ContextMenu_LW_ApplyBrake": "風力タービンのブレーキをかける",
+    "ContextMenu_LW_ReleaseBrake": "風力タービンのブレーキを解除",
+    "ContextMenu_LW_ResumeBackup": "自動バックアップを再開"
 }

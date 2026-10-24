@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "Hauptwechselrichter %1 Felder entfernt (%2 Kabel, 1 Set)",
     "ContextMenu_LW_CoupledTo": "Gekoppelt mit dem Wechselrichter in %1 Feldern Entfernung",
     "ContextMenu_LW_CoupledFar": "Gekoppelt mit einem Wechselrichter außerhalb der Sicht",
-    "ContextMenu_LW_Uncouple": "Entkoppeln"
+    "ContextMenu_LW_Uncouple": "Entkoppeln",
+    "ContextMenu_LW_ApplyBrake": "Windradbremse anziehen",
+    "ContextMenu_LW_ReleaseBrake": "Windradbremse lösen",
+    "ContextMenu_LW_ResumeBackup": "Automatische Notstromversorgung fortsetzen"
 }

@@ -152,7 +152,7 @@ end
 -- Blade frame of a wind turbine (0-3), or 0 when it does not turn.
 local function rotorFrame(obj, mark, now)
     local wind = getClimateManager():getWindspeedKph()
-    if wind < V.WIND_CUT_IN or (mark and (mark.cond or 100) <= 0) then return 0 end
+    if wind < V.WIND_CUT_IN or (mark and ((mark.cond or 100) <= 0 or mark.br)) then return 0 end
     local period = math.max(70, math.floor(600 - wind * 8))
     local offset = (obj:getSquare():getX() * 7 + obj:getSquare():getY() * 13) % 4
     return (math.floor(now / period) + offset) % 4

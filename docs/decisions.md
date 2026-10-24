@@ -65,3 +65,13 @@
 | D-8 (révisé 3) | Portée du bourdonnement (2026-10-17, utilisateur) | **Une case** autour de l'onduleur, au même étage : son coupé au-delà de 1,5 case du centre (atténuation du son : pleine force jusqu'à 0,5 case, nulle à 2). **Volume réglable par joueur** dans *Options > Mods > Live Wire* (0 = coupé) |
 | D-27 | Kit d'insonorisation (2026-10-17, choix de l'utilisateur) | Fabriqué au niveau 2 d'Électricité (4 planches, 10 clous, 4 bandes de tissu, marteau gardé), posé sur l'onduleur avec un tournevis (« Insonoriser l'onduleur »), retiré en le rendant. Effets : plus de bourdonnement pour les joueurs, plus de bruit pour les zombies, usure de l'onduleur +25 %. Il suit l'onduleur quand on le ramasse |
 | D-28 | Profils de consommation (2026-10-21, demande de l'utilisateur après un retour Workshop) | Option sandbox **liste** `ConsumptionProfile` plutôt que des multiplicateurs chiffrés : ultra-réaliste 1993, réaliste 1993, **valeurs du jeu (défaut, sauvegardes inchangées)**, confort. L'état allumé reste celui du moteur ; le profil donne la puissance par type d'appareil. Appareils de deux cases toujours comptés deux fois (comme le vanilla) ; limite de l'onduleur inchangée (1 500 W, 6 000 W couplés) |
+
+## Campagne de correctifs autorisée — 2026-10-24
+
+L’utilisateur autorise explicitement les corrections des catégories « bugs bloquants »
+et « performances » de la revue : C07, C09, C22, C04, C05, C06, C16 et purge mémoire
+de C23, avec planification, principes SOLID et essais SP/MP. L’architecture modulaire
+autoritaire existante est conservée ; aucun changement de pattern ni de schéma
+persistant. Le frein explicite réversible fait partie de C22. Les autres idées
+restent proposées, notamment les compléments visuels/alerte de I14 et le plafond
+global d’expérience de C23. Voir le [plan et les preuves](annexes/plans/correctifs-blocages-performances.md).

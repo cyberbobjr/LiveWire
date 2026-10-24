@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "Onduleur maître à %1 cases (%2 fils, 1 kit)",
     "ContextMenu_LW_CoupledTo": "Couplé à l'onduleur à %1 cases",
     "ContextMenu_LW_CoupledFar": "Couplé à un onduleur hors de vue",
-    "ContextMenu_LW_Uncouple": "Découpler"
+    "ContextMenu_LW_Uncouple": "Découpler",
+    "ContextMenu_LW_ApplyBrake": "Serrer le frein de l'éolienne",
+    "ContextMenu_LW_ReleaseBrake": "Desserrer le frein de l'éolienne",
+    "ContextMenu_LW_ResumeBackup": "Reprendre le secours automatique"
 }

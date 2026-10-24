@@ -76,7 +76,7 @@ local function markFromDevice(obj, dev)
     LiveWire.Marks.set(obj, { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
                               level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
                               muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z,
-                              nb = nb, nr = nr, cpl = dev.coupled })
+                              nb = nb, nr = nr, cpl = dev.coupled, br = dev.brake == true })
     dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
     if isServer() then obj:transmitModData() end
 end
@@ -151,6 +151,7 @@ local function register(character, sq, spriteName, adopted)
         state = (def.role == "inverter") and "on" or "ok",
     })
     if def.role == "inverter" and raw.muf == true then dev.muffled = true end
+    if def.kind == "wind" and raw.br == true then dev.brake = true end
     if def.role == "storage" then
         dev.wearFactor = LiveWire.Defs.batteryWearSkillFactor(level)
         dev.slots = {}

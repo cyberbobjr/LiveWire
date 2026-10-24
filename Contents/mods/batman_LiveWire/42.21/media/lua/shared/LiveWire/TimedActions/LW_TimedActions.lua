@@ -425,11 +425,9 @@ function LWRepairAction:new(character, target, overhaul)
 end
 
 --------------------------------------------------------------------------------
--- Inspect a placed device: report, small daily XP, wind brake from level 7.
+-- Inspect a placed device: report and small daily XP, without changing its controls.
 --------------------------------------------------------------------------------
 LWInspectAction = ISBaseTimedAction:derive("LWInspectAction")
-
-LWInspectAction.BRAKE_LEVEL = 7
 
 function LWInspectAction:isValid()
     return objectStillThere(self.target) and LiveWire.Marks.isOurs(self.target)
@@ -452,12 +450,8 @@ function LWInspectAction:complete()
     local ch, obj = self.character, self.target
     if not objectStillThere(obj) then return false end
     local dev = deviceOf(obj)
-    if not dev or not near(ch, obj:getSquare(), 3) then return false end
+    if not dev or not near(ch, obj:getSquare(), 3) or not allowed(ch, obj:getSquare()) then return false end
     local def = LiveWire.Defs.devices[dev.model] or {}
-    local level = I().level(ch)
-    if def.kind == "wind" and level >= LiveWire.Config.requiredLevel(LWInspectAction.BRAKE_LEVEL) then
-        dev.brake = true
-    end
     LiveWire.Xp.awardLimited(ch, "inspect:" .. dev.id, 2, 24)
     local cond = tostring(math.floor((dev.cond or 0) + 0.5))
     if def.role == "source" then
@@ -597,7 +591,7 @@ function LWClearSnowAction:complete()
     local ch, obj = self.character, self.target
     if not objectStillThere(obj) then return false end
     local dev = deviceOf(obj)
-    if not dev or not near(ch, obj:getSquare(), 2) then return false end
+    if not dev or not near(ch, obj:getSquare(), 2) or not allowed(ch, obj:getSquare()) then return false end
     dev.snow = 0
     return true
 end

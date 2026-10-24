@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "마스터 인버터 %1칸 거리 (전선 %2개, 키트 1개)",
     "ContextMenu_LW_CoupledTo": "%1칸 거리의 인버터에 병렬 연결됨",
     "ContextMenu_LW_CoupledFar": "시야 밖 인버터에 병렬 연결됨",
-    "ContextMenu_LW_Uncouple": "병렬 연결 해제"
+    "ContextMenu_LW_Uncouple": "병렬 연결 해제",
+    "ContextMenu_LW_ApplyBrake": "풍력 터빈 브레이크 작동",
+    "ContextMenu_LW_ReleaseBrake": "풍력 터빈 브레이크 해제",
+    "ContextMenu_LW_ResumeBackup": "자동 비상 전원 재개"
 }

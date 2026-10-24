@@ -19,6 +19,8 @@ Protocol.C_RENAME = "rename"
 Protocol.C_REQUEST_ANCHORS = "requestAnchors"
 Protocol.C_DEBUG = "debug"
 Protocol.C_ADOPT = "adopt"
+Protocol.C_RESUME_BACKUP = "resumeBackup"
+Protocol.C_SET_BRAKE = "setBrake"
 
 -- Server -> client.
 Protocol.S_SNAPSHOT = "snapshot"

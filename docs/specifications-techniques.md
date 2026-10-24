@@ -103,6 +103,8 @@ Module `"LiveWire"` (`LW_Protocol.lua`). Client → serveur par `sendClientComma
 | `requestAnchors` | `{}` | serveur seulement | `ModData.transmit("LiveWireAnchors")`. **Non envoyée en 1.3.1** : le client utilise `ModData.request` |
 | `adopt` | `{ x, y, z }` | à 40 cases et 3 étages au plus ; refuge | Enregistre une tuile Live Wire posée sans marque valide |
 | `debug` | `{ action, device }` | `Debug.allowed` (§ 3.4) | Action de debug |
+| `setBrake` | `{ device, brake }` | éolienne, booléen, niveau d'Électricité 7 ajusté par sandbox, distance et safehouse via `checkDevice` | Frein explicite réversible ; production nulle lorsqu'il est serré |
+| `resumeBackup` | `{ device }` | générateur de secours, distance et safehouse via `checkDevice` | Quitte le mode manuel, reprend l'hystérésis automatique |
 
 `via = { x, y, z }` : position de l'ordinateur sur lequel tourne le logiciel de gestion (`SoftwareApp:via()`). `Commands.checkVia` l'accepte si un ordinateur de gestion (`role = "computer"`) du réseau de l'onduleur est sur cette case, alimenté (`Computer.powered`), si le joueur est à 6 cases au plus de cette case au même étage (`Commands.SOFTWARE_RANGE`, distance de fermeture de l'écran) et si la règle de refuge l'autorise sur cette case. Un ordinateur du Computer Mod non raccordé par câble n'a pas d'entrée au registre : ses commandes restent soumises à `checkDevice`.
 
@@ -143,7 +145,16 @@ Champs principaux : `grid`, `rev` (révision croissante : la livraison n'est pas
   - `state` : onduleur `on` / `off` / `tripped` / `broken` ; source et équipement `ok` / `tripped` / `broken` ; pompe `idle` / `running` ; secours `standby`…
   - Source : `pOut` (W lissés), `raw`, `snow`. Onduleur : `muffled`, `coupled` (id du maître pour un esclave). Powerbank : `wearFactor`, `slots[] { id, model, charge, cond, cycles }` (instantané des batteries quand la case n'est pas chargée). Pompe : `barrels[posKey]`, `relays[posKey]`. Secours : `fuel`, `fuelSeen`, `connected`.
 - **Réseau** : `id`, `name`, `inverter`, `members { [idAppareil] = true }`, `slaves`, `demand`, `production`, `stock`, `capacity`, `lost`, `powered`, `lastTick` (âge du monde en heures), `rev`, et selon les équipements `alarmOn`, `alarmAck`, `alarmAt`, `computerOn`, `history`, `historyAt`, `backupW`, `shed`, `appliances`.
-- **Index** : `byPos["x,y,z"] = { idAppareil, … }`.
+- **Index** : `byPos["x,y,z"] = { idAppareil, … }`. Les index dérivés de session
+  `Registry.byChunk["cx,cy"][id] = true` et `Registry.inverters[id] = true` sont
+  reconstruits depuis les appareils au démarrage ; `devicesInChunk` renvoie une
+  liste détachée, sûre pendant un retrait.
+- **Frein d'éolienne** : `dev.brake`, conservé au ramassage via `br` ; aucun effet
+  implicite de l'inspection. Bloque la production et les dégâts de tempête.
+- **Secours manuel** : `dev.manual` et `dev.lastSet` persistants. Une bascule physique
+  observée qui diffère de `lastSet` met le secours en mode manuel (`state = "manual"`).
+  L'automatisation ne réécrit plus son activation jusqu'à `resumeBackup`. Le carburant
+  simulé hors zone est rapproché au chargement en conservant ce choix.
 
 Exemple commenté (schéma 1) et explication des champs : [`architecture.md`](architecture.md) § 3.2.
 
@@ -151,12 +162,12 @@ Exemple commenté (schéma 1) et explication des champs : [`architecture.md`](ar
 
 | Objet | Clé | Format |
 |---|---|---|
-| Appareil posé du mod | `modData.movableData.LiveWire` (seule partie reportée par le vanilla au ramassage d'un `IsoObject`) | `{ s = 2, id, model, cond, eff, level, inv, st, pw, muf, x, y, z, nb, nr, cpl }` — reflet seulement, le registre fait foi |
+| Appareil posé du mod | `modData.movableData.LiveWire` (seule partie reportée par le vanilla au ramassage d'un `IsoObject`) | `{ s = 2, id, model, cond, eff, level, inv, st, pw, muf, x, y, z, nb, nr, cpl, br }` — reflet seulement, le registre fait foi |
 | Batterie dans une powerbank | `LiveWireCycles` | Nombre de cycles (lu par le serveur seulement) ; charge = utilisations de l'objet, usure = état |
-| Générateur vanilla de secours | `LiveWireBackup` | `{ id, inverter }` |
+| Générateur vanilla de secours | `LiveWireBackup` | `{ id, inverter, manual }` |
 | Ordinateur vanilla de gestion | `LiveWireComputer` | `{ id, inverter }` |
 | Réservoir relais de la pompe | `LiveWireRelay` | `{ pump = idAppareil }` |
-| Baril raccordé | `LiveWireBarrel` | `{ pump = idAppareil }` |
+| Baril raccordé | `LiveWireBarrel` | `{ pump = idAppareil, x, y, z }` ; anciennes marques sans position validées puis complétées sur l'autorité ; une position ou appartenance invalide libère le baril |
 | Ordinateur du Computer Mod | `ComputerModLiveWireInstalled` (données de l'ordinateur via `ComputerModComputerTypes`, préfixe imposé par la synchronisation de ce mod) | Logiciel installé |
 
 ### 4.4 Migrations

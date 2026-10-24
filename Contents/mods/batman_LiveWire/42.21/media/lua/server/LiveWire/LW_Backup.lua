@@ -77,8 +77,9 @@ function Backup.register(gen, grid)
         role = "backup", model = "BackupGenerator", x = sq:getX(), y = sq:getY(), z = sq:getZ(),
         state = "standby", fuel = gen:getFuel(), fuelSeen = gen:getFuel(),
         connected = gen:isConnected(), cond = gen:getCondition(),
+        lastSet = gen:isActivated(), manual = gen:isActivated(),
     })
-    gen:getModData()[Backup.KEY] = { id = dev.id, inverter = grid.inverter }
+    gen:getModData()[Backup.KEY] = { id = dev.id, inverter = grid.inverter, manual = dev.manual }
     if isServer() then gen:transmitModData() end
     LiveWire.Registry.link(dev, grid)
     -- Say right away what would stop it from starting.
@@ -93,6 +94,37 @@ function Backup.register(gen, grid)
             { "IGUI_LW_Backup_" .. why }, true)
     end
     return dev
+end
+
+local function publishMode(dev, gen)
+    local m = Backup.markOf(gen)
+    if m then
+        m.manual = dev.manual == true
+        if isServer() then gen:transmitModData() end
+    end
+end
+
+-- lastSet describes the last observed/written *world object* state, not the
+-- simulated unloaded state. This distinguishes an external toggle from catch-up.
+local function observeManual(dev, gen)
+    if not gen then return end
+    local active = gen:isActivated()
+    if dev.lastSet ~= nil and active ~= dev.lastSet and gen:isConnected()
+        and gen:getFuel() > 0 and gen:getCondition() > 0 then
+        dev.manual = true
+        publishMode(dev, gen)
+    end
+    dev.lastSet = active
+end
+
+function Backup.resume(dev)
+    local gen = Backup.find(dev)
+    if not gen then return false end
+    dev.manual = false
+    dev.lastSet = gen:isActivated()
+    dev.state = gen:isActivated() and "running" or "standby"
+    publishMode(dev, gen)
+    return true
 end
 
 -- Unlink: the generator is stopped if the mod had started it, then left alone.
@@ -118,6 +150,7 @@ end
 function Backup.step(dev, stockFrac, h)
     local gen, loaded = Backup.find(dev)
     if loaded and not gen then return 0 end  -- gone: Sim drops it after two checks
+    observeManual(dev, gen)
 
     local fuel, connected, cond
     if gen then
@@ -138,6 +171,8 @@ function Backup.step(dev, stockFrac, h)
         want = false
     end
 
+    if dev.manual then want = (gen and gen:isActivated() or (not gen and dev.lastSet == true))
+        and stockFrac ~= nil end
     local canRun = connected and fuel > 0 and cond > 0
     local run = want and canRun
     if want and not canRun then
@@ -149,9 +184,13 @@ function Backup.step(dev, stockFrac, h)
     else
         dev.state = "standby"
     end
+    if dev.manual then dev.state = "manual" end
     reportState(dev)
 
-    if gen and gen:isActivated() ~= run then gen:setActivated(run) end
+    if gen and not dev.manual then
+        if gen:isActivated() ~= run then gen:setActivated(run) end
+        dev.lastSet = gen:isActivated()
+    end
     if not run then return 0 end
 
     local litres = Backup.CHARGE_W * h / 1000 / Backup.KWH_PER_LITRE
@@ -167,7 +206,7 @@ function Backup.step(dev, stockFrac, h)
         if extra > 1e-4 then gen:setFuel(fuel - extra) end
         dev.fuel = gen:getFuel()
         dev.fuelSeen = dev.fuel
-        if dev.fuel <= 0 then gen:setActivated(false) end
+        if dev.fuel <= 0 then gen:setActivated(false); dev.lastSet = false end
     else
         dev.fuel = fuel - used
     end
@@ -182,12 +221,18 @@ end
 function Backup.restore(dev)
     local gen = Backup.find(dev)
     if not gen then return end
+    observeManual(dev, gen)
+    local manualActive = dev.manual and gen:isActivated()
     if gen:isActivated() then gen:setActivated(false) end
     local burnt = (dev.fuelSeen or gen:getFuel()) - (dev.fuel or gen:getFuel())
     if burnt > 0 then gen:setFuel(math.max(0, gen:getFuel() - burnt)) end
     dev.fuel = gen:getFuel()
     dev.fuelSeen = dev.fuel
-    local run = dev.state == "running" and gen:isConnected() and gen:getFuel() > 0
+    local want = dev.state == "running"
+    if dev.manual then want = manualActive end
+    local run = want and gen:isConnected() and gen:getFuel() > 0
         and gen:getCondition() > 0
     if gen:isActivated() ~= run then gen:setActivated(run) end
+    dev.lastSet = gen:isActivated()
+    if dev.manual then publishMode(dev, gen) end
 end

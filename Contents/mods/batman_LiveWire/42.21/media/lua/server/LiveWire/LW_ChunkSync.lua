@@ -26,8 +26,7 @@ local function onLoadChunk(chunk)
     local reach = LiveWire.Config.tileRange() + CHUNK
     local R2 = reach * reach
     -- Copy first: validate() may remove devices from the registry.
-    local list = {}
-    for _, dev in pairs(R.devices()) do list[#list + 1] = dev end
+    local list = R.devicesInChunk(cx, cy)
     for i = 1, #list do
         local dev = list[i]
         local inChunk = dev.x >= x0 and dev.x <= x1 and dev.y >= y0 and dev.y <= y1
@@ -36,11 +35,12 @@ local function onLoadChunk(chunk)
         if alive then
             if inChunk and dev.role == "storage" then LiveWire.Batteries.restore(dev) end
             if inChunk and dev.role == "backup" then LiveWire.Backup.restore(dev) end
-            if dev.role == "inverter" then
-                local dx, dy = dev.x - (x0 + 4), dev.y - (y0 + 4)
-                if dx * dx + dy * dy <= R2 then LiveWire.Demand.invalidate(dev.id) end
-            end
         end
+    end
+    for id in pairs(R.inverters) do
+        local dev = R.device(id)
+        local dx, dy = dev.x - (x0 + 4), dev.y - (y0 + 4)
+        if dx * dx + dy * dy <= R2 then LiveWire.Demand.invalidate(id) end
     end
     if LiveWire.Pump then
         local ok, err = pcall(LiveWire.Pump.onLoadChunk, chunk)

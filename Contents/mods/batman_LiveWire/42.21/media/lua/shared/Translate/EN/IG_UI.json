@@ -169,5 +169,6 @@
     "IGUI_LW_Coupled": "Inverters coupled.",
     "IGUI_LW_Uncoupled": "Inverter uncoupled: it is independent again.",
     "IGUI_LW_LCD_Coupled": "Coupled: %1 / %2 in service",
-    "IGUI_LW_App_Coupled": "Coupled inverters: %1 / %2 in service"
+    "IGUI_LW_App_Coupled": "Coupled inverters: %1 / %2 in service",
+    "IGUI_LW_Backup_manual": "manual control"
 }

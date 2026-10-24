@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "主逆变器距离 %1 格（%2 根电线，1 套件）",
     "ContextMenu_LW_CoupledTo": "已并联到距离 %1 格的逆变器",
     "ContextMenu_LW_CoupledFar": "已并联到视野外的一台逆变器",
-    "ContextMenu_LW_Uncouple": "解除并联"
+    "ContextMenu_LW_Uncouple": "解除并联",
+    "ContextMenu_LW_ApplyBrake": "启用风力涡轮机制动",
+    "ContextMenu_LW_ReleaseBrake": "解除风力涡轮机制动",
+    "ContextMenu_LW_ResumeBackup": "恢复自动备用供电"
 }

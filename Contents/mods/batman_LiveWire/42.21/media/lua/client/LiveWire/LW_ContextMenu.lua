@@ -425,6 +425,13 @@ local function addDeviceOptions(root, player, obj)
     if def.kind == "solar" then
         menu:addOption(getText("ContextMenu_LW_ClearSnow"), player, Menu.onClearSnow, obj)
     end
+    if def.kind == "wind" then
+        local key = mark.br and "ContextMenu_LW_ReleaseBrake" or "ContextMenu_LW_ApplyBrake"
+        local option = menu:addOption(getText(key), nil, function()
+            LiveWire.Client.send(LiveWire.Protocol.C_SET_BRAKE, { device = mark.id, brake = not mark.br })
+        end)
+        if I().level(player) < LiveWire.Config.requiredLevel(7) then option.notAvailable = true end
+    end
     menu:addOption(getText("ContextMenu_LW_Inspect"), player, Menu.onInspect, obj)
     local r = menu:addOption(getText("ContextMenu_LW_Repair"), player, Menu.onRepair, obj, false)
     local ok, why, arg = LWRepairAction.canRepair(player, obj, false)
@@ -442,6 +449,11 @@ local function addVanillaOptions(root, player, obj, kind)
     local opt = root:addOption(getText(title), nil, nil)
     local menu = ISContextMenu:getNew(root)
     root:addSubMenu(opt, menu)
+    if kind == "backup" and mark then
+        menu:addOption(getText("ContextMenu_LW_ResumeBackup"), nil, function()
+            LiveWire.Client.send(LiveWire.Protocol.C_RESUME_BACKUP, { device = mark.id })
+        end)
+    end
     if kind == "computer" and mark and type(mark.inverter) == "string" then
         local o = menu:addOption(getText("ContextMenu_LW_Software"), player, Menu.onSoftware, mark.inverter, obj)
         -- With the Computer Mod, the software must be installed from its disk first.

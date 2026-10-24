@@ -169,5 +169,6 @@
     "IGUI_LW_Coupled": "Wechselrichter gekoppelt.",
     "IGUI_LW_Uncoupled": "Wechselrichter entkoppelt: Er ist wieder unabhängig.",
     "IGUI_LW_LCD_Coupled": "Gekoppelt: %1 / %2 in Betrieb",
-    "IGUI_LW_App_Coupled": "Gekoppelte Wechselrichter: %1 / %2 in Betrieb"
+    "IGUI_LW_App_Coupled": "Gekoppelte Wechselrichter: %1 / %2 in Betrieb",
+    "IGUI_LW_Backup_manual": "manuelle Steuerung"
 }

@@ -169,5 +169,6 @@
     "IGUI_LW_Coupled": "逆变器已并联。",
     "IGUI_LW_Uncoupled": "逆变器已解除并联：恢复独立运行。",
     "IGUI_LW_LCD_Coupled": "并联：%1 / %2 台运行中",
-    "IGUI_LW_App_Coupled": "并联逆变器：%1 / %2 台运行中"
+    "IGUI_LW_App_Coupled": "并联逆变器：%1 / %2 台运行中",
+    "IGUI_LW_Backup_manual": "手动控制"
 }

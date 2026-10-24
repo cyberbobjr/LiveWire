@@ -1,0 +1,17 @@
+{
+  "name": "LiveWire-fixes",
+  "gameVersion": "42.21",
+  "mods": [{"path": "../Contents/mods/batman_LiveWire"}],
+  "hooks": "lw_fixes_hooks.lua",
+  "runsDir": "../runs",
+  "sp": {
+    "save": "2026-10-17_17-50-04", "gameMode": "Sandbox",
+    "saveMods": "replace", "timeoutSec": 360, "startDelaySec": 5
+  },
+  "mp": {
+    "serverName": "lwfixes_pzat_mp", "port": 17393,
+    "spawn": "10656,10137,0", "clients": 1, "clientXmx": "4096m",
+    "serverRun": true, "clientRun": true, "timeoutSec": 420,
+    "joinTimeoutSec": 240, "ini": {"AntiCheatPermission": "4"}
+  }
+}

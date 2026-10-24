@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "Master inverter %1 tiles away (%2 wires, 1 kit)",
     "ContextMenu_LW_CoupledTo": "Coupled to the inverter %1 tiles away",
     "ContextMenu_LW_CoupledFar": "Coupled to an inverter out of sight",
-    "ContextMenu_LW_Uncouple": "Uncouple"
+    "ContextMenu_LW_Uncouple": "Uncouple",
+    "ContextMenu_LW_ApplyBrake": "Apply the wind turbine brake",
+    "ContextMenu_LW_ReleaseBrake": "Release the wind turbine brake",
+    "ContextMenu_LW_ResumeBackup": "Resume automatic backup"
 }

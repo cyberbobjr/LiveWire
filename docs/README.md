@@ -12,10 +12,11 @@ Structure commune à tous les projets : [`../../docs/structure-documentaire.md`]
 | [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md) | Ce que fait le mod pour le joueur et l'administrateur, fonctionnalités F01 à F23 |
 | [`specifications-techniques.md`](specifications-techniques.md) | Contrats précis : objets, appareils, commandes réseau, ModData, options sandbox, traductions, compatibilités |
 | [`decisions.md`](decisions.md) | Exigences de l'utilisateur et journal des décisions validées (D-n) |
-| [`ameliorations-et-idees.md`](ameliorations-et-idees.md) | Améliorations de code et idées de fonctionnalités (propositions, rien n'est validé) |
+| [`ameliorations-et-idees.md`](ameliorations-et-idees.md) | Améliorations de code et idées de fonctionnalités (propositions et suivi des correctifs autorisés) |
 | [`wiki/`](wiki/) | Source du wiki GitHub : [anglais](wiki/en/Home.md), [français](wiki/fr/Home.md) |
 | [`images/`](images/) | Images de la documentation, du README, du wiki et de la page Steam |
 | [`annexes/`](annexes/) | Documents de travail rangés par thème |
+| [`annexes/plans/correctifs-blocages-performances.md`](annexes/plans/correctifs-blocages-performances.md) | Campagne C04–C09, C16, C22 et mémoire C23 : plan, périmètre et preuves SP/MP |
 
 ## Wiki
 

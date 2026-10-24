@@ -23,6 +23,7 @@ function Registry.init()
     d.nextId = d.nextId or 1
     Registry.readOnly = not LiveWire.Migration.run(d)
     Registry.data = d
+    Registry.rebuildIndexes()
     local a = ModData.getOrCreate(LiveWire.ANCHOR_KEY)
     Registry.anchors = a
     Registry.ready = true
@@ -59,9 +60,22 @@ local function indexAdd(dev)
     local list = data().byPos[k] or {}
     list[#list + 1] = dev.id
     data().byPos[k] = list
+    local ck = math.floor(dev.x / 8) .. "," .. math.floor(dev.y / 8)
+    Registry.byChunk[ck] = Registry.byChunk[ck] or {}
+    Registry.byChunk[ck][dev.id] = true
+    if dev.role == "inverter" then Registry.inverters[dev.id] = true end
 end
 
 local function indexRemove(dev)
+    local ck = math.floor(dev.x / 8) .. "," .. math.floor(dev.y / 8)
+    local bucket = Registry.byChunk[ck]
+    if bucket then
+        bucket[dev.id] = nil
+        local any = false
+        for _ in pairs(bucket) do any = true; break end
+        if not any then Registry.byChunk[ck] = nil end
+    end
+    Registry.inverters[dev.id] = nil
     local k = LiveWire.posKey(dev.x, dev.y, dev.z)
     local list = data().byPos[k]
     if not list then return end
@@ -69,6 +83,24 @@ local function indexRemove(dev)
         if list[i] == dev.id then table.remove(list, i) end
     end
     if #list == 0 then data().byPos[k] = nil end
+end
+
+-- Derived session indexes, rebuilt for existing saves without a schema change.
+function Registry.rebuildIndexes()
+    Registry.byChunk, Registry.inverters = {}, {}
+    if Registry.readOnly then return end
+    data().byPos = {}
+    for _, dev in pairs(data().devices) do indexAdd(dev) end
+end
+
+-- A detached list: callers may validate/remove a device while iterating.
+function Registry.devicesInChunk(cx, cy)
+    local out = {}
+    for id in pairs(Registry.byChunk[cx .. "," .. cy] or {}) do
+        local dev = Registry.device(id)
+        if dev then out[#out + 1] = dev end
+    end
+    return out
 end
 
 function Registry.devicesAt(x, y, z)
@@ -86,6 +118,8 @@ end
 -- Adds a device table (must have role, model, x, y, z). Returns it with an id.
 function Registry.addDevice(dev)
     dev.id = dev.id or Registry.newId("d")
+    local previous = data().devices[dev.id]
+    if previous then indexRemove(previous) end
     data().devices[dev.id] = dev
     indexAdd(dev)
     return dev

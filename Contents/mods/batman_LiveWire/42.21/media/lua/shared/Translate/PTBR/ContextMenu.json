@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "Inversor mestre a %1 blocos (%2 fios, 1 kit)",
     "ContextMenu_LW_CoupledTo": "Acoplado ao inversor a %1 blocos",
     "ContextMenu_LW_CoupledFar": "Acoplado a um inversor fora de vista",
-    "ContextMenu_LW_Uncouple": "Desacoplar"
+    "ContextMenu_LW_Uncouple": "Desacoplar",
+    "ContextMenu_LW_ApplyBrake": "Acionar o freio da turbina eólica",
+    "ContextMenu_LW_ReleaseBrake": "Soltar o freio da turbina eólica",
+    "ContextMenu_LW_ResumeBackup": "Retomar a alimentação de emergência automática"
 }

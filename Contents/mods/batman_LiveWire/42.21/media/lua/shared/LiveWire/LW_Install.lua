@@ -293,11 +293,31 @@ function Install.barrelState(obj)
     return "notwater"
 end
 
--- The BARREL_KEY table { pump = deviceId } of a barrel, or nil.
+-- Validate moved barrels on both sides; only the authority clears/migrates marks.
 function Install.barrelMark(obj)
     if not obj or not obj.getModData then return nil end
     local m = obj:getModData()[LiveWire.Defs.BARREL_KEY]
-    if type(m) == "table" and m.pump ~= nil then return m end
+    if type(m) == "table" and m.pump ~= nil then
+        local sq = obj:getSquare()
+        if not sq then return nil end
+        local x, y, z = sq:getX(), sq:getY(), sq:getZ()
+        local valid = m.x == nil or (m.x == x and m.y == y and m.z == z)
+        local R = LiveWire.Registry
+        if not isClient() and R and R.ready then
+            local dev = R.device(m.pump)
+            valid = valid and dev ~= nil and dev.role == "pump" and dev.barrels ~= nil
+                and dev.barrels[LiveWire.posKey(x, y, z)] ~= nil
+            if valid and m.x == nil then
+                m.x, m.y, m.z = x, y, z
+                if isServer() then obj:transmitModData() end
+            end
+        end
+        if valid then return m end
+        if not isClient() then
+            obj:getModData()[LiveWire.Defs.BARREL_KEY] = nil
+            if isServer() then obj:transmitModData() end
+        end
+    end
     return nil
 end
 

@@ -437,6 +437,13 @@ for f, k, en, fr in [
     add(f, k, en, fr)
 
 
+# Explicit controls (C09/C22).
+add("ContextMenu", "ContextMenu_LW_ApplyBrake", "Apply the wind turbine brake", "Serrer le frein de l'éolienne")
+add("ContextMenu", "ContextMenu_LW_ReleaseBrake", "Release the wind turbine brake", "Desserrer le frein de l'éolienne")
+add("ContextMenu", "ContextMenu_LW_ResumeBackup", "Resume automatic backup", "Reprendre le secours automatique")
+add("IG_UI", "IGUI_LW_Backup_manual", "manual control", "commande manuelle")
+
+
 def main():
     for lang, idx in (("EN", 0), ("FR", 1)):
         d = os.path.join(OUT, lang)

@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "Ведущий инвертор на расстоянии %1 клеток (%2 проводов, 1 комплект)",
     "ContextMenu_LW_CoupledTo": "Сцеплен с инвертором на расстоянии %1 клеток",
     "ContextMenu_LW_CoupledFar": "Сцеплен с инвертором вне поля зрения",
-    "ContextMenu_LW_Uncouple": "Расцепить"
+    "ContextMenu_LW_Uncouple": "Расцепить",
+    "ContextMenu_LW_ApplyBrake": "Включить тормоз ветрогенератора",
+    "ContextMenu_LW_ReleaseBrake": "Отпустить тормоз ветрогенератора",
+    "ContextMenu_LW_ResumeBackup": "Возобновить автоматическое резервное питание"
 }

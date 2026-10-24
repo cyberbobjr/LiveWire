@@ -68,5 +68,8 @@
     "ContextMenu_LW_CoupleAt": "Inversor maestro a %1 casillas (%2 cables, 1 kit)",
     "ContextMenu_LW_CoupledTo": "Acoplado al inversor a %1 casillas",
     "ContextMenu_LW_CoupledFar": "Acoplado a un inversor fuera de la vista",
-    "ContextMenu_LW_Uncouple": "Desacoplar"
+    "ContextMenu_LW_Uncouple": "Desacoplar",
+    "ContextMenu_LW_ApplyBrake": "Activar el freno del aerogenerador",
+    "ContextMenu_LW_ReleaseBrake": "Soltar el freno del aerogenerador",
+    "ContextMenu_LW_ResumeBackup": "Reanudar el suministro de respaldo automático"
 }

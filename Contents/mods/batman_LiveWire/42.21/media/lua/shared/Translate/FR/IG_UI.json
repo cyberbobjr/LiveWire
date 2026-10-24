@@ -169,5 +169,6 @@
     "IGUI_LW_Coupled": "Onduleurs couplés.",
     "IGUI_LW_Uncoupled": "Onduleur découplé : il est de nouveau indépendant.",
     "IGUI_LW_LCD_Coupled": "Couplés : %1 / %2 en service",
-    "IGUI_LW_App_Coupled": "Onduleurs couplés : %1 / %2 en service"
+    "IGUI_LW_App_Coupled": "Onduleurs couplés : %1 / %2 en service",
+    "IGUI_LW_Backup_manual": "commande manuelle"
 }

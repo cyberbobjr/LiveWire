@@ -8,6 +8,8 @@ local Client = LiveWire.Client or {}
 LiveWire.Client = Client
 
 Client.snapshots = {}   -- inverter id -> snapshot
+local soloCache = {}
+local soloRegistry = nil
 
 -- Arguments that are translation keys are translated here, on the client.
 local function translateArg(a)
@@ -38,7 +40,16 @@ function Client.snapshot(inverterId)
     if not isClient() and LiveWire.Registry and LiveWire.Registry.ready then
         local inv = LiveWire.Registry.device(inverterId)
         local grid = inv and inv.grid and LiveWire.Registry.grid(inv.grid)
-        return grid and LiveWire.Sim.snapshot(grid) or nil
+        if soloRegistry ~= LiveWire.Registry.data then
+            soloRegistry, soloCache = LiveWire.Registry.data, {}
+        end
+        if not grid then soloCache[inverterId] = nil; return nil end
+        local cur = soloCache[inverterId]
+        if not cur or cur.grid ~= grid or cur.rev ~= grid.rev then
+            cur = { grid = grid, rev = grid.rev, snapshot = LiveWire.Sim.snapshot(grid) }
+            soloCache[inverterId] = cur
+        end
+        return cur.snapshot
     end
     return Client.snapshots[inverterId]
 end

@@ -17,7 +17,7 @@ LUA = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media"
 FILES = [
     "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua",
     "shared/LiveWire/LW_Consumption.lua", "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",
-    "shared/LiveWire/LW_Notify.lua", "shared/LiveWire/LW_Anchor.lua", "shared/LiveWire/LW_Install.lua",
+    "shared/LiveWire/LW_SquareScan.lua", "shared/LiveWire/LW_Notify.lua", "shared/LiveWire/LW_Anchor.lua", "shared/LiveWire/LW_Install.lua",
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
@@ -26,6 +26,7 @@ FILES = [
 ]
 
 STUBS = r"""
+function require() end
 WORLD = { hours = 7.0, clouds = 0.0, wind = 20.0, snowing = false, temp = 15 }
 function isClient() return false end
 function isServer() return false end
