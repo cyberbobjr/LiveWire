@@ -18,6 +18,8 @@ Structure commune à tous les projets : [`../../docs/structure-documentaire.md`]
 | [`images/`](images/) | Images de la documentation, du README, du wiki et de la page Steam |
 | [`annexes/`](annexes/) | Documents de travail rangés par thème |
 | [`annexes/plans/correctifs-blocages-performances.md`](annexes/plans/correctifs-blocages-performances.md) | Campagne C04–C09, C16, C22 et mémoire C23 : plan, périmètre et preuves SP/MP |
+| [`annexes/plans/correctifs-restants-cxx.md`](annexes/plans/correctifs-restants-cxx.md) | Derniers correctifs CXX autorisés : C08, C12, C17–C19, C21, C23 et C24 ; C11 différé, C20 et IXX exclus |
+| [`annexes/tests/correctifs-restants-cxx.md`](annexes/tests/correctifs-restants-cxx.md) | Scénarios, résultats et limites de validation des derniers CXX en SP/MP avec redémarrage |
 
 ## Wiki
 

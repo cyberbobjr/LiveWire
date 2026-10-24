@@ -31,6 +31,8 @@ migration de pattern**.
 
 Plan et preuves de la campagne en cours :
 [`annexes/plans/correctifs-blocages-performances.md`](annexes/plans/correctifs-blocages-performances.md).
+La dernière campagne CXX et ses exclusions sont suivies dans
+[`annexes/plans/correctifs-restants-cxx.md`](annexes/plans/correctifs-restants-cxx.md).
 
 ## Règle de création indépendante
 

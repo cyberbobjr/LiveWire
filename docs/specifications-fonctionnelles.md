@@ -304,7 +304,7 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 | Poser un onduleur | 25 | — |
 | Raccorder une source ou une batterie | 3 | — |
 | Inspecter un appareil (5 s) | 2 | 1 fois par appareil et par jour de jeu |
-| Mesurer au testeur | 1 | 1 fois par case et par heure de jeu |
+| Mesurer au testeur | 1 | 1 fois par case et par heure de jeu ; plafond global de 5 XP de base par joueur sur une heure glissante, conservé après reconnexion/redémarrage |
 | Réparer | 5 + 1 par point réparé, au plus 15 | — |
 | Reconditionner une batterie | 8 | — |
 | Réarmer un onduleur disjoncté après avoir corrigé la surcharge | 5 | 1 fois par heure |
@@ -450,7 +450,15 @@ L'installation **continue de fonctionner** (option `LiveWire.SimulateUnloaded`, 
 - **les appareils de la maison restent alimentés** tant que l'énergie dure. Le réfrigérateur garde la nourriture au froid pendant l'absence, comme près d'un générateur vanilla. Si l'énergie s'épuise pendant l'absence, la maison est trouvée sans courant au retour ;
 - **l'usure continue.**
 
-**Limite connue** : comme en vanilla, le jeu évalue la nourriture au retour d'après l'état du courant **au moment du retour** (`java/zombie/inventory/types/Food.java:688-698`). Si l'énergie s'est épuisée la veille du retour, toute l'absence est comptée sans courant pour la nourriture.
+Les coupures sont datées à l'épuisement du stock, même au milieu d'un sous-pas de
+rattrapage : l'énergie restante sert jusqu'à cet instant. La météo et la demande
+restent des moyennes de chaque sous-pas.
+
+**Frigos et congélateurs** : au retour, le mod rejoue les changements de courant
+depuis un historique privé de 60 jours de jeu. Avant la période conservée, il
+utilise l'état à sa borne comme approximation. Une ancienne sauvegarde ne peut
+récupérer les événements déjà perdus avant sa mise à jour. La table publique des
+ancres conserve ses 16 changements, sans nouvelle diffusion périodique.
 
 ---
 
@@ -627,6 +635,11 @@ Conception et justification détaillées : [`annexes/recherches/idees-initiales.
 - Barils : collecteurs d'eau de pluie vanilla ou barils d'un mod (tout objet à fluide d'au moins 20 L), posés sur une des 8 cases voisines de la pompe, même étage ; 8 barils au plus ; 1 tuyau `Base.MetalPipe` consommé par baril, rendu au débranchement.
 - Réservoirs relais invisibles de 25 L posés au-dessus des éviers, baignoires, douches et toilettes raccordés à moins de `PumpRange` cases (15 par défaut) et à 3 étages au plus : la plomberie vanilla y puise ; les robinets se raccordent à la clé à tuyau comme en vanilla.
 - Consommation 250 W seulement pendant le pompage, débit 5 L par minute de jeu au plus ; arrêt quand tous les relais sont pleins. Seule l'eau est déplacée ; l'eau croupie d'un baril sort propre au robinet (comportement vanilla).
+- Aucun débit n'est accumulé au repos. En cas de chevauchement, la pompe raccordée
+  et non cassée la plus proche du point sous le relais le dessert ; une égalité
+  est départagée par identifiant. Les robinets qui partagent un relais gardent un
+  propriétaire commun. Un transfert vers une autre pompe conserve le réservoir
+  et son eau. Le nettoyage de désinstallation couvre tous les étages du chunk.
 - Bourdonnement de moteur entendu à 4,5 cases ; bruit pour les zombies à 2 cases.
 - Menu « Afficher les robinets alimentés » ; voyant bleu tant qu'au moins un robinet est alimenté.
 - Action de debug et d'administration « Retirer tous les relais d'eau », à lancer avant de retirer le mod.

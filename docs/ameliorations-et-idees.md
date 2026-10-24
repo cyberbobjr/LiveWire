@@ -6,8 +6,8 @@
 | Version analysée | Constats initiaux : **1.3.1** ; campagne du 2026-10-24 fondée sur **1.4.0** (`modversion=1.4.0`), correctifs locaux non publiés |
 | Build cible | Project Zomboid 42.21 (sources de référence : Java décompilé 42.21.0, `media/` vanilla installé) |
 | Date | 2026-10-21 ; **avancement mis à jour le 2026-10-24** (version publiée : 1.4.0 ; corrections C01, C02, C03 et C10 publiées depuis la 1.3.2) |
-| Périmètre lu | Tout le Lua de `Contents/mods/batman_LiveWire/42.21/media/lua` (shared, server, client, actions chronométrées, butin), scripts (`LiveWire_*.txt`), `sandbox-options.txt`, traductions (contrôlées par `tools/check_mod.py`), sous-mod Viewpoint, `README.md`, `CLAUDE.md`, `CHANGELOG.md`, `docs/` (décisions, idées retenues et écartées, spécifications, architecture, protocole de tests), `tests/`, `tools/`, `autotest/`, base moteur `.claude/pz-knowledge` |
-| Vérifications faites | `python tools/check_mod.py` : OK ; `python tests/test_physics.py` et `tests/test_simulation.py` : OK. Constats initiaux sans test en jeu ; campagne du 2026-10-24 : SP complet 36/36, ciblé 13/13 ; MP ciblé 14/14 serveur et 7/7 client ; C25 : trois phases SP et trois phases MP, deux clients (voir la validation C25) |
+| Périmètre lu | Tout le Lua de `Contents/mods/batman_LiveWire/42.21/media/lua` (shared, server, client, actions chronométrées, butin), scripts (`LiveWire_*.txt`), `sandbox-options.txt`, traductions (contrôlées par `tools/check_mod.py`), sous-mod Viewpoint, `README.md`, contraintes du projet (`docs/developpement.md`), `CHANGELOG.md`, `docs/` (décisions, idées retenues et écartées, spécifications, architecture, protocole de tests), `tests/`, `tools/`, `autotest/`, base moteur `.claude/pz-knowledge` |
+| Vérifications faites | Contrôles Lua/contrats/traductions/versions OK ; physique et simulation OK ; régressions hors jeu 11/11 + 14/14. Dernière campagne CXX : SP 15/15 puis 7/7 après redémarrage ; MP deux clients, serveur 14/14 puis 8/8, chaque client 6/6 puis 4/4 ; SP général sans captures 34/34. Campagnes précédentes et limites dans les rapports liés ci-dessous |
 
 **Note sur les chemins.** `docs/` est en cours de réorganisation. Les renvois ci-dessous utilisent les nouveaux noms : `docs/decisions.md` (ancien `decisions-ouvertes.md`), `docs/annexes/recherches/idees-initiales.md` (ancien `IDEES.md`), `docs/specifications-fonctionnelles.md` (ancien `fonctionnel.md`), `docs/annexes/tests/protocole-tests.md`. Les numéros de ligne des problèmes décrivent l’analyse initiale en 1.3.1 ; les avancements du 2026-10-24 renvoient au plan de campagne pour les nouvelles preuves. Ces anciens numéros renvoient aux fichiers Lua de `Contents/mods/batman_LiveWire/42.21/media/lua/`, sauf mention contraire. Les identifiants `C..` (améliorations) et `I..` (idées) de ce document sont propres aux propositions ; les `F..` désignent les fonctionnalités de `specifications-fonctionnelles.md`.
 
@@ -17,38 +17,38 @@
 
 ## Tableau de bord — ce qui est fait et ce qui reste
 
-**Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé · ⏸ différé après décision utilisateur. « Publié » = présent dans une version du Workshop (première version qui le contient) ; « non publié » = sur `main` mais pas encore publié. Les corrections C04, C05, C06, C07, C09, C16 et C22 sont maintenant réalisées localement, **non publiées** ; la partie mémoire de C23 est réalisée. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Preuves et limites : [campagne du 2026-10-24](annexes/plans/correctifs-blocages-performances.md). Détail de chaque point dans les parties 1 et 2 ; tests en jeu automatiques décrits dans `docs/annexes/tests/protocole-tests.md`.
+**Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé · ⏸ différé après décision utilisateur. « Publié » = présent dans une version du Workshop ; « non publié » = réalisé localement sur main. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Tous les autres correctifs CXX autorisés sont réalisés localement ; C25 est un outil de test hors mod. C11 reste différé, C20 est exclu de la dernière campagne. Preuves : [première campagne](annexes/plans/correctifs-blocages-performances.md), [C25](annexes/tests/c25-validation.md), [derniers CXX](annexes/tests/correctifs-restants-cxx.md).
 
-**Bilan** : améliorations de code **16 faites, 1 en partie, 8 à faire, 1 différée** (sur 26) ; idées de fonctionnalités **0 faite, 2 en partie, 18 à faire** (sur 20).
+**Bilan** : améliorations de code **24 faites, 0 en partie, 1 à faire, 1 différée** (sur 26) ; idées de fonctionnalités **0 faite, 2 en partie, 18 à faire** (sur 20).
 
 ### Améliorations de code
 
 | ID | Sujet | État | Testé | Publié | Commit | Ce qui reste |
 |---|---|---|---|---|---|---|
-| C01 | « Retirer tous les relais d'eau » sans effet durable | ✅ Corrigé | SP + MP, retrait chargé/déchargé et redémarrage (2026-10-24) | 1.3.2 | `dc553a5` | Validation C25 terminée |
+| C01 | « Retirer tous les relais d'eau » sans effet durable | ✅ Corrigé | SP + MP, retrait chargé/déchargé et redémarrage (2026-10-24) | 1.3.2 | `dc553a5` | — |
 | C02 | Logiciel : commandes depuis l'ordinateur raccordé, autre étage | ✅ Corrigé | MP (pz-autotest 2026-10-21, même étage et étage voisin) | 1.3.2 | `dc553a5` | Ordinateur du Computer Mod non raccordé par câble : ancienne règle |
 | C03 | Synchro des relais à chaque minute (éclairage recalculé) | ✅ Corrigé | — (coût à mesurer en jeu) | 1.3.2 | `dc553a5` | Mesurer en MP près d'une pompe |
 | C04 | Balayages synchrones de la pompe et de sa vue | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Mesure des FPS en charge réelle à compléter |
 | C05 | Balayage complet du disque à chaque bascule d'ancre | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Mesure des FPS en charge réelle à compléter |
 | C06 | Chargement de chunk qui parcourt tout le registre | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Mesure des FPS en charge réelle à compléter |
-| C07 | Baril déplacé : marque orpheline | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Suivi dans le plan de campagne |
-| C08 | Deux pompes : « la plus proche dessert » non codée | ⬜ À faire | — | — | — | Tout |
-| C09 | Secours qui annule la marche ou l'arrêt manuel | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Suivi dans le plan de campagne |
+| C07 | Baril déplacé : marque orpheline | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | — |
+| C08 | Deux pompes : attribution à la plus proche | ✅ Corrigé | SP/MP à deux clients et redémarrage ; égalités hors jeu (2026-10-24) | Non publié | `baea924` | — |
+| C09 | Secours qui annule la marche ou l'arrêt manuel | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | — |
 | C10 | Écran LCD illisible en CN, JP, KO | ✅ Corrigé | — (rendu à vérifier en jeu) | 1.3.2 | `dc553a5` | Vérifier l'écran en CN, JP, KO |
 | C11 | Table publique des ancres (positions et journal) | ⏸ Différé | Coût modélisé ; état stable vérifié SP/MP | — | — | Diffusion conservée ; réexaminer sur gros serveur si coût constaté |
-| C12 | Journal d'alimentation trop court | ⬜ À faire | — | — | — | Tout |
+| C12 | Historique d'alimentation trop court | ✅ Corrigé | Vrai aliment SP/MP ; 40 bascules ; rétention hors jeu ; redémarrage (2026-10-24) | Non publié | `baea924` | — |
 | C13 | Erreur de `Pump.maintain` avalée | ✅ Corrigé | Injection d’erreur hors jeu ; SP/MP de non-régression | Non publié | `bca619e` | — |
 | C14 | Constante `LiveWire.VERSION` périmée | ✅ Corrigé | Contrôle automatique ; journal de démarrage SP/MP | Non publié | `c222136` | — |
 | C15 | Commandes réseau mortes (`C_RENAME`…) | ✅ Corrigé | Dialogue réel SP/MP ; ordinateur raccordé vérifié en MP | Non publié | `47410e5` | Compléments de I05 distincts |
 | C16 | Instantané recalculé à chaque image en solo | ✅ Corrigé | SP + régressions hors jeu | Non publié | Travail local | Mesure des FPS en charge réelle à compléter |
-| C17 | Seuils du générateur de secours non contrôlés | ⬜ À faire | — | — | — | Tout |
-| C18 | Débit de la pompe : réserve accumulée à vide | ⬜ À faire | — | — | — | Tout |
-| C19 | Nettoyage des relais limité aux étages −1 à 7 | ⬜ À faire | — | — | — | Tout |
-| C20 | Bruit pour les zombies : une impulsion par pas | ⬜ À faire | — | — | — | Tout |
-| C21 | Pas « tout ou rien » quand le stock manque | ⬜ À faire | — | — | — | Tout |
-| C22 | Inspecter et déneiger sans safehouse ; frein définitif | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | Suivi dans le plan de campagne |
-| C23 | Tables jamais purgées ; XP du testeur | 🟡 En partie | Régressions hors jeu + SP/MP | Non publié (purge) | Travail local | Plafond global d'XP du testeur (purge mémoire faite) |
-| C24 | Adoption de tuiles et marques réécrites par un client | ⬜ À faire | — | — | — | Tout |
+| C17 | Seuils du générateur de secours | ✅ Corrigé | Vrai générateur SP/MP ; seuils et instantané (2026-10-24) | Non publié | `baea924` | — |
+| C18 | Débit de la pompe : réserve accumulée à vide | ✅ Corrigé | Vrais fluides SP/MP ; débit au repos puis reprise (2026-10-24) | Non publié | `baea924` | — |
+| C19 | Nettoyage des relais à tous les étages | ✅ Corrigé | Niveaux −2 et 9 SP/MP ; LoadChunk après redémarrage (2026-10-24) | Non publié | `baea924` | — |
+| C20 | Bruit pour les zombies : une impulsion par pas | ⬜ À faire | — | — | — | Exclu de cette campagne sur ordre utilisateur |
+| C21 | Énergie restante en fin de sous-pas | ✅ Corrigé | Bilan hors jeu ; coupure fractionnaire SP/MP et redémarrage (2026-10-24) | Non publié | `baea924` | — |
+| C22 | Inspecter et déneiger sans safehouse ; frein définitif | ✅ Corrigé | SP + MP ciblés (2026-10-24) | Non publié | Travail local | — |
+| C23 | Purge mémoire et plafond global d’XP du testeur | ✅ Corrigé | Mesures réelles SP/MP ; budget conservé après redémarrage (2026-10-24) | Non publié | `baea924` | — |
+| C24 | Adoption de tuiles et réconciliation des marques | ✅ Corrigé | SP/MP ; deux clients ordinaires de niveaux différents (2026-10-24) | Non publié | `baea924` | — |
 | C25 | Tests pompe, relais, couplage et MP | ✅ Terminé | SP 3/3 phases ; MP 3/3 phases, 2 clients ; droits ordinaires couverts séparément | Outil hors mod | `b242a36` | — |
 | C26 | README : limite des frigos dépassée par la 1.0.1 | ✅ Corrigé | README EN et FR relus | Non publié | `21cc584` | — |
 
@@ -92,7 +92,7 @@
   - La commande vide `dev.relays` des pompes après avoir noté les positions. Ces positions vont dans une liste `pendingRelayRemoval`, que `Pump.onLoadChunk` purge au chargement.
   - Le journal donne le nombre de relais restant hors zone chargée. Un drapeau « Réactiver les pompes » lève le blocage.
 - **Statut.** Confirmé statiquement. **Priorité haute, effort S.**
-- **Avancement : ✅ corrigé, publié en 1.3.2 (commit dc553a5), à vérifier en jeu** — drapeau `pumpsDisabled` ; les entrées `dev.relays` sont vidées, ce qui suffit à `onLoadChunk` sans liste `pendingRelayRemoval` ; action de debug `enablePumps`. Retrait non couvert par pz-autotest.
+- **Avancement :** ✅ corrigé, publié en 1.3.2 (`dc553a5`). Retrait chargé/déchargé et vrais redémarrages validés par C25 ; nettoyage étendu aux étages extrêmes avec C19. [Validation C25](annexes/tests/c25-validation.md).
 
 ### C02 — Le logiciel de gestion ne commande l'onduleur que de très près (et reste muet en MP depuis un autre étage)
 - **Problème.**
@@ -176,7 +176,7 @@
   - **coder la règle** : quand la source trouvée est le relais d'une autre pompe plus lointaine, réattribuer la marque `RELAY_KEY`, et la retirer de la liste de l'autre pompe au pas suivant ;
   - **documenter** la règle réelle (« la première raccordée »).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`baea924`). Pompe raccordée non cassée la plus proche du point sous le relais (distance 3D, égalité par identifiant) ; propriétaire commun aux robinets partageant ce relais. Transfert du même objet, sans perte de fluide ni double service. Les relais sauvegardés sont conservés pendant la première découverte asynchrone. Validé SP/MP et après redémarrage. [Résultats et limites](annexes/tests/correctifs-restants-cxx.md).
 
 ### C09 — Le générateur de secours annule la marche ou l'arrêt manuel du joueur
 - **Problème.** Tant qu'il est chargé, `Backup.step` impose `setActivated(run)` à chaque sous-pas (`server/LiveWire/LW_Backup.lua:154`), et `Backup.restore` fait de même au chargement (`:192`). Si le joueur éteint le générateur par le menu vanilla, par exemple pour échapper à la toxicité à l'intérieur, le mod le rallume dans les 10 minutes de jeu. Le seul moyen de l'arrêter est de le débrancher.
@@ -217,7 +217,7 @@
 - **Risque.** Persistance ; équilibre de la nourriture.
 - **Correction proposée.** Une fois le journal sorti de la table publique (C11), le borner **dans le temps** (par exemple 60 jours de jeu) plutôt qu'en nombre. Fusionner les entrées qu'aucun aliment chargé ne peut plus concerner.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`baea924`). Historique serveur privé de 60 jours de jeu, repris depuis les anciennes données disponibles, purgé dans le temps ; transitions intermédiaires du rattrapage et positions retirées conservées. Journal public limité à 16 événements, diffusion C11 inchangée. Vrais aliments SP/MP et persistance testés ; au-delà de la rétention, l’état à la borne sert d’approximation. [Résultats et limites](annexes/tests/correctifs-restants-cxx.md).
 
 ### C13 — Erreur de `Pump.maintain` avalée sans trace
 - **Problème.** `pcall(LiveWire.Pump.maintain, pumps[p])` ignore son résultat (`LW_Simulation.lua:550`). Toute erreur de pose ou de retrait des relais disparaît, alors que `Pump.tickMinute` journalise les siennes (`LW_Pump.lua:348-349`).
@@ -257,7 +257,7 @@
 - **Risque.** Réglage incohérent et silencieux.
 - **Correction proposée.** Calculer `stop = max(stop, start + 5)` dans `Backup.step`, le journaliser une fois, et le préciser dans l'infobulle de l'option.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`baea924`). Arrêt effectif au moins cinq points au-dessus du démarrage, avertissement unique par paire incohérente ; dix infobulles traduites et seuils effectifs dans l’instantané. Vrai générateur SP/MP testé avec 80/20, marche à 79 puis 82 et arrêt à 85. [Résultats et limites](annexes/tests/correctifs-restants-cxx.md).
 
 ### C18 — Débit de la pompe : réserve accumulée à vide et constante en dur
 - **Problème.**
@@ -266,7 +266,7 @@
 - **Risque.** Équilibrage et maintenabilité, impact faible.
 - **Correction proposée.** N'ajouter le budget que lorsqu'il y a un besoin, et définir `Defs.PUMP_BUDGET_MAX`.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`baea924`). Aucun crédit de débit accumulé au repos ; ancien budget sauvegardé remis à zéro, plafond nommé lié aux 5 L/min. Relais pleins puis demande de 10 L : transfert de 5 L vérifié sur vrais fluides en SP/MP. [Résultats et limites](annexes/tests/correctifs-restants-cxx.md).
 
 ### C19 — Nettoyage des relais limité aux étages −1 à 7
 - **Problème.**
@@ -276,7 +276,7 @@
 - **Risque.** Persistance (cas rare).
 - **Correction proposée.** Utiliser `chunk:getMinLevel()` et `chunk:getMaxLevel()` sans autre borne.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`baea924`). Parcours des limites natives getMinLevel/getMaxLevel du chunk sans restriction −1…7. Vrais relais aux niveaux −2 et 9 retirés immédiatement et après sauvegarde/redémarrage SP/MP, avec deux observateurs clients. [Résultats et limites](annexes/tests/correctifs-restants-cxx.md).
 
 ### C20 — Bruit pour les zombies : une seule impulsion par pas
 - **Problème.**
@@ -297,7 +297,7 @@
 - **Risque.** Équilibrage : une coupure perçue comme prématurée, sur l'écran comme au retour.
 - **Correction proposée.** Servir une fraction du pas (`on` pendant `stock / besoin` du sous-pas), puis couper. Retenir la fraction pour l'historique.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort M** (tests hors jeu à étendre).
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`baea924`). Physics retourne la durée servie et l’état final ; le stock disponible est utilisé jusqu’à l’épuisement, la coupure est datée dans l’historique privé. Usure liée à la durée réelle de service et à la décharge avant une éventuelle recharge. Bilan énergétique hors jeu et pas d’une heure coupé après 0,3 h validés en SP/MP, date persistante. [Résultats et limites](annexes/tests/correctifs-restants-cxx.md).
 
 ### C22 — Inspecter et déneiger sans contrôle de safehouse ; frein de l'éolienne définitif
 - **Problème.**
@@ -315,7 +315,7 @@
 - **Risque.** Mémoire (faible) ; expérience trop facile à obtenir.
 - **Correction proposée.** Purger les entrées de plus de 24 h de jeu une fois par heure de jeu. Limiter l'expérience de mesure par joueur (par exemple 5 XP par heure de jeu, toutes cases confondues).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : 🟡 en partie le 2026-10-24, non publié.** Purge horaire des entrées mémoire périmées ; les délais encore actifs sont conservés. Le plafond global d’expérience du testeur reste à faire (hors du périmètre performances).
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`baea924`). Purge mémoire conservée ; mesures plafonnées à cinq gains de 1 XP de base par heure de jeu glissante et par joueur, toutes cases confondues, avant multiplicateurs. Budget privé sauvegardé : reconnexion/redémarrage ne le réinitialisent pas. Le diagnostic reste disponible après le plafond. Mesures réelles SP/MP et persistance validées. [Résultats et limites](annexes/tests/correctifs-restants-cxx.md).
 
 ### C24 — Adoption de tuiles et marques réécrites par un client
 - **Problème.**
@@ -326,7 +326,7 @@
   - Rendement fixe de 0,85 pour une tuile adoptée.
   - Avant de supprimer, vérifier sur l'autorité que la **tuile** (sprite) a disparu, pas seulement la marque. Si la tuile est encore là, réécrire la marque depuis le registre.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ⬜ à faire.**
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`baea924`). Le serveur retrouve la tuile du modèle et restaure sa marque depuis le registre, au lieu de supprimer l’appareil ou de le réadopter. Une tuile réellement absente reste retirée ; une marque sur un objet vanilla ne remplace pas la tuile. Adoption à rendement fixe 0,85 et niveau neutre, indépendante du déclarant ; tests SP/MP, deux clients ordinaires de niveaux différents. [Résultats et limites](annexes/tests/correctifs-restants-cxx.md).
 
 ### C25 — Tests pompe, relais, couplage et persistance SP/MP
 - **Problème.**
@@ -348,7 +348,7 @@
 - **Risque.** Documentation joueur fausse (la même phrase existe probablement dans les autres README).
 - **Correction proposée.** Reformuler, à faire après la réorganisation de la documentation en cours : « l'absence est rejouée d'après les 16 derniers changements de courant » (voir C12).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié (`21cc584`). README anglais et français : rattrapage depuis les 16 derniers changements d’alimentation par onduleur, limite pour une absence dépassant cet historique.
+- **Avancement :** ✅ corrigé (`21cc584`), non publié. Les README EN/FR ont ensuite été actualisés avec C12 : historique serveur de 60 jours, approximation au-delà et événements anciens non récupérables lors d’une mise à jour.
 
 ---
 
@@ -597,22 +597,24 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 
 ---
 
-## Partie 3 — Priorisation : les 5 actions les plus rentables
+## Partie 3 — État après la dernière campagne autorisée
 
-Avancement au 2026-10-23 indiqué devant chaque action.
+Les correctifs C08, C12, C17, C18, C19, C21, la fin de C23 et C24 sont réalisés
+localement (`baea924`). Le [rapport de validation](annexes/tests/correctifs-restants-cxx.md)
+donne les scénarios SP/MP, les vrais redémarrages, les résultats et les limites.
 
-| Rang | Action | Pourquoi maintenant | Effort | Risque de la correction |
-|---|---|---|---|---|
-| 1 | ✅ **C02** — commandes et abonnement du logiciel depuis l'ordinateur raccordé | Bug visible dès qu'on utilise l'ordinateur de gestion (Électricité 6), et logiciel muet en MP depuis un autre étage | S-M | Faible : un argument de plus, revérifié par le serveur |
-| 2 | ✅ **C01** — vraie procédure de retrait des relais | Le README promet une désinstallation propre que le code ne tient pas ; des objets restent dans les sauvegardes | S | Faible |
-| 3 | ✅ **C10** — police de l'écran LCD pour CN, JP et KO | Trois traductions livrées et illisibles sur l'écran principal | S | Très faible |
-| 4 | 🟡 **C25 + C03** (C03 fait, C25 en partie) — scénario d'autotest pompe et couplage (SP puis MP), avec la synchro des relais limitée | 1.2.0 et 1.3.0 ne sont pas testées en jeu ; la synchro des relais est le premier coût côté client à mesurer pendant ce test | M | Faible ; le test peut révéler d'autres défauts de la pompe |
-| 5 | ⬜ **I04 + I05** — journal des événements et nom du réseau | Gain joueur net pour un code minime : le serveur repère déjà les événements et sait renommer (C15) | S | Très faible |
+| Élément restant | Décision |
+|---|---|
+| C11 — diffusion des ancres | Différé, confirmé par l’utilisateur ; diffusion existante conservée. L’historique privé C12 n’augmente pas cette table publique |
+| C20 — bruit de l’onduleur | Exclu de cette campagne sur ordre utilisateur ; comportement inchangé |
+| Idées IXX | Aucune nouvelle implémentation autorisée ; attendre un ordre explicite de l’utilisateur |
 
-Corrections presque gratuites encore proposées : C17 (seuils du secours), C19 (étages du nettoyage). C13 et C14 sont réalisés ; C25 est terminé. La priorisation du tableau ci-dessus décrit la revue du 2026-10-23, avant ces campagnes.
+Les gains de FPS des corrections de performances ne sont pas encore chiffrés sur
+un grand serveur. La vérification visuelle des polices C10 reste distincte des
+assertions d’API et de synchronisation. Ces limites de validation ne sont pas
+présentées comme des défauts encore reproduits.
 
----
-
-*Mise à jour du 2026-10-24 : la demande utilisateur autorise la campagne groupée C04, C05, C06, C07, C09, C16, C22 et la mémoire de C23. Ces correctifs sont locaux et non publiés. Les autres propositions restent soumises aux décisions utilisateur. Les constats d’origine sont issus de la lecture du code ; les nouveaux essais et leurs limites sont détaillés dans le [plan de campagne](annexes/plans/correctifs-blocages-performances.md).*
-
-La demande complémentaire du 2026-10-24 autorise C25 puis C13, C14, C26 et C15. C11 est différé selon la préférence communautaire de l’utilisateur ; aucun changement de diffusion n’a été effectué.
+La dernière demande autorise tous les CXX restants sauf C20, avec maintien du
+report de C11. Les parties déjà réalisées de I05 et I14 proviennent des campagnes
+précédentes ; aucune idée IXX n’a été développée dans celle-ci. Aucune publication
+Workshop n’a été faite.

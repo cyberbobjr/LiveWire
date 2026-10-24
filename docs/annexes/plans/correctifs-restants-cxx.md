@@ -39,6 +39,17 @@ pompage dans Pump ; expérience dans Xp ; présentation seule côté client.
 
 ## Résultats
 
-À compléter au fil des vérifications. Ne pas confondre un banc simulé avec une
-validation des API Java en jeu, ni une assertion de synchronisation avec une
-vérification visuelle manuelle.
+Les huit points sont réalisés. Contrôles hors jeu : physique et simulation OK,
+régressions précédentes 11/11, nouveaux scénarios 14/14, contrats/traductions OK.
+En jeu 42.21 : SP 15/15 puis 7/7 après redémarrage ; MP deux clients, serveur
+14/14 puis 8/8 après redémarrage, chaque client 6/6 puis 4/4. Sorties 0.
+Non-régression générale : SP sans captures 34/34 ; MP de la campagne précédente,
+14/14 serveur et 7/7 client, sorties 0.
+
+Le redémarrage SP a révélé puis couvert une régression supplémentaire : les
+relais sauvegardés sont désormais conservés pendant la première découverte
+asynchrone. Les premiers échecs et ajustements du banc, ainsi que les chemins de
+résultats, sont détaillés dans la [validation](../tests/correctifs-restants-cxx.md).
+Les impressions visuelles, le son et les FPS d'un grand serveur restent distincts
+de ces assertions d'objets et de synchronisation. C11 reste différé ; C20 et IXX
+ne sont pas implémentés dans cette campagne.

@@ -544,3 +544,26 @@ porte les résultats de validation de cette campagne.
   observé ; restauration du carburant en conservant l'intention manuelle.
 - `Commands` et `Xp` conservent chacun leur limiteur et sa purge. Les commandes du
   frein et du secours passent par les mêmes contrôles d'autorité que les autres.
+
+## 12. Derniers correctifs CXX — 2026-10-24
+
+Le [plan des correctifs restants](annexes/plans/correctifs-restants-cxx.md) conserve
+le même pattern et exclut les idées IXX, C20 et C11 (différé).
+
+- `Pump` possède l'attribution des relais et le débit. Il consulte l'index par
+  chunk du registre pour les pompes concurrentes ; le transfert garde l'objet
+  et son fluide. Les inventaires de découverte restent des caches de session et
+  ne peuvent plus invalider un relais sauvegardé avant leur première complétion.
+- `Physics` calcule la durée servie d'un pas avec les seules données numériques.
+  `Simulation` traduit cette durée en transitions horodatées et orchestre l'usure,
+  puis applique et publie seulement l'état final de l'ancre.
+- `PowerHistory` est un service serveur sans interface ni émission réseau. Il
+  possède la rétention, la reprise des anciennes données et la compaction du
+  journal privé persistant ; `Registry` l'initialise et lui signale les commandes
+  qui changent une ancre. `FridgeCatchup` consomme ce journal pour les aliments.
+  Les contrats complets restent dans les spécifications techniques.
+- `Devices` réconcilie l'identité du registre avec la tuile physique avant de lire
+  ou de restaurer la marque. Les clients signalent une tuile inconnue ; ils ne
+  choisissent ni son rendement d'adoption ni l'état d'un appareil déjà enregistré.
+- `Xp` possède le plafond glissant des mesures et sa purge. Le registre ne fait
+  que conserver ses données persistantes privées ; l'action appelle ce service.

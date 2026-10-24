@@ -46,7 +46,7 @@ Live Wire repose sur **trois rôles et un seul réseau** :
 
 C'est le jeu lui-même qui décide ce qui est alimenté (une case est alimentée comme si elle se trouvait près d'un générateur) : frigos, lumières, cuisinières, téléviseurs et radios fonctionnent exactement comme en vanilla.
 
-**Les frigos restent froids pendant votre absence.** Tant qu'il y a du courant, réfrigérateurs et congélateurs conservent la nourriture même quand la zone est déchargée. Vérifié en jeu : un steak frais dans un frigo alimenté, joueur à 300 cases, 10 heures de jeu : âge 0,083 jour (froid) au lieu de 0,417 jour (chaud). Au retour, Live Wire rejoue les changements d'alimentation pendant l'absence à partir des 16 derniers changements enregistrés par onduleur. Une absence plus longue peut dépasser cet historique conservé.
+**Les frigos restent froids pendant votre absence.** Tant qu'il y a du courant, réfrigérateurs et congélateurs conservent la nourriture même quand la zone est déchargée. Vérifié en jeu : un steak frais dans un frigo alimenté, joueur à 300 cases, 10 heures de jeu : âge 0,083 jour (froid) au lieu de 0,417 jour (chaud). Au retour, Live Wire rejoue les changements d'alimentation depuis un historique serveur couvrant 60 jours de jeu. Pour une période plus ancienne, le premier état conservé sert d'approximation ; mettre à jour une sauvegarde ne permet pas de récupérer les changements déjà perdus avec les anciennes versions.
 
 ## Équipements et batteries
 

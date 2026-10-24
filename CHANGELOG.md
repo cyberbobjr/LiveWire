@@ -3,6 +3,13 @@
 ## Unreleased
 
 ### Fixes
+- Overlapping pumps assign shared relay tanks to the closest eligible pump with a stable tie-break, retaining their water on reassignment. Saved tanks are preserved while the initial fixture scan is still pending after a reload.
+- Pump flow no longer accumulates while idle; relay cleanup covers the native chunk's full vertical range.
+- Inverted backup-generator thresholds retain at least a five-percentage-point gap. The effective settings are shown in snapshots and explained in all translated sandbox tooltips.
+- Batteries serve the part of a simulation step that their remaining energy covers, then record the actual cut time; battery wear counts discharge before any subsequent recharge.
+- Fridge catch-up uses a private 60-game-day power history, including intermediate catch-up transitions and retired anchor positions, without increasing public anchor broadcasts. Existing saves retain the history still available at upgrade.
+- Missing or altered device marks are restored from the authoritative registry when the physical tile remains, preventing duplicate adoption and accidental deletion. Unknown tiles use a fixed adoption efficiency.
+- Voltage-tester XP is capped at five base awards per rolling game hour per player across all squares; the limit survives reconnects and server restarts.
 - Pump maintenance failures are logged with the pump identifier while other pumps continue to be maintained.
 - The runtime version matches the shipped mod metadata and is included in the registry startup log; offline checks enforce the match for both mods.
 - Networks can be renamed from the inverter menu and the management software's equipment tab. Computer commands use the same distance, power and safehouse checks as the other software controls; obsolete unused protocol commands were removed.

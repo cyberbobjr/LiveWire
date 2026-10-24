@@ -50,7 +50,7 @@ Solar panels, wind turbines and water wheels produce silent power. An inverter p
 
 The game itself decides what is powered (a square is powered as if near a generator), so fridges, lights, stoves, TVs and radios work exactly as in vanilla.
 
-**Fridges stay cold while you are away.** Fridges and freezers keep food cold while the area is unloaded, as long as there is power. Checked in game: a fresh steak in a powered fridge, player 300 tiles away, 10 game hours: aged 0.083 day (cold) instead of 0.417 day (warm). On returning, Live Wire replays power changes during the absence using the last 16 recorded changes per inverter. Longer absences can exceed this retained history.
+**Fridges stay cold while you are away.** Fridges and freezers keep food cold while the area is unloaded, as long as there is power. Checked in game: a fresh steak in a powered fridge, player 300 tiles away, 10 game hours: aged 0.083 day (cold) instead of 0.417 day (warm). On returning, Live Wire replays power changes from a server-side history covering 60 game days. Older periods use the earliest retained state as an approximation; upgrading an existing save cannot recover changes already discarded by earlier versions.
 
 ## Equipment
 

@@ -133,8 +133,8 @@ Champs principaux : `grid`, `rev` (révision croissante : la livraison n'est pas
 
 | Clé | Contenu | Diffusion |
 |---|---|---|
-| `LiveWire` | Registre de l'autorité : `schema`, `nextId`, `devices`, `grids`, `byPos`, `legacy` | **Jamais** diffusée |
-| `LiveWireAnchors` | `anchors[idOnduleur] = { x, y, z, on, log }` (seuls les onduleurs maîtres et indépendants ont une ancre ; `log` sert au rattrapage des frigos) | À tous les clients |
+| `LiveWire` | Registre de l'autorité : `schema`, `nextId`, `devices`, `grids`, `byPos`, `legacy`, `powerHistory`, `measureXp` | **Jamais** diffusée |
+| `LiveWireAnchors` | `anchors[idOnduleur] = { x, y, z, on, log, log0 }` ; journal public limité à 16 changements, conservé pour compatibilité. Seuls les onduleurs maîtres et indépendants ont une ancre | À tous les clients, uniquement si l'état ou la position change |
 
 ### 4.2 Registre, schéma 2
 
@@ -153,6 +153,41 @@ Champs principaux : `grid`, `rev` (révision croissante : la livraison n'est pas
   observée qui diffère de `lastSet` met le secours en mode manuel (`state = "manual"`).
   L'automatisation ne réécrit plus son activation jusqu'à `resumeBackup`. Le carburant
   simulé hors zone est rapproché au chargement en conservant ce choix.
+- **Historique électrique privé** : `powerHistory[id] = { x, y, z, on, log0,
+  since, retired?, log[] { t, on } }`. `LW_PowerHistory` conserve 60 jours de jeu,
+  purge les anciennes transitions chaque heure et garde l'état à la borne de
+  rétention dans `log0`. Une position abandonnée garde son historique jusqu'à
+  expiration ; un déplacement archive l'ancienne position. Reprise des journaux
+  publics existants par copie, sans inventer les événements perdus. Champs
+  optionnels ajoutés au schéma 2, sans changer les identifiants persistants.
+- **Simulation partielle** : `Physics.stepGrid` retourne `onHours`, durée servie
+  depuis le début du sous-pas, et `on`, état à sa fin. `servedW` est une moyenne
+  sur le sous-pas entier. La simulation date les transitions privées au début du
+  service et à l'épuisement du stock, compte la décharge réelle pour l'usure et
+  ne publie que l'état final. La résolution météo reste celle des sous-pas.
+- **XP des mesures** : `measureXp[compte] = { heuresDesGains }`, au plus cinq gains
+  de 1 XP de base par heure de jeu glissante, toutes cases confondues, avant les
+  multiplicateurs sandbox/vanilla. Budget autoritaire sauvegardé ; reconnexion et
+  redémarrage ne le réinitialisent pas. Purge horaire des budgets expirés. Le
+  délai d'une heure par case reste appliqué ; une mesure refusée pour l'XP garde
+  son résultat de diagnostic.
+- **Pompes concurrentes** : candidats raccordés, non cassés et ayant un baril,
+  indépendamment de l'alimentation instantanée. Distance 3D au point sous le
+  relais, dans le rayon horizontal et la portée verticale configurés ; égalité
+  départagée par identifiant. Les robinets qui partagent un relais suivent ce
+  point commun pour éviter les réattributions oscillantes. Transfert du même
+  objet, sans perte de fluide ; les sources vanilla gardent la priorité. Une
+  découverte initiale inachevée conserve les relais sauvegardés. Débit limité à
+  5 L par minute, sans crédit accumulé au repos. Nettoyage sur tous les niveaux
+  renvoyés par le chunk.
+- **Marques** : si la tuile du modèle existe encore sur la position du registre,
+  `Devices.find/validate` restaurent la marque au lieu de supprimer l'appareil ou
+  de l'adopter une seconde fois. Un objet vanilla portant seulement son id ne
+  remplace pas la tuile. L'adoption d'une tuile inconnue utilise un rendement
+  fixe de 0,85 et un niveau neutre, indépendants de la personne qui la signale.
+- **Seuils du secours** : démarrage borné à 0–90 %, arrêt effectif au moins cinq
+  points plus haut et au plus 100 %. Une configuration corrigée est journalisée
+  une fois par paire de réglages et l'instantané affiche les seuils effectifs.
 
 Exemple commenté (schéma 1) et explication des champs : [`architecture.md`](architecture.md) § 3.2.
 
@@ -201,7 +236,7 @@ sont retirés ; la table d'ancres continue de passer par `ModData.request/transm
 | `LiveWire.SkillGates` | boolean | true | — | Désactivée : aucun niveau d'Électricité exigé |
 | `LiveWire.SimulateUnloaded` | boolean | true | — | Production, consommation et usure continuent sans joueur proche |
 | `LiveWire.BackupStartPercent` | integer | 20 | 0-90 | Démarrage du générateur de secours sous ce pourcentage de batterie |
-| `LiveWire.BackupStopPercent` | integer | 90 | 10-100 | Arrêt du générateur de secours à ce pourcentage |
+| `LiveWire.BackupStopPercent` | integer | 90 | 10-100 | Arrêt du générateur ; seuil effectif relevé si nécessaire à démarrage + 5 points |
 
 Portée de la zone alimentée : options vanilla `GeneratorTileRange` (20) et `GeneratorVerticalPowerRange` (3), lues par `LiveWire.Config.tileRange()` / `verticalRange()`.
 

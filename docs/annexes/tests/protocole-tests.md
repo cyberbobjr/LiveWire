@@ -143,3 +143,9 @@ deux observateurs MP, l'invisibilité et le retrait C01 chargé/déchargé. Comm
 du projet ; attendre la fin complète d'une campagne avant de lancer la suivante.
 
 Pour chaque étape : réussi ou échoué, ce qui a été vu, et les lignes du journal. Les constats confirmés iront dans `docs/annexes/recherches/notes-moteur.md` avec le statut « confirmé en jeu ».
+
+La [campagne des derniers CXX](correctifs-restants-cxx.md) couvre C08, C12,
+C17–C19, C21, C23 et C24 : `python autotest/run_remaining.py sp`, puis
+`python autotest/run_remaining.py mp`, depuis la racine du projet. Chaque commande
+exécute la création puis un vrai redémarrage ; attendre leur fin avant tout autre
+lancement. Les idées IXX, C20 et C11 (différé) restent hors périmètre.

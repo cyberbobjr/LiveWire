@@ -417,6 +417,8 @@ local function runChecks()
         end
         local anchors = LiveWire.Registry.anchors
         local saved = anchors[invId]
+        local history = LiveWire.Registry.data.powerHistory
+        local savedHistory = history[invId]
         local opts = getSandboxOptions()
         local shutOpt = opts:getOptionByName("ElecShutModifier")
         local shutSaved = shutOpt and shutOpt:getValue()
@@ -445,6 +447,9 @@ local function runChecks()
             end
             local expected = hours * rot / 24
             anchors[invId] = anchor
+            -- C12 moved authoritative replay to the private history. Keep this
+            -- isolated historical fixture there as well as in the public state.
+            history[invId] = anchor
             local steak = cont:AddItem("Base.Steak")
             steak:setLastAged(last)
             steak:setAge(0.1)
@@ -456,6 +461,7 @@ local function runChecks()
                 tostring(n), delta, expected, now - last, offT, tostring(shutSaved), tostring(days), tostring(ffIdx), tostring(rotIdx))
         end)
         anchors[invId] = saved
+        history[invId] = savedHistory
         if shutOpt and shutSaved ~= nil then pcall(function() shutOpt:setValue(shutSaved) end) end
         if not ok then return false, "error: " .. tostring(res) end
         return res, detail
