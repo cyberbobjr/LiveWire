@@ -424,12 +424,12 @@ Page « LiveWire » des options sandbox.
 
 ## Multijoueur, état, installation
 
-**Multijoueur.** Production, stock, états, pannes et expérience sont calculés par le serveur ; le client affiche et envoie des demandes que le serveur revérifie. Installations partagées selon les règles vanilla des refuges. Le logiciel peut avoir jusqu'à 10 minutes de jeu de retard. Si le serveur se met en pause quand il est vide, l'installation se met en pause aussi. Les générateurs vanilla sont inchangés ; si un générateur et un onduleur couvrent les mêmes appareils, les deux sont consommés. Outils de debug : `-debug` en solo, administrateurs en multijoueur. **Le multijoueur n'a pas encore été testé en jeu.**
+**Multijoueur.** Production, stock, états, pannes et expérience sont calculés par le serveur ; le client affiche et envoie des demandes que le serveur revérifie. Installations partagées selon les règles vanilla des refuges. Le logiciel peut avoir jusqu'à 10 minutes de jeu de retard. Si le serveur se met en pause quand il est vide, l'installation se met en pause aussi. Les générateurs vanilla sont inchangés ; si un générateur et un onduleur couvrent les mêmes appareils, les deux sont consommés. Outils de debug : `-debug` en solo, administrateurs en multijoueur.
 
-**État** : version 1.3.1. Testé en jeu en solo pendant le développement (pose, conteneur, raccordement, lumières, disjoncteur, alarme, écran LCD, logiciel, zone alimentée, rotation, ramassage, frigo pendant l'absence ; intégration du Computer Mod). Les valeurs d'équilibrage sont des valeurs de départ.
+**État** : version 1.5.0. Les tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients, sauvegardes, redémarrages complets et reconnexions compris. Voir le [bilan de validation](docs/annexes/tests/validation.md). Les valeurs d’équilibrage restent des valeurs de départ.
 
 **Installation**
-- Abonnez-vous au mod sur le Workshop Steam (une fois publié), ou
+- Abonnez-vous au mod sur le Workshop Steam, ou
 - copiez le dossier `Contents/mods/batman_LiveWire` dans `Zomboid/mods`.
 
 Mods facultatifs : Computer Mod (3725497089) ou Laptop Mod (3798992436) pour le logiciel de gestion installable par disque.

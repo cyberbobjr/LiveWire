@@ -51,7 +51,7 @@ Exemplo: um frigorífico com congelador e 10 candeeiros consomem cerca de 4,1 kW
 [*]Coloque a [b]bomba de água[/b] (Eletricidade 6) junto de coletores de chuva vanilla ou barris do [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (até 8, um tubo de ferro cada) e ligue-a ao inversor.
 [*]Ligue os pontos de água com uma chave de tubos como no vanilla: cada ponto ligado a menos de 15 quadrados (sandbox) é abastecido. Só é aceite água; a água da chuva sai limpa.
 [*]5 L por minuto, 250 W ao bombear, um ligeiro zumbido; para sozinha quando todos os pontos de água estão cheios. "Mostrar os pontos de água abastecidos" realça-os a azul.
-[*]Antes de remover o mod, execute a ação debug/admin "Remover todos os relés de água". Ainda não testada no jogo: reporte qualquer problema.
+[*]Antes de remover o mod, execute a ação debug/admin "Remover todos os relés de água".
 [/list]
 
 [h2]Receitas[/h2]
@@ -68,7 +68,7 @@ O Live Wire Monitor mostra a produção, o consumo, as baterias, o histórico de
 
 [h2]Multijogador[/h2]
 
-O servidor calcula tudo e volta a verificar cada pedido. A instalação continua a funcionar quando os jogadores se ausentam: os frigoríficos continuam a manter a comida fria. Ainda não testado num servidor dedicado, por isso comunique-nos qualquer problema.
+O servidor calcula tudo e verifica cada pedido. A instalação funciona mesmo sem jogadores. Testes automatizados no jogo abrangem o modo individual e um servidor dedicado Windows com dois clientes, incluindo guardar e voltar a carregar.
 
 [h2]Documentação[/h2]
 

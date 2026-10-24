@@ -1,29 +1,22 @@
 # Changelog
 
-## Unreleased
+## 1.5.0 — 2026-10-24
 
 ### Fixes
-- Overlapping pumps assign shared relay tanks to the closest eligible pump with a stable tie-break, retaining their water on reassignment. Saved tanks are preserved while the initial fixture scan is still pending after a reload.
-- Pump flow no longer accumulates while idle; relay cleanup covers the native chunk's full vertical range.
-- Inverted backup-generator thresholds retain at least a five-percentage-point gap. The effective settings are shown in snapshots and explained in all translated sandbox tooltips.
-- Batteries serve the part of a simulation step that their remaining energy covers, then record the actual cut time; battery wear counts discharge before any subsequent recharge.
-- Fridge catch-up uses a private 60-game-day power history, including intermediate catch-up transitions and retired anchor positions, without increasing public anchor broadcasts. Existing saves retain the history still available at upgrade.
-- Missing or altered device marks are restored from the authoritative registry when the physical tile remains, preventing duplicate adoption and accidental deletion. Unknown tiles use a fixed adoption efficiency.
-- Voltage-tester XP is capped at five base awards per rolling game hour per player across all squares; the limit survives reconnects and server restarts.
-- Pump maintenance failures are logged with the pump identifier while other pumps continue to be maintained.
-- The runtime version matches the shipped mod metadata and is included in the registry startup log; offline checks enforce the match for both mods.
-- Networks can be renamed from the inverter menu and the management software's equipment tab. Computer commands use the same distance, power and safehouse checks as the other software controls; obsolete unused protocol commands were removed.
-- The English and French README descriptions now explain the retained history used to replay fridge power changes during an absence.
-- Moved water barrels no longer keep an orphaned pump link that prevents reconnection; existing barrel marks are checked and upgraded when read by the authority.
-- Backup generators respect manual starts and stops, including chunk reloads. Use "Resume automatic backup" to return to battery thresholds.
-- Inspecting a wind turbine no longer applies its brake. Electrical level 7 can explicitly apply or release it; an applied brake stops production and the blade animation. The brake follows the turbine when picked up. Inspection and snow clearing now respect safehouse permissions on the authority.
+- Water relays survive saves and reloads, retain their water when reassigned to the nearest eligible pump, and are removed correctly when disabled, including in unloaded areas.
+- Moved barrels can reconnect to pumps. Idle pumps no longer build up excess flow for the next transfer.
+- Backup generators respect manual starts and stops. Automatic backup can be resumed explicitly; invalid start/stop thresholds keep a safe gap.
+- Inspecting a wind turbine no longer applies its brake. Electrical level 7 can apply or release the brake explicitly; it follows the turbine when picked up. Inspection and snow clearing respect safehouse permissions.
+- Batteries supply power until their energy actually runs out, with the correct cut time and discharge wear.
+- Fridges replay power changes from a history retained for 60 game days. Existing saves keep the history available at upgrade; older missing history cannot be recovered.
+- Missing device marks are restored from saved records, avoiding duplicate adoption or accidental deletion. Voltage-tester XP limits survive reconnects and server restarts.
+- Networks can be renamed from the inverter menu or management software. Software controls consistently check distance, power and safehouse permissions.
+- A maintenance error on one pump no longer prevents the others from being maintained; runtime and package versions now agree.
 
 ### Performance
-- Water pumps discover fixtures in bounded background jobs, cache their positions and invalidate the cache on furniture changes and chunk loads. The supplied-taps view also builds its fixture list over several frames.
-- Power changes age food through an index of loaded fridges and spread client visual refreshes across frames.
-- Chunk loading looks up devices through a chunk index instead of copying the entire registry.
-- Solo interface snapshots are reused until the network revision changes.
-- Expired command-rate and XP cooldown entries are purged hourly while active cooldowns remain intact.
+- Pump discovery and the supplied-taps list are processed in bounded batches, with cached fixture positions.
+- Fridge power updates and chunk loading use device indexes; client visual refreshes are spread across frames.
+- Solo interface snapshots are reused until the network changes. Expired command and XP cooldown records are cleaned up regularly.
 
 ## 1.4.0 — 2026-10-22
 

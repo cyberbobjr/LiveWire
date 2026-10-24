@@ -11,11 +11,11 @@ Production, stock, états, pannes et expérience sont calculés par le serveur ;
 - Si le serveur se met en pause quand il est vide, l'installation aussi.
 - Les générateurs vanilla ne changent pas : si un générateur et un onduleur couvrent les mêmes appareils, les deux consomment.
 - Outils de debug : -debug en solo, administrateurs en multijoueur.
-- **Le multijoueur n'a pas encore été testé en jeu.**
+-
 
 ## État
 
-Version 1.3.1. Testé en jeu en solo pendant le développement : pose, conteneur, liaison, voyants, disjoncteur, alarme, écran LCD, logiciel, zone alimentée, rotation, ramassage, frigo pendant une absence, intégration du Computer Mod. Les valeurs d'équilibrage sont des valeurs de départ. Les tuiles sont des formes géométriques provisoires (modèles définitifs plus tard).
+Version 1.5.0. Les tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients, sauvegardes, redémarrages complets et reconnexions compris. Voir le [bilan de validation](../../annexes/tests/validation.md). Les valeurs d’équilibrage restent des valeurs de départ.
 
 ## Licence
 

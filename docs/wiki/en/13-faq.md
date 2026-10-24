@@ -2,7 +2,7 @@
 
 # FAQ
 
-Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.3.1). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Multiplayer has not been tested in game yet. For details, follow the links to the matching pages.
+Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.5.0). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Automated in-game tests cover single player and a Windows dedicated server with two clients. For details, follow the links to the matching pages.
 
 ## Getting started
 
@@ -49,7 +49,7 @@ A 14 h winter night for a fridge-freezer and 10 lights needs about 2.4 kWh: roug
 ## Storage and appliances
 
 **Do fridges keep working when I leave the area?**
-Yes, as long as there is power. The server simulates every 10 game minutes even with nobody nearby (sandbox `SimulateUnloaded`). Checked in single player: a steak in a powered fridge with the player 300 tiles away for 10 game hours aged 0.083 day instead of 0.417. The power state found when the area reloads counts for the whole absence. See [Getting started](01-getting-started.md).
+Yes, as long as there is power. The server simulates every 10 game minutes even with nobody nearby (sandbox `SimulateUnloaded`). Checked in single player: a steak in a powered fridge with the player 300 tiles away for 10 game hours aged 0.083 day instead of 0.417. Catch-up replays power changes retained for 60 game days; older missing history cannot be recovered. See [Getting started](01-getting-started.md).
 
 **What consumes power?**
 It depends on the sandbox `ConsumptionProfile`. With the default game values: light 2 W, radio 10 W, television 30 W, fridge alone 80 W, stove, microwave, washer and dryer 90 W each, fridge-freezer 130 W, a stacked washer + dryer up to 1,800 W. With Realistic 1993: light 60 W, television 80 W, fridge-freezer 130 W, electric cooker 2,000 W, dryer 3,000 W. The inverter itself uses 20 W idle. See [Production and calculations](04-production-and-calculations.md#appliance-consumption).
@@ -93,7 +93,7 @@ Repair: 1 electronics scrap + 1 electric wire, gaining 5 + your Electrical level
 ## Multiplayer and server
 
 **Does it work on a dedicated server?**
-It is designed for it: production, stock, states, failures and experience are computed by the server, which re-checks every client request. **Multiplayer has not been tested in game yet**, only single player. See [Multiplayer](12-multiplayer.md).
+It is designed for it: production, stock, states, failures and experience are computed by the server, which re-checks every client request. Automated in-game tests cover single player and a Windows dedicated server with two clients, including saves and full restarts. See [Multiplayer](12-multiplayer.md).
 
 **What are the Workshop ID and Mod ID?**
 The Mod ID is `batman_LiveWire`. The Workshop ID is `3821807453`. You can also copy `Contents/mods/batman_LiveWire` into `Zomboid/mods`. See [Getting started](01-getting-started.md#installation).

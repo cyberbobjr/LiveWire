@@ -51,7 +51,7 @@ Beispiel: ein Kühlschrank mit Gefrierfach und 10 Lampen verbrauchen zusammen et
 [*]Stelle die [b]Wasserpumpe[/b] (Elektrik 6) neben Vanilla-Regensammler oder Fässer von [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (bis zu 8, je ein Eisenrohr) und verbinde sie mit dem Wechselrichter.
 [*]Schließe die Wasserstellen wie in Vanilla mit der Rohrzange an: Jede angeschlossene Wasserstelle im Umkreis von 15 Feldern (Sandbox) wird versorgt. Nur Wasser wird angenommen; Regenwasser kommt sauber heraus.
 [*]5 L pro Minute, 250 W beim Pumpen, ein leises Summen; sie stoppt von selbst, wenn alle Wasserstellen voll sind. "Versorgte Wasserstellen anzeigen" hebt sie blau hervor.
-[*]Vor dem Entfernen des Mods die Debug-/Admin-Aktion "Alle Wasserrelais entfernen" ausführen. Noch nicht im Spiel getestet: bitte Probleme melden.
+[*]Vor dem Entfernen des Mods die Debug-/Admin-Aktion "Alle Wasserrelais entfernen" ausführen.
 [/list]
 
 [h2]Rezepte[/h2]
@@ -68,7 +68,7 @@ Live Wire Monitor zeigt Erzeugung, Verbrauch, Batterien, einen 48-Stunden-Verlau
 
 [h2]Mehrspieler[/h2]
 
-Der Server berechnet alles und prüft jede Anfrage erneut. Die Installation läuft weiter, wenn die Spieler abwesend sind: Kühlschränke halten das Essen kalt. Noch nicht auf einem dedizierten Server getestet, bitte melde Probleme.
+Der Server berechnet alles und prüft jede Anfrage. Die Installation läuft auch ohne Spieler weiter. Automatisierte Spieltests decken Einzelspieler und einen dedizierten Windows-Server mit zwei Clients ab, einschließlich Speichern und Neuladen.
 
 [h2]Dokumentation[/h2]
 

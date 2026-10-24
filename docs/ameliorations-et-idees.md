@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Mod | **Live Wire** (`id=batman_LiveWire`, sous-mod facultatif `batman_LiveWireViewpoint`) |
-| Version analysée | Constats initiaux : **1.3.1** ; campagne du 2026-10-24 fondée sur **1.4.0** (`modversion=1.4.0`), correctifs locaux non publiés |
+| Version analysée | Constats initiaux : **1.3.1** ; campagne du 2026-10-24 fondée sur **1.4.0** ; version **1.5.0 préparée**, correctifs locaux non publiés |
 | Build cible | Project Zomboid 42.21 (sources de référence : Java décompilé 42.21.0, `media/` vanilla installé) |
 | Date | 2026-10-21 ; **avancement mis à jour le 2026-10-24** (version publiée : 1.4.0 ; corrections C01, C02, C03 et C10 publiées depuis la 1.3.2) |
 | Périmètre lu | Tout le Lua de `Contents/mods/batman_LiveWire/42.21/media/lua` (shared, server, client, actions chronométrées, butin), scripts (`LiveWire_*.txt`), `sandbox-options.txt`, traductions (contrôlées par `tools/check_mod.py`), sous-mod Viewpoint, `README.md`, contraintes du projet (`docs/developpement.md`), `CHANGELOG.md`, `docs/` (décisions, idées retenues et écartées, spécifications, architecture, protocole de tests), `tests/`, `tools/`, `autotest/`, base moteur `.claude/pz-knowledge` |
@@ -235,7 +235,7 @@ FXX désignent les fonctionnalités des spécifications fonctionnelles.
 - **Risque.** Maintenabilité : un journal ou un rapport de bug trompeur.
 - **Correction proposée.** Mettre la constante à jour, l'écrire dans le journal au démarrage (`registry ready`), et faire comparer par `tools/check_mod.py` `VERSION` à `modversion` de `mod.info`.
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié. `LiveWire.VERSION = "1.4.0"`, journal de démarrage avec version ; `tools/check_mod.py` compare les deux variantes `mod.info` livrées à cette constante.
+- **Avancement :** ✅ corrigé localement le 2026-10-24, non publié. `LiveWire.VERSION` alignée sur les `modversion` livrées (1.5.0 préparée), journal de démarrage avec version ; `tools/check_mod.py` compare les deux variantes `mod.info` livrées à cette constante.
 
 ### C15 — Commandes réseau mortes ou à moitié branchées
 - **Problème.**

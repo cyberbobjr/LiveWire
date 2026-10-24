@@ -54,7 +54,7 @@ description=[*]Barrels of water on the ground now run the taps of the whole hous
 description=[*]Place the [b]water pump[/b] (Electrical 6) next to vanilla rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] barrels (up to 8, one iron pipe each) and wire it to the inverter.
 description=[*]Plumb the fixtures with a pipe wrench as in vanilla: every plumbed fixture within 15 tiles (sandbox) is supplied. Only water is accepted; rain water comes out clean.
 description=[*]5 L per minute, 250 W while pumping, a light hum; it stops by itself when every tap is full. "Show the supplied taps" highlights them in blue.
-description=[*]Before removing the mod, run the debug/admin action "Remove every water relay". Not tested in game yet: please report any problem.
+description=[*]Before removing the mod, run the debug/admin action "Remove every water relay".
 description=[/list]
 description=
 description=[h2]Recipes[/h2]
@@ -71,7 +71,7 @@ description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs
 description=
 description=[h2]Multiplayer[/h2]
 description=
-description=The server computes everything and re-checks every request. The installation keeps running while players are away: fridges keep food cold. Not yet tested on a dedicated server, so please report any problem.
+description=The server computes everything and re-checks every request. Installations keep running while players are away. Automated in-game tests cover single player and a Windows dedicated server with two clients, including saves and reloads.
 description=
 description=[h2]Documentation[/h2]
 description=

@@ -51,7 +51,7 @@ Exemplo: uma geladeira-freezer e 10 luzes consomem cerca de 4,1 kWh por dia. Uma
 [*]Coloque a [b]bomba d'água[/b] (Elétrica 6) ao lado de coletores de chuva vanilla ou barris do [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (até 8, um cano de ferro cada) e conecte-a ao inversor.
 [*]Conecte os pontos de água com uma chave de cano como no vanilla: todo ponto conectado a menos de 15 quadrados (sandbox) é abastecido. Só água é aceita; a água da chuva sai limpa.
 [*]5 L por minuto, 250 W ao bombear, um zumbido leve; ela para sozinha quando todos os pontos de água estão cheios. "Mostrar os pontos de água abastecidos" os destaca em azul.
-[*]Antes de remover o mod, execute a ação debug/admin "Remover todos os relés de água". Ainda não testada no jogo: informe qualquer problema.
+[*]Antes de remover o mod, execute a ação debug/admin "Remover todos os relés de água".
 [/list]
 
 [h2]Receitas[/h2]
@@ -68,7 +68,7 @@ O Live Wire Monitor mostra produção, consumo, baterias, histórico de 48 h e u
 
 [h2]Multijogador[/h2]
 
-O servidor calcula tudo e revalida cada pedido. A instalação continua funcionando enquanto os jogadores estão ausentes: as geladeiras mantêm a comida fria. Ainda não testado em servidor dedicado, então informe qualquer problema.
+O servidor calcula tudo e verifica cada pedido. A instalação funciona mesmo sem jogadores. Testes automatizados no jogo cobrem o modo solo e um servidor dedicado Windows com dois clientes, incluindo salvar e recarregar.
 
 [h2]Documentação[/h2]
 

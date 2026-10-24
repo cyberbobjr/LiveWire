@@ -60,3 +60,6 @@ Les scénarios, résultats et limites des campagnes CXX sont regroupés dans le
 Dépôt GitHub **public**. N'y mettre aucune donnée personnelle : chemins absolus du poste de l'utilisateur, adresses,
 noms de dépôts privés, clés. Travailler sur `main`, un commit par étape cohérente, message en anglais. La publication
 Workshop se fait sur le poste de l'utilisateur, jamais depuis une session automatique.
+
+Les notes de changement Steam décrivent les changements pour les joueurs, sans section de tests ou de validation.
+Les résultats et limites des essais restent dans le bilan de validation du projet.

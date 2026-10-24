@@ -1,6 +1,6 @@
 # Live Wire — spécifications techniques
 
-Contrats techniques du mod tels qu'ils existent dans le code de la **version 1.3.1** (relevé statique du 2026-10-21, `Contents/mods/batman_LiveWire/42.21`). Ce document fait foi pour les identifiants, formats et bornes ; les justifications sont dans [`architecture.md`](architecture.md), le comportement vu du joueur dans [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md).
+Contrats techniques du mod tels qu'ils existent dans le code de la **version 1.5.0** (relevé initial du 2026-10-21, actualisé le 2026-10-24, `Contents/mods/batman_LiveWire/42.21`). Ce document fait foi pour les identifiants, formats et bornes ; les justifications sont dans [`architecture.md`](architecture.md), le comportement vu du joueur dans [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md).
 
 Toute modification d'un identifiant de ce document (type d'objet, clé de ModData, nom de modèle, nom de commande, nom d'option) casse les sauvegardes ou le multijoueur : elle exige une migration (§ 4.4).
 
@@ -13,9 +13,9 @@ Toute modification d'un identifiant de ce document (type d'objet, clé de ModDat
 | Live Wire | `batman_LiveWire` | `Contents/mods/batman_LiveWire/42.21` | — | Mod principal |
 | Live Wire - Viewpoint models | `batman_LiveWireViewpoint` | `Contents/mods/batman_LiveWireViewpoint/42.21` + `common` | `\batman_LiveWire` | Modèles 3D pour Project Viewpoint (facultatif) |
 
-- `versionMin=42.21`, `modversion=1.3.1` dans les deux `mod.info`. Objet Workshop : `3821807453` (`workshop.txt`).
+- `versionMin=42.21`, `modversion=1.5.0` dans les deux `mod.info`. Objet Workshop : `3821807453` (`workshop.txt`).
 - Le mod principal déclare `pack=batman_livewire_01` et `tiledef=batman_livewire_01 7174`.
-- Constantes de code (`media/lua/shared/LiveWire/LW_Core.lua`) : module réseau `LiveWire.MODULE = "LiveWire"`, schéma du registre `LiveWire.SCHEMA = 2`, pas nominal de simulation `STEP_HOURS = 1/6` (`EveryTenMinutes`). `LiveWire.VERSION` vaut encore `"0.1.2"` (non mis à jour depuis la 0.1.2 ; écart à corriger dans le code).
+- Constantes de code (`media/lua/shared/LiveWire/LW_Core.lua`) : module réseau `LiveWire.MODULE = "LiveWire"`, schéma du registre `LiveWire.SCHEMA = 2`, pas nominal de simulation `STEP_HOURS = 1/6` (`EveryTenMinutes`). `LiveWire.VERSION = "1.5.0"`, alignée sur les deux `mod.info` et vérifiée par `tools/check_mod.py`.
 - Côtés : `shared` (définitions, physique, protocole, actions chronométrées), `server` (registre, simulation, commandes ; chaque fichier commence par `if isClient() then return end`), `client` (menus, écrans, sons). Détail des modules : [`architecture.md`](architecture.md) § 2.
 
 ## 2. Objets et scripts
@@ -270,7 +270,7 @@ Portée de la zone alimentée : options vanilla `GeneratorTileRange` (20) et `Ge
 | Project Viewpoint | Facultatif, mod `batman_LiveWireViewpoint` | Modèles `.obj` dans `common/media/livewire-viewpoint` | Non revérifié ici |
 | Autres mods d'énergie | Non pris en charge | — | — |
 
-Multijoueur : conçu pour un serveur dédié autoritaire, **non testé en jeu en MP** à la version 1.3.1 (voir [`wiki/fr/12-multijoueur.md`](wiki/fr/12-multijoueur.md)).
+Multijoueur : serveur dédié autoritaire ; tests automatisés en jeu en solo et sur serveur dédié Windows avec deux clients, sauvegardes et redémarrages complets compris. Voir le [bilan de validation](annexes/tests/validation.md).
 
 ## 8. Outillage et tests
 

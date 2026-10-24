@@ -477,11 +477,11 @@ Production, stock, states, failures and experience are computed by the server; t
 
 ### Status
 
-Version 1.3.1. Tested in game in single player during development (placement, container, linking, lights, breaker, alarm, LCD screen, software, powered area, rotation, pick-up, fridge while away; Computer Mod integration). **Multiplayer has not yet been tested in game.** Balancing values are starting values.
+Version 1.5.0. Automated in-game tests cover single player and a Windows dedicated server with two clients, including saves, full restarts and reconnects. See the [validation report](docs/annexes/tests/validation.md). Balancing values remain starting values.
 
 ### Installation
 
-- Subscribe on the Steam Workshop (once published), or copy `Contents/mods/batman_LiveWire` into your `Zomboid/mods` folder.
+- Subscribe on the Steam Workshop, or copy `Contents/mods/batman_LiveWire` into your `Zomboid/mods` folder.
 - Optional mods: Computer Mod (Workshop 3725497089) or Laptop Mod (3798992436) for the management software disk and desktop app.
 
 ### Project Viewpoint

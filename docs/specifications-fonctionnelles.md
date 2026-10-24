@@ -1,9 +1,9 @@
 # Live Wire — documentation fonctionnelle
 
-État au 2026-10-21 : **implémenté jusqu'à la version 1.3.1** du mod (`Contents/mods/batman_LiveWire/42.21`). Ce document est né en phase de conception (2026-10-17) : ses sections 1 à 9 décrivent la v0.1 et ses justifications ; la section 10 résume les fonctionnalités ajoutées ensuite. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage. Les contrats techniques à jour (objets, commandes, ModData, options) sont dans [`specifications-techniques.md`](specifications-techniques.md) ; le guide du joueur est le [wiki](wiki/fr/Home.md).
+État au 2026-10-24 : **implémenté jusqu'à la version 1.5.0** du mod (`Contents/mods/batman_LiveWire/42.21`). Ce document est né en phase de conception (2026-10-17) : ses sections 1 à 9 décrivent la v0.1 et ses justifications ; la section 10 résume les fonctionnalités ajoutées ensuite. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage. Les contrats techniques à jour (objets, commandes, ModData, options) sont dans [`specifications-techniques.md`](specifications-techniques.md) ; le guide du joueur est le [wiki](wiki/fr/Home.md).
 
 - **Sources des faits du moteur** : le dépôt de sources de référence de l'utilisateur (Java décompilé 42.21 et `media/` vanilla ; chemins relatifs à sa racine) et [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) (« NM-n » = note n).
-- **Choix de l'utilisateur** : toutes les décisions de [`decisions.md`](decisions.md) (« D-n ») ont été **validées le 2026-10-17**. Ce document décrit ce qui est implémenté en v0.1 (non testé en jeu).
+- **Choix de l'utilisateur** : toutes les décisions de [`decisions.md`](decisions.md) (« D-n ») ont été **validées le 2026-10-17**. Les sections de conception décrivent la v0.1 ; les validations actuelles sont consignées dans le [bilan SP/MP](annexes/tests/validation.md).
 
 **Exigences de l'utilisateur** (2026-10-17), non négociables :
 1. L'onduleur peut être posé **à l'intérieur** d'une maison.

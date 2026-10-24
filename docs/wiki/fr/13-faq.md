@@ -2,7 +2,7 @@
 
 # FAQ
 
-Réponses courtes sur Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.3.1). Le mod est publié sur le [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Le multijoueur n'a pas encore été testé en jeu. Pour le détail, suivez les liens vers les pages correspondantes.
+Réponses courtes sur Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.5.0). Le mod est publié sur le [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Des tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients. Pour le détail, suivez les liens vers les pages correspondantes.
 
 ## Pour commencer
 
@@ -49,7 +49,7 @@ Une nuit d'hiver de 14 h pour un frigo-congélateur et 10 lumières demande envi
 ## Stockage et appareils
 
 **Les frigos continuent-ils de fonctionner quand je quitte la zone ?**
-Oui, tant qu'il y a du courant. Le serveur simule toutes les 10 minutes de jeu même sans personne à proximité (option `SimulateUnloaded`). Vérifié en solo : un steak dans un frigo alimenté, joueur à 300 cases pendant 10 heures de jeu, a vieilli de 0,083 jour au lieu de 0,417. L'état d'alimentation trouvé au rechargement de la zone compte pour toute l'absence. Voir [Premiers pas](01-premiers-pas.md).
+Oui, tant qu'il y a du courant. Le serveur simule toutes les 10 minutes de jeu même sans personne à proximité (option `SimulateUnloaded`). Vérifié en solo : un steak dans un frigo alimenté, joueur à 300 cases pendant 10 heures de jeu, a vieilli de 0,083 jour au lieu de 0,417. Le rattrapage rejoue les changements d'alimentation conservés sur 60 jours de jeu ; un ancien historique manquant ne peut pas être reconstitué. Voir [Premiers pas](01-premiers-pas.md).
 
 **Qu'est-ce qui consomme ?**
 Cela dépend de l'option sandbox `ConsumptionProfile`. Avec les valeurs du jeu (défaut) : lumière 2 W, radio 10 W, télévision 30 W, frigo seul 80 W, cuisinière, micro-ondes, lave-linge et sèche-linge 90 W chacun, frigo-congélateur 130 W, lave-linge + sèche-linge superposés jusqu'à 1 800 W. Avec Réaliste 1993 : lumière 60 W, télévision 80 W, frigo-congélateur 130 W, cuisinière électrique 2 000 W, sèche-linge 3 000 W. L'onduleur lui-même consomme 20 W au repos. Voir [Production et calculs](04-production-et-calculs.md#consommation-des-appareils).
@@ -93,7 +93,7 @@ Réparation : 1 déchet électronique + 1 fil électrique, pour 5 + votre niveau
 ## Multijoueur et serveur
 
 **Cela fonctionne-t-il sur un serveur dédié ?**
-Il est conçu pour : production, stock, états, pannes et expérience sont calculés par le serveur, qui revérifie chaque demande des clients. **Le multijoueur n'a pas encore été testé en jeu**, seulement le solo. Voir [Multijoueur](12-multijoueur.md).
+Il est conçu pour : production, stock, états, pannes et expérience sont calculés par le serveur, qui revérifie chaque demande des clients. Des tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients, sauvegardes et redémarrages complets compris. Voir [Multijoueur](12-multijoueur.md).
 
 **Quels sont l'ID Workshop et l'ID du mod ?**
 L'ID du mod est `batman_LiveWire`. L'ID Workshop est `3821807453`. On peut aussi copier `Contents/mods/batman_LiveWire` dans `Zomboid/mods`. Voir [Premiers pas](01-premiers-pas.md#installation).

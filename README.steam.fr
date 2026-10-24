@@ -51,7 +51,7 @@ Exemple : un réfrigérateur-congélateur et 10 lampes consomment environ 4,1 kW
 [*]Posez la [b]pompe à eau[/b] (Électricité 6) à côté de récupérateurs d'eau de pluie vanilla ou de barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (jusqu'à 8, un tuyau en métal chacun) et raccordez-la à l'onduleur.
 [*]Raccordez les points d'eau à la clé anglaise comme en vanilla : chaque point d'eau raccordé à moins de 15 cases (option sandbox) est alimenté. Seule l'eau est acceptée ; l'eau de pluie sort propre.
 [*]5 L par minute, 250 W pendant le pompage, un léger ronronnement ; elle s'arrête seule quand tous les points d'eau sont pleins. « Afficher les points d'eau alimentés » les surligne en bleu.
-[*]Avant de retirer le mod, lancez l'action debug/admin « Retirer tous les relais d'eau ». Pas encore testée en jeu : merci de signaler tout problème.
+[*]Avant de retirer le mod, lancez l'action debug/admin « Retirer tous les relais d'eau ».
 [/list]
 
 [h2]Recettes[/h2]
@@ -68,7 +68,7 @@ Live Wire Monitor affiche la production, la consommation, les batteries, un hist
 
 [h2]Multijoueur[/h2]
 
-Le serveur calcule tout et revérifie chaque requête. L'installation continue de fonctionner pendant l'absence des joueurs : les frigos gardent les aliments au froid. Pas encore testé sur un serveur dédié, merci de signaler tout problème.
+Le serveur calcule tout et revérifie chaque requête. L'installation fonctionne pendant l'absence des joueurs. Des tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients, sauvegardes et rechargements compris.
 
 [h2]Documentation[/h2]
 
