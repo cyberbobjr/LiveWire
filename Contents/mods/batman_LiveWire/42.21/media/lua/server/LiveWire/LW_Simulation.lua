@@ -89,12 +89,12 @@ local function weatherOnSource(src, def, w, h)
     end
 end
 
-local function batteryWear(entry, drawn, h)
+local function batteryWear(entry, drawn, h, exhausted)
     local def = LiveWire.Batteries.def(entry.model)
     if not def then return end
     if drawn > 0 then
-        local deep = entry.capacity > 0
-            and entry.charge / entry.capacity < Defs.DEEP_DISCHARGE_THRESHOLD
+        local deep = exhausted or (entry.capacity > 0
+            and entry.charge / entry.capacity < Defs.DEEP_DISCHARGE_THRESHOLD)
         local wear = Physics.batteryWear(drawn, def.capacityKWh, def.lifeCycles, deep,
             LiveWire.Config.get("BatteryWearMultiplier") * (entry.wearFactor or 1))
         entry.cond = math.max(0, entry.cond - wear)
@@ -218,10 +218,10 @@ function Sim.snapshot(grid)
     end
     local b = backups[1]
     if b then
+        local start, stop = LiveWire.Backup.thresholds()
         snap.backup = { id = b.id, state = b.state or "standby", fuel = b.fuel or 0, maxFuel = 10,
                         w = math.floor((grid.backupW or 0) + 0.5),
-                        start = LiveWire.Config.get("BackupStartPercent"),
-                        stop = LiveWire.Config.get("BackupStopPercent") }
+                        start = start * 100, stop = stop * 100 }
     end
     local c = computers[1]
     if c then
@@ -319,7 +319,7 @@ function Sim.stepGrid(grid, now, w)
     if dt > Sim.MAX_CATCHUP_HOURS then dt = Sim.MAX_CATCHUP_HOURS end
 
     local invSq = getCell():getGridSquare(inv.x, inv.y, inv.z)
-    local invObj = invSq and LiveWire.Marks.findOnSquare(invSq, inv.id)
+    local invObj = invSq and LiveWire.Devices.find(inv)
     if invSq and not invObj then
         inv.missing = (inv.missing or 0) + 1
         if inv.missing >= 2 then
@@ -356,7 +356,7 @@ function Sim.stepGrid(grid, now, w)
         for i = 1, #all do
             local dev = all[i]
             local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
-            if sq and not LiveWire.Marks.findOnSquare(sq, dev.id) then
+            if sq and not LiveWire.Devices.find(dev) then
                 dev.missing = (dev.missing or 0) + 1
                 if dev.missing >= 2 then
                     LiveWire.log("device " .. dev.id .. " is gone from its square, removing it")
@@ -433,7 +433,11 @@ function Sim.stepGrid(grid, now, w)
         for b = 1, #backups do backupW = backupW + LiveWire.Backup.step(backups[b], frac, h) end
 
         local before = {}
-        for e = 1, #entries do before[e] = entries[e].charge end
+        local beforeStock = 0
+        for e = 1, #entries do
+            before[e] = entries[e].charge
+            beforeStock = beforeStock + before[e]
+        end
 
         if inv.state == "on" and (inv.cond or 0) <= 0 then inv.state = "broken" end
         -- Capacity and idle use are taken again at each sub-step: slaves can break.
@@ -464,17 +468,27 @@ function Sim.stepGrid(grid, now, w)
             end
         end
         grid.powered = r.on
-
-        for e = 1, #entries do
-            local drawn = before[e] - entries[e].charge
-            batteryWear(entries[e], drawn, h)
+        -- Intermediate catch-up transitions are private. Publish only the final
+        -- state below, avoiding a burst of global anchor packets after an absence.
+        local startHour = now - dt + (i - 1) * h
+        LiveWire.PowerHistory.record(R.data, inv, r.onHours > 0, startHour)
+        if not r.on then
+            LiveWire.PowerHistory.record(R.data, inv, false, startHour + r.onHours)
         end
 
-        if r.on then
+        for e = 1, #entries do
+            -- A partial step may discharge, then recharge from the unused
+            -- production. Wear counts the actual proportional discharge, not net
+            -- stock loss after that recharge.
+            local drawn = beforeStock > 0 and r.drawnKWh * before[e] / beforeStock or 0
+            batteryWear(entries[e], drawn, h, not r.on and r.onHours > 0)
+        end
+
+        if r.onHours > 0 then
             local heavy = 1
             if demandW > capW * Defs.HEAVY_LOAD_RATIO then heavy = 2 end
             if inv.muffled then heavy = heavy * Defs.MUFFLED_WEAR end
-            wearDevice(inv, def, h, heavy)
+            wearDevice(inv, def, r.onHours, heavy)
             -- Slaves in service wear with the same load, their own muffler included.
             for s = 1, #slaves do
                 local sl = slaves[s]
@@ -482,7 +496,7 @@ function Sim.stepGrid(grid, now, w)
                     local sh = 1
                     if demandW > capW * Defs.HEAVY_LOAD_RATIO then sh = 2 end
                     if sl.muffled then sh = sh * Defs.MUFFLED_WEAR end
-                    wearDevice(sl, def, h, sh)
+                    wearDevice(sl, def, r.onHours, sh)
                     if (sl.cond or 0) <= 0 then breakSlave(sl) end
                 end
             end
@@ -491,6 +505,9 @@ function Sim.stepGrid(grid, now, w)
                 grid.powered = false
                 LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Broken", {}, true)
             end
+        end
+        if inv.state ~= "on" then
+            LiveWire.PowerHistory.record(R.data, inv, false, startHour + h)
         end
         for o = 1, #options do
             local odef = Defs.devices[options[o].model]

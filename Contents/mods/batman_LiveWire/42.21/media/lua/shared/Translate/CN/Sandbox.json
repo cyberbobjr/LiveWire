@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "备用发电机启动 (百分比)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "电池低于此百分比时备用发电机启动.",
     "Sandbox_LiveWire_BackupStopPercent": "备用发电机停止 (百分比)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "电池达到此百分比时备用发电机停止.",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "电池达到此百分比时备用发电机停止. 停止阈值会自动调整为至少比启动阈值高5个百分点。",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "极度写实 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "写实 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "游戏数值",

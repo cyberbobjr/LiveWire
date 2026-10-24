@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "Démarrage du secours (pourcentage)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Un générateur de secours démarre quand les batteries passent sous ce pourcentage.",
     "Sandbox_LiveWire_BackupStopPercent": "Arrêt du secours (pourcentage)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Le générateur de secours s'arrête quand les batteries atteignent ce pourcentage.",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Le générateur de secours s'arrête quand les batteries atteignent ce pourcentage. Le seuil d'arrêt est automatiquement relevé à au moins 5 points au-dessus du seuil de démarrage.",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultra-réaliste 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Réaliste 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Valeurs du jeu",

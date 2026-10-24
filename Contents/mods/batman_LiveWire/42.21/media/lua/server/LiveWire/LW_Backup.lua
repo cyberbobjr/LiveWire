@@ -19,6 +19,7 @@ Backup.CHARGE_W = 1200       -- electrical power delivered to the network
 Backup.KWH_PER_LITRE = 3.0   -- petrol to electricity, about a third of its energy
 Backup.NOTIFY_RANGE = 30     -- players told why the generator cannot start
 local FAIL = { unplugged = true, nofuel = true, broken = true }
+local warnedThresholds = {}
 
 local function playersNear(x, y, z, radius)
     local players
@@ -144,6 +145,23 @@ local function percent(name, default)
     return v / 100
 end
 
+-- The stop threshold must leave a real hysteresis even with inverted sandbox
+-- settings. Share the effective values with snapshots so the UI tells the truth.
+function Backup.thresholds()
+    local start = math.max(0, math.min(0.90, percent("BackupStartPercent", 0.2)))
+    local configured = math.max(0, math.min(1, percent("BackupStopPercent", 0.9)))
+    local stop = math.max(configured, (start * 100 + 5) / 100)
+    if stop > configured then
+        local key = tostring(start) .. ":" .. tostring(configured)
+        if not warnedThresholds[key] then
+            warnedThresholds[key] = true
+            LiveWire.warn("backup stop threshold raised to " .. tostring(stop * 100)
+                .. "% to keep a five-point gap above the start threshold")
+        end
+    end
+    return start, stop
+end
+
 -- One sub-step for the backup generator of a network.
 -- stockFrac: battery stock / capacity (nil when there is no battery: nothing to do).
 -- Returns the electrical power (W) it adds to the network during the sub-step.
@@ -161,7 +179,7 @@ function Backup.step(dev, stockFrac, h)
         fuel, connected, cond = dev.fuel or 0, dev.connected, dev.cond or 0
     end
 
-    local start, stop = percent("BackupStartPercent", 0.2), percent("BackupStopPercent", 0.9)
+    local start, stop = Backup.thresholds()
     local want = dev.state == "running"
     if stockFrac == nil then
         want = false

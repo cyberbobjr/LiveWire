@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "예비 발전기 시작 (퍼센트)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "배터리가 이 퍼센트 아래로 떨어지면 예비 발전기가 시작합니다.",
     "Sandbox_LiveWire_BackupStopPercent": "예비 발전기 정지 (퍼센트)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "배터리가 이 퍼센트에 도달하면 예비 발전기가 멈춥니다.",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "배터리가 이 퍼센트에 도달하면 예비 발전기가 멈춥니다. 정지 기준은 시작 기준보다 최소 5퍼센트포인트 높도록 자동으로 조정됩니다.",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "초현실적 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "현실적 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "게임 값",

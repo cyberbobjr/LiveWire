@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "Backup start (percent)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "A backup generator starts when the batteries fall below this percentage.",
     "Sandbox_LiveWire_BackupStopPercent": "Backup stop (percent)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "The backup generator stops once the batteries reach this percentage.",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "The backup generator stops once the batteries reach this percentage. The stop threshold is automatically raised to at least 5 percentage points above the start threshold.",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultra-realistic 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Realistic 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Game values",

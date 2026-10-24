@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "Запуск резерва (процент)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Резервный генератор запускается, когда заряд аккумуляторов падает ниже этого процента.",
     "Sandbox_LiveWire_BackupStopPercent": "Остановка резерва (процент)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Резервный генератор останавливается, когда заряд аккумуляторов достигает этого процента.",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Резервный генератор останавливается, когда заряд аккумуляторов достигает этого процента. Порог остановки автоматически повышается минимум на 5 процентных пунктов выше порога запуска.",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ультрареалистично 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Реалистично 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Значения игры",

@@ -129,10 +129,11 @@ end
 --   wasOn (bool), state ("on"|"off"|"tripped"|"broken"),
 --   batteries = { { charge = kWh, capacity = kWh } ... }  (mutated in place)
 -- }
--- Returns r = { on, tripped, servedW, drawnKWh, chargedKWh, lostKWh, stockKWh, capacityKWh }
+-- on is the END state; onHours is the served duration from the start of the step.
+-- servedW and usefulW are averages over the entire step, including the off fraction.
 function Physics.stepGrid(p)
     local r = { on = false, tripped = false, servedW = 0, drawnKWh = 0,
-                chargedKWh = 0, lostKWh = 0, stockKWh = 0, capacityKWh = 0 }
+                chargedKWh = 0, lostKWh = 0, stockKWh = 0, capacityKWh = 0, onHours = 0 }
     local dt = p.dt
     local eff = clamp(p.eff or 0.85, 0.05, 1)
     local batteries = p.batteries or {}
@@ -171,19 +172,23 @@ function Physics.stepGrid(p)
         local canStart = p.wasOn
             or (capacity > 0 and stock > capacity * LiveWire.Defs.RESTART_STOCK_RATIO)
             or (production * eff >= demand)
-        if canStart and needKWh <= stock + 1e-9 then
-            on = true
-            usefulW = fromProd
-            if needKWh > 0 then
+        if canStart then
+            local fraction = 1
+            if needKWh > stock then fraction = stock / needKWh end
+            fraction = clamp(fraction, 0, 1)
+            r.onHours = dt * fraction
+            usefulW = fromProd * fraction
+            on = fraction >= 1 and (needKWh <= 0 or stock - needKWh > 1e-9)
+            if needKWh > 0 and fraction > 0 then
                 for i = 1, #batteries do
                     local b = batteries[i]
                     b._w = b.charge
                     b._lim = b.charge
                 end
-                local drawn = distribute(batteries, needKWh, "_w", "_lim", -1)
+                local drawn = distribute(batteries, math.min(needKWh, stock), "_w", "_lim", -1)
                 r.drawnKWh = drawn
             end
-            r.servedW = demand
+            r.servedW = demand * fraction
         end
     end
 

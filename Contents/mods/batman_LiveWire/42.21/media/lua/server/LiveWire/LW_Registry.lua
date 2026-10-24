@@ -2,6 +2,7 @@
 -- Stored in the global ModData "LiveWire" (saved in global_mod_data.bin). Never
 -- transmitted: clients receive snapshots and the public anchor table only.
 if isClient() then return end
+require "LiveWire/LW_PowerHistory"
 
 LiveWire = LiveWire or {}
 
@@ -26,6 +27,9 @@ function Registry.init()
     Registry.rebuildIndexes()
     local a = ModData.getOrCreate(LiveWire.ANCHOR_KEY)
     Registry.anchors = a
+    if not Registry.readOnly then
+        LiveWire.PowerHistory.init(d, a, getGameTime():getWorldAgeHours())
+    end
     Registry.ready = true
     local n = 0
     for _ in pairs(d.devices) do n = n + 1 end
@@ -274,14 +278,17 @@ end
 
 -- Public anchor table: anchors[inverterId] = { x, y, z, on, log, log0 } (nil removes it).
 -- log: state changes { t = world age hours, on = bool }, oldest first, at most
--- ANCHOR_LOG_MAX; log0: state before log[1]. Used to age the fridge food of chunks
--- that were unloaded while the state changed (LW_FridgeCatchup.lua).
+-- ANCHOR_LOG_MAX; log0: state before log[1]. Kept for compatibility; authoritative
+-- food catch-up now reads the private 60-day PowerHistory instead.
 -- Returns true when the published state changed.
 Registry.ANCHOR_LOG_MAX = 16
 
 function Registry.setAnchor(inverter, on)
     local a = Registry.anchors
     local cur = a[inverter.id]
+    if on ~= nil or cur then
+        LiveWire.PowerHistory.record(data(), inverter, on, getGameTime():getWorldAgeHours())
+    end
     if on == nil then
         if cur == nil then return false end
         a[inverter.id] = nil

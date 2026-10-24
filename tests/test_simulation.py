@@ -18,7 +18,7 @@ FILES = [
     "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua",
     "shared/LiveWire/LW_Consumption.lua", "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",
     "shared/LiveWire/LW_SquareScan.lua", "shared/LiveWire/LW_Notify.lua", "shared/LiveWire/LW_Anchor.lua", "shared/LiveWire/LW_Install.lua",
-    "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
+    "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_PowerHistory.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
     "server/LiveWire/LW_Commands.lua", "server/LiveWire/LW_Devices.lua",
@@ -246,6 +246,7 @@ local container = { getItems = function() return list(ITEMS) end }
 local bank = LiveWire.Registry.addDevice({ role = "storage", model = "PowerBank", x = 101, y = 101, z = 0,
     cond = 100, level = 7, state = "ok", wearFactor = 1, slots = {} })
 local obj = { getContainer = function() return container end,
+              getSprite = function() return { getName = function() return "batman_livewire_01_16" end } end,
               getModData = function() return { movableData = { LiveWire = { id = bank.id, model = "PowerBank" } } } end }
 local square = { getObjects = function() return list({ obj }) end }
 local realGetCell = getCell

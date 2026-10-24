@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "Notstart (Prozent)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Ein Notstromgenerator startet, wenn die Batterien unter diesen Prozentsatz fallen.",
     "Sandbox_LiveWire_BackupStopPercent": "Notstopp (Prozent)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Der Notstromgenerator stoppt, sobald die Batterien diesen Prozentsatz erreichen.",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "Der Notstromgenerator stoppt, sobald die Batterien diesen Prozentsatz erreichen. Die Abschaltschwelle wird automatisch auf mindestens 5 Prozentpunkte über der Startschwelle angehoben.",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarealistisch 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Realistisch 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Spielwerte",

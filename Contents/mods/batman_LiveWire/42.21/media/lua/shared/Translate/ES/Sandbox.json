@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "Arranque del respaldo (porcentaje)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Un generador de respaldo arranca cuando las baterías bajan de este porcentaje.",
     "Sandbox_LiveWire_BackupStopPercent": "Parada del respaldo (porcentaje)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "El generador de respaldo se detiene cuando las baterías alcanzan este porcentaje.",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "El generador de respaldo se detiene cuando las baterías alcanzan este porcentaje. El umbral de parada se eleva automáticamente hasta al menos 5 puntos porcentuales por encima del umbral de arranque.",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarrealista 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Realista 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Valores del juego",

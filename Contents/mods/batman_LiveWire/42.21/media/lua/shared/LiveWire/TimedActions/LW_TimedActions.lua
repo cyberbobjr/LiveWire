@@ -692,7 +692,7 @@ function LWMeasureAction:complete()
             end
         end
     end
-    LiveWire.Xp.awardLimited(ch, "measure:" .. sq:getX() .. "," .. sq:getY() .. "," .. sq:getZ(), 1, 1)
+    LiveWire.Xp.awardMeasurement(ch, "measure:" .. sq:getX() .. "," .. sq:getY() .. "," .. sq:getZ())
     return true
 end
 

@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "予備発電機の始動(パーセント)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "バッテリーがこの割合を下回ると予備発電機が始動します。",
     "Sandbox_LiveWire_BackupStopPercent": "予備発電機の停止(パーセント)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "バッテリーがこの割合に達すると予備発電機が停止します。",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "バッテリーがこの割合に達すると予備発電機が停止します。 停止しきい値は、始動しきい値より少なくとも5ポイント高くなるよう自動調整されます。",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "超リアル 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "リアル 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "ゲームの値",

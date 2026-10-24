@@ -90,7 +90,8 @@ function Pump.removeRelay(dev, key)
     local sq = getCell():getGridSquare(r.x, r.y, r.z)
     if not sq then return end
     local relay = Pump.findRelay(r.x, r.y, r.z)
-    if relay then sq:transmitRemoveItemFromSquare(relay) end
+    local m = relay and relay:getModData()[Defs.RELAY_KEY]
+    if m and m.pump == dev.id then sq:transmitRemoveItemFromSquare(relay) end
     dev.relays[key] = nil
 end
 
@@ -144,12 +145,68 @@ local function inventory(dev)
     return entry
 end
 
+-- Candidates are read from nearby chunk buckets once per maintenance, never from
+-- the whole server registry for each tap. Power/fuel do not change ownership.
+local function candidates(dev)
+    local reach = LiveWire.Config.get("PumpRange") * 2 + 2
+    local out = {}
+    for cx = math.floor((dev.x - reach) / 8), math.floor((dev.x + reach) / 8) do
+        for cy = math.floor((dev.y - reach) / 8), math.floor((dev.y + reach) / 8) do
+            local list = R().devicesInChunk(cx, cy)
+            for i = 1, #list do
+                local p = list[i]
+                if p.role == "pump" and p.grid and R().grid(p.grid)
+                    and (p.cond or 100) > 0 and hasAny(p.barrels) then
+                    out[#out + 1] = p
+                end
+            end
+        end
+    end
+    return out
+end
+
+-- A shared relay is assigned from the fixture square directly below it. This
+-- canonical point prevents neighbouring taps from transferring it back and forth.
+local function closest(list, x, y, z)
+    local best, distance
+    local range, vertical = LiveWire.Config.get("PumpRange"), LiveWire.Config.verticalRange()
+    for i = 1, #list do
+        local p = list[i]
+        local dx, dy, dz = p.x - x, p.y - y, p.z - z
+        local d = dx * dx + dy * dy + dz * dz
+        if dx * dx + dy * dy <= range * range and math.abs(dz) <= vertical
+            and (not best or d < distance or (d == distance and p.id < best.id)) then
+            best, distance = p, d
+        end
+    end
+    return best
+end
+
+local function claimRelay(dev, relay)
+    local sq = relay:getSquare()
+    local key = LiveWire.posKey(sq:getX(), sq:getY(), sq:getZ())
+    local mark = relay:getModData()[Defs.RELAY_KEY]
+    local previous = mark and R().device(mark.pump)
+    if previous and previous.id ~= dev.id and previous.relays then
+        previous.relays[key] = nil
+        LiveWire.Devices.syncMark(previous)
+    end
+    dev.relays[key] = { x = sq:getX(), y = sq:getY(), z = sq:getZ() }
+    if not mark or mark.pump ~= dev.id then
+        relay:getModData()[Defs.RELAY_KEY] = { pump = dev.id }
+        if isServer() then relay:transmitModData() end
+    end
+end
+
 -- Re-evaluate only known fixtures; source ownership and public water can change
 -- without furniture moving. Preserve the original stable x/y/z discovery order.
-local function wantedRelays(dev, linked)
+local function wantedRelays(dev, linked, nearby)
     local wanted = {}
     if not linked then return wanted end
     local entry = inventory(dev)
+    -- On reload the saved relays are valid, but the session inventory is empty.
+    -- An unfinished first discovery must never be mistaken for "no more taps".
+    if entry.job and #entry.fixtures == 0 then return nil end
     for i = 1, #entry.fixtures do
         local pos = entry.fixtures[i]
         local x, y, z = pos.x, pos.y, pos.z
@@ -172,11 +229,13 @@ local function wantedRelays(dev, linked)
                     end
                     if not shared then
                         local src = IsoObject.FindExternalWaterSource(sq)
-                        if not src and z < 31 then
+                        local owner = closest(nearby, x, y, z)
+                        if not src and z < 31 and owner and owner.id == dev.id then
                             wanted[LiveWire.posKey(x, y, z + 1)] = { x = x, y = y, z = z + 1 }
                         elseif src and LiveWire.Install.isRelay(src) then
-                            local m, ss = src:getModData()[Defs.RELAY_KEY], src:getSquare()
-                            if m and m.pump == dev.id and ss then
+                            local ss = src:getSquare()
+                            owner = ss and closest(nearby, ss:getX(), ss:getY(), ss:getZ() - 1)
+                            if owner and owner.id == dev.id then
                                 wanted[LiveWire.posKey(ss:getX(), ss:getY(), ss:getZ())] =
                                     { x = ss:getX(), y = ss:getY(), z = ss:getZ() }
                             end
@@ -241,20 +300,33 @@ function Pump.maintain(dev)
     if not getCell():getGridSquare(dev.x, dev.y, dev.z) then return end
     local before = countOf(dev.relays)
     local grid = dev.grid and R().grid(dev.grid)
-    local linked = grid ~= nil and hasAny(dev.barrels)
-    local wanted = wantedRelays(dev, linked)
+    local linked = grid ~= nil and hasAny(dev.barrels) and (dev.cond or 100) > 0
+    local nearby = candidates(dev)
+    local wanted = wantedRelays(dev, linked, nearby)
+    if not wanted then return end
     local keys = {}
     for key in pairs(wanted) do keys[#keys + 1] = key end
     table.sort(keys)
     for i = 1, #keys do
         local w = wanted[keys[i]]
-        if not Pump.findRelay(w.x, w.y, w.z) then Pump.placeRelay(dev, w.x, w.y, w.z) end
+        local relay = Pump.findRelay(w.x, w.y, w.z)
+        if relay then claimRelay(dev, relay) else Pump.placeRelay(dev, w.x, w.y, w.z) end
         dev.relays[keys[i]] = { x = w.x, y = w.y, z = w.z }
     end
     local old = {}
     for key in pairs(dev.relays) do old[#old + 1] = key end
     for i = 1, #old do
-        if not wanted[old[i]] then Pump.removeRelay(dev, old[i]) end
+        if not wanted[old[i]] then
+            local pos = dev.relays[old[i]]
+            local relay = pos and Pump.findRelay(pos.x, pos.y, pos.z)
+            local owner = pos and closest(nearby, pos.x, pos.y, pos.z - 1)
+            if relay and owner and owner.id ~= dev.id then
+                claimRelay(owner, relay)
+                LiveWire.Devices.syncMark(owner)
+            else
+                Pump.removeRelay(dev, old[i])
+            end
+        end
     end
     -- The mark shows the relay count (nr) to the clients.
     if countOf(dev.relays) ~= before then LiveWire.Devices.syncMark(dev) end
@@ -336,7 +408,8 @@ local function needsOf(dev)
     for i = 1, #keys do
         local r = dev.relays[keys[i]]
         local relay = Pump.findRelay(r.x, r.y, r.z)
-        if relay then
+        local mark = relay and relay:getModData()[Defs.RELAY_KEY]
+        if mark and mark.pump == dev.id then
             local fc = relay:getFluidContainer()
             local need = fc:getFreeCapacity()
             if need > 0.001 then
@@ -401,13 +474,14 @@ function Pump.step(dev)
     if not hasAny(dev.barrels) then return setState(dev, "nobarrel") end
     if not powered then return setState(dev, "nopower") end
 
-    dev.budget = math.min(10, (dev.budget or 0) + Defs.PUMP_LITRES_PER_MINUTE)
-
+    -- A minute of unused flow is not stored water. Clear legacy credits as well.
+    dev.budget = 0
     local needs, total = needsOf(dev)
     if total < 0.01 then return setState(dev, "idle") end
 
     local sources = sourcesOf(dev)
     if #sources == 0 then return setState(dev, "nobarrel") end
+    dev.budget = math.min(Defs.PUMP_BUDGET_MAX, Defs.PUMP_LITRES_PER_MINUTE)
 
     local moved = 0
     local touchedRelays, touchedBarrels = {}, {}
@@ -483,9 +557,23 @@ end
 -- A pump is removed: its relays go, and the barrel marks of loaded barrels are cleared.
 function Pump.forget(dev)
     Pump.inventories[dev.id] = nil
+    local nearby, remaining = candidates(dev), {}
+    for i = 1, #nearby do
+        if nearby[i].id ~= dev.id then remaining[#remaining + 1] = nearby[i] end
+    end
     local keys = {}
     for key in pairs(dev.relays or {}) do keys[#keys + 1] = key end
-    for i = 1, #keys do Pump.removeRelay(dev, keys[i]) end
+    for i = 1, #keys do
+        local pos = dev.relays[keys[i]]
+        local owner = closest(remaining, pos.x, pos.y, pos.z - 1)
+        local relay = Pump.findRelay(pos.x, pos.y, pos.z)
+        if owner and relay then
+            claimRelay(owner, relay)
+            LiveWire.Devices.syncMark(owner)
+        else
+            Pump.removeRelay(dev, keys[i])
+        end
+    end
     local barrels = {}
     for key in pairs(dev.barrels or {}) do barrels[#barrels + 1] = key end
     for i = 1, #barrels do
@@ -510,8 +598,8 @@ function Pump.onLoadChunk(chunk)
             if sq then Pump.invalidateAt(sq, 16); invalidated = true; break end
         end
     end
-    local zMin = math.max(-1, chunk:getMinLevel())
-    local zMax = math.min(7, chunk:getMaxLevel())
+    local zMin = chunk:getMinLevel()
+    local zMax = chunk:getMaxLevel()
     for z = zMin, zMax do
         for lx = 0, 7 do
             for ly = 0, 7 do

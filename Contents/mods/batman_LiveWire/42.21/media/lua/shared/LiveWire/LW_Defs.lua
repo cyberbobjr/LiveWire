@@ -107,6 +107,7 @@ Defs.RELAY_KEY = "LiveWireRelay"          -- ModData of a relay: { pump = device
 Defs.BARREL_KEY = "LiveWireBarrel"        -- ModData of a linked barrel: { pump = deviceId }
 Defs.RELAY_LITRES = 25                    -- capacity of one relay tank
 Defs.PUMP_LITRES_PER_MINUTE = 5           -- flow of one pump
+Defs.PUMP_BUDGET_MAX = Defs.PUMP_LITRES_PER_MINUTE -- no idle flow credits
 Defs.PUMP_BARREL_RANGE = 1                -- the barrel must stand next to the pump (8 neighbouring squares), same floor
 Defs.PUMP_MAX_BARRELS = 8
 Defs.PUMP_PIPE = "Base.MetalPipe"         -- one per linked barrel, given back on unlink

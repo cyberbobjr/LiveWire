@@ -83,11 +83,42 @@ local function markFromDevice(obj, dev)
     if isServer() then obj:transmitModData() end
 end
 
+-- Registry identity and the physical tile win over a missing/altered object mark.
+-- Do not attach a registry device to an unrelated vanilla object carrying its id.
+function Devices.find(dev)
+    local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
+    if not sq then return nil end
+    local obj = LiveWire.Marks.findOnSquare(sq, dev.id)
+    if obj and LiveWire.Defs.modelOfObject(obj) ~= dev.model then obj = nil end
+    if not obj then
+        local objects = sq:getObjects()
+        for i = 0, objects:size() - 1 do
+            local candidate = objects:get(i)
+            if LiveWire.Defs.modelOfObject(candidate) == dev.model then
+                local mark = LiveWire.Marks.get(candidate)
+                local bound = mark and R().device(mark.id)
+                if not bound or bound.x ~= dev.x or bound.y ~= dev.y or bound.z ~= dev.z
+                    or bound.model ~= dev.model then obj = candidate; break end
+            end
+        end
+    end
+    if obj then
+        local m = LiveWire.Marks.get(obj)
+        local st, pw = stateOf(dev)
+        if not m or m.id ~= dev.id or m.model ~= dev.model or m.cond ~= dev.cond
+            or m.eff ~= dev.eff or m.level ~= dev.level or m.inv ~= inverterOf(dev)
+            or m.st ~= st or m.pw ~= pw or m.x ~= dev.x or m.y ~= dev.y or m.z ~= dev.z
+            or (m.br == true) ~= (dev.brake == true) then
+            markFromDevice(obj, dev)
+        end
+    end
+    return obj
+end
+
 -- Rewrite the mark of a loaded device (link state shown by the client menus).
 function Devices.syncMark(dev)
     if not dev then return end
-    local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
-    local obj = sq and LiveWire.Marks.findOnSquare(sq, dev.id)
+    local obj = Devices.find(dev)
     if obj then markFromDevice(obj, dev) end
 end
 
@@ -126,6 +157,14 @@ local function register(character, sq, spriteName, adopted)
     local model = LiveWire.Defs.spriteToModel[spriteName]
     local def = model and LiveWire.Defs.devices[model]
     if not def then return nil end
+    -- Repair before looking for an unbound tile, otherwise a client report could
+    -- create a second registry entry for an existing device whose mark was lost.
+    local existing = R().devicesAt(sq:getX(), sq:getY(), sq:getZ())
+    for i = 1, #existing do
+        if existing[i].model == model and not Devices.pending[existing[i].id] then
+            Devices.find(existing[i])
+        end
+    end
     local obj, mark = unboundObject(sq, spriteName)
     if not obj then
         if not adopted then
@@ -146,10 +185,11 @@ local function register(character, sq, spriteName, adopted)
     end
 
     local raw = LiveWire.Marks.raw(obj) or {}
-    local level = character and LiveWire.Install.level(character) or 0
+    local level = not adopted and character and LiveWire.Install.level(character) or 0
     local dev = R().addDevice({
         role = def.role, model = model, x = sq:getX(), y = sq:getY(), z = sq:getZ(),
-        cond = tonumber(raw.cond) or 100, eff = LiveWire.Defs.installEfficiency(level), level = level,
+        cond = tonumber(raw.cond) or 100,
+        eff = adopted and 0.85 or LiveWire.Defs.installEfficiency(level), level = level,
         state = (def.role == "inverter") and "on" or "ok",
     })
     if def.role == "inverter" and raw.muf == true then dev.muffled = true end
@@ -268,7 +308,7 @@ end
 function Devices.validate(dev)
     local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
     if not sq then return true end
-    if LiveWire.Marks.findOnSquare(sq, dev.id) then return true end
+    if Devices.find(dev) then return true end
     LiveWire.warn("device " .. dev.id .. " (" .. tostring(dev.model) .. ") is gone, removing it")
     Devices.remove(dev.id)
     return false

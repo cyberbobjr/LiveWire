@@ -35,7 +35,7 @@
     "Sandbox_LiveWire_BackupStartPercent": "Início da reserva (porcentagem)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Um gerador de reserva liga quando as baterias caem abaixo desta porcentagem.",
     "Sandbox_LiveWire_BackupStopPercent": "Parada da reserva (porcentagem)",
-    "Sandbox_LiveWire_BackupStopPercent_tooltip": "O gerador de reserva desliga quando as baterias atingem esta porcentagem.",
+    "Sandbox_LiveWire_BackupStopPercent_tooltip": "O gerador de reserva desliga quando as baterias atingem esta porcentagem. O limite de parada é elevado automaticamente para pelo menos 5 pontos percentuais acima do limite de partida.",
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarrealista 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Realista 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Valores do jogo",

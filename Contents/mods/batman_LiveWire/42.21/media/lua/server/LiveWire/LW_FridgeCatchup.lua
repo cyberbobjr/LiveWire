@@ -3,7 +3,7 @@
 -- time since lastAged with the power of the moment (Food.java:668-706), so a bank
 -- that ran empty (or came back) during the absence would count the whole absence
 -- warm (or cold). Called first by LW_ChunkSync.onLoadChunk: the absence is
--- replayed segment by segment from the anchor state log (Registry.setAnchor),
+-- replayed segment by segment from the private power history (LW_PowerHistory),
 -- with the vanilla rules (Food.updateFreezing then Food.updateAge).
 if isClient() then return end
 
@@ -29,8 +29,11 @@ end
 local function onAt(a, t)
     local on = a.log0 == true
     local log = a.log
-    for i = 1, #log do
-        if log[i].t <= t then on = log[i].on == true else break end
+    local lo, hi = 1, #log
+    while lo <= hi do
+        local mid = math.floor((lo + hi) / 2)
+        if log[mid].t <= t then on = log[mid].on == true; lo = mid + 1
+        else hi = mid - 1 end
     end
     return on
 end
@@ -135,7 +138,9 @@ function FC.onLoadChunk(chunk)
     local R = LiveWire.Config.tileRange()
     local V = LiveWire.Config.verticalRange()
     local list = {}
-    for _, a in pairs(LiveWire.Anchor.table()) do
+    local registry = LiveWire.Registry
+    local history = registry and registry.data and registry.data.powerHistory or LiveWire.Anchor.table()
+    for _, a in pairs(history) do
         if type(a.log) == "table" and #a.log > 0 and LiveWire.Anchor.touches(cx, cy, a, R) then
             list[#list + 1] = a
         end
@@ -165,6 +170,7 @@ function FC.onLoadChunk(chunk)
                     end
                 end
                 if cover then
+                    local timelines = {} -- foods on this square often share lastAged
                     local objs = sq:getObjects()
                     for oi = 0, objs:size() - 1 do
                         local o = objs:get(oi)
@@ -177,7 +183,11 @@ function FC.onLoadChunk(chunk)
                                     local food = items[f]
                                     local last = food:getLastAged()
                                     if last >= 0 and last < now then
-                                        local segs = timeline(cover, last, now, shutH)
+                                        local segs = timelines[last]
+                                        if segs == nil then
+                                            segs = timeline(cover, last, now, shutH)
+                                            timelines[last] = segs or false
+                                        end
                                         if segs then
                                             local age, ft, frozen = replay(food, inFreezer, segs, ff, rot)
                                             apply(food, now, age, ft, frozen)

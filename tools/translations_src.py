@@ -363,7 +363,7 @@ SANDBOX = [
     ("BackupStartPercent", "Backup start (percent)", "D\u00e9marrage du secours (pourcentage)",
      "A backup generator starts when the batteries fall below this percentage.", "Un g\u00e9n\u00e9rateur de secours d\u00e9marre quand les batteries passent sous ce pourcentage."),
     ("BackupStopPercent", "Backup stop (percent)", "Arr\u00eat du secours (pourcentage)",
-     "The backup generator stops once the batteries reach this percentage.", "Le g\u00e9n\u00e9rateur de secours s'arr\u00eate quand les batteries atteignent ce pourcentage."),
+     "The backup generator stops once the batteries reach this percentage. The stop threshold is automatically raised to at least 5 percentage points above the start threshold.", "Le g\u00e9n\u00e9rateur de secours s'arr\u00eate quand les batteries atteignent ce pourcentage. Le seuil d'arrêt est automatiquement relevé à au moins 5 points au-dessus du seuil de démarrage."),
 ]
 add("Sandbox", "Sandbox_LiveWire", "Live Wire", "Live Wire")
 for name, en, fr, ten, tfr in SANDBOX:
