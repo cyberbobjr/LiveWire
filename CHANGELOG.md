@@ -31,11 +31,14 @@
 - Broader technical, farming and carpentry loot locations include ready-made turbines, water wheels, blades and masts. EquipmentLootMultiplier defaults to 5 (range 1–20), affects only Live Wire equipment and parts, and requires a restart. Only future loot rolls change.
 
 ### Reliability and performance
-- Circuit changes and loaded-area discovery run in bounded batches. Appliance state restoration survives cache eviction, network changes and removal of the master inverter; shared room-switch choices are retained.
-- Multiplayer appliance service updates use stable identities, ordered revisions and bounded retries when objects load or clients reconnect.
-- Nearby inverter lookups use spatial indexes. Consumer reports are built only when requested; software rows and measurement data are reused between updates.
-- Preserve fractional battery energy and device wear, and clean up expired subscriptions, cooldowns and client caches.
-- Public API v1 lets other mods register battery/source definitions and read network information.
+- Optimisations help limit brief pauses around large electrical installations, especially when exploring or switching circuits.
+- Appliances more reliably return to their previous on/off settings after changing connections, removing an inverter or returning to an area.
+- In multiplayer, fixes help prevent appliances from showing the wrong power state when entering an area or reconnecting.
+- The management software does less background work, especially on networks with many appliances.
+- Battery charge and equipment wear keep their small gradual changes, improving accuracy over time.
+
+### Other improvements
+- New tools let mod authors add compatible batteries and power sources, and read network information.
 - Updated the English/French guides, all ten Steam descriptions and screenshots. The Connections button fits inside the electrical panel.
 
 ### Updating
