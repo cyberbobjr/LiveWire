@@ -1145,3 +1145,21 @@ sans lecture de ses membres ; le second n'est pas affecté à un tableau. Les
 actions d'origine restent appelées. Confirmé par doubles Lua, sans exécution
 native Java : sept scénarios ciblés réussis ; suite complète, code **0**,
 143 tests recensés, 138 réussis et 5 ignorés. `git diff --check` : code **0**.
+
+
+## Publication corrective 1.6.1 — 2026-10-25
+
+Demandée explicitement par l'utilisateur : changelog, commit, push et publication
+avec la note de changement. Contenu livré depuis `ba7ef61`, versions Lua et des
+deux mods à 1.6.1, tag `v1.6.1`. Simulation préalable : code **0**, aucun blocage.
+`steam_workshop_publish.py LiveWire --submit --tag` : code **0**, publication
+principale et neuf traductions confirmées. Onze captures avant et après l'envoi,
+inchangées. API publique : visibilité 0, résultat 1, description anglaise
+identique à la source ; mise à jour `2026-10-25T20:57:53Z`.
+
+Contrôles de préparation relancés : suite complète, code **0**, 143 tests
+recensés, 138 réussis, 5 ignorés ; `check_mod.py` avec les sources 42.21.0 :
+code **0**, OK ; `git diff --check` : code **0**. Les essais de physique et de
+simulation sont également OK dans le passage de correction précédent.
+Aucun jeu lancé ni test natif Kahlua/MP/Linux effectué pour publier : la portée
+reste celle des contrôles statiques et des scénarios Lua hors jeu ci-dessus.

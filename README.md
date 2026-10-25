@@ -654,7 +654,7 @@ Production, stock, states, failures and experience are computed by the server; t
 
 ### Status
 
-Version 1.6.0 was published on the Steam Workshop on 2026-10-25. Static checks and offline regression tests cover the new work; the supplied in-game screenshots confirm the equipment panels visually. Earlier single-player and Windows multiplayer campaigns cover the snapshots documented in the report; the latest changes still need a complete multiplayer pass. Linux is not validated. See the [validation report](docs/annexes/tests/validation.md). Balancing values remain starting values.
+Version 1.6.1 was published on the Steam Workshop on 2026-10-25. Static checks and offline regression tests cover the new work; the supplied in-game screenshots confirm the equipment panels visually. Earlier single-player and Windows multiplayer campaigns cover the snapshots documented in the report; the latest changes still need a complete multiplayer pass. Linux is not validated. See the [validation report](docs/annexes/tests/validation.md). Balancing values remain starting values.
 
 ### Installation
 

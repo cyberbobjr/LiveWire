@@ -799,3 +799,18 @@ de recettes et de revue sont livrés en 1.6.0. I06, I08, I16, I17, I19 et I20
 restent hors périmètre. Les états « locaux » des étapes historiques décrivent
 leur date d'origine ; ils sont dépassés par cette publication. Les limites de
 validation restent celles du bilan : aucun test avec le jeu lancé pour publier.
+
+
+## Publication corrective 1.6.1 — 2026-10-25
+
+Signalement radio utilisateur traité : les contrôles du tableau ne reçoivent
+plus les radios d'inventaire, autoradios ni propriétaires de fluides étrangers
+aux appareils posés pris en charge. Le garde-fou est fondé sur le type avant
+lecture des méthodes ; objets inconnus ignorés et comportement vanilla conservé.
+Sept scénarios ciblés, 143 tests recensés (138 réussis, 5 ignorés), contrôle
+statique du mod OK. Aucun test en jeu lancé pour ce correctif.
+
+Version 1.6.1 publiée depuis `ba7ef61`, tag `v1.6.1`, avec la note du changelog.
+Envoi principal et neuf traductions confirmés, code 0 ; onze captures Steam
+avant/après, inchangées. Vérification publique de la description anglaise et de
+la visibilité : OK. Résultats et limites dans le bilan de validation.

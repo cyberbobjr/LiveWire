@@ -1,6 +1,6 @@
 # Live Wire — documentation
 
-Version **1.6.0** publiée le 2026-10-25 : campagne IXX, nouveaux écrans et circuits, recettes et documentation multilingue. Dépôt poussé et mise à jour Steam confirmée dans les dix langues ; sources du wiki EN/FR incluses. Voir le [changelog](../CHANGELOG.md).
+Version **1.6.1** publiée le 2026-10-25 : correction des radios portables et autoradios, garde-fou sur les objets inspectés par le tableau. Les fonctionnalités de la 1.6.0 sont conservées. Dépôt poussé et publication Steam confirmée dans les dix langues. Voir le [changelog](../CHANGELOG.md).
 
 Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétence Électricité un métier : panneaux solaires, éoliennes et roues à aubes, batteries en powerbank, onduleur qui alimente la maison et pompe à eau.
 

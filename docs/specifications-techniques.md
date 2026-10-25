@@ -1,6 +1,6 @@
 # Live Wire — spécifications techniques
 
-Contrats techniques du mod tels qu'ils existent dans le code de la **version 1.5.0** (relevé initial du 2026-10-21, actualisé le 2026-10-24, `Contents/mods/batman_LiveWire/42.21`). Ce document fait foi pour les identifiants, formats et bornes ; les justifications sont dans [`architecture.md`](architecture.md), le comportement vu du joueur dans [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md).
+Contrats techniques du mod tels qu'ils existent dans le code de la **version 1.6.1** (relevé initial du 2026-10-21, actualisé le 2026-10-25, `Contents/mods/batman_LiveWire/42.21`). Ce document fait foi pour les identifiants, formats et bornes ; les justifications sont dans [`architecture.md`](architecture.md), le comportement vu du joueur dans [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md).
 
 Toute modification d'un identifiant de ce document (type d'objet, clé de ModData, nom de modèle, nom de commande, nom d'option) casse les sauvegardes ou le multijoueur : elle exige une migration (§ 4.4).
 
