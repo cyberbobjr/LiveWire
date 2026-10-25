@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultra-réaliste 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Réaliste 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Valeurs du jeu",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "Confort"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Confort",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Fréquence des équipements et pièces LiveWire",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multiplie uniquement les poids du butin des équipements et pièces LiveWire (cellules, pales et mâts) (1 à 20, défaut 5). Les objets vanilla et leurs poids restent inchangés. Les CD gardent leur taux actuel. Redémarrage requis ; prochains tirages uniquement, aucun remplissage des conteneurs fouillés. Les réglages vanilla restent applicables.",
+    "Sandbox_LiveWire_SolarOrientation": "Orientation solaire",
+    "Sandbox_LiveWire_SolarDirt": "Encrassement des panneaux",
+    "Sandbox_LiveWire_BatteryCold": "Batteries et froid",
+    "Sandbox_LiveWire_LiveWorkRisk": "Risque sous tension",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "L’orientation du panneau modifie le rendement et l’heure du pic de production.",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "La poussière s’accumule sur les panneaux. La pluie et le nettoyage l’enlèvent.",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "Le froid réduit la capacité accessible des banques extérieures. La réserve revient au dégel.",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Option activée par défaut. Risque de décharge : 50%% au niveau 0 en Électricité, nul dès 6. Brûle la main du tournevis et fait lâcher les objets tenus. Éteignez l’onduleur maître : le principal du tableau ne sécurise pas les interventions."
 }

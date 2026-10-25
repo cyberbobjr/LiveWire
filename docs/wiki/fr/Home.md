@@ -10,6 +10,16 @@ Live Wire est un mod pour Project Zomboid **Build 42.21** (ID du mod `batman_Liv
 
 Pour commencer : [Premiers pas](01-premiers-pas.md).
 
+## Version 1.6.0
+
+Une mise à jour mineure importante : commandez l'éclairage et les appareils depuis un véritable tableau électrique, ouvrez le LCD de chaque équipement et gérez ses raccordements dans une fenêtre commune. Empilez deux powerbanks, affichez les consommateurs et les câbles, puis préparez la production grâce aux prévisions sur trois jours et au journal d'événements.
+
+Orientation et saleté des panneaux, test et réparation des batteries, récupération des équipements cassés, risques électriques, recettes révisées et butin élargi donnent davantage de place à la compétence Électricité. Voir le [changelog](../../../CHANGELOG.md), les [recettes](08-recettes.md) et le [guide d'entretien](10-competence-electricite-et-entretien.md).
+
+![Tableau électrique avec circuits éclairage et équipements séparés](../../images/screenshots/shot6.png)
+
+![Écrans de la powerbank, de l'onduleur et du tableau sur la même installation](../../images/screenshots/shot7.png)
+
 ## Pages
 
 - [Premiers pas](01-premiers-pas.md)

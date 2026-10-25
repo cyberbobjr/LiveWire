@@ -4,7 +4,7 @@
     "LWMakeSolarCellFromScrap": "Solarzelle aus Schrott herstellen",
     "LWMakeSolarPanelKit": "Solarpanel herstellen",
     "LWMakeInverterKit": "Wechselrichter herstellen",
-    "LWMakeWindTurbineKit": "Windturbine herstellen",
+    "LWMakeWindTurbineKit": "Windrad zusammenbauen",
     "LWMakeWaterWheel": "Wasserrad herstellen",
     "LWMakePowerBankKit": "Batteriebank herstellen",
     "LWMakeBreakerKit": "Schutzschaltertafel herstellen",
@@ -12,5 +12,8 @@
     "LWMakeDeepCycleBattery": "Tiefzyklus-Batterie herstellen",
     "LWMakeBatteryAlarmKit": "Batteriealarm herstellen",
     "LWMakeWaterPump": "Wasserpumpe herstellen",
-    "LWMakeCouplingKit": "Wechselrichter-Kopplungsset herstellen"
+    "LWMakeCouplingKit": "Wechselrichter-Kopplungsset herstellen",
+    "LWMakeWindTurbineBlades": "Windrad-Rotor bauen",
+    "LWMakeWindTurbineMast": "Windradmast bauen",
+    "LWDismantleVoltageTester": "Spannungsprüfer zerlegen"
 }

@@ -73,7 +73,11 @@ end
 
 -- Draw in W of an appliance, 0 when it is off; includes LiveWire.PowerScale.
 -- `profile` is optional (read once by the caller for a whole scan).
-function Consumption.watts(o, profile)
+function Consumption.watts(o, profile, beforeCircuit)
+    -- Fuel pumps have no native activation flag. Their actual dispensing actions
+    -- are refused on both peers, including partial transfers and completion.
+    if not beforeCircuit and LiveWire.Appliances and LiveWire.Appliances.kind(o) == "fuel"
+        and LiveWire.Appliances.blocked(o) then return 0 end
     local p = o:getGeneratorPowerConsumption()
     if not p or p <= 0 then return 0 end
     local scale = LiveWire.Config.get("PowerScale") or 1

@@ -11,8 +11,8 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 | Équipement | Rôle | Pose | Niveau d'Électricité |
 |---|---|---|---|
 | Panneau photovoltaïque | Source, 100 W | Dehors, ciel dégagé ; toit plat possible | 3 |
-| Éolienne | Source, 400 W ; les pales tournent avec le vent | Dehors ; +15 % de vent par étage jusqu'au 3e | 6 |
-| Roue à aubes | Source, 120 W jour et nuit | Rez-de-chaussée, au bord d'une rivière | 7 |
+| Éolienne | Source, 400 W ; les pales tournent avec le vent | Dehors ; +15 % de vent par étage jusqu'au 3e | 2 |
+| Roue à aubes | Source, 120 W jour et nuit | Rez-de-chaussée, au bord d'une rivière | 2 |
 | Onduleur | Cœur du réseau, 1 500 W | Toute case de sol, intérieur compris | 5 |
 | Powerbank | Stockage, 4 batteries comptées ; s'ouvre comme une caisse (capacité 50) | Partout ; ramassée seulement vide | 2 |
 | Disjoncteur | Sécurité, facultatif | Sur un mur (nord ou ouest) | 3 |
@@ -32,7 +32,7 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 - Sources et powerbank : voyant vert « connecté ».
 - Disjoncteur : lampe rouge quand il a sauté.
 - Alarme : gyrophare allumé pendant la sonnerie.
-- Pompe à eau : voyant bleu quand elle dessert au moins un point d'eau.
+- Pompe à eau : voyant bleu lorsqu'elle est alimentée, même au repos.
 
 ## Batteries
 
@@ -53,7 +53,20 @@ Capacité effective = nominale × (0,4 + 0,6 × état/100) × BatteryCapacityMul
 
 - Ramasser l'onduleur déconnecte tout son réseau ; le tourner conserve les liens.
 - Ramasser une source conserve son état ; reposée, elle est « Non raccordé ».
-- La powerbank ne se ramasse que vide.
+- La powerbank ne se ramasse que vide. Si elle en porte une autre, retirez celle
+  du dessus avant de déplacer, tourner ou démonter celle du dessous.
+
+## Superposer deux powerbanks
+
+Utilisez le curseur de pose de meubles pour poser une seconde powerbank sur la
+même case que la première : le fantôme doit apparaître au-dessus. Deux banques
+au maximum par pile, soit huit emplacements de batteries (quatre par banque).
+
+Chaque banque possède son propre conteneur et doit être raccordée à l'onduleur.
+Le bouton **Banque 1/2** ou **Banque 2/2** du LCD passe de celle du bas à celle du
+haut et sélectionne son conteneur dans la fenêtre de butin. Le panneau de
+raccordement indique aussi le numéro de banque. Les batteries ne sont ni fusionnées
+ni copiées ; une nouvelle banque ne contient pas de batteries gratuites.
 
 ## Voir aussi
 

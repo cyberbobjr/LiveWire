@@ -104,8 +104,20 @@ function Menu.onClearSnow(player, obj)
     queueNear(player, obj:getSquare(), LWClearSnowAction:new(player, obj))
 end
 
+function Menu.onCleanPanel(player, obj)
+    queueNear(player, obj:getSquare(), LWCleanPanelAction:new(player, obj))
+end
+
+function Menu.onTestBattery(player, item)
+    ISInventoryPaneContextMenu.transferIfNeeded(player, item)
+    ISTimedActionQueue.add(LWTestBatteryAction:new(player, item))
+end
+
 function Menu.onUnlink(player, id)
     LiveWire.Client.send(LiveWire.Protocol.C_UNLINK, { device = id })
+end
+function Menu.onUnlinkAt(player,obj,id)
+    queueNear(player,obj:getSquare(),LWUnlinkAction:new(player,obj,id))
 end
 
 function Menu.onUncouple(player, id)
@@ -148,8 +160,12 @@ function Menu.onMuffle(player, obj, remove)
     queueNear(player, obj:getSquare(), LWMuffleAction:new(player, obj, remove))
 end
 
-function Menu.onPanel(player, id)
-    LiveWire.InverterPanel.open(player, id)
+function Menu.onOpenEquipment(player, obj)
+    LiveWire.Equipment.open(player, obj)
+end
+
+function Menu.onConnections(player, obj)
+    LiveWire.ConnectionPanel.open(player, obj)
 end
 
 function Menu.onShowRange(player, id, sq)
@@ -233,7 +249,7 @@ local function addSwitchOptions(menu, player, mark)
     if not mark.cpl then
         menu:addOption(getText("ContextMenu_LW_RenameNetwork"), player, Menu.onRename, mark.id, mark.nm)
     end
-    if mark.st == "on" then
+    if mark.st == "on" or mark.st == "tripped" or mark.st == "broken" then
         menu:addOption(getText("ContextMenu_LW_TurnOff"), player, Menu.onSetInverter, mark.id, false)
     elseif mark.st == "off" then
         menu:addOption(getText("ContextMenu_LW_TurnOn"), player, Menu.onSetInverter, mark.id, true)
@@ -254,7 +270,6 @@ end
 -- Slave inverter (coupled to a master): its screen is the master's, and it has no
 -- reset, no range and no equipment lists, only the uncouple option.
 local function addSlaveOptions(menu, player, obj, mark)
-    menu:addOption(getText("ContextMenu_LW_Panel"), player, Menu.onPanel, mark.cpl)
     addSwitchOptions(menu, player, mark)
     local invObj = I().inverterById(obj:getSquare(), mark.cpl)
     if invObj then
@@ -299,7 +314,6 @@ local function addInverterOptions(menu, player, obj, mark)
         addSlaveOptions(menu, player, obj, mark)
         return
     end
-    menu:addOption(getText("ContextMenu_LW_Panel"), player, Menu.onPanel, mark.id)
     addSwitchOptions(menu, player, mark)
     if mark.st == "tripped" then
         menu:addOption(getText("ContextMenu_LW_Reset"), player, Menu.onReset, mark.id)
@@ -419,8 +433,21 @@ local function addDeviceOptions(root, player, obj)
     local menu = ISContextMenu:getNew(root)
     root:addSubMenu(opt, menu)
 
+    -- Every device opens its own display; wiring is a separate destination.
+    local openKey = def.role == "inverter" and "ContextMenu_LW_Panel"
+        or def.kind == "breaker" and "ContextMenu_LW_OpenBoard"
+        or "IGUI_LW_OpenEquipment"
+    menu:addOption(getText(openKey), player, Menu.onOpenEquipment, obj)
+    menu:addOption(getText("IGUI_LW_Connections"), player, Menu.onConnections, obj)
+
     if def.role == "inverter" then
         addInverterOptions(menu, player, obj, mark)
+        menu:addOption(getText("ContextMenu_LW_ShowConsumers"), nil, function()
+            LiveWire.NetworkView.show(mark.cpl or mark.id, "consumers")
+        end)
+        menu:addOption(getText("ContextMenu_LW_ShowConnections"), nil, function()
+            LiveWire.NetworkView.show(mark.cpl or mark.id, "links")
+        end)
     else
         addLinkOptions(menu, player, obj, "device", mark.id)
     end
@@ -433,6 +460,7 @@ local function addDeviceOptions(root, player, obj)
     end
     if def.kind == "solar" then
         menu:addOption(getText("ContextMenu_LW_ClearSnow"), player, Menu.onClearSnow, obj)
+        menu:addOption(getText("ContextMenu_LW_CleanPanel"), player, Menu.onCleanPanel, obj)
     end
     if def.kind == "wind" then
         local key = mark.br and "ContextMenu_LW_ReleaseBrake" or "ContextMenu_LW_ApplyBrake"
@@ -442,12 +470,18 @@ local function addDeviceOptions(root, player, obj)
         if I().level(player) < LiveWire.Config.requiredLevel(7) then option.notAvailable = true end
     end
     menu:addOption(getText("ContextMenu_LW_Inspect"), player, Menu.onInspect, obj)
+    if (mark.cond or 100) <= 0 then
+        menu:addOption(getText("ContextMenu_LW_Salvage"), player, function(ch)
+            queueNear(ch, obj:getSquare(), LWSalvageAction:new(ch, obj))
+        end)
+    end
     local r = menu:addOption(getText("ContextMenu_LW_Repair"), player, Menu.onRepair, obj, false)
     local ok, why, arg = LWRepairAction.canRepair(player, obj, false)
     if not ok then tip(r, why, arg) end
     local ov = menu:addOption(getText("ContextMenu_LW_Overhaul"), player, Menu.onRepair, obj, true)
     ok, why, arg = LWRepairAction.canRepair(player, obj, true)
     if not ok then tip(ov, why, arg) end
+    if LiveWire.DebugMenu then LiveWire.DebugMenu.fillDevice(menu, player, mark.id) end
 end
 
 -- Options for a vanilla generator (backup power) or desktop computer (management).
@@ -549,6 +583,8 @@ local function onFillInventory(playerNum, context, items)
     local list = ISInventoryPane.getActualItems(items)
     for _, item in ipairs(list) do
         if LiveWire.Defs.isBattery(item:getFullType()) then
+            local test = context:addOption(getText("ContextMenu_LW_TestBattery"), player, Menu.onTestBattery, item)
+            test.notAvailable = not I().hasLevel(player, 1) or I().countType(player, "LiveWire.VoltageTester") < 1
             local o = context:addOption(getText("ContextMenu_LW_Recondition"), player, Menu.onRecondition, item)
             local ok, why, arg = LWReconditionAction.canRecondition(player, item)
             if not ok then

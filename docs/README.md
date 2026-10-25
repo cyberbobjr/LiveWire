@@ -1,5 +1,7 @@
 # Live Wire — documentation
 
+Version **1.6.0** préparée le 2026-10-25 : campagne IXX, nouveaux écrans et circuits, recettes et documentation multilingue. Aucun envoi Steam ni synchronisation distante du wiki à cette étape. Voir le [changelog](../CHANGELOG.md).
+
 Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétence Électricité un métier : panneaux solaires, éoliennes et roues à aubes, batteries en powerbank, onduleur qui alimente la maison et pompe à eau.
 
 ## Documents
@@ -7,7 +9,7 @@ Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétenc
 | Document | Rôle |
 |---|---|
 | [`architecture.md`](architecture.md) | Architecture logicielle : mécanisme d'alimentation (ancres), modules, modèle de données, boucle de simulation, protocole, persistance, risques |
-| [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md) | Ce que fait le mod pour le joueur et l'administrateur, fonctionnalités F01 à F23 |
+| [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md) | Ce que fait le mod pour le joueur et l'administrateur, fonctionnalités F01 à F32 |
 | [`specifications-techniques.md`](specifications-techniques.md) | Contrats précis : objets, appareils, commandes réseau, ModData, options sandbox, traductions, compatibilités |
 | [`developpement.md`](developpement.md) | Contraintes de développement du projet : périmètre (deux mods), architecture à préserver, création indépendante, outils, dépôt |
 | [`decisions.md`](decisions.md) | Exigences de l'utilisateur et journal des décisions validées (D-n) |
@@ -51,7 +53,17 @@ Les pages Steam (`README.steam*`, `workshop.txt`) et les README de la racine cha
 
 | Document | Rôle |
 |---|---|
-| [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) | 48 notes moteur sourcées (NM-n), avec Build, date et niveau de validation |
+| [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) | 56 notes moteur sourcées (NM-n), avec Build, date et niveau de validation |
 | [`annexes/conception/choix-et-extensions.md`](annexes/conception/choix-et-extensions.md) | Motivations de la pompe et du couplage ; propositions et questions ouvertes |
 | [`annexes/tests/protocole-tests.md`](annexes/tests/protocole-tests.md) | Préparation, commandes de reproduction et contrôles SP/MP |
 | [`annexes/tests/validation.md`](annexes/tests/validation.md) | Bilan des campagnes du 2026-10-24, résultats, conditions et limites |
+
+Campagne IXX locale : [plan par lots](annexes/plans/campagne-ixx.md), [circuits et adaptateurs moteur](annexes/recherches/circuits-42-21.md), [contrats API v1](specifications-techniques.md#api-publique-v1).
+
+Complément d'ergonomie : [clic direct, LCD powerbank, raccordements et teintes](annexes/plans/acces-equipements.md).
+
+Stockage : [powerbanks superposées](annexes/plans/powerbanks-superposees.md).
+
+Butin : [fréquence et lieux des équipements](annexes/plans/butin-equipements.md).
+
+Sources : [fabrication de l’éolienne, composants et pose niveau 2](annexes/plans/fabrication-eolienne-et-composants.md).

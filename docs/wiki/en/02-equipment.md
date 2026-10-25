@@ -13,8 +13,8 @@ Every device is a real mod tile, placed like vanilla furniture. Each recipe give
 | Device | Role | Placement | Electrical level |
 |---|---|---|---|
 | Solar panel | Source, 100 W | Outdoors, open sky; a flat roof is fine | 3 |
-| Wind turbine | Source, 400 W; the blades turn with the wind | Outdoors; +15 % wind per floor up to the 3rd | 6 |
-| Water wheel | Source, 120 W day and night | Ground floor, next to a river | 7 |
+| Wind turbine | Source, 400 W; the blades turn with the wind | Outdoors; +15 % wind per floor up to the 3rd | 2 |
+| Water wheel | Source, 120 W day and night | Ground floor, next to a river | 2 |
 | Inverter | Heart of the network, 1,500 W | Any floor tile, indoors included | 5 |
 | Power bank | Storage, 4 batteries counted; opens like a crate (capacity 50) | Anywhere; picked up only when empty | 2 |
 | Breaker panel | Safety, optional | On a wall (north or west) | 3 |
@@ -36,13 +36,25 @@ Effective capacity = nominal x (0.4 + 0.6 x condition / 100) x `BatteryCapacityM
 
 ![Power bank opened like a crate](../../images/screenshots/shot3.png)
 
+## Stack two power banks
+
+Use the native furniture placement cursor to place a second bank on the same
+square as the first. Its ghost should appear above it. A stack holds two banks
+at most: eight battery slots, four per bank, within each container's weight limit.
+
+Each bank keeps its own container and inverter connection. The LCD's **Bank 1/2**
+or **Bank 2/2** button switches between the lower and upper bank and selects its
+loot container. The wiring list also identifies each bank. No batteries or energy
+are created by stacking. Empty and remove the upper bank before moving, rotating
+or salvaging the lower one.
+
 ## Lights on the tiles
 
 - Inverter screen: lit when on, red light on fault.
 - Sources and power bank: green "connected" light.
-- Breaker: red lamp when tripped.
+- Breaker: green when distribution is powered, red when tripped. A green lamp does not indicate safe electrical isolation.
 - Alarm: beacon lit while ringing.
-- Water pump: blue light when it supplies at least one tap.
+- Water pump: blue light whenever powered, including while idle.
 
 ## Placement rules
 

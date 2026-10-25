@@ -1,5 +1,47 @@
 # Changelog
 
+## 1.6.0 — 2026-10-25
+
+### Electrical panels and equipment screens
+- The breaker is now an electrical panel with separate lighting and equipment circuits, a main lever and an instant wattmeter for each circuit and the total. Opening the main lever stops distribution while sources can keep charging batteries.
+- Circuit switches control real appliances: mains lighting, refrigerators/freezers, TVs, radios, cooking appliances, washing machines, dryers, battery chargers and fuel pumps. Water pumps stop refilling their relays. Previous on/off choices survive saves and restarts; battery-powered devices remain independent.
+- Left-click nearby equipment to open its own screen. Power banks show usable charge, capacity, cold reserve and individual batteries; sources show production and condition; pumps show flow and consumption; alarms show their state. A Connections button opens the shared wiring window.
+- Stack two power banks on one tile, with separate inventories, connections and condition. Empty a bank before picking it up; remove the upper one first.
+- Breakers now have a green powered-distribution indicator, including a matching Viewpoint model. Pump lights remain blue whenever powered, even while idle.
+
+### Network monitoring and production
+- Show consumers as coloured silhouettes in the world and list their measured watts in the software (up to 200 entries). Show cable links, including dashed links between floors.
+- The management software adds the last 30 timestamped network events and a three-day weather-based production forecast with a powered management computer. Forecasts account for source condition, solar orientation, dirt, snow and wind brakes; future maintenance and failures remain uncertain.
+- Network names appear on the LCD, inspections and low-battery warnings. Strong-wind warnings and blinking turbine indicators make storm braking easier to spot.
+- Solar panels now use their direction: south 100%, east/west 85% with earlier/later output, north 55%. Dirt accumulates faster in autumn; rain washes panels. Clean them with a rag and 0.5 L of water.
+- Optional cold effects on outdoor battery banks reduce accessible capacity by 20% at 0°C and 40% at −15°C. Stored energy is preserved as a reserve and becomes available again as the bank warms. Indoor banks are unaffected; BatteryCold is off by default.
+
+### Maintenance and electrical safety
+- Test inventory batteries: Electrical 1 shows charge, 3 adds energy/capacity/condition and 5 adds cycles and estimated remaining life.
+- Battery reconditioning requires Electrical 4 (6 for a dead battery), a kept screwdriver, one electronics scrap, one wire and 0.5 L water. It restores 15 condition up to 80, at most four times. Cycles and stored energy are preserved; a dead battery returns empty.
+- Salvage dead, empty equipment at Electrical 3 with a screwdriver for one electronics scrap and one wire; a solar panel also returns one solar cell.
+- Live maintenance risk is enabled by default: connecting, disconnecting, repairing or salvaging connected equipment can burn the screwdriver hand, drop held items and stop the action before materials are spent. Risk at Electrical levels 0/1/2/3/4/5/6+: 50/42/33/25/17/8/0%.
+- Switch off the master inverter before working. An open main breaker, overload trip, fault or empty battery does not isolate its terminals. Existing worlds keep explicitly saved sandbox choices.
+- Successful equipment repairs and overhauls consistently award Electrical XP.
+
+### Crafting and loot
+- Build wind turbines in three stages: blade set, mast, then final assembly at Electrical 6. Blades and masts need no Electrical level and each award 2 Electrical XP. Place or pick up a completed turbine or water wheel at level 2; water-wheel crafting remains level 7.
+- Turbine and water-wheel recipes use two amplifiers instead of speakers; the mast uses a metal pipe. Dismantle a Live Wire voltage tester with a kept screwdriver for one electronics scrap and 2 Electrical XP. Every Live Wire recipe now awards Electrical XP.
+- Updated all 17 recipe entries, English/French recipe tables and illustrated recipe boards in all ten languages. Crafted equipment shows its correct result icon.
+- Broader technical, farming and carpentry loot locations include ready-made turbines, water wheels, blades and masts. EquipmentLootMultiplier defaults to 5 (range 1–20), affects only Live Wire equipment and parts, and requires a restart. Only future loot rolls change.
+
+### Reliability and performance
+- Circuit changes and loaded-area discovery run in bounded batches. Appliance state restoration survives cache eviction, network changes and removal of the master inverter; shared room-switch choices are retained.
+- Multiplayer appliance service updates use stable identities, ordered revisions and bounded retries when objects load or clients reconnect.
+- Nearby inverter lookups use spatial indexes. Consumer reports are built only when requested; software rows and measurement data are reused between updates.
+- Preserve fractional battery energy and device wear, and clean up expired subscriptions, cooldowns and client caches.
+- Public API v1 lets other mods register battery/source definitions and read network information.
+- Updated the English/French guides, all ten Steam descriptions and screenshots. The Connections button fits inside the electrical panel.
+
+### Updating
+- Existing equipment identifiers and saved network data are retained. SolarOrientation, SolarDirt and LiveWorkRisk default to on; BatteryCold defaults to off. Explicit saved choices take precedence.
+- Close the lighting and equipment circuits before disabling Live Wire, so appliances recover their original services.
+
 ## 1.5.0 — 2026-10-24
 
 ### Fixes

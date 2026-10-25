@@ -32,6 +32,9 @@ Un bouton I/O avec voyant (vert allumé, rouge éteint, orange clignotant en cas
 | House | La maison |
 | History | Graphiques sur 48 h (production, consommation, stock des batteries) et prévision « les batteries tiendront jusqu'au lever du jour » ; exige un ordinateur de gestion relié |
 | Equipment | Disjoncteur, alarme, générateur de secours, ordinateur |
+| Consommateurs | Consommation mesurée des appareils, 200 entrées au maximum |
+| Prévisions | Production estimée sur trois jours d'après la météo ; ordinateur de gestion alimenté requis |
+| Événements | Les 30 derniers événements horodatés du réseau |
 
 ### Sans Computer Mod
 
@@ -67,6 +70,40 @@ Un son propre au mod, audible seulement à une case autour d'un onduleur allumé
 | L'onduleur chauffe davantage et s'use 25 % plus vite |
 | Mousse acoustique grise sur le dessus, les côtés et l'arrière ; « Insonorisé » à l'inspection et sur la page État de l'écran |
 | Le kit suit l'onduleur quand on le ramasse |
+
+## Consommateurs, câblage, événements et prévisions
+
+Le nom du réseau apparaît aussi sur le LCD, à l'inspection et dans les alarmes.
+Les vues de réseau montrent les raccordements et les consommateurs avec leurs watts.
+Les liaisons entre étages sont en pointillés ; les consommateurs sont teintés sur
+leur sprite réel. Le logiciel liste au maximum 200 consommateurs
+par instantané, avec leur service réel et leur demande théorique.
+
+Le journal conserve 30 événements horodatés. La prévision utilise trois jours de
+météo officielle et les facteurs réels de production : orientation, saleté, neige,
+état et frein. Elle projette la demande moyenne récente et la réserve accessible.
+Ce sont des estimations : météo moyenne, entretien et capacité supposés constants ;
+les futures pannes et la production future d'un secours ne sont pas prévues.
+
+
+## Clic direct et LCD de powerbank
+
+Un clic gauche sur l'onduleur ouvre son LCD ; sur le disjoncteur, il ouvre le
+tableau électrique. Approchez-vous, sans viser ni utiliser un curseur de construction.
+
+Un clic sur une **powerbank** ouvre son propre LCD : charge utile, kWh disponibles,
+capacité utile, réserve liée au froid, places et batteries en trop. Les boutons
+précédent/suivant affichent la charge et l'état de chaque batterie. Ce LCD fonctionne
+même sans raccordement. L'inventaire vanilla sert toujours à déplacer les batteries.
+Le bouton **Raccordements** ouvre la fenêtre commune.
+
+**Afficher les consommateurs** teinte directement les appareils, y compris les
+lumières : vert sous 50 W, orange jusqu'à 300 W, rouge au-dessus ; bleu à l'arrêt
+ou non alimenté, gris pour un autre réseau. Masquer retire ces teintes. Les watts
+exacts restent consultables dans la liste du logiciel.
+
+
+![Live Wire 1.6.0 — LCDs and electrical panel](../../images/screenshots/shot7.png)
 
 ## Voir aussi
 

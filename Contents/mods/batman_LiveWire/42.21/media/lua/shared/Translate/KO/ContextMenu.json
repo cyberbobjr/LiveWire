@@ -72,5 +72,17 @@
     "ContextMenu_LW_ApplyBrake": "풍력 터빈 브레이크 작동",
     "ContextMenu_LW_ReleaseBrake": "풍력 터빈 브레이크 해제",
     "ContextMenu_LW_ResumeBackup": "자동 비상 전원 재개",
-    "ContextMenu_LW_RenameNetwork": "전력망 이름 변경"
+    "ContextMenu_LW_RenameNetwork": "전력망 이름 변경",
+    "ContextMenu_LW_CleanPanel": "패널 청소",
+    "ContextMenu_LW_TestBattery": "배터리 진단",
+    "ContextMenu_LW_Salvage": "부품 회수",
+    "ContextMenu_LW_OpenBoard": "배전반 열기",
+    "ContextMenu_LW_ShowConsumers": "소비 장치 표시/숨기기",
+    "ContextMenu_LW_ShowConnections": "연결 표시/숨기기",
+    "ContextMenu_LW_DebugDevice": "이 장비 디버그",
+    "ContextMenu_LW_Debug_deviceMinus10": "상태 10포인트 감소",
+    "ContextMenu_LW_Debug_device50": "상태를 50%%로 설정",
+    "ContextMenu_LW_Debug_device10": "상태를 10%%로 설정",
+    "ContextMenu_LW_Debug_deviceBreak": "고장 상태로 설정 (0%%)",
+    "ContextMenu_LW_Debug_deviceRestore": "상태를 100%%로 복구"
 }

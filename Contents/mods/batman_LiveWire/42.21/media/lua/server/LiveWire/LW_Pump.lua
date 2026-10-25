@@ -469,7 +469,7 @@ function Pump.step(dev)
 
     local grid = dev.grid and R().grid(dev.grid)
     local inv = grid and R().device(grid.inverter)
-    local powered = grid ~= nil and grid.powered == true and inv ~= nil and inv.state == "on"
+    local powered = grid ~= nil and grid.powered == true and not grid.equipmentOff and inv ~= nil and inv.state == "on"
     if (dev.cond or 0) <= 0 then return setState(dev, "broken") end
     if not hasAny(dev.barrels) then return setState(dev, "nobarrel") end
     if not powered then return setState(dev, "nopower") end

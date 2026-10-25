@@ -37,5 +37,9 @@
     "Tooltip_LW_NeedCouplingKit": "Needs an inverter coupling kit.",
     "Tooltip_LW_CoupledInverter": "This inverter is coupled: connect the equipment to its master.",
     "Tooltip_LW_CoupleHasEquipment": "Disconnect every piece of equipment from this inverter first.",
-    "Tooltip_LW_TooManySlaves": "A master inverter takes at most %1 coupled inverters."
+    "Tooltip_LW_TooManySlaves": "A master inverter takes at most %1 coupled inverters.",
+    "Tooltip_LW_BankStackFull": "Only two power banks can be stacked.",
+    "Tooltip_LW_BankStackBase": "Place it on the ground or on another power bank.",
+    "Tooltip_LW_BankStackSupport": "Remove the upper bank or the objects on top first.",
+    "Tooltip_LW_RepairLimit": "This battery has reached its repair limit."
 }

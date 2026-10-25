@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "超リアル 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "リアル 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "ゲームの値",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "快適"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "快適",
+    "Sandbox_LiveWire_SolarOrientation": "太陽光パネルの向き",
+    "Sandbox_LiveWire_SolarDirt": "パネルの汚れ",
+    "Sandbox_LiveWire_BatteryCold": "低温時のバッテリー",
+    "Sandbox_LiveWire_LiveWorkRisk": "活線作業の危険",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "パネルの向きが発電量とピーク時刻に影響します。",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "パネルに汚れが蓄積します。雨や手作業の清掃で除去できます。",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "屋外蓄電池の利用可能容量が低温で減少し、温まると戻ります。",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "初期値は有効。電気工学0で感電率50%%、6以上でゼロ。ドライバーを使う手をやけどし、持ち物を落とします。作業前に主インバーターを停止してください。配電盤の主幹だけでは安全になりません。",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Live Wire機器と部品の出現倍率",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Live Wire機器と部品（太陽電池セル、ブレード、マスト）の戦利品ウェイトのみ変更します（1～20、初期値5）。ゲーム本体のアイテムと出現ウェイトは変更しません。ソフトウェアディスクは従来の出現率です。再起動が必要。今後の抽選のみで、探索済み容器は補充しません。ゲーム本体の戦利品設定も適用されます。"
 }

@@ -12,5 +12,7 @@
     "Base.Mov_LiveWire_Breaker": "分電盤",
     "Base.Mov_LiveWire_BatteryAlarm": "低バッテリー警報",
     "Base.Mov_LiveWire_WaterPump": "水ポンプ",
-    "LiveWire.CouplingKit": "インバーター連結キット"
+    "LiveWire.CouplingKit": "インバーター連結キット",
+    "LiveWire.WindTurbineBlades": "風車ブレード一式",
+    "LiveWire.WindTurbineMast": "風車マスト"
 }

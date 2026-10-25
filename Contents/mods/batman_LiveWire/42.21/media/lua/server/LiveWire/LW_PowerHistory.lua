@@ -22,6 +22,11 @@ function History.prune(data, now)
             if e.t <= cutoff then h.log0 = e.on else kept[#kept + 1] = e end
         end
         h.log = kept
+        local panel = {}
+        for _, e in ipairs(h.panelLog or {}) do
+            if e.t <= cutoff then h.panel0 = e.off else panel[#panel + 1] = e end
+        end
+        h.panelLog = panel
         h.since = math.max(h.since, cutoff)
         if h.retired and h.retired <= cutoff then expired[#expired + 1] = id end
     end
@@ -41,6 +46,7 @@ function History.init(data, anchors, now)
         end
     end
     History.prune(data, now)
+    for id, h in pairs(data.powerHistory) do h.id = id end
 end
 
 function History.record(data, inverter, on, t)
@@ -53,7 +59,7 @@ function History.record(data, inverter, on, t)
         h = nil
     end
     if not h then
-        h = { x = inverter.x, y = inverter.y, z = inverter.z, log = {},
+        h = { id = id, x = inverter.x, y = inverter.y, z = inverter.z, log = {},
             log0 = false, on = false, since = t }
         all[id] = h
     end
@@ -72,6 +78,24 @@ function History.record(data, inverter, on, t)
         h.on = state
     end
     h.retired = on == nil and t or nil
+end
+
+-- Separate service timeline: an equipment cut must never switch the light anchor.
+function History.equipment(data, inverter, off, t)
+    local h = data.powerHistory and data.powerHistory[inverter.id]
+    if not h then History.record(data, inverter, false, t); h = data.powerHistory[inverter.id] end
+    h.panelLog = h.panelLog or {}
+    local before = h.panel0 == true
+    local last = h.panelLog[#h.panelLog]
+    if last then before = last.off; t = math.max(t, last.t) end
+    if before ~= off then
+        if last and last.t == t then
+            last.off = off
+            local prior = h.panel0 == true
+            if #h.panelLog > 1 then prior = h.panelLog[#h.panelLog - 1].off end
+            if prior == off then table.remove(h.panelLog) end
+        else h.panelLog[#h.panelLog + 1] = { t = t, off = off } end
+    end
 end
 
 Events.EveryHours.Add(function()

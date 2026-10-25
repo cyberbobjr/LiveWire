@@ -3,6 +3,6 @@ id=batman_LiveWire
 description=Solar panels, wind turbines, water wheels, batteries and an inverter you can place anywhere, even indoors. The Electrical skill matters: tiers, experience, wear, repairs and diagnostics.
 poster=poster.png
 versionMin=42.21
-modversion=1.5.0
+modversion=1.6.0
 pack=batman_livewire_01
 tiledef=batman_livewire_01 7174

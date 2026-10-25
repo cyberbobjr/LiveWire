@@ -4,7 +4,7 @@
     "LWMakeSolarCellFromScrap": "Make Solar Cell from Scrap",
     "LWMakeSolarPanelKit": "Make Solar Panel",
     "LWMakeInverterKit": "Make Inverter",
-    "LWMakeWindTurbineKit": "Make Wind Turbine",
+    "LWMakeWindTurbineKit": "Assemble Wind Turbine",
     "LWMakeWaterWheel": "Make Water Wheel",
     "LWMakePowerBankKit": "Make Power Bank",
     "LWMakeBreakerKit": "Make Breaker Panel",
@@ -12,5 +12,8 @@
     "LWMakeDeepCycleBattery": "Make Deep-Cycle Battery",
     "LWMakeBatteryAlarmKit": "Make Low Battery Alarm",
     "LWMakeWaterPump": "Make Water Pump",
-    "LWMakeCouplingKit": "Make Inverter Coupling Kit"
+    "LWMakeCouplingKit": "Make Inverter Coupling Kit",
+    "LWDismantleVoltageTester": "Dismantle Voltage Tester",
+    "LWMakeWindTurbineBlades": "Make Wind Turbine Blades",
+    "LWMakeWindTurbineMast": "Make Wind Turbine Mast"
 }

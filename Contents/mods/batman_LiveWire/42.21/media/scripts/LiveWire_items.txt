@@ -19,6 +19,25 @@ module LiveWire
         Tooltip = Tooltip_LW_VoltageTester,
     }
 
+    /* Temporary vanilla icons/ground models (placeholders), not placed devices. */
+    item WindTurbineBlades
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 4.0,
+        Icon = SheetMetal,
+        WorldStaticModel = MetalSheet,
+    }
+
+    item WindTurbineMast
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 4.0,
+        Icon = SteelRod_Full,
+        WorldStaticModel = SteelRod,
+    }
+
     item SolarCell
     {
         DisplayCategory = Electronics,

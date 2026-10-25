@@ -4,75 +4,60 @@
 
 电网已经彻底断了……但灯光不必如此。自建离网供电：太阳能板、风力涡轮机或水轮机为逆变器供电，逆变器再为周围整栋房屋供电。夜间可加装电池。电工技能终于有了用处：每种设备都有等级，你的等级越高，安装效果越好。
 
+[h2]1.6.0 — 掌控你的供电系统[/h2]
+
+配电箱新增照明、设备和总闸手柄，显示各回路及总功率。切断真实电器并恢复此前开关状态，重启后仍保留。总闸断开时，电源仍可给电池充电。左键点击设备打开各自LCD；连接按钮可选择逆变器。
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
+
 [h2]工作原理[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_cn.png[/img]
 
-[list]
-[*][b]电源[/b]负责发电：太阳能板 100 W，风力涡轮机 400 W，水轮机 120 W。每台逆变器可接任意数量。
-[*][b]逆变器[/b]（最大 1,500 W）为 20 格范围内、上下 3 层之内的每台电器供电。无需为每台电器单独布线：冰箱、灯具、炉灶、电视和收音机的使用方式与原版一致。
-[*][b]耗电方案[/b]（沙盒）：游戏数值（默认）、写实 1993（灯 60 W、电视 80 W、电炉 2,000 W）、极度写实 1993 或舒适。
-[*][b]电池组[/b]储存多余电量：它可容纳 4 块电池（汽车电池或深循环电池）。没有电池时，房屋只能使用当前发电量。
-[*][b]电线[/b]：每 4 格需要 1 根电线，连接距离 12 格。右键点击设备 > "Live Wire" > "连接到逆变器"。
-[/list]
+太阳能100 W、风力400 W、水轮120 W。逆变器为20格内、上下3层的电器供电，单台上限1500 W，四台并联6000 W；家用电器无需单独布线。
+每个电池柜容纳4块电池。电缆每4格消耗1根电线，范围12格。沙盒可选游戏数值、1993写实、1993超写实或舒适耗电模式。
 
 [h2]设备[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_cn.png[/img]
 
-[list]
-[*][b]太阳能板[/b]（电工 3 级）：需在室外、露天处安装。平屋顶也可以。
-[*][b]风力涡轮机[/b]（6 级）：需在室外安装，位置越高风力越强。
-[*][b]水轮机[/b]（7 级）：需在河岸安装，且位于一层。
-[*][b]逆变器[/b]（5 级）：整个电网的核心，可以放在室内。
-[*][b]电池组[/b]（2 级）：打开方式与箱子相同。
-[*][b]可选件[/b]：断路器面板（跳闸而不是损坏逆变器）、低电量警报器、逆变器隔音套件（消除嗡嗡声）、原版发电机作为备用（电池低于 20% 时启动）、原版台式电脑作为管理电脑。 使用耦合套件最多可并联 4 台逆变器（6000 W）。
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
+安装等级：户外太阳能板电工3级；户外风机及河岸水轮均为2级；逆变器5级；电池柜2级。同一格可叠放两个柜，库存和连接独立；先清空，再从上方拆走。
+可选配电箱、低电量警报、隔音、原版备用发电机和管理电脑。
 
 [h2]发电[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_cn.png[/img]
 
-[list]
-[*][b]太阳能[/b]：夏季每天约 0.94 kWh，冬季约 0.60 kWh。云层和积雪会降低发电量。
-[*][b]风能[/b]：风速低于 10 km/h 时无输出；10 至 45 km/h 时按风速的三次方增长；45 至 85 km/h 时满功率；超过此风速时自动刹车。
-[*][b]水轮机[/b]：河边全天候 120 W，昼夜相同。
-[/list]
+太阳能朝向：南100%，东/西85%，北55%。云、雪和污垢降低产量。雨水清洗面板，也可用抹布和0.5 L水清洁。风速10 km/h起发电，45–85满功率，更高自动制动。水轮昼夜发电。电池低温效果默认关闭；暂不可用的能量保留为储备。
 
-例：一台冰柜加 10 盏灯每天约耗电 4.1 kWh。一台水轮机加 2 块太阳能板即可全年供电。
+[h2]水泵[/h2]
 
-[h2]水泵（1.2.0 新增）[/h2]
-
-[list]
-[*]地上的水桶现在可以为整栋房子供水：停水后，水槽、淋浴、浴缸和马桶都能重新使用。
-[*]把[b]水泵[/b]（电工 6）放在原版集雨器或 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 的桶旁边（最多 8 个，每个需要一根铁管），并连接到逆变器。
-[*]像原版一样用管钳连接水管：15 格（沙盒可调）内所有已连接的用水点都会供水。只接受水；雨水流出时是干净的。
-[*]每分钟 5 升，抽水时 250 W，轻微的嗡嗡声；所有用水点装满后自动停止。“显示供水点”会用蓝色高亮显示它们。
-[*]移除本模组前，请执行调试/管理员操作“移除所有水中继”。
-[/list]
+水泵（电工6级）从最多8个相邻雨水收集器或[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]桶向15格内已接管的设施供水，每桶需1根金属管。用管钳接管。雨水输出为净水：最多5 L/分钟，泵水时250 W。蓝灯表示有电，待机也亮。卸载前用调试/管理员操作移除全部供水中继。
 
 [h2]配方[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_cn.png[/img]
 
-分类为"电工"，达到所需等级后自动学会。太阳能电池可从拆解的计算器获得，也可以在电工、五金店和车库中找到现成的设备。
+下图展示17个配方。电工配方按等级自动解锁；叶片和桅杆在金属加工分类，无电工门槛。风机最终组装6级、水轮制作7级，各需两个放大器；两者放置/搬起仅需2级。可拆解测电器获得电子废料。全部配方给予电工经验。设备及零件战利品地点增多，倍率默认5（1–20），重启后仅影响新掉落。
 
 [h2]管理软件[/h2]
 
-Live Wire Monitor 显示发电、用电、电池、48 小时历史记录，以及"直到日出"的预测。安装可选的 Computer Mod 或 Laptop Mod 后，它会出现在电脑战利品中找到的光盘上。否则，连接到逆变器的原版台式电脑即可运行它。
+Live Wire Monitor新增用电设备（最多200项）、彩色轮廓、电缆显示、最近30条事件；管理电脑通电时可查看三天发电预测，另有48小时历史。网络名称显示于LCD和警报。支持原版台式机；可选Computer Mod/Laptop Mod通过战利品磁盘安装。
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
+[h2]用电安全与经验[/h2]
+
+电池测试在电工1/3/5级提供更多信息。翻新需4级，报废电池6级：保留螺丝刀，消耗废料、电线及0.5 L水；状态+15，上限80，最多四次。3级可回收损坏且空的设备。带电风险默认开启：0/1/2/3/4/5/6+级为50/42/33/25/17/8/0%。触电灼伤持工具的手、掉落手持物，材料消耗前取消操作。请关闭主逆变器；配电箱不能隔离其接线端。
+
 [h2]多人游戏[/h2]
 
-服务器负责所有计算，并重新验证每项请求。玩家离开时供电系统仍会运行。已通过游戏内自动测试：单人模式及两名客户端的 Windows 专用服务器，包括存档和重新加载。
+服务器负责模拟及操作验证，保存回路选择并同步电器状态。停用模组前请闭合两条回路。
 
 [h2]文档[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire 维基（英文版）[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire 维基（英文版）[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：本物品还包含可选模组 [b]Live Wire - Viewpoint models[/b]（batman_LiveWireViewpoint），提供所有设备的 3D 模型。仅在使用 Project Viewpoint 时启用。
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]

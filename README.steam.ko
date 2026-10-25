@@ -4,75 +4,60 @@
 
 전기는 영원히 끊겼지만... 불빛까지 꺼질 필요는 없습니다. 태양광 패널, 풍력 터빈 또는 물레방아로 직접 전기를 만들어 인버터에 공급하면, 인버터가 주변 집 전체에 전기를 나눠 줍니다. 밤을 위해 배터리를 추가하세요. 이제 전기공학 기술이 제대로 의미를 갖습니다. 모든 기기에는 레벨이 있고, 레벨이 높을수록 설치가 더 좋아집니다.
 
+[h2]1.6.0 — 전력 설비 제어[/h2]
+
+분전반에 조명·장비·메인 레버와 회로별/총 전력 표시를 추가했습니다. 실제 가전을 끄고 이전 설정을 복원하며 재시작 후에도 유지합니다. 메인 배전을 열어도 발전원은 충전할 수 있습니다. 장비를 왼쪽 클릭하면 LCD가 열리며 연결 버튼에서 인버터를 선택합니다.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
+
 [h2]작동 방식[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ko.png[/img]
 
-[list]
-[*][b]발전원[/b]은 전력을 생산합니다: 태양광 패널 100 W, 풍력 터빈 400 W, 물레방아 120 W. 인버터 하나에 원하는 만큼 연결할 수 있습니다.
-[*][b]인버터[/b](최대 1,500 W)는 20타일 이내, 위아래 3개 층까지의 모든 가전에 전기를 공급합니다. 가전마다 배선할 필요가 없으며, 냉장고, 조명, 스토브, TV, 라디오는 바닐라와 똑같이 작동합니다.
-[*][b]소비 전력 프로필[/b](샌드박스): 게임 값(기본), 현실적 1993(조명 60 W, TV 80 W, 전기 레인지 2,000 W), 초현실적 1993, 편안함.
-[*][b]배터리 뱅크[/b]는 남는 전력을 저장합니다. 배터리 4개(자동차 배터리 또는 심방전 배터리)만큼의 용량으로 계산됩니다. 배터리가 없으면 집은 현재 생산량만으로 돌아갑니다.
-[*][b]전선[/b]: 전기선, 4타일당 1개, 연결 거리 12타일. 기기를 우클릭한 뒤 "Live Wire" > "인버터에 연결"을 선택하세요.
-[/list]
+태양광 100 W, 풍력 400 W, 수차 120 W. 인버터는 20칸과 위아래 3층의 가전에 최대 1500 W를 공급하며 4대 병렬로 6000 W입니다. 가전별 배선은 필요 없습니다.
+뱅크당 배터리 4개를 저장합니다. 전선은 4칸마다 1개, 범위 12칸. 소비 프로필: 게임 수치, 1993 현실, 1993 초현실, 편안함.
 
 [h2]장비[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_ko.png[/img]
 
-[list]
-[*][b]태양광 패널[/b](전기공학 3): 실외, 하늘이 트인 곳. 평지붕에도 설치할 수 있습니다.
-[*][b]풍력 터빈[/b](6): 실외, 높을수록 더 강합니다.
-[*][b]물레방아[/b](7): 강변, 1층.
-[*][b]인버터[/b](5): 네트워크의 중심. 실내에 둘 수 있습니다.
-[*][b]배터리 뱅크[/b](2): 상자처럼 열립니다.
-[*][b]선택 사항[/b]: 차단기 패널(인버터를 망가뜨리는 대신 차단), 배터리 부족 경보기, 인버터의 웅웅거림을 줄이는 방음 키트, 예비 전원으로 쓰는 바닐라 발전기(배터리 20% 미만에서 가동), 관리용 컴퓨터로 쓰는 바닐라 데스크톱 컴퓨터. 연결 키트로 인버터를 최대 4대까지 병렬 연결할 수 있습니다(6,000 W).
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
+설치 레벨: 실외 태양광 패널 전기 3, 실외 풍력기와 강둑 수차는 모두 2, 인버터 5, 뱅크 2. 한 칸에 뱅크 두 개를 쌓을 수 있으며 보관함과 연결은 독립적입니다. 비운 뒤 위쪽부터 회수하세요.
+분전반, 저전력 경보, 방음, 기본 게임 예비 발전기와 관리 컴퓨터는 선택 사항입니다.
 
 [h2]생산[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ko.png[/img]
 
-[list]
-[*][b]태양광[/b]: 여름 하루 약 0.94 kWh, 겨울 약 0.60 kWh. 구름과 눈이 생산량을 줄입니다.
-[*][b]풍력[/b]: 시속 10 km/h 미만에서는 발전하지 않습니다. 45 km/h까지 속도의 세제곱에 비례해 늘어나고, 45~85 km/h에서 최대 출력, 그 이상에서는 자동 제동됩니다.
-[*][b]물레방아[/b]: 강에서 밤낮으로 120 W.
-[/list]
+태양광 방향: 남 100%, 동/서 85%, 북 55%. 구름·눈·먼지는 출력을 낮춥니다. 비가 씻어 주며 천과 물 0.5 L로 청소할 수 있습니다. 풍속 10 km/h부터 발전, 45–85에서 최대, 그 이상은 제동합니다. 수차는 밤낮 가동합니다. 배터리 추위 효과는 기본 꺼짐이며 사용 불가 에너지는 예비로 보존됩니다.
 
-예: 냉장고 겸 냉동고 1대와 조명 10개는 하루 약 4.1 kWh를 씁니다. 물레방아와 패널 2개면 일 년 내내 이 전력을 모두 감당합니다.
+[h2]급수 펌프[/h2]
 
-[h2]급수 펌프 (1.2.0 신규)[/h2]
-
-[list]
-[*]바닥에 둔 물통으로 이제 집 전체의 수도에 물을 공급할 수 있습니다. 단수 후에도 싱크대, 샤워기, 욕조, 변기를 다시 쓸 수 있습니다.
-[*][b]급수 펌프[/b](전기 6)를 바닐라 빗물 수집기나 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 통 옆에 놓고(최대 8개, 통마다 쇠 파이프 1개) 인버터에 연결하세요.
-[*]바닐라처럼 파이프 렌치로 배관하세요. 15칸(샌드박스) 안의 배관된 모든 수도에 물이 공급됩니다. 물만 받으며, 빗물도 깨끗한 물로 나옵니다.
-[*]분당 5L, 펌프 작동 중 250W, 조용한 작동음. 모든 수도가 가득 차면 스스로 멈춥니다. "급수 중인 수도 표시"로 파랗게 강조합니다.
-[*]모드를 제거하기 전에 디버그/관리자 동작 "모든 급수 중계기 제거"를 실행하세요.
-[/list]
+펌프(전기 6)는 인접한 빗물 수집기나 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 통 최대 8개에서 15칸 내 배관된 시설로 급수합니다. 통마다 금속 파이프 1개, 배관에는 파이프 렌치가 필요합니다. 빗물을 정화해 최대 5 L/분, 펌핑 시 250 W. 파란불은 대기 중에도 전원 공급을 뜻합니다. 삭제 전 debug/admin 기능으로 모든 급수 중계기를 제거하세요.
 
 [h2]제작 레시피[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_ko.png[/img]
 
-"전기공학" 범주이며, 필요한 레벨에 도달하면 자동으로 습득합니다. 태양광 셀은 분해한 계산기에서 얻거나 루트로 발견할 수 있습니다. 완성된 장비는 전기 기사, 철물점, 차고에서도 나올 수 있습니다.
+아래 그림에 제작법 17개. 전기 제작법은 레벨에 따라 자동 해제되며 날개와 기둥은 금속 가공 분류로 전기 레벨 제한이 없습니다. 풍력기 최종 조립 6, 수차 제작 7에 각각 증폭기 2개를 사용합니다. 둘 다 설치/회수는 2. 전압 시험기를 분해해 전자 부품을 회수합니다. 모든 제작법이 전기 XP를 줍니다. 장비·부품 전리품 장소 확대, 배율 기본 5(1–20), 재시작 후 새 추첨에만 적용.
 
 [h2]관리 소프트웨어[/h2]
 
-Live Wire Monitor는 생산량, 소비량, 배터리, 48시간 기록, 그리고 "일출까지" 예측을 보여줍니다. 선택 사항인 Computer Mod 또는 Laptop Mod를 쓰면 컴퓨터 루트에서 찾을 수 있는 디스크로 제공됩니다. 그렇지 않으면 인버터에 연결된 바닐라 데스크톱 컴퓨터에서 실행됩니다.
+Live Wire Monitor에 소비 장비(최대 200), 색상 윤곽, 배선 표시, 최근 이벤트 30개와 전원이 켜진 관리 컴퓨터의 3일 생산 예측을 추가했습니다. 48시간 기록도 유지됩니다. LCD와 경보에 네트워크 이름을 표시합니다. 기본 데스크톱 지원; Computer Mod/Laptop Mod는 선택이며 전리품 디스크로 설치합니다.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
+[h2]전기 작업 안전과 경험치[/h2]
+
+배터리 검사는 전기 1/3/5에서 자세해집니다. 재생은 4, 고장 배터리는 6: 드라이버 유지, 전자 부품, 전선, 물 0.5 L. 상태 +15, 최대 80, 네 번. 3에서 비어 있는 고장 장비를 해체 회수합니다. 활선 위험 기본 켜짐: 0/1/2/3/4/5/6+에서 50/42/33/25/17/8/0%. 감전은 공구를 든 손에 화상을 입히고 손의 물건을 떨어뜨리며 재료 소비 전 작업을 취소합니다. 주 인버터를 끄세요. 분전반으로는 단자를 절연할 수 없습니다.
+
 [h2]멀티플레이[/h2]
 
-서버가 모든 계산과 요청 검증을 담당합니다. 플레이어가 없어도 설비는 계속 작동합니다. 게임 내 자동 테스트로 싱글 플레이와 클라이언트 2대가 접속한 Windows 전용 서버를 확인했으며, 저장과 다시 불러오기도 포함합니다.
+서버에서 시뮬레이션과 동작 검증, 회로 선택 저장, 가전 상태 동기화를 수행합니다. 모드를 끄기 전에 두 회로를 닫으세요.
 
 [h2]문서[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire 위키 (영어 문서)[/url] · 소스 코드: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire 위키 (영어 문서)[/url] · 소스 코드: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: 이 아이템에는 모든 장치의 3D 모델을 담은 선택 모드 [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint)도 포함되어 있습니다. Project Viewpoint를 사용할 때만 활성화하세요.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]

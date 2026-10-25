@@ -25,6 +25,9 @@ local C = {
 }
 
 local TABS = {
+    { id = "consumers", key = "IGUI_LW_App_Tab_Consumers" },
+    { id = "forecast", key = "IGUI_LW_App_Tab_Forecast" },
+    { id = "events", key = "IGUI_LW_App_Tab_Events" },
     { id = "overview", key = "IGUI_LW_App_Tab_Overview" },
     { id = "batteries", key = "IGUI_LW_App_Tab_Batteries" },
     { id = "sources", key = "IGUI_LW_App_Tab_Sources" },
@@ -73,6 +76,7 @@ function App:update()
 end
 
 function App:close()
+    self.detailSnapshot, self.detailRows, self.detailTab = nil, nil, nil
     if isClient() and self.inverterId then
         LiveWire.Client.send(LiveWire.Protocol.C_UNSUBSCRIBE, { inverter = self.inverterId })
     end
@@ -349,6 +353,51 @@ function App:drawHouse(ui, x, y, w, h, snap)
     end
 end
 
+function App:details(snap)
+    if self.detailSnapshot == snap and self.detailTab == self.tab then return self.detailRows end
+    local rows = {}
+    if self.tab == "consumers" then
+        for _, r in ipairs(snap.consumers or {}) do
+            rows[#rows + 1] = T("IGUI_LW_ConsumerLine", T("IGUI_LW_Appliance_" .. r.cat), r.w, r.x, r.y, r.z)
+        end
+    elseif self.tab == "events" then
+        for i = #(snap.events or {}), 1, -1 do
+            local e = snap.events[i]
+            local tod = e.tod or e.t % 24
+            local minute = math.floor((tod * 60) % 60)
+            rows[#rows + 1] = T("IGUI_LW_EventTime", math.floor(e.t / 24), math.floor(tod),
+                string.format("%02d", minute), LiveWire.Client.text(e.key, e.args))
+        end
+    else
+        rows[#rows + 1] = T("IGUI_LW_ForecastEstimate")
+        if not snap.forecast then rows[#rows + 1] = T("IGUI_LW_Computer_NoHistory") end
+        for _, r in ipairs(snap.forecast or {}) do
+            rows[#rows + 1] = T("IGUI_LW_ForecastDay", r.offset,
+                string.format("%.2f", r.total), string.format("%.2f", r.demand))
+            rows[#rows + 1] = T("IGUI_LW_ForecastFamilies", string.format("%.2f", r.solar),
+                string.format("%.2f", r.wind), string.format("%.2f", r.hydro))
+            rows[#rows + 1] = T(r.sufficient and "IGUI_LW_ForecastEnough" or "IGUI_LW_ForecastBackup")
+        end
+    end
+    self.detailSnapshot, self.detailTab, self.detailRows = snap, self.tab, rows
+    return rows
+end
+
+function App:drawDetails(ui, x, y, w, h, snap)
+    local cy = card(ui, x, y, w, h, T("IGUI_LW_App_Tab_" .. (self.tab == "events" and "Events"
+        or self.tab == "forecast" and "Forecast" or "Consumers")))
+    local rows = self:details(snap)
+    local pageSize = math.max(1, math.floor((h - (cy - y) - 38) / (fh(UIFont.Small) + 4)))
+    local page = math.min(self.detailPage or 0, math.max(0, math.ceil(#rows / pageSize) - 1))
+    self.detailPage = page
+    for i = page * pageSize + 1, math.min(#rows, (page + 1) * pageSize) do
+        text(ui, rows[i], x + 10, cy, C.text, UIFont.Small, w - 20)
+        cy = cy + fh(UIFont.Small) + 4
+    end
+    self:button(ui, x + 10, y + h - 30, 40, 24, "<", "detailPrev")
+    self:button(ui, x + 58, y + h - 30, 40, 24, ">", "detailNext")
+end
+
 local function graph(ui, x, y, w, h, values, max, c, label)
     rect(ui, x, y, w, h, C.bar)
     border(ui, x, y, w, h, C.line)
@@ -489,7 +538,8 @@ function App:draw(ui, x, y, w, h)
         return
     end
     local cx, cw = x + 8, w - 16
-    if self.tab == "overview" then self:drawOverview(ui, cx, cy, cw, ch, snap)
+    if self.tab == "events" or self.tab == "forecast" or self.tab == "consumers" then self:drawDetails(ui, cx, cy, cw, ch, snap)
+    elseif self.tab == "overview" then self:drawOverview(ui, cx, cy, cw, ch, snap)
     elseif self.tab == "batteries" then self:drawBatteries(ui, cx, cy, cw, ch, snap)
     elseif self.tab == "sources" then self:drawSources(ui, cx, cy, cw, ch, snap)
     elseif self.tab == "house" then self:drawHouse(ui, cx, cy, cw, ch, snap)
@@ -513,6 +563,9 @@ function App:act(action)
     local P = LiveWire.Protocol
     if string.sub(action, 1, 4) == "tab:" then
         self.tab = string.sub(action, 5)
+        self.detailPage = 0
+    elseif action == "detailPrev" then self.detailPage = math.max(0, (self.detailPage or 0) - 1)
+    elseif action == "detailNext" then self.detailPage = (self.detailPage or 0) + 1
     elseif action == "on" or action == "off" then
         LiveWire.Client.send(P.C_SET_INVERTER, { inverter = self.inverterId, on = action == "on", via = self:via() })
         self.lastSubscribe = 0

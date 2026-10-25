@@ -72,5 +72,17 @@
     "ContextMenu_LW_ApplyBrake": "启用风力涡轮机制动",
     "ContextMenu_LW_ReleaseBrake": "解除风力涡轮机制动",
     "ContextMenu_LW_ResumeBackup": "恢复自动备用供电",
-    "ContextMenu_LW_RenameNetwork": "重命名电网"
+    "ContextMenu_LW_RenameNetwork": "重命名电网",
+    "ContextMenu_LW_CleanPanel": "清洁面板",
+    "ContextMenu_LW_TestBattery": "检测电池",
+    "ContextMenu_LW_Salvage": "拆解回收零件",
+    "ContextMenu_LW_OpenBoard": "打开配电盘",
+    "ContextMenu_LW_ShowConsumers": "显示/隐藏用电设备",
+    "ContextMenu_LW_ShowConnections": "显示/隐藏连接",
+    "ContextMenu_LW_DebugDevice": "调试此设备",
+    "ContextMenu_LW_Debug_deviceMinus10": "降低10点状态",
+    "ContextMenu_LW_Debug_device50": "状态设为50%%",
+    "ContextMenu_LW_Debug_device10": "状态设为10%%",
+    "ContextMenu_LW_Debug_deviceBreak": "使设备故障（0%%）",
+    "ContextMenu_LW_Debug_deviceRestore": "恢复状态至100%%"
 }

@@ -54,8 +54,21 @@ local function stateOf(dev)
     if dev.role == "inverter" then
         return dev.state or "off", (g and g.powered == true and dev.state == "on") or false
     end
-    if dev.role == "pump" then return dev.state or "idle", false end
+    if dev.role == "pump" then
+        local inv = g and R().device(g.inverter)
+        local powered = g and g.powered == true and not g.mainOff and not g.equipmentOff
+            and (dev.cond or 0) > 0 and inv and inv.state == "on" and (inv.cond or 0) > 0
+            and not (LiveWire.Pump and LiveWire.Pump.disabled())
+        return dev.state or "idle", powered == true
+    end
     local def = LiveWire.Defs.devices[dev.model]
+    if def and def.kind == "breaker" then
+        local inv = g and R().device(g.inverter)
+        local powered = g and g.powered == true and not g.mainOff
+            and dev.state ~= "tripped" and (dev.cond or 0) > 0
+            and inv and inv.state == "on" and (inv.cond or 0) > 0
+        return dev.state or "ok", powered == true
+    end
     if def and def.kind == "alarm" then
         if g and g.alarmOn and (dev.cond or 0) > 0 then return "ringing", false end
         return "ok", false
@@ -63,7 +76,17 @@ local function stateOf(dev)
     return dev.state or "ok", false
 end
 
+local function placementFacts(obj, dev)
+    local def = LiveWire.Defs.devices[dev.model]
+    if def and def.kind == "solar" then
+        local name = obj:getSprite():getName()
+        dev.facing = (tonumber(string.match(name, "_(%d+)$")) - def.tile) % 4
+    end
+    if dev.role == "storage" then dev.outside = obj:getSquare():isOutside() end
+end
+
 local function markFromDevice(obj, dev)
+    placementFacts(obj, dev)
     local st, pw = stateOf(dev)
     local g = dev.grid and R().grid(dev.grid)
     -- Pumps: number of linked barrels (connect menu limit) and of relay tanks (shown
@@ -78,7 +101,8 @@ local function markFromDevice(obj, dev)
                               level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
                               muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z,
                               nb = nb, nr = nr, cpl = dev.coupled, br = dev.brake == true,
-                              nm = dev.role == "inverter" and g and g.name or nil })
+                              nm = g and g.name or nil, dirt = dev.dirt, snow = dev.snow,
+                              facing = dev.facing })
     dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
     if isServer() then obj:transmitModData() end
 end
@@ -103,12 +127,15 @@ function Devices.find(dev)
         end
     end
     if obj then
+        -- Old saves have no facing field. Read the physical tile even when wear
+        -- is disabled and no other mark field changes; never assume south.
+        placementFacts(obj, dev)
         local m = LiveWire.Marks.get(obj)
         local st, pw = stateOf(dev)
         if not m or m.id ~= dev.id or m.model ~= dev.model or m.cond ~= dev.cond
             or m.eff ~= dev.eff or m.level ~= dev.level or m.inv ~= inverterOf(dev)
             or m.st ~= st or m.pw ~= pw or m.x ~= dev.x or m.y ~= dev.y or m.z ~= dev.z
-            or (m.br == true) ~= (dev.brake == true) then
+            or m.facing ~= dev.facing or (m.br == true) ~= (dev.brake == true) then
             markFromDevice(obj, dev)
         end
     end
@@ -194,6 +221,7 @@ local function register(character, sq, spriteName, adopted)
     })
     if def.role == "inverter" and raw.muf == true then dev.muffled = true end
     if def.kind == "wind" and raw.br == true then dev.brake = true end
+    if def.kind == "solar" then dev.dirt, dev.snow = raw.dirt or 0, raw.snow or 0 end
     if def.role == "storage" then
         dev.wearFactor = LiveWire.Defs.batteryWearSkillFactor(level)
         dev.slots = {}

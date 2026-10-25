@@ -37,7 +37,7 @@ Barrels of water standing on the ground can run the taps of a whole house. An el
 ## Seeing what is supplied
 
 - Right-click the pump > **Show the supplied taps**: a blue circle shows the range, and the supplied fixtures, the connected barrels and the pump are highlighted in blue. **Hide the supplied taps** turns it off.
-- A **blue light** shows on the pump when it supplies at least one fixture.
+- A **blue light** shows on the pump when it is powered, even idle or without a linked fixture. It turns off without power or with the equipment/main circuit open.
 - The pump menu shows its state: pumping, stopped (every tap full), no power, no water in the barrels, out of order.
 - The management software (Equipment tab) shows the number of pumps in service and their flow in litres per hour. Nothing else about the pump is shown there.
 
@@ -56,3 +56,14 @@ Run the debug or admin action **Remove every water relay** first (right-click > 
 ## See also
 
 [Equipment](02-equipment.md) - [Wiring](03-wiring.md) - [Recipes](08-recipes.md) - [Sandbox Options](11-sandbox-options.md) - [Multiplayer](12-multiplayer.md)
+
+
+Click the pump for its **individual LCD**: pump condition, measured water flow
+in L/h and consumption in W. Reading it moves no water. **Connections** selects
+this pump's inverter; barrel actions keep their usual menus. See
+[individual screens and wiring](06-optional-equipment.md#individual-lcds-and-inverter-selection).
+
+
+The pump LCD has a **blue** background. Its world indicator simulates the display
+glow and indicates power, not guaranteed water flow. Barrel and flow rules stay
+the same. Switch off the inverter before maintenance, even with the indicator off.

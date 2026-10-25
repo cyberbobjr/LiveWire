@@ -2,7 +2,7 @@
 
 # FAQ
 
-Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.5.0). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Automated in-game tests cover single player and a Windows dedicated server with two clients. For details, follow the links to the matching pages.
+Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.6.0). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). See [Multiplayer](12-multiplayer.md#status) for the validation scope of this update. For details, follow the links to the matching pages.
 
 ## Getting started
 
@@ -13,7 +13,7 @@ No. One source and one inverter is the minimal system. Without batteries the hou
 One source (solar panel 100 W, wind turbine 400 W or water wheel 120 W) and one inverter, linked by electric wire. Every powered appliance within 20 tiles and 3 floors of the inverter is then powered, with no per-appliance wiring. See [Equipment](02-equipment.md).
 
 **Which Electrical level do I need for what?**
-Power bank, low battery alarm and soundproofing kit: level 2. Solar panel, breaker panel and backup generator: level 3. Inverter: level 5. Wind turbine, deep-cycle battery and management computer: level 6. Water wheel and load shedding: level 7. Overhaul and solar cells from scrap: level 8. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
+Power bank, low battery alarm and soundproofing kit: level 2. Solar panel, breaker panel and backup generator: level 3. Inverter: level 5. Place/pick up wind turbines and water wheels: level 2. Final turbine assembly, deep-cycle battery and management computer: level 6. Water-wheel crafting and load shedding: level 7. Overhaul and solar cells from scrap: level 8. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
 
 ## Wiring
 
@@ -24,7 +24,7 @@ The range is 12 tiles (sandbox `LinkRange`, 4 to 30), at most 1 floor apart. The
 Right-click the device, "Live Wire", then its name, then "Connect to an inverter" and pick the inverter (the list shows distance and wires). Or right-click the inverter and use "Connect equipment" or "Disconnect equipment". The device menu also has "Disconnect from the inverter". See [Wiring](03-wiring.md).
 
 **How many of each device per network?**
-Any number of sources and power banks per inverter, but only one inverter per network. At most one breaker, one alarm, one management computer and one backup generator per network. See [Wiring](03-wiring.md).
+Any number of sources and power banks per inverter, with up to four coupled inverters per network. At most one breaker, one alarm, one management computer and one backup generator per network. See [Wiring](03-wiring.md).
 
 **What happens when I pick up the inverter?**
 Its whole network is disconnected. Rotating it keeps the links. A picked-up source keeps its condition, but when placed again it is "Not connected" until you link it. See [Wiring](03-wiring.md).
@@ -72,7 +72,7 @@ No, the inverter has its own LCD screen ("Open the inverter screen", 5 pages). A
 Without them, a vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen. With the optional Computer Mod (Workshop 3725497089) or Laptop Mod (3798992436), the software comes on a disk and appears as a "Live Wire" app on their desktop. See [Inverter screen and software](05-inverter-screen-and-software.md).
 
 **Where do I find the disk?**
-"Disk: Live Wire Management Software" is found in computer loot, and only when the Computer Mod is active: computer crates (about 7.8 % per container), university electrical desks (7.8 %), electronics store computers (2.0 %), among others. Right-click the computer with the disk and choose "Install the Live Wire software". See [Loot tables](09-loot-tables.md).
+"Disk: Live Wire Management Software" is found in computer loot, when Computer Mod or Laptop Mod is active: computer crates (about 7.8 % per container), university electrical desks (7.8 %), electronics store computers (2.0 %), among others. Right-click the computer with the disk and choose "Install the Live Wire software". See [Loot tables](09-loot-tables.md).
 
 ## Noise and zombies
 
@@ -88,12 +88,12 @@ Zombies hear a running inverter within 2 tiles (sandbox `InverterNoiseRadius`, 0
 Per game days, roughly: solar panel -1 per 10 days, wind turbine -1 per 4, water wheel -1 per 6, inverter -1 per 5 while on (twice as fast above 80 % load), breaker -1 per 15, power bank and alarm -1 per 30. Storm damage is off by default (`StormDamage`). See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md).
 
 **How do I repair or overhaul a device?**
-Repair: 1 electronics scrap + 1 electric wire, gaining 5 + your Electrical level points (up to 90), with a failure chance of max(5, 40 - 5 x level) % that loses the parts. Overhaul (level 8, 4 scrap + 2 wires) restores 100. A battery can be reconditioned at level 4 (+15 condition, cap 80). See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md).
+Repair: 1 electronics scrap + 1 electric wire, gaining 5 + your Electrical level points (up to 90), with a failure chance of max(5, 40 - 5 x level) % that loses the parts. Overhaul (level 8, 4 scrap + 2 wires) restores 100. A battery can be reconditioned at level 4 (6 when dead): kept screwdriver, scrap, wire and 0.5 L water; +15 condition, cap 80, four repairs maximum. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md).
 
 ## Multiplayer and server
 
 **Does it work on a dedicated server?**
-It is designed for it: production, stock, states, failures and experience are computed by the server, which re-checks every client request. Automated in-game tests cover single player and a Windows dedicated server with two clients, including saves and full restarts. See [Multiplayer](12-multiplayer.md).
+It is designed for it: production, stock, states, failures and experience are computed by the server, which re-checks every client request. Earlier in-game campaigns covered single player and a Windows dedicated server with two clients; the validation report distinguishes those snapshots from the latest changes. See [Multiplayer](12-multiplayer.md).
 
 **What are the Workshop ID and Mod ID?**
 The Mod ID is `batman_LiveWire`. The Workshop ID is `3821807453`. You can also copy `Contents/mods/batman_LiveWire` into `Zomboid/mods`. See [Getting started](01-getting-started.md#installation).
@@ -107,7 +107,7 @@ Shared installations follow the vanilla safehouse rules. The software may lag up
 ## Compatibility
 
 **Can I use it with other energy mods?**
-Other energy mods are not supported together with Live Wire. Live Wire is an original creation: no code or asset was taken from any other mod. The only optional links are the Computer Mod and the Laptop Mod. See [Getting started](01-getting-started.md).
+Other energy mods are not supported together with Live Wire. Live Wire is an original creation: no code or asset was taken from any other mod. Optional integrations include Computer Mod, Laptop Mod, Project Viewpoint and Useful Barrels. See [Getting started](01-getting-started.md).
 
 ## Troubleshooting
 

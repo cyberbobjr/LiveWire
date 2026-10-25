@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "초현실적 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "현실적 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "게임 값",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "편안함"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "편안함",
+    "Sandbox_LiveWire_SolarOrientation": "태양광 방향",
+    "Sandbox_LiveWire_SolarDirt": "패널 오염",
+    "Sandbox_LiveWire_BatteryCold": "저온 배터리",
+    "Sandbox_LiveWire_LiveWorkRisk": "활선 작업 위험",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "패널 방향에 따라 발전량과 최대 발전 시간이 달라집니다.",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "패널에 먼지가 쌓입니다. 비와 수동 청소로 제거할 수 있습니다.",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "추위는 실외 배터리 뱅크의 사용 가능 용량을 줄입니다. 따뜻해지면 예비 용량이 돌아옵니다.",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "기본 활성화. 전기 기술 0에서 감전 확률 50%%, 6부터 0. 드라이버를 든 손에 화상을 입고 물건을 떨어뜨립니다. 작업 전 주 인버터를 끄세요. 배전반 주 차단기만 내려서는 안전하지 않습니다.",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Live Wire 장비 및 부품 전리품 배율",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Live Wire 장비와 부품(태양전지 셀, 날개, 기둥)의 전리품 가중치만 변경합니다(1-20, 기본 5). 기본 게임 아이템과 전리품 가중치는 변경하지 않습니다. 소프트웨어 디스크는 기존 빈도를 유지합니다. 재시작 필요. 이후 전리품 생성에만 적용되며 수색한 용기는 채우지 않습니다. 게임의 전리품 설정도 적용됩니다."
 }

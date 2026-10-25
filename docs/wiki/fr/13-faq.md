@@ -2,7 +2,7 @@
 
 # FAQ
 
-Réponses courtes sur Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.5.0). Le mod est publié sur le [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Des tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients. Pour le détail, suivez les liens vers les pages correspondantes.
+Réponses courtes sur Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.6.0). Le mod est publié sur le [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). La portée de validation de cette mise à jour est précisée dans [Multijoueur](12-multijoueur.md#état). Pour le détail, suivez les liens vers les pages correspondantes.
 
 ## Pour commencer
 
@@ -13,7 +13,7 @@ Non. Une source et un onduleur forment le système minimal. Sans batterie, la ma
 Une source (panneau photovoltaïque 100 W, éolienne 400 W ou roue à aubes 120 W) et un onduleur, reliés par du fil électrique. Tout appareil alimenté situé à 20 cases et 3 étages de l'onduleur au plus est alors alimenté, sans câblage appareil par appareil. Voir [Équipements](02-equipements.md).
 
 **Quel niveau d'Électricité pour quoi ?**
-Powerbank, alarme de batterie faible et kit d'insonorisation : niveau 2. Panneau photovoltaïque, disjoncteur et groupe électrogène de secours : niveau 3. Onduleur : niveau 5. Éolienne, batterie stationnaire et ordinateur de gestion : niveau 6. Roue à aubes et délestage : niveau 7. Remise à neuf et cellules à partir de déchets : niveau 8. Lire un testeur (alimenté ou non) ne demande aucun niveau. Voir [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) et [Recettes](08-recettes.md).
+Powerbank, alarme de batterie faible et kit d'insonorisation : niveau 2. Panneau photovoltaïque, disjoncteur et groupe électrogène de secours : niveau 3. Onduleur : niveau 5. Pose/ramassage des éoliennes et roues à aubes : niveau 2. Assemblage final de l’éolienne, batterie stationnaire et ordinateur de gestion : niveau 6. Fabrication de la roue à aubes et délestage : niveau 7. Remise à neuf et cellules à partir de déchets : niveau 8. Lire un testeur (alimenté ou non) ne demande aucun niveau. Voir [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) et [Recettes](08-recettes.md).
 
 ## Raccordement
 
@@ -24,7 +24,7 @@ La portée est de 12 cases (option sandbox `LinkRange`, de 4 à 30), avec 1 éta
 Clic droit sur l'équipement, « Live Wire », puis son nom, puis « Raccorder à un onduleur » et choisissez l'onduleur (la liste donne distance et fils). Ou clic droit sur l'onduleur, « Raccorder un équipement » ou « Débrancher un équipement ». Le menu de l'équipement propose aussi « Débrancher de l'onduleur ». Voir [Raccordement](03-raccordement.md).
 
 **Combien d'appareils de chaque sorte par réseau ?**
-Autant de sources et de powerbanks que voulu par onduleur, mais un seul onduleur par réseau. Au plus un disjoncteur, une alarme, un ordinateur de gestion et un groupe électrogène de secours par réseau. Voir [Raccordement](03-raccordement.md).
+Autant de sources et de powerbanks que voulu par onduleur, avec jusqu'à quatre onduleurs couplés par réseau. Au plus un disjoncteur, une alarme, un ordinateur de gestion et un groupe électrogène de secours par réseau. Voir [Raccordement](03-raccordement.md).
 
 **Que se passe-t-il si je ramasse l'onduleur ?**
 Tout son réseau est déconnecté. Le tourner conserve les liaisons. Une source ramassée garde son état, mais reposée elle est « Non raccordé » tant que vous ne la reliez pas. Voir [Raccordement](03-raccordement.md).
@@ -38,7 +38,7 @@ Aucune limite : les productions s'additionnent. Une journée de référence (fri
 Rien en dessous de 10 km/h, 100 % (400 W) de 45 à 85 km/h, et frein automatique au-delà de 85 km/h. Entre les deux, 25 km/h donnent environ 31 W et 40 km/h environ 252 W. Le vent compte +15 % par étage jusqu'au 3e. Voir [Production et calculs](04-production-et-calculs.md).
 
 **Où poser la roue à aubes ?**
-Au rez-de-chaussée, sur la berge d'une rivière, à côté de l'eau de la rivière. Les lacs et étangs sont refusés car le moteur ne distingue pas le courant d'un lac. Elle demande le niveau 7 et produit jour et nuit (environ 2,9 kWh par jour). Voir [Équipements](02-equipements.md).
+Au rez-de-chaussée, sur la berge d'une rivière, à côté de l'eau de la rivière. Les lacs et étangs sont refusés car le moteur ne distingue pas le courant d'un lac. Elle demande le niveau 2 à la pose (7 à la fabrication) et produit jour et nuit (environ 2,9 kWh par jour). Voir [Équipements](02-equipements.md).
 
 **Et la nuit, l'hiver, la neige ?**
 Le panneau suit une courbe sinusoïdale entre l'aube et le crépuscule : environ 0,94 kWh par jour d'été et 0,60 kWh l'hiver, et il reste 20 % sous un ciel entièrement couvert. La neige le bloque pendant une chute jusqu'à la fonte au-dessus de 0 °C ou jusqu'à « Déneiger ». La roue à aubes produit jour et nuit. Voir [Production et calculs](04-production-et-calculs.md).
@@ -72,7 +72,7 @@ Non, l'onduleur a son propre écran LCD (« Ouvrir l'écran de l'onduleur », 5 
 Sans eux, un ordinateur de bureau vanilla raccordé à l'onduleur ouvre le logiciel sur l'écran d'ordinateur propre au mod. Avec le Computer Mod (Workshop 3725497089) ou le Laptop Mod (3798992436), facultatifs, le logiciel arrive sur un disque et apparaît comme une application « Live Wire » sur leur bureau. Voir [Écran et logiciel](05-ecran-et-logiciel.md).
 
 **Où trouver le disque ?**
-« Disque : logiciel de gestion Live Wire » se trouve dans le butin d'ordinateurs, et seulement quand le Computer Mod est actif : caisses d'ordinateurs (environ 7,8 % par conteneur), bureaux d'université d'électricité (7,8 %), ordinateurs de magasin d'électronique (2,0 %), entre autres. Clic droit sur l'ordinateur avec le disque, puis « Installer le logiciel Live Wire ». Voir [Tables de butin](09-tables-de-butin.md).
+« Disque : logiciel de gestion Live Wire » se trouve dans le butin d'ordinateurs, quand Computer Mod ou Laptop Mod est actif : caisses d'ordinateurs (environ 7,8 % par conteneur), bureaux d'université d'électricité (7,8 %), ordinateurs de magasin d'électronique (2,0 %), entre autres. Clic droit sur l'ordinateur avec le disque, puis « Installer le logiciel Live Wire ». Voir [Tables de butin](09-tables-de-butin.md).
 
 ## Bruit et zombies
 
@@ -88,12 +88,12 @@ Les zombies entendent un onduleur allumé à 2 cases (option `InverterNoiseRadiu
 Par jours de jeu, en gros : panneau -1 tous les 10 jours, éolienne -1 tous les 4, roue à aubes -1 tous les 6, onduleur -1 tous les 5 jours allumé (deux fois plus vite au-dessus de 80 % de charge), disjoncteur -1 tous les 15, powerbank et alarme -1 tous les 30. Les dégâts d'orage sont désactivés par défaut (`StormDamage`). Voir [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md).
 
 **Comment réparer ou remettre à neuf un appareil ?**
-Réparation : 1 déchet électronique + 1 fil électrique, pour 5 + votre niveau d'Électricité points (jusqu'à 90), avec un risque d'échec de max(5, 40 - 5 x niveau) % qui fait perdre les pièces. Remise à neuf (niveau 8, 4 déchets + 2 fils) : retour à 100. Une batterie se reconditionne au niveau 4 (+15 d'état, plafond 80). Voir [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md).
+Réparation : 1 déchet électronique + 1 fil électrique, pour 5 + votre niveau d'Électricité points (jusqu'à 90), avec un risque d'échec de max(5, 40 - 5 x niveau) % qui fait perdre les pièces. Remise à neuf (niveau 8, 4 déchets + 2 fils) : retour à 100. Une batterie se reconditionne au niveau 4 (6 si morte) : tournevis conservé, déchet, fil et 0,5 L d'eau ; +15 d'état, plafond 80, quatre réparations au maximum. Voir [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md).
 
 ## Multijoueur et serveur
 
 **Cela fonctionne-t-il sur un serveur dédié ?**
-Il est conçu pour : production, stock, états, pannes et expérience sont calculés par le serveur, qui revérifie chaque demande des clients. Des tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients, sauvegardes et redémarrages complets compris. Voir [Multijoueur](12-multijoueur.md).
+Il est conçu pour : production, stock, états, pannes et expérience sont calculés par le serveur, qui revérifie chaque demande des clients. Les campagnes antérieures ont couvert le solo et un serveur dédié Windows avec deux clients ; le bilan distingue ces états des derniers changements. Voir [Multijoueur](12-multijoueur.md).
 
 **Quels sont l'ID Workshop et l'ID du mod ?**
 L'ID du mod est `batman_LiveWire`. L'ID Workshop est `3821807453`. On peut aussi copier `Contents/mods/batman_LiveWire` dans `Zomboid/mods`. Voir [Premiers pas](01-premiers-pas.md#installation).
@@ -107,7 +107,7 @@ Les installations partagées suivent les règles vanilla des refuges. Le logicie
 ## Compatibilité
 
 **Puis-je l'utiliser avec d'autres mods d'énergie ?**
-Les autres mods d'énergie ne sont pas pris en charge avec Live Wire. C'est une création originale : aucun code ni ressource d'un autre mod. Les seuls liens facultatifs sont le Computer Mod et le Laptop Mod. Voir [Premiers pas](01-premiers-pas.md).
+Les autres mods d'énergie ne sont pas pris en charge avec Live Wire. C'est une création originale : aucun code ni ressource d'un autre mod. Les intégrations facultatives incluent Computer Mod, Laptop Mod, Project Viewpoint et Useful Barrels. Voir [Premiers pas](01-premiers-pas.md).
 
 ## Dépannage
 

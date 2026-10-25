@@ -12,5 +12,7 @@
     "Base.Mov_LiveWire_Breaker": "Disjoncteur",
     "Base.Mov_LiveWire_BatteryAlarm": "Alarme de batterie faible",
     "Base.Mov_LiveWire_WaterPump": "Pompe à eau",
-    "LiveWire.CouplingKit": "Kit de couplage d'onduleurs"
+    "LiveWire.CouplingKit": "Kit de couplage d'onduleurs",
+    "LiveWire.WindTurbineBlades": "Jeu de pales d’éolienne",
+    "LiveWire.WindTurbineMast": "Mât d’éolienne"
 }

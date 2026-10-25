@@ -84,6 +84,22 @@ function Physics.batteryCapacity(nominalKWh, cond, multiplier)
     return nominalKWh * (0.4 + 0.6 * clamp(cond, 0, 100) / 100) * (multiplier or 1)
 end
 
+-- Outside batteries retain their stored energy; only the accessible window shrinks.
+function Physics.coldFactor(temperature, outside, enabled)
+    if not enabled or not outside then return 1 end
+    if temperature >= 15 then return 1 end
+    return clamp(0.8 + temperature * (0.2 / 15), 0.6, 1)
+end
+
+-- Facings follow the tile sheet: S, E, N, W. Shift the daylight curve, not the clock.
+function Physics.solarFacing(facing, enabled)
+    if not enabled then return 1, 0 end
+    if facing == 1 then return 0.85, -2 end
+    if facing == 2 then return 0.55, 0 end
+    if facing == 3 then return 0.85, 2 end
+    return 1, 0
+end
+
 -- Wear points for a discharge of `drawnKWh` from a battery of `nominalKWh`.
 function Physics.batteryWear(drawnKWh, nominalKWh, lifeCycles, deep, multiplier)
     if drawnKWh <= 0 or nominalKWh <= 0 or lifeCycles <= 0 then return 0 end

@@ -38,6 +38,15 @@ local function onAt(a, t)
     return on
 end
 
+local function cutAt(a, t)
+    local off = a.panel0 == true
+    for _, e in ipairs(a.panelLog or {}) do
+        if e.t > t then break end
+        off = e.off
+    end
+    return off
+end
+
 -- Power timeline of a square between t0 and t1: list of { d = hours, p = powered },
 -- or nil when no covering anchor changed state in the interval (vanilla is right).
 local function timeline(anchors, t0, t1, shutH)
@@ -51,6 +60,13 @@ local function timeline(anchors, t0, t1, shutH)
                 cuts[#cuts + 1] = t
                 changed = true
             end
+        end
+        local a = anchors[i]
+        for _, e in ipairs(a.panelLog or {}) do
+            if e.t > t0 and e.t < t1 then cuts[#cuts + 1] = e.t; changed = true end
+        end
+        for _, t in ipairs({ a.since, a.retired }) do
+            if t and t > t0 and t < t1 then cuts[#cuts + 1] = t; changed = true end
         end
     end
     if not changed then return nil end
@@ -66,6 +82,13 @@ local function timeline(anchors, t0, t1, shutH)
             for k = 1, #anchors do
                 if not p and onAt(anchors[k], mid) then p = true end
             end
+            local owner
+            for _, a in ipairs(anchors) do
+                if (not a.since or a.since <= mid) and (not a.retired or mid < a.retired)
+                    and (not owner or a.distance < owner.distance
+                        or (a.distance == owner.distance and a.id < owner.id)) then owner = a end
+            end
+            if owner and cutAt(owner, mid) then p = false end
             out[#out + 1] = { d = b - a, p = p }
         end
     end
@@ -141,7 +164,9 @@ function FC.onLoadChunk(chunk)
     local registry = LiveWire.Registry
     local history = registry and registry.data and registry.data.powerHistory or LiveWire.Anchor.table()
     for _, a in pairs(history) do
-        if type(a.log) == "table" and #a.log > 0 and LiveWire.Anchor.touches(cx, cy, a, R) then
+        -- An empty, never-powered master still owns its physical circuit. Keep
+        -- its constant history so a farther panel cannot override its choice.
+        if type(a.log) == "table" and LiveWire.Anchor.touches(cx, cy, a, R) then
             list[#list + 1] = a
         end
     end
@@ -166,7 +191,9 @@ function FC.onLoadChunk(chunk)
                     local dx, dy = sq:getX() - a.x, sq:getY() - a.y
                     if dx * dx + dy * dy <= R2 and math.abs(z - a.z) <= V then
                         cover = cover or {}
-                        cover[#cover + 1] = a
+                        cover[#cover + 1] = { log = a.log, log0 = a.log0, since = a.since, retired = a.retired,
+                            panelLog = a.panelLog, panel0 = a.panel0, distance = dx * dx + dy * dy,
+                            id = a.id or tostring(k) }
                     end
                 end
                 if cover then
@@ -174,10 +201,12 @@ function FC.onLoadChunk(chunk)
                     local objs = sq:getObjects()
                     for oi = 0, objs:size() - 1 do
                         local o = objs:get(oi)
+                        local saved = LiveWire.Appliances and LiveWire.Appliances.saved(o)
                         for c = 0, o:getContainerCount() - 1 do
                             local cont = o:getContainerByIndex(c)
-                            if cont and (cont:isFridge() or cont:isFreezer()) then
-                                local inFreezer = cont:isFreezer()
+                            local original = saved and saved.types and saved.types[tostring(c)]
+                            if cont and (cont:isFridge() or cont:isFreezer() or original) then
+                                local inFreezer = original == "freezer" or cont:isFreezer()
                                 local items = foods(cont, {})
                                 for f = 1, #items do
                                     local food = items[f]

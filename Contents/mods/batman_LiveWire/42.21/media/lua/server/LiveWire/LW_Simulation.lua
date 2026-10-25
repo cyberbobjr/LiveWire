@@ -1,6 +1,8 @@
 -- Live Wire: simulation step of every network (authority only), every 10 game
 -- minutes, whether players are near or not (docs/architecture.md section 4).
 if isClient() then return end
+require "LiveWire/LW_Events"
+require "LiveWire/LW_Forecast"
 
 LiveWire = LiveWire or {}
 
@@ -28,6 +30,7 @@ local function weather()
         snowIntensity = cm:getSnowIntensity(),
         temperature = cm:getTemperature(),
         storm = cm:getIsThunderStorming(),
+        rain = cm:getRainIntensity(),
         month = getGameTime():getMonth(),
         dawn = season:getDawn(),
         dusk = season:getDusk(),
@@ -54,8 +57,11 @@ local function sourceRaw(src, def, w, t0, h)
     if def.kind == "wind" and src.brake then return 0 end
     local factor = 0
     if def.kind == "solar" then
-        factor = Physics.solarFactor(solarMean(t0, h, w), w.clouds, src.snow or 0)
-            * LiveWire.Config.get("SolarMultiplier")
+        local facing, shift = Physics.solarFacing(src.facing, LiveWire.Config.get("SolarOrientation"))
+        local sw = { dawn = w.dawn + shift, dusk = w.dusk + shift }
+        factor = Physics.solarFactor(solarMean(t0, h, sw), w.clouds, src.snow or 0)
+            * LiveWire.Config.get("SolarMultiplier") * facing
+            * (1 - (LiveWire.Config.get("SolarDirt") and (src.dirt or 0) or 0))
     elseif def.kind == "wind" then
         factor = Physics.windFactor(Physics.windAtHeight(w.windKph, src.z))
             * LiveWire.Config.get("WindMultiplier")
@@ -64,6 +70,7 @@ local function sourceRaw(src, def, w, t0, h)
     end
     return def.nominalW * factor * Physics.conditionFactor(src.cond) * (src.eff or 0.85)
 end
+Sim.sourceRaw = sourceRaw
 
 local function wearDevice(dev, def, h, extra)
     local mult = LiveWire.Config.get("DeviceWearMultiplier")
@@ -79,6 +86,11 @@ local function weatherOnSource(src, def, w, h)
         if w.snowing then snow = snow + 0.1 * w.snowIntensity * h end
         if w.temperature > 0 then snow = snow - 0.05 * h end
         src.snow = LiveWire.clamp(snow, 0, 1)
+        if LiveWire.Config.get("SolarDirt") then
+            local autumn = w.month >= 8 and w.month <= 10
+            src.dirt = LiveWire.clamp((src.dirt or 0) + h * (autumn and 0.001 or 0.0005)
+                - (w.rain or 0) * h * 0.02, 0, 0.5)
+        end
     end
     if not LiveWire.Config.get("StormDamage") then return end
     if def.kind == "solar" and w.storm and chance(h / 20) then
@@ -100,8 +112,12 @@ local function batteryWear(entry, drawn, h, exhausted)
         entry.cond = math.max(0, entry.cond - wear)
         entry.cycles = (entry.cycles or 0) + drawn / def.capacityKWh
     end
-    entry.charge = entry.charge * (1 - Defs.SELF_DISCHARGE_PER_DAY * h / 24)
-    entry.capacity = LiveWire.Batteries.capacity(entry.model, entry.cond)
+    local decay = 1 - Defs.SELF_DISCHARGE_PER_DAY * h / 24
+    entry.charge = entry.charge * decay
+    entry.reserve = (entry.reserve or 0) * decay
+    entry.warmCapacity = LiveWire.Batteries.capacity(entry.model, entry.cond)
+    entry.capacity = entry.warmCapacity * (entry.coldFactor or 1)
+    entry.reserve = math.min(entry.reserve, math.max(0, entry.warmCapacity - entry.capacity))
     if entry.charge > entry.capacity then entry.charge = entry.capacity end
 end
 
@@ -173,12 +189,26 @@ function Sim.snapshot(grid)
                      cond = math.floor((inv.cond or 0) + 0.5), maxW = Sim.capacityW(grid),
                      eff = inv.eff or 0, powered = grid.powered == true, muffled = inv.muffled == true },
         demand = math.floor((grid.demand or 0) + 0.5),
+        demandReady = LiveWire.Demand.ready(inv),
         production = math.floor((grid.production or 0) + 0.5),
         stock = grid.stock or 0, capacity = grid.capacity or 0,
         lost = grid.lost or 0,
         sources = {}, batteries = {}, options = {}, appliances = {},
         coverage = { radius = LiveWire.Config.tileRange(), floors = LiveWire.Config.verticalRange() },
     }
+    snap.events = {}
+    for _, e in ipairs(grid.events or {}) do
+        local args = {}
+        for i, v in ipairs(e.args) do args[i] = v end
+        snap.events[#snap.events + 1] = { t = e.t, tod = e.tod, key = e.key, args = args }
+    end
+    snap.consumers = LiveWire.Demand.consumers and LiveWire.Demand.consumers(inv) or {}
+    snap.links = {}
+    for id in pairs(grid.members) do
+        local d = R.device(id)
+        if d then snap.links[#snap.links + 1] = { id = id, model = d.model, role = d.role, x = d.x, y = d.y, z = d.z } end
+    end
+    snap.origin = { x = inv.x, y = inv.y, z = inv.z }
     for cat, b in pairs(grid.appliances or {}) do
         snap.appliances[#snap.appliances + 1] = { cat = cat, n = b.n, w = math.floor(b.w + 0.5) }
     end
@@ -189,16 +219,19 @@ function Sim.snapshot(grid)
         snap.sources[i] = { id = s.id, model = s.model, kind = sdef.kind or "other",
                             nominal = sdef.nominalW or 0, cond = math.floor((s.cond or 0) + 0.5),
                             w = math.floor((s.pOut or 0) + 0.5),
-                            raw = math.floor((s.raw or 0) + 0.5), snow = s.snow or 0 }
+                            raw = math.floor((s.raw or 0) + 0.5), snow = s.snow or 0,
+                            dirt = s.dirt or 0, facing = s.facing or 0 }
     end
     snap.extra = 0
     for i = 1, #batteries do
         local bank = batteries[i]
         snap.extra = snap.extra + (bank.extra or 0)
         for _, sl in ipairs(bank.slots or {}) do
-            local cap = LiveWire.Batteries.capacity(sl.model, sl.cond or 0)
-            snap.batteries[#snap.batteries + 1] = { model = sl.model, charge = sl.charge or 0,
-                capacity = cap, cond = math.floor((sl.cond or 0) + 0.5), cycles = sl.cycles or 0 }
+            local e = LiveWire.Batteries.entry(bank, sl.model, sl.id, sl.cond or 0, sl.charge or 0, sl.cycles)
+            snap.batteries[#snap.batteries + 1] = { model = sl.model,
+                charge = e.capacity > 0 and e.charge / e.capacity or 0,
+                capacity = e.capacity, reserve = e.reserve,
+                cond = math.floor((sl.cond or 0) + 0.5), cycles = sl.cycles or 0 }
         end
     end
     snap.banks = #batteries
@@ -232,21 +265,34 @@ function Sim.snapshot(grid)
             snap.history = {}
             for i, hs in ipairs(grid.history or {}) do snap.history[i] = { p = hs.p, d = hs.d, s = hs.s } end
             snap.dawnH = LiveWire.Computer.hoursToDawn()
+            snap.forecast = {}
+            for i, row in ipairs(grid.forecast or {}) do
+                local r = {}
+                for key, value in pairs(row) do r[key] = value end
+                snap.forecast[i] = r
+            end
         end
     end
     if R.hasOption(grid, "alarm") then
         snap.alarm = { on = grid.alarmOn == true, ack = grid.alarmAck == true }
     end
     local brk = R.hasOption(grid, "breaker")
-    if brk then snap.breaker = { id = brk.id, state = brk.state or "ok" } end
+    if brk then snap.breaker = { id = brk.id, state = brk.state or "ok",
+        lightsOff = grid.lightsOff == true, equipmentOff = grid.equipmentOff == true,
+        mainOff = grid.mainOff == true, equipmentControl = true } end
     if #pumps > 0 then
         -- Pumps in service and their flow (the only pump figures the software shows).
-        local n, flow = 0, 0
+        local n, flow, watts = 0, 0, 0
         for i = 1, #pumps do
             if pumps[i].state == "running" or pumps[i].state == "idle" then n = n + 1 end
             flow = flow + (pumps[i].flowLph or 0)
+            -- Reuse the last measured duty; never call demandW here (it consumes
+            -- the pump's litres counter). No scan, water transfer or new state.
+            local def = Defs.devices[pumps[i].model]
+            local duty = LiveWire.clamp((pumps[i].flowLph or 0) / (Defs.PUMP_LITRES_PER_MINUTE * 60), 0, 1)
+            watts = watts + (def and def.pumpW or 0) * duty
         end
-        snap.pumps = { n = n, flow = math.floor(flow + 0.5) }
+        snap.pumps = { n = n, flow = math.floor(flow + 0.5), w = math.floor(watts + 0.5) }
     end
     return snap
 end
@@ -259,7 +305,37 @@ end
 
 function Sim.unsubscribe(player, gridId)
     local list = Sim.subscribers[gridId]
-    if list then list[player:getUsername()] = nil end
+    if list then
+        list[player:getUsername()] = nil
+        for _ in pairs(list) do return end
+        Sim.subscribers[gridId] = nil
+    end
+end
+
+function Sim.purgeSubscribers()
+    local R = LiveWire.Registry
+    if not R or not R.ready then return end
+    local now, online = getTimestampMs(), nil
+    local players = isServer() and getOnlinePlayers()
+    if players then
+        online = {}
+        for i = 0, players:size() - 1 do
+            local p = players:get(i)
+            online[p:getUsername()] = p
+        end
+    end
+    for id, list in pairs(Sim.subscribers) do
+        if not R.grid(id) then Sim.subscribers[id] = nil
+        else
+            local any = false
+            for name, sub in pairs(list) do
+                if sub.expires <= now or not sub.player or sub.player:isDead()
+                    or (online and online[name] ~= sub.player) then list[name] = nil
+                else any = true end
+            end
+            if not any then Sim.subscribers[id] = nil end
+        end
+    end
 end
 
 function Sim.publish(grid)
@@ -387,6 +463,18 @@ function Sim.stepGrid(grid, now, w)
     end
 
     local sources, banks, options, backups, computers, pumps = R.members(grid)
+    if w.storm and not grid.stormWarned then
+        for _, src in ipairs(sources) do
+            local sd = Defs.devices[src.model]
+            if sd and sd.kind == "wind" and not src.brake and (src.cond or 0) > 0 then
+                grid.stormWarned = true
+                LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_StormBrake",
+                    { grid.name ~= "" and grid.name or "IGUI_LW_Network" }, true)
+                LiveWire.Journal.add(grid, "IGUI_LW_Event_Storm")
+                break
+            end
+        end
+    elseif not w.storm then grid.stormWarned = nil end
     local slaves = R.slaves(grid)
     local entries = {}
     local bankEntries = {}
@@ -447,7 +535,9 @@ function Sim.stepGrid(grid, now, w)
         local capW, idleNow = Sim.capacityW(grid), Sim.idleW(grid)
         -- A tripped breaker cuts the house: the inverter stays on (it still charges).
         local physState = inv.state
-        if physState == "on" and breaker and breaker.state == "tripped" then physState = "tripped" end
+        -- Isolating a failed unit changes its switch, never repairs its converter.
+        if (inv.cond or 0) <= 0 then physState = "broken" end
+        if physState == "on" and (grid.mainOff or (breaker and breaker.state == "tripped")) then physState = "tripped" end
         local r = Physics.stepGrid({
             productionW = prodW + backupW, demandW = demandW, idleW = idleNow, maxW = capW,
             eff = inv.eff, dt = h, wasOn = grid.powered == true, state = physState,
@@ -467,10 +557,17 @@ function Sim.stepGrid(grid, now, w)
                 LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Tripped", args, true)
             end
         end
+        local wasPowered = grid.powered == true
         grid.powered = r.on
         -- Intermediate catch-up transitions are private. Publish only the final
         -- state below, avoiding a burst of global anchor packets after an absence.
         local startHour = now - dt + (i - 1) * h
+        if r.onHours > 0 and not wasPowered then
+            LiveWire.Journal.add(grid, "IGUI_LW_Event_PowerOn", {}, startHour)
+        end
+        if not r.on and (wasPowered or r.onHours > 0) then
+            LiveWire.Journal.add(grid, "IGUI_LW_Event_PowerOff", {}, startHour + r.onHours)
+        end
         LiveWire.PowerHistory.record(R.data, inv, r.onHours > 0, startHour)
         if not r.on then
             LiveWire.PowerHistory.record(R.data, inv, false, startHour + r.onHours)
@@ -546,6 +643,7 @@ function Sim.stepGrid(grid, now, w)
     grid.computerOn = pc ~= nil
     if pc then
         LiveWire.Computer.record(grid, now, grid.production, demandW, frac)
+        LiveWire.Forecast.build(grid, sources, now)
         if loaded then LiveWire.Computer.shed(grid, inv, pc, frac) end
     end
     LiveWire.Alarm.check(grid, R.hasOption(grid, "alarm"), frac, now)
@@ -575,6 +673,7 @@ function Sim.stepGrid(grid, now, w)
     end
     -- State shown by the client (lights, menus): rewrite the marks that changed.
     LiveWire.Devices.refreshStates(grid)
+    LiveWire.Journal.capture(grid)
     Sim.publish(grid)
 end
 
@@ -615,3 +714,4 @@ function Sim.refresh(grid)
 end
 
 Events.EveryTenMinutes.Add(Sim.tick)
+Events.EveryOneMinute.Add(Sim.purgeSubscribers)

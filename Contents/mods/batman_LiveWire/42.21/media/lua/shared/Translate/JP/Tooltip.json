@@ -37,5 +37,9 @@
     "Tooltip_LW_NeedCouplingKit": "インバーター連結キットが必要です。",
     "Tooltip_LW_CoupledInverter": "このインバーターは連結済みです：機器は親のインバーターに接続してください。",
     "Tooltip_LW_CoupleHasEquipment": "先にこのインバーターから全ての機器を外してください。",
-    "Tooltip_LW_TooManySlaves": "親のインバーターに連結できるのは最大 %1 台までです。"
+    "Tooltip_LW_TooManySlaves": "親のインバーターに連結できるのは最大 %1 台までです。",
+    "Tooltip_LW_RepairLimit": "このバッテリーは修理回数の上限です。",
+    "Tooltip_LW_BankStackFull": "バッテリーバンクは2台まで積めます。",
+    "Tooltip_LW_BankStackBase": "地面か別のバッテリーバンクの上に置いてください。",
+    "Tooltip_LW_BankStackSupport": "先に上のバンクや物を取り除いてください。"
 }

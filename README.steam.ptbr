@@ -4,75 +4,60 @@
 
 A energia acabou para sempre... mas as luzes não precisam acabar. Construa sua própria eletricidade fora da rede: painéis solares, uma turbina eólica ou uma roda d'água alimentam um inversor, e o inversor alimenta toda a casa ao redor. Adicione baterias para a noite. A habilidade Elétrica finalmente importa: cada aparelho tem um nível, e o seu nível melhora a instalação.
 
+[h2]1.6.0 — Controle sua instalação[/h2]
+
+O quadro tem alavancas de iluminação, equipamentos e geral, com watts atuais por circuito e totais. Desligue aparelhos reais e restaure os estados anteriores mesmo após reiniciar. As fontes podem carregar baterias com a distribuição geral aberta. Clique esquerdo abre o LCD de cada equipamento; o botão de conexões permite escolher o inversor.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
+
 [h2]Como funciona[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ptbr.png[/img]
 
-[list]
-[*][b]Fontes[/b] produzem: painel solar 100 W, turbina eólica 400 W, roda d'água 120 W. Quantas quiser por inversor.
-[*][b]O inversor[/b] (máx. 1.500 W) alimenta todo aparelho a até 20 casas e 3 andares acima ou abaixo. Sem fiação por aparelho: geladeiras, luzes, fogões, TVs e rádios funcionam como no jogo original.
-[*][b]Perfil de consumo[/b] (sandbox): Valores do jogo (padrão), Realista 1993 (luz 60 W, TV 80 W, fogão elétrico 2.000 W), Ultrarrealista 1993 ou Conforto.
-[*][b]O banco de baterias[/b] armazena o excedente: conta como 4 baterias (baterias de carro ou de ciclo profundo). Sem baterias, a casa funciona apenas com a produção atual.
-[*][b]Cabos[/b]: fio elétrico, 1 a cada 4 casas, alcance de 12 casas. Clique com o botão direito em um aparelho > "Live Wire" > "Conectar a um inversor".
-[/list]
+Solar 100 W, eólica 400 W, roda-d’água 120 W. Um inversor alimenta aparelhos a 20 quadrados e ±3 andares, até 1500 W; quatro acoplados dão 6000 W. Sem cabo por eletrodoméstico.
+Bancos com 4 baterias guardam o excedente. Cabos: 1 fio por 4 quadrados, alcance 12. Perfis: valores do jogo, Realista 1993, Ultrarealista 1993 ou Conforto.
 
 [h2]Equipamentos[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_ptbr.png[/img]
 
-[list]
-[*][b]Painel solar[/b] (Elétrica 3): ao ar livre, com céu aberto. Telhados planos funcionam.
-[*][b]Turbina eólica[/b] (6): ao ar livre, mais forte quanto mais alto.
-[*][b]Roda d'água[/b] (7): na margem de um rio, no térreo.
-[*][b]Inversor[/b] (5): o coração da rede, pode ficar em ambientes internos.
-[*][b]Banco de baterias[/b] (2): abre como um caixote.
-[*][b]Opcionais[/b]: painel de disjuntores (desarma em vez de danificar o inversor), alarme de bateria baixa, kit de insonorização para o zumbido do inversor, gerador vanilla como reserva (ligado abaixo de 20% de bateria), computador de mesa vanilla como computador de gestão. Até 4 inversores acoplados em paralelo (6.000 W) com um kit de acoplamento.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
+Painéis ao ar livre (Elétrica 3), turbinas ao ar livre e rodas na margem de um rio (ambas 2), inversores (5), bancos (2). Empilhe dois bancos por quadrado com inventários e conexões separados; esvazie antes de recolher, primeiro o superior.
+Opcionais: quadro elétrico, alarme, isolamento acústico, gerador vanilla de reserva e computador de gestão.
 
 [h2]Produção[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ptbr.png[/img]
 
-[list]
-[*][b]Solar[/b]: cerca de 0,94 kWh por dia de verão, cerca de 0,60 no inverno. Nuvens e neve reduzem a produção.
-[*][b]Eólica[/b]: nada abaixo de 10 km/h, cresce com o cubo da velocidade até 45 km/h, potência máxima de 45 a 85 km/h, freio automático acima disso.
-[*][b]Roda d'água[/b]: 120 W de dia e de noite, em rios.
-[/list]
+Orientação solar: sul 100%, leste/oeste 85%, norte 55%. Nuvens, neve e sujeira reduzem a produção. A chuva limpa; também um pano + 0,5 L de água. Vento desde 10 km/h, potência máxima a 45–85, freio acima disso. Roda ativa dia e noite. O frio opcional preserva como reserva a energia inacessível das baterias; desativado por padrão.
 
-Exemplo: uma geladeira-freezer e 10 luzes consomem cerca de 4,1 kWh por dia. Uma roda d'água e 2 painéis cobrem tudo o ano inteiro.
+[h2]Bomba d'água[/h2]
 
-[h2]Bomba d'água (novidade da 1.2.0)[/h2]
-
-[list]
-[*]Barris de água no chão agora abastecem os pontos de água da casa inteira: pias, chuveiros, banheiras e vasos sanitários voltam a funcionar depois do corte de água.
-[*]Coloque a [b]bomba d'água[/b] (Elétrica 6) ao lado de coletores de chuva vanilla ou barris do [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (até 8, um cano de ferro cada) e conecte-a ao inversor.
-[*]Conecte os pontos de água com uma chave de cano como no vanilla: todo ponto conectado a menos de 15 quadrados (sandbox) é abastecido. Só água é aceita; a água da chuva sai limpa.
-[*]5 L por minuto, 250 W ao bombear, um zumbido leve; ela para sozinha quando todos os pontos de água estão cheios. "Mostrar os pontos de água abastecidos" os destaca em azul.
-[*]Antes de remover o mod, execute a ação debug/admin "Remover todos os relés de água".
-[/list]
+A bomba (Elétrica 6) abastece pontos de água conectados a 15 quadrados a partir de até 8 coletores ou barris [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacentes, um cano metálico cada. Encanamento com chave de cano. Água da chuva sai limpa: até 5 L/min, 250 W ao bombear. Azul = alimentada, mesmo em repouso. Antes de desinstalar, remova todos os relés de água pela ação debug/admin.
 
 [h2]Receitas[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_ptbr.png[/img]
 
-Categoria Elétrica, aprendida automaticamente no nível exigido. As células solares vêm de calculadoras desmontadas ou são encontradas como saque; equipamentos prontos também podem aparecer em lojas de eletricistas, lojas de ferragens e garagens.
+17 receitas ilustradas. Desbloqueio automático em Elétrica; pás e mastro em Metalurgia sem nível elétrico. Montagem da turbina no 6, fabricação da roda no 7, ambas com dois amplificadores. Colocar/recolher ambas no 2. Desmonte um testador para recuperar sucata eletrônica. Todas dão XP de Elétrica. Mais locais de saque; multiplicador 5 por padrão (1–20), só sorteios futuros após reiniciar.
 
 [h2]Software de gestão[/h2]
 
-O Live Wire Monitor mostra produção, consumo, baterias, histórico de 48 h e uma previsão "até o amanhecer". Com o Computer Mod ou o Laptop Mod opcionais, ele vem em um disco encontrado nos saques de computador. Caso contrário, um computador de mesa vanilla ligado ao inversor executa o programa.
+Live Wire Monitor adiciona consumidores (até 200), silhuetas coloridas, cabos, 30 últimos eventos e previsão de produção de três dias com computador de gestão alimentado, além do histórico de 48 h. Nomes de rede nos LCDs e alertas. Computadores vanilla funcionam; Computer Mod/Laptop Mod opcionais com disco encontrado no saque.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
+[h2]Segurança elétrica e experiência[/h2]
+
+Teste baterias nos níveis 1/3/5. Recondicione no 4 (6 se morta): chave de fenda mantida, sucata, fio, 0,5 L de água; +15 estado, máximo 80, quatro vezes. Recupere equipamentos mortos e vazios no 3. Risco sob tensão ativo: 50/42/33/25/17/8/0% nos níveis 0/1/2/3/4/5/6+. O choque queima a mão da ferramenta, derruba objetos e cancela antes de gastar materiais. Desligue o inversor mestre; o quadro não isola seus terminais.
+
 [h2]Multijogador[/h2]
 
-O servidor calcula tudo e verifica cada pedido. A instalação funciona mesmo sem jogadores. Testes automatizados no jogo cobrem o modo solo e um servidor dedicado Windows com dois clientes, incluindo salvar e recarregar.
+Simulação e verificações no servidor, circuitos salvos e estados sincronizados. Feche os dois circuitos antes de desativar o mod.
 
 [h2]Documentação[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki]Wiki do Live Wire (em inglês)[/url] · Código-fonte: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Wiki do Live Wire (em inglês)[/url] · Código-fonte: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este item também inclui o mod opcional [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) com modelos 3D de todos os equipamentos. Ative-o só se você usa o Project Viewpoint.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]

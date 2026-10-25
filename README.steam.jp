@@ -2,77 +2,62 @@
 
 [b]Build 42.21 · シングルプレイ & マルチプレイ（サーバー主導）[/b]
 
-電気は永遠に止まってしまった……でも、明かりまで消える必要はない。太陽光パネル、風力発電機、水車で自前のオフグリッド電源を作り、インバーターで家全体に電気を送ろう。夜に備えてバッテリーも追加できる。電気工学スキルがついに意味を持つ。すべての機器にはレベルがあり、そのレベルが設置の出来を良くする。
+太陽光・風力・水車をインバーターにつなぎ、家に電気を供給。夜はバッテリーを活用。電気工学スキルで設置と整備が上達します。
+
+[h2]1.6.0 — 電力設備を操作[/h2]
+
+配電盤に照明・機器・主回路レバーと回路別／合計ワット表示を追加。実際の家電を切り、以前の設定を復元します。再起動後も保持。主配電を切っても電源は充電を続けられます。左クリックで各機器のLCD、接続ボタンでインバーター選択。
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
 
 [h2]仕組み[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_jp.png[/img]
 
-[list]
-[*][b]発電源[/b]が発電: ソーラーパネル 100 W、風力発電機 400 W、水車 120 W。インバーター1台につきいくつでも接続できる。
-[*][b]インバーター[/b]（最大1,500 W）は、20マス以内かつ上下3階以内のすべての家電に電力を供給する。家電ごとの配線は不要で、冷蔵庫、照明、コンロ、テレビ、ラジオはバニラと同じように動く。
-[*][b]消費電力プロファイル[/b]：ゲームの値（既定）、リアル 1993（照明60 W、コンロ2,000 W）、超リアル 1993、快適。
-[*][b]バッテリーバンク[/b]が余剰電力を蓄える。カーバッテリーまたはディープサイクルバッテリー4個分として数える。バッテリーがなければ、家は発電量だけで動く。
-[*][b]電線[/b]: 電線は4マスにつき1本、到達距離は12マス。機器を右クリック > "Live Wire" > "インバーターに接続"。
-[/list]
+太陽光100 W、風力400 W、水車120 W。インバーターは20マス、上下3階の家電に最大1500 Wを供給。4台並列で6000 W。家電ごとの配線は不要です。
+バッテリーバンクは各4個を収納。電線は4マスに1本、範囲12マス。消費量はゲーム値、1993年リアル、1993年超リアル、快適から選択。
 
 [h2]機器[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_jp.png[/img]
 
-[list]
-[*][b]ソーラーパネル[/b]（電気工学3）: 屋外で空が開けた場所に設置。陸屋根でも可。
-[*][b]風力発電機[/b]（6）: 屋外。高い場所ほど強い。
-[*][b]水車[/b]（7）: 川岸、1階。
-[*][b]インバーター[/b]（5）: ネットワークの中核。屋内に設置可能。
-[*][b]バッテリーバンク[/b]（2）: 箱のように開く。
-[*][b]オプション[/b]: 分電盤（インバーターを壊す代わりにブレーカーが落ちる）、低バッテリー警報、インバーターのうなり音を抑える防音キット、バッテリー残量20%未満で始動するバックアップ用のバニラの発電機、管理用コンピューターとして使うバニラのデスクトップPC。 連結キットで最大 4 台のインバーターを並列接続できます（6000 W）。
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
+設置レベル：屋外のパネルは電気工学3、屋外の風車と川岸の水車は共に2、インバーター5、バンク2。同じマスに2段のバンクを設置でき、収納と接続は独立。空にして上段から回収します。
+配電盤、低電量警報、防音、バニラ予備発電機、管理PCも追加可能。
 
 [h2]発電量[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_jp.png[/img]
 
-[list]
-[*][b]太陽光[/b]: 夏の日は約0.94 kWh、冬は約0.60 kWh。雲と雪で減る。
-[*][b]風力[/b]: 10 km/h未満では発電しない。45 km/hまで速度の3乗に比例して増え、45〜85 km/hで最大出力、85 km/hを超えると自動でブレーキがかかる。
-[*][b]水車[/b]: 川では昼夜を問わず120 W。
-[/list]
+太陽光の向き：南100%、東西85%、北55%。雲・雪・汚れで低下。雨で洗浄され、布と水0.5 Lでも清掃可能。風速10 km/hから発電、45–85で最大、それ以上はブレーキ。水車は昼夜稼働。電池の寒さ効果は初期無効で、使えないエネルギーは予備として保持。
 
-例: 冷蔵庫付き冷凍庫1台と照明10個で1日約4.1 kWhを使う。水車とパネル2枚があれば、年間を通じて賄える。
+[h2]給水ポンプ[/h2]
 
-[h2]給水ポンプ（1.2.0 の新機能）[/h2]
-
-[list]
-[*]地面に置いた水の樽で家全体の水回りに給水できるようになりました。断水後もシンク、シャワー、浴槽、トイレが使えます。
-[*][b]給水ポンプ[/b]（電気 6）をバニラの雨水タンクや [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] の樽の隣に置き（最大 8 個、樽ごとに鉄パイプ 1 本）、インバーターに接続します。
-[*]バニラと同じくパイプレンチで配管します。15 マス以内（サンドボックス）の配管済みの水回りすべてに給水します。受け付けるのは水だけで、雨水もきれいな水として出ます。
-[*]毎分 5 L、ポンプ稼働中は 250 W、静かな作動音。すべての水回りが満タンになると自動で止まります。「給水中の水回りを表示」で青く強調表示します。
-[*]MOD を外す前に、デバッグ/管理者アクション「すべての水中継を撤去」を実行してください。
-[/list]
+給水ポンプ（電気工学6）は隣接する雨水タンクまたは[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]の樽を最大8個接続し、15マス内の配管済み設備へ給水。各容器に金属パイプ1本、配管にパイプレンチが必要。雨水を浄化し最大5 L/分、揚水中250 W。青ランプは待機中も通電を表示。削除前にdebug/admin操作で全給水リレーを撤去。
 
 [h2]レシピ[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_jp.png[/img]
 
-カテゴリー「電気工学」。必要なレベルに達すると自動的に習得される。太陽電池は分解した電卓から作れるほか、戦利品としても見つかる。完成品の機器は電気店、ホームセンター、ガレージにも出現することがある。
+図解レシピ17種。電気工学レシピはレベルで自動解放。羽根と支柱は金属加工で電気工学レベル不要。風車の最終組立6、水車製作7で、それぞれアンプ2個を使用。両方の設置・回収は2。テスターを分解して電子スクラップを回収。全レシピで電気工学XP。設備・部品の入手先拡大、倍率は初期5（1–20）、再起動後の新規抽選のみ。
 
 [h2]管理ソフト[/h2]
 
-Live Wire Monitor は、発電量、消費量、バッテリー、48時間の履歴、「日の出まで」の予測を表示する。任意の Computer Mod または Laptop Mod を入れると、コンピューター用の戦利品で見つかるディスクとして入手できる。なければ、インバーターに接続したバニラのデスクトップPCで動かせる。
+Live Wire Monitorに消費機器一覧（最大200）、色付き輪郭、配線表示、最新30件のイベントを追加。通電した管理PCで3日間の発電予測、従来の48時間履歴も表示。LCDと警報にネットワーク名。バニラPC対応。Computer Mod/Laptop Modは任意で、戦利品ディスクから導入。
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
+[h2]電気作業の安全と経験値[/h2]
+
+電池検査は電気工学1/3/5で詳しく表示。再生は4、故障電池は6：ドライバー保持、スクラップ、電線、水0.5 L。状態+15、上限80、最大4回。3で空の故障設備を回収分解。活線作業リスクは初期有効：0/1/2/3/4/5/6以上で50/42/33/25/17/8/0%。感電は工具を持つ手を火傷させ、所持品を落とし、資材消費前に中断。主インバーターを切ってください。配電盤では端子を絶縁できません。
+
 [h2]マルチプレイ[/h2]
 
-サーバーがすべてを計算し、各リクエストを再検証する。プレイヤーが離れていても設備は動き続ける。ゲーム内の自動テストで、ソロとクライアント2台の Windows 専用サーバーを確認済み。保存と再読み込みも含む。
+サーバー側で計算・操作検証し、回路選択を保存、家電状態を同期。MOD無効化前に両回路を閉じてください。
 
 [h2]ドキュメント[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki（英語版）[/url] · ソースコード: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire wiki（英語版）[/url] · ソースコード: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：このアイテムには任意MOD [b]Live Wire - Viewpoint models[/b]（batman_LiveWireViewpoint）も含まれ、全機器の3Dモデルを提供します。Project Viewpoint を使う場合のみ有効にしてください。
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]

@@ -4,7 +4,7 @@
     "LWMakeSolarCellFromScrap": "Fazer Célula Solar com Sucata",
     "LWMakeSolarPanelKit": "Fazer Painel Solar",
     "LWMakeInverterKit": "Fazer Inversor",
-    "LWMakeWindTurbineKit": "Fazer Turbina Eólica",
+    "LWMakeWindTurbineKit": "Montar turbina eólica",
     "LWMakeWaterWheel": "Fazer Roda de Água",
     "LWMakePowerBankKit": "Fazer Banco de Baterias",
     "LWMakeBreakerKit": "Fazer Quadro Disjuntor",
@@ -12,5 +12,8 @@
     "LWMakeDeepCycleBattery": "Fazer Bateria de Ciclo Profundo",
     "LWMakeBatteryAlarmKit": "Fazer Alarme de Bateria Fraca",
     "LWMakeWaterPump": "Fabricar uma bomba de água",
-    "LWMakeCouplingKit": "Fabricar kit de acoplamento de inversores"
+    "LWMakeCouplingKit": "Fabricar kit de acoplamento de inversores",
+    "LWMakeWindTurbineBlades": "Fabricar pás eólicas",
+    "LWMakeWindTurbineMast": "Fabricar mastro eólico",
+    "LWDismantleVoltageTester": "Desmontar testador de tensão"
 }

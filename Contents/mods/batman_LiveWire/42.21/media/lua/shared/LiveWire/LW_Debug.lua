@@ -28,6 +28,14 @@ Debug.ACTIONS = {
     reanchor = true,      -- rebuild the demand inventory and re-apply the anchor
 }
 
+-- Fixed per-device choices; no client-supplied arbitrary condition. Negative
+-- values are deltas, non-negative ones are absolute condition percentages.
+Debug.CONDITIONS = {
+    deviceMinus10 = -10, device50 = 50, device10 = 10,
+    deviceBreak = 0, deviceRestore = 100,
+}
+for action in pairs(Debug.CONDITIONS) do Debug.ACTIONS[action] = true end
+
 local function capability()
     return Capability and Capability.ChangeAndReloadServerOptions
 end

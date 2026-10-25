@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarealistisch 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Realistisch 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Spielwerte",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "Komfort"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Komfort",
+    "Sandbox_LiveWire_SolarOrientation": "Solarausrichtung",
+    "Sandbox_LiveWire_SolarDirt": "Panelverschmutzung",
+    "Sandbox_LiveWire_BatteryCold": "Batterien bei Kälte",
+    "Sandbox_LiveWire_LiveWorkRisk": "Risiko unter Spannung",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "Die Ausrichtung verändert Ertrag und Zeitpunkt der Spitzenleistung.",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "Staub sammelt sich auf den Modulen. Regen und Reinigung entfernen ihn.",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "Kälte verringert die nutzbare Kapazität im Freien. Bei Erwärmung wird die Reserve wieder verfügbar.",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Standardmäßig an. Stromschlagrisiko: 50%% bei Elektrik 0, null ab 6. Verbrennt die Hand mit dem Schraubendreher; gehaltene Gegenstände fallen. Hauptwechselrichter ausschalten: Der Hauptschalter der Schalttafel reicht nicht.",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Beutefaktor für Live-Wire-Geräte und -Bauteile",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multipliziert nur die Beutegewichte von Live-Wire-Geräten und Bauteilen (Solarzellen, Rotoren und Masten) (1-20, Standard 5). Vanilla-Gegenstände und ihre Beutegewichte bleiben unverändert. Software-CDs behalten ihre bisherige Häufigkeit. Neustart nötig; nur künftige Beutewürfe, keine Auffüllung durchsuchter Behälter. Vanilla-Beuteeinstellungen gelten weiterhin."
 }

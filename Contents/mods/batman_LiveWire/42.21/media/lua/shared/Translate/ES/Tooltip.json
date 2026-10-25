@@ -37,5 +37,9 @@
     "Tooltip_LW_NeedCouplingKit": "Necesita un kit de acoplamiento de inversores.",
     "Tooltip_LW_CoupledInverter": "Este inversor está acoplado: conecte el equipo a su maestro.",
     "Tooltip_LW_CoupleHasEquipment": "Desconecte primero todo el equipo de este inversor.",
-    "Tooltip_LW_TooManySlaves": "Un inversor maestro acepta como máximo %1 inversores acoplados."
+    "Tooltip_LW_TooManySlaves": "Un inversor maestro acepta como máximo %1 inversores acoplados.",
+    "Tooltip_LW_RepairLimit": "Esta batería ha alcanzado su límite de reparaciones.",
+    "Tooltip_LW_BankStackFull": "Solo se pueden apilar dos bancos de baterías.",
+    "Tooltip_LW_BankStackBase": "Colócalo en el suelo o sobre otro banco de baterías.",
+    "Tooltip_LW_BankStackSupport": "Retira primero el banco superior o los objetos de encima."
 }

@@ -72,5 +72,17 @@
     "ContextMenu_LW_ApplyBrake": "Apply the wind turbine brake",
     "ContextMenu_LW_ReleaseBrake": "Release the wind turbine brake",
     "ContextMenu_LW_ResumeBackup": "Resume automatic backup",
-    "ContextMenu_LW_RenameNetwork": "Rename network"
+    "ContextMenu_LW_RenameNetwork": "Rename network",
+    "ContextMenu_LW_DebugDevice": "Debug: this equipment",
+    "ContextMenu_LW_Debug_deviceMinus10": "Remove 10 condition points",
+    "ContextMenu_LW_Debug_device50": "Set condition to 50%%",
+    "ContextMenu_LW_Debug_device10": "Set condition to 10%%",
+    "ContextMenu_LW_Debug_deviceBreak": "Put out of service (0%%)",
+    "ContextMenu_LW_Debug_deviceRestore": "Restore condition to 100%%",
+    "ContextMenu_LW_CleanPanel": "Clean panel",
+    "ContextMenu_LW_TestBattery": "Test battery",
+    "ContextMenu_LW_Salvage": "Salvage for parts",
+    "ContextMenu_LW_OpenBoard": "Open electrical panel",
+    "ContextMenu_LW_ShowConsumers": "Show/hide consumers",
+    "ContextMenu_LW_ShowConnections": "Show/hide connections"
 }

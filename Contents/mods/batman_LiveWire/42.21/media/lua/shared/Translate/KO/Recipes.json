@@ -4,7 +4,7 @@
     "LWMakeSolarCellFromScrap": "폐품으로 태양광 셀 만들기",
     "LWMakeSolarPanelKit": "태양광 패널 만들기",
     "LWMakeInverterKit": "인버터 만들기",
-    "LWMakeWindTurbineKit": "풍력 터빈 만들기",
+    "LWMakeWindTurbineKit": "풍력 터빈 조립",
     "LWMakeWaterWheel": "물레방아 만들기",
     "LWMakePowerBankKit": "배터리 뱅크 만들기",
     "LWMakeBreakerKit": "차단기 패널 만들기",
@@ -12,5 +12,8 @@
     "LWMakeDeepCycleBattery": "심방전 배터리 만들기",
     "LWMakeBatteryAlarmKit": "배터리 부족 경보기 만들기",
     "LWMakeWaterPump": "물 펌프 만들기",
-    "LWMakeCouplingKit": "인버터 병렬 연결 키트 만들기"
+    "LWMakeCouplingKit": "인버터 병렬 연결 키트 만들기",
+    "LWMakeWindTurbineBlades": "풍력 터빈 날개 제작",
+    "LWMakeWindTurbineMast": "풍력 터빈 기둥 제작",
+    "LWDismantleVoltageTester": "전압 테스터 분해"
 }

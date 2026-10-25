@@ -407,3 +407,117 @@ ils ne valident pas automatiquement l'ensemble des mécanismes décrits ici.
   - Le nom affiché et le fluide principal viennent aussi d'un échantillon purifié (`getFluidUiName` `:2911-2921`, `getPrimaryFluid` `:2884-2893`), et `isTaintedWater` rend `false` dès que la source contient du fluide (`:2987-2997`).
   - Une prise directe (`useFluid`, `:2666-2700`) est renvoyée à la source, qui déclenche `OnWaterAmountChange` sur elle-même (`:2690-2697`).
 - Conséquence : un baril d'eau de pluie (croupie) raccordé à la plomberie donne de l'eau potable par l'évier, la douche ou les toilettes. Pour suivre les prises d'eau d'une source, écouter `OnWaterAmountChange` à la fois sur la source et sur les points d'eau qui la tirent.
+
+## 49. Les drainables quantifient leur fraction en usages entiers
+
+- Build : 42.21.0 — Date : 2026-10-24 — Statut : confirmé statiquement et en jeu.
+- Preuve : `DrainableComboItem.java:91–100`, `setCurrentUsesFloat` applique
+  `Math.round(fraction / useDelta)` ; la lecture multiplie les usages par
+  `useDelta`. Une extension de test à `UseDelta=0.01` reproduit l'arrondi.
+- Conséquence : conserver une quantité continue par un simple setter de fraction
+  peut créer ou perdre une graduation. Pour un modèle précis, arrondir la portion
+  native vers le bas et conserver un reliquat positif borné à une graduation,
+  associé à la dernière fraction et capacité écrites. Une modification native
+  externe invalide le reliquat. Tester aussi mille petits pas successifs.
+
+## 50. L'alimentation des conteneurs passifs n'a pas de setter Lua par objet
+
+- Build : 42.21.0 — Date : 2026-10-24 — Statut : confirmé statiquement.
+- Preuve : `ItemContainer.java:2218–2266`, `IsoObject.java:6271–6280`,
+  `IsoGridSquare.java:8223` ; la lecture dépend de l'électricité publique et des
+  positions de générateur du chunk. Le setter obsolète d'électricité d'une case
+  actualise les lumières sans remplacer cette décision.
+- Conséquence : retirer les watts d'un frigo d'un bilan ne coupe pas son service.
+  Une température personnalisée ne change pas les chemins de conservation et de
+  gel qui interrogent `isPowered()` (`Food.java:764,1995–2006`). Une vraie séparation
+  de circuits exige un mécanisme moteur démontré.
+
+## 51. Arrêter un service frigorifique sans couper le courant de sa case
+
+- Build : 42.21.0 — Date : 2026-10-24 — Statut : confirmé statiquement et en jeu.
+- Preuve : `ItemContainer.java:2557,3560–3578`, `Food.java:688,2500–2505`,
+  `IsoObject.java:4784`. Le type natif `none` fait retourner faux à
+  `isFridge/isFreezer` avant le repli vers la propriété `IsFridge` du sprite.
+  `setType` ne remplace ni le conteneur ni ses objets ; le type est sauvegardé.
+- Conséquence : mémoriser les types exacts par index, mettre les aliments à jour
+  avant la transition, puis restaurer ces mêmes types permet d'interrompre froid,
+  gel et consommation frigorifique native tout en gardant l'éclairage sous tension.
+  Vérifier aussi le dégel et le vieillissement réel ; `isPowered()` peut rester
+  vrai car il décrit le courant disponible à la prise.
+- Maintenir le cache de consommateurs du chunk lors du rétablissement. Éviter
+  `IsoObjectChange.CONTAINERS` pour une simple bascule : `IsoObject.java:4391`
+  supprime les contenus clients avant de recharger les conteneurs. Préférer un
+  miroir ciblé des types, sans toucher aux inventaires. Les types inertes exigent
+  une restauration avant de retirer le code qui en connaît les types d'origine.
+
+## 52. La mesure mémoire Kahlua porte sur le tas JVM complet
+
+- Build : 42.21.0 — Date : 2026-10-24 — Statut : confirmé statiquement.
+- Preuve : `se/krka/kahlua/stdlib/BaseLib.java:371–391`. `collectgarbage("count")`
+  lit `Runtime.totalMemory/freeMemory`, en Kio ; `collect` appelle `System.gc()`.
+- Conséquence : la valeur inclut les autres objets Java du jeu. Une hausse de RAM
+  du processus ne prouve pas une fuite Lua ; un relevé post-GC court ne prouve pas
+  son absence. Réserver les GC forcés au banc et séparer tas JVM, allocations
+  natives et ressources GPU. Vérifier aussi les chemins de rétention des caches
+  et les objets UI effectivement retirés du gestionnaire natif.
+
+## 53. L'itérateur des tables J2SE copie leurs clés
+
+- Build : 42.21.0 — Date : 2026-10-24 — Statut : confirmé statiquement.
+- Preuve : `se/krka/kahlua/j2se/KahluaTableImpl.java:164–197` : l'itérateur
+  capture `delegate.keySet().toArray()` puis lit les valeurs depuis la table.
+- Conséquence : une purge peut retirer l'entrée courante sans invalider un
+  itérateur Java de la carte. Le parcours alloue néanmoins un tableau de clés ;
+  éviter de parcourir de gros caches à chaque image. Ce constat concerne cette
+  implémentation de table, pas toutes les collections Java exposées à Lua.
+
+## 54. Lire une couleur Java par ses accesseurs Lua
+
+- Build : 42.21.0 — Date : 2026-10-24 — Statut : accesseurs confirmés dans les
+  sources ; échec de la lecture comme champs observé dans le journal en jeu.
+- Preuve : `IsoObject.java:4709–4710,4733–4738` renvoie un `ColorInfo` depuis
+  `getHighlightColor` ; `ColorInfo.java:88–108` définit `getR/getG/getB/getA`.
+  La classe est exposée dans `LuaManager.java:1815`.
+- Conséquence : utiliser `color:getR()`, `getG()`, `getB()` et `getA()` pour
+  comparer ou sauvegarder les composantes. Les champs Java publics ne garantissent
+  pas des valeurs numériques accessibles comme une table Lua `{r,g,b,a}` ; une
+  soustraction peut échouer avec `__sub not defined for operands`.
+- Un double de test qui fournit seulement une table RGBA masque cette différence
+  d'API. Faire refuser l'accès aux champs dans le double et vérifier aussi un
+  second rafraîchissement, puis le retrait et la restauration de la teinte.
+
+## 55. Catalogue des ingrédients construit après les données globales
+
+- Build : 42.21.0 — Date : 2026-10-25 — Statut : confirmé statiquement.
+- Preuve : `IsoWorld.java:1908` initialise les données globales et déclenche
+  `OnInitGlobalModData`. `WorldDictionary.init` puis
+  `ScriptManager.PostWorldDictionaryInit` arrivent ensuite (`:1923–1924`).
+- `InputScript.java:110–111` expose le cache `getPossibleInputItems`, encore
+  initialement vide. `OnPostWorldDictionaryInit` remplit ce cache à partir des
+  noms de `getItems`/`loadedItems` (`:877–899`). Les contrôles `containsItem`
+  (`:510–511`) et `canUseItem` (`:949–962`) lisent ce catalogue.
+- Conséquence : une adaptation d'ingrédients à `OnInitGlobalModData` doit porter
+  sur la déclaration chargée ; modifier seulement le cache encore vide sera
+  écrasé par sa construction ultérieure. Pour supporter un catalogue déjà
+  construit, traiter aussi le cache. Retirer une référence Java par objet ou
+  une chaîne par valeur ; éviter la surcharge ambiguë `remove(int)` en Lua.
+- Les doubles de test doivent couvrir les deux états : cache vide puis
+  construction depuis les noms chargés, et cache déjà initialisé. Cela ne vaut
+  pas validation en jeu de l'interface, de la consommation ou du réseau.
+
+## 56. Aperçu d'artisanat et icône calculée d'un meuble
+
+- Build : 42.21.0 — Date : 2026-10-25 — Statut : confirmé statiquement.
+- Preuve : `scripting/entity/components/crafting/CraftRecipe.java:802–820`
+  utilise `Item.getNormalTexture` sur la sortie pour l'icône de recette, sauf
+  déclaration explicite `Icon`. `scripting/objects/Item.java:2031–2036`
+  résout `Item_<Icon>` et prend `media/inventory/Question_On.png` si absent.
+- `inventory/types/Moveable.java:118–218` calcule séparément l'icône d'une
+  instance depuis le sprite du monde. Cela ne remplace pas la texture de la
+  déclaration d'objet consultée par la recette : un meuble peut avoir une
+  icône correcte dans l'inventaire et un « ? » dans son aperçu d'artisanat.
+- Correction déclarative : fournir une vraie icône `Icon=<Nom>` dans l'objet
+  et `media/textures/Item_<Nom>.png`. `core/textures/Texture.java:416–447`
+  confirme ce repli vers le fichier du mod, avec casse exacte. Une recette
+  à plusieurs sorties peut fixer son icône principale via son propre `Icon`.
+  Aucun wrapper de rendu ou calcul par image n'est nécessaire.

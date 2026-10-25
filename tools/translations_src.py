@@ -449,6 +449,19 @@ add("IG_UI", "IGUI_LW_RenameNetworkPrompt", "Network name (up to %1 characters; 
 
 
 def main():
+    # Keep the documented python -I invocation able to import the sibling source.
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from translations_ixx import translations
+    extra = translations()
+    def translation_file(key):
+        if key.startswith(('LiveWire.', 'Base.Mov_LiveWire_')):
+            return 'ItemName'
+        if key.startswith('LW'):
+            return 'Recipes'
+        return 'IG_UI' if key.startswith('IGUI_') else key.split('_')[0]
+    for key in extra['EN']:
+        f = translation_file(key)
+        add(f, key, extra['EN'][key], extra['FR'][key])
     for lang, idx in (("EN", 0), ("FR", 1)):
         d = os.path.join(OUT, lang)
         os.makedirs(d, exist_ok=True)
@@ -458,6 +471,18 @@ def main():
                 json.dump(data, fh, ensure_ascii=False, indent=4)
                 fh.write("\n")
     print("wrote %d files per language" % len(T))
+    for lang, keys in extra.items():
+        if lang in ('EN', 'FR'):
+            continue
+        for f in ('IG_UI', 'ContextMenu', 'Tooltip', 'Sandbox', 'ItemName', 'Recipes'):
+            path = os.path.join(OUT, lang, f + '.json')
+            with open(path, encoding='utf-8') as fh:
+                data = json.load(fh)
+            data.update({k: v for k, v in keys.items()
+                         if translation_file(k) == f})
+            with open(path, 'w', encoding='utf-8', newline='\n') as fh:
+                json.dump(data, fh, ensure_ascii=False, indent=4)
+                fh.write('\n')
     return 0
 
 

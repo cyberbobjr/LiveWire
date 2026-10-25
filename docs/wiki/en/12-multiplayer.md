@@ -14,7 +14,7 @@ Production, stock, states, failures and experience are computed by the **server*
 
 ## Status
 
-Version 1.5.0. Automated in-game tests cover single player and a Windows dedicated server with two clients, including saves, full restarts and reconnects. See the [validation report](../../annexes/tests/validation.md). Balancing values remain starting values.
+Version 1.6.0 is prepared locally. Static checks and offline regression tests cover the new work; the supplied in-game screenshots confirm the equipment panels visually. Earlier single-player and Windows multiplayer campaigns cover the snapshots documented in the report; the latest changes still need a complete multiplayer pass. Linux is not validated. See the [validation report](../../annexes/tests/validation.md). Balancing values remain starting values.
 
 ## Licence
 
@@ -23,4 +23,3 @@ MIT (file `LICENSE` in the repository). No code or asset was taken from any othe
 ## See also
 
 [Getting started](01-getting-started.md) - [Sandbox Options](11-sandbox-options.md) - [Equipment](02-equipment.md) - [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) - [FAQ](13-faq.md)
-

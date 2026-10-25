@@ -37,5 +37,9 @@
     "Tooltip_LW_NeedCouplingKit": "인버터 병렬 연결 키트가 필요합니다.",
     "Tooltip_LW_CoupledInverter": "이 인버터는 병렬 연결되어 있습니다: 장비는 마스터 인버터에 연결하세요.",
     "Tooltip_LW_CoupleHasEquipment": "먼저 이 인버터에 연결된 모든 장비를 분리하세요.",
-    "Tooltip_LW_TooManySlaves": "마스터 인버터는 병렬 연결된 인버터를 최대 %1대까지 받을 수 있습니다."
+    "Tooltip_LW_TooManySlaves": "마스터 인버터는 병렬 연결된 인버터를 최대 %1대까지 받을 수 있습니다.",
+    "Tooltip_LW_RepairLimit": "이 배터리는 수리 횟수 한도에 도달했습니다.",
+    "Tooltip_LW_BankStackFull": "배터리 뱅크는 두 개까지만 쌓을 수 있습니다.",
+    "Tooltip_LW_BankStackBase": "바닥이나 다른 배터리 뱅크 위에 놓으세요.",
+    "Tooltip_LW_BankStackSupport": "먼저 위쪽 뱅크나 물건을 치우세요."
 }

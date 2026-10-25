@@ -4,7 +4,7 @@
     "LWMakeSolarCellFromScrap": "スクラップから太陽電池を作る",
     "LWMakeSolarPanelKit": "ソーラーパネルを作る",
     "LWMakeInverterKit": "インバーターを作る",
-    "LWMakeWindTurbineKit": "風力発電機を作る",
+    "LWMakeWindTurbineKit": "風車を組み立てる",
     "LWMakeWaterWheel": "水車を作る",
     "LWMakePowerBankKit": "バッテリーバンクを作る",
     "LWMakeBreakerKit": "分電盤を作る",
@@ -12,5 +12,8 @@
     "LWMakeDeepCycleBattery": "ディープサイクルバッテリーを作る",
     "LWMakeBatteryAlarmKit": "低バッテリー警報を作る",
     "LWMakeWaterPump": "水ポンプを作る",
-    "LWMakeCouplingKit": "インバーター連結キットを作る"
+    "LWMakeCouplingKit": "インバーター連結キットを作る",
+    "LWMakeWindTurbineBlades": "風車ブレードを製作",
+    "LWMakeWindTurbineMast": "風車マストを製作",
+    "LWDismantleVoltageTester": "電圧テスターを分解"
 }

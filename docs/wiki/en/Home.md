@@ -10,6 +10,16 @@ Live Wire is a Project Zomboid **Build 42.21** mod (mod id `batman_LiveWire`, [W
 
 New here? Start with [Getting started](01-getting-started.md).
 
+## Version 1.6.0
+
+A substantial minor update: control lighting and appliances from a working electrical panel, open an LCD on each device and manage its connections from one window. Stack two power banks, inspect consumers and cable links, and plan production with the three-day forecast and event log.
+
+Solar orientation and dirt, battery testing and repair, salvage, electrical work risks, revised recipes and broader equipment loot add more depth to the Electrical skill. See the [changelog](../../../CHANGELOG.md), [recipes](08-recipes.md) and [maintenance guide](10-electrical-skill-and-maintenance.md).
+
+![Electrical panel with separate lighting and equipment circuits](../../images/screenshots/shot6.png)
+
+![Power-bank, inverter and electrical-panel screens on the same installation](../../images/screenshots/shot7.png)
+
 ## Pages
 
 - [Getting started](01-getting-started.md)

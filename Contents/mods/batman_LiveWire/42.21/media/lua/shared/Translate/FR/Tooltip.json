@@ -37,5 +37,9 @@
     "Tooltip_LW_NeedCouplingKit": "Il faut un kit de couplage d'onduleurs.",
     "Tooltip_LW_CoupledInverter": "Cet onduleur est couplé : raccordez l'équipement à son maître.",
     "Tooltip_LW_CoupleHasEquipment": "Débranchez d'abord tout l'équipement de cet onduleur.",
-    "Tooltip_LW_TooManySlaves": "Un onduleur maître accepte au plus %1 onduleurs couplés."
+    "Tooltip_LW_TooManySlaves": "Un onduleur maître accepte au plus %1 onduleurs couplés.",
+    "Tooltip_LW_BankStackFull": "Deux powerbanks au maximum par pile.",
+    "Tooltip_LW_BankStackBase": "Posez-la au sol ou sur une autre powerbank.",
+    "Tooltip_LW_BankStackSupport": "Retirez d’abord la banque supérieure ou les objets posés dessus.",
+    "Tooltip_LW_RepairLimit": "Cette batterie a atteint sa limite de réparations."
 }

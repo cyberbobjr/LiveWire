@@ -26,13 +26,13 @@ Defs.devices = {
     WindTurbine = {
         role = "source", kind = "wind",
         item = "Base.Mov_LiveWire_WindTurbine", tile = 4, facings = 4,
-        nominalW = 400, level = 6, xp = 20,
+        nominalW = 400, level = 2, xp = 20,
         wearDays = 4, needsOutside = true,
     },
     WaterWheel = {
         role = "source", kind = "hydro",
         item = "Base.Mov_LiveWire_WaterWheel", tile = 8, facings = 4,
-        nominalW = 120, level = 7, xp = 20,
+        nominalW = 120, level = 2, xp = 20,
         wearDays = 6, needsOutside = true, needsRiver = true,
     },
     Inverter = {

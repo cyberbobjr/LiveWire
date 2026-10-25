@@ -37,5 +37,9 @@
     "Tooltip_LW_NeedCouplingKit": "Benötigt ein Kopplungsset für Wechselrichter.",
     "Tooltip_LW_CoupledInverter": "Dieser Wechselrichter ist gekoppelt: Schließen Sie die Geräte an seinen Hauptwechselrichter an.",
     "Tooltip_LW_CoupleHasEquipment": "Trennen Sie zuerst alle Geräte von diesem Wechselrichter.",
-    "Tooltip_LW_TooManySlaves": "Ein Hauptwechselrichter nimmt höchstens %1 gekoppelte Wechselrichter auf."
+    "Tooltip_LW_TooManySlaves": "Ein Hauptwechselrichter nimmt höchstens %1 gekoppelte Wechselrichter auf.",
+    "Tooltip_LW_RepairLimit": "Die Reparaturgrenze dieser Batterie ist erreicht.",
+    "Tooltip_LW_BankStackFull": "Höchstens zwei Batteriebänke pro Stapel.",
+    "Tooltip_LW_BankStackBase": "Auf den Boden oder eine andere Batteriebank stellen.",
+    "Tooltip_LW_BankStackSupport": "Zuerst die obere Bank oder darauf liegende Objekte entfernen."
 }

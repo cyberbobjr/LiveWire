@@ -4,9 +4,10 @@
 --             foam panels when soundproofed;
 --   power bank and sources: green light when connected to an inverter;
 --   wind turbine: blades (the tile has none), turning with the wind;
---   breaker: red lamp when tripped; alarm: lit beacon while it rings.
+--   breaker: green while supplied, red when tripped; pump: blue LCD glow while
+--            supplied; alarm: lit beacon while it rings.
 -- The state comes from the device mark (modData.movableData.LiveWire, sent by the
--- server: st, pw, inv). Only our own overlays (index 24 to 71) are touched; the list
+-- server: st, pw, inv). Only our own overlays (24-71 and 80-87) are touched; the list
 -- is rebuilt from the mark whenever it differs, so overlays saved with a single
 -- player world are corrected at the next update.
 -- Devices are tracked when their chunk loads, when the server adds them (MP), by a small scan around the player and a slow spread sweep (no full scan in one frame).
@@ -22,7 +23,7 @@ local FIRST_OVERLAY = 24
 local LAST_OVERLAY = 71   -- 72-75 are the water pump (base device), 76 the relay tank
 
 -- Overlay sprite indices: 24-71 (inverter, sources, breaker, alarm, wind blades) and
--- 80-87 (water pump light; 84-87 are blank in the pack).
+-- 80-87 (water pump light, breaker green light; 86-87 remain reserved).
 local function isOverlay(n)
     return (n >= FIRST_OVERLAY and n <= LAST_OVERLAY) or (n >= 80 and n <= 87)
 end
@@ -35,6 +36,7 @@ for _, i in ipairs({ 24, 25, 28, 29, 32, 33, 36, 37, 40, 41, 44, 45, 64, 65, 66,
 end
 for i = 48, 63 do EXISTS[i] = true end
 for i = 80, 83 do EXISTS[i] = true end   -- pump light on top of the motor: all four facings
+EXISTS[84], EXISTS[85] = true, true      -- breaker supplied: S/E wall facings
 
 V.NEAR_RADIUS = 4      -- squares around the player checked every NEAR_MS (single player placement)
 V.NEAR_MS = 1000
@@ -179,17 +181,18 @@ function V.wanted(obj, now)
     elseif model == "SolarPanel" then
         if m and m.inv then add(36 + f) end
     elseif model == "WindTurbine" then
-        if m and m.inv then add(40 + f) end
+        if m and m.inv and (not m.br or math.floor(now / 500) % 2 == 0) then add(40 + f) end
         add(48 + 4 * rotorFrame(obj, m, now) + f)
     elseif model == "WaterWheel" then
         if m and m.inv then add(44 + f) end
     elseif model == "Breaker" then
-        if m and m.st == "tripped" then add(64 + f) end
+        if m and m.st == "tripped" then add(64 + f)
+        elseif m and m.inv and m.pw and (m.cond or 0) > 0 then add(84 + f) end
     elseif model == "BatteryAlarm" then
         if m and m.st == "ringing" then add(66 + f) end
     elseif model == "WaterPump" then
-        -- Blue light while the pump serves at least one relay tank (nr = relay count).
-        if m and m.inv and (m.nr or 0) > 0 then add(80 + f) end
+        -- LCD glow while supplied, including an idle pump with no linked fixture.
+        if m and m.inv and m.pw and (m.cond or 0) > 0 then add(80 + f) end
     end
     table.sort(out)
     return out

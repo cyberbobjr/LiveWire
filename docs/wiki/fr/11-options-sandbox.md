@@ -6,6 +6,7 @@ Page « LiveWire » des options sandbox.
 
 | Option | Défaut | Plage | Effet |
 |---|---|---|---|
+| EquipmentLootMultiplier | 5 | 1–20 | Poids du butin des équipements et cellules LiveWire uniquement ; redémarrage requis, prochains tirages uniquement |
 | ConsumptionProfile | Valeurs du jeu | Ultra-réaliste 1993, Réaliste 1993, Valeurs du jeu, Confort | Puissance consommée par les appareils allumés ; voir le tableau de [Production et calculs](04-production-et-calculs.md#consommation-des-appareils) |
 | PowerScale | 1,0 | 0,1 à 10 | Multiplie la consommation donnée par le profil (1 = aucun changement) |
 | SolarMultiplier / WindMultiplier / HydroMultiplier | 1,0 | 0 à 10 | Production par famille de sources |
@@ -24,6 +25,14 @@ Page « LiveWire » des options sandbox.
 ## Option joueur
 
 Options, Mods, Live Wire : volume du bourdonnement de l'onduleur, de 0 à 100 (0 = coupé).
+
+## Nouveaux réglages de la 1.6.0
+
+Quatre booléens sont ajoutés : orientation solaire et encrassement activés par
+défaut, comme le risque électrique ; effet du froid sur les batteries désactivé
+par défaut. Les choix déjà sauvegardés restent prioritaires. Les prévisions utilisent les mêmes options que la simulation.
+
+Risque sous tension : 50 % à Électricité 0, nul dès 6. Éteindre l'onduleur maître ; le principal du tableau ne suffit pas. Voir les [règles de sécurité et d’XP](10-competence-electricite-et-entretien.md#sécurité-électrique-et-expérience).
 
 ## Voir aussi
 

@@ -20,11 +20,19 @@ Protocol.C_DEBUG = "debug"
 Protocol.C_ADOPT = "adopt"
 Protocol.C_RESUME_BACKUP = "resumeBackup"
 Protocol.C_SET_BRAKE = "setBrake"
+Protocol.C_SET_CIRCUIT = "setCircuit"
+Protocol.C_READ_BANK = "readBank"
+Protocol.C_READ_DEVICE = "readDevice"
+Protocol.C_READ_SERVICES = "readCircuitServices"
 
 -- Server -> client.
 Protocol.S_SNAPSHOT = "snapshot"
 Protocol.S_NOTIFY = "notify"
 Protocol.S_BEEP = "beep"
+Protocol.S_BANK = "bank"
+Protocol.S_DEVICE = "device"
+Protocol.S_SERVICE = "circuitService"
+Protocol.S_SERVICES = "circuitServices"
 
 Protocol.MAX_NAME = 24
 Protocol.MAX_STRING = 32

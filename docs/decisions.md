@@ -1,5 +1,25 @@
 # Live Wire — décisions
 
+## Maintien du fonctionnement et marquage du tableau — 2026-10-24
+
+Après examen des variantes par bâtiment et lignes distantes, l'utilisateur choisit
+de conserver le fonctionnement actuel par portée d'onduleur. Aucune migration de
+réseau ni de sauvegarde engagée. Il demande une mention « legrand » sur le coffret,
+avec les couleurs de la marque : rouge, noir et fond blanc. Plaquette dessinée en
+primitives ISUI ; référence : [histoire officielle du logo](https://www.legrand.com/fr/le-groupe/notre-histoire).
+
+## Complément d'ergonomie autorisé — 2026-10-24
+
+Demande utilisateur : LCD sur chaque powerbank, panneau unique de raccordement,
+ouverture des équipements au clic simple, et « ghost » coloré sur les consommateurs
+à la place des repères décalés. Réalisation locale dans le pattern existant, sans
+migration : interface cliente, actions et modèle de batterie autoritaires réutilisés.
+L'ouverture d'un panneau ne donne aucun droit supplémentaire sur le réseau.
+
+Le [plan](annexes/plans/acces-equipements.md) définit les lots ; les preuves et
+limites de validation sont dans le [bilan](annexes/tests/validation.md).
+
+
 **Toutes les décisions de conception ont été validées par l'utilisateur le 2026-10-17.** Ce fichier garde la trace de ce qui a été choisi et pourquoi.
 
 **Méthode pour les prochaines décisions** (demande de l'utilisateur) : une question à la fois, avec **3 réponses fermées et 1 réponse libre**. Chaque nouveau choix est ajouté ici.
@@ -75,3 +95,78 @@ autoritaire existante est conservée ; aucun changement de pattern ni de schéma
 persistant. Le frein explicite réversible fait partie de C22. Les autres idées
 restent proposées, notamment les compléments visuels/alerte de I14. Le plafond global d’expérience de C23 a ensuite été réalisé ;
 voir le [suivi actualisé](ameliorations-et-idees.md) et le [bilan de validation](annexes/tests/validation.md).
+
+## Campagne IXX autorisée — 2026-10-24
+
+Autorisation explicite : I01, I02, I03, I04, compléments I05, I07, I09, I10,
+I11, I12, I13, compléments I14, I15, I18 et I21. I12 remplace le recyclage en
+plaques par la réparation du même objet ; reconditionnement existant étendu.
+I21 inclut une GUI de tableau électrique dessiné, inspirée de la façade LCD.
+Le dessin a ensuite été revu d'après la photo de coffret fournie par l'utilisateur
+et les [exemples de tableaux modulaires Legrand](https://www.legrand.fr/catalogue/tableaux-electriques-et-disjoncteurs/tableau-electrique) :
+coffret clair, capot translucide, modules sur rail, pôles liés et principal orange.
+La façade est dessinée en primitives natives du jeu.
+Pattern modulaire événementiel à serveur autoritaire conservé.
+
+Le [plan](annexes/plans/campagne-ixx.md) précise dépendances et critères.
+Les quatre états indépendants de I21 utilisent des adaptateurs de service vanilla :
+types frigorifiques temporairement inertes, activation des machines et refus de
+distribution du carburant. L'ancien diagnostic fondé sur l'absence de setter de
+courant par appareil est retiré. [Preuves, portée et migration](annexes/recherches/circuits-42-21.md).
+Aucun changement de pattern ni correctif Java.
+
+I06, I08, I16, I17, I19, I20 exclus ; C11 différé, C20 exclu.
+Commit, push et publication sur ordre séparé. Les notes Steam resteront sans
+section de tests ou de validation.
+
+
+## Empilage de deux powerbanks — 2026-10-24
+
+Autorisation utilisateur : poser une powerbank supplémentaire sur une banque
+existante afin d'augmenter le stockage. Choix de réalisation : empilage physique
+vanilla de deux objets existants, quatre emplacements chacun, conteneurs et
+raccordements indépendants, sélection du niveau dans le LCD. Retrait/rotation et
+recyclage du support refusés tant qu'un objet repose dessus. Aucun nouveau modèle
+ni changement d'architecture, d'identifiant ou de schéma de sauvegarde.
+
+## Butin d'équipements — 2026-10-25
+
+Demande utilisateur : option sandbox pour augmenter les découvertes, élargissement
+des lieux et **×5 par défaut**. Réalisation : multiplicateur des poids 1–20, huit
+familles d'objets existantes, huit catégories de butin supplémentaires. Seuls les objets propres à LiveWire sont concernés, cellules incluses ; le CD garde son taux ; roues et pompes restent à fabriquer. Aucun remplissage
+de sauvegarde. Le changement s'applique au redémarrage aux prochains tirages,
+sur l'autorité seulement, sans nouveau traitement par image ou modification réseau.
+
+Périmètre final précisé par l'utilisateur : uniquement les pièces et équipements
+du mod. Le traitement des six composants vanilla est retiré intégralement ;
+aucun de leurs poids ni aucune de leurs entrées de butin n'est modifié.
+
+## Sources accessibles, pales, mât et amplificateurs — F32, 2026-10-25
+
+Choix utilisateur final : deux `Base.Amplifier` directement dans chaque machine.
+Le démontage des haut-parleurs garde son fonctionnement vanilla (amplificateur
+et déchet électronique). Aucun nouvel ingrédient intermédiaire. Pose de
+l'éolienne et de la roue à Électricité 2, fabrication à 6/7. Pales et mât sont
+fabriqués séparément ou trouvés, puis consommés par l'assemblage de l'éolienne.
+Éolienne complète plus accessible, roue ajoutée au butin. Butin limité aux objets
+LiveWire ; fréquence des amplificateurs vanilla inchangée.
+Plan : [fabrication et composants](annexes/plans/fabrication-eolienne-et-composants.md).
+
+## Sécurité et progression électrique — 2026-10-25
+
+Choix utilisateur : risque 50 % au niveau 0, blessure de la main du tournevis,
+arrêt de l'onduleur obligatoire pour isoler les interventions ; le principal du
+tableau n'est pas une protection de maintenance. Progression retenue 50/42/33/25/17/8,
+nulle dès 6 ; option ensuite activée par défaut sur demande utilisateur. Arrêt explicite disponible
+après panne ou disjonction, sans réparation implicite. Toutes les recettes donnent
+de l'XP électrique : ajout de 2 XP pour pales et mât. Les réparations réussies
+récompensent déjà l'Électricité. Guides et dix descriptions Steam locales enrichis,
+sans publication. Les anciennes règles de risque sont remplacées par ce contrat.
+
+
+## Debug par équipement et risque par défaut — 2026-10-25
+
+Choix utilisateur : actions contextuelles pour abîmer les équipements, suppression
+des entrées ouvrant le même panneau, risque d'intervention activé par défaut.
+Les choix sandbox déjà enregistrés restent prioritaires. Pas de migration du
+pattern, du registre, des identifiants ou des sauvegardes.

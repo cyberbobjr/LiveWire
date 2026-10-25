@@ -17,6 +17,32 @@ function Install.screwdriver(character)
     return character:getInventory():getFirstTagEvalRecurse(ItemTag.SCREWDRIVER, notBroken)
 end
 
+-- Primary is the working/right hand in the native rig (Prop1), secondary the
+-- left (Prop2). If the tool is in a bag, timed actions show it in primary.
+function Install.screwdriverHand(character)
+    local primary = character:getPrimaryHandItem()
+    if primary and primary:hasTag(ItemTag.SCREWDRIVER) and not primary:isBroken() then
+        return BodyPartType.Hand_R
+    end
+    local secondary = character:getSecondaryHandItem()
+    if secondary and secondary:hasTag(ItemTag.SCREWDRIVER) and not secondary:isBroken() then
+        return BodyPartType.Hand_L
+    end
+    return BodyPartType.Hand_R
+end
+
+function Install.showScrewdriver(action)
+    local character = action.character
+    local hand = Install.screwdriverHand(character)
+    local held = hand == BodyPartType.Hand_L and character:getSecondaryHandItem()
+        or character:getPrimaryHandItem()
+    local tool = held and held:hasTag(ItemTag.SCREWDRIVER) and not held:isBroken() and held
+        or Install.screwdriver(character)
+    -- Use the actual item so modded screwdrivers keep their own model.
+    if hand == BodyPartType.Hand_L then action:setOverrideHandModels(nil, tool)
+    else action:setOverrideHandModels(tool, nil) end
+end
+
 function Install.level(character)
     return character:getPerkLevel(Perks.Electricity)
 end

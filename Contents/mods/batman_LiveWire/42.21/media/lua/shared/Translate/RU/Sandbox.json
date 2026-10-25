@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ультрареалистично 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Реалистично 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Значения игры",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "Комфорт"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Комфорт",
+    "Sandbox_LiveWire_SolarOrientation": "Ориентация панелей",
+    "Sandbox_LiveWire_SolarDirt": "Загрязнение панелей",
+    "Sandbox_LiveWire_BatteryCold": "Аккумуляторы на морозе",
+    "Sandbox_LiveWire_LiveWorkRisk": "Риск работ под напряжением",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "Ориентация меняет выработку и время её пика.",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "На панелях скапливается пыль. Дождь и очистка удаляют её.",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "Холод снижает доступную ёмкость наружных блоков. При потеплении резерв снова доступен.",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "По умолчанию включено. Риск удара током: 50%% при электрике 0, нулевой с 6. Ожог руки с отвёрткой и падение предметов. Выключайте главный инвертор: главный автомат щита не делает ремонт безопасным.",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Множитель находок оборудования и деталей Live Wire",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Умножает только веса добычи оборудования и деталей Live Wire (фотоэлементы, лопасти и мачты) (1-20, по умолчанию 5). Предметы основной игры и их веса не меняются. Диски сохраняют прежнюю частоту. Нужен перезапуск; только будущая добыча, без пополнения обысканных контейнеров. Настройки добычи игры сохраняются."
 }

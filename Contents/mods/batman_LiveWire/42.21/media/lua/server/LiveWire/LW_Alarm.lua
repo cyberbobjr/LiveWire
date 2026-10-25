@@ -53,7 +53,8 @@ function Alarm.check(grid, alarm, stockFrac, now)
     if first or not grid.alarmAt or now - grid.alarmAt >= Defs.ALARM_REPEAT_HOURS then
         grid.alarmAt = now
         local pct = tostring(math.floor(stockFrac * 100 + 0.5))
-        LiveWire.notifyNear(alarm.x, alarm.y, alarm.z, Alarm.RANGE, "IGUI_LW_LowBattery", { pct }, true)
+        LiveWire.notifyNear(alarm.x, alarm.y, alarm.z, Alarm.RANGE, "IGUI_LW_LowBatteryNamed",
+            { pct, grid.name ~= "" and grid.name or "IGUI_LW_Network" }, true)
     end
     if grid.alarmAck then return false end
     Alarm.beepNear(alarm.x, alarm.y, alarm.z)

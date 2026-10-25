@@ -5,6 +5,7 @@
 | Ingrédients | Outils (conservés) | Compétence | Résultat |
 |---|---|---|---|
 | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/LightBulb.png" width="24" height="24"> Ampoule<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Battery.png" width="24" height="24"> Pile | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Électricité 1 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="32" height="32"> **Testeur de tension** |
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="24" height="24"> Testeur de tension | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | aucune | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="32" height="32"> **Pièces électroniques** |
 | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Calculator.png" width="24" height="24"> Calculatrice | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | aucune | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="32" height="32"> **Pièces électroniques**<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarCell.png" width="32" height="32"> **Cellule photovoltaïque** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Électricité 2 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PowerBank.png" width="32" height="32"> **Powerbank** |
 | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplificateur | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Électricité 2 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/BatteryAlarm.png" width="32" height="32"> **Alarme de batterie faible** |
@@ -12,42 +13,123 @@
 | 10 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarCell.png" width="24" height="24"> Cellule photovoltaïque<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Glue.png" width="24" height="24"> Super glue | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarPanel.png" width="32" height="32"> **Panneau photovoltaïque** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Électricité 3 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Breaker.png" width="32" height="32"> **Disjoncteur** |
 | 4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Électricité 5 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Inverter.png" width="32" height="32"> **Onduleur** |
-| 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Speaker.png" width="24" height="24"> Haut-parleur<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalBar.png" width="24" height="24"> Barre en métal<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pipe.png" width="24" height="24"> Tuyau en plastique<br>6 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> | Électricité 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="32" height="32"> **Éolienne** |
+| 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetalSnips.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> | aucune | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineBlades.png" width="32" height="32"> **Jeu de pales d’éolienne** |
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalPipe.png" width="24" height="24"> Tuyau en métal<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalBar.png" width="24" height="24"> Barre en métal<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PipeWrench.png" width="24" height="24"> | aucune | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineMast.png" width="32" height="32"> **Mât d’éolienne** |
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineBlades.png" width="24" height="24"> Jeu de pales d’éolienne<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineMast.png" width="24" height="24"> Mât d’éolienne<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Électricité 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="32" height="32"> **Éolienne** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/CarBattery1.png" width="24" height="24"> Batterie de voiture (toutes)<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ScrapMetal.png" width="24" height="24"> Ferraille | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Électricité 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/DeepCycleBattery.png" width="32" height="32"> **Batterie stationnaire** |
-| 8 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Plank.png" width="24" height="24"> Planche<br>20 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Nails.png" width="24" height="24"> Clous<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Speaker.png" width="24" height="24"> Haut-parleur<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalBar.png" width="24" height="24"> Barre en métal | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Électricité 7 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterWheel.png" width="32" height="32"> **Roue à aubes** |
+| 8 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Plank.png" width="24" height="24"> Planche<br>20 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Nails.png" width="24" height="24"> Clous<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalBar.png" width="24" height="24"> Barre en métal | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Électricité 7 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterWheel.png" width="32" height="32"> **Roue à aubes** |
 | 3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalPipe.png" width="24" height="24"> Tuyau en métal<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Vis | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PipeWrench.png" width="24" height="24"> | Électricité 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterPump.png" width="32" height="32"> **Pompe à eau** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplificateur | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Électricité 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/CouplingKit.png" width="32" height="32"> **Kit de couplage d'onduleurs** |
 | 5 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Aluminum.png" width="24" height="24"> Aluminium | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Électricité 8 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarCell.png" width="32" height="32"> **Cellule photovoltaïque** |
 
+## CELLS (x5)
+
+| Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
+|---|---|---|---|---|
+| `GarageTools` | Rangement d'outils de garage | 10 | 4 | 21,9 % |
+| `CrateTools` | Caisses d'outils | 5 | 4 | 11,5 % |
+| `GarageMetalwork` | Rangement de métallerie de garage | 5 | 4 | 11,5 % |
+| `MechanicShelfElectric` | Garage automobile, étagère électrique | 10 | 4 | 21,9 % |
+| `ElectricianTools` | Outils d'électricien | 15 | 3 | 24,6 % |
+| `MetalShopTools` | Outils de métallerie | 5 | 4 | 11,5 % |
+| `WireFactoryElectric` | Usine de câbles, rayon électrique | 10 | 4 | 21,9 % |
+| `ToolStoreMisc` | Quincaillerie, divers | 10 | 4 | 21,9 % |
+| `CrateElectronics` | Caisses d'électronique | 10 | 4 | 21,9 % |
+| `ElectronicStoreMisc` | Magasin d'électronique, divers | 10 | 4 | 21,9 % |
+| `ToolStoreMetalwork` | Quincaillerie, métallerie | 5 | 4 | 11,5 % |
+| `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
+
 ## LOOT: Équipements Live Wire tout faits
 
-Trouvés déjà fabriqués, en plus des recettes (les réglages de butin sandbox s'appliquent).
+Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
 
-| Équipement | Liste vanilla | Où | Poids | Tirages | ≈ chance par conteneur |
+| Équipement | Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
 |---|---|---|---|---|---|
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="24" height="24"> **Testeur de tension** | `ElectricianTools` | Outils d'électricien | 3 | 3 | 8,7 % |
-|  | `ToolStoreTools` | Quincaillerie, outils | 1 | 4 | 3,9 % |
-|  | `GarageTools` | Rangement d'outils de garage | 1 | 4 | 3,9 % |
-|  | `CrateTools` | Caisses d'outils | 1 | 4 | 3,9 % |
-|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 1 | 4 | 3,9 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/DeepCycleBattery.png" width="24" height="24"> **Batterie stationnaire** | `CarSupplyBatteries` | Magasin de pièces auto, batteries | 2 | 4 | 7,8 % |
-|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 1 | 4 | 3,9 % |
-|  | `GarageMechanics` | Garage, rangement mécanique | 0,3 | 4 | 1,2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Inverter.png" width="24" height="24"> **Onduleur** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 0,5 | 3 | 0,9 % |
-|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 0,5 | 4 | 1,2 % |
-|  | `ToolStoreMisc` | Quincaillerie, divers | 0,2 | 4 | 0,5 % |
-|  | `GarageTools` | Rangement d'outils de garage | 0,1 | 4 | 0,2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Breaker.png" width="24" height="24"> **Disjoncteur** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 1 | 3 | 1,8 % |
-|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 1 | 4 | 2,4 % |
-|  | `ToolStoreMisc` | Quincaillerie, divers | 0,5 | 4 | 1,2 % |
-|  | `GarageTools` | Rangement d'outils de garage | 0,3 | 4 | 0,7 % |
-|  | `CrateTools` | Caisses d'outils | 0,3 | 4 | 0,7 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PowerBank.png" width="24" height="24"> **Powerbank** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 0,5 | 3 | 0,9 % |
-|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 0,5 | 4 | 1,2 % |
-|  | `ToolStoreMisc` | Quincaillerie, divers | 0,3 | 4 | 0,7 % |
-|  | `GarageTools` | Rangement d'outils de garage | 0,2 | 4 | 0,5 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/BatteryAlarm.png" width="24" height="24"> **Alarme de batterie faible** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 1 | 3 | 1,8 % |
-|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 1 | 4 | 2,4 % |
-|  | `ToolStoreMisc` | Quincaillerie, divers | 0,5 | 4 | 1,2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="24" height="24"> **Éolienne** (meuble : × 0,6 inclus) | `ToolStoreMisc` | Quincaillerie, divers | 0,1 | 4 | 0,2 % |
-|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 0,1 | 4 | 0,2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarPanel.png" width="24" height="24"> **Panneau photovoltaïque** (meuble : × 0,6 inclus) | `ToolStoreMisc` | Quincaillerie, divers | 2,5 | 4 | 5,9 % |
+|  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
+|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
+|  | `GarageTools` | Rangement d'outils de garage | 1,5 | 4 | 3,6 % |
+|  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
+|  | `ToolStoreTools` | Quincaillerie, outils | 1,5 | 4 | 3,6 % |
+|  | `CrateMetalwork` | Caisses de métallerie | 1,5 | 4 | 3,6 % |
+|  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 1,5 | 4 | 3,6 % |
+|  | `GarageMetalwork` | Rangement de métallerie de garage | 1 | 4 | 2,4 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="24" height="24"> **Testeur de tension** | `ElectricianTools` | Outils d'électricien | 15 | 3 | 24,6 % |
+|  | `ToolStoreTools` | Quincaillerie, outils | 5 | 4 | 11,5 % |
+|  | `GarageTools` | Rangement d'outils de garage | 5 | 4 | 11,5 % |
+|  | `CrateTools` | Caisses d'outils | 5 | 4 | 11,5 % |
+|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 5 | 4 | 11,5 % |
+|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 5 | 4 | 11,5 % |
+|  | `CrateElectronics` | Caisses d'électronique | 5 | 4 | 11,5 % |
+|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 5 | 4 | 11,5 % |
+|  | `MechanicShelfTools` | Garage automobile, outils | 5 | 4 | 11,5 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/DeepCycleBattery.png" width="24" height="24"> **Batterie stationnaire** | `CarSupplyBatteries` | Magasin de pièces auto, batteries | 10 | 4 | 21,9 % |
+|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 5 | 4 | 11,5 % |
+|  | `CrateMechanics` | Caisses de mécanique | 3,5 | 4 | 8,1 % |
+|  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
+|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
+|  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
+|  | `CampingStoreGear` | Magasin de camping, matériel | 1,5 | 4 | 3,6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Inverter.png" width="24" height="24"> **Onduleur** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 2,5 | 3 | 4,4 % |
+|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
+|  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
+|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
+|  | `ElectronicStoreAppliances` | Magasin d'électronique, appareils | 1,5 | 1 | 0,9 % |
+|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 1,5 | 4 | 3,6 % |
+|  | `ToolStoreMisc` | Quincaillerie, divers | 1 | 4 | 2,4 % |
+|  | `CrateTools` | Caisses d'outils | 1 | 4 | 2,4 % |
+|  | `GarageTools` | Rangement d'outils de garage | 0,5 | 4 | 1,2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Breaker.png" width="24" height="24"> **Disjoncteur** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
+|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 5 | 4 | 11,5 % |
+|  | `CrateElectronics` | Caisses d'électronique | 3,5 | 4 | 8,1 % |
+|  | `ToolStoreMisc` | Quincaillerie, divers | 2,5 | 4 | 5,9 % |
+|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
+|  | `ToolStoreTools` | Quincaillerie, outils | 2,5 | 4 | 5,9 % |
+|  | `GarageTools` | Rangement d'outils de garage | 1,5 | 4 | 3,6 % |
+|  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
+|  | `CrateMetalwork` | Caisses de métallerie | 1,5 | 4 | 3,6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PowerBank.png" width="24" height="24"> **Powerbank** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 2,5 | 3 | 4,4 % |
+|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 2,5 | 4 | 5,9 % |
+|  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
+|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2 | 4 | 4,7 % |
+|  | `ToolStoreMisc` | Quincaillerie, divers | 1,5 | 4 | 3,6 % |
+|  | `CrateMechanics` | Caisses de mécanique | 1,5 | 4 | 3,6 % |
+|  | `GarageTools` | Rangement d'outils de garage | 1 | 4 | 2,4 % |
+|  | `GarageMechanics` | Garage, rangement mécanique | 1 | 4 | 2,4 % |
+|  | `CrateTools` | Caisses d'outils | 1 | 4 | 2,4 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/BatteryAlarm.png" width="24" height="24"> **Alarme de batterie faible** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
+|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 5 | 4 | 11,5 % |
+|  | `CrateElectronics` | Caisses d'électronique | 3,5 | 4 | 8,1 % |
+|  | `ToolStoreMisc` | Quincaillerie, divers | 2,5 | 4 | 5,9 % |
+|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
+|  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
+|  | `GarageTools` | Rangement d'outils de garage | 1,5 | 4 | 3,6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="24" height="24"> **Éolienne** (meuble : × 0,6 inclus) | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
+|  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 2,5 | 4 | 5,9 % |
+|  | `WireFactoryTools` | Usine de câbles, outils | 2,5 | 4 | 5,9 % |
+|  | `ToolStoreMisc` | Quincaillerie, divers | 1,5 | 4 | 3,6 % |
+|  | `CrateElectronics` | Caisses d'électronique | 1,5 | 4 | 3,6 % |
+|  | `CrateMetalwork` | Caisses de métallerie | 1,5 | 4 | 3,6 % |
+|  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
+|  | `CrateFarming` | Caisses de matériel agricole | 1,5 | 4 | 3,6 % |
+|  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 1,5 | 4 | 3,6 % |
+|  | `MechanicShelfTools` | Garage automobile, outils | 1,5 | 4 | 3,6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterWheel.png" width="24" height="24"> **Roue à aubes** (meuble : × 0,6 inclus) | `CrateCarpentry` | Caisses de menuiserie | 2,5 | 4 | 5,9 % |
+|  | `ToolStoreCarpentry` | Quincaillerie, menuiserie | 2,5 | 4 | 5,9 % |
+|  | `CrateFarming` | Caisses de matériel agricole | 2,5 | 4 | 5,9 % |
+|  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 1,5 | 4 | 3,6 % |
+|  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
+|  | `CrateMechanics` | Caisses de mécanique | 1,5 | 4 | 3,6 % |
+|  | `CrateMetalwork` | Caisses de métallerie | 1,5 | 4 | 3,6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineBlades.png" width="24" height="24"> **Jeu de pales d’éolienne** | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
+|  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 5 | 4 | 11,5 % |
+|  | `CrateTools` | Caisses d'outils | 3,5 | 4 | 8,1 % |
+|  | `CrateFarming` | Caisses de matériel agricole | 3,5 | 4 | 8,1 % |
+|  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 3,5 | 4 | 8,1 % |
+|  | `WireFactoryTools` | Usine de câbles, outils | 3,5 | 4 | 8,1 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineMast.png" width="24" height="24"> **Mât d’éolienne** | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
+|  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 5 | 4 | 11,5 % |
+|  | `CrateTools` | Caisses d'outils | 3,5 | 4 | 8,1 % |
+|  | `CrateMechanics` | Caisses de mécanique | 3,5 | 4 | 8,1 % |
+|  | `CrateFarming` | Caisses de matériel agricole | 3,5 | 4 | 8,1 % |
+|  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 3,5 | 4 | 8,1 % |

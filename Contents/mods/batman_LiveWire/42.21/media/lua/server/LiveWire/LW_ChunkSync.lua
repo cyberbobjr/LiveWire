@@ -19,6 +19,7 @@ local function onLoadChunk(chunk)
         local ok, err = pcall(LiveWire.FridgeCatchup.onLoadChunk, chunk)
         if not ok then LiveWire.warn("fridge catch-up failed: " .. tostring(err)) end
     end
+    if LiveWire.Circuits then LiveWire.Circuits.onLoadChunk(chunk) end
     local cx, cy = LiveWire.Anchor.chunkCoords(chunk)
     if not cx then return end
     local x0, y0 = cx * CHUNK, cy * CHUNK

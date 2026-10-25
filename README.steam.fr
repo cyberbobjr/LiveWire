@@ -4,75 +4,60 @@
 
 Le courant ne reviendra plus... mais les lumières, elles, peuvent rester allumées. Construisez votre propre électricité hors réseau : des panneaux photovoltaïques, une éolienne ou une roue à aubes alimentent un onduleur, et l'onduleur fait fonctionner toute la maison autour de lui. Ajoutez des batteries pour la nuit. La compétence Électricité compte enfin : chaque appareil a un niveau, et votre niveau améliore l'installation.
 
+[h2]1.6.0 — Pilotez votre installation[/h2]
+
+Le tableau possède des leviers éclairage, équipements et principal, avec les watts de chaque circuit et du total. Coupez les vrais appareils et retrouvez leurs choix précédents, même après redémarrage. Les sources peuvent charger les batteries avec la distribution principale ouverte. Clic gauche sur chaque équipement pour son LCD ; Raccordements permet de choisir son onduleur.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
+
 [h2]Fonctionnement[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
-[list]
-[*][b]Les sources[/b] produisent : panneau photovoltaïque 100 W, éolienne 400 W, roue à aubes 120 W. Autant que vous voulez par onduleur.
-[*][b]L'onduleur[/b] (1 500 W max) alimente chaque appareil situé à moins de 20 cases et à 3 étages au-dessus ou en dessous. Aucun câblage par appareil : frigos, lampes, cuisinières, télés et radios fonctionnent comme dans le vanilla.
-[*][b]Profil de consommation[/b] (sandbox) : Valeurs du jeu (défaut), Réaliste 1993 (lumière 60 W, télé 80 W, cuisinière électrique 2 000 W), Ultra-réaliste 1993 ou Confort.
-[*][b]La powerbank[/b] stocke le surplus : elle compte pour 4 batteries (batteries de voiture ou batteries stationnaires). Sans batteries, la maison ne fonctionne qu'avec la production en cours.
-[*][b]Câbles[/b] : fil électrique, 1 pour 4 cases, portée de 12 cases. Clic droit sur un appareil > "Live Wire" > "Raccorder à un onduleur".
-[/list]
+Solaire 100 W, éolien 400 W, roue à aubes 120 W. Un onduleur alimente les appareils à 20 cases et ±3 étages, jusqu'à 1 500 W ; quatre couplés donnent 6 000 W. Aucun câble par appareil domestique.
+Stockez le surplus dans des powerbanks (4 batteries chacune). Câbles : 1 fil par 4 cases, portée 12. Profils sandbox : Valeurs du jeu, Réaliste 1993, Ultra-réaliste 1993 ou Confort.
 
 [h2]Équipements[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png[/img]
 
-[list]
-[*][b]Panneau photovoltaïque[/b] (Électricité 3) : à l'extérieur, ciel dégagé. Les toits plats conviennent.
-[*][b]Éolienne[/b] (6) : à l'extérieur, plus efficace en hauteur.
-[*][b]Roue à aubes[/b] (7) : sur une berge de rivière, au rez-de-chaussée.
-[*][b]Onduleur[/b] (5) : le cœur du réseau, peut être installé à l'intérieur.
-[*][b]Powerbank[/b] (2) : s'ouvre comme une caisse.
-[*][b]En option[/b] : disjoncteur (il coupe au lieu d'endommager l'onduleur), alarme de batterie faible, kit d'insonorisation pour le bourdonnement de l'onduleur, générateur vanilla en secours (démarré sous 20 % de batterie), ordinateur de bureau vanilla comme ordinateur de gestion. Jusqu'à 4 onduleurs couplés en parallèle (6 000 W) avec un kit de couplage.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
+Posez les panneaux dehors (Électricité 3), les éoliennes dehors et les roues à aubes sur une berge (2 pour les deux), les onduleurs (5) et les powerbanks (2). Empilez deux powerbanks sur une case, inventaires et liens séparés ; videz-les avant ramassage, celle du haut en premier.
+En option : disjoncteur, alarme, insonorisation, générateur vanilla de secours et ordinateur de gestion.
 
 [h2]Production[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_fr.png[/img]
 
-[list]
-[*][b]Solaire[/b] : environ 0,94 kWh par journée d'été, environ 0,60 en hiver. Les nuages et la neige la réduisent.
-[*][b]Éolien[/b] : rien en dessous de 10 km/h, puis croissance avec le cube de la vitesse jusqu'à 45 km/h, pleine puissance de 45 à 85, frein automatique au-delà.
-[*][b]Roue à aubes[/b] : 120 W jour et nuit sur les rivières.
-[/list]
+Orientation solaire : sud 100 %, est/ouest 85 %, nord 55 %. Nuages, neige et saleté réduisent la production ; la pluie lave les panneaux, ou nettoyez avec un chiffon + 0,5 L d'eau. L'éolienne produit dès 10 km/h, à pleine puissance de 45 à 85, puis freine. La roue produit jour et nuit. Le froid des batteries, option désactivée par défaut, conserve l'énergie indisponible en réserve.
 
-Exemple : un réfrigérateur-congélateur et 10 lampes consomment environ 4,1 kWh par jour. Une roue à aubes et 2 panneaux couvrent le tout toute l'année.
+[h2]Pompe à eau[/h2]
 
-[h2]Pompe à eau (nouveauté 1.2.0)[/h2]
-
-[list]
-[*]Des barils d'eau posés au sol alimentent maintenant les points d'eau de toute la maison : éviers, douches, baignoires et toilettes refonctionnent après la coupure d'eau.
-[*]Posez la [b]pompe à eau[/b] (Électricité 6) à côté de récupérateurs d'eau de pluie vanilla ou de barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (jusqu'à 8, un tuyau en métal chacun) et raccordez-la à l'onduleur.
-[*]Raccordez les points d'eau à la clé anglaise comme en vanilla : chaque point d'eau raccordé à moins de 15 cases (option sandbox) est alimenté. Seule l'eau est acceptée ; l'eau de pluie sort propre.
-[*]5 L par minute, 250 W pendant le pompage, un léger ronronnement ; elle s'arrête seule quand tous les points d'eau sont pleins. « Afficher les points d'eau alimentés » les surligne en bleu.
-[*]Avant de retirer le mod, lancez l'action debug/admin « Retirer tous les relais d'eau ».
-[/list]
+La pompe (Électricité 6) alimente les sanitaires raccordés à 15 cases depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum, un tuyau métallique chacun. Plomberie à la clé à tuyau. Eau de pluie rendue propre : jusqu'à 5 L/min, 250 W en pompant. Voyant bleu = alimentée, même au repos. Avant désinstallation, retirez les relais d'eau via l'action debug/admin.
 
 [h2]Recettes[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png[/img]
 
-Recettes de la catégorie Électricité, apprises automatiquement au niveau requis. Les cellules photovoltaïques viennent de calculatrices démontées ou se trouvent dans le butin ; des équipements tout faits peuvent aussi apparaître chez les électriciens, les quincailleries et les garages.
+17 recettes illustrées ci-dessous. Déblocage automatique en Électricité ; pales et mât en Métallerie, sans niveau électrique requis. Assemblage de l'éolienne au niveau 6, fabrication de la roue à 7, avec deux amplificateurs chacune. Pose/ramassage des deux au niveau 2. Le testeur se démonte en déchet électronique. Toutes les recettes donnent de l'XP électrique. Butin élargi : multiplicateur sandbox 5 par défaut (1–20), prochains tirages après redémarrage.
 
 [h2]Logiciel de gestion[/h2]
 
-Live Wire Monitor affiche la production, la consommation, les batteries, un historique de 48 h et une prévision « jusqu'au lever du soleil ». Avec le Computer Mod ou le Laptop Mod (en option), il est fourni sur un disque trouvé dans le butin informatique. Sinon, un ordinateur de bureau vanilla raccordé à l'onduleur le fait fonctionner.
+Live Wire Monitor ajoute consommateurs (200 maximum), silhouettes colorées, câbles, 30 derniers événements et prévision de production sur trois jours avec un ordinateur de gestion alimenté, en plus de l'historique 48 h. Les noms de réseau figurent sur les LCD et alertes. Bureau vanilla utilisable ; Computer Mod/Laptop Mod facultatifs avec un CD trouvé en butin.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
+[h2]Sécurité électrique et XP[/h2]
+
+Test des batteries aux niveaux 1/3/5. Reconditionnement à 4 (6 si morte) : tournevis conservé, déchet, fil, 0,5 L d'eau ; +15 d'état, plafond 80, quatre fois. Récupération des équipements morts et vides à 3. Risque sous tension activé : 50/42/33/25/17/8/0 % aux niveaux 0/1/2/3/4/5/6+. Un choc brûle la main de l'outil, fait lâcher les objets et interrompt sans consommer les matériaux. Éteignez l'onduleur maître ; le disjoncteur n'isole pas ses bornes.
+
 [h2]Multijoueur[/h2]
 
-Le serveur calcule tout et revérifie chaque requête. L'installation fonctionne pendant l'absence des joueurs. Des tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients, sauvegardes et rechargements compris.
+Simulation et contrôles côté serveur, circuits sauvegardés et états des appareils synchronisés. Refermez les deux circuits avant de désactiver le mod.
 
 [h2]Documentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/01-presentation]Wiki Live Wire (français)[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-Home]Wiki Live Wire (français)[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint), avec les modèles 3D de tous les équipements. À activer seulement si vous utilisez Project Viewpoint.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]

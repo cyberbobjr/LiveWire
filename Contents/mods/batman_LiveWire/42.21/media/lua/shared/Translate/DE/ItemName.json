@@ -12,5 +12,7 @@
     "Base.Mov_LiveWire_Breaker": "Schutzschaltertafel",
     "Base.Mov_LiveWire_BatteryAlarm": "Batteriealarm",
     "Base.Mov_LiveWire_WaterPump": "Wasserpumpe",
-    "LiveWire.CouplingKit": "Kopplungsset für Wechselrichter"
+    "LiveWire.CouplingKit": "Kopplungsset für Wechselrichter",
+    "LiveWire.WindTurbineBlades": "Windrad-Rotorsatz",
+    "LiveWire.WindTurbineMast": "Windradmast"
 }

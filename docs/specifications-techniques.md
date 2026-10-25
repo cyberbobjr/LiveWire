@@ -62,7 +62,7 @@ Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de déc
 
 ### 2.4 Recettes (`LiveWire_recipes.txt`, module `LiveWire`, catégorie `Electrical`)
 
-`LWMakeVoltageTester`, `LWSalvageSolarCell` (calculatrice → cellule + débris électroniques), `LWMakeSolarCellFromScrap`, `LWMakeSolarPanelKit`, `LWMakeInverterKit`, `LWMakeWindTurbineKit`, `LWMakeWaterWheel`, `LWMakePowerBankKit`, `LWMakeBreakerKit`, `LWMakeWaterPump`, `LWMakeCouplingKit`, `LWMakeDeepCycleBattery`, `LWMakeBatteryAlarmKit`, `LWMakeSoundproofKit`. Ingrédients et niveaux : tableau généré [`wiki/fr/_tables.md`](wiki/fr/_tables.md) (`tools/make_doc_tables.py`, données de `tools/make_doc_images.RECIPES`).
+`LWMakeVoltageTester`, `LWDismantleVoltageTester`, `LWSalvageSolarCell` (calculatrice → cellule + débris électroniques), `LWMakeSolarCellFromScrap`, `LWMakeSolarPanelKit`, `LWMakeInverterKit`, `LWMakeWindTurbineBlades`, `LWMakeWindTurbineMast`, `LWMakeWindTurbineKit`, `LWMakeWaterWheel`, `LWMakePowerBankKit`, `LWMakeBreakerKit`, `LWMakeWaterPump`, `LWMakeCouplingKit`, `LWMakeDeepCycleBattery`, `LWMakeBatteryAlarmKit`, `LWMakeSoundproofKit`. Ingrédients et niveaux : tableau généré [`wiki/fr/_tables.md`](wiki/fr/_tables.md) (`tools/make_doc_tables.py`, données de `tools/make_doc_images.RECIPES`).
 
 ### 2.5 Autres scripts
 
@@ -122,6 +122,19 @@ Diffusion supplémentaire : `ModData.transmit("LiveWireAnchors")` à chaque chan
 ### 3.4 Debug et administration
 
 `LW_Debug.lua`, `LW_DebugCommands.lua`. Autorisé : en solo avec `isDebugEnabled()` ; sur serveur, `checkPermissions(joueur, Capability.ChangeAndReloadServerOptions)` **et** `getRole():hasCapability(...)`. Portée 30 cases. `removeRelays` pose `data.pumpsDisabled = true` (registre) : `Pump.maintain` et `Pump.step` ne font plus rien ; les relais chargés sont retirés et **toutes** les entrées `dev.relays` sont vidées, si bien que `Pump.onLoadChunk` retire les relais des zones non chargées au chargement de leur chunk. `enablePumps` efface le drapeau et relance `Pump.maintain` sur chaque pompe. Actions : `spawnKit`, `removeRelays` et `enablePumps` (sans appareil), `dump`, `battery100`, `battery50`, `battery15`, `battery0`, `advance1`, `advance12`, `repairAll`, `damageInverter`, `trip`, `refuel`, `reanchor`.
+
+Les cinq préréglages par appareil sont définis dans `Debug.CONDITIONS` :
+`deviceMinus10` (delta −10), `device50`, `device10`, `deviceBreak` (0) et
+`deviceRestore` (100). Le serveur ignore toute valeur numérique fournie par le client,
+borne l'état à 0–100, contrôle le registre disponible, le joueur vivant, les droits,
+`checkDevice`, le modèle/rôle et `Devices.find`. Un appareil non raccordé est accepté.
+À 0, onduleur/pompe passent à `broken`, les sources ont `pOut=raw=0`. Restaurer un
+onduleur cassé donne `off`, une pompe cassée `idle`. Marques et instantané du réseau
+sont actualisés par les services existants, prévisions invalidées. Pas de mutation
+directe des slots/charge/état/cycles des batteries, d'XP ou d'objets ; `Sim.refresh`
+réévalue normalement la physique. Aucun nouveau paquet, événement périodique ou
+schéma persistant. `damageInverter` est conservé pour compatibilité des outils,
+mais retiré du menu réseau, remplacé visuellement par les commandes par appareil.
 
 ### 3.5 Instantané (`Sim.snapshot`)
 
@@ -220,6 +233,7 @@ sont retirés ; la table d'ancres continue de passer par `ModData.request/transm
 | Option | Type | Défaut | Bornes | Effet |
 |---|---|---|---|---|
 | `LiveWire.ConsumptionProfile` | enum (`numValues = 4`, `valueTranslation`) | 3 | 1-4 | Profil de consommation (`LW_Consumption.lua`) : 1 ultra-réaliste 1993, 2 réaliste 1993, 3 valeurs du jeu, 4 confort. Valeur inconnue = 3 |
+| `LiveWire.EquipmentLootMultiplier` | double | 5,0 | 1–20 | Multiplicateur des poids des objets LiveWire uniquement, cellules incluses ; appliqué au démarrage sur les prochains tirages |
 | `LiveWire.PowerScale` | double | 1,0 | 0,1-10 | Multiplie la consommation donnée par le profil (1 = aucun changement) |
 | `LiveWire.SolarMultiplier` | double | 1,0 | 0-10 | Production solaire |
 | `LiveWire.WindMultiplier` | double | 1,0 | 0-10 | Production éolienne |
@@ -279,3 +293,420 @@ Multijoueur : serveur dédié autoritaire ; tests automatisés en jeu en solo et
 - `autotest.json` + `autotest/*.lua` : configuration de l'outil `pz-autotest` (tests en jeu non surveillés).
 - Documentation générée : `tools/make_doc_images.py` (→ `docs/images/diagrams/`), `tools/make_doc_tables.py` (→ `docs/wiki/<langue>/_tables.md`).
 - Protocole de test en jeu : [`annexes/tests/protocole-tests.md`](annexes/tests/protocole-tests.md).
+
+## 9. Campagne IXX locale après v1.5.0
+
+Non publiée ; métadonnées de version inchangées en attendant un ordre de livraison.
+Architecture et schéma 2 conservés. Les champs suivants sont optionnels et prennent
+leur valeur par défaut à la première lecture ; aucune identité n'est recréée.
+
+| Donnée | Contrat |
+|---|---|
+| Source solaire | `facing` 0=S, 1=E, 2=N, 3=W, relu de la tuile ; `dirt` 0..0,5 ; `snow` 0..1. Saleté/neige suivent le ramassage dans la marque |
+| Powerbank | `outside`, actualisé depuis la case chargée, conservé hors zone |
+| Batterie | Charge native = fraction de la capacité à chaud ; `LiveWireCycles` inchangé ; `LiveWireRepairs` défaut 0, plafond 4 ; `LiveWireCondition` porte l'usure fractionnaire ; `LiveWireEnergyRemainder` conserve le reliquat inférieur à une graduation native. Réparation +15 état, plafond 80 ; niveau 4 ou 6 si morte ; tournevis, 1 déchet électronique, 1 fil et 0,5 L d'eau ; énergie du modèle conservée, sans arrondi natif vers le haut |
+| Froid | Facteur 1 à 15 °C, 0,8 à 0 °C, 0,6 à −15 °C, borné 0,6..1. Réserve inaccessible = minimum de l'énergie stockée et de la capacité perdue ; réserve conservée dans la fraction native, sans perte au dégel |
+| Réseau | `events[] { t, tod, key, args }`, 30 derniers ; `eventState` ; `stormWarned` ; `forecastAt`, `forecast` ; `lightsOff`, `equipmentOff`, `mainOff` défaut faux ; migration des anciens `lightChoices` locaux |
+| Appareil | `ModData.LiveWireCircuit { v=1, kind, owner, cut, on?, dry?, watts, category, types? }` ; choix individuels et types d'origine indexés ; aucune copie des objets d'inventaire |
+| Identité de service MP | `ModData.LiveWireService { id="cN", rev, media, types={ [index]=true } }` ; ajout paresseux par l'autorité, révision accrue après une intervention ; conservé après restauration. Aucun contenu d'inventaire ni ancien choix radio à rejouer |
+| Historique | `powerHistory[].panelLog[] { t,off }`, `panel0` ; circuit distinct du courant de l'ancre, même fenêtre privée de 60 jours |
+| Instantané | `origin`, `links[] { id, model, role, x, y, z }`, `consumers[] { x,y,z,cat,w,requestedW,owned,served,circuitOff }` (200 premières lignes triées), `events`, `sources[].facing/dirt`, `batteries[].reserve`, `forecast` seulement avec ordinateur alimenté ; `breaker.lightsOff/equipmentOff/mainOff/equipmentControl=true` |
+| Commande | `setCircuit { device, circuit=lights/equipment/main, off:boolean }` ; proximité du disjoncteur, refuge, registre modifiable ; choix identique sans mutation ni énergie avancée |
+| Miroir | `circuitService { id,rev,x,y,z,sprite,types,media,on,request=0 }`, serveur vers joueurs proches après intervention ; identité stable puis sprite unique en repli ; aucun renvoi d'inventaire |
+| Réconciliation | `readCircuitServices { seq, services[]={id,x,y,z} }`, 16 appareils maximum ; identité, coordonnées entières, joueur vivant et distance de 100 cases revérifiés sous la limitation de débit existante. Réponse au demandeur : `circuitServices { services[]={...instantané de service...,request=seq} }`, relisant l'état natif courant |
+| Actions | `LWCleanPanelAction`, `LWTestBatteryAction`, `LWSalvageAction` ; `LWReconditionAction` étendue. Mutations et coûts revérifiés dans `complete()` sur l'autorité |
+| Options | `SolarOrientation=true`, `SolarDirt=true`, `BatteryCold=false`, `LiveWorkRisk=true` ; booléens, page LiveWire |
+
+Le bilan énergétique utilise exclusivement la charge accessible ; réserve et capacité
+à chaud servent à écrire la fraction native. Une réparation ne réinitialise pas les
+cycles. La réserve peut subir l'autodécharge et la perte de capacité par usure.
+
+Prévision : cache horaire, trois `DayForecast` officiels, vent normalisé ×120 km/h,
+nuages diurnes, lever/coucher du jour prévu. Production horaire via `Sim.sourceRaw`,
+donc orientation, neige, saleté, état, rendement, frein et multiplicateurs partagés.
+Demande moyenne des échantillons disponibles sur 48 h ; capacités et pertes respectées
+par `Physics.stepGrid` sur un stock projeté détaché. Aujourd'hui, le contrôle de réserve
+commence à l'heure courante. Les chiffres journaliers couvrent le jour entier.
+Météo moyenne, entretien et capacité accessibles supposés constants ; pas de garantie
+sur le vent horaire ni de prise en compte d'un secours futur ou d'une panne future.
+
+### API publique v1
+
+Charger `require "LiveWire/LW_API"` dans le Lua partagé de l'extension.
+Enregistrer pendant le chargement des fichiers, avant `OnInitGlobalModData` qui ferme
+le registre des définitions. Extension identique sur serveur et clients.
+
+- `registerBattery(fullType, kWh, lifeCycles)` → `true` ou `false, raison`.
+  Type complet `Module.Objet`, capacité 0,001..1000 kWh, vie 1..1 000 000 cycles.
+  L'objet doit être une batterie drainable à état 0..100, conservée vide par son script.
+- `registerSource(model, definition)` → même contrat. Champs obligatoires : `item`,
+  `kind` (`solar`, `wind`, `hydro`), `sheet`, `tile` entier, `facings=4`, `nominalW`
+  1..100 000, `level` 0..10, `wearDays` 1..100 000. Sources extérieures, hydraulique
+  sur berge. Fournir les traductions `IGUI_LW_Model_<model>` et les propriétés de tuiles.
+- Les doublons de type, modèle, objet posable et sprite sont refusés. Les valeurs
+  non finies sont refusées ; seuls les champs primitifs autorisés sont recopiés.
+- `battery(fullType)`, `source(model)` renvoient une copie détachée ou `nil`.
+- `gridAt(x,y,z)` : autorité seulement, avant initialisation → `nil,"not_ready"` ;
+  position invalide → `nil,"invalid_position"`. Réseau dont le maître est le plus
+  proche dans sa portée (égalité par id), instantané détaché ou `nil` sans réseau.
+  Ne renvoie jamais le registre, ses objets Java ou ses tables mutables.
+- Ces garanties portent sur les accès par l'API v1. Les modules internes de
+  l'espace Lua partagé ne constituent pas une frontière de sécurité contre un
+  autre mod qui remplacerait délibérément leurs fonctions ; ils ne font pas
+  partie du contrat d'extension.
+- Raisons d'enregistrement stables : `registration_closed`, `invalid_definition`,
+  `duplicate_type`, `duplicate_model`, `duplicate_sprite`. `API.version=1`.
+
+[Preuves et portée exactes des circuits](annexes/recherches/circuits-42-21.md) :
+adaptateurs natifs, reprise des choix, pièces, recouvrements et migration additive.
+Application des circuits : autorité seulement, créneaux espacés d'au moins 20 ms
+réelles pour les commandes/découvertes en attente, 100 ms pour l'entretien seul ;
+16 unités de travail au maximum et arrêt entre unités après environ 1 ms, sans
+rattrapage en rafale. Une unité visite un objet ou saute au plus 32 cases vides
+d'un chunk. La fin d'un travail de réseau déclenche sa réévaluation physique et
+sa publication habituelles, dont le coût reste distinct du budget des unités.
+Les choix des commandes et les refus d'actions sont immédiats ; l'application
+aux appareils est progressive. La pose d'un objet reste ciblée et immédiate.
+Les mesures sont signalées indisponibles pendant le travail du circuit.
+Les objets isolés/en attente de courant sont suivis indépendamment du cache de
+consommation ; leur passage d'entretien est relancé au plus chaque seconde.
+Une unité native individuelle peut dépasser le budget de temps.
+
+Client MP : lecture des services après découverte d'une identité et reprise des
+messages dont l'objet manque. File limitée à 512 identités, expiration après
+60 secondes, 16 entrées examinées par créneau de 250 ms, requêtes espacées de
+500 ms au moins et nouvelle demande du même appareil après 2 secondes au moins.
+Un chargement ultérieur peut relancer la lecture. Les révisions et séquences
+empêchent un ancien message de remplacer une lecture plus récente. Aucun objet
+ambigu n'est modifié ; les files sont libérées à la sortie de session.
+
+La facturation garde toutes les mesures et ne trie aucune ligne d'affichage.
+À la première demande d'instantané, un tas borné sélectionne les 200 meilleurs
+consommateurs en O(N log 200) ; il est réutilisé jusqu'à la mesure suivante.
+Les textes des onglets de détail sont mémorisés pour l'instantané et l'onglet.
+La prévision invalide son cache après une commande ; lorsqu'un circuit est ouvert,
+elle utilise la demande actuelle au lieu des anciens échantillons tous circuits fermés.
+L'énergie de pompage déjà dépensée avant une coupure reste facturée, mais n'est pas
+projetée comme une charge future lorsque le circuit équipements est ouvert.
+
+
+Précision des batteries : `LiveWireEnergyRemainder { fraction, capacity, kWh }`
+conserve un reliquat positif d'au plus une graduation native. La charge native
+est arrondie vers le bas si son setter l'arrondit au-dessus de la cible ; le
+modèle additionne ensuite ce reliquat. Une modification externe de fraction ou
+de capacité invalide le reliquat. L'état fractionnaire n'est utilisé que si son
+arrondi correspond à l'état natif ; une modification externe reste prioritaire.
+Ces champs optionnels migrent implicitement les anciennes batteries à leur
+prochaine écriture. Les sauvegardes sans ces champs conservent leur charge native.
+L'orientation des panneaux existants est relue sur leur tuile chargée même si
+l'usure est désactivée ; le défaut sud ne sert qu'à un ancien appareil hors zone
+dont l'orientation physique n'a pas encore pu être relue.
+Le diagnostic en inventaire affiche la capacité à chaud ; la powerbank indique
+la fenêtre accessible et la réserve froide, avec le même modèle d'état et d'énergie.
+
+Le principal `mainOff` coupe réellement l'ancre et consigne la transition dans
+l'historique d'alimentation. Il laisse l'onduleur en marche et les sources charger.
+Il ne supprime pas les alimentations vanilla ou les autres réseaux indépendants.
+
+Caches de session : instantanés client plafonnés à 64 réseaux, TTL de cinq minutes
+réelles après dernier accès/réception ; effacement à la déconnexion/au menu.
+Inventaires consommateurs, rapports et découverte libérés au retrait d'un onduleur
+ou à la purge des zones déchargées (dix minutes de jeu). Abonnements serveur purgés
+à la minute de jeu, y compris ceux des joueurs partis et des réseaux supprimés.
+Ces purges ne modifient aucun identifiant ni donnée persistante ; aucun nouveau
+schéma de sauvegarde et aucun appel au ramasse-miettes dans le mod de production.
+
+
+## Contrats du complément d'interface local
+
+### Wattmètre du tableau (F28)
+
+- `snapshot.demandReady` : booléen additif. `Demand.ready(inv)` exige un inventaire
+  de session non sale, mesuré après sa dernière reconstruction et la case de
+  l'onduleur chargée. `entry.measured` devient faux à la fin du job de construction,
+  vrai après `Demand.measure`. Aucun champ de sauvegarde, migration ou historique
+  d'énergie ajouté. Le chargement d'une zone invalide toujours l'inventaire existant.
+- `snapshot.pumps.w` : puissance arrondie déduite des débits déjà mesurés, avec
+  le même rapport cyclique que `Pump.demandW`. Construction d'instantané en lecture
+  seule : ne pas appeler `demandW`, qui consommerait le compteur de litres.
+- `BreakerPanel.readings` somme `appliances[].w`, catégorie `light` séparée,
+  toutes les autres plus `pumps.w` dans équipements. Le total est la somme des
+  deux lignes ; veille, pertes, production et charge des batteries exclues.
+  Ne pas utiliser `consumers`, dont la présentation est plafonnée à 200 lignes.
+- Réseau non alimenté, principal ouvert ou protection déclenchée : zéro. Mesure
+  inconnue : tirets et « Actualisation… » ; circuit ouvert connu sans charge :
+  « 0 W / coupé ». En recouvrement, conserver les watts mesurés d'une charge
+  dépendant d'un autre tableau mais facturée à cette ancre, sans les masquer.
+- `Client.discardSnapshot(id)` libère les caches solo/MP de cet onduleur à
+  l'ouverture du tableau et lors d'un changement de raccordement. En solo, cela
+  force aussi la relecture du drapeau de fraîcheur à révision inchangée. En MP,
+  la souscription existante fournit le nouvel instantané, sans nouvelle commande.
+- Calcul des trois lignes seulement quand la référence d'instantané change ;
+  libération à la fermeture. Le dessin utilise `UIFont.Small` et `drawTextRight`
+  vanilla, compatibles CJK. Rafraîchissement selon la simulation existante, pas
+  un relevé de consommation à chaque image. Aucune nouvelle diffusion globale.
+
+### Lecture de la powerbank
+
+- `readBank` (client → serveur) : `{device,seq}`, ID persistant d'un stockage,
+  séquence entière 1..1 000 000 000. Réutilise la limite de commandes existante,
+  `Commands.checkDevice` (case chargée, même étage, portée 3, refuge autorisé).
+- `bank` (serveur → demandeur) : primitives détachées `{device,seq,model,slots,
+  extra,stock,capacity,reserve,batteries}` ; batteries : `{model,charge,capacity,
+  cond,coldFactor}`. Les énergies sont en kWh utiles, condition en pourcentage.
+  Pas d'objet Java, pas de référence au registre, pas d'écriture d'énergie.
+  Lecture toutes les deux secondes pendant l'ouverture, une seule réponse en cache.
+  Les réponses d'une ancienne banque ou d'une séquence antérieure sont ignorées.
+- `LWUnlinkAction(character,target,device)` : action native après déplacement,
+  cible encore présente, marque concordante, autorité prête, proximité et refuge
+  revérifiés ; délègue à `C_UNLINK`. Aucune nouvelle règle métier de débranchement.
+- Instantané des consommateurs : ajout facultatif de `objectIndex` (position dans
+  la liste Java, base zéro) et `sprite`. Ces champs n'entrent pas en sauvegarde.
+  Résolution cliente une fois par seconde sur les seules cases signalées (200 objets
+  maximum) ; index vérifié par sprite, sinon sprite unique. Jamais un identifiant
+  persistant ; aucune migration de données.
+- Surbrillance native par joueur, persistante entre rendus, purement cliente.
+  Pas de copie d'objet, de baisse d'alpha des appareils, de nouveau paquet pour
+  activer/masquer la vue ni de parcours du monde dans `render`.
+- 27 nouvelles clés traduites dans les dix langues, dont la mention du fabricant
+  et les commandes/refus d'empilage.
+  Les éléments des panneaux
+  sont dessinés avec les classes ISUI et les primitives natives existantes.
+
+
+## Contrat d'empilage des powerbanks
+
+- Les sprites existants 16–19 du tileset existant reçoivent seulement les propriétés
+  `IsTable`, `IsStackable` et `Surface=18`. Même tiledef, mêmes indices, même pack,
+  mêmes profondeurs. Le rack culmine à environ 0,44 m ; 18 unités natives représentent
+  environ 0,46 m. Le décalage supérieur est géré par la pose et l'empilage vanilla.
+- `shared/LW_Stack.lua` possède les règles locales : deux banques au plus, support
+  autorisé, ordre des unités et protection d'un support portant un autre objet.
+  Aucun registre, cache global d'objets, abonnement de tick ni commande réseau ajouté.
+- `LW_Placement` utilise ces règles dans la validation de pose, ramassage et rotation,
+  ainsi qu'avant les opérations de retrait/rotation. Le démontage pour pièces vérifie
+  aussi le support sur l'autorité. Les autres modèles et les signatures vanilla sont
+  conservés. Le refus de pose précède le retrait d'inventaire vanilla.
+- Deux banques sur une case ont deux ID persistants. L'index `byPos` du registre
+  contient déjà une liste d'ID ; les conteneurs et batteries sont résolus par marque,
+  jamais par le seul couple case/modèle. Les contenus et instantanés restent séparés.
+- Le LCD recalcule le numéro de banque pendant sa lecture toutes les deux secondes
+  ou lors d'un clic de sélection ; la liste de raccordement le calcule pendant son
+  rafraîchissement explicite. Le curseur vanilla vérifie seulement la case visée
+  pendant la pose ou le déplacement ; aucun balayage du monde ou entretien continu
+  des piles n'est ajouté.
+- Pas de migration de schéma ni de conversion des objets, batteries ou données de
+  réseau. Les propriétés natives nouvelles sont relues au prochain démarrage.
+
+## Butin d'équipements configurable (F31)
+
+`LiveWire_Distributions.lua` conserve le périmètre autoritaire (retour immédiat
+sur client MP). À `OnPreDistributionMerge`, ajout ou mise à jour idempotente des
+poids de base ; à `OnInitGlobalModData`, lecture de `Config.get` après chargement
+des options de la partie, bornage 1–20, puis poids absolu `base × multiplicateur`.
+`ItemPickerJava.Parse()` est rappelé uniquement si des poids ont changé ; les
+multiplicateurs vanilla de butin restent intacts. Aucune lecture par tick, aucun
+parcours du monde, remplissage forcé ou commande réseau supplémentaire.
+
+Neuf types d'équipement et deux composants, 88 couples type/liste contre 31 précédemment : panneaux,
+testeurs, batteries stationnaires, onduleurs, disjoncteurs, powerbanks, alarmes et
+éoliennes. Les nouvelles catégories sont `CrateElectronics`, `ElectronicStoreMisc`,
+`CrateMetalwork`, `ToolStoreMetalwork`, `MechanicShelfTools`, `CrateMechanics`,
+`CampingStoreGear` et `ElectronicStoreAppliances`, selon l'équipement. Les cellules
+utilisent douze listes (quatre ajoutées). Tous les ajouts sont des types propres à LiveWire,
+y compris ses meubles déclarés sous `Base.Mov_LiveWire_*`. Les entrées vanilla
+existantes restent identiques : aucune suppression, insertion d'objet vanilla,
+modification de poids, de nombre de tirages ou de catégorie de conteneur. Les
+pièces vanilla ne sont jamais multipliées. Aucun cache de poids vanilla.
+CD inchangé. Les roues sont désormais trouvables ; les pompes ne sont pas ajoutées au butin.
+
+Valeur par défaut 5, y compris pour une sauvegarde sans option enregistrée ; 1
+retrouve les anciens poids dans les anciennes catégories, en gardant les lieux
+supplémentaires. Pas de migration de données. Changement appliqué au redémarrage
+complet du jeu/serveur, pour les tirages futurs, réapparition vanilla comprise si
+activée. Aucun effet rétroactif sur le contenu sauvegardé des conteneurs.
+
+Deux clés de traduction dans les dix langues :
+`Sandbox_LiveWire_EquipmentLootMultiplier` et son suffixe `_tooltip`.
+Le générateur de tableaux montre les poids à ×5 et estime la probabilité sous
+condition de sélection de la liste : `1 − (1 − poids × modificateur / 100)^tirages`,
+sans effet de densité de zombies, du temps ni limite de place. Cela ne mesure pas
+la fréquence effective de découverte dans une carte ou une partie donnée.
+
+## Fabrication des sources et composants (F32)
+
+- Objets normaux : `LiveWire.WindTurbineBlades` (jeu de trois pales, poids 4),
+  `LiveWire.WindTurbineMast` (4). Représentations vanilla temporaires :
+  SheetMetal/MetalSheet et SteelRod_Full/SteelRod.
+- Recettes `LWMakeWindTurbineBlades` et `LWMakeWindTurbineMast` en Metalworking,
+  sans niveau requis, avec 2 XP d'Électricité chacune. Assemblage : niveau 6/30 XP éolienne,
+  7/30 XP roue ; deux `Base.Amplifier` dans chaque recette. Démontage vanilla des
+  haut-parleurs intégralement conservé, sans hook ni recette dédiée.
+- Durée éolienne 180 + 180 + 240 = 600. Mât : `Base.MetalPipe` au lieu du tuyau
+  plastique `Base.Pipe`, deux barres ; total des trois étapes : six vis.
+- `Defs.devices.*.level` et `PickUpLevel=2` des sprites 4–11 concordent. Niveau
+  natif partagé entre pose et ramassage. Tiledef 7174, tileset ID 1, indices,
+  sprites, packs, profondeur et état des machines conservés. Pas de migration
+  des objets publiés. Le type intermédiaire de prototype non publié est retiré,
+  sans conversion d'éventuels inventaires de test ; aucune sauvegarde n'est éditée.
+- Butin : 88 couples type/liste pour neuf équipements et deux nouveaux composants,
+  plus douze listes de cellules et le CD indépendant. Éolienne sur dix listes,
+  roue sur sept ; pales et mât sur six chacun. Catégories réellement référencées
+  par les salles installées. Entrées vanilla, dont Amplifier, strictement conservées.
+  Aucun traitement périodique ni paquet ajouté.
+
+Redémarrage complet requis. Aucune conversion d'anciens réseaux.
+
+### Icônes des résultats d'artisanat
+
+Le menu consulte `CraftRecipe.OnPostWorldDictionaryInit`, qui prend
+`Item.getNormalTexture` sur le résultat. `Icon=default` donne ici le repli « ? »
+(`Item.java`, analyse du paramètre Icon), même si `Moveable.ReadFromWorldSprite`
+calcule ensuite une icône sur l'objet créé. Les huit équipements ont donc une
+déclaration `Icon=LiveWire<Nom>` ; sept PNG RGBA 64×64 sont extraits de leurs
+sprites existants par `source/icons/extract_equipment_icons.py --forge <outil>`.
+L'éolienne garde son icône avec pales. Résolution par
+`Texture.trygetTexture` → `media/textures/Item_LiveWire<Nom>.png`, casse exacte.
+La recette de récupération de cellule déclare `Icon=LiveWireSolarCell` puisque
+sa première sortie est aussi un déchet. Aucun callback d'UI ni paquet réseau.
+
+### Recette de démontage du testeur
+
+`LiveWire.LWDismantleVoltageTester` : `DismantleElectrical`, temps 60, catégorie
+Electrical, tags InHandCraft/Electrical, sans apprentissage ou niveau requis,
+2 XP d'Électricité. Entrées : tournevis par tag `base:screwdriver`, mode keep,
+NoBrokenItems ; un `LiveWire.VoltageTester`, mode destroy, ItemCount/ResearchInput.
+Sortie unique : un `Base.ElectronicsScrap`. Consommation et synchronisation natives,
+aucun callback ou hook ajouté. Identifiants existants et sauvegardes inchangés.
+Clé de recette traduite `LWDismantleVoltageTester` dans les dix langues.
+
+## Risque sous tension et XP — règle révisée le 2026-10-25
+
+`Maintenance.shockChance(level)` : `floor(50 × max(0, 6 − level) / 6 + 0,5)` ;
+niveaux réels 0–5 : 50, 42, 33, 25, 17, 8 pour cent ; nul dès 6.
+`LiveWorkRisk` est activé par défaut. Pas de tirage si l'option est désactivée,
+le réseau/onduleur absent, ou `inv.state == "off"`. Le contrôle ne dépend plus de
+`grid.powered` : principal, circuits, protection, panne ou stock vide n'isolent pas
+les bornes. Un seul tirage sur l'autorité par intervention admissible.
+
+`Install.screwdriverHand(character)` teste séparément les mains équipées, sans
+`ipairs` sur une table à trou. Tournevis valide en primaire → `Hand_R` ; sinon
+en secondaire → `Hand_L` ; outil d'inventaire → primaire/droite. Si les deux
+mains ont un tournevis valide, primaire prioritaire. `Install.showScrewdriver`
+emploie le même choix pour l'animation et passe l'InventoryItem réel à
+`setOverrideHandModels`, sans transfert d'inventaire ni état client autoritaire.
+
+Conséquences inchangées : douleur additionnelle au moins 10 et BurnTime au moins
+5 sur cette main, sans réduire une blessure préexistante ; lâcher natif des objets
+tenus, synchronisation des dégâts, notification et journal. Retour avant dépense
+des matériaux et XP de réparation. Appels : raccordement, débranchement,
+réparation/remise à neuf et démontage pour pièces. Le débranchement exige désormais
+un tournevis valide sur l'autorité, y compris par la commande directe.
+
+Arrêt d'urgence : `setInverter(on=false)` permet aussi de passer de broken/tripped
+à off ; les commandes client LCD et menu proposent cet arrêt. Condition et
+identifiants restent inchangés. La physique traite toujours un convertisseur
+d'état nul comme broken, même interrupteur off : aucune reprise de charge due au
+seul changement d'interrupteur. Une réparation reste nécessaire.
+
+Réparations réussies : `min(15, 5 + floor(état gagné))` XP, par `LW_Xp` sur
+l'autorité ; reconditionnement batterie : 8 XP. Chaque craftRecipe LiveWire a
+un `xpAward=Electricity:<positif>` natif. Ajout de 2 XP sur pales et mât, sans
+niveau requis ; autres coûts, durées et XP conservés. Aucune nouvelle persistance,
+migration, boucle périodique ou commande réseau.
+
+
+### Défaut du risque électrique et sauvegardes
+
+`sandbox-options.txt` et le repli `Config.DEFAULTS` déclarent `LiveWorkRisk=true`.
+Une valeur explicite enregistrée `false` reste prioritaire : aucune réécriture des
+options d'une partie ni migration forcée. Pour une ancienne partie désactivée,
+activer « Risque sous tension » dans ses options sandbox. La règle de sécurité et
+les probabilités restent celles ci-dessus ; aucun contrôle par image ajouté.
+
+
+### État affiché dans les panneaux — F29
+
+`Client.equipmentCondition(cond)` formate la valeur numérique bornée à 0–100,
+arrondie au pourcentage ; nil/invalide donne « -- », jamais 100 par défaut.
+`IGUI_LW_EquipmentCondition` est traduit dans les dix langues. Les marques
+`Marks.get(obj).cond` déjà synchronisées alimentent le LCD powerbank et celui du
+tableau ; indépendants, cassés et banques empilées utilisent leur propre objet.
+La charge et l'état des batteries continuent de venir de la vue bancaire existante.
+La hauteur du LCD powerbank est calculée à l'ouverture selon la police, avec les
+boutons sous l'écran. La liste de raccordements réutilise son actualisation à une
+seconde pour préparer les libellés d'état de ses objets déjà découverts. Aucun
+parcours du monde, paquet, registre, schéma persistant ou cadence serveur ajouté.
+
+### Fermeture des panneaux et retrait différé
+
+Les panneaux tableau, powerbank et raccordements marquent leur instance `closed`,
+la masquent par `setVisible(false)`, puis demandent son retrait et libèrent leurs
+références. Leur dessin, mise à jour et gestion des boutons sortent immédiatement
+si l'instance est fermée. `close()` est idempotent : un ancien panneau ne peut ni
+effacer l'instance suivante ni vider sa vue bancaire. Le moteur diffère le retrait
+effectif de `UIManager.RemoveElement` ; aucune donnée d'affichage ne doit être
+consultée après fermeture. Les écrans onduleur et logiciel masquent déjà leur
+fenêtre avant retrait et ne libèrent pas les données utilisées par un dernier dessin.
+
+
+### Lecture des LCD sources, pompe et alarme
+
+- `readDevice` : `{device,seq}`, même séquence entière 1..1 000 000 000 que les
+  lectures bancaires, même limite globale de quatre commandes/seconde/joueur.
+  `Commands.checkDevice` : case chargée, même étage, portée 3, refuge autorisé ;
+  `Devices.find` vérifie l'objet physique. Registre prêt/non readOnly et joueur
+  vivant contrôlés par le dispatcher existant. Un joueur ordinaire peut lire.
+- `device` : réponse au seul demandeur, `{device,seq,model,kind,cond,inverter?,name,
+  state,w?,nominal?,flow?,dirt?,snow?,brake?}` ; aucune référence Java ou au registre.
+  `DeviceView.snapshot` accepte source, pompe et alarme avec modèle/rôle concordants.
+- Sources : `w` est `pOut` arrondi, c'est-à-dire le dernier relevé lissé déjà calculé
+  avec météo, orientation, saleté et état. Sans réseau, cassé ou frein serré : zéro.
+  La puissance nominale vient de la définition, neige/saleté des fractions existantes.
+  Le LCD ne lance ni `Sim.stepGrid` ni `sourceRaw`.
+- Pompe : son propre `flowLph` mesuré, watts de `pumpW * clamp(flowLph / (5*60),0,1)`.
+  Même mesure de duty que l'instantané global, sans `Pump.demandW` qui consomme
+  le compteur de litres. Si non alimentée, circuits ouverts, maître arrêté/cassé,
+  pompe désactivée ou cassée : zéro débit/consommation. `pumped`, barils et relais
+  ne sont pas modifiés. Les moyennes suivent le dernier pas de simulation.
+- `Client.deviceView` : une seule vue. Séquences plus anciennes, autre appareil,
+  fenêtre fermée ou appareil rouvert : réponses rejetées. `DevicePanel` interroge
+  à deux secondes seulement s'il est ouvert et accessible ; un changement de lien
+  efface l'ancien relevé avant la nouvelle requête. Fermeture sécurisée idempotente.
+- `ConnectionPanel.deviceOnly` est vrai pour un équipement LiveWire autre qu'un
+  onduleur : seule l'origine est listée. Changer l'onduleur réévalue ce seul objet.
+  Depuis l'onduleur (maître/couplé), le mode global existant est conservé. Pas
+  de transfert automatique entre réseaux : débrancher du réseau actuel d'abord.
+
+Ces deux commandes additives sont nécessaires à la télémétrie individuelle des
+pompes et des appareils indépendants, absente de l'instantané réseau. Aucun
+abonnement/broadcast, tick serveur ou schéma de sauvegarde ajouté. Les anciens
+identifiants, contrats `readBank`/`bank`, raccordement et simulation sont conservés.
+
+
+### Voyants de pompe et de tableau — contrat de marque
+
+Le booléen `pw` existant de la marque est désormais calculé aussi pour pompe et
+disjoncteur par `Devices.stateOf`, puis diffusé par les chemins existants.
+Pompe : réseau powered, maître on/intact, pompe intacte, ni mainOff ni equipmentOff,
+service non désactivé. Tableau : réseau powered, maître on/intact, tableau intact,
+ni mainOff ni tripped. La coupure des seuls circuits ne supprime pas son voyant.
+`Devices.refreshStates` compare déjà `shownPw` : seuls les changements d'état
+déclenchent la synchronisation. Aucun nouveau message, tick ou abonnement.
+
+`Visuals.wanted` choisit 80–83 pour le bleu de la pompe selon `pw`, indépendamment
+du nombre de relais ; 84–85 pour le vert du tableau, 64–65 rouges prioritaires en
+disjonction. Le suivi borné existant des objets est conservé. Les indices 84/85
+étaient réservés et vides ; tiledef, dimensions 88 cases, définitions des tuiles,
+indices d'objets et autres pixels du pack/profondeur ne sont pas modifiés.
+Pas de migration de sauvegarde. L'export Viewpoint ajoute seulement le modèle
+`breaker_on` et les deux binds correspondants ; palette et anciens modèles conservés.
+
+Recette : `source/tiles/breaker_power.py`, rendu par `build_livewire_tiles.py`
+(groupe `breaker_on`). `install_breaker_power.py` conserve les cellules existantes,
+installe les deux nouveaux sprites et leurs profondeurs raytracées, vérifie la
+relecture et garde les preuves brutes dans le dossier de rendu ignoré.
+Le modèle éditable `.blend` est conservé localement avec ces rendus ; les recettes
+versionnables restent portables, sans chemins personnels. Le LCD de pompe emploie
+une palette bleue et le débit FR une apostrophe ASCII : l'ancienne U+2019 n'est
+pas couverte par la police LCD mono. Pas de modification du routage du clic.

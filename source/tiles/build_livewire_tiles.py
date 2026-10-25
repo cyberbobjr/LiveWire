@@ -15,6 +15,7 @@ Added in 1.2.0:
   72-75   water pump           S E N W
   76      water relay tank     (transparent, placed by the server above plumbed fixtures)
   80-83   water pump serving taps: blue light   S E N W
+  84-85   breaker supplied: green lamp          S E (previously reserved blank)
 
 Overlays (attachedAnimSprite, set by the client, LW_Visuals.lua; no properties):
   24-27   inverter running: lit screen and green light   S E N W
@@ -444,6 +445,14 @@ def build_breaker_trip(k: Kit):
     return [k.box("brk_lamp_on", (0.07, fy - 0.0105, BRK_Z - 0.10), (0.07, 0.003, 0.07), "redlit")]
 
 
+def build_breaker_on(k: Kit):
+    build_breaker(k)
+    mark_holdout(k.anchor)
+    yb = 0.5 - WALL_GAP - BRK_D / 2
+    fy = yb - BRK_D / 2 - 0.004
+    return [k.box("brk_lamp_power", (0.07, fy - 0.0105, BRK_Z - 0.10), (0.07, 0.003, 0.07), "greenlit")]
+
+
 def build_alarm(k: Kit):
     """Small wall box with a red beacon and a speaker grille (north wall)."""
     w, d, h = 0.34, 0.11, 0.26
@@ -488,6 +497,7 @@ OVERLAYS = [
     ("alarm_ring", [66, 67], build_alarm_ring),
     ("inverter_muffle", [68, 69, 70, 71], build_inverter_muffle),
     ("pump_led", [80, 81, 82, 83], build_pump_led),
+    ("breaker_on", [84, 85], build_breaker_on),
 ]
 ALL_GROUPS = GROUPS + OVERLAYS
 OVERLAY_KEYS = {key for key, _, _ in OVERLAYS}
@@ -604,13 +614,14 @@ PROPS = [
                    "Material": "MetalPlates", "PickUpWeight": "90", "PickUpLevel": "3", **_TOOLS}),
     # CustomItem: the tile has no blades, the item keeps its own icon (Moveable.java:128-141).
     (range(4, 8), {"CustomName": "Wind Turbine", "solidtrans": "", "BlocksPlacement": "",
-                   "Material": "MetalPlates", "PickUpWeight": "150", "PickUpLevel": "6",
+                   "Material": "MetalPlates", "PickUpWeight": "150", "PickUpLevel": "2",
                    "CustomItem": "Base.Mov_LiveWire_WindTurbine", **_TOOLS}),
     (range(8, 12), {"CustomName": "Water Wheel", "solidtrans": "", "BlocksPlacement": "",
-                    "Material": "Wood", "PickUpWeight": "150", "PickUpLevel": "7", **_TOOLS}),
+                    "Material": "Wood", "PickUpWeight": "150", "PickUpLevel": "2", **_TOOLS}),
     (range(12, 16), {"CustomName": "Inverter", "solidtrans": "", "BlocksPlacement": "",
                      "Material": "MetalPlates", "PickUpWeight": "120", "PickUpLevel": "5", **_TOOLS}),
     (range(16, 20), {"CustomName": "Power Bank", "solidtrans": "", "BlocksPlacement": "", "IsLow": "",
+                     "IsTable": "", "IsStackable": "", "Surface": "18",
                      "container": "livewirepowerbank", "ContainerCapacity": "50", "ContainerPosition": "Low",
                      "Material": "MetalPlates", "PickUpWeight": "100", "PickUpLevel": "2", **_TOOLS}),
     (range(20, 22), {"CustomName": "Breaker Panel", "MoveType": "WallObject", "Material": "MetalPlates",
@@ -650,7 +661,7 @@ def styled_cells(group_dir: Path, work: Path, overlay: bool = False) -> list:
 GLOW = {
     "inverter_on": (120, 255, 150), "inverter_fault": (255, 50, 30), "powerbank_led": (60, 255, 60),
     "solar_led": (60, 255, 60), "wind_led": (60, 255, 60), "hydro_led": (60, 255, 60),
-    "breaker_trip": (255, 40, 20), "alarm_ring": (255, 50, 25),
+    "breaker_trip": (255, 40, 20), "breaker_on": (60, 255, 60), "alarm_ring": (255, 50, 25),
     "pump_led": (60, 140, 255),
 }
 

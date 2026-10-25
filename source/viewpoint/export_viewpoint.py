@@ -2,6 +2,7 @@
 
     set PZ_FORGE=<path to pz-sprite-forge>      (the tile recipe imports it)
     blender -b --factory-startup -P source/viewpoint/export_viewpoint.py -- <project-root>
+    # Optional group names after project-root update only those models/bindings.
 
 Builds every tile group of source/tiles/build_livewire_tiles.py (same geometry as the sprites) and writes,
 under Contents/mods/batman_LiveWireViewpoint/common/media/livewire-viewpoint/:
@@ -121,13 +122,17 @@ def write_obj(path, objects, uv):
             tris += 1
         ev.to_mesh_clear()
     lines += v_lines + [f"vt {u:.6f} {v:.6f}" for u, v in vts] + vn_lines + f_lines
-    path.write_text("\n".join(lines) + "\n", encoding="ascii")
-    path.with_suffix(".mtl").write_text("newmtl palette\nKd 1 1 1\nd 1\nmap_Kd palette.png\n", encoding="ascii")
+    path.write_text("\n".join(lines) + "\n", encoding="ascii", newline="\n")
+    path.with_suffix(".mtl").write_text("newmtl palette\nKd 1 1 1\nd 1\nmap_Kd palette.png\n", encoding="ascii", newline="\n")
     return tris
 
 
 def main():
-    project = Path(sys.argv[sys.argv.index("--") + 1] if "--" in sys.argv else ".").resolve()
+    args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else ["."]
+    project = Path(args[0]).resolve()
+    selected = set(args[1:])
+    unknown = selected - {g["key"] for g in T.tile_groups()}
+    if unknown: raise ValueError(f"Unknown groups: {unknown}")
     out = project / "Contents" / "mods" / SUB_MOD / "common" / "media" / FOLDER
     (out / "models").mkdir(parents=True, exist_ok=True)
     for obj in list(bpy.data.objects):
@@ -137,11 +142,17 @@ def main():
         m = bpy.data.materials.new(f"lw_vp_{key}")
         mats[key] = m
     px, uv = palette()
-    write_png(out / "models" / "palette.png", px)
+    if not selected: write_png(out / "models" / "palette.png", px)
 
     manifest = ["id=batman-livewire-viewpoint", "name=Live Wire devices", "version=1"]
+    line_ends = {}
+    if selected:
+        existing = (out / "livewire.properties").read_bytes().decode("ascii").splitlines(keepends=True)
+        manifest = [line.rstrip("\r\n") for line in existing]
+        line_ends = {line.rstrip("\r\n"): line[len(line.rstrip("\r\n")):] for line in existing}
     report = []
     for group in T.tile_groups():
+        if selected and group["key"] not in selected: continue
         root = bpy.data.objects.new("LW_VP_root", None)
         bpy.context.scene.collection.objects.link(root)
         parts = group["build"](T.Kit(root, mats)) or []
@@ -151,6 +162,9 @@ def main():
             objects = descendants(root.children)
         bpy.context.view_layer.update()
         name = group["key"]
+        if selected:
+            prefixes = [f"model.livewire-{name}=", *[f"bind.{T.SHEET}_{i}=" for i in group["indices"]]]
+            manifest = [line for line in manifest if not any(line.startswith(p) for p in prefixes)]
         tris = write_obj(out / "models" / f"{name}.obj", objects, uv)
         manifest.append(f"model.livewire-{name}=models/{name}.obj")
         for facing, index in enumerate(group["indices"]):
@@ -158,7 +172,7 @@ def main():
         report.append(f"{name}: {tris} triangles, sprites {group['indices']}")
         T.clear_subject(root)
         bpy.data.objects.remove(root, do_unlink=True)
-    (out / "livewire.properties").write_text("\n".join(manifest) + "\n", encoding="ascii")
+    (out / "livewire.properties").write_bytes("".join(line + line_ends.get(line,"\n") for line in manifest).encode("ascii"))
     print("\n".join(report))
     print(f"wrote {len(report)} models to {out}")
 

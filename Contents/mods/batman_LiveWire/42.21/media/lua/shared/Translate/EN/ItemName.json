@@ -12,5 +12,7 @@
     "Base.Mov_LiveWire_Breaker": "Breaker Panel",
     "Base.Mov_LiveWire_BatteryAlarm": "Low Battery Alarm",
     "Base.Mov_LiveWire_WaterPump": "Water Pump",
-    "LiveWire.CouplingKit": "Inverter Coupling Kit"
+    "LiveWire.CouplingKit": "Inverter Coupling Kit",
+    "LiveWire.WindTurbineBlades": "Wind Turbine Blade Set",
+    "LiveWire.WindTurbineMast": "Wind Turbine Mast"
 }

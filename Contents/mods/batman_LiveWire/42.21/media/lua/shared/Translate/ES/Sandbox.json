@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarrealista 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Realista 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Valores del juego",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "Comodidad"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Comodidad",
+    "Sandbox_LiveWire_SolarOrientation": "Orientación solar",
+    "Sandbox_LiveWire_SolarDirt": "Suciedad de paneles",
+    "Sandbox_LiveWire_BatteryCold": "Baterías y frío",
+    "Sandbox_LiveWire_LiveWorkRisk": "Riesgo bajo tensión",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "La orientación cambia el rendimiento y la hora de máxima producción.",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "El polvo se acumula en los paneles. La lluvia y la limpieza lo eliminan.",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "El frío reduce la capacidad disponible en bancos exteriores. La reserva vuelve al calentarse.",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Activado por defecto. Riesgo de descarga: 50%% con Electricidad 0, nulo desde 6. Quema la mano del destornillador y hace soltar objetos. Apaga el inversor maestro: el interruptor general no basta.",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Multiplicador de equipos y componentes Live Wire",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multiplica solo los pesos del botín de equipos y componentes Live Wire (células solares, palas y mástiles) (1-20, predeterminado 5). Los objetos del juego base y sus pesos no cambian. Los discos mantienen su frecuencia. Requiere reiniciar; solo botín futuro, sin rellenar contenedores registrados. Se mantienen los ajustes de botín del juego."
 }

@@ -23,6 +23,29 @@ Demand.DIRTY_GRACE_HOURS = 1.0  -- keep the last measured value this long while 
 Demand.queue = {}
 Demand.job = nil
 
+function Demand.reset()
+    Demand.inventories, Demand.queue, Demand.job = {}, {}, nil
+end
+function Demand.forget(id)
+    Demand.inventories[id] = nil
+    if Demand.job and Demand.job.id == id then Demand.job = nil end
+    for i = #Demand.queue, 1, -1 do
+        if Demand.queue[i] == id then table.remove(Demand.queue, i) end
+    end
+end
+function Demand.prune()
+    local R = LiveWire.Registry
+    if not R or not R.ready then return end
+    local stale, cell = {}, getCell()
+    for id in pairs(Demand.inventories) do
+        local inv = R.device(id)
+        if not inv or inv.coupled or not cell:getGridSquare(inv.x, inv.y, inv.z) then
+            stale[#stale + 1] = id
+        end
+    end
+    for _, id in ipairs(stale) do Demand.forget(id) end
+end
+
 local function enqueue(id, entry)
     if entry.queued then return end
     entry.queued = true
@@ -104,7 +127,9 @@ local function stepJob()
                 local objs = sq:getObjects()
                 for i = 0, objs:size() - 1 do
                     local o = objs:get(i)
-                    if o:couldBePoweredByGenerator() then job.list[#job.list + 1] = o end
+                    if o:couldBePoweredByGenerator() or (LiveWire.Appliances and LiveWire.Appliances.saved(o)) then
+                        job.list[#job.list + 1] = o
+                    end
                 end
             end
         end
@@ -120,8 +145,13 @@ local function stepJob()
         local entry = Demand.inventories[job.id]
         if entry then
             entry.objects = job.list
+            entry.report, entry.readings, entry.owners = nil, nil, nil
+            entry.measured = false -- the previous report belongs to the old list
             entry.builtAt = getGameTime():getWorldAgeHours()
             entry.queued = false
+            local inv = LiveWire.Registry.device(job.id)
+            local grid = inv and inv.grid and LiveWire.Registry.grid(inv.grid)
+            if grid and LiveWire.Circuits then LiveWire.Circuits.apply(grid) end
             if (entry.gen or 0) == job.gen then
                 entry.dirty = false
             else
@@ -141,6 +171,8 @@ end
 -- Appliance family shown in the inverter interface (classes exposed to Lua).
 local LAUNDRY = { "IsoClothingWasher", "IsoClothingDryer", "IsoCombinationWasherDryer", "IsoStackedWasherDryer" }
 function Demand.category(o)
+    local saved = LiveWire.Appliances and LiveWire.Appliances.saved(o)
+    if saved and saved.category then return saved.category end
     if instanceof(o, "IsoLightSwitch") then return "light" end
     if instanceof(o, "IsoTelevision") then return "tv" end
     if instanceof(o, "IsoRadio") then return "radio" end
@@ -175,9 +207,9 @@ end
 -- ({ fridge = { n = 1, w = 130 }, ... }). Returns nil when the inverter square is
 -- not loaded, or while its list is being (re)built (the caller then keeps the last
 -- measured value).
-function Demand.measure(inv)
+function Demand.measure(inv, allowDirty)
     local cell = getCell()
-    if not cell:getGridSquare(inv.x, inv.y, inv.z) then return nil end
+    if not cell:getGridSquare(inv.x, inv.y, inv.z) then Demand.forget(inv.id); return nil end
     local now = getGameTime():getWorldAgeHours()
     local entry = Demand.inventories[inv.id]
     if not entry then
@@ -186,9 +218,10 @@ function Demand.measure(inv)
         enqueue(inv.id, entry)
         return nil
     end
+    if entry.circuitBusy then return nil end
     if entry.dirty then
         enqueue(inv.id, entry)
-        if now - (entry.dirtySince or now) < Demand.DIRTY_GRACE_HOURS then return nil end
+        if not allowDirty and now - (entry.dirtySince or now) < Demand.DIRTY_GRACE_HOURS then return nil end
     elseif now - entry.builtAt >= Demand.REBUILD_HOURS then
         enqueue(inv.id, entry)  -- refresh in the background, keep using the current list
     end
@@ -202,6 +235,7 @@ function Demand.measure(inv)
     local total = 0
     local profile = LiveWire.Consumption.profile()
     local breakdown = {}
+    local readings, owners = {}, {}
     -- Other switched-on anchors, collected once per call (see closerInverter).
     local R = LiveWire.Config.tileRange()
     local V = LiveWire.Config.verticalRange()
@@ -218,8 +252,9 @@ function Demand.measure(inv)
             and (exteriorOk or not sq:getProperties():has(IsoFlagType.exterior))
             and (not anchorOn or sq:haveElectricity()) then
             local w = LiveWire.Consumption.watts(o, profile)
-            if w > 0 and (#others == 0
-                or not closerInverter(others, inv, sq:getX(), sq:getY(), sq:getZ(), R * R, V)) then
+            local owned = #others == 0 or not closerInverter(others, inv, sq:getX(), sq:getY(), sq:getZ(), R * R, V)
+            readings[i], owners[i] = math.floor(w + 0.5), owned
+            if w > 0 and owned then
                 total = total + w
                 local cat = Demand.category(o)
                 local b = breakdown[cat] or { n = 0, w = 0 }
@@ -229,7 +264,83 @@ function Demand.measure(inv)
             end
         end
     end
+    -- Billing keeps only scalar readings; display rows are built on demand.
+    entry.report, entry.readings, entry.owners = nil, readings, owners
+    entry.measured = true
     return total, breakdown
+end
+
+-- Freshness of the existing measurement, without measuring or visiting objects.
+-- A rebuilt list must be measured once before its old watts can be shown again.
+function Demand.ready(inv)
+    local entry = Demand.inventories[inv.id]
+    return entry ~= nil and entry.measured == true and not entry.dirty and not entry.circuitBusy
+        and getCell():getGridSquare(inv.x, inv.y, inv.z) ~= nil
+end
+
+local function better(a, b)
+    if a.w ~= b.w then return a.w > b.w end
+    if a.z ~= b.z then return a.z < b.z end
+    if a.y ~= b.y then return a.y < b.y end
+    if a.x ~= b.x then return a.x < b.x end
+    return a.index < b.index
+end
+-- Keep the worst selected row at the root: O(N log 200), at most 200 retained
+-- rows. Avoid Kahlua's recursive table.sort on large or already sorted lists.
+local function sift(heap, i)
+    while i * 2 <= #heap do
+        local child = i * 2
+        if child < #heap and better(heap[child], heap[child + 1]) then child = child + 1 end
+        if not better(heap[i], heap[child]) then break end
+        heap[i], heap[child] = heap[child], heap[i]; i = child
+    end
+end
+local function report(entry)
+    if entry.report then return entry.report end
+    local heap = {}
+    for i, o in ipairs(entry.objects) do
+        local w = entry.readings and entry.readings[i]
+        local sq = w and o:getSquare()
+        if sq and o:getObjectIndex() ~= -1 and (#heap < 200 or w >= heap[1].w) then
+            local saved = LiveWire.Appliances and LiveWire.Appliances.saved(o)
+            local r = { x = sq:getX(), y = sq:getY(), z = sq:getZ(), w = w,
+                index = i, object = o, owned = entry.owners[i], cat = Demand.category(o),
+                requested = saved and saved.watts or w }
+            if #heap < 200 then
+                local pos = #heap + 1; heap[pos] = r
+                while pos > 1 do
+                    local parent = math.floor(pos / 2)
+                    if not better(heap[parent], heap[pos]) then break end
+                    heap[parent], heap[pos] = heap[pos], heap[parent]; pos = parent
+                end
+            elseif better(r, heap[1]) then heap[1] = r; sift(heap, 1) end
+        end
+    end
+    local rows = {}
+    while #heap > 0 do
+        rows[#heap] = heap[1]
+        local last = table.remove(heap)
+        if #heap > 0 then heap[1] = last; sift(heap, 1) end
+    end
+    entry.report = rows
+    return rows
+end
+
+-- Detached primitives only; no game objects or authoritative tables in a snapshot.
+function Demand.consumers(inv)
+    local entry = Demand.inventories[inv.id]
+    local out = {}
+    if not entry or not entry.measured then return out end
+    for i, r in ipairs(report(entry)) do
+        local o = r.object
+        local sprite = o and o.getSprite and o:getSprite()
+        local served = o and o:getObjectIndex() ~= -1 and ItemContainer.isObjectPowered(o, true) and r.w > 0
+        out[i] = { x = r.x, y = r.y, z = r.z, cat = r.cat, w = served and r.w or 0,
+            objectIndex = o and o:getObjectIndex() or -1, sprite = sprite and sprite:getName(),
+            requestedW = math.floor((r.requested or r.w) + 0.5), served = served == true, owned = r.owned,
+            circuitOff = LiveWire.Appliances and LiveWire.Appliances.blocked(o) or false }
+    end
+    return out
 end
 
 -- An appliance removed near an inverter: rebuild its list (a moved fridge comes back
@@ -242,3 +353,5 @@ end
 
 Events.OnObjectAboutToBeRemoved.Add(onObjectChanged)
 Events.OnTick.Add(onTick)
+-- Only one position per cached network, no appliance/map scan for this purge.
+Events.EveryTenMinutes.Add(Demand.prune)

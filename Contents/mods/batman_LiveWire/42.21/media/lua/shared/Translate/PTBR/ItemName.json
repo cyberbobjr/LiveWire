@@ -12,5 +12,7 @@
     "Base.Mov_LiveWire_Breaker": "Painel de Disjuntores",
     "Base.Mov_LiveWire_BatteryAlarm": "Alarme de Bateria Baixa",
     "Base.Mov_LiveWire_WaterPump": "Bomba de água",
-    "LiveWire.CouplingKit": "Kit de acoplamento de inversores"
+    "LiveWire.CouplingKit": "Kit de acoplamento de inversores",
+    "LiveWire.WindTurbineBlades": "Conjunto de pás eólicas",
+    "LiveWire.WindTurbineMast": "Mastro de turbina eólica"
 }

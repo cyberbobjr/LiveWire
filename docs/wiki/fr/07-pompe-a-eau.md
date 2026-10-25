@@ -37,7 +37,7 @@ Des barils d'eau posés au sol peuvent alimenter les points d'eau de toute une m
 ## Voir ce qui est alimenté
 
 - Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les points d'eau desservis, les barils raccordés et la pompe sont surlignés en bleu. **Masquer les points d'eau alimentés** l'éteint.
-- Un **voyant bleu** s'allume sur la pompe quand elle dessert au moins un point d'eau.
+- Un **voyant bleu** s'allume sur la pompe lorsqu'elle est alimentée, même au repos ou sans point d'eau raccordé. Il s'éteint sans courant ou lorsque le circuit équipements/principal est coupé.
 - Le menu de la pompe indique son état : en marche, à l'arrêt (tous les points d'eau pleins), pas de courant, pas d'eau dans les barils, hors service.
 - Le logiciel de gestion (onglet Équipements) affiche le nombre de pompes en service et leur débit en litres par heure. Rien d'autre sur la pompe n'y figure.
 
@@ -56,3 +56,14 @@ Lancez d'abord l'action de debug ou d'administration **Retirer tous les relais d
 ## Voir aussi
 
 [Équipements](02-equipements.md) - [Raccordement](03-raccordement.md) - [Recettes](08-recettes.md) - [Options sandbox](11-options-sandbox.md) - [Multijoueur](12-multijoueur.md)
+
+
+Cliquez sur la pompe pour son **LCD individuel** : état de la pompe, débit d'eau
+mesuré en L/h et consommation en W. Lire le LCD ne déplace aucune eau. Le bouton
+**Raccordements** choisit l'onduleur de cette pompe ; les barils restent gérés par
+les actions habituelles. Voir [les écrans et raccordements](06-equipements-optionnels.md#lcd-de-chaque-appareil-et-choix-de-londuleur).
+
+
+Le LCD de la pompe a un fond **bleu**. Le voyant posé simule sa lueur ; il indique
+l'alimentation, pas un débit garanti. Les règles de débit/barils restent inchangées.
+Pour intervenir sans risque, éteignez l'onduleur, même si le voyant est éteint.

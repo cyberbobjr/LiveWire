@@ -5,6 +5,7 @@
 | Ingredients | Tools (kept) | Skill | Result |
 |---|---|---|---|
 | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/LightBulb.png" width="24" height="24"> Light Bulb<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Battery.png" width="24" height="24"> Battery | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Electrical 1 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="32" height="32"> **Voltage Tester** |
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="24" height="24"> Voltage Tester | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | none | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="32" height="32"> **Scrap Electronics** |
 | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Calculator.png" width="24" height="24"> Calculator | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | none | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="32" height="32"> **Scrap Electronics**<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarCell.png" width="32" height="32"> **Solar Cell** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetal.png" width="24" height="24"> Steel Sheet<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Electrical 2 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PowerBank.png" width="32" height="32"> **Power Bank** |
 | 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplifier | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Electrical 2 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/BatteryAlarm.png" width="32" height="32"> **Low Battery Alarm** |
@@ -12,42 +13,123 @@
 | 10 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarCell.png" width="24" height="24"> Solar Cell<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetal.png" width="24" height="24"> Steel Sheet<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Glue.png" width="24" height="24"> Glue | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Electrical 3 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarPanel.png" width="32" height="32"> **Solar Panel** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SmallSheetMetal.png" width="24" height="24"> Steel Sheet - Small<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Electrical 3 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Breaker.png" width="32" height="32"> **Breaker Panel** |
 | 4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplifier<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SmallSheetMetal.png" width="24" height="24"> Steel Sheet - Small<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Electrical 5 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Inverter.png" width="32" height="32"> **Inverter** |
-| 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Speaker.png" width="24" height="24"> Speaker<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetal.png" width="24" height="24"> Steel Sheet<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalBar.png" width="24" height="24"> Steel Rod<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pipe.png" width="24" height="24"> Plastic Pipe<br>6 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> | Electrical 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="32" height="32"> **Wind Turbine** |
+| 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetal.png" width="24" height="24"> Steel Sheet<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SheetMetalSnips.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> | none | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineBlades.png" width="32" height="32"> **Wind Turbine Blade Set** |
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalPipe.png" width="24" height="24"> Iron Pipe<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalBar.png" width="24" height="24"> Steel Rod<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PipeWrench.png" width="24" height="24"> | none | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineMast.png" width="32" height="32"> **Wind Turbine Mast** |
+| 1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineBlades.png" width="24" height="24"> Wind Turbine Blade Set<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineMast.png" width="24" height="24"> Wind Turbine Mast<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplifier<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Electrical 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="32" height="32"> **Wind Turbine** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/CarBattery1.png" width="24" height="24"> Car Battery (any)<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ScrapMetal.png" width="24" height="24"> Scrap Metal | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Electrical 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/DeepCycleBattery.png" width="32" height="32"> **Deep-Cycle Battery** |
-| 8 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Plank.png" width="24" height="24"> Plank<br>20 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Nails.png" width="24" height="24"> Nails<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Speaker.png" width="24" height="24"> Speaker<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalBar.png" width="24" height="24"> Steel Rod | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Electrical 7 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterWheel.png" width="32" height="32"> **Water Wheel** |
+| 8 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Plank.png" width="24" height="24"> Plank<br>20 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Nails.png" width="24" height="24"> Nails<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplifier<br>3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalBar.png" width="24" height="24"> Steel Rod | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Hammer.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Electrical 7 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterWheel.png" width="32" height="32"> **Water Wheel** |
 | 3 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MetalPipe.png" width="24" height="24"> Iron Pipe<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SmallSheetMetal.png" width="24" height="24"> Steel Sheet - Small<br>4 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screws.png" width="24" height="24"> Screws | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PipeWrench.png" width="24" height="24"> | Electrical 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterPump.png" width="32" height="32"> **Water Pump** |
 | 2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>2 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Amplifier.png" width="24" height="24"> Amplifier | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Screwdriver.png" width="24" height="24"> | Electrical 6 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/CouplingKit.png" width="32" height="32"> **Inverter Coupling Kit** |
 | 5 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Aluminum.png" width="24" height="24"> Aluminum Foil | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Pliers.png" width="24" height="24"> | Electrical 8 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarCell.png" width="32" height="32"> **Solar Cell** |
 
+## CELLS (x5)
+
+| Vanilla list | Where | Weight (×5) | Rolls | ≈ chance per container |
+|---|---|---|---|---|
+| `GarageTools` | Garage tool storage | 10 | 4 | 21.9 % |
+| `CrateTools` | Tool crates | 5 | 4 | 11.5 % |
+| `GarageMetalwork` | Garage metalwork storage | 5 | 4 | 11.5 % |
+| `MechanicShelfElectric` | Mechanic shop, electrical shelf | 10 | 4 | 21.9 % |
+| `ElectricianTools` | Electrician's tools | 15 | 3 | 24.6 % |
+| `MetalShopTools` | Metal shop tools | 5 | 4 | 11.5 % |
+| `WireFactoryElectric` | Wire factory, electrical | 10 | 4 | 21.9 % |
+| `ToolStoreMisc` | Hardware store, miscellaneous | 10 | 4 | 21.9 % |
+| `CrateElectronics` | Electronics crates | 10 | 4 | 21.9 % |
+| `ElectronicStoreMisc` | Electronics store, miscellaneous | 10 | 4 | 21.9 % |
+| `ToolStoreMetalwork` | Hardware store, metalwork | 5 | 4 | 11.5 % |
+| `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
+
 ## LOOT: Ready-made Live Wire equipment
 
-Found already built, in addition to the crafting recipes (sandbox loot settings apply).
+Ready-made equipment, at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, a vanilla loot modifier of 0.6, no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.
 
-| Equipment | Vanilla list | Where | Weight | Rolls | ≈ chance per container |
+| Equipment | Vanilla list | Where | Weight (×5) | Rolls | ≈ chance per container |
 |---|---|---|---|---|---|
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="24" height="24"> **Voltage Tester** | `ElectricianTools` | Electrician's tools | 3 | 3 | 8.7 % |
-|  | `ToolStoreTools` | Hardware store, tools | 1 | 4 | 3.9 % |
-|  | `GarageTools` | Garage tool storage | 1 | 4 | 3.9 % |
-|  | `CrateTools` | Tool crates | 1 | 4 | 3.9 % |
-|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 3.9 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/DeepCycleBattery.png" width="24" height="24"> **Deep-Cycle Battery** | `CarSupplyBatteries` | Car parts store, batteries | 2 | 4 | 7.8 % |
-|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 1 | 4 | 3.9 % |
-|  | `GarageMechanics` | Garage, mechanic storage | 0.3 | 4 | 1.2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Inverter.png" width="24" height="24"> **Inverter** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 0.5 | 3 | 0.9 % |
-|  | `WireFactoryElectric` | Wire factory, electrical | 0.5 | 4 | 1.2 % |
-|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.2 | 4 | 0.5 % |
-|  | `GarageTools` | Garage tool storage | 0.1 | 4 | 0.2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Breaker.png" width="24" height="24"> **Breaker Panel** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 1 | 3 | 1.8 % |
-|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 2.4 % |
-|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
-|  | `GarageTools` | Garage tool storage | 0.3 | 4 | 0.7 % |
-|  | `CrateTools` | Tool crates | 0.3 | 4 | 0.7 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PowerBank.png" width="24" height="24"> **Power Bank** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 0.5 | 3 | 0.9 % |
-|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 0.5 | 4 | 1.2 % |
-|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.3 | 4 | 0.7 % |
-|  | `GarageTools` | Garage tool storage | 0.2 | 4 | 0.5 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/BatteryAlarm.png" width="24" height="24"> **Low Battery Alarm** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 1 | 3 | 1.8 % |
-|  | `WireFactoryElectric` | Wire factory, electrical | 1 | 4 | 2.4 % |
-|  | `ToolStoreMisc` | Hardware store, miscellaneous | 0.5 | 4 | 1.2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="24" height="24"> **Wind Turbine** (furniture: × 0.6 included) | `ToolStoreMisc` | Hardware store, miscellaneous | 0.1 | 4 | 0.2 % |
-|  | `WireFactoryElectric` | Wire factory, electrical | 0.1 | 4 | 0.2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarPanel.png" width="24" height="24"> **Solar Panel** (furniture: × 0.6 included) | `ToolStoreMisc` | Hardware store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `CrateElectronics` | Electronics crates | 2.5 | 4 | 5.9 % |
+|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `GarageTools` | Garage tool storage | 1.5 | 4 | 3.6 % |
+|  | `CrateTools` | Tool crates | 1.5 | 4 | 3.6 % |
+|  | `ToolStoreTools` | Hardware store, tools | 1.5 | 4 | 3.6 % |
+|  | `CrateMetalwork` | Metalwork crates | 1.5 | 4 | 3.6 % |
+|  | `ToolStoreMetalwork` | Hardware store, metalwork | 1.5 | 4 | 3.6 % |
+|  | `GarageMetalwork` | Garage metalwork storage | 1 | 4 | 2.4 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="24" height="24"> **Voltage Tester** | `ElectricianTools` | Electrician's tools | 15 | 3 | 24.6 % |
+|  | `ToolStoreTools` | Hardware store, tools | 5 | 4 | 11.5 % |
+|  | `GarageTools` | Garage tool storage | 5 | 4 | 11.5 % |
+|  | `CrateTools` | Tool crates | 5 | 4 | 11.5 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 5 | 4 | 11.5 % |
+|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 5 | 4 | 11.5 % |
+|  | `CrateElectronics` | Electronics crates | 5 | 4 | 11.5 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 5 | 4 | 11.5 % |
+|  | `MechanicShelfTools` | Mechanic shop, tools | 5 | 4 | 11.5 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/DeepCycleBattery.png" width="24" height="24"> **Deep-Cycle Battery** | `CarSupplyBatteries` | Car parts store, batteries | 10 | 4 | 21.9 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 5 | 4 | 11.5 % |
+|  | `CrateMechanics` | Mechanic supply crates | 3.5 | 4 | 8.1 % |
+|  | `CrateElectronics` | Electronics crates | 2.5 | 4 | 5.9 % |
+|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 1.5 | 4 | 3.6 % |
+|  | `CampingStoreGear` | Camping store, gear | 1.5 | 4 | 3.6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Inverter.png" width="24" height="24"> **Inverter** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 2.5 | 3 | 4.4 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 2.5 | 4 | 5.9 % |
+|  | `CrateElectronics` | Electronics crates | 2.5 | 4 | 5.9 % |
+|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `ElectronicStoreAppliances` | Electronics store, appliances | 1.5 | 1 | 0.9 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 1.5 | 4 | 3.6 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 1 | 4 | 2.4 % |
+|  | `CrateTools` | Tool crates | 1 | 4 | 2.4 % |
+|  | `GarageTools` | Garage tool storage | 0.5 | 4 | 1.2 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Breaker.png" width="24" height="24"> **Breaker Panel** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 5 | 3 | 8.7 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 5 | 4 | 11.5 % |
+|  | `CrateElectronics` | Electronics crates | 3.5 | 4 | 8.1 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `ToolStoreTools` | Hardware store, tools | 2.5 | 4 | 5.9 % |
+|  | `GarageTools` | Garage tool storage | 1.5 | 4 | 3.6 % |
+|  | `CrateTools` | Tool crates | 1.5 | 4 | 3.6 % |
+|  | `CrateMetalwork` | Metalwork crates | 1.5 | 4 | 3.6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PowerBank.png" width="24" height="24"> **Power Bank** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 2.5 | 3 | 4.4 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 2.5 | 4 | 5.9 % |
+|  | `CrateElectronics` | Electronics crates | 2.5 | 4 | 5.9 % |
+|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2 | 4 | 4.7 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 1.5 | 4 | 3.6 % |
+|  | `CrateMechanics` | Mechanic supply crates | 1.5 | 4 | 3.6 % |
+|  | `GarageTools` | Garage tool storage | 1 | 4 | 2.4 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 1 | 4 | 2.4 % |
+|  | `CrateTools` | Tool crates | 1 | 4 | 2.4 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/BatteryAlarm.png" width="24" height="24"> **Low Battery Alarm** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 5 | 3 | 8.7 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 5 | 4 | 11.5 % |
+|  | `CrateElectronics` | Electronics crates | 3.5 | 4 | 8.1 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `CrateTools` | Tool crates | 1.5 | 4 | 3.6 % |
+|  | `GarageTools` | Garage tool storage | 1.5 | 4 | 3.6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="24" height="24"> **Wind Turbine** (furniture: × 0.6 included) | `WireFactoryElectric` | Wire factory, electrical | 2.5 | 4 | 5.9 % |
+|  | `ToolStoreMetalwork` | Hardware store, metalwork | 2.5 | 4 | 5.9 % |
+|  | `WireFactoryTools` | Wire factory, tools | 2.5 | 4 | 5.9 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 1.5 | 4 | 3.6 % |
+|  | `CrateElectronics` | Electronics crates | 1.5 | 4 | 3.6 % |
+|  | `CrateMetalwork` | Metalwork crates | 1.5 | 4 | 3.6 % |
+|  | `CrateTools` | Tool crates | 1.5 | 4 | 3.6 % |
+|  | `CrateFarming` | Farming supply crates | 1.5 | 4 | 3.6 % |
+|  | `ToolStoreFarming` | Hardware/outdoor store, farming | 1.5 | 4 | 3.6 % |
+|  | `MechanicShelfTools` | Mechanic shop, tools | 1.5 | 4 | 3.6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterWheel.png" width="24" height="24"> **Water Wheel** (furniture: × 0.6 included) | `CrateCarpentry` | Carpentry crates | 2.5 | 4 | 5.9 % |
+|  | `ToolStoreCarpentry` | Hardware store, carpentry | 2.5 | 4 | 5.9 % |
+|  | `CrateFarming` | Farming supply crates | 2.5 | 4 | 5.9 % |
+|  | `ToolStoreFarming` | Hardware/outdoor store, farming | 1.5 | 4 | 3.6 % |
+|  | `CrateTools` | Tool crates | 1.5 | 4 | 3.6 % |
+|  | `CrateMechanics` | Mechanic supply crates | 1.5 | 4 | 3.6 % |
+|  | `CrateMetalwork` | Metalwork crates | 1.5 | 4 | 3.6 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineBlades.png" width="24" height="24"> **Wind Turbine Blade Set** | `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
+|  | `ToolStoreMetalwork` | Hardware store, metalwork | 5 | 4 | 11.5 % |
+|  | `CrateTools` | Tool crates | 3.5 | 4 | 8.1 % |
+|  | `CrateFarming` | Farming supply crates | 3.5 | 4 | 8.1 % |
+|  | `ToolStoreFarming` | Hardware/outdoor store, farming | 3.5 | 4 | 8.1 % |
+|  | `WireFactoryTools` | Wire factory, tools | 3.5 | 4 | 8.1 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbineMast.png" width="24" height="24"> **Wind Turbine Mast** | `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
+|  | `ToolStoreMetalwork` | Hardware store, metalwork | 5 | 4 | 11.5 % |
+|  | `CrateTools` | Tool crates | 3.5 | 4 | 8.1 % |
+|  | `CrateMechanics` | Mechanic supply crates | 3.5 | 4 | 8.1 % |
+|  | `CrateFarming` | Farming supply crates | 3.5 | 4 | 8.1 % |
+|  | `ToolStoreFarming` | Hardware/outdoor store, farming | 3.5 | 4 | 8.1 % |

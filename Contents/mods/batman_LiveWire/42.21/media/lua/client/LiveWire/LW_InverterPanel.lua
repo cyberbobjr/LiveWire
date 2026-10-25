@@ -14,7 +14,7 @@ local Panel = ISPanel:derive("LiveWireInverterPanel")
 LiveWire.InverterPanel = Panel
 Panel.instance = nil
 
-local W, H = 440, 262
+local W, H = 440, 300
 local LCD_X, LCD_Y, LCD_W, LCD_H = 18, 40, 404, 138
 local SCROLL_PX_PER_S = 40   -- lines wider than the screen scroll back and forth
 local SCROLL_PAUSE_MS = 1200
@@ -28,11 +28,12 @@ local function lcdFont()
     return LiveWire.Client.lcdFont()
 end
 
-function Panel.open(player, inverterId)
+function Panel.open(player, inverterId, obj)
     if Panel.instance then Panel.instance:close() end
     local x = getPlayerScreenLeft(player:getPlayerNum()) + 120
     local y = getPlayerScreenTop(player:getPlayerNum()) + 100
     local p = Panel:new(x, y, player, inverterId)
+    p.obj = obj
     p:initialise()
     p:addToUIManager()
     p:setVisible(true)
@@ -73,6 +74,7 @@ function Panel:createChildren()
     self.resetBtn = button(self, LCD_X + 100, by, 70, 30, "RESET", "RESET")
     self.powerBtn = button(self, W - 18 - 74, by, 74, 30, "I / O", "POWER")
     self.closeBtn = button(self, W - 26, 6, 18, 18, "x", "CLOSE")
+    button(self, LCD_X, 254, LCD_W, 28, T("IGUI_LW_Connections"), "LINKS")
 end
 
 function Panel:snapshot()
@@ -87,12 +89,15 @@ function Panel:onButton(b)
         self.page = self.page % PAGES + 1
     elseif b.internal == "POWER" then
         local snap = self:snapshot()
-        local on = not (snap and snap.inverter.state == "on")
+        local on = snap and snap.inverter.state == "off" or false
         LiveWire.Client.send(P.C_SET_INVERTER, { inverter = self.inverterId, on = on })
         self.lastSubscribe = 0
     elseif b.internal == "RESET" then
         LiveWire.Client.send(P.C_RESET, { inverter = self.inverterId })
         self.lastSubscribe = 0
+    elseif b.internal == "LINKS" then
+        local obj = self.obj or LiveWire.Install.inverterById(self.player:getCurrentSquare(), self.inverterId)
+        if obj then LiveWire.ConnectionPanel.open(self.player, obj) end
     elseif b.internal == "CLOSE" then
         self:close()
     end
@@ -123,7 +128,7 @@ function Panel:pageContent(snap)
     local inv = snap.inverter
     local function L(s) lines[#lines + 1] = s end
     if self.page == 1 then
-        L(T("IGUI_LW_LCD_Page_Balance"))
+        L(snap.name ~= "" and snap.name or T("IGUI_LW_LCD_Page_Balance"))
         local nominal = 0
         for i = 1, #snap.sources do nominal = nominal + (snap.sources[i].nominal or 0) end
         local scale = math.max(inv.maxW or 0, nominal, snap.production or 0, snap.demand or 0, 1)
@@ -163,6 +168,8 @@ function Panel:pageContent(snap)
             snap.coverage and snap.coverage.floors or 3))
     else
         L(T("IGUI_LW_LCD_Page_Status"))
+        local event = snap.events and snap.events[#snap.events]
+        if event then L(LiveWire.Client.text(event.key, event.args)) end
         L(T("IGUI_LW_LCD_Inverter", T("IGUI_LW_State_" .. tostring(inv.state)), inv.cond))
         if snap.coupled then L(T("IGUI_LW_LCD_Coupled", snap.coupled.n, snap.coupled.total)) end
         if inv.muffled then L(T("IGUI_LW_LCD_Muffled")) end
@@ -264,8 +271,8 @@ function Panel:render()
     self:drawRectBorder(lx, ly, 12, 12, 1, 0.05, 0.05, 0.05)
 end
 
-function Panel:close()
-    if isClient() then
+function Panel:close(sessionEnded)
+    if isClient() and not sessionEnded then
         LiveWire.Client.send(LiveWire.Protocol.C_UNSUBSCRIBE, { inverter = self.inverterId })
     end
     self:setVisible(false)

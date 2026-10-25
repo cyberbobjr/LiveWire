@@ -3,4 +3,8 @@
 *.env
 __pycache__/
 *.pyc
-runs/
+/runs/
+/tools/
+/autotest/
+/tests/
+/docs/annexes/

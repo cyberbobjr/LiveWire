@@ -2,6 +2,8 @@
 
 # Production et calculs
 
+Les exemples solaires supposent des panneaux propres, déneigés et orientés au sud. Orientation, saleté et météo modifient le résultat réel.
+
 Le serveur calcule tout toutes les 10 minutes de jeu, joueurs présents ou non (option SimulateUnloaded, activée par défaut). Cette page détaille le modèle.
 
 ![Trois graphiques : journée solaire, courbe de l'éolienne, énergie par jour face à une maison type](../../images/diagrams/production_fr.png)
@@ -139,6 +141,18 @@ Production d'hiver des sources : panneau solaire environ 0,6 kWh/jour, roue à a
 ## Combien de panneaux ?
 
 Il n'y a pas de limite : les productions s'additionnent (100 W nominaux chacun). Le plafond de 1 500 W concerne la demande de la maison, pas la production.
+
+## Orientation et entretien des panneaux
+
+L'orientation visible de la tuile compte : sud 100 %, est et ouest 85 % avec un
+décalage de production de deux heures, nord 55 %. L'inspection indique orientation,
+saleté et neige. La saleté réduit la production, s'accumule plus vite en automne
+et diminue sous la pluie. Nettoyer demande un chiffon conservé et 0,5 L d'eau ;
+le nettoyage retire saleté et neige. La suie des incendies n'est pas modélisée.
+
+Le frein conserve ses commandes existantes et arrête la production de l'éolienne.
+Le voyant clignote lorsque le frein est serré ; le journal avertit une fois par
+épisode orageux si une éolienne tourne librement.
 
 ## Voir aussi
 

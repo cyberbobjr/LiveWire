@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultrarrealista 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Realista 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Valores do jogo",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "Conforto"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Conforto",
+    "Sandbox_LiveWire_SolarOrientation": "Orientação solar",
+    "Sandbox_LiveWire_SolarDirt": "Sujeira dos painéis",
+    "Sandbox_LiveWire_BatteryCold": "Baterias e frio",
+    "Sandbox_LiveWire_LiveWorkRisk": "Risco sob tensão",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "A orientação altera a produção e o horário do pico.",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "A poeira se acumula nos painéis. A chuva e a limpeza a removem.",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "O frio reduz a capacidade disponível dos bancos externos. A reserva volta com o aquecimento.",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Ativado por padrão. Risco de choque: 50%% com Eletricidade 0, zero a partir de 6. Queima a mão da chave de fenda e faz soltar objetos. Desligue o inversor mestre: o disjuntor geral não basta.",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Multiplicador de equipamentos e peças Live Wire",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multiplica apenas os pesos do saque de equipamentos e peças Live Wire (células solares, pás e mastros) (1-20, padrão 5). Os itens do jogo base e seus pesos não mudam. Os discos mantêm a frequência atual. Requer reiniciar; apenas saques futuros, sem reabastecer recipientes vasculhados. As opções de saque do jogo continuam válidas."
 }

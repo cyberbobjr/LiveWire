@@ -1,5 +1,52 @@
 # Live Wire — architecture
 
+## Complément local : revue de robustesse et performances du 2026-10-25
+
+Le pattern modulaire événementiel à serveur autoritaire reste inchangé.
+`LW_Circuits` possède désormais ses références d'appareils isolés et ses travaux
+progressifs ; ils survivent à la disparition du cache de mesure et du maître.
+`LW_Registry` possède l'index spatial des seuls onduleurs. `LW_Demand` conserve
+les mesures scalaires et ne prépare les 200 lignes de consommateurs qu'à la demande.
+Le logiciel client réutilise ses textes jusqu'au changement d'instantané ou d'onglet.
+
+L'adaptateur partagé `LW_ServiceSync` diffuse les changements de service et traite
+les lectures de réconciliation. Le serveur possède identité et révision par appareil ;
+le client possède une file bornée de reprises, sans référence Java persistante.
+Les commandes de circuit enregistrent immédiatement leur choix ; l'application
+aux grands ensembles d'appareils devient progressive. Contrats et limites :
+[spécifications techniques](specifications-techniques.md#9-campagne-ixx-locale-après-v150),
+[bilan de validation](annexes/tests/validation.md).
+
+## Complément local : accès direct aux équipements
+
+Le pattern validé reste inchangé. `client/LW_Equipment.lua` reçoit seulement le clic
+sur un objet du monde (`OnObjectLeftMouseButtonDown`), contrôle proximité, visibilité,
+obstacle, refuge, visée et curseur de construction, puis ouvre le panneau adapté.
+`LW_BankPanel` présente une banque ; `LW_DevicePanel` les sources, pompes et alarmes.
+`LW_ConnectionPanel` présente tous les équipements à portée depuis un onduleur,
+ou seulement l'appareil d'origine depuis un autre équipement. Les boutons des panneaux LCD donnent un
+accès direct aux raccordements ; les menus existants restent disponibles.
+
+La découverte des équipements réutilise `Install.objectsInRange`, uniquement à
+l'ouverture, au changement d'onduleur et au rafraîchissement explicite. Les boutons
+réutilisent `LWLinkAction` et le nouveau `LWUnlinkAction`, qui marche vers la cible
+puis délègue à la commande de débranchement déjà validée par l'autorité.
+
+Le LCD de banque demande un instantané ponctuel toutes les deux secondes seulement
+pendant son ouverture. `Batteries.snapshot` partage le modèle de simulation ; aucune
+charge ni condition n'est écrite par la lecture. Une seule réponse client est gardée,
+avec séquence et identifiant ; elle est libérée à la fermeture/déconnexion/menu.
+
+Les consommateurs sont teintés par `setHighlighted(joueur,true,false)` sur les objets
+réels ; le moteur assure le rendu. Une résolution locale des 200 entrées maximum de
+l'instantané se fait une fois par seconde, sans balayage du disque. Les index de
+liste et noms de sprite sont des indices de session, jamais des identifiants
+persistants. Un index déplacé se résout par sprite unique sur la case ; une ambiguïté
+est ignorée. La fermeture nettoie les références et évite d'écraser une teinte tierce.
+
+Statut de validation : voir le [bilan](annexes/tests/validation.md).
+
+
 État au 2026-10-21 : document de conception écrit pour la v0.1 (2026-10-17), complété par les mises à jour des sections 0 et 10. Le code est implémenté jusqu'à la version 1.3.1. Les contrats techniques **à jour** (registre schéma 2, commandes réseau, ModData des objets, options) sont dans [`specifications-techniques.md`](specifications-techniques.md), qui fait foi en cas d'écart avec les sections 3 et 5 ci-dessous.
 
 - Les chemins `java/…` et `media/…` sont relatifs à la racine du dépôt de sources de référence de l'utilisateur (Java décompilé 42.21 et `media/` vanilla).
@@ -567,3 +614,135 @@ Cette campagne conserve le même pattern et exclut les idées IXX, C20 et C11
   choisissent ni son rendement d'adoption ni l'état d'un appareil déjà enregistré.
 - `Xp` possède le plafond glissant des mesures et sa purge. Le registre ne fait
   que conserver ses données persistantes privées ; l'action appelle ce service.
+
+## 13. Extensions IXX locales après 1.5.0
+
+Pattern validé conservé, sans migration d'architecture.
+
+- `shared/LW_API` valide et ferme les enregistrements de définitions ; copie les
+  valeurs autorisées et fournit des lectures détachées. `shared/LW_Physics`
+  possède orientation et facteur de froid purs.
+- `server/LW_Batteries` convertit énergie à chaud, fenêtre accessible et réserve.
+  Les actions réutilisent ce modèle pour la réparation.
+- `server/LW_Events` possède le journal borné, sans émission réseau propre.
+  Registre, simulation, circuits et maintenance le renseignent.
+- `server/LW_Forecast` possède le cache horaire ; utilise météo native et règles
+  de production/stockage partagées avec la simulation.
+- `server/LW_Maintenance` possède risque et récupération de pièces ; les actions
+  partagées restent les adaptateurs exécutés sur l'autorité.
+- `shared/LW_Appliances` adapte les services vanilla et refuse leurs actions pendant
+  une coupure ; les choix restent décidés sur l'autorité. Le client ne fait que
+  refléter les types des conteneurs et les états de présentation.
+- `server/LW_Circuits` possède les choix des deux circuits et leur entretien : inventaire
+  de `Demand`, aucun nouveau balayage de disque. Le rappel `OnTick` ne vérifie
+  que l'horloge entre deux créneaux espacés d'au moins 100 ms réelles : au plus
+  16 entrées en cache, arrêt entre objets après environ 1 ms. Aucun rattrapage
+  en rafale après un ralentissement, curseur conservé entre créneaux.
+  Seuls les réseaux coupés ou en attente de rétablissement sont parcourus ; leur
+  liste est reconstruite au plus chaque seconde. Commandes, chargements et poses
+  appliquent les changements immédiatement. Aucune boucle d'appareils par image
+  côté client ; paquets uniquement pour un changement effectif ou initial.
+- `client/LW_NetworkView` dessine câblage et carte de charge depuis les instantanés.
+  `client/LW_BreakerPanel` dessine la façade et envoie des commandes, sans mutation
+  des données autoritaires. Son LCD calcule les trois lignes à la réception d'un
+  nouvel instantané, depuis la répartition agrégée ; jamais depuis les objets ou
+  la liste tronquée des consommateurs. `Demand.ready` indique si la liste chargée
+  a été mesurée après sa dernière reconstruction ; cet état reste en cache de
+  session. À chaque réouverture, `Client.discardSnapshot` écarte l'ancien relevé.
+- Diffusion des ancres C11 conservée. Informations nouvelles dans les instantanés
+  des abonnés existants, aucune nouvelle diffusion globale.
+
+Les catégories, l'affectation stable aux tableaux, la facturation des recouvrements,
+la migration additive et l'historique du froid sont précisés dans les
+[contrats I21](annexes/recherches/circuits-42-21.md). Les petits messages des types
+de conteneurs et TV/radios sont limités aux changements et aux joueurs proches ;
+ils ne modifient pas la diffusion globale des ancres C11.
+
+Durées de vie des caches de session :
+
+- `ClientState` garde au plus 64 réseaux consultés, expiration après cinq minutes
+  réelles sans accès ni réception. Purge sur l'événement minute, effacement et
+  fermeture des vues à la déconnexion/au menu. Le cache solo peut référencer le
+  réseau courant pour son identité ; il suit les mêmes limites.
+- `Demand.forget` libère inventaire, rapport, découverte active et file pour un
+  onduleur retiré. `Demand.prune`, toutes les dix minutes de jeu, retire les
+  inventaires d'onduleurs absents, couplés ou déchargés : une position par réseau
+  en cache, aucun parcours supplémentaire des appareils. La découverte existante
+  reconstruit le cache au retour de zone.
+- `Sim.purgeSubscribers`, sur l'événement minute, retire les joueurs déconnectés,
+  abonnements expirés, réseaux supprimés et listes vides. Une nouvelle
+  initialisation du registre réinitialise ces caches de session.
+
+Les données persistantes du monde et l'historique alimentaire de 60 jours ne sont
+pas effacés par ces purges. Aucun ramasse-miettes forcé dans le code livré.
+
+
+## Extension locale : empilage des powerbanks
+
+`LW_Stack` est un module partagé de règles physiques locales, sans état persistant.
+La pose et le retrait restent des actions vanilla ; les enveloppes de placement et
+la maintenance serveur réutilisent ses contrôles. La simulation de batterie continue
+à traiter les banques par leur identifiant et conteneur distincts. Le tableau de
+batteries d'une banque n'est jamais réutilisé pour agrandir artificiellement l'autre.
+Le pattern serveur autoritaire, les réseaux par portée et le schéma 2 sont conservés.
+Voir le [plan et les limites](annexes/plans/powerbanks-superposees.md).
+
+### Butin configurable au démarrage (F31)
+
+Le module serveur de distributions ajoute les poids de base à la fusion native,
+puis applique le multiplicateur à `OnInitGlobalModData`, quand la sauvegarde et
+son sandbox sont chargés en solo comme sur serveur dédié. Relecture Java des
+distributions uniquement après une modification effective ; aucune dépendance
+client, nouvelle boucle périodique, modification du registre ou de sa persistance.
+Contrat détaillé : [spécifications techniques](specifications-techniques.md#butin-déquipements-configurable-f31).
+
+### Recettes natives et icônes scriptées (F32)
+
+Les pales et mâts restent de simples objets scriptés, sans registre ni simulation.
+Les recettes natives gèrent consommation, production et MP sur l'autorité.
+Les deux machines consomment directement `Base.Amplifier`. Aucun détournement de
+recette vanilla, wrapper de rendu, contrôle par tick ou mutation manuelle
+d'inventaire. Les icônes sont des ressources statiques déclarées dans les objets.
+Détails : [spécifications techniques](specifications-techniques.md#fabrication-des-sources-et-composants-f32).
+
+### Sécurité des interventions révisée
+
+`LW_Maintenance` décide le risque d'après l'arrêt explicite du maître, indépendamment
+de la distribution des circuits. `LW_Install` partage le choix de main et l'affichage
+de l'outil, sans mutation d'inventaire. Commandes et actions contrôlent les outils
+avant le risque ; le passage à off d'un convertisseur cassé ne répare pas sa
+physique. Tous les gains d'XP restent autoritaires/natifs. Aucun cache, tâche
+périodique, nouveau paquet ou schéma de sauvegarde ajouté.
+
+
+### Menus uniques et usure de debug
+
+`LW_ContextMenu` délègue l'ouverture à `LW_Equipment.open`, comme le clic direct,
+et sépare le panneau propre à l'appareil de `LW_ConnectionPanel`. `LW_DebugMenu`
+ne fait qu'afficher les préréglages partagés et envoyer la commande existante.
+`LW_DebugCommands` revérifie les droits et la cible, applique l'état et délègue
+la réévaluation aux services existants. Architecture conservée ; aucun cache ou
+traitement par image ajouté. Aucun changement du schéma de sauvegarde.
+
+
+### LCD individuels — complément F29
+
+`server/LW_DeviceView` construit une table détachée à partir des mesures du registre,
+sans simulation, transfert d'eau ou état persistant supplémentaire. `LW_Commands`
+contrôle la lecture `readDevice` (proximité, refuge, présence physique, séquence,
+registre, joueur et limitation existante), puis répond au seul demandeur.
+`LW_ClientState` garde une seule vue individuelle, libérée à la fermeture/session.
+`LW_DevicePanel` la lit toutes les deux secondes pendant son ouverture. Il ne
+découvre aucun appareil dans le monde et ne dépend pas de l'interface serveur.
+Les raccordements ciblés utilisent l'objet déjà sélectionné, sans inventaire
+des autres équipements ; seul le mode global effectue la découverte bornée
+existante à l'ouverture/changement explicite. Pattern et identifiants conservés.
+
+
+### Voyants d'alimentation des LCD
+
+Le serveur détermine le bit `pw` pour les pompes et tableaux dans `LW_Devices`,
+en lisant l'état du réseau et ses coupures. Le client choisit les overlays dans
+`LW_Visuals` au rythme existant, sans décider du service. Le thème bleu du LCD
+pompe est purement visuel. Deux cases réservées du pack et leurs profondeurs
+portent le nouveau vert du tableau ; aucun identifiant ni schéma ne change.

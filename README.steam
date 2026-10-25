@@ -4,75 +4,60 @@
 
 The power is out for good... but the lights do not have to be. Build your own off-grid electricity: solar panels, a wind turbine or a water wheel feed an inverter, and the inverter powers the whole house around it. Add batteries for the night. The Electrical skill finally matters: every device has a level, and your level makes the installation better.
 
+[h2]1.6.0 — Control your installation[/h2]
+
+The electrical panel has lighting, equipment and main levers, plus instant circuit/total watts. Cut real appliances and restore their previous choices, including after a restart. Sources can keep charging while main distribution is open. Left-click each device for its LCD; use Connections to choose its inverter.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
+
 [h2]How it works[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 
-[list]
-[*][b]Sources[/b] produce: solar panel 100 W, wind turbine 400 W, water wheel 120 W. As many as you want per inverter.
-[*][b]The inverter[/b] (1,500 W max) powers every appliance within 20 tiles and 3 floors up or down. No wiring per appliance: fridges, lights, stoves, TVs and radios work as in vanilla.
-[*][b]Consumption profile[/b] (sandbox): Game values (default), Realistic 1993 (light 60 W, TV 80 W, electric cooker 2,000 W), Ultra-realistic 1993 or Comfort.
-[*][b]The power bank[/b] stores the surplus: it counts 4 batteries (car batteries or deep-cycle batteries). Without batteries, the house runs on current production only.
-[*][b]Cables[/b]: electric wire, 1 per 4 tiles, range 12 tiles. Right-click a device > "Live Wire" > "Connect to an inverter".
-[/list]
+Solar 100 W, wind 400 W, water wheel 120 W. An inverter supplies appliances within 20 tiles and ±3 floors, up to 1,500 W; couple four for 6,000 W. No cable per household appliance.
+Store surplus in power banks (4 batteries each). Cables: 1 wire per 4 tiles, range 12. Choose Game values, Realistic 1993, Ultra-realistic 1993 or Comfort consumption in sandbox options.
 
 [h2]Equipment[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_en.png[/img]
 
-[list]
-[*][b]Solar panel[/b] (Electrical 3): outdoors, open sky. Flat roofs work.
-[*][b]Wind turbine[/b] (6): outdoors, stronger higher up.
-[*][b]Water wheel[/b] (7): on a river bank, ground floor.
-[*][b]Inverter[/b] (5): the heart of the network, can stand indoors.
-[*][b]Power bank[/b] (2): opens like a crate.
-[*][b]Optional[/b]: breaker panel (trips instead of damaging the inverter), low battery alarm, soundproofing kit for the inverter hum, vanilla generator as a backup (started under 20% battery), vanilla desktop computer as management computer. Up to 4 inverters can be coupled in parallel (6,000 W) with an inverter coupling kit.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
+Place solar panels outdoors (Electrical 3), turbines outdoors and water wheels on river banks (both 2), inverters (5) and power banks (2). Stack two banks on one tile, with separate inventories and connections; empty them before removal, upper bank first.
+Optional: breaker, battery alarm, soundproofing, vanilla backup generator and management computer.
 
 [h2]Production[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_en.png[/img]
 
-[list]
-[*][b]Solar[/b]: about 0.94 kWh per summer day, about 0.60 in winter. Clouds and snow reduce it.
-[*][b]Wind[/b]: nothing under 10 km/h, rising with the cube of the speed up to 45 km/h, full power from 45 to 85, automatic brake above.
-[*][b]Water wheel[/b]: 120 W day and night on rivers.
-[/list]
+Solar direction matters: south 100%, east/west 85%, north 55%. Clouds, snow and dirt reduce output; rain washes panels, or clean with a rag + 0.5 L water. Wind produces from 10 km/h, reaches full power at 45–85 and brakes above. The water wheel produces day and night. Optional battery cold effects retain unavailable energy as a reserve; off by default.
 
-Example: one fridge-freezer and 10 lights use about 4.1 kWh per day. A water wheel and 2 panels cover it all year round.
+[h2]Water pump[/h2]
 
-[h2]Water pump (new in 1.2.0)[/h2]
-
-[list]
-[*]Barrels of water on the ground now run the taps of the whole house: sinks, showers, baths and toilets work again after the water shut-off.
-[*]Place the [b]water pump[/b] (Electrical 6) next to vanilla rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] barrels (up to 8, one iron pipe each) and wire it to the inverter.
-[*]Plumb the fixtures with a pipe wrench as in vanilla: every plumbed fixture within 15 tiles (sandbox) is supplied. Only water is accepted; rain water comes out clean.
-[*]5 L per minute, 250 W while pumping, a light hum; it stops by itself when every tap is full. "Show the supplied taps" highlights them in blue.
-[*]Before removing the mod, run the debug/admin action "Remove every water relay".
-[/list]
+A water pump (Electrical 6) supplies plumbed fixtures within 15 tiles from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] barrels, one metal pipe each. Use a pipe wrench for plumbing. Rainwater comes out clean: up to 5 L/min, 250 W while pumping. Blue light = powered, even idle. Before uninstalling, remove all water relays with the debug/admin action.
 
 [h2]Recipes[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
 
-Category Electrical, learnt automatically at the required level. Solar cells come from dismantled calculators or are found as loot; ready-made equipment can also turn up in electricians', hardware stores and garages.
+17 recipes, illustrated below. Electrical recipes unlock automatically; blades and masts are in Metalworking with no Electrical gate. Assemble a turbine at level 6; craft a water wheel at 7, both using two amplifiers. Place/pick up either at 2. Dismantle a voltage tester for scrap. Every recipe grants Electrical XP. Broader equipment/parts loot; sandbox multiplier 5 by default (1–20), future rolls only after restart.
 
 [h2]Management software[/h2]
 
-Live Wire Monitor shows production, consumption, batteries, 48 h history and a forecast "until sunrise". With the optional Computer Mod or Laptop Mod it comes on a disk found in computer loot. Otherwise a vanilla desktop computer linked to the inverter runs it.
+Live Wire Monitor adds consumers (up to 200), coloured appliance silhouettes, cable views, the last 30 events and a three-day production forecast with a powered management computer, alongside 48 h history. Network names appear on LCDs and alerts. Vanilla desktops work; optional Computer Mod/Laptop Mod use a loot disk.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
+[h2]Electrical safety and XP[/h2]
+
+Test batteries at Electrical 1/3/5 for more detail. Recondition at 4 (6 if dead): kept screwdriver, scrap, wire, 0.5 L water; +15 condition, max 80, four times. Salvage dead empty equipment at 3. Live-work risk is on by default: 50/42/33/25/17/8/0% at levels 0/1/2/3/4/5/6+. A shock burns the tool hand, drops held items and aborts before spending materials. Switch off the master inverter; opening the breaker does not isolate it.
+
 [h2]Multiplayer[/h2]
 
-The server computes everything and re-checks every request. Installations keep running while players are away. Automated in-game tests cover single player and a Windows dedicated server with two clients, including saves and reloads.
+Server-authoritative simulation and action checks, saved circuit choices and appliance state synchronisation. Close both circuits before disabling the mod.
 
 [h2]Documentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: this item also contains the optional mod [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) with 3D models of every device. Enable it only if you use Project Viewpoint.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]

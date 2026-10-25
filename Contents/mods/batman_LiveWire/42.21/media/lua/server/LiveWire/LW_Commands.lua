@@ -2,6 +2,9 @@
 -- (docs/architecture.md section 5.3). sendClientCommand also reaches this handler
 -- in single player, one tick later (knowledge/multiplayer.md:280-282).
 if isClient() then return end
+require "LiveWire/LW_Maintenance"
+require "LiveWire/LW_Circuits"
+require "LiveWire/LW_DeviceView"
 
 LiveWire = LiveWire or {}
 
@@ -109,6 +112,28 @@ local function checkInverterCommand(player, args)
 end
 
 local handlers = {}
+handlers[P.C_READ_SERVICES] = function(player, args) LiveWire.ServiceSync.reply(player, args) end
+handlers[P.C_READ_DEVICE] = function(player, args)
+    local dev = Commands.checkDevice(player, args.device)
+    if not dev or type(args.seq) ~= "number" or args.seq ~= math.floor(args.seq)
+        or args.seq < 1 or args.seq > 1000000000 or not LiveWire.Devices.find(dev) then return end
+    local snap = LiveWire.DeviceView.snapshot(dev)
+    if snap and isServer() then
+        snap.seq = args.seq
+        sendServerCommand(player, LiveWire.MODULE, P.S_DEVICE, snap)
+    end
+end
+handlers[P.C_READ_BANK] = function(player, args)
+    local dev = Commands.checkDevice(player, args.device)
+    if not dev or dev.role ~= "storage" or type(args.seq) ~= "number"
+        or args.seq ~= math.floor(args.seq) or args.seq < 1 or args.seq > 1000000000 then return end
+    local snap = LiveWire.Batteries.snapshot(dev)
+    if snap and isServer() then
+        snap.seq = args.seq
+        sendServerCommand(player, LiveWire.MODULE, P.S_BANK, snap)
+    end
+end
+handlers[P.C_SET_CIRCUIT] = function(player, args) LiveWire.Circuits.set(player, args) end
 
 handlers[P.C_RESUME_BACKUP] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
@@ -178,8 +203,12 @@ handlers[P.C_UNLINK] = function(player, args)
     end
     if not dev then return refuse(player, P.C_UNLINK, why) end
     if dev.role == "inverter" or not dev.grid then return end
+    if not LiveWire.Install.screwdriver(player) then
+        return refuse(player, P.C_UNLINK, "Tooltip_LW_NeedScrewdriver")
+    end
     local grid = LiveWire.Registry.grid(dev.grid)
     -- A linked vanilla generator or computer leaves the registry entirely.
+    if LiveWire.Maintenance.liveWork(player, grid) then return end
     if not LiveWire.Registry.forgetVanilla(dev) then
         LiveWire.Registry.unlink(dev)
         LiveWire.Devices.syncMark(dev)
@@ -230,7 +259,8 @@ handlers[P.C_SET_INVERTER] = function(player, args)
     if args.on then
         if dev.state == "off" then dev.state = "on" end
     else
-        if dev.state == "on" or dev.state == "tripped" then dev.state = "off" end
+        -- Explicit isolation must remain available after a trip or a failure.
+        dev.state = "off"
     end
     LiveWire.Sim.refresh(LiveWire.Registry.grid(dev.grid))
 end

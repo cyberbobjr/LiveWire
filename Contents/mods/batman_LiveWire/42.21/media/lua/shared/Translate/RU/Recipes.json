@@ -4,7 +4,7 @@
     "LWMakeSolarCellFromScrap": "Собрать солнечную ячейку из металлолома",
     "LWMakeSolarPanelKit": "Собрать солнечную панель",
     "LWMakeInverterKit": "Собрать инвертор",
-    "LWMakeWindTurbineKit": "Собрать ветряную турбину",
+    "LWMakeWindTurbineKit": "Собрать ветряк",
     "LWMakeWaterWheel": "Собрать водяное колесо",
     "LWMakePowerBankKit": "Собрать аккумуляторный блок",
     "LWMakeBreakerKit": "Собрать щиток автоматов",
@@ -12,5 +12,8 @@
     "LWMakeDeepCycleBattery": "Собрать аккумулятор глубокого разряда",
     "LWMakeBatteryAlarmKit": "Собрать сигнализацию низкого заряда",
     "LWMakeWaterPump": "Изготовить водяной насос",
-    "LWMakeCouplingKit": "Изготовить комплект сцепки инверторов"
+    "LWMakeCouplingKit": "Изготовить комплект сцепки инверторов",
+    "LWMakeWindTurbineBlades": "Сделать лопасти ветряка",
+    "LWMakeWindTurbineMast": "Сделать мачту ветряка",
+    "LWDismantleVoltageTester": "Разобрать тестер напряжения"
 }

@@ -11,11 +11,9 @@ Production, stock, états, pannes et expérience sont calculés par le serveur ;
 - Si le serveur se met en pause quand il est vide, l'installation aussi.
 - Les générateurs vanilla ne changent pas : si un générateur et un onduleur couvrent les mêmes appareils, les deux consomment.
 - Outils de debug : -debug en solo, administrateurs en multijoueur.
--
-
 ## État
 
-Version 1.5.0. Les tests automatisés en jeu couvrent le solo et un serveur dédié Windows avec deux clients, sauvegardes, redémarrages complets et reconnexions compris. Voir le [bilan de validation](../../annexes/tests/validation.md). Les valeurs d’équilibrage restent des valeurs de départ.
+La version 1.6.0 est préparée localement. Les contrôles statiques et les tests de régression hors jeu couvrent les changements ; les captures fournies confirment visuellement les panneaux en jeu. Les campagnes solo et multijoueur Windows antérieures couvrent les états décrits dans le bilan ; les derniers changements restent à vérifier dans une passe multijoueur complète. Linux non validé. Voir le [bilan de validation](../../annexes/tests/validation.md). Les valeurs d'équilibrage restent des valeurs de départ.
 
 ## Licence
 

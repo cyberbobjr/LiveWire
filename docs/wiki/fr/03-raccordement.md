@@ -51,6 +51,22 @@ Clic droit sur l'onduleur :
 | Inspect | Inspection (expérience) |
 | Repair / Overhaul | Réparation / remise à neuf |
 
+## Tout raccorder depuis une seule fenêtre
+
+Cliquez directement sur un équipement Live Wire proche. Sur un panneau solaire,
+une éolienne, une roue ou une alarme, la fenêtre de raccordement s'ouvre. Sur le LCD
+de l'onduleur, appuyez sur **Raccordements**. Le tableau électrique sert aux circuits
+et au réarmement.
+
+Choisissez l'onduleur en haut, sélectionnez un équipement, puis **Raccorder** ou
+**Débrancher**. Le personnage se déplace jusqu'à lui ; les fils et les règles de
+compétence restent nécessaires. La fenêtre reste ouverte pour les autres équipements.
+**Actualiser** recherche les objets nouvellement posés. Les équipements raccordés à
+un autre réseau sont signalés : débranchez-les d'abord de ce réseau.
+
+Le clic droit reste disponible. Le couplage des onduleurs et les barils de pompe
+conservent leurs options spécifiques.
+
 ## Voir aussi
 
 [Équipements](02-equipements.md) · [Écran et logiciel](05-ecran-et-logiciel.md) · [Options sandbox](11-options-sandbox.md)

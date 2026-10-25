@@ -18,15 +18,19 @@ FILES = [
     "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua",
     "shared/LiveWire/LW_Consumption.lua", "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",
     "shared/LiveWire/LW_SquareScan.lua", "shared/LiveWire/LW_Notify.lua", "shared/LiveWire/LW_Anchor.lua", "shared/LiveWire/LW_Install.lua",
+    "shared/LiveWire/LW_Stack.lua",
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_PowerHistory.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
-    "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua", "server/LiveWire/LW_Simulation.lua",
+    "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua",
+    "server/LiveWire/LW_Events.lua", "server/LiveWire/LW_Forecast.lua", "server/LiveWire/LW_Maintenance.lua",
+    "server/LiveWire/LW_Circuits.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
-    "server/LiveWire/LW_Commands.lua", "server/LiveWire/LW_Devices.lua",
+    "server/LiveWire/LW_DeviceView.lua", "server/LiveWire/LW_Commands.lua", "server/LiveWire/LW_Devices.lua",
     "server/LiveWire/LW_Pump.lua",
 ]
 
 STUBS = r"""
 function require() end
+next = nil -- Kahlua has pairs/ipairs but no global next().
 WORLD = { hours = 7.0, clouds = 0.0, wind = 20.0, snowing = false, temp = 15 }
 function isClient() return false end
 function isServer() return false end
@@ -50,6 +54,8 @@ end
 function getClimateManager()
     return {
         getCloudIntensity = function() return WORLD.clouds end,
+        getRainIntensity = function() return WORLD.rain or 0 end,
+        getClimateForecaster = function() return { getForecast = function() return nil end } end,
         getWindspeedKph = function() return WORLD.wind end,
         isSnowing = function() return WORLD.snowing end,
         getSnowIntensity = function() return 0 end,
@@ -237,6 +243,7 @@ local function battery(id, frac)
     function it:getCondition() return self._cond end
     function it:setConditionNoSound(c) self._cond = c end
     function it:getCurrentUsesFloat() return self._frac end
+    function it:getUseDelta() return 0.0001 end
     function it:setCurrentUsesFloat(f) self._frac = f end
     function it:getModData() return self._md end
     return it
@@ -249,6 +256,8 @@ local obj = { getContainer = function() return container end,
               getSprite = function() return { getName = function() return "batman_livewire_01_16" end } end,
               getModData = function() return { movableData = { LiveWire = { id = bank.id, model = "PowerBank" } } } end }
 local square = { getObjects = function() return list({ obj }) end }
+function square:isOutside() return false end
+function obj:getSquare() return square end
 local realGetCell = getCell
 function getCell()
     local c = realGetCell()
@@ -321,7 +330,7 @@ R.link(alarm, GRID)
 LOW = 0
 local notifyNear = LiveWire.notifyNear
 function LiveWire.notifyNear(x, y, z, r, key, args, bad)
-    if key == "IGUI_LW_LowBattery" then LOW = LOW + 1 end
+    if key == "IGUI_LW_LowBatteryNamed" then LOW = LOW + 1 end
     return notifyNear(x, y, z, r, key, args, bad)
 end
 """

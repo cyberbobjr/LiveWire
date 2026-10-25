@@ -17,6 +17,9 @@ local function data()
 end
 
 function Registry.init()
+    if LiveWire.Circuits then LiveWire.Circuits.reset() end
+    if LiveWire.Demand then LiveWire.Demand.reset() end
+    if LiveWire.Sim then LiveWire.Sim.subscribers = {} end
     local d = ModData.getOrCreate(LiveWire.DATA_KEY)
     d.devices = d.devices or {}
     d.grids = d.grids or {}
@@ -67,7 +70,11 @@ local function indexAdd(dev)
     local ck = math.floor(dev.x / 8) .. "," .. math.floor(dev.y / 8)
     Registry.byChunk[ck] = Registry.byChunk[ck] or {}
     Registry.byChunk[ck][dev.id] = true
-    if dev.role == "inverter" then Registry.inverters[dev.id] = true end
+    if dev.role == "inverter" then
+        Registry.inverters[dev.id] = true
+        Registry.invertersByChunk[ck] = Registry.invertersByChunk[ck] or {}
+        Registry.invertersByChunk[ck][dev.id] = true
+    end
 end
 
 local function indexRemove(dev)
@@ -80,6 +87,13 @@ local function indexRemove(dev)
         if not any then Registry.byChunk[ck] = nil end
     end
     Registry.inverters[dev.id] = nil
+    local inverters = Registry.invertersByChunk[ck]
+    if inverters then
+        inverters[dev.id] = nil
+        local any = false
+        for _ in pairs(inverters) do any = true; break end
+        if not any then Registry.invertersByChunk[ck] = nil end
+    end
     local k = LiveWire.posKey(dev.x, dev.y, dev.z)
     local list = data().byPos[k]
     if not list then return end
@@ -91,7 +105,7 @@ end
 
 -- Derived session indexes, rebuilt for existing saves without a schema change.
 function Registry.rebuildIndexes()
-    Registry.byChunk, Registry.inverters = {}, {}
+    Registry.byChunk, Registry.inverters, Registry.invertersByChunk = {}, {}, {}
     if Registry.readOnly then return end
     data().byPos = {}
     for _, dev in pairs(data().devices) do indexAdd(dev) end
@@ -103,6 +117,21 @@ function Registry.devicesInChunk(cx, cy)
     for id in pairs(Registry.byChunk[cx .. "," .. cy] or {}) do
         local dev = Registry.device(id)
         if dev then out[#out + 1] = dev end
+    end
+    return out
+end
+
+-- Session index lookup only: never visit map squares or distant devices.
+function Registry.invertersNear(x, y, radius)
+    local out, r2 = {}, radius * radius
+    for cy = math.floor((y - radius) / 8), math.floor((y + radius) / 8) do
+        for cx = math.floor((x - radius) / 8), math.floor((x + radius) / 8) do
+            for id in pairs(Registry.invertersByChunk[cx .. "," .. cy] or {}) do
+                local d = Registry.device(id)
+                if d and d.role == "inverter" and not d.coupled
+                    and (d.x - x)^2 + (d.y - y)^2 <= r2 then out[#out + 1] = d end
+            end
+        end
     end
     return out
 end
@@ -171,27 +200,41 @@ function Registry.couple(slave, masterGrid)
     slave.coupled = masterGrid.inverter
     masterGrid.slaves = masterGrid.slaves or {}
     masterGrid.slaves[slave.id] = true
+    if LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
+    if LiveWire.Journal then LiveWire.Journal.add(masterGrid, "IGUI_LW_Coupled") end
 end
 
 -- Make a slave independent again: it leaves the master's grid and gets a new empty grid.
 function Registry.uncouple(slave)
     local g = slave.grid and data().grids[slave.grid]
     if g and g.slaves then g.slaves[slave.id] = nil end
+    if LiveWire.Journal and g then LiveWire.Journal.add(g, "IGUI_LW_Uncoupled") end
     slave.coupled = nil
     slave.grid = nil
     Registry.createGrid(slave)
+    if LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
 end
 
 function Registry.link(dev, grid)
+    local already = dev.grid == grid.id and grid.members[dev.id]
     if dev.grid and dev.grid ~= grid.id then Registry.unlink(dev) end
     dev.grid = grid.id
     grid.members[dev.id] = true
+    if not already and LiveWire.Journal then
+        LiveWire.Journal.add(grid, "IGUI_LW_Event_State", { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Connected" })
+    end
 end
 
 function Registry.unlink(dev)
     if dev.role == "inverter" then return end
     local g = dev.grid and data().grids[dev.grid]
+    if g and dev.model == "Breaker" and LiveWire.Circuits then
+        LiveWire.Circuits.release(g)
+    end
     if g then g.members[dev.id] = nil end
+    if g and LiveWire.Journal then
+        LiveWire.Journal.add(g, "IGUI_LW_Event_State", { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Disconnected" })
+    end
     dev.grid = nil
 end
 
@@ -249,11 +292,13 @@ function Registry.removeDevice(id)
         if g and g.slaves then g.slaves[id] = nil end
         indexRemove(dev)
         data().devices[id] = nil
+        if LiveWire.Demand then LiveWire.Demand.forget(id) end
         return
     end
     if dev.role == "inverter" then
         local g = dev.grid and data().grids[dev.grid]
         if g then
+            if LiveWire.Circuits then LiveWire.Circuits.release(g, true) end
             -- The slaves lose their master: each becomes an independent inverter.
             local slaves = Registry.slaves(g)
             for i = 1, #slaves do Registry.uncouple(slaves[i]) end
@@ -274,6 +319,8 @@ function Registry.removeDevice(id)
     end
     indexRemove(dev)
     data().devices[id] = nil
+    if dev.role == "inverter" and LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
+    if dev.role == "inverter" and LiveWire.Demand then LiveWire.Demand.forget(id) end
 end
 
 -- Public anchor table: anchors[inverterId] = { x, y, z, on, log, log0 } (nil removes it).

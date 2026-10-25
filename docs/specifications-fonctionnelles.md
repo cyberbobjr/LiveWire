@@ -1,6 +1,6 @@
 # Live Wire — documentation fonctionnelle
 
-État au 2026-10-24 : **implémenté jusqu'à la version 1.5.0** du mod (`Contents/mods/batman_LiveWire/42.21`). Ce document est né en phase de conception (2026-10-17) : ses sections 1 à 9 décrivent la v0.1 et ses justifications ; la section 10 résume les fonctionnalités ajoutées ensuite. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage. Les contrats techniques à jour (objets, commandes, ModData, options) sont dans [`specifications-techniques.md`](specifications-techniques.md) ; le guide du joueur est le [wiki](wiki/fr/Home.md).
+État au 2026-10-25 : **version 1.6.0 préparée localement** du mod (`Contents/mods/batman_LiveWire/42.21`). Ce document est né en phase de conception (2026-10-17) : ses sections 1 à 9 décrivent la v0.1 et ses justifications ; la section 10 résume les fonctionnalités ajoutées ensuite. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage. Les contrats techniques à jour (objets, commandes, ModData, options) sont dans [`specifications-techniques.md`](specifications-techniques.md) ; le guide du joueur est le [wiki](wiki/fr/Home.md).
 
 - **Sources des faits du moteur** : le dépôt de sources de référence de l'utilisateur (Java décompilé 42.21 et `media/` vanilla ; chemins relatifs à sa racine) et [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) (« NM-n » = note n).
 - **Choix de l'utilisateur** : toutes les décisions de [`decisions.md`](decisions.md) (« D-n ») ont été **validées le 2026-10-17**. Les sections de conception décrivent la v0.1 ; les validations actuelles sont consignées dans le [bilan SP/MP](annexes/tests/validation.md).
@@ -42,6 +42,15 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 | F21 | Onduleurs en parallèle (1.3.0) | § 10.2 |
 | F22 | Logiciel dans le Computer Mod (facultatif) | § 10.3 |
 | F23 | Modèles 3D pour Project Viewpoint (mod facultatif `batman_LiveWireViewpoint`) | § 10.4 |
+| F24 | Consommateurs, raccordements, événements et noms de réseau | § 11 |
+| F25 | Orientation et nettoyage des panneaux, compléments du frein | § 11 |
+| F26 | Froid, diagnostic et réparation des batteries | § 11 |
+| F27 | Démontage pour pièces et risque électrique | § 11 |
+| F28 | Tableau électrique graphique, deux circuits indépendants | § 11 |
+| F29 | Clic direct, LCD individuels, raccordements ciblés et globaux | § 12 |
+| F32 | Éolienne en trois étapes, amplificateurs, pose éolienne/roue au niveau 2 | § 15 |
+| F31 | Butin d’équipements réglable, lieux élargis | § 14 |
+| F30 | Deux powerbanks superposées, conteneurs et raccordements distincts | § 13 |
 
 ---
 
@@ -75,8 +84,8 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 |---|---|---|
 | **1. Avant la coupure** (réseau public actif) | Le courant est partout. | Il récupère des batteries de voiture, du fil électrique, de l'électronique, des calculatrices et des livres d'électricité. Il fabrique un **testeur de tension** (niv. 1) et apprend à lire une installation. |
 | **2. La coupure** | Le générateur vanilla devient la seule source et attire les zombies. | Il installe un **onduleur** dans la maison (niv. 5) et une **powerbank** à côté (niv. 2), raccordée à l'onduleur, dans laquelle il range ses **batteries de voiture**. La nuit, la maison vit sur les batteries, sans bruit. *En v0.1, ces batteries se chargent par les sources ; la charge depuis un générateur vanilla arrive en v0.2 (§ 9).* |
-| **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou dans le jardin (niv. 3) et une **petite éolienne** (niv. 6). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
-| **4. Base autonome** | Plus de carburant. | Il ajoute une **roue à aubes** sur une rive de rivière (niv. 7), qui produit jour et nuit. Il dimensionne l'installation : assez de batteries pour la nuit, un onduleur assez puissant. Il entretient et remplace ce qui s'use. **Quand il part en expédition, la base continue de tourner** : le réfrigérateur reste froid. |
+| **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou dans le jardin (niv. 3) et une **petite éolienne** (pose niv. 2, fabrication niv. 6). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
+| **4. Base autonome** | Plus de carburant. | Il ajoute une **roue à aubes** sur une rive de rivière (pose niv. 2, fabrication niv. 7), qui produit jour et nuit. Il dimensionne l'installation : assez de batteries pour la nuit, un onduleur assez puissant. Il entretient et remplace ce qui s'use. **Quand il part en expédition, la base continue de tourner** : le réfrigérateur reste froid. |
 | **5. Fin de partie** (versions suivantes) | La base est stable. | Pompe électrique, capteurs et alarme, clôture électrifiée, relais pour un grand bâtiment. |
 
 **Arbitrages proposés au joueur :**
@@ -120,8 +129,8 @@ Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscri
 | Rôle | Appareil | Aspect (**placeholder**) | Contraintes de pose |
 |---|---|---|---|
 | Source | Panneau photovoltaïque | tuiles 0-3 (panneau incliné sur un châssis) | Dehors, à ciel ouvert (`sq:isOutside()`) ; toit plat accepté ; niv. 3 |
-| Source | Éolienne | tuiles 4-7 (mât, nacelle, trois pales) | Dehors (`isOutside()`) ; bonus en hauteur (§ 3.3) ; niv. 6 |
-| Source | Roue à aubes | tuiles 8-11 (roue en bois, génératrice) | Dehors, niveau 0, case voisine d'une eau de rivière (§ 3.4) ; niv. 7 |
+| Source | Éolienne | tuiles 4-7 (mât, nacelle, trois pales) | Dehors (`isOutside()`) ; bonus en hauteur (§ 3.3) ; pose/ramassage niv. 2, fabrication niv. 6 |
+| Source | Roue à aubes | tuiles 8-11 (roue en bois, génératrice) | Dehors, niveau 0, case voisine d'une eau de rivière (§ 3.4) ; pose/ramassage niv. 2, fabrication niv. 7 |
 | **Onduleur** | Onduleur (un seul modèle, D-17) | tuiles 12-15 (armoire grise, écran, voyants) | **N'importe quelle case de sol, intérieure comprise.** Aucun conteneur, pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) ; niv. 5 |
 | **Stockage** | Powerbank (4 batteries de voiture ou stationnaires) | tuiles 16-19 (bac de batteries) ; conteneur de la tuile `livewirepowerbank`, capacité 50 | N'importe quelle case de sol, intérieur compris ; niv. 2 |
 | Équipement | Disjoncteur | tuiles 20-21, objet mural (mur nord, mur ouest) | Sur un mur ; niv. 3 |
@@ -172,12 +181,15 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | Recette | Niv. | Entrées (outils conservés entre crochets) | Sortie | XP |
 |---|---|---|---|---|
 | `LWMakeVoltageTester` | 1 | 1 `ElectronicsScrap`, 1 `ElectricWire`, 1 `LightBulb`, 1 `Base.Battery` ; [tournevis] | `VoltageTester` | 5 |
+| `LWDismantleVoltageTester` | aucun | 1 `LiveWire.VoltageTester` ; [tournevis] | 1 `ElectronicsScrap` | 2 |
 | `LWSalvageSolarCell` (« Démonter une calculatrice ») | — | 1 `Base.Calculator` ; [tournevis] | 1 `ElectronicsScrap` + 1 `SolarCell` | 3 |
 | `LWMakeSolarPanelKit` | 3 | 10 `SolarCell`, 1 `SheetMetal`, 2 `ElectricWire`, 4 `Screws`, 1 `Glue` ; [tournevis, pinces] | `Mov_LiveWire_SolarPanel` | 15 |
 | `LWMakeSolarCellFromScrap` | 8 | 5 `ElectronicsScrap`, 1 `Aluminum` ; [pinces] | 1 `SolarCell` | 4 |
 | `LWMakeInverterKit` | 5 | 4 `ElectronicsScrap`, 2 `Amplifier`, 3 `ElectricWire`, 1 `SmallSheetMetal`, 4 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_Inverter` | 25 |
-| `LWMakeWindTurbineKit` | 6 | 2 `Speaker` (aimants), 3 `ElectricWire`, 4 `ElectronicsScrap`, 2 `SheetMetal`, 2 `MetalBar`, 1 `Pipe`, 6 `Screws` ; [tournevis, pinces, marteau] | `Mov_LiveWire_WindTurbine` | 30 |
-| `LWMakeWaterWheel` | 7 | 8 `Plank`, 20 `Nails`, 2 `Speaker`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 1 `MetalBar` ; [marteau, tournevis] | `Mov_LiveWire_WaterWheel` | 30 |
+| `LWMakeWindTurbineBlades` | aucun | 2 `SheetMetal`, 2 `Screws` ; [cisailles, marteau] | `LiveWire.WindTurbineBlades` | 0 |
+| `LWMakeWindTurbineMast` | aucun | 1 `MetalPipe`, 2 `MetalBar`, 2 `Screws` ; [marteau, clé à tuyau] | `LiveWire.WindTurbineMast` | 0 |
+| `LWMakeWindTurbineKit` | 6 | 1 jeu de pales, 1 mât, 2 `Base.Amplifier`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 2 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_WindTurbine` | 30 |
+| `LWMakeWaterWheel` | 7 | 8 `Plank`, 20 `Nails`, 2 `Base.Amplifier`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 1 `MetalBar` ; [marteau, tournevis] | `Mov_LiveWire_WaterWheel` | 30 |
 | `LWMakePowerBankKit` | 2 | 2 `ElectronicsScrap`, 3 `ElectricWire`, 1 `SheetMetal`, 4 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_PowerBank` | 8 |
 | `LWMakeBreakerKit` | 3 | 2 `ElectronicsScrap`, 1 `ElectricWire`, 1 `SmallSheetMetal`, 2 `Screws` ; [tournevis] | `Mov_LiveWire_Breaker` | 8 |
 | `LWMakeDeepCycleBattery` | 6 | 2 batteries de voiture (`CarBattery1/2/3` indifférentes), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
@@ -319,7 +331,7 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 | Appareil | Usure normale | Accélérateurs |
 |---|---|---|
 | Panneau | −1 par 10 jours de jeu | Orage, seulement si `StormDamage` est activée (désactivée par défaut) : 1 chance sur 20 par heure de perdre 5 |
-| Éolienne | −1 par 4 jours de jeu | Vent > 85 km/h, seulement si `StormDamage` est activée : 1 chance sur 6 par heure de perdre 5 à 15 ; ignoré avec le frein (niv. 7+, posé à l'inspection) |
+| Éolienne | −1 par 4 jours de jeu | Vent > 85 km/h, seulement si `StormDamage` est activée : 1 chance sur 6 par heure de perdre 5 à 15 ; ignoré avec le frein manuel réversible (niv. 7+) |
 | Roue à aubes | −1 par 5 jours de jeu | Dégel (si l'option est active) : −5 |
 | **Onduleur** | −1 par 5 jours de jeu **en marche** | Charge > 80 % de sa puissance maximale : usure × 2 ; chaque disjonction : −3 |
 | **Batterie** | Voir ci-dessous | — |
@@ -338,9 +350,11 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 - au-delà de 90 points, il faut « Remettre à neuf » (niv. 8 : 4 `ElectronicsScrap` et 2 `ElectricWire`), qui ramène l'état à 100.
 
 **Reconditionner une batterie** (niv. 4, batterie en inventaire) :
-- coût : 1 `ElectronicsScrap` et 0,5 l d'eau ;
+- extension locale I12 après 1.5.0 : tournevis, 1 `ElectronicsScrap`, 1 `ElectricWire` et 0,5 l d'eau ;
 - gain : +15 points d'état, sans dépasser 80 ;
-- impossible sur une batterie morte.
+- quatre réparations au plus par batterie ; batterie morte réparable au niveau 6 ;
+- même objet, cycles conservés et énergie stockée inchangée. La charge en pourcentage
+  diminue lorsque la capacité remonte. Une batterie morte repart vide.
 
 **Panne d'onduleur** (état 0) : la base n'est plus alimentée. La production des sources est **perdue**, car l'onduleur assure aussi la charge des batteries ; les batteries gardent leur charge.
 
@@ -553,11 +567,19 @@ Le serveur revérifie ce droit à chaque commande et écrit chaque usage dans sa
 | Afficher l'état du réseau | Résumé à l'écran, détail par source dans la console |
 | Batteries à 100 / 50 / 15 % / vides | Règle toutes les batteries du réseau (15 % : déclenche l'alarme et le secours) |
 | Faire tourner la simulation 1 h / 12 h | Rattrapage immédiat, comme après une absence |
-| Réparer tout le réseau · Abîmer l'onduleur (état 10) · Faire disjoncter | Tester l'usure, la réparation, le réarmement |
+| Réparer tout le réseau · Faire disjoncter | Tester l'usure, la réparation, le réarmement |
 | Remplir le générateur de secours | Carburant au maximum |
 | Reconstruire la liste des appareils et la zone alimentée | Refait l'inventaire de la demande et repose l'ancre |
 
 Le réseau visé est celui de l'appareil cliqué, sinon celui de l'onduleur le plus proche.
+
+Pour agir sur un seul appareil : **Live Wire → équipement → Debug : cet équipement**.
+Actions : retirer 10 points d'état, fixer l'état à 50 % ou 10 %, mettre hors service
+(0 %) et restaurer à 100 %. Elles fonctionnent aussi sans raccordement et distinguent
+les powerbanks superposées. Elles modifient l'état de l'équipement, sans modifier
+directement les batteries, créer des objets ou donner de l'XP. Restaurer un onduleur
+cassé le laisse éteint. Les droits sont revérifiés par le serveur, avec proximité,
+refuge autorisé et présence de l'objet chargé.
 
 ## 7. Options sandbox
 
@@ -661,3 +683,208 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 ### 10.4 Modèles pour Project Viewpoint (F23)
 
 - Mod facultatif livré dans le même objet Workshop : `batman_LiveWireViewpoint` (`require=atman_LiveWire`), modèles 3D de tous les équipements, voyants, pales et mousse d'insonorisation pour Project Viewpoint. Sans Project Viewpoint, il ne fait rien.
+
+## 11. Fonctionnalités de la version 1.6.0 (campagne IXX)
+
+Fonctionnalités intégrées à la version mineure 1.6.0, préparée sans publication Steam.
+La validation reste limitée aux preuves consignées dans le bilan de tests.
+
+- **F24 — Lire son réseau (I01–I05).** Sur l'onduleur, afficher/masquer la carte
+  des consommateurs ou les raccordements. Vert sous 50 W, orange jusqu'à 300 W,
+  rouge au-delà ; gris pour un autre propriétaire. Survol : catégorie, watts,
+  coordonnées. Câbles colorés par rôle, pointillés entre étages. Le logiciel donne
+  les listes paginées des consommateurs et les trente derniers événements, datés
+  en jours d'âge du monde et heure du jeu. Le LCD affiche le nom et le dernier
+  événement ; inspection et alarme portent aussi le nom. Renommage livré conservé.
+- **Prévisions (I03).** Ordinateur alimenté requis. Aujourd'hui, demain et
+  après-demain : kWh par famille, demande moyenne disponible sur 48 h, estimation
+  de suffisance du stock. Projection horaire partageant les règles de production
+  et de stockage, capacités et pertes. Les chiffres journaliers couvrent 24 h ;
+  le contrôle de réserve commence maintenant. Météo moyenne et entretien constant :
+  estimation, jamais garantie contre rafales, entretien négligé ou panne.
+- **F25 — Production entretenue (I07, I09, I14).** Sud 100 %, nord 55 %, est/ouest
+  85 %, pic décalé de deux heures vers matin/soir. Orientation à la pose et à
+  l'inspection. Poussière +1,2 point/jour, +2,4 en automne, plafond 50 % ; pluie
+  partiellement nettoyante. Nettoyer avec chiffon conservé et 0,5 L d'eau retire
+  neige et saleté ; XP plafonnée par panneau et jour. Déneigement ancien conservé
+  pour la neige seule. Frein niveau 7 livré conservé : voyant clignotant si serré ;
+  avertissement à l'arrivée d'un orage si une éolienne est libre. Le dépôt de suie
+  autour d'un incendie n'est pas modélisé dans ce lot.
+- **F26 — Batteries (I10–I12).** Froid désactivé par défaut : powerbank extérieure,
+  capacité accessible −20 % à 0 °C, −40 % à −15 °C ; réserve conservée hors
+  autodécharge/usure et récupérable au dégel. Powerbank intérieure inchangée.
+  Tester en inventaire avec le testeur : niveau 1 charge, 3 énergie/capacité/état,
+  5 cycles et durée restante estimée. Réparation : § 4.4. Charge, état, cycles et
+  nombre de réparations sont distincts.
+- **F27 — Maintenance (I13, I15).** Équipement mort et vide : démontage niveau 3
+  avec tournevis ; un déchet électronique et un fil, plus une cellule pour un
+  panneau ; objet retiré une seule fois. Risque électrique activé par défaut :
+  raccorder, débrancher, réparer ou démonter pour pièces un équipement raccordé
+  présente un risque de décharge de 50/42/33/25/17/8 % aux niveaux 0 à 5, nul dès 6.
+  Seul l'arrêt explicite de l'onduleur maître isole les interventions ; principal,
+  circuits ouverts, disjonction, panne ou stock vide ne suffisent pas. Brûlure et
+  douleur de la main du tournevis, objets tenus lâchés, action interrompue avant
+  dépenses. Le tournevis est requis au débranchement. Les réparations réussies
+  donnent de l'XP d'Électricité, comme toutes les recettes ; pales et mât : 2 XP
+  chacun. Les règles complètes figurent dans le guide joueur d'entretien.
+
+- **F28 — Tableau (I21).** Façade graphique inspirée du LCD, ouverte sur
+  le disjoncteur, avec une plaquette « legrand » rouge et noire sur fond blanc ;
+  nom, LCD de puissance instantanée, protection, modules et leviers, circuit lumières
+  réel, principal coupant l'ancre et réarmement de surcharge. Le principal laisse
+  produire et charger ; les autres alimentations restent indépendantes.
+  Deux circuits persistants : lumières et équipements, soit quatre combinaisons.
+  Frigos/congélateurs cessent de refroidir ; TV/radios secteur, cuisson, machines
+  à laver/sécher et chargeurs s'arrêtent ; pompes à carburant et pompes Live Wire
+  ne distribuent plus. Les appareils déjà éteints restent éteints au rétablissement.
+  Appareils sur piles et organes du réseau exclus. Les cycles natifs redémarrent
+  leur durée ; la chaleur résiduelle d'un four n'est pas supprimée artificiellement.
+  Le tableau le plus proche possède l'appareil, indépendamment d'une panne
+  temporaire de courant ; la demande reste facturée à une seule ancre alimentée.
+  Voir [preuves et portée](annexes/recherches/circuits-42-21.md), notamment pièces,
+  recouvrements, couplage, historique alimentaire et alimentations vanilla.
+  Le LCD remplace les rouleaux : éclairage, équipements (pompes LiveWire incluses)
+  et total en watts. Il reprend la dernière mesure de la simulation, sans cumul
+  de kWh ; ni charge des batteries, ni pertes ou veille de l'onduleur. Une coupure
+  sans charge résiduelle affiche « 0 W / coupé ». À la réouverture, l'ancien
+  instantané est écarté ; « Actualisation… » et des tirets indiquent une mesure
+  indisponible jusqu'à la reconstruction puis la mesure de l'inventaire chargé.
+  Les réseaux couplés utilisent le maître. En recouvrement, le LCD garde la
+  consommation réellement attribuée à son ancre : une charge d'un autre tableau
+  alimentée par ce réseau reste visible, même avec un de ses circuits ouvert.
+
+**I18** : API publique v1 pour les extensions, dans les
+[contrats techniques](specifications-techniques.md#api-publique-v1). Elle n'expose
+ni outils admin ni références au registre mutable.
+
+
+## 12. Accès direct et raccordements (F29, complément local)
+
+- Clic gauche simple à proximité : LCD de l'onduleur, LCD de la powerbank,
+  tableau du disjoncteur, LCD individuel des panneaux solaires, éoliennes,
+  roues à aubes, pompes et alarmes. Aucun déclenchement en visée, en construction,
+  en pause, à travers un obstacle ou dans un refuge interdit. Le clic souris
+  utilise le joueur 0, comme le vanilla ; les menus restent disponibles aux
+  autres joueurs locaux.
+- Menu contextuel : une seule ouverture par destination. « Ouvrir l'écran de
+  l'onduleur », « Ouvrir le tableau électrique » ou « Ouvrir le panneau », plus
+  une entrée distincte « Raccordements ». Un onduleur couplé ouvre le maître ;
+  deux powerbanks superposées restent distinctes.
+- Powerbank : état propre de l'équipement, charge utile en pourcentage et kWh,
+  capacité utile, réserve liée au froid, places occupées/excédentaires ; boutons
+  précédent/suivant pour charge et état des batteries, distincts de ceux du rack.
+  Fonctionne raccordée ou indépendante. Transferts dans l'inventaire vanilla.
+- Sources : LCD avec état, production mesurée propre à l'appareil et puissance
+  nominale. Solaire : encrassement et neige ; éolienne : frein serré/desserré.
+  Le relevé provient de la simulation existante, sans calcul de production par
+  l'interface. Sans raccordement, cassé ou frein serré : production nulle.
+- Pompe : son état, son débit d'eau mesuré en L/h et sa consommation en watts.
+  Elle consomme de l'électricité ; son écran n'affiche pas de production électrique.
+  Les valeurs proviennent des mesures existantes, sans déplacement d'eau à la lecture.
+  Circuit équipements/principal ouvert, panne ou absence de courant : zéro service.
+- Alarme : son état propre et son état d'alarme ; aucun watt de production fictif.
+- Chaque panneau possède un bouton « Raccordements ». Depuis un équipement,
+  il ouvre le choix d'onduleur pour **cet appareil uniquement**. Depuis l'onduleur,
+  il conserve la liste **globale** des équipements à portée du réseau choisi.
+  Les équipements d'un autre réseau sont signalés, sans reprise automatique.
+  Les actions conservent déplacement, fils, durées, compétences et validations.
+- Tableau non raccordé : état consultable, leviers indisponibles. État propre de
+  chaque appareil affiché en pourcentage ; zéro reste 0 %, donnée inconnue « -- % ».
+- Consommateurs (F24) : teinte « ghost » sur le sprite réel, sans copie de meuble :
+  vert <50 W, orange 50–300 W, rouge >300 W ; bleu arrêté/non servi, gris autre réseau.
+  Les watts exacts restent dans le logiciel. Silhouette absente ou ambiguë ignorée.
+
+Les lectures LCD sont bornées à l'appareil ouvert, à deux secondes réelles
+d'intervalle ; la cadence physique de la simulation reste inchangée. Les écrans
+se ferment hors de portée et ignorent les callbacks/réponses après fermeture.
+
+Implémentation locale ; état des tests réels dans le [bilan](annexes/tests/validation.md).
+
+
+## 13. Powerbanks superposées (F30)
+
+Deux powerbanks peuvent être posées sur la même case, l'une au-dessus de l'autre,
+avec le curseur de meubles vanilla. Chaque banque conserve son conteneur de capacité
+50 et ses quatre emplacements actifs : huit emplacements par pile, dans la limite
+native du poids des batteries. Une troisième est refusée. Le support doit être le
+sol ou une autre powerbank ; les autres types de meubles ne sont pas acceptés comme
+socle pour une nouvelle banque.
+
+Les banques restent deux équipements indépendants, à raccorder chacun à l'onduleur.
+Le LCD propose Banque 1/2 et Banque 2/2 (ordre du bas vers le haut), sélectionne le
+conteneur correspondant dans le butin et affiche les batteries de cette banque.
+La liste de raccordement distingue les banques par leur position dans la pile.
+
+Le meuble inférieur ne peut être ramassé, tourné ou démonté pour pièces tant qu'un
+objet repose dessus. Les règles vanilla imposent aussi de vider le conteneur avant
+ramassage ou rotation. Aucune batterie ni charge n'est ajoutée à la pose.
+
+Les anciennes powerbanks conservent objets, contenus, identifiants et raccordements.
+Un redémarrage complet charge les nouvelles propriétés de tuiles. Rendu et scénario
+réel de pile à confirmer manuellement ; voir le bilan de validation.
+
+## 14. Découverte d'équipements et pièces (F31)
+
+La page sandbox LiveWire propose **Fréquence des équipements et pièces LiveWire**, de
+1 à 20, avec **5 par défaut**. Elle multiplie les poids des panneaux, testeurs,
+batteries stationnaires, onduleurs, disjoncteurs, powerbanks, alarmes et éoliennes.
+Les lieux sont élargis aux rayons d'électronique et d'appareils, aux caisses
+d'électronique, de mécanique et de métallerie, aux outils de garage et de
+quincaillerie ; les batteries stationnaires peuvent apparaître parmi le matériel
+de camping. Aucun emplacement ne garantit une découverte.
+
+Redémarrage complet requis après changement ; l'option s'applique aux futurs
+tirages et à la réapparition vanilla si activée, sans remplir les conteneurs déjà
+fouillés. Les anciennes sauvegardes sans option utilisent 5. Les réglages vanilla
+restent actifs. Cellules, pales et mâts LiveWire inclus ; entrées vanilla et CD inchangés ; roues à aubes trouvables, pompes à fabriquer.
+Seuls les objets propres au mod sont concernés. Aucun ingrédient ou équipement
+vanilla n’est ajouté, retiré ou repondéré, même dans les rangements techniques. Les cellules ont quatre catégories
+supplémentaires. Les listes et estimations sont dans le [guide du butin](wiki/fr/09-tables-de-butin.md).
+
+## 15. Fabrication et accessibilité des sources (F32)
+
+Pose et ramassage de l'éolienne et de la roue à aubes à Électricité 2, sur leurs
+quatre orientations. Fabrication à 6 et 7 conservée. Pales et mât sont des objets
+d'inventaire fabriquables sans niveau électrique ou trouvables.
+L'assemblage de l'éolienne consomme ces pièces et deux amplificateurs vanilla ;
+la roue consomme aussi deux amplificateurs. Le démontage vanilla d'un haut-parleur
+donne un amplificateur et un déchet électronique ; ses règles sont conservées.
+La fréquence des amplificateurs vanilla reste inchangée.
+Éoliennes complètes : poids 0,3–0,5 dans dix listes ; roues : 0,3–0,5 dans sept.
+Les nouveaux composants sont plus fréquents ; l'option de butin ×5 s'applique.
+Les règles de vent, production, frein et pose près d'une rivière sont conservées.
+Les objets finaux et les installations existantes restent compatibles.
+
+### Démontage du testeur de tension
+
+Le testeur LiveWire peut être démonté dans l'artisanat sans niveau requis, avec
+un tournevis conservé. Il est consommé et rend un seul déchet électronique.
+Les autres ingrédients de fabrication ne sont pas restitués. Ce complément à
+l'entretien et aux recettes de F32 utilise le même parcours natif autoritaire.
+
+### Icônes des recettes
+
+Chaque équipement posable dispose d'une icône de résultat dans l'artisanat,
+correspondant à son apparence actuelle. Les sept icônes manquantes sont extraites
+des sprites du mod ; l'icône existante de l'éolienne est conservée. Les objets
+d'inventaire gardent leurs icônes déclarées. La récupération d'une cellule affiche
+la cellule, plutôt que la calculatrice consommée. Redémarrage complet nécessaire.
+
+
+### Voyants dans le monde et couleur du LCD pompe — F29
+
+La pompe ouvre déjà son LCD par le clic direct ; ce parcours est conservé.
+Son fond LCD est bleu, avec texte sombre. Le voyant bleu sur l'objet posé indique
+qu'elle est alimentée : onduleur en marche, distribution et circuit équipements
+actifs, pompe intacte et service non désactivé. Il reste allumé au repos, sans
+baril ou point d'eau raccordé. Une coupure lumières seule ne l'éteint pas.
+
+Le disjoncteur posé montre un voyant vert quand le réseau distribue du courant
+et que le tableau est intact ; les deux circuits peuvent être ouverts sans
+éteindre ce voyant. Principal coupé ou absence de courant : voyant éteint.
+Le voyant rouge existant reste prioritaire en cas de disjonction. Un voyant
+éteint ne valide pas une intervention sûre : éteindre l'onduleur avant entretien.
+
+Le libellé français du débit utilise « d'eau » avec apostrophe simple, compatible
+avec la police LCD. Aucun nouveau éclairage du sol, bruit, consommation ou
+traitement par image n'est ajouté.

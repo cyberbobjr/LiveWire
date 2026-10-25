@@ -34,6 +34,9 @@ Right-click the inverter, then **Open the inverter screen**. It is a backlit scr
 | House | House details |
 | History | 48 h graphs (production, consumption, battery stock) and the forecast "batteries will last until sunrise" |
 | Equipment | Breaker, alarm, backup generator, computer |
+| Consumers | Measured appliance watts, up to 200 entries |
+| Forecast | Three-day weather-based production estimate; powered management computer required |
+| Events | Last 30 timestamped network events |
 
 The history and forecast need a linked management computer (see [Optional Equipment](06-optional-equipment.md)).
 
@@ -82,6 +85,36 @@ The Soundproofing Kit (`LiveWire.SoundproofKit`, Electrical level 2) is fitted o
 | Look | Grey acoustic foam on the top, sides and back; "Soundproofed" when inspected and on the Status page |
 
 The kit follows the inverter when it is picked up.
+
+## Consumers, wiring, events and forecasts
+
+The inverter offers toggles for the load map (coloured appliance silhouettes)
+and wiring view (dashed across floors). Green loads are below 50 W, amber up to
+300 W, red above; grey belongs to another inverter. The software adds paged consumers,
+the last 30 timestamped events, and a three-day production forecast when a management
+computer is powered. Forecasts include current panel orientation, dirt, snow, source
+condition and wind brakes; maintenance is assumed unchanged. Daily figures cover a
+full day, while reserve checking starts now. An estimate cannot guarantee weather,
+future maintenance or failures. Network names also appear on the LCD, inspections
+and low-battery warnings.
+
+
+## Direct clicks and the power bank LCD
+
+Left-click a nearby inverter to open its LCD, or a breaker to open its electrical
+board. Avoid aiming or using a construction cursor while clicking.
+
+A **power bank** has its own LCD: usable charge, available kWh, usable capacity,
+cold reserve, occupied slots and excess batteries. Previous/next buttons show each
+battery's charge and condition. It works even when disconnected. Use the native
+inventory to move batteries. Press **Connections** to open the shared wiring window.
+
+**Show consumers** colours the actual appliances, including lights: green below
+50 W, orange through 300 W, red above; blue stopped or unpowered, grey another
+network. Hiding clears the colours. Exact watts remain in the software list.
+
+
+![Live Wire 1.6.0 — LCDs and electrical panel](../../images/screenshots/shot7.png)
 
 ## See also
 

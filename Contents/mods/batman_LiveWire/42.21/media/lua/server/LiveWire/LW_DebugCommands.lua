@@ -161,7 +161,32 @@ local function enablePumps(player)
     LiveWire.log("debug enablePumps: pumps enabled again")
 end
 
+local function setDeviceCondition(player, dev, grid, value)
+    local def = LiveWire.Defs.devices[dev.model]
+    if not def or def.role ~= dev.role or not LiveWire.Devices.find(dev) then
+        return LiveWire.notify(player, "Tooltip_LW_Invalid", {}, true)
+    end
+    dev.cond = LiveWire.clamp(value < 0 and (dev.cond or 100) + value or value, 0, 100)
+    if dev.cond == 0 then
+        if dev.role == "inverter" or dev.role == "pump" then dev.state = "broken" end
+        if dev.role == "source" then dev.pOut, dev.raw = 0, 0 end
+    elseif dev.state == "broken" then
+        if dev.role == "inverter" then dev.state = "off"
+        elseif dev.role == "pump" then dev.state = "idle" end
+    end
+    -- Only device health changes. Slots, battery health/charge, links, brake,
+    -- circuit choices and persistent ids stay intact. No XP or item creation.
+    LiveWire.Devices.syncMark(dev)
+    if grid then
+        grid.forecastAt = nil
+        LiveWire.Sim.refresh(grid)
+    end
+    LiveWire.notify(player, "IGUI_LW_Debug_Condition",
+        { "IGUI_LW_Model_" .. dev.model, tostring(math.floor(dev.cond + 0.5)) })
+end
+
 local function onDebug(player, args)
+    if not player or player:isDead() or not R().ready or R().readOnly then return end
     if not LiveWire.Debug.allowed(player) then
         LiveWire.warn("debug command refused for " .. tostring(player:getUsername()))
         return
@@ -179,6 +204,10 @@ local function onDebug(player, args)
     local dev, why = LiveWire.Commands.checkDevice(player, args.device, LiveWire.Debug.RANGE)
     if not dev then return LiveWire.notify(player, why, {}, true) end
     local grid = gridOf(dev)
+    local condition = LiveWire.Debug.CONDITIONS[action]
+    if condition ~= nil then
+        return setDeviceCondition(player, dev, grid, condition)
+    end
     if not grid then return LiveWire.notify(player, "IGUI_LW_Debug_NoGrid", {}, true) end
     actions[action](player, dev, grid)
     if action ~= "dump" and action ~= "advance1" and action ~= "advance12" then

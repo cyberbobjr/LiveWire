@@ -4,75 +4,60 @@
 
 Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein eigenes Inselnetz: Solarpanels, eine Windturbine oder ein Wasserrad speisen einen Wechselrichter, und der Wechselrichter versorgt das ganze Haus darum herum. Für die Nacht gibt es Batterien. Die Fertigkeit Elektrotechnik zählt endlich: Jedes Gerät hat eine Stufe, und deine Stufe verbessert die Installation.
 
+[h2]1.6.0 — Deine Anlage steuern[/h2]
+
+Der Sicherungskasten hat Hebel für Licht, Geräte und Hauptversorgung sowie aktuelle Wattwerte je Stromkreis und insgesamt. Echte Geräte abschalten und frühere Schaltzustände wiederherstellen, auch nach Neustarts. Bei offener Hauptverteilung können Quellen weiter Batterien laden. Linksklick öffnet das jeweilige LCD; Anschlüsse werden im gemeinsamen Fenster verwaltet.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
+
 [h2]So funktioniert es[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_de.png[/img]
 
-[list]
-[*][b]Quellen[/b] erzeugen Strom: Solarpanel 100 W, Windturbine 400 W, Wasserrad 120 W. So viele, wie du pro Wechselrichter möchtest.
-[*][b]Der Wechselrichter[/b] (maximal 1.500 W) versorgt jedes Gerät im Umkreis von 20 Feldern und 3 Stockwerke nach oben oder unten. Keine Verkabelung pro Gerät: Kühlschränke, Lampen, Herde, Fernseher und Radios funktionieren wie im Originalspiel.
-[*][b]Verbrauchsprofil[/b] (Sandbox): Spielwerte (Standard), Realistisch 1993 (Licht 60 W, Fernseher 80 W, Elektroherd 2.000 W), Ultrarealistisch 1993 oder Komfort.
-[*][b]Die Batteriebank[/b] speichert den Überschuss: Sie zählt 4 Batterien (Autobatterien oder Deep-Cycle-Batterien). Ohne Batterien läuft das Haus nur mit der aktuellen Erzeugung.
-[*][b]Kabel[/b]: Stromkabel, 1 pro 4 Felder, Reichweite 12 Felder. Rechtsklick auf ein Gerät > "Live Wire" > "Mit einem Wechselrichter verbinden".
-[/list]
+Solar 100 W, Wind 400 W, Wasserrad 120 W. Ein Wechselrichter versorgt Geräte in 20 Feldern und ±3 Stockwerken mit bis zu 1.500 W; vier gekoppelte liefern 6.000 W. Keine Einzelkabel zu Haushaltsgeräten.
+Batteriebänke speichern Überschüsse (je 4 Batterien). Kabel: 1 Draht pro 4 Felder, Reichweite 12. Verbrauchsprofile: Spielwerte, Realistisch 1993, Ultrarealistisch 1993 oder Komfort.
 
 [h2]Ausrüstung[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_de.png[/img]
 
-[list]
-[*][b]Solarpanel[/b] (Elektrotechnik 3): im Freien, unter freiem Himmel. Flachdächer funktionieren.
-[*][b]Windturbine[/b] (6): im Freien, je höher, desto stärker.
-[*][b]Wasserrad[/b] (7): am Flussufer, im Erdgeschoss.
-[*][b]Wechselrichter[/b] (5): das Herzstück des Netzes, kann auch in Gebäuden stehen.
-[*][b]Batteriebank[/b] (2): öffnet sich wie eine Kiste.
-[*][b]Optional[/b]: Schutzschaltertafel (löst aus, statt den Wechselrichter zu beschädigen), Batteriealarm bei niedrigem Ladestand, Schalldämmset für das Brummen des Wechselrichters, Originalgenerator als Reserve (startet unter 20 % Batterieladung), Originalcomputer als Verwaltungsrechner. Bis zu 4 Wechselrichter lassen sich mit einem Kopplungsset parallel schalten (6.000 W).
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot4.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/onduleur.png[/img]
+Solarmodule draußen aufstellen (Elektrik 3), Windräder draußen und Wasserräder am Flussufer (beide 2), Wechselrichter (5), Batteriebänke (2). Zwei Bänke passen übereinander auf ein Feld, mit getrennten Inventaren und Anschlüssen. Vor dem Aufheben leeren, obere Bank zuerst.
+Optional: Sicherungskasten, Batteriealarm, Schalldämmung, Vanilla-Notstromgenerator und Verwaltungscomputer.
 
 [h2]Erzeugung[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_de.png[/img]
 
-[list]
-[*][b]Solar[/b]: etwa 0,94 kWh an einem Sommertag, etwa 0,60 im Winter. Wolken und Schnee verringern die Leistung.
-[*][b]Wind[/b]: unter 10 km/h nichts, darüber steigt die Leistung mit der dritten Potenz der Geschwindigkeit bis 45 km/h, zwischen 45 und 85 km/h volle Leistung, darüber bremst die Turbine automatisch.
-[*][b]Wasserrad[/b]: 120 W Tag und Nacht an Flüssen.
-[/list]
+Solarausrichtung: Süden 100%, Osten/Westen 85%, Norden 55%. Wolken, Schnee und Schmutz senken den Ertrag. Regen reinigt; manuell mit Lappen + 0,5 L Wasser. Windstrom ab 10 km/h, volle Leistung bei 45–85, darüber Bremse. Wasserkraft läuft Tag und Nacht. Optionale Batteriekälte bewahrt vorübergehend unzugängliche Energie als Reserve; standardmäßig aus.
 
-Beispiel: ein Kühlschrank mit Gefrierfach und 10 Lampen verbrauchen zusammen etwa 4,1 kWh pro Tag. Ein Wasserrad und 2 Solarpanels decken das ganze Jahr über alles ab.
+[h2]Wasserpumpe[/h2]
 
-[h2]Wasserpumpe (neu in 1.2.0)[/h2]
-
-[list]
-[*]Wasserfässer am Boden versorgen jetzt die Wasserstellen des ganzen Hauses: Spülen, Duschen, Badewannen und Toiletten funktionieren nach dem Wasserausfall wieder.
-[*]Stelle die [b]Wasserpumpe[/b] (Elektrik 6) neben Vanilla-Regensammler oder Fässer von [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] (bis zu 8, je ein Eisenrohr) und verbinde sie mit dem Wechselrichter.
-[*]Schließe die Wasserstellen wie in Vanilla mit der Rohrzange an: Jede angeschlossene Wasserstelle im Umkreis von 15 Feldern (Sandbox) wird versorgt. Nur Wasser wird angenommen; Regenwasser kommt sauber heraus.
-[*]5 L pro Minute, 250 W beim Pumpen, ein leises Summen; sie stoppt von selbst, wenn alle Wasserstellen voll sind. "Versorgte Wasserstellen anzeigen" hebt sie blau hervor.
-[*]Vor dem Entfernen des Mods die Debug-/Admin-Aktion "Alle Wasserrelais entfernen" ausführen.
-[/list]
+Die Wasserpumpe (Elektrik 6) versorgt angeschlossene Sanitärgeräte in 15 Feldern aus bis zu 8 benachbarten Regensammlern oder [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]-Fässern, je ein Metallrohr. Rohrzange zum Anschließen. Regenwasser kommt sauber an: bis 5 L/min, 250 W beim Pumpen. Blau = mit Strom versorgt, auch im Leerlauf. Vor Deinstallation alle Wasserrelais per Debug-/Adminaktion entfernen.
 
 [h2]Rezepte[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_de.png[/img]
 
-Kategorie Elektrotechnik, wird automatisch ab der nötigen Stufe gelernt. Solarzellen stammen aus zerlegten Taschenrechnern oder werden als Beute gefunden; fertige Ausrüstung kann auch in Elektrikerwerkstätten, Baumärkten und Garagen auftauchen.
+17 bebilderte Rezepte. Elektrikrezepte werden automatisch freigeschaltet; Rotorblätter und Mast unter Metallverarbeitung ohne Elektrikstufe. Windrad-Endmontage auf 6, Wasserradbau auf 7, jeweils mit zwei Verstärkern. Beide auf Stufe 2 aufstellen/aufheben. Spannungsprüfer zu Elektroschrott zerlegen. Alle Rezepte geben Elektrik-EP. Mehr Fundorte; Beutemultiplikator standardmäßig 5 (1–20), nur neue Würfe nach Neustart.
 
 [h2]Verwaltungssoftware[/h2]
 
-Live Wire Monitor zeigt Erzeugung, Verbrauch, Batterien, einen 48-Stunden-Verlauf und eine Prognose "bis Sonnenaufgang". Mit dem optionalen Computer Mod oder Laptop Mod kommt er auf einer Diskette, die in der Computerbeute zu finden ist. Ansonsten läuft er auf einem mit dem Wechselrichter verbundenen Originalcomputer.
+Live Wire Monitor ergänzt Verbraucher (bis 200), farbige Gerätesilhouetten, Kabelansicht, 30 letzte Ereignisse und drei Tage Produktionsprognose mit versorgtem Verwaltungscomputer, neben 48 Stunden Verlauf. Netzwerknamen auf LCDs und Warnungen. Vanilla-PCs funktionieren; Computer Mod/Laptop Mod optional mit Beutediskette.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
+[h2]Elektrische Sicherheit und EP[/h2]
+
+Batterietests auf Elektrik 1/3/5. Aufbereitung auf 4 (6 bei defekt): Schraubendreher bleibt, Schrott, Draht, 0,5 L Wasser; +15 Zustand, maximal 80, viermal. Leere defekte Geräte auf 3 ausschlachten. Arbeiten unter Spannung: Risiko standardmäßig an, 50/42/33/25/17/8/0% auf Stufe 0/1/2/3/4/5/6+. Stromschlag verbrennt die Werkzeughand, lässt Gegenstände fallen und bricht vor Materialverbrauch ab. Hauptwechselrichter ausschalten; der Sicherungskasten isoliert seine Anschlüsse nicht.
+
 [h2]Mehrspieler[/h2]
 
-Der Server berechnet alles und prüft jede Anfrage. Die Installation läuft auch ohne Spieler weiter. Automatisierte Spieltests decken Einzelspieler und einen dedizierten Windows-Server mit zwei Clients ab, einschließlich Speichern und Neuladen.
+Serverseitige Simulation und Aktionsprüfung, gespeicherte Stromkreise und synchronisierte Gerätezustände. Vor Abschalten des Mods beide Stromkreise schließen.
 
 [h2]Dokumentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki]Live Wire wiki (auf Englisch)[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire wiki (auf Englisch)[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieses Item enthält auch die optionale Mod [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) mit 3D-Modellen aller Geräte. Nur aktivieren, wenn du Project Viewpoint nutzt.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]

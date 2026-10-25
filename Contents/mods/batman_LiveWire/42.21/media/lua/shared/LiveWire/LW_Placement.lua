@@ -12,6 +12,7 @@
 --   rotate: rotateMoveable = pickUpMoveable then placeMoveable on the same square.
 
 require "Moveables/ISMoveableSpriteProps"
+require "LiveWire/LW_Stack"
 
 LiveWire = LiveWire or {}
 
@@ -48,6 +49,7 @@ end
 function Placement.check(model, sq)
     local def = LiveWire.Defs.devices[model]
     if not def or not sq then return false, "Tooltip_LW_Invalid" end
+    if model == "PowerBank" then return LiveWire.Stack.canPlace(sq) end
     if def.needsOutside and not sq:isOutside() then return false, "Tooltip_LW_NeedOutdoor" end
     if def.needsRiver and (sq:getZ() ~= 0 or not Placement.nextToRiver(sq)) then
         return false, "Tooltip_LW_NeedWaterSide"
@@ -60,6 +62,17 @@ local function authority()
 end
 
 local MP = ISMoveableSpriteProps
+
+local origCanPick = MP.canPickUpMoveableInternal
+function MP:canPickUpMoveableInternal(character,square,object,isMulti,...)
+    if object and not LiveWire.Stack.canMove(object) then return false end
+    return origCanPick(self,character,square,object,isMulti,...)
+end
+local origCanRotate = MP.canRotateMoveableInternal
+function MP:canRotateMoveableInternal(square,object,...)
+    if object and not LiveWire.Stack.canMove(object) then return false end
+    return origCanRotate(self,square,object,...)
+end
 
 local origCanPlace = MP.canPlaceMoveableInternal
 function MP:canPlaceMoveableInternal(_character, _square, _item, _forceTypeObject, ...)
@@ -82,7 +95,16 @@ function MP:getInfoPanelDescription(_square, _object, _player, _mode, ...)
             if not ok then
                 info = MP.addLineToInfoTable(info, getText(why), 255, 60, 60)
             end
+            local def = LiveWire.Defs.devices[model]
+            if def and def.kind == "solar" then
+                local facing = (tonumber(string.match(self.spriteName, "_(%d+)$")) - def.tile) % 4
+                info = MP.addLineToInfoTable(info, getText("IGUI_LW_Facing_" .. facing), 180, 220, 255)
+            end
         end
+    end
+    if (_mode=="pickup" or _mode=="rotate") and _object and type(info)=="table" then
+        local ok,why=LiveWire.Stack.canMove(_object)
+        if not ok and why then info=MP.addLineToInfoTable(info,getText(why),255,60,60) end
     end
     return info
 end
@@ -102,12 +124,17 @@ function MP:placeMoveableInternal(_character, _square, _item, _spriteName, ...)
     -- the inverters in range (LW_Demand.lua).
     if _square and LiveWire.isAuthority() and LiveWire.Demand and LiveWire.Demand.invalidateAt then
         LiveWire.Demand.invalidateAt(_square)
+        if LiveWire.Circuits then
+            local objects = _square:getObjects()
+            for i = 0, objects:size() - 1 do LiveWire.Circuits.applyObject(objects:get(i)) end
+        end
     end
     return r
 end
 
 local origPickUp = MP.pickUpMoveableInternal
 function MP:pickUpMoveableInternal(_character, _square, _object, _sprInstance, _spriteName, _createItem, _rotating, ...)
+    if _object and not _sprInstance and not LiveWire.Stack.canMove(_object) then return nil end
     local id = nil
     if _object and not _sprInstance and authority() and LiveWire.Defs.modelOfObject(_object) then
         id = LiveWire.Devices.beforePickUp(_object)
@@ -121,6 +148,10 @@ end
 
 local origRotate = MP.rotateMoveable
 function MP:rotateMoveable(_character, _square, _origSpriteName, ...)
+    if modelOfSprite(_origSpriteName)=="PowerBank" then
+        local obj=self:findOnSquare(_square,_origSpriteName)
+        if not obj or not self:canRotateMoveableInternal(_square,obj) then return end
+    end
     local ours = authority() and modelOfSprite(_origSpriteName) ~= nil
     if ours then LiveWire.Devices.beginRotation() end
     local r = origRotate(self, _character, _square, _origSpriteName, ...)

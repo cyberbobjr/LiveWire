@@ -37,5 +37,9 @@
     "Tooltip_LW_NeedCouplingKit": "É preciso um kit de acoplamento de inversores.",
     "Tooltip_LW_CoupledInverter": "Este inversor está acoplado: ligue o equipamento ao seu principal.",
     "Tooltip_LW_CoupleHasEquipment": "Desligue primeiro todo o equipamento deste inversor.",
-    "Tooltip_LW_TooManySlaves": "Um inversor principal aceita no máximo %1 inversores acoplados."
+    "Tooltip_LW_TooManySlaves": "Um inversor principal aceita no máximo %1 inversores acoplados.",
+    "Tooltip_LW_RepairLimit": "Esta bateria atingiu o limite de reparações.",
+    "Tooltip_LW_BankStackFull": "Só pode empilhar dois bancos de baterias.",
+    "Tooltip_LW_BankStackBase": "Coloque no chão ou sobre outro banco de baterias.",
+    "Tooltip_LW_BankStackSupport": "Retire primeiro o banco superior ou os objetos em cima."
 }

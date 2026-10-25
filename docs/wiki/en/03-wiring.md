@@ -47,6 +47,20 @@ The vanilla generator (backup) and the vanilla desktop computer (management) are
 
 Open the inverter screen, Turn on / Turn off, Reset (after a trip), Show the powered area (a cyan circle on the ground), Connect equipment, Disconnect equipment, Soundproof the inverter, Inspect, Repair, Overhaul.
 
+## Wire equipment from one window
+
+Click nearby Live Wire equipment directly. Sources and alarms open the wiring
+window. From an inverter LCD or bank LCD, press **Connections**. The electrical
+board controls circuits and resets overload protection.
+
+Choose an inverter, select equipment, then **Connect** or **Disconnect**. Your
+character walks to it; wire costs and skill requirements still apply. The window
+stays open for the next device. **Refresh** finds newly placed equipment. Devices
+on another network are labelled; disconnect them from that network first.
+
+Right-click menus remain available. Inverter coupling and pump barrels keep their
+specific controls.
+
 ## See also
 
 [Equipment](02-equipment.md) - [Inverter Screen and Software](05-inverter-screen-and-software.md) - [Optional Equipment](06-optional-equipment.md) - [Sandbox Options](11-sandbox-options.md)

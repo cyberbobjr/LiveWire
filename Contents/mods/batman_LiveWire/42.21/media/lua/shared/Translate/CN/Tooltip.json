@@ -37,5 +37,9 @@
     "Tooltip_LW_NeedCouplingKit": "需要一套逆变器并联套件。",
     "Tooltip_LW_CoupledInverter": "该逆变器已并联：请将设备连接到其主逆变器。",
     "Tooltip_LW_CoupleHasEquipment": "请先断开该逆变器上的所有设备。",
-    "Tooltip_LW_TooManySlaves": "一台主逆变器最多可并联 %1 台逆变器。"
+    "Tooltip_LW_TooManySlaves": "一台主逆变器最多可并联 %1 台逆变器。",
+    "Tooltip_LW_RepairLimit": "此电池已达到维修次数上限。",
+    "Tooltip_LW_BankStackFull": "最多叠放两个电池组。",
+    "Tooltip_LW_BankStackBase": "请放在地面或另一个电池组上。",
+    "Tooltip_LW_BankStackSupport": "请先移走上方电池组或物品。"
 }

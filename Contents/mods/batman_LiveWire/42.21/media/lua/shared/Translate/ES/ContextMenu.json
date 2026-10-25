@@ -72,5 +72,17 @@
     "ContextMenu_LW_ApplyBrake": "Activar el freno del aerogenerador",
     "ContextMenu_LW_ReleaseBrake": "Soltar el freno del aerogenerador",
     "ContextMenu_LW_ResumeBackup": "Reanudar el suministro de respaldo automático",
-    "ContextMenu_LW_RenameNetwork": "Cambiar nombre de la red"
+    "ContextMenu_LW_RenameNetwork": "Cambiar nombre de la red",
+    "ContextMenu_LW_CleanPanel": "Limpiar panel",
+    "ContextMenu_LW_TestBattery": "Comprobar batería",
+    "ContextMenu_LW_Salvage": "Desmontar para piezas",
+    "ContextMenu_LW_OpenBoard": "Abrir cuadro eléctrico",
+    "ContextMenu_LW_ShowConsumers": "Mostrar/ocultar consumidores",
+    "ContextMenu_LW_ShowConnections": "Mostrar/ocultar conexiones",
+    "ContextMenu_LW_DebugDevice": "Depurar: este equipo",
+    "ContextMenu_LW_Debug_deviceMinus10": "Quitar 10 puntos de estado",
+    "ContextMenu_LW_Debug_device50": "Fijar estado al 50%%",
+    "ContextMenu_LW_Debug_device10": "Fijar estado al 10%%",
+    "ContextMenu_LW_Debug_deviceBreak": "Dejar fuera de servicio (0%%)",
+    "ContextMenu_LW_Debug_deviceRestore": "Restaurar estado al 100%%"
 }

@@ -72,5 +72,17 @@
     "ContextMenu_LW_ApplyBrake": "Acionar o freio da turbina eólica",
     "ContextMenu_LW_ReleaseBrake": "Soltar o freio da turbina eólica",
     "ContextMenu_LW_ResumeBackup": "Retomar a alimentação de emergência automática",
-    "ContextMenu_LW_RenameNetwork": "Renomear a rede"
+    "ContextMenu_LW_RenameNetwork": "Renomear a rede",
+    "ContextMenu_LW_CleanPanel": "Limpar painel",
+    "ContextMenu_LW_TestBattery": "Testar bateria",
+    "ContextMenu_LW_Salvage": "Desmontar para peças",
+    "ContextMenu_LW_OpenBoard": "Abrir quadro elétrico",
+    "ContextMenu_LW_ShowConsumers": "Mostrar/ocultar consumidores",
+    "ContextMenu_LW_ShowConnections": "Mostrar/ocultar conexões",
+    "ContextMenu_LW_DebugDevice": "Debug: este equipamento",
+    "ContextMenu_LW_Debug_deviceMinus10": "Remover 10 pontos de condição",
+    "ContextMenu_LW_Debug_device50": "Definir condição em 50%%",
+    "ContextMenu_LW_Debug_device10": "Definir condição em 10%%",
+    "ContextMenu_LW_Debug_deviceBreak": "Colocar fora de serviço (0%%)",
+    "ContextMenu_LW_Debug_deviceRestore": "Restaurar condição para 100%%"
 }

@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "极度写实 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "写实 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "游戏数值",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "舒适"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "舒适",
+    "Sandbox_LiveWire_SolarOrientation": "太阳能朝向",
+    "Sandbox_LiveWire_SolarDirt": "面板积尘",
+    "Sandbox_LiveWire_BatteryCold": "电池低温影响",
+    "Sandbox_LiveWire_LiveWorkRisk": "带电作业风险",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "面板朝向影响发电量和发电峰值时间。",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "面板会积尘，雨水和手动清洁可以去除。",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "低温会降低室外电池组的可用容量，回暖后储备重新可用。",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "默认开启。电工0级触电概率50%%，6级起为零。会烧伤持螺丝刀的手并掉落手持物。作业前关闭主逆变器：仅断开配电盘总开关并不安全。",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Live Wire设备与零件战利品倍率",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "仅将Live Wire设备与零件（太阳能电池片、叶片和塔架）的战利品权重乘以指定倍数（1-20，默认5）。不改变原版物品及其战利品权重。软件光盘保持原有掉落率。需要重启；仅影响之后的战利品生成，不会补充已搜索的容器。游戏原有战利品设置仍然生效。"
 }

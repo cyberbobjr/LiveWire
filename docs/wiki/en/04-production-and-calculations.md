@@ -2,6 +2,8 @@
 
 # Production and Calculations
 
+Solar sizing examples assume clean, snow-free, south-facing panels. Orientation, dirt and weather change the actual result.
+
 The server computes everything every **10 game minutes**, whether players are present or not (sandbox `SimulateUnloaded`, on by default). The values below are starting values for balancing.
 
 ![Solar day, wind curve and energy per day compared with a typical house](../../images/diagrams/production_en.png)
@@ -146,6 +148,14 @@ Winter production of the sources: solar panel about 0.6 kWh/day, water wheel abo
 ## How many panels?
 
 There is **no limit**: productions add up (100 W nominal each). The 1,500 W limit applies to the **house demand**, not to production.
+
+## Panel care and orientation
+
+With SolarOrientation enabled, south gives 100%, east/west 85% with an earlier/later
+peak, north 55%. Inspect the panel to read its facing, dirt and snow. SolarDirt adds
+slow dust accumulation (faster in autumn); rain helps wash it off. Clean with a rag
+(kept) and 0.5 L of water. The old snow-only action remains available. A braked wind
+turbine has a blinking connection lamp; a storm warning reminds you to apply brakes.
 
 ## See also
 

@@ -72,5 +72,17 @@
     "ContextMenu_LW_ApplyBrake": "Serrer le frein de l'éolienne",
     "ContextMenu_LW_ReleaseBrake": "Desserrer le frein de l'éolienne",
     "ContextMenu_LW_ResumeBackup": "Reprendre le secours automatique",
-    "ContextMenu_LW_RenameNetwork": "Renommer le réseau"
+    "ContextMenu_LW_RenameNetwork": "Renommer le réseau",
+    "ContextMenu_LW_DebugDevice": "Debug : cet équipement",
+    "ContextMenu_LW_Debug_deviceMinus10": "Retirer 10 points d’état",
+    "ContextMenu_LW_Debug_device50": "Fixer l’état à 50 %%",
+    "ContextMenu_LW_Debug_device10": "Fixer l’état à 10 %%",
+    "ContextMenu_LW_Debug_deviceBreak": "Mettre hors service (0 %%)",
+    "ContextMenu_LW_Debug_deviceRestore": "Restaurer l’état à 100 %%",
+    "ContextMenu_LW_CleanPanel": "Nettoyer le panneau",
+    "ContextMenu_LW_TestBattery": "Tester la batterie",
+    "ContextMenu_LW_Salvage": "Démonter pour pièces",
+    "ContextMenu_LW_OpenBoard": "Ouvrir le tableau électrique",
+    "ContextMenu_LW_ShowConsumers": "Afficher/masquer les consommateurs",
+    "ContextMenu_LW_ShowConnections": "Afficher/masquer les raccordements"
 }

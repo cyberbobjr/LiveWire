@@ -72,5 +72,17 @@
     "ContextMenu_LW_ApplyBrake": "風力タービンのブレーキをかける",
     "ContextMenu_LW_ReleaseBrake": "風力タービンのブレーキを解除",
     "ContextMenu_LW_ResumeBackup": "自動バックアップを再開",
-    "ContextMenu_LW_RenameNetwork": "電力網の名前を変更"
+    "ContextMenu_LW_RenameNetwork": "電力網の名前を変更",
+    "ContextMenu_LW_CleanPanel": "パネルを清掃",
+    "ContextMenu_LW_TestBattery": "バッテリーを点検",
+    "ContextMenu_LW_Salvage": "部品を回収",
+    "ContextMenu_LW_OpenBoard": "配電盤を開く",
+    "ContextMenu_LW_ShowConsumers": "消費機器を表示・非表示",
+    "ContextMenu_LW_ShowConnections": "接続を表示・非表示",
+    "ContextMenu_LW_DebugDevice": "この機器をデバッグ",
+    "ContextMenu_LW_Debug_deviceMinus10": "状態を10ポイント下げる",
+    "ContextMenu_LW_Debug_device50": "状態を50%%に設定",
+    "ContextMenu_LW_Debug_device10": "状態を10%%に設定",
+    "ContextMenu_LW_Debug_deviceBreak": "故障状態にする（0%%）",
+    "ContextMenu_LW_Debug_deviceRestore": "状態を100%%に復元"
 }

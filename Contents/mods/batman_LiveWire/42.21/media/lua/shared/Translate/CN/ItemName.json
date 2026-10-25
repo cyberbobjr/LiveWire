@@ -12,5 +12,7 @@
     "Base.Mov_LiveWire_Breaker": "断路器面板",
     "Base.Mov_LiveWire_BatteryAlarm": "低电量警报器",
     "Base.Mov_LiveWire_WaterPump": "水泵",
-    "LiveWire.CouplingKit": "逆变器并联套件"
+    "LiveWire.CouplingKit": "逆变器并联套件",
+    "LiveWire.WindTurbineBlades": "风力涡轮机叶片组",
+    "LiveWire.WindTurbineMast": "风力涡轮机塔架"
 }

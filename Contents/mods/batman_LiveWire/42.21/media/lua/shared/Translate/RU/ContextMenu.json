@@ -72,5 +72,17 @@
     "ContextMenu_LW_ApplyBrake": "Включить тормоз ветрогенератора",
     "ContextMenu_LW_ReleaseBrake": "Отпустить тормоз ветрогенератора",
     "ContextMenu_LW_ResumeBackup": "Возобновить автоматическое резервное питание",
-    "ContextMenu_LW_RenameNetwork": "Переименовать сеть"
+    "ContextMenu_LW_RenameNetwork": "Переименовать сеть",
+    "ContextMenu_LW_CleanPanel": "Очистить панель",
+    "ContextMenu_LW_TestBattery": "Проверить аккумулятор",
+    "ContextMenu_LW_Salvage": "Разобрать на детали",
+    "ContextMenu_LW_OpenBoard": "Открыть электрощит",
+    "ContextMenu_LW_ShowConsumers": "Показать/скрыть потребители",
+    "ContextMenu_LW_ShowConnections": "Показать/скрыть соединения",
+    "ContextMenu_LW_DebugDevice": "Отладка этого устройства",
+    "ContextMenu_LW_Debug_deviceMinus10": "Снизить состояние на 10",
+    "ContextMenu_LW_Debug_device50": "Состояние 50%%",
+    "ContextMenu_LW_Debug_device10": "Состояние 10%%",
+    "ContextMenu_LW_Debug_deviceBreak": "Вывести из строя (0%%)",
+    "ContextMenu_LW_Debug_deviceRestore": "Восстановить состояние до 100%%"
 }

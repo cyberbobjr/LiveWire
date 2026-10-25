@@ -39,5 +39,15 @@
     "Sandbox_LiveWire_ConsumptionProfile_option1": "Ultra-realistic 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option2": "Realistic 1993",
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Game values",
-    "Sandbox_LiveWire_ConsumptionProfile_option4": "Comfort"
+    "Sandbox_LiveWire_ConsumptionProfile_option4": "Comfort",
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Live Wire equipment and parts loot multiplier",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multiplies loot weights only for Live Wire equipment and parts (solar cells, blades and masts) (1-20, default 5). Vanilla items and their loot weights are unchanged. Software disks keep their existing rate. Restart required; future loot rolls only, no refill of searched containers. Vanilla loot settings still apply.",
+    "Sandbox_LiveWire_SolarOrientation": "Solar orientation",
+    "Sandbox_LiveWire_SolarDirt": "Panel dirt",
+    "Sandbox_LiveWire_BatteryCold": "Cold batteries",
+    "Sandbox_LiveWire_LiveWorkRisk": "Live maintenance risk",
+    "Sandbox_LiveWire_SolarOrientation_tooltip": "Panel facing changes output and peak production time.",
+    "Sandbox_LiveWire_SolarDirt_tooltip": "Dust accumulates on panels. Rain and manual cleaning remove it.",
+    "Sandbox_LiveWire_BatteryCold_tooltip": "Cold reduces accessible capacity in outdoor banks. The reserve returns on thawing.",
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Enabled by default. Shock risk: 50%% at Electrical 0, falling to zero at 6. Burns the screwdriver hand and drops held items. Switch off the master inverter: the main breaker does not make maintenance safe."
 }
