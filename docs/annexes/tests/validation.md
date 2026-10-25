@@ -1084,3 +1084,18 @@ du panneau. Captures ajoutées : `docs/images/screenshots/shot6.png` et `shot7.p
 Ce retour ne valide pas à lui seul le multijoueur, la reconnexion ou Linux.
 Les campagnes SP/MP historiques ci-dessus gardent leur portée propre ; aucun
 nouveau `pz-autotest` exécuté pour cette préparation documentaire.
+
+
+## Publication 1.6.0 — 2026-10-25
+
+Publication explicitement demandée après validation des notes simplifiées.
+`steam_workshop_publish.py LiveWire --submit --tag` : code **0**, version 1.6.0
+publiée depuis `f88aa31`, tag `v1.6.0` créé. Description anglaise et neuf
+traductions publiées ; neuf captures avant/après, inchangées. API publique :
+résultat 1, visibilité 0, description anglaise identique à la source locale,
+mise à jour `2026-10-25T17:23:55Z`, références à `shot6.png` et `shot7.png` présentes.
+
+Le dépôt est poussé avant publication pour rendre les images accessibles. Les
+documents de statut reflètent la livraison sans étendre la portée des essais
+historiques. Aucun lancement, arrêt ou test du jeu ; partie de l'utilisateur
+laissée en cours.

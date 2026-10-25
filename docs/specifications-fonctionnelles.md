@@ -1,6 +1,6 @@
 # Live Wire — documentation fonctionnelle
 
-État au 2026-10-25 : **version 1.6.0 préparée localement** du mod (`Contents/mods/batman_LiveWire/42.21`). Ce document est né en phase de conception (2026-10-17) : ses sections 1 à 9 décrivent la v0.1 et ses justifications ; la section 10 résume les fonctionnalités ajoutées ensuite. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage. Les contrats techniques à jour (objets, commandes, ModData, options) sont dans [`specifications-techniques.md`](specifications-techniques.md) ; le guide du joueur est le [wiki](wiki/fr/Home.md).
+État au 2026-10-25 : **version 1.6.0 publiée sur le Workshop** du mod (`Contents/mods/batman_LiveWire/42.21`). Ce document est né en phase de conception (2026-10-17) : ses sections 1 à 9 décrivent la v0.1 et ses justifications ; la section 10 résume les fonctionnalités ajoutées ensuite. Les chiffres sont des **valeurs de départ** destinées à l'équilibrage. Les contrats techniques à jour (objets, commandes, ModData, options) sont dans [`specifications-techniques.md`](specifications-techniques.md) ; le guide du joueur est le [wiki](wiki/fr/Home.md).
 
 - **Sources des faits du moteur** : le dépôt de sources de référence de l'utilisateur (Java décompilé 42.21 et `media/` vanilla ; chemins relatifs à sa racine) et [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) (« NM-n » = note n).
 - **Choix de l'utilisateur** : toutes les décisions de [`decisions.md`](decisions.md) (« D-n ») ont été **validées le 2026-10-17**. Les sections de conception décrivent la v0.1 ; les validations actuelles sont consignées dans le [bilan SP/MP](annexes/tests/validation.md).
@@ -686,7 +686,7 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 
 ## 11. Fonctionnalités de la version 1.6.0 (campagne IXX)
 
-Fonctionnalités intégrées à la version mineure 1.6.0, préparée sans publication Steam.
+Fonctionnalités intégrées à la version mineure 1.6.0, publiée sur le Workshop le 2026-10-25.
 La validation reste limitée aux preuves consignées dans le bilan de tests.
 
 - **F24 — Lire son réseau (I01–I05).** Sur l'onduleur, afficher/masquer la carte

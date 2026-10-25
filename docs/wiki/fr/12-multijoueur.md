@@ -13,7 +13,7 @@ Production, stock, états, pannes et expérience sont calculés par le serveur ;
 - Outils de debug : -debug en solo, administrateurs en multijoueur.
 ## État
 
-La version 1.6.0 est préparée localement. Les contrôles statiques et les tests de régression hors jeu couvrent les changements ; les captures fournies confirment visuellement les panneaux en jeu. Les campagnes solo et multijoueur Windows antérieures couvrent les états décrits dans le bilan ; les derniers changements restent à vérifier dans une passe multijoueur complète. Linux non validé. Voir le [bilan de validation](../../annexes/tests/validation.md). Les valeurs d'équilibrage restent des valeurs de départ.
+La version 1.6.0 a été publiée sur le Workshop Steam le 2026-10-25. Les contrôles statiques et les tests de régression hors jeu couvrent les changements ; les captures fournies confirment visuellement les panneaux en jeu. Les campagnes solo et multijoueur Windows antérieures couvrent les états décrits dans le bilan ; les derniers changements restent à vérifier dans une passe multijoueur complète. Linux non validé. Voir le [bilan de validation](../../annexes/tests/validation.md). Les valeurs d'équilibrage restent des valeurs de départ.
 
 ## Licence
 

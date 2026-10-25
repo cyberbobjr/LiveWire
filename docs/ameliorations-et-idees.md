@@ -1,13 +1,13 @@
 # Live Wire — améliorations de code et idées de fonctionnalités
 
-Version **1.6.0** préparée le 2026-10-25 : campagne IXX, nouveaux écrans et circuits, recettes et documentation multilingue. Aucun envoi Steam ni synchronisation distante du wiki à cette étape. Voir le [changelog](../CHANGELOG.md).
+Version **1.6.0** publiée le 2026-10-25 : campagne IXX, nouveaux écrans et circuits, recettes et documentation multilingue. Dépôt poussé et mise à jour Steam confirmée dans les dix langues ; sources du wiki EN/FR incluses. Voir le [changelog](../CHANGELOG.md).
 
 | | |
 |---|---|
 | Mod | **Live Wire** (`id=batman_LiveWire`, sous-mod facultatif `batman_LiveWireViewpoint`) |
-| Version analysée | Constats initiaux : **1.3.1** ; campagne du 2026-10-24 fondée sur **1.4.0** ; version **1.5.0 publiée** le 2026-10-24 |
+| Version analysée | Constats initiaux : **1.3.1** ; campagne du 2026-10-24 fondée sur **1.4.0** ; version **1.6.0 publiée** le 2026-10-25 |
 | Build cible | Project Zomboid 42.21 (sources de référence : Java décompilé 42.21.0, `media/` vanilla installé) |
-| Date | 2026-10-21 ; **avancement mis à jour le 2026-10-24** (version publiée : 1.5.0 ; corrections C01, C02, C03 et C10 publiées depuis la 1.3.2) |
+| Date | 2026-10-21 ; **avancement mis à jour le 2026-10-25** (version publiée : 1.6.0 ; corrections C01, C02, C03 et C10 publiées depuis la 1.3.2) |
 | Périmètre lu | Tout le Lua de `Contents/mods/batman_LiveWire/42.21/media/lua` (shared, server, client, actions chronométrées, butin), scripts (`LiveWire_*.txt`), `sandbox-options.txt`, traductions (contrôlées par `tools/check_mod.py`), sous-mod Viewpoint, `README.md`, contraintes du projet (`docs/developpement.md`), `CHANGELOG.md`, `docs/` (décisions, idées retenues et écartées, spécifications, architecture, protocole de tests), `tests/`, `tools/`, `autotest/`, base moteur `.claude/pz-knowledge` |
 | Vérifications faites | Contrôles Lua/contrats/traductions/versions OK ; physique et simulation OK ; régressions hors jeu 11/11 + 14/14. Dernière campagne CXX : SP 15/15 puis 7/7 après redémarrage ; MP deux clients, serveur 14/14 puis 8/8, chaque client 6/6 puis 4/4 ; SP général sans captures 34/34. Campagnes précédentes et limites dans les rapports liés ci-dessous |
 
@@ -25,13 +25,13 @@ FXX désignent les fonctionnalités des spécifications fonctionnelles.
 
 Revue complémentaire du 2026-10-25 : points 1 à 7 autorisés puis traités localement
 (restauration indépendante, unité sèche-linge, reprise MP, travail progressif,
-index des onduleurs, rapport à la demande et textes réutilisés). Non publiés ;
+index des onduleurs, rapport à la demande et textes réutilisés). Publiés en 1.6.0 ;
 validation hors jeu et contrôles manuels restants dans le
 [bilan](annexes/tests/validation.md).
 
 **Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé · ⏸ différé après décision utilisateur. « Publié » = présent dans une version du Workshop ; « non publié » = réalisé localement sur main. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Les autres correctifs CXX autorisés sont publiés en 1.5.0 ; C25 est un outil de test hors mod, versionné dans le dépôt. C11 reste différé, C20 est exclu de la dernière campagne. Preuves : [bilan de validation SP/MP](annexes/tests/validation.md).
 
-**Bilan** : améliorations de code **24 faites, 0 en partie, 1 à faire, 1 différée** (sur 26) ; idées de fonctionnalités **14 réalisées localement, 1 en partie, 6 hors périmètre** (sur 21).
+**Bilan** : améliorations de code **24 faites, 0 en partie, 1 à faire, 1 différée** (sur 26) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 6 hors périmètre** (sur 21).
 
 ### Améliorations de code
 
@@ -68,27 +68,27 @@ validation hors jeu et contrôles manuels restants dans le
 
 | ID | Idée | État | Remarque |
 |---|---|---|---|
-| I01 | Afficher les consommateurs | ✅ Réalisée localement, non publiée | Marqueurs et liste bornée à 200 consommateurs, puissances et service réel |
-| I02 | Afficher les raccordements | ✅ Réalisée localement, non publiée | Raccordements projetés, étages distingués |
-| I03 | Prévision de production sur trois jours | ✅ Réalisée localement, non publiée | Trois jours officiels, modèle commun de production et réserve projetée |
-| I04 | Journal des événements du réseau | ✅ Réalisée localement, non publiée | 30 événements horodatés et synchronisés |
-| I05 | Nommer son réseau | ✅ Réalisée localement, non publiée | Renommage livré conservé ; LCD, inspection et alarmes complétés |
+| I01 | Afficher les consommateurs | ✅ Publiée en 1.6.0 | Marqueurs et liste bornée à 200 consommateurs, puissances et service réel |
+| I02 | Afficher les raccordements | ✅ Publiée en 1.6.0 | Raccordements projetés, étages distingués |
+| I03 | Prévision de production sur trois jours | ✅ Publiée en 1.6.0 | Trois jours officiels, modèle commun de production et réserve projetée |
+| I04 | Journal des événements du réseau | ✅ Publiée en 1.6.0 | 30 événements horodatés et synchronisés |
+| I05 | Nommer son réseau | ✅ Publiée en 1.6.0 | Renommage livré conservé ; LCD, inspection et alarmes complétés |
 | I06 | Compteurs cumulés et carburant économisé | ⬜ Proposée |  |
-| I07 | Orientation des panneaux solaires | ✅ Réalisée localement, non publiée | Orientation physique et décalage est/ouest |
+| I07 | Orientation des panneaux solaires | ✅ Publiée en 1.6.0 | Orientation physique et décalage est/ouest |
 | I08 | Ombre des arbres et des bâtiments | ⬜ Proposée | I07 conseillé |
-| I09 | Encrassement et nettoyage des panneaux | ✅ Réalisée localement, non publiée | Saleté, automne, pluie et nettoyage ; suie non modélisée |
-| I10 | Batteries et froid | ✅ Réalisée localement, non publiée | Capacité utile et réserve froide communes au diagnostic et à la réparation |
-| I11 | Tester une batterie au testeur | ✅ Réalisée localement, non publiée | Diagnostic selon compétence au testeur |
-| I12 | Réparer les batteries usées ou mortes | ✅ Réalisée localement, non publiée | Reconditionnement étendu aux mortes ; coûts, plafond, cycles et énergie conservés |
-| I13 | Démonter un équipement hors service | ✅ Réalisée localement, non publiée | Démontage des équipements morts et vides, retrait unique |
-| I14 | Frein manuel de l’éolienne | ✅ Réalisée localement, non publiée | Frein livré conservé ; alerte orage et voyant clignotant ajoutés |
-| I15 | Intervention sous tension | ✅ Réalisée localement, non publiée | Risque optionnel autoritaire, interruption avant dépenses |
+| I09 | Encrassement et nettoyage des panneaux | ✅ Publiée en 1.6.0 | Saleté, automne, pluie et nettoyage ; suie non modélisée |
+| I10 | Batteries et froid | ✅ Publiée en 1.6.0 | Capacité utile et réserve froide communes au diagnostic et à la réparation |
+| I11 | Tester une batterie au testeur | ✅ Publiée en 1.6.0 | Diagnostic selon compétence au testeur |
+| I12 | Réparer les batteries usées ou mortes | ✅ Publiée en 1.6.0 | Reconditionnement étendu aux mortes ; coûts, plafond, cycles et énergie conservés |
+| I13 | Démonter un équipement hors service | ✅ Publiée en 1.6.0 | Démontage des équipements morts et vides, retrait unique |
+| I14 | Frein manuel de l’éolienne | ✅ Publiée en 1.6.0 | Frein livré conservé ; alerte orage et voyant clignotant ajoutés |
+| I15 | Intervention sous tension | ✅ Publiée en 1.6.0 | Risque optionnel autoritaire, interruption avant dépenses |
 | I16 | Arroseur de potager sur la pompe | ⬜ Proposée | Après C03 (fait) et C04 |
 | I17 | Approvisionnement en fil électrique | ⬜ Proposée | Dépend de I15 si le danger est retenu |
-| I18 | Petite API pour les mods d'extension | ✅ Réalisée localement, non publiée | API v1, validation, fermeture des inscriptions et lectures détachées |
+| I18 | Petite API pour les mods d'extension | ✅ Publiée en 1.6.0 | API v1, validation, fermeture des inscriptions et lectures détachées |
 | I19 | Bascule avec un générateur vanilla | ⬜ Proposée |  |
 | I20 | Couper l'alarme au tableau électrique | ⬜ Proposée |  |
-| I21 | Disjoncteur : circuits lumières et équipements | 🟢 Implémenté localement, non publié | GUI à leviers, quatre combinaisons, services natifs arrêtés, choix persistants ; validation détaillée dans le bilan |
+| I21 | Disjoncteur : circuits lumières et équipements | ✅ Publié en 1.6.0 | GUI à leviers, quatre combinaisons, services natifs arrêtés, choix persistants ; validation détaillée dans le bilan |
 
 ---
 
@@ -378,7 +378,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Une commande ponctuelle, limitée en débit ; aucune donnée d'un autre réseau n'est envoyée.
 - **Dépendances.** C04, pour ne pas reproduire le balayage synchrone côté client.
 - **Effort.** M.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I02 — « Afficher les raccordements » : le câblage du réseau
 - **Description.** Des lignes dessinées au sol de l'onduleur vers chaque source, powerbank, option, pompe ou ordinateur raccordé, avec une couleur par rôle, et en pointillé quand l'appareil est sur un autre étage.
@@ -389,7 +389,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun : affichage local, à partir de données déjà envoyées.
 - **Dépendances.** Aucune.
 - **Effort.** S.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I03 — Prévision de production sur trois jours
 - **Description.** Un onglet « Prévisions » du logiciel montre, pour aujourd'hui, demain et après-demain, la production attendue en kWh par famille (solaire d'après les nuages, éolien d'après le vent). Il compare cette production à la consommation moyenne des 48 dernières heures et conclut : « réserve suffisante », « prévoir le générateur ».
@@ -400,7 +400,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Calcul sur le serveur, ajouté à l'instantané seulement quand l'ordinateur est alimenté (comme `history`).
 - **Dépendances.** Ordinateur de gestion raccordé.
 - **Effort.** M.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I04 — Journal des événements du réseau
 - **Description.** L'onglet Historique du logiciel ajoute une liste horodatée des 30 derniers événements : disjonction de l'onduleur ou du disjoncteur, réarmement, batterie faible, démarrage et arrêt du générateur, délestage, appareil hors service, couplage. L'écran LCD montre le dernier sur sa page État.
@@ -411,7 +411,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Quelques dizaines d'octets dans l'instantané des abonnés.
 - **Dépendances.** Aucune.
 - **Effort.** S.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I05 — Nommer son réseau
 - **Description.** « Renommer le réseau » dans le menu de l'onduleur et dans l'en-tête du logiciel, avec une saisie de 24 caractères au plus. Le nom apparaît sur l'écran LCD, dans le logiciel, à l'inspection et dans les messages d'alarme (« Batterie faible — Chalet nord »).
@@ -422,7 +422,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun nouveau paquet hors la commande existante.
 - **Dépendances.** C15.
 - **Effort.** S.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I06 — Compteurs cumulés et « carburant économisé »
 - **Description.** Chaque source compte ses kWh produits depuis sa pose, et chaque réseau ses kWh consommés, perdus (batteries pleines) et fournis par le générateur de secours. Le logiciel affiche aussi l'équivalent en litres d'essence qu'aurait brûlés un générateur vanilla pour la même consommation.
@@ -450,7 +450,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun : calcul serveur.
 - **Dépendances.** Nouvelle option sandbox `SolarOrientation` (vrai par défaut) pour les parties existantes.
 - **Effort.** S-M.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I08 — Ombre des arbres et des bâtiments
 - **Description.** Un panneau sous ou juste au sud d'un arbre, ou au pied d'un mur plus haut, perd une part de sa production. Le message de pose prévient : « Ombragé par un arbre : −40 % ».
@@ -475,7 +475,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun, en dehors de l'action chronométrée.
 - **Dépendances.** Option sandbox pour la désactiver.
 - **Effort.** S.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I10 — Batteries et froid
 - **Description.** Une powerbank posée **dehors** perd de la capacité utile par grand froid : −20 % à 0 °C, −40 % à −15 °C. La charge reste intacte et la capacité revient au dégel. Une powerbank à l'intérieur n'est pas touchée.
@@ -486,7 +486,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Aucun.
 - **Dépendances.** Option sandbox (désactivée par défaut, pour ne pas changer l'équilibre des parties existantes).
 - **Effort.** S.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I11 — Tester une batterie au testeur de tension
 - **Description.** Clic droit sur une batterie de l'inventaire > « Tester la batterie ». Le message dépend du niveau :
@@ -500,7 +500,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Une notification.
 - **Dépendances.** Aucune.
 - **Effort.** S.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I12 — Réparer les batteries usées ou mortes
 - **Description.** Réorientation demandée par l'utilisateur le 2026-10-24 : réparer la batterie elle-même, plutôt que la démanteler en plaques pour fabriquer une autre batterie. Une action de réparation avec compétence, outils et consommables restaure une part de sa capacité utile, y compris pour une batterie à 0 % d'état si le modèle le permet. Les coûts, seuils et limites de récupération sont à définir à partir du reconditionnement existant ; aucun nouvel objet intermédiaire n'est imposé.
@@ -512,7 +512,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Réparation et consommation des ressources sur l'autorité ; état et inventaire synchronisés, sans duplication ni double réparation concurrente.
 - **Dépendances.** I11 pour le diagnostic ; cohérence avec I10 et I18. Traductions et équilibrage du reconditionnement existant.
 - **Effort.** S-M.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I13 — Démonter un équipement hors service pour ses pièces
 - **Description.** Un équipement à 0 % qu'on ne peut pas réviser (niveau 8 exigé, `LW_TimedActions.lua:328`) peut être « démonté pour pièces » dès le niveau 3. Il donne des déchets électroniques, du fil, et des cellules pour un panneau. L'équipement est détruit.
@@ -523,7 +523,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Une action chronométrée, revérifiée dans `complete()`.
 - **Dépendances.** Aucune.
 - **Effort.** S.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I14 — Frein manuel de l'éolienne
 - **Description.** « Serrer le frein » et « Desserrer le frein » dans le menu de l'éolienne, dès le niveau 7. Frein serré : production nulle et aucun dégât de tempête. Une alerte d'orage peut rappeler de le serrer. Le voyant vert de l'éolienne clignote tant que le frein est serré.
@@ -532,7 +532,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Une commande de plus, revérifiée (distance, safehouse).
 - **Dépendances.** C22.
 - **Effort.** S.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I15 — Intervention sous tension : risque de décharge
 - **Description.** Raccorder, réparer ou débrancher un équipement tant que l'onduleur maître n'est pas explicitement éteint donne un risque de décharge de 50 % au niveau 0. La chance baisse avec le niveau, et devient nulle au niveau 6 ou si l'onduleur est éteint. Effets : douleur et brûlure légère à la main, objet lâché. L'onduleur, lui, exige déjà d'être éteint pour sa propre réparation (`LW_TimedActions.lua:382-385`).
@@ -543,7 +543,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Dégâts décidés par le serveur, comme le reste.
 - **Dépendances.** Aucune.
 - **Effort.** S-M.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I16 — Arroseur de potager branché sur la pompe
 - **Description.** Un petit arroseur, nouvelle tuile posée au sol, se raccorde à une pompe comme un baril. Tant que la pompe a du courant et de l'eau, il arrose les plantes vanilla dans un rayon de 2 à 3 cases. La quantité suit le besoin de chaque plante, à raison de 200 ml par dose, prélevés **réellement** dans les barils, comme pour les relais.
@@ -580,7 +580,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Le mod d'extension doit être actif sur le serveur et les clients, comme tout mod.
 - **Dépendances.** Documentation développeur ; garde de version (`LiveWire.VERSION`, C14).
 - **Effort.** S-M.
-- **Avancement : ✅ réalisé localement, non publié ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I19 — Bascule automatique avec un générateur vanilla (approfondissement de D-10)
 - **Description.** La spécification annonce depuis la 0.1 la bascule de la v0.2 (`docs/specifications-fonctionnelles.md`, § 8.2) : un générateur vanilla **non raccordé** qui tourne dans la zone de l'onduleur ne fait plus payer deux fois. L'onduleur cesse de compter les appareils déjà alimentés par ce générateur, et l'écran affiche « Appoint : générateur vanilla ».
@@ -615,7 +615,7 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Impact MP.** Décision sur le serveur, contrôles de distance et de safehouse, synchronisation des états vers les clients ; une action client ne modifie pas directement le registre.
 - **Dépendances.** Demande et alimentation existantes, C04–C06 et C12 ; cohérence avec I01 (consommateurs), I04 (journal) et I15 (interventions sous tension).
 - **Effort.** M-L, à préciser après vérification des API moteur.
-- **Avancement : 🟢 implémenté localement, non publié.** GUI, principal, deux circuits ;
+- **Avancement : ✅ publié en 1.6.0.** GUI, principal, deux circuits ;
   services frigorifiques, médias, cuisson, lavage/séchage, chargeurs et pompes.
   Compteur à rouleaux remplacé par un LCD : éclairage, équipements et total en W,
   indicateur de mesure en attente au retour dans une zone ; pas de cumul d'énergie.
@@ -740,7 +740,7 @@ Plan : [fabrication et composants](annexes/plans/fabrication-eolienne-et-composa
 
 ## I15 — sécurité et expérience : règles révisées le 2026-10-25
 
-Implémenté localement, non publié : 50 % au niveau 0, baisse jusqu'à zéro à 6,
+Publié en 1.6.0 : 50 % au niveau 0, baisse jusqu'à zéro à 6,
 brûlure sur la main du tournevis ; principal ou panne ne remplacent plus l'arrêt
 explicite du maître. Arrêt d'un onduleur cassé possible sans reprise de charge.
 Débranchement avec tournevis requis ; toutes les recettes donnent de l'XP, dont
@@ -784,3 +784,18 @@ réservées accueillent le vert sans renumérotation ni modification des anciens
 pixels ; profondeur B42 et modèle Viewpoint fournis. Le clic de pompe fonctionnant
 selon clarification utilisateur, son routage n'est pas modifié. Essais hors jeu
 passés ; rendu et MP restent à confirmer manuellement.
+
+
+## Publication de la version 1.6.0 — 2026-10-25
+
+Publié à la demande explicite de l'utilisateur, avec les notes validées. Contenu
+livré depuis `f88aa31` (préparation `c6354d3`), tag `v1.6.0`. Publication principale
+et neuf traductions confirmées par l'outil, code 0 ; neuf captures Steam avant et
+après l'envoi. Description anglaise vérifiée à l'identique par l'API publique,
+visibilité publique et date de mise à jour `2026-10-25T17:23:55Z`.
+
+I01–I05, I07, I09–I15, I18 et I21 ainsi que les compléments d'interface, de butin,
+de recettes et de revue sont livrés en 1.6.0. I06, I08, I16, I17, I19 et I20
+restent hors périmètre. Les états « locaux » des étapes historiques décrivent
+leur date d'origine ; ils sont dépassés par cette publication. Les limites de
+validation restent celles du bilan : aucun test avec le jeu lancé pour publier.
