@@ -7,6 +7,10 @@ LiveWire.Appliances = A
 local KEY = "LiveWireCircuit"
 function A.saved(o) return o and o:hasModData() and o:getModData()[KEY] or nil end
 function A.kind(o)
+    -- Shared actions also receive inventory radios, vehicle parts and fluid items.
+    -- Only placed world appliances belong to the electrical panel.
+    -- IsoObject guarantees the container/sprite API; having a square does not.
+    if not o or not instanceof(o, "IsoObject") or instanceof(o, "IsoWorldInventoryObject") then return nil end
     if instanceof(o, "IsoRadio") and o:getDeviceData():getIsBatteryPowered() then return nil end
     if instanceof(o, "IsoLightSwitch") and o:getCanBeModified() and o:getUseBattery() then return nil end
     local s = A.saved(o)
@@ -26,7 +30,7 @@ function A.kind(o)
     elseif o:getSprite() and o:getSprite():getProperties():has(IsoPropertyType.FUEL_AMOUNT) then return "fuel" end
 end
 function A.blocked(o)
-    if not o or not o.getSquare or not o:getSquare() then return false end
+    if not A.kind(o) or not o:getSquare() then return false end
     if not isClient() and LiveWire.Circuits then return LiveWire.Circuits.blocked(o) end
     local s = A.saved(o)
     return s and s.cut == true or false

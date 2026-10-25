@@ -633,6 +633,11 @@ Pattern validé conservé, sans migration d'architecture.
 - `shared/LW_Appliances` adapte les services vanilla et refuse leurs actions pendant
   une coupure ; les choix restent décidés sur l'autorité. Le client ne fait que
   refléter les types des conteneurs et les états de présentation.
+  La classification est limitée aux `IsoObject` et exclut les
+  `IsoWorldInventoryObject`. Les actions partagées passent directement au
+  comportement vanilla pour les radios d'inventaire, autoradios et objets de
+  fluides hors de ce périmètre ; une position dans le monde ne suffit pas à
+  identifier un appareil du tableau. Les appareils à pile restent exclus.
 - `server/LW_Circuits` possède les choix des deux circuits et leur entretien : inventaire
   de `Demand`, aucun nouveau balayage de disque. Le rappel `OnTick` ne vérifie
   que l'horloge entre deux créneaux espacés d'au moins 100 ms réelles : au plus

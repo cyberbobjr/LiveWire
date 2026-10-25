@@ -1099,3 +1099,49 @@ Le dépôt est poussé avant publication pour rendre les images accessibles. Les
 documents de statut reflètent la livraison sans étendre la portée des essais
 historiques. Aucun lancement, arrêt ou test du jeu ; partie de l'utilisateur
 laissée en cours.
+
+## Correctif local — périmètre des appareils et radios — 2026-10-25
+
+Signalement utilisateur : erreur `Object tried to call nil in kind`,
+`LW_Appliances.lua:25`, dans une action radio vanilla en solo 42.21.0.
+Confirmé statiquement : `ISRadioAction` reçoit aussi bien un appareil posé qu'une
+radio d'inventaire ou un `VehiclePart`. Ces deux derniers peuvent renvoyer une
+case mais ne possèdent pas `getContainerByType` ; la garde fondée sur la seule
+position les laissait atteindre la classification des meubles. Les autres mods
+du rapport ne sont pas nécessaires à cette reproduction.
+
+Correctif : classifier uniquement les `IsoObject`, en excluant les
+`IsoWorldInventoryObject`, puis laisser passer directement les actions dont
+le propriétaire ne correspond à aucun service du tableau. Aucun nouvel état,
+changement d'autorité, migration, identifiant ou modification de sauvegarde.
+
+Cinq scénarios ajoutés à `tests/test_remaining.py`, dont deux utilisent le vrai
+fichier vanilla `ISRadioAction.lua` installé, exécuté sous Lua 5.1 avec des doubles
+typés. Avant correction : trois erreurs, dont l'appel absent signalé ; après :
+cinq scénarios réussis. Périmètre vérifié :
+
+- radio d'inventaire et autoradio : allumage/extinction normaux, circuits ouverts
+  ou fermés, branche solo/autorité et branche client MP ; pile vide toujours refusée ;
+- radio et TV posées sur secteur toujours bloquées par leur circuit, puis
+  utilisables après rétablissement ; radio posée sur pile indépendante ;
+- transferts/remplissages depuis un objet d'inventaire : arguments, retours et
+  effets de l'action d'origine conservés, absence de lecture des données d'un meuble ;
+- classes fixes (lumière, cuisinière, machines, chargeur) toujours reconnues ;
+  réfrigérateur isolé reconnu grâce à son état sauvegardé et correctement restauré ;
+- objets absents ou objets d'inventaire au sol ignorés. Le double d'héritage
+  `IsoObject` du banc local `test_review_fixes.py` est corrigé pour représenter les
+  vraies classes Java au lieu d'une simple égalité de noms.
+
+Suite hors jeu : `python -B -m unittest discover -s tests`, code **0**,
+141 tests recensés, 136 réussis, 5 ignorés. Aucun jeu lancé, aucune reproduction
+native en Kahlua ni connexion multijoueur réelle : ces essais ne sont pas annoncés
+comme une validation en jeu. Correctif local, non publié à ce stade.
+
+Complément demandé : le garde-fou reste fondé sur le type natif avant toute
+lecture de méthode. Deux scénarios supplémentaires couvrent un propriétaire
+inconnu dont l'accès à une méthode lève lui-même une erreur, puis un futur
+sous-type d'`IsoObject` sans service électrique reconnu. Le premier est ignoré
+sans lecture de ses membres ; le second n'est pas affecté à un tableau. Les
+actions d'origine restent appelées. Confirmé par doubles Lua, sans exécution
+native Java : sept scénarios ciblés réussis ; suite complète, code **0**,
+143 tests recensés, 138 réussis et 5 ignorés. `git diff --check` : code **0**.

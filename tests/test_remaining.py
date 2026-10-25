@@ -1,4 +1,5 @@
 """C08/C12/C17-C19/C21/C23/C24 scenarios. Stubs do not validate game APIs."""
+import os
 import pathlib
 import unittest
 
@@ -297,6 +298,215 @@ class Remaining(unittest.TestCase):
             getGridSquare=function(_,x,y,z) if x==0 and y==0 then
                 if z==-2 then return low elseif z==9 then return high end end end})
         assert(removed[-2] and removed[9])
+        ''')
+
+
+RADIO_ACTION = pathlib.Path(os.environ.get(
+    'PZ_GAME_MEDIA', 'D:/SteamLibrary/steamapps/common/ProjectZomboid/media'
+)) / 'lua/shared/RadioCom/ISRadioAction.lua'
+
+
+class ApplianceScope(unittest.TestCase):
+    """Action regressions with explicit Java-type doubles; no game is launched."""
+
+    def setUp(self):
+        self.lua = make()
+        self.lua.execute('''
+        function instanceof(o,c)
+            return type(o)=='table' and (o.class==c or c=='IsoObject' and o.world==true)
+        end
+        IsoPropertyType={FUEL_AMOUNT=1}
+        SQ={getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end}
+        GRID={equipmentOff=true,lightsOff=true}
+        LiveWire.Circuits.owner=function() return GRID end
+        for _,n in ipairs({'ISToggleClothingWasher','ISToggleClothingDryer','ISToggleComboWasherDryer',
+            'ISSetComboWasherDryerMode','ISToggleStoveAction','ISActivateCarBatteryChargerAction',
+            'ISTakeFuel','ISRefuelFromGasPump','ISFluidTransferAction','ISTakeWaterAction'}) do
+            _G[n]={isValid=function(self,...) return self.result,'native',... end,
+                update=function(self) self.updates=(self.updates or 0)+1 end,
+                complete=function(self,...) self.completes=(self.completes or 0)+1;return self.result,... end}
+        end
+        ISRadioAction={}
+        function object(class,world)
+            return {class=class,world=world,md={},getSquare=function() return SQ end,
+                hasModData=function() return false end,getModData=function(s) return s.md end}
+        end
+        function media(class,world,battery)
+            local o=object(class,world)
+            local data={battery=battery,on=false,power=1,
+                getIsBatteryPowered=function(s) return s.battery end,getPower=function(s) return s.power end,
+                canBePoweredHere=function() return true end,getIsTurnedOn=function(s) return s.on end,
+                getIsTelevision=function() return class=='IsoTelevision' end,
+                isVehicleDevice=function() return class=='VehiclePart' end,
+                playSoundSend=function() end,setIsTurnedOn=function(s,v) s.on=v end}
+            o.getDeviceData=function() return data end
+            return o,data
+        end
+        ''')
+
+    def load_appliances(self):
+        self.lua.execute(pathlib.Path(LUA, 'shared/LiveWire/LW_Appliances.lua').read_text(encoding='ascii'))
+
+    def load_native_radio(self):
+        self.lua.execute('ISBaseTimedAction={derive=function() return {} end}')
+        self.lua.execute(RADIO_ACTION.read_text(encoding='utf-8'))
+        self.load_appliances()
+
+    def test_nonworld_owners_are_ignored_before_accessing_world_only_methods(self):
+        self.load_appliances()
+        self.lua.execute('''
+        for _,client in ipairs({false,true}) do
+            isClient=function() return client end
+            for _,class in ipairs({'Radio','VehiclePart','InventoryItem','FluidContainer'}) do
+                local o=object(class,false)
+                o.getSquare=function() error('must not query an unrelated owner') end
+                o.hasModData=function() error('must not read unrelated saved data') end
+                assert(LiveWire.Appliances.kind(o)==nil,class)
+                assert(not LiveWire.Appliances.blocked(o),class)
+            end
+            assert(LiveWire.Appliances.kind(nil)==nil)
+            assert(not LiveWire.Appliances.blocked(nil))
+            local dropped=object('IsoWorldInventoryObject',true)
+            dropped.hasModData=function() error('dropped inventory is not an appliance') end
+            assert(LiveWire.Appliances.kind(dropped)==nil)
+            assert(not LiveWire.Appliances.blocked(dropped))
+        end
+        ''')
+
+    def test_unknown_owner_is_skipped_even_when_method_lookup_itself_raises(self):
+        self.load_appliances()
+        self.lua.execute('''
+        for _,client in ipairs({false,true}) do
+            isClient=function() return client end
+            local foreign=setmetatable({class='FutureModOwner',world=false},{__index=function(_,key)
+                error('foreign owner does not expose member '..key)
+            end})
+            -- Some native owners cannot safely be probed for a method at all.
+            local probe=pcall(function() return foreign.getContainerByType end)
+            assert(not probe)
+            assert(LiveWire.Appliances.kind(foreign)==nil)
+            assert(not LiveWire.Appliances.blocked(foreign))
+            assert(not LiveWire.Circuits.blocked(foreign))
+            local action={sourceOwner=foreign,result=true}
+            local valid,marker,arg=ISFluidTransferAction.isValid(action,'unchanged')
+            assert(valid and marker=='native' and arg=='unchanged')
+            assert(ISFluidTransferAction.complete(action) and action.completes==1)
+        end
+        ''')
+
+    def test_unknown_world_subclass_without_an_electrical_service_is_not_assigned_a_panel(self):
+        self.load_appliances()
+        self.lua.execute('''
+        LiveWire.Circuits.owner=function() error('unrelated object must not be assigned to a panel') end
+        for _,client in ipairs({false,true}) do
+            isClient=function() return client end
+            local future=object('FutureWorldSubclass',true)
+            -- A native IsoObject subclass inherits these methods, even when it
+            -- has no containers or sprite and does not provide an appliance service.
+            future.getContainerByType=function() return nil end
+            future.getSprite=function() return nil end
+            assert(LiveWire.Appliances.kind(future)==nil)
+            assert(not LiveWire.Appliances.blocked(future))
+            assert(not LiveWire.Circuits.blocked(future))
+        end
+        ''')
+
+    @unittest.skipUnless(RADIO_ACTION.is_file(), 'installed vanilla radio action not available')
+    def test_portable_and_vehicle_radios_keep_native_toggle_with_circuits_open_or_closed(self):
+        self.load_native_radio()
+        self.lua.execute('''
+        for _,client in ipairs({false,true}) do
+            isClient=function() return client end
+            for _,cut in ipairs({false,true}) do
+                GRID.equipmentOff=cut
+                for _,class in ipairs({'Radio','VehiclePart'}) do
+                    local o,d=media(class,false,true)
+                    local a=ISRadioAction:new('ToggleOnOff',{},o)
+                    assert(a:isValid())
+                    a:performToggleOnOff();assert(d.on)
+                    a:performToggleOnOff();assert(not d.on)
+                    d.power=0;d.canBePoweredHere=function() return false end
+                    assert(not a:isValid()) -- do not bypass vanilla battery validation
+                    a:performToggleOnOff();assert(not d.on)
+                end
+            end
+        end
+        ''')
+
+    @unittest.skipUnless(RADIO_ACTION.is_file(), 'installed vanilla radio action not available')
+    def test_placed_mains_media_still_follow_the_panel_and_battery_radios_remain_independent(self):
+        self.load_native_radio()
+        self.lua.execute('''
+        for _,client in ipairs({false,true}) do
+            isClient=function() return client end
+            for _,class in ipairs({'IsoRadio','IsoTelevision'}) do
+                local o,d=media(class,true,false)
+                o.hasModData=function() return true end
+                local a=ISRadioAction:new('ToggleOnOff',{},o)
+                o.md.LiveWireCircuit={kind='media',cut=true}
+                GRID.equipmentOff=true
+                assert(not a:isValid());a:performToggleOnOff();assert(not d.on)
+                o.md.LiveWireCircuit=nil;GRID.equipmentOff=false
+                assert(a:isValid());a:performToggleOnOff();assert(d.on)
+            end
+            local o,d=media('IsoRadio',true,true)
+            GRID.equipmentOff=true
+            local a=ISRadioAction:new('ToggleOnOff',{},o)
+            assert(a:isValid());a:performToggleOnOff();assert(d.on)
+        end
+        ''')
+
+    def test_inventory_fluid_actions_preserve_native_results_arguments_and_side_effects(self):
+        self.load_appliances()
+        self.lua.execute('''
+        for _,client in ipairs({false,true}) do
+            isClient=function() return client end
+            local o=object('InventoryItem',false)
+            for _,entry in ipairs({{ISFluidTransferAction,'sourceOwner'},{ISTakeWaterAction,'waterObject'}}) do
+                local class,field=entry[1],entry[2]
+                local action={[field]=o,result=true}
+                local ok,label,arg=class.isValid(action,'argument')
+                assert(ok and label=='native' and arg=='argument')
+                local result,arg=class.complete(action,'complete argument')
+                assert(result and arg=='complete argument' and action.completes==1)
+                action.result=false;assert(class.isValid(action)==false)
+            end
+        end
+        ''')
+
+    def test_fixed_appliance_classification_and_refrigerator_restoration_are_preserved(self):
+        self.load_appliances()
+        self.lua.execute('''
+        local A=LiveWire.Appliances
+        for class,kind in pairs({IsoStove='stove',IsoStackedWasherDryer='stacked',
+            IsoCombinationWasherDryer='combo',IsoClothingWasher='washer',
+            IsoClothingDryer='dryer',IsoCarBatteryCharger='charger'}) do
+            local o=object(class,true)
+            assert(A.kind(o)==kind,class)
+            GRID.equipmentOff=true;assert(A.blocked(o),class)
+            GRID.equipmentOff=false;assert(not A.blocked(o),class)
+        end
+        local light=object('IsoLightSwitch',true)
+        light.getCanBeModified=function() return false end
+        assert(A.kind(light)=='light')
+        GRID.lightsOff=true;assert(A.blocked(light))
+        GRID.lightsOff=false;assert(not A.blocked(light))
+        light.getCanBeModified=function() return true end
+        light.getUseBattery=function() return true end
+        assert(A.kind(light)==nil and not A.blocked(light))
+        local f=object('IsoObject',true)
+        f.hasModData=function() return true end
+        f.md.LiveWireCircuit={kind='fridge',cut=true,types={['0']='fridge'}}
+        f.getContainerByType=function() error('must recognise a saved isolated fridge') end
+        assert(A.kind(f)=='fridge')
+        local container={kind='none',getType=function(s) return s.kind end,
+            getItems=function() return {size=function() return 0 end} end,
+            setType=function(s,v) s.kind=v end}
+        f.getContainerByIndex=function() return container end
+        f.getChunk=function() return nil end
+        f.checkHaveElectricity=function() end;f.transmitModData=function() end
+        A.restore(f)
+        assert(container.kind=='fridge' and f.md.LiveWireCircuit==nil)
         ''')
 
 

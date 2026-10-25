@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.6.1 — 2026-10-25
+
+### Fixes
+- Fixed an error when switching portable radios or vehicle radios on or off.
+- The electrical panel now ignores inventory items, vehicle equipment and other unrelated objects. Placed mains appliances still follow their circuit switches.
+- Transferring or filling fluids from inventory items keeps its normal behaviour.
+
 ## 1.6.0 — 2026-10-25
 
 ### Electrical panels and equipment screens

@@ -359,6 +359,19 @@ le registre des définitions. Extension identique sur serveur et clients.
 
 [Preuves et portée exactes des circuits](annexes/recherches/circuits-42-21.md) :
 adaptateurs natifs, reprise des choix, pièces, recouvrements et migration additive.
+Les contrôles d'actions commencent par la classification d'un objet posé :
+`IsoObject`, hors `IsoWorldInventoryObject`, puis service effectivement pris en
+charge. Les `Radio` d'inventaire, `VehiclePart` et propriétaires de fluides hors
+de ce périmètre ne sont pas inspectés comme des meubles, même s'ils renvoient
+une case. Leurs validations, arguments et retours vanilla sont conservés.
+Cette frontière s'applique sur le client MP comme sur l'autorité ; le refus
+dépend ensuite des marques synchronisées ou du circuit autoritaire habituel.
+Le garde-fou porte sur le type avant toute lecture de méthode : la classe native
+`IsoObject` garantit les accès conteneurs/sprite utilisés par la classification.
+Une sonde `objet.methode` sur un propriétaire Java non exposé peut elle-même lever
+une erreur ; elle ne remplace donc pas cette frontière. Un futur propriétaire
+hors de ce type est ignoré sans lire ses membres, et un sous-type natif sans
+service électrique reconnu ne reçoit aucun contrôle du tableau.
 Application des circuits : autorité seulement, créneaux espacés d'au moins 20 ms
 réelles pour les commandes/découvertes en attente, 100 ms pour l'entretien seul ;
 16 unités de travail au maximum et arrêt entre unités après environ 1 ms, sans
