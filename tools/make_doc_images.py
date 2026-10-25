@@ -255,6 +255,19 @@ def save(im, name, lang):
 
 # --- 1. Diagram ---------------------------------------------------------------------------------
 
+BREAKER_NOTES = {
+    "EN": "Overload protection\nLighting / equipment\nMain switch",
+    "FR": "Protection surcharge\nÉclairage / équipements\nCoupure principale",
+    "DE": "Überlastschutz\nLicht / Geräte\nHauptschalter",
+    "ES": "Protección de sobrecarga\nIluminación / equipos\nInterruptor general",
+    "PTBR": "Proteção de sobrecarga\nIluminação / equipamentos\nInterruptor geral",
+    "PT": "Proteção de sobrecarga\nIluminação / equipamentos\nInterruptor principal",
+    "RU": "Защита от перегрузки\nСвет / приборы\nОбщий выключатель",
+    "CN": "过载保护\n照明 / 设备\n总开关",
+    "JP": "過負荷保護\n照明 / 機器\n主回路スイッチ",
+    "KO": "과부하 보호\n조명 / 장비\n메인 스위치",
+}
+
 
 def diagram(lang):
     # Device names as the translated game shows them; powers and notes from the labels above.
@@ -265,49 +278,56 @@ def diagram(lang):
     t["wind"] = "%s \u00b7 400 %s" % (item("WindTurbine"), unit)
     t["water"] = "%s \u00b7 120 %s" % (item("WaterWheel"), unit)
     t["inverter"] = item("Inverter").upper()
-    t["bank"] = "%s %s" % (item("PowerBank").upper(), t["bank"][t["bank"].rfind("("):] if "(" in t["bank"]
-                           else t["bank"][t["bank"].rfind("\uff08"):])
-    W, H = 1200, 400
+    optional = t["bank"][t["bank"].rfind("("):] if "(" in t["bank"] else t["bank"][t["bank"].rfind("\uff08"):]
+    t["bank"] = "%s %s" % (item("PowerBank").upper(), optional)
+    W, H = 1200, 430
     im = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(im)
-    fT, fS = font(lang, 26, True), font(lang, 15)
+    fT = font(lang, 26, True)
     d.rounded_rectangle((10, 10, W - 10, H - 10), 14, fill=CARD, outline=LINE, width=2)
     # Sources
-    d.rounded_rectangle((40, 50, 330, 290), 12, fill=CARD, outline=LINE, width=2)
-    text(d, (62, 68), t["sources"], fT)
+    d.rounded_rectangle((30, 50, 300, 325), 12, fill=CARD, outline=LINE, width=2)
+    text(d, (50, 68), t["sources"], fT)
     src = "\n".join((t["solar"], t["wind"], t["water"]))
-    text(d, (62, 112), src, fit(d, src, lang, 20, 255), spacing=10)
-    text(d, (62, 228), t["src_note"], fit(d, t["src_note"], lang, 15, 255), MUTED)
+    text(d, (50, 112), src, fit(d, src, lang, 20, 230), spacing=10)
+    text(d, (50, 210), t["src_note"], fit(d, t["src_note"], lang, 15, 230), MUTED)
+    text(d, (50, 270), t["wire"], fit(d, t["wire"], lang, 15, 230), MUTED)
+    text(d, (50, 294), t["wire_cost"], fit(d, t["wire_cost"], lang, 15, 230), MUTED)
     # Inverter
-    d.rounded_rectangle((470, 80, 760, 240), 12, fill=ACCENT_BG, outline=ACCENT, width=3)
-    text(d, (492, 96), t["inverter"], fit(d, t["inverter"], lang, 26, 250, True))
-    text(d, (492, 140), t["inv_main"], fit(d, t["inv_main"], lang, 20, 250))
-    text(d, (492, 186), t["inv_note"], fit(d, t["inv_note"], lang, 15, 250), MUTED)
+    d.rounded_rectangle((340, 80, 610, 260), 12, fill=ACCENT_BG, outline=ACCENT, width=3)
+    text(d, (360, 96), t["inverter"], fit(d, t["inverter"], lang, 26, 230, True))
+    text(d, (360, 140), t["inv_main"], fit(d, t["inv_main"], lang, 20, 230))
+    text(d, (360, 186), t["inv_note"], fit(d, t["inv_note"], lang, 15, 230), MUTED)
+    # Optional breaker, between the inverter and the household distribution.
+    d.rounded_rectangle((650, 80, 870, 260), 12, fill=BG, outline=GREY, width=2)
+    breaker = item("Breaker").upper()
+    text(d, (670, 96), breaker, fit(d, breaker, lang, 24, 180, True))
+    text(d, (670, 134), optional, fit(d, optional, lang, 16, 180), MUTED)
+    note = BREAKER_NOTES[lang]
+    text(d, (670, 173), note, fit(d, note, lang, 15, 180), spacing=6)
     # House
-    d.rounded_rectangle((900, 50, 1160, 290), 12, fill=GREEN_BG, outline=GREEN, width=2)
-    text(d, (922, 68), t["house"], fT)
-    text(d, (922, 112), t["house_main"], fit(d, t["house_main"], lang, 20, 225), spacing=8)
-    text(d, (922, 205), t["house_note"], fit(d, t["house_note"], lang, 15, 225), MUTED)
+    d.rounded_rectangle((910, 50, 1170, 290), 12, fill=GREEN_BG, outline=GREEN, width=2)
+    text(d, (932, 68), t["house"], fT)
+    text(d, (932, 112), t["house_main"], fit(d, t["house_main"], lang, 20, 225), spacing=8)
+    text(d, (932, 205), t["house_note"], fit(d, t["house_note"], lang, 15, 225), MUTED)
     # Arrows
-    arrow(d, 335, 160, 465, 160)
-    text(d, (400, 150), t["wire"], fit(d, t["wire"], lang, 15, 125), MUTED, anchor="md")
-    text(d, (400, 172), t["wire_cost"], fit(d, t["wire_cost"], lang, 15, 125), MUTED, anchor="ma")
-    arrow(d, 765, 160, 895, 160)
-    text(d, (830, 150), t["house_power"], fit(d, t["house_power"], lang, 15, 125), MUTED, anchor="md")
+    arrow(d, 305, 160, 335, 160, head=12)
+    arrow(d, 615, 160, 645, 160, head=12)
+    arrow(d, 875, 160, 905, 160, head=12)
     # Power bank
-    d.line((615, 242, 615, 300), fill=ACCENT, width=5)
-    d.polygon([(615, 242), (605, 258), (625, 258)], fill=ACCENT)
-    d.polygon([(615, 300), (605, 284), (625, 284)], fill=ACCENT)
-    text(d, (630, 262), t["store"], fS, MUTED)
-    x0, x1 = 470, 760
+    d.line((475, 262, 475, 330), fill=ACCENT, width=5)
+    d.polygon([(475, 262), (465, 278), (485, 278)], fill=ACCENT)
+    d.polygon([(475, 330), (465, 314), (485, 314)], fill=ACCENT)
+    text(d, (490, 286), t["store"], fit(d, t["store"], lang, 15, 190), MUTED)
+    x0, x1 = 330, 640
     for x in range(x0, x1, 14):
-        d.line((x, 302, min(x + 7, x1), 302), fill=GREY, width=2)
-        d.line((x, 378, min(x + 7, x1), 378), fill=GREY, width=2)
-    for y in range(302, 378, 14):
-        d.line((x0, y, x0, min(y + 7, 378)), fill=GREY, width=2)
-        d.line((x1, y, x1, min(y + 7, 378)), fill=GREY, width=2)
-    text(d, (488, 312), t["bank"], fit(d, t["bank"], lang, 19, 255, True))
-    text(d, (488, 346), t["bank_note"], fS, MUTED)
+        d.line((x, 332, min(x + 7, x1), 332), fill=GREY, width=2)
+        d.line((x, 408, min(x + 7, x1), 408), fill=GREY, width=2)
+    for y in range(332, 408, 14):
+        d.line((x0, y, x0, min(y + 7, 408)), fill=GREY, width=2)
+        d.line((x1, y, x1, min(y + 7, 408)), fill=GREY, width=2)
+    text(d, (348, 342), t["bank"], fit(d, t["bank"], lang, 19, 274, True))
+    text(d, (348, 376), t["bank_note"], fit(d, t["bank_note"], lang, 15, 274), MUTED)
     save(im, "diagram", lang)
 
 
