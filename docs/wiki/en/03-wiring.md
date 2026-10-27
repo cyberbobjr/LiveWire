@@ -26,7 +26,7 @@ Electric wire `Base.ElectricWire`: **1 wire per 4 tiles of distance, rounded up,
 
 | Item | Value |
 |---|---|
-| Cable range | 12 tiles (sandbox `LinkRange`, 4-30), at most 1 floor apart |
+| Cable range | 12 tiles horizontally (sandbox `LinkRange`, 4-30), at most 3 floors apart by default (sandbox `LinkVerticalRange`, 0-10; 0 = same floor). Also applies to inverter coupling |
 | Inverters per network | 1 |
 | Breakers per network | 1 |
 | Alarms per network | 1 |

@@ -6,9 +6,6 @@ LiveWire = LiveWire or {}
 local Install = {}
 LiveWire.Install = Install
 
--- Floors a cable can climb or go down between a device and its inverter.
-Install.LINK_FLOORS = 1
-
 local function notBroken(item)
     return not item:isBroken()
 end
@@ -152,8 +149,9 @@ function Install.checkLink(character, target, inverterObj)
     local ts, is = target:getSquare(), inverterObj:getSquare()
     if not ts or not is then return false, "Tooltip_LW_Invalid" end
     local dist, dz = Install.distance(ts:getX(), ts:getY(), ts:getZ(), is:getX(), is:getY(), is:getZ())
-    if dz > Install.LINK_FLOORS then
-        return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(Install.LINK_FLOORS)
+    local floors = LiveWire.Config.get("LinkVerticalRange")
+    if dz > floors then
+        return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(floors)
     end
     local range = LiveWire.Config.get("LinkRange")
     if dist > range then
@@ -200,8 +198,9 @@ function Install.checkCouple(character, slaveObj, masterObj)
     local ss, ms = slaveObj:getSquare(), masterObj:getSquare()
     if not ss or not ms then return false, "Tooltip_LW_Invalid" end
     local dist, dz = Install.distance(ss:getX(), ss:getY(), ss:getZ(), ms:getX(), ms:getY(), ms:getZ())
-    if dz > Install.LINK_FLOORS then
-        return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(Install.LINK_FLOORS)
+    local floors = LiveWire.Config.get("LinkVerticalRange")
+    if dz > floors then
+        return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(floors)
     end
     local range = LiveWire.Config.get("LinkRange")
     if dist > range then
@@ -232,7 +231,8 @@ function Install.objectsInRange(sq, wantRole, vanilla)
     local r = math.floor(range)
     local cell = getCell()
     local x0, y0, z0 = sq:getX(), sq:getY(), sq:getZ()
-    for z = z0 - Install.LINK_FLOORS, z0 + Install.LINK_FLOORS do
+    local floors = LiveWire.Config.get("LinkVerticalRange")
+    for z = math.max(-32, z0 - floors), math.min(31, z0 + floors) do
         for x = x0 - r, x0 + r do
             for y = y0 - r, y0 + r do
                 local dx, dy = x - x0, y - y0

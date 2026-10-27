@@ -140,7 +140,7 @@ Les règles « dehors » et « berge de rivière » s'ajoutent aux contrôles va
 
 **Câblage (validé : D-3).**
 - Chaque source, chaque powerbank et chaque équipement se raccorde à **un** onduleur par l'action « Raccorder ».
-- Conditions : au plus `LinkRange` cases (12 par défaut) et un écart d'au plus 1 étage.
+- Conditions : au plus `LinkRange` cases horizontalement (12 par défaut) et un écart d'au plus `LinkVerticalRange` étages (3 par défaut, réglable de 0 à 10 ; 0 = même étage). Même portée pour le couplage d'onduleurs. Les raccordements existants sont conservés si la limite est réduite.
 - Coût : `Base.ElectricWire`, à raison de 1 fil pour 4 cases, arrondi au-dessus, au moins 1.
 - Pas de câble visible en v0.1.
 
@@ -597,6 +597,7 @@ Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
 | `LiveWire.DeviceWearMultiplier` | réel | 0 – 10 | 1,0 | Usure des sources et des onduleurs ; 0 = aucune |
 | `LiveWire.InverterNoiseRadius` | entier | 0 – 10 | 2 | Rayon du bourdonnement entendu par les zombies ; 0 = silence |
 | `LiveWire.LinkRange` | entier | 4 – 30 | 12 | Distance maximale de raccordement |
+| `LiveWire.LinkVerticalRange` | entier | 0 – 10 | 3 | Écart maximal en étages pour les raccordements et couplages ; 0 = même étage |
 | `LiveWire.WirePerTiles` | entier | 0 – 20 | 4 | Cases par fil électrique ; 0 = câblage gratuit |
 | `LiveWire.StormDamage` | booléen | — | **faux** | Dégâts d'orage et de tempête (désactivés par défaut, choix de l'utilisateur) |
 | `LiveWire.RiverFreeze` | booléen | — | faux | Gel des roues à aubes |

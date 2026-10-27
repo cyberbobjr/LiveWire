@@ -242,7 +242,8 @@ sont retirés ; la table d'ancres continue de passer par `ModData.request/transm
 | `LiveWire.BatteryWearMultiplier` | double | 1,0 | 0-10 | Usure des batteries (0 = aucune) |
 | `LiveWire.DeviceWearMultiplier` | double | 1,0 | 0-10 | Usure des sources, onduleurs et équipements (0 = aucune) |
 | `LiveWire.InverterNoiseRadius` | integer | 2 | 0-10 | Rayon du bruit entendu par les zombies (0 = silencieux) |
-| `LiveWire.LinkRange` | integer | 12 | 4-30 | Distance maximale appareil-onduleur (1 étage d'écart au plus) |
+| `LiveWire.LinkRange` | integer | 12 | 4-30 | Distance horizontale maximale appareil-onduleur |
+| `LiveWire.LinkVerticalRange` | integer | 3 | 0-10 | Écart maximal en étages, au-dessus ou au-dessous, pour les raccordements et couplages ; 0 = même étage |
 | `LiveWire.PumpRange` | integer | 15 | 5-30 | Rayon des robinets alimentés par une pompe |
 | `LiveWire.WirePerTiles` | integer | 4 | 0-20 | Un fil électrique par N cases de câble (0 = gratuit) |
 | `LiveWire.StormDamage` | boolean | false | — | Orages et vents très forts abîment panneaux et éoliennes |

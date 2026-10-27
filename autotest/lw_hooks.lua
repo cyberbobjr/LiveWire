@@ -467,16 +467,17 @@ local function runChecks()
         return res, detail
     end)
 
-    check("B checkLink refuses 2 floors and 15 tiles with numeric args", function()
+    check("B checkLink refuses excess floors and 15 tiles with numeric args", function()
         local dev = R.device(LiveWire.Marks.get(S.inv).id)
         local function fakeAt(x, y, z)
             local fsq = { getX = function() return x end, getY = function() return y end, getZ = function() return z end }
             return { getSquare = function() return fsq end }
         end
-        local ok1, k1, a1, b1 = LiveWire.Install.checkLink(p, fakeAt(dev.x, dev.y, dev.z + 2), S.inv)
+        local floors = LiveWire.Config.get("LinkVerticalRange")
+        local ok1, k1, a1, b1 = LiveWire.Install.checkLink(p, fakeAt(dev.x, dev.y, dev.z + floors + 1), S.inv)
         local ok2, k2, a2, b2 = LiveWire.Install.checkLink(p, fakeAt(dev.x + 15, dev.y, dev.z), S.inv)
-        local good = ok1 == false and k1 == "Tooltip_LW_TooManyFloors" and tostring(a1) == "2"
-            and tostring(b1) == "1" and ok2 == false and k2 == "Tooltip_LW_TooFarForCable"
+        local good = ok1 == false and k1 == "Tooltip_LW_TooManyFloors" and tonumber(a1) == floors + 1
+            and tonumber(b1) == floors and ok2 == false and k2 == "Tooltip_LW_TooFarForCable"
             and tostring(a2) == "15" and tonumber(b2) ~= nil
         return good, "floors=" .. tostring(k1) .. "(" .. tostring(a1) .. "," .. tostring(b1) .. ") range=" .. tostring(k2)
             .. "(" .. tostring(a2) .. "," .. tostring(b2) .. ")"
@@ -926,19 +927,95 @@ local function buildSteps()
     for i = 1, #more do steps[#steps + 1] = more[i] end
 end
 
+-- Focused regression on real squares and the real authoritative link action.
+-- Run with -P vertical=1; only the launcher's disposable world is changed.
+local function runVerticalChecks()
+    local opt = getSandboxOptions():getOptionByName("LiveWire.LinkVerticalRange")
+    check("vertical sandbox default and bounds", function()
+        return opt ~= nil and opt:getValue() == 3 and opt:getMin() == 0 and opt:getMax() == 10
+    end)
+    if not opt then return end
+    local saved = opt:getValue()
+    local px, py, pz = p:getX(), p:getY(), p:getZ()
+    local ok, err = pcall(function()
+        local base = findSquare(function(sq) return sq:isOutside() end)
+        if not base then error("no outside base square") end
+        local x, y, z = base:getX(), base:getY(), base:getZ()
+        local function upstairs(dz)
+            local sq = cell:getGridSquare(x, y, z + dz)
+                or cell:createNewGridSquare(x, y, z + dz, true)
+            if not sq then error("cannot create test floor " .. tostring(dz)) end
+            if not sq:getFloor() then sq:addFloor("carpentry_02_56") end
+            return sq
+        end
+        local inv = place("Base.Mov_LiveWire_Inverter", SHEET .. "12", base)
+        local solar = place("Base.Mov_LiveWire_SolarPanel", SHEET .. "0", upstairs(2))
+        local bank = place("Base.Mov_LiveWire_PowerBank", SHEET .. "16", upstairs(3))
+        local far = place("Base.Mov_LiveWire_SolarPanel", SHEET .. "0", upstairs(4))
+        for _ = 1, 20 do giveItem("Base.ElectricWire") end
+        local invDev = R.device(LiveWire.Marks.get(inv).id)
+        invDev.state = "off"
+        LiveWire.Devices.syncMark(invDev)
+        local function found(target, center)
+            for _,e in ipairs(LiveWire.Install.objectsInRange(center:getSquare(), nil, true)) do
+                if e.obj == target then return true end
+            end
+            return false
+        end
+        check("discovery sees equipment at two and three floors, excludes four", function()
+            return found(solar, inv) and found(bank, inv) and not found(far, inv)
+                and found(inv, solar)
+        end)
+        check("default links rooftop source two floors up through real action", function()
+            p:setZ(z + 2)
+            return link(solar, inv) == true and R.device(LiveWire.Marks.get(solar).id).grid == invDev.grid
+        end)
+        check("default links power bank at three-floor boundary", function()
+            p:setZ(z + 3)
+            return link(bank, inv) == true and R.device(LiveWire.Marks.get(bank).id).grid == invDev.grid
+        end)
+        check("authority refuses four floors without consuming wire", function()
+            p:setZ(z + 4)
+            local before = LiveWire.Install.countType(p, "Base.ElectricWire")
+            return link(far, inv) == false and before == LiveWire.Install.countType(p, "Base.ElectricWire")
+                and not R.device(LiveWire.Marks.get(far).id).grid
+        end)
+        check("lowering floor limit updates discovery and preserves existing links", function()
+            opt:setValue(1)
+            return not found(solar, inv) and not found(bank, inv)
+                and R.device(LiveWire.Marks.get(solar).id).grid == invDev.grid
+                and R.device(LiveWire.Marks.get(bank).id).grid == invDev.grid
+        end)
+        check("raising floor limit allows previously refused real action", function()
+            opt:setValue(4)
+            p:setZ(z + 4)
+            return found(far, inv) and link(far, inv) == true
+        end)
+        check("zero vertical range restricts new links to the same floor", function()
+            opt:setValue(0)
+            local allowed, why, actual, limit = LiveWire.Install.checkLink(p, bank, inv)
+            return not allowed and why == "Tooltip_LW_TooManyFloors" and actual == "3" and limit == "0"
+        end)
+    end)
+    opt:setValue(saved)
+    p:setX(px); p:setY(py); p:setZ(pz)
+    if not ok then rec(false, "vertical checks aborted", err) end
+end
+
 function H.start(ctx)
     p = getPlayer()
     cell = getCell()
     R = LiveWire.Registry
     p:setPerkLevelDebug(Perks.Electricity, 10)
     giveItem("Base.Screwdriver")
-    local ok, res = pcall(runChecks)
+    local vertical = ctx.params.vertical == "1"
+    local ok, res = pcall(vertical and runVerticalChecks or runChecks)
     if not ok then rec(false, "checks aborted", res) end
-    if ok and res and ctx.params.pump ~= "0" then
+    if not vertical and ok and res and ctx.params.pump ~= "0" then
         local ok2, err2 = pcall(runPumpAndCoupling)
         if not ok2 then rec(false, "pump and coupling checks aborted", err2) end
     end
-    if ok and res and ctx.params.shots ~= "0" then buildSteps() end
+    if not vertical and ok and res and ctx.params.shots ~= "0" then buildSteps() end
     stepIndex, stepAt = 0, getTimestampMs()
     return true
 end

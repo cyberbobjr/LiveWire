@@ -18,7 +18,7 @@ Powerbank, alarme de batterie faible et kit d'insonorisation : niveau 2. Panneau
 ## Raccordement
 
 **Quelle portée de câble, et combien coûte le fil ?**
-La portée est de 12 cases (option sandbox `LinkRange`, de 4 à 30), avec 1 étage d'écart au plus. Le coût est de 1 fil électrique (`Base.ElectricWire`) par tranche de 4 cases, arrondi au-dessus, au moins 1 (option `WirePerTiles`, 0 = gratuit). Voir [Raccordement](03-raccordement.md) et [Options sandbox](11-options-sandbox.md).
+La portée est de 12 cases horizontalement (option sandbox `LinkRange`, de 4 à 30), avec 3 étages d'écart au plus par défaut (option `LinkVerticalRange`, de 0 à 10 ; 0 = même étage). Le coût est de 1 fil électrique (`Base.ElectricWire`) par tranche de 4 cases horizontales, arrondi au-dessus, au moins 1 (option `WirePerTiles`, 0 = gratuit). Voir [Raccordement](03-raccordement.md) et [Options sandbox](11-options-sandbox.md).
 
 **Comment raccorder ou débrancher un équipement ?**
 Clic droit sur l'équipement, « Live Wire », puis son nom, puis « Raccorder à un onduleur » et choisissez l'onduleur (la liste donne distance et fils). Ou clic droit sur l'onduleur, « Raccorder un équipement » ou « Débrancher un équipement ». Le menu de l'équipement propose aussi « Débrancher de l'onduleur ». Voir [Raccordement](03-raccordement.md).
@@ -112,7 +112,7 @@ Les autres mods d'énergie ne sont pas pris en charge avec Live Wire. C'est une 
 ## Dépannage
 
 **Un équipement affiche « Non raccordé ».**
-Il n'est relié à aucun onduleur. Clic droit, « Live Wire », puis « Raccorder à un onduleur ». L'onduleur doit être à portée de câble (12 cases par défaut, 1 étage d'écart au plus). Une source reposée après ramassage doit être reliée de nouveau. Voir [Raccordement](03-raccordement.md).
+Il n'est relié à aucun onduleur. Clic droit, « Live Wire », puis « Raccorder à un onduleur ». L'onduleur doit être à portée de câble (12 cases horizontalement et 3 étages d'écart au plus par défaut). Une source reposée après ramassage doit être reliée de nouveau. Voir [Raccordement](03-raccordement.md).
 
 **Tout est relié mais rien n'est alimenté.**
 Vérifiez que l'onduleur est allumé (« Allumer ») et non déclenché (« Réarmer »), que les appareils sont à 20 cases et 3 étages (utilisez « Afficher la zone alimentée »), et qu'une source produit réellement (nuit, pas de vent, neige). L'écran de l'onduleur montre production, charge et état. Voir [Écran et logiciel](05-ecran-et-logiciel.md).

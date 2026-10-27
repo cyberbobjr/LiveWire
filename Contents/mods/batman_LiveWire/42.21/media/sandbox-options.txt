@@ -67,6 +67,12 @@ option LiveWire.LinkRange
     page = LiveWire, translation = LiveWire_LinkRange,
 }
 
+option LiveWire.LinkVerticalRange
+{
+    type = integer, min = 0, max = 10, default = 3,
+    page = LiveWire, translation = LiveWire_LinkVerticalRange,
+}
+
 option LiveWire.PumpRange
 {
     type = integer, min = 5, max = 30, default = 15,

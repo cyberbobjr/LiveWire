@@ -45,7 +45,7 @@ Orientation et saleté des panneaux, test et réparation des batteries, récupé
 
 Live Wire repose sur **trois rôles et un seul réseau** :
 
-- **Les sources produisent** : panneau photovoltaïque (100 W), éolienne (400 W), roue à aubes (120 W), en puissance nominale. Le nombre de sources par onduleur n'est pas limité ; chacune doit se trouver à portée de fil (12 cases, 1 étage d'écart au plus).
+- **Les sources produisent** : panneau photovoltaïque (100 W), éolienne (400 W), roue à aubes (120 W), en puissance nominale. Le nombre de sources par onduleur n'est pas limité ; chacune doit se trouver à portée de fil (12 cases horizontalement, 3 étages d'écart au plus par défaut).
 - **Les batteries stockent** (facultatif) : batteries de voiture ou batteries stationnaires, rangées dans une powerbank (4 batteries comptées par powerbank, rendement de charge 0,90). Plusieurs powerbanks par onduleur.
 - **L'onduleur convertit et distribue** : 1 500 W maximum (demande de la maison), 20 W de consommation à vide, rendement de 0,85 à 1,0 (selon le niveau de l'installateur), un seul par réseau. Il se pose à l'intérieur et n'est pas toxique (ce n'est pas un générateur du jeu).
 - **La maison** : tout appareil situé dans un rayon de 20 cases et à ±3 étages de l'onduleur (options vanilla `GeneratorTileRange` et `GeneratorVerticalPowerRange`) est alimenté. Aucun câblage appareil par appareil.
@@ -177,7 +177,7 @@ Capacité effective = nominale × (0,4 + 0,6 × état/100) × `BatteryCapacityMu
 1. Fabriquez les appareils ([recettes](#recettes)) et posez-les avec le curseur de meubles.
 2. Clic droit sur un appareil > « Live Wire » > nom de l'appareil : affiche « Raccordé à l'onduleur à N cases » ou « Non raccordé », puis « Raccorder à un onduleur » > une ligne par onduleur à portée : « Onduleur à N cases (k fil(s)) ». Ou clic droit sur l'onduleur > « Raccorder un équipement » (liste des équipements libres à portée, avec distance et nombre de fils) / « Débrancher un équipement ».
 3. **Coût** : fil électrique `Base.ElectricWire`, **1 fil par tranche de 4 cases** de distance, arrondi au supérieur, au moins 1 (option `WirePerTiles` ; 0 = gratuit). Exemple : un panneau à 9 cases de l'onduleur coûte 9 / 4 = 2,25, soit **3 fils**.
-4. **Portée** : 12 cases (option `LinkRange`, de 4 à 30), 1 étage d'écart au plus.
+4. **Portée** : 12 cases horizontalement (option `LinkRange`, de 4 à 30), 3 étages d'écart au plus par défaut (option `LinkVerticalRange`, de 0 à 10 ; 0 = même étage uniquement). La portée verticale s'applique aussi au couplage d'onduleurs.
 5. **Limites par réseau** : au plus un disjoncteur, une alarme, un ordinateur de gestion et un générateur de secours.
 6. Le générateur vanilla (secours) et l'ordinateur de bureau vanilla (gestion) se raccordent de la même façon, depuis leur propre menu clic droit : « Live Wire » > Générateur de secours / Ordinateur de gestion > Raccorder à un onduleur.
 7. Ramasser l'onduleur déconnecte tout son réseau ; le faire pivoter conserve les liens. Une source ramassée garde son état ; reposée, elle est « Non raccordé ».
@@ -573,6 +573,7 @@ Page « LiveWire » des options sandbox.
 | `BatteryWearMultiplier` / `DeviceWearMultiplier` | 1,0 | 0-10 | Usure ; 0 = aucune |
 | `InverterNoiseRadius` | 2 | 0-10 | Rayon du bourdonnement entendu par les zombies ; 0 = silencieux |
 | `LinkRange` | 12 | 4-30 | Distance de câble maximale |
+| `LinkVerticalRange` | 3 | 0-10 | Écart maximal en étages pour les raccordements et couplages ; 0 = même étage |
 | `PumpRange` | 15 | 5-30 | Rayon autour d'une pompe à eau dans lequel ses points d'eau sont alimentés |
 | `WirePerTiles` | 4 | 0-20 | Cases par fil électrique ; 0 = câblage gratuit |
 | `SolarOrientation` | activé | — | L'orientation modifie le rendement solaire : sud 100 %, est/ouest 85 %, nord 55 % |

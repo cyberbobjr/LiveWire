@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire_LinkVerticalRange": "电缆垂直范围",
+    "Sandbox_LiveWire_LinkVerticalRange_tooltip": "连接设备和并联逆变器时，允许向上或向下跨越的最大楼层数。0 = 仅限同一楼层。",
     "Sandbox_LiveWire_PowerScale": "功率倍率",
     "Sandbox_LiveWire_PowerScale_tooltip": "在耗电方案之外，再乘以每个电器的耗电（1 = 不变）。",
     "Sandbox_LiveWire_ConsumptionProfile": "耗电方案",

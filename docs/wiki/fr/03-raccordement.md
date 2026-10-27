@@ -26,7 +26,7 @@ Un fil électrique `Base.ElectricWire` par tranche de 4 cases de distance, arron
 
 | Règle | Valeur |
 |---|---|
-| Portée de câble | 12 cases (option LinkRange, 4 à 30), 1 étage d'écart au plus |
+| Portée de câble | 12 cases horizontalement (option LinkRange, 4 à 30), 3 étages d'écart au plus par défaut (option LinkVerticalRange, 0 à 10 ; 0 = même étage). S'applique aussi au couplage d'onduleurs |
 | Sources par onduleur | Illimitées |
 | Powerbanks par onduleur | Plusieurs |
 | Disjoncteur, alarme, ordinateur de gestion, générateur de secours | Un de chaque par réseau au plus |

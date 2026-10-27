@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire_LinkVerticalRange": "Дальность кабеля по вертикали",
+    "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Максимальная разница в этажах при подключении оборудования и объединении инверторов, вверх или вниз. 0 = только на одном этаже.",
     "Sandbox_LiveWire_PowerScale": "Масштаб потребления",
     "Sandbox_LiveWire_PowerScale_tooltip": "Умножает потребление каждого прибора поверх профиля потребления (1 = без изменений).",
     "Sandbox_LiveWire_ConsumptionProfile": "Профиль потребления",

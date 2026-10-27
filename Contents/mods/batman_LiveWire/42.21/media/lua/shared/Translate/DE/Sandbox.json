@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire_LinkVerticalRange": "Vertikale Kabelreichweite",
+    "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Maximaler Höhenunterschied in Stockwerken für Geräteanschlüsse und die Kopplung von Wechselrichtern, nach oben oder unten. 0 = nur im selben Stockwerk.",
     "Sandbox_LiveWire_PowerScale": "Leistungsskala",
     "Sandbox_LiveWire_PowerScale_tooltip": "Multipliziert den Verbrauch jedes Geräts, zusätzlich zum Verbrauchsprofil (1 = keine Änderung).",
     "Sandbox_LiveWire_ConsumptionProfile": "Verbrauchsprofil",

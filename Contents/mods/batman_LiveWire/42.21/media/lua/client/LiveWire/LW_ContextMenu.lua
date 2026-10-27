@@ -223,8 +223,9 @@ local function addLinkOptions(menu, player, obj, kind, linkId)
     local range = tostring(LiveWire.Config.get("LinkRange"))
     if #inverters == 0 then
         local near = Menu.nearestInverter(obj, 2 * LiveWire.Config.get("LinkRange"))
-        if near and near.dz > I().LINK_FLOORS then
-            disabled(menu, getText("ContextMenu_LW_InverterFloors", tostring(near.dz), tostring(I().LINK_FLOORS)))
+        local floors = LiveWire.Config.get("LinkVerticalRange")
+        if near and near.dz > floors then
+            disabled(menu, getText("ContextMenu_LW_InverterFloors", tostring(near.dz), tostring(floors)))
         elseif near then
             disabled(menu, getText("ContextMenu_LW_InverterTooFar", tostring(math.ceil(near.dist - 1e-9)), range))
         else

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.2 — 2026-10-27
+
+### Wiring
+- Cables now reach up to 3 floors above or below the inverter by default, allowing rooftop sources and backup generators to connect to an inverter downstairs.
+- Added the Cable vertical range sandbox option (0-10 floors). It applies to equipment connections and inverter coupling; 0 restricts new connections to the same floor.
+
 ## 1.6.1 — 2026-10-25
 
 ### Fixes

@@ -19,6 +19,7 @@ local DEFAULTS = {
     DeviceWearMultiplier = 1.0,
     InverterNoiseRadius = 2,
     LinkRange = 12,
+    LinkVerticalRange = 3,
     PumpRange = 15,
     WirePerTiles = 4,
     StormDamage = false,

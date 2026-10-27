@@ -495,3 +495,22 @@ rester identiques. Aucun test moteur revendiqué par les comparaisons d'images.
 Contrôles hors jeu : `python -B tests/test_review_fixes.py`, puis suites et contrôle
 statique consignés dans le bilan. Aucun de ces essais manuels n'est revendiqué
 par les résultats du 2026-10-25.
+
+## Portée verticale des câbles — 1.6.2
+
+Contrôles hors jeu : `python -B tests/test_link_range.py` et
+`python -B tests/test_menus_debug.py`. Couvrent les bornes, les deux sens verticaux,
+la lecture du réglage courant, les menus, le couplage, le coût horizontal et le
+refus de l'action avant consommation si la limite change.
+
+Scénario ciblé en jeu, depuis le dossier Workshop parent :
+
+```powershell
+python .claude/tools/pz-autotest/pz_autotest.py sp LiveWire -P vertical=1 -P shots=0 --no-screenshot --wait-idle 3600
+```
+
+Crée des plateformes dans la copie jetable du monde et utilise les objets réels
+et `LWLinkAction:complete` : raccordement à +2 et +3 étages, refus à +4 sans coût,
+découverte dans les deux sens, baisse à 1 sans perte des liaisons existantes,
+hausse à 4 puis limite à 0. Vérifie le défaut 3 et les bornes sandbox 0–10.
+Les polices et le rendu des libellés traduits restent un contrôle manuel.

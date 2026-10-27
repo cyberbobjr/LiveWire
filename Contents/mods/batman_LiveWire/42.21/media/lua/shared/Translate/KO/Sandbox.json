@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire_LinkVerticalRange": "전선 수직 연결 범위",
+    "Sandbox_LiveWire_LinkVerticalRange_tooltip": "장비 연결 및 인버터 병렬 연결 시 위아래로 허용되는 최대 층수 차이입니다. 0 = 같은 층만 허용.",
     "Sandbox_LiveWire_PowerScale": "전력 배율",
     "Sandbox_LiveWire_PowerScale_tooltip": "소비 전력 프로필에 더해 각 가전의 소비량을 곱합니다(1 = 변경 없음).",
     "Sandbox_LiveWire_ConsumptionProfile": "소비 전력 프로필",

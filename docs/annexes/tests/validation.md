@@ -1,5 +1,37 @@
 # Live Wire — bilan de validation SP/MP
 
+## Portée verticale des câbles — 2026-10-27, version locale 1.6.2
+
+**Confirmé statiquement et hors jeu :** contrôles `tools/check_mod.py` OK
+(sources décompilées 42.21.0), suites physique, simulation et régressions OK,
+contrats de raccordement (5 tests) et menus (7 tests) OK. Les nouvelles clés
+sandbox sont présentes dans les dix langues et correspondent aux sources du
+générateur. `LinkVerticalRange` vaut 3 par défaut, avec bornes 0–10 ; menus et
+contrôles d'autorité lisent la valeur courante. Couplage et raccordements utilisent
+la même limite. La portée horizontale et son coût restent inchangés.
+Suite `unittest discover` : 149 tests, dont 5 ignorés, code 0.
+
+**Confirmé en jeu solo 42.21.0 :** code de sortie **0**,
+`summary=9/9 PASS`, dossier local `runs/20261027-091208-sp-871e499158e2/`.
+Sources et objets réellement placés dans une copie jetable du monde : découverte
+à deux et trois niveaux, raccordement d'un panneau à +2 et d'une powerbank à +3
+par l'action réelle, refus à +4 sans consommation, conservation des liens après
+baisse à 1, raccordement après hausse à 4, refus avec limite 0. Aucune erreur Lua
+enregistrée par le débogueur pendant le scénario.
+
+**Confirmé en jeu multijoueur 42.21.0, régression générale :** code de sortie
+**0**, serveur `summary=14/14 PASS`, client `summary=6/6 PASS`, dossier local
+`runs/20261027-091359-mp-37dee76904dc/`. Serveur dédié Windows et un client réel :
+raccordements par l'action serveur, marques synchronisées, abonnements, commandes
+du logiciel depuis un ordinateur sur le même étage ou l'étage voisin, bascule de
+l'onduleur depuis le client. Aucune erreur Lua enregistrée sur les deux côtés.
+Ce passage vérifie la régression réseau ; les liaisons à +2 et +3 sont prouvées
+par le scénario solo ciblé ci-dessus.
+
+Limites : pas de validation visuelle des libellés, pas de test Linux. Le scénario
+solo cible les sources et le stockage ; le générateur vanilla et le couplage sont
+couverts par les contrats hors jeu.
+
 Campagnes du 2026-10-24, Build 42.21. Ce bilan regroupe les essais des correctifs
 CXX puis IXX ; le [suivi](../../ameliorations-et-idees.md) indique leur état de publication.
 C11 reste différé et C20 est exclu. Les sections CXX historiques précèdent le bilan

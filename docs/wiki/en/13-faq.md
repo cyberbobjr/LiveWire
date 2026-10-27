@@ -18,7 +18,7 @@ Power bank, low battery alarm and soundproofing kit: level 2. Solar panel, break
 ## Wiring
 
 **What is the cable range, and what does the wire cost?**
-The range is 12 tiles (sandbox `LinkRange`, 4 to 30), at most 1 floor apart. The cost is 1 electric wire (`Base.ElectricWire`) per 4 tiles of distance, rounded up, at least 1 (sandbox `WirePerTiles`, 0 = free). See [Wiring](03-wiring.md) and [Sandbox options](11-sandbox-options.md).
+The range is 12 tiles horizontally (sandbox `LinkRange`, 4 to 30), at most 3 floors apart by default (sandbox `LinkVerticalRange`, 0 to 10; 0 = same floor). The cost is 1 electric wire (`Base.ElectricWire`) per 4 tiles of horizontal distance, rounded up, at least 1 (sandbox `WirePerTiles`, 0 = free). See [Wiring](03-wiring.md) and [Sandbox options](11-sandbox-options.md).
 
 **How do I link or unlink a device?**
 Right-click the device, "Live Wire", then its name, then "Connect to an inverter" and pick the inverter (the list shows distance and wires). Or right-click the inverter and use "Connect equipment" or "Disconnect equipment". The device menu also has "Disconnect from the inverter". See [Wiring](03-wiring.md).
@@ -112,7 +112,7 @@ Other energy mods are not supported together with Live Wire. Live Wire is an ori
 ## Troubleshooting
 
 **A device says "Not connected".**
-It is not linked to an inverter. Right-click it, "Live Wire", then "Connect to an inverter". The inverter must be within cable range (12 tiles by default, 1 floor apart at most). A source placed again after pick-up must be linked again. See [Wiring](03-wiring.md).
+It is not linked to an inverter. Right-click it, "Live Wire", then "Connect to an inverter". The inverter must be within cable range (12 tiles horizontally and 3 floors apart at most by default). A source placed again after pick-up must be linked again. See [Wiring](03-wiring.md).
 
 **Everything is linked but nothing is powered.**
 Check that the inverter is on ("Turn on") and not tripped ("Reset"), that appliances are within 20 tiles and 3 floors (use "Show the powered area"), and that a source is actually producing (night, no wind, snow). The inverter screen shows production, load and status. See [Inverter screen and software](05-inverter-screen-and-software.md).

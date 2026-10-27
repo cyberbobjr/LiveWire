@@ -14,6 +14,7 @@ Server and game settings are on the **LiveWire** page of the sandbox options.
 | `BatteryWearMultiplier` / `DeviceWearMultiplier` | 1.0 | 0-10 | Wear; 0 = none |
 | `InverterNoiseRadius` | 2 | 0-10 | Radius of the hum heard by zombies; 0 = silent |
 | `LinkRange` | 12 | 4-30 | Maximum cable distance |
+| `LinkVerticalRange` | 3 | 0-10 | Maximum floor difference for equipment connections and inverter coupling; 0 = same floor |
 | `PumpRange` | 15 | 5-30 | Radius around a water pump where its taps are supplied |
 | `WirePerTiles` | 4 | 0-20 | Tiles per electric wire; 0 = free cabling |
 | `SolarOrientation` | true | — | Direction affects solar yield: south 100%, east/west 85%, north 55% |

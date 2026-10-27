@@ -47,7 +47,7 @@ Solar panels, wind turbines and water wheels produce silent power. An inverter p
 
 ### Three roles, one network
 
-- **Sources produce.** Solar panel 100 W, wind turbine 400 W, water wheel 120 W (nominal). Any number of sources per inverter; each must be within cable range (12 tiles, at most 1 floor apart).
+- **Sources produce.** Solar panel 100 W, wind turbine 400 W, water wheel 120 W (nominal). Any number of sources per inverter; each must be within cable range (12 tiles horizontally, at most 3 floors apart by default).
 - **Batteries store (optional).** Car batteries or deep-cycle batteries inside a power bank (4 counted per power bank, charge efficiency 0.90). Several power banks per inverter.
 - **The inverter converts and distributes.** 1,500 W max (house demand), 20 W idle consumption, efficiency 0.85 to 1.0 (from the installer's level). One per network, can be placed indoors, no toxicity (it is not a game generator).
 - **The house.** Every powered appliance within 20 tiles and ±3 floors of the inverter (vanilla options `GeneratorTileRange` / `GeneratorVerticalPowerRange`) is powered. No per-appliance wiring.
@@ -113,7 +113,7 @@ Effective capacity = nominal × (0.4 + 0.6 × condition / 100) × `BatteryCapaci
 
 **Cost:** 1 wire per 4 tiles of distance, rounded up, at least 1 (sandbox `WirePerTiles`; 0 = free). Worked example: a source 9 tiles from the inverter costs ceil(9 / 4) = 3 wires.
 
-**Range:** 12 tiles (sandbox `LinkRange`, 4-30), at most 1 floor apart.
+**Range:** 12 tiles horizontally (sandbox `LinkRange`, 4-30), at most 3 floors apart by default (sandbox `LinkVerticalRange`, 0-10; 0 = same floor only). The vertical setting also applies to inverter coupling.
 
 **Limits per network:** at most one breaker, one alarm, one management computer and one backup generator.
 
@@ -632,6 +632,7 @@ Page **LiveWire**.
 | `BatteryWearMultiplier` / `DeviceWearMultiplier` | 1.0 | 0-10 | Wear; 0 = none |
 | `InverterNoiseRadius` | 2 | 0-10 | Radius of the hum heard by zombies; 0 = silent |
 | `LinkRange` | 12 | 4-30 | Maximum cable distance |
+| `LinkVerticalRange` | 3 | 0-10 | Maximum floor difference for equipment connections and inverter coupling; 0 = same floor |
 | `PumpRange` | 15 | 5-30 | Radius around a water pump where its taps are supplied |
 | `WirePerTiles` | 4 | 0-20 | Tiles per electric wire; 0 = free cabling |
 | `SolarOrientation` | true | — | Direction affects solar yield: south 100%, east/west 85%, north 55% |

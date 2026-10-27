@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire_LinkVerticalRange": "Alcance vertical de los cables",
+    "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Diferencia máxima de plantas para conectar equipos y acoplar inversores, hacia arriba o hacia abajo. 0 = solo en la misma planta.",
     "Sandbox_LiveWire_PowerScale": "Escala de potencia",
     "Sandbox_LiveWire_PowerScale_tooltip": "Multiplica el consumo de cada aparato, además del perfil de consumo (1 = sin cambio).",
     "Sandbox_LiveWire_ConsumptionProfile": "Perfil de consumo",

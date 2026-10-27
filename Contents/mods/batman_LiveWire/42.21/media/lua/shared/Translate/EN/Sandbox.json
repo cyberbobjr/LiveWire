@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire_LinkVerticalRange": "Cable vertical range",
+    "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Maximum floor difference for equipment connections and inverter coupling, above or below. 0 = same floor only.",
     "Sandbox_LiveWire_PowerScale": "Power scale",
     "Sandbox_LiveWire_PowerScale_tooltip": "Multiplies the consumption of every appliance, on top of the consumption profile (1 = no change).",
     "Sandbox_LiveWire_ConsumptionProfile": "Consumption profile",

@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire_LinkVerticalRange": "Portée verticale des câbles",
+    "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Écart maximal en étages pour le raccordement des équipements et le couplage des onduleurs, au-dessus ou au-dessous. 0 = même étage uniquement.",
     "Sandbox_LiveWire_PowerScale": "Échelle de puissance",
     "Sandbox_LiveWire_PowerScale_tooltip": "Multiplie la consommation de chaque appareil, en plus du profil de consommation (1 = aucun changement).",
     "Sandbox_LiveWire_ConsumptionProfile": "Profil de consommation",

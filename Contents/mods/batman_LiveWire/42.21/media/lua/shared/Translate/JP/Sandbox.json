@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire_LinkVerticalRange": "電線の垂直到達範囲",
+    "Sandbox_LiveWire_LinkVerticalRange_tooltip": "機器の接続とインバーターの並列接続で許容される上下の最大階層差です。0 = 同じ階のみ。",
     "Sandbox_LiveWire_PowerScale": "電力スケール",
     "Sandbox_LiveWire_PowerScale_tooltip": "消費電力プロファイルに加えて、各家電の消費を倍率で変更します（1 = 変更なし）。",
     "Sandbox_LiveWire_ConsumptionProfile": "消費電力プロファイル",

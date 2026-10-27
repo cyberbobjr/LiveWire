@@ -170,3 +170,12 @@ Choix utilisateur : actions contextuelles pour abîmer les équipements, suppres
 des entrées ouvrant le même panneau, risque d'intervention activé par défaut.
 Les choix sandbox déjà enregistrés restent prioritaires. Pas de migration du
 pattern, du registre, des identifiants ou des sauvegardes.
+
+## Portée verticale des câbles — 2026-10-27
+
+Proposition validée par l'utilisateur, avec confirmation explicite du défaut à
+**3 étages** : remplacer la limite fixe de 1 étage par `LiveWire.LinkVerticalRange`,
+entier de 0 à 10, appliqué aux raccordements d'équipements et au couplage
+d'onduleurs, au-dessus comme au-dessous. 0 limite les nouvelles liaisons au même
+étage. La portée horizontale et la couverture électrique restent distinctes.
+Les liaisons existantes sont conservées ; aucune migration de données ni de pattern.
