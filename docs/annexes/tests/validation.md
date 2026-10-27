@@ -32,6 +32,22 @@ Limites : pas de validation visuelle des libellés, pas de test Linux. Le scéna
 solo cible les sources et le stockage ; le générateur vanilla et le couplage sont
 couverts par les contrats hors jeu.
 
+### Publication 1.6.2 — 2026-10-27
+
+Demandée explicitement par l'utilisateur : changelog, commit, push et publication.
+Contenu livré depuis `59f5058`, versions Lua et des deux mods à 1.6.2, tag
+`v1.6.2`. Simulation préalable : code **0**, aucun blocage ; 225 fichiers,
+3,7 Mo, dix descriptions de 5 859 à 7 921 octets, sous la limite de 8 000.
+`steam_workshop_publish.py LiveWire --submit --tag` : code **0**, publication
+principale et neuf traductions confirmées. Onze captures avant et après l'envoi,
+inchangées. API publique : résultat 1, visibilité 0, description anglaise identique
+à la source et suffixe d'identifiants présent ; mise à jour
+`2026-10-27T08:18:28Z`. La page des notes contient la version 1.6.2. La relecture
+HTTP de la page française a été refusée avec le code 429 ; sa publication est
+confirmée par le résultat de l'envoi Steam. Wiki EN/FR synchronisé : huit pages
+mises à jour, code **0**. Aucun nouveau test en jeu lancé pour la publication ;
+les résultats et limites des passages précédents restent ceux décrits ci-dessus.
+
 Campagnes du 2026-10-24, Build 42.21. Ce bilan regroupe les essais des correctifs
 CXX puis IXX ; le [suivi](../../ameliorations-et-idees.md) indique leur état de publication.
 C11 reste différé et C20 est exclu. Les sections CXX historiques précèdent le bilan
