@@ -81,7 +81,7 @@ validation hors jeu et contrôles manuels restants dans le
 | I11 | Tester une batterie au testeur | ✅ Publiée en 1.6.0 | Diagnostic selon compétence au testeur |
 | I12 | Réparer les batteries usées ou mortes | ✅ Publiée en 1.6.0 | Reconditionnement étendu aux mortes ; coûts, plafond, cycles et énergie conservés |
 | I13 | Démonter un équipement hors service | ✅ Publiée en 1.6.0 | Démontage des équipements morts et vides, retrait unique |
-| I14 | Frein manuel de l’éolienne | ✅ Publiée en 1.6.0 | Frein livré conservé ; alerte orage et voyant clignotant ajoutés |
+| I14 | Frein manuel de l’éolienne | ✅ Publiée en 1.6.0 | Alerte orage et voyant clignotant ; porte d’Électricité 7 retirée en 1.6.3 |
 | I15 | Intervention sous tension | ✅ Publiée en 1.6.0 | Risque optionnel autoritaire, interruption avant dépenses |
 | I16 | Arroseur de potager sur la pompe | ⬜ Proposée | Après C03 (fait) et C04 |
 | I17 | Approvisionnement en fil électrique | ⬜ Proposée | Dépend de I15 si le danger est retenu |
@@ -319,7 +319,7 @@ validation hors jeu et contrôles manuels restants dans le
 - **Risque.** Faible en MP ; ergonomie.
 - **Correction proposée.** Ajouter `allowed()`. Transformer le frein en interrupteur explicite (voir I14).
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
-- **Avancement : ✅ corrigé le 2026-10-24, publié en 1.5.0.** Inspection sans effet sur le frein, commandes explicites réversibles de niveau 7, production et rotation bloquées par le frein. Contrôles safehouse à la fin des actions ; refus vérifiés avec un vrai client MP non administrateur.
+- **Avancement : ✅ corrigé le 2026-10-24, publié en 1.5.0.** Inspection sans effet sur le frein, commandes explicites réversibles, production et rotation bloquées par le frein. Contrôles safehouse à la fin des actions ; refus vérifiés avec un vrai client MP non administrateur.
 
 ### C23 — Tables en mémoire jamais purgées ; expérience du testeur exploitable
 - **Problème.**
@@ -526,13 +526,14 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
 
 ### I14 — Frein manuel de l'éolienne
-- **Description.** « Serrer le frein » et « Desserrer le frein » dans le menu de l'éolienne, dès le niveau 7. Frein serré : production nulle et aucun dégât de tempête. Une alerte d'orage peut rappeler de le serrer. Le voyant vert de l'éolienne clignote tant que le frein est serré.
+- **Description.** « Serrer le frein » et « Desserrer le frein » dans le menu de l'éolienne, sans niveau d'Électricité requis (levier mécanique, comme inspecter ou déneiger). Frein serré : production nulle et aucun dégât de tempête. Une alerte d'orage peut rappeler de le serrer. Le voyant vert de l'éolienne clignote tant que le frein est serré.
 - **Intérêt joueur.** Remplace le frein implicite et définitif posé par l'inspection (C22) par un choix clair.
 - **Faisabilité moteur.** Le champ `dev.brake` existe déjà (`LW_Simulation.lua:85-86`). Il faut une commande, l'état dans la marque et un calque existant.
 - **Impact MP.** Une commande de plus, revérifiée (distance, safehouse).
 - **Dépendances.** C22.
 - **Effort.** S.
 - **Avancement : ✅ publié en 1.6.0 ; contrats et limites dans les spécifications et le bilan IXX.**
+- **Mise à jour 1.6.3.** La porte d'Électricité 7 du frein est retirée, côté client et côté serveur. Un frein est un levier mécanique : les autres manipulations d'un équipement (inspecter, déneiger, nettoyer) n'ont jamais demandé de niveau. Un joueur a signalé le cas pratique d'une éolienne restée freinée par le bug d'avant 1.5.0 : sans cette porte, il la desserre lui-même, aucune migration n'est nécessaire. Distance et safehouse restent revérifiées par `checkDevice`.
 
 ### I15 — Intervention sous tension : risque de décharge
 - **Description.** Raccorder, réparer ou débrancher un équipement tant que l'onduleur maître n'est pas explicitement éteint donne un risque de décharge de 50 % au niveau 0. La chance baisse avec le niveau, et devient nulle au niveau 6 ou si l'onduleur est éteint. Effets : douleur et brûlure légère à la main, objet lâché. L'onduleur, lui, exige déjà d'être éteint pour sa propre réparation (`LW_TimedActions.lua:382-385`).

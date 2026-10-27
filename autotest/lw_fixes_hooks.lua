@@ -108,6 +108,18 @@ local function authorityStart(player)
         LiveWire.Commands.handle(player,LiveWire.Protocol.C_SET_BRAKE,{device=d.id,brake=false})
         return inspect and untouched and on and d.brake==false and LiveWire.Marks.get(S.wind).br==false
     end)
+    -- A brake is a mechanical lever: the authority must accept it without any
+    -- Electrical level, so a turbine braked by an older version can be released.
+    check("brake accepted by the authority at Electrical 0",function()
+        local d=device(S.wind)
+        player:setPerkLevelDebug(Perks.Electricity,0)
+        LiveWire.Commands.handle(player,LiveWire.Protocol.C_SET_BRAKE,{device=d.id,brake=true})
+        local applied=d.brake==true and LiveWire.Marks.get(S.wind).br==true
+        LiveWire.Commands.handle(player,LiveWire.Protocol.C_SET_BRAKE,{device=d.id,brake=false})
+        local released=d.brake==false and LiveWire.Marks.get(S.wind).br==false
+        player:setPerkLevelDebug(Perks.Electricity,10)
+        return applied and released,"applied="..tostring(applied).." released="..tostring(released)
+    end)
     S.gen=IsoGenerator.new(instanceItem("Base.Generator"),getCell(),origin)
     if S.gen:getObjectIndex()==-1 then origin:AddSpecialObject(S.gen) end
     if isServer() then S.gen:transmitCompleteItemToClients() end

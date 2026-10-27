@@ -465,10 +465,9 @@ local function addDeviceOptions(root, player, obj)
     end
     if def.kind == "wind" then
         local key = mark.br and "ContextMenu_LW_ReleaseBrake" or "ContextMenu_LW_ApplyBrake"
-        local option = menu:addOption(getText(key), nil, function()
+        menu:addOption(getText(key), nil, function()
             LiveWire.Client.send(LiveWire.Protocol.C_SET_BRAKE, { device = mark.id, brake = not mark.br })
         end)
-        if I().level(player) < LiveWire.Config.requiredLevel(7) then option.notAvailable = true end
     end
     menu:addOption(getText("ContextMenu_LW_Inspect"), player, Menu.onInspect, obj)
     if (mark.cond or 100) <= 0 then

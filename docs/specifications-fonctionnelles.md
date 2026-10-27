@@ -331,7 +331,7 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 | Appareil | Usure normale | Accélérateurs |
 |---|---|---|
 | Panneau | −1 par 10 jours de jeu | Orage, seulement si `StormDamage` est activée (désactivée par défaut) : 1 chance sur 20 par heure de perdre 5 |
-| Éolienne | −1 par 4 jours de jeu | Vent > 85 km/h, seulement si `StormDamage` est activée : 1 chance sur 6 par heure de perdre 5 à 15 ; ignoré avec le frein manuel réversible (niv. 7+) |
+| Éolienne | −1 par 4 jours de jeu | Vent > 85 km/h, seulement si `StormDamage` est activée : 1 chance sur 6 par heure de perdre 5 à 15 ; ignoré avec le frein manuel réversible |
 | Roue à aubes | −1 par 5 jours de jeu | Dégel (si l'option est active) : −5 |
 | **Onduleur** | −1 par 5 jours de jeu **en marche** | Charge > 80 % de sa puissance maximale : usure × 2 ; chaque disjonction : −3 |
 | **Batterie** | Voir ci-dessous | — |
@@ -708,7 +708,7 @@ La validation reste limitée aux preuves consignées dans le bilan de tests.
   l'inspection. Poussière +1,2 point/jour, +2,4 en automne, plafond 50 % ; pluie
   partiellement nettoyante. Nettoyer avec chiffon conservé et 0,5 L d'eau retire
   neige et saleté ; XP plafonnée par panneau et jour. Déneigement ancien conservé
-  pour la neige seule. Frein niveau 7 livré conservé : voyant clignotant si serré ;
+  pour la neige seule. Frein manuel réversible sans niveau requis : voyant clignotant si serré ;
   avertissement à l'arrivée d'un orage si une éolienne est libre. Le dépôt de suie
   autour d'un incendie n'est pas modélisé dans ce lot.
 - **F26 — Batteries (I10–I12).** Froid désactivé par défaut : powerbank extérieure,

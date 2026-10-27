@@ -102,7 +102,7 @@ Module `"LiveWire"` (`LW_Protocol.lua`). Client → serveur par `sendClientComma
 | `rename` | `{ inverter, name, via? }` | nom nettoyé (caractères de contrôle retirés, 24 caractères), proximité de l'onduleur ou ordinateur raccordé alimenté via `checkVia`, safehouse | Renomme le réseau depuis le menu de l'onduleur ou l'onglet Équipements du logiciel ; vide efface le nom |
 | `adopt` | `{ x, y, z }` | à 40 cases et 3 étages au plus ; refuge | Enregistre une tuile Live Wire posée sans marque valide |
 | `debug` | `{ action, device }` | `Debug.allowed` (§ 3.4) | Action de debug |
-| `setBrake` | `{ device, brake }` | éolienne, booléen, niveau d'Électricité 7 ajusté par sandbox, distance et safehouse via `checkDevice` | Frein explicite réversible ; production nulle lorsqu'il est serré |
+| `setBrake` | `{ device, brake }` | éolienne, booléen, distance et safehouse via `checkDevice` ; aucun niveau d'Électricité | Frein explicite réversible ; production nulle lorsqu'il est serré |
 | `resumeBackup` | `{ device }` | générateur de secours, distance et safehouse via `checkDevice` | Quitte le mode manuel, reprend l'hystérésis automatique |
 
 `via = { x, y, z }` : position de l'ordinateur sur lequel tourne le logiciel de gestion (`SoftwareApp:via()`). `Commands.checkVia` l'accepte si un ordinateur de gestion (`role = "computer"`) du réseau de l'onduleur est sur cette case, alimenté (`Computer.powered`), si le joueur est à 6 cases au plus de cette case au même étage (`Commands.SOFTWARE_RANGE`, distance de fermeture de l'écran) et si la règle de refuge l'autorise sur cette case. Un ordinateur du Computer Mod non raccordé par câble n'a pas d'entrée au registre : ses commandes restent soumises à `checkDevice`.

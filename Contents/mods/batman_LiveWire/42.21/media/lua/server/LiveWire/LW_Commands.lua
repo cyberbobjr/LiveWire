@@ -146,8 +146,7 @@ handlers[P.C_SET_BRAKE] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
     if not dev then return refuse(player, P.C_SET_BRAKE, why) end
     local def = LiveWire.Defs.devices[dev.model]
-    if not def or def.kind ~= "wind" or not P.isBool(args.brake)
-        or LiveWire.Install.level(player) < LiveWire.Config.requiredLevel(7) then return end
+    if not def or def.kind ~= "wind" or not P.isBool(args.brake) then return end
     dev.brake = args.brake
     LiveWire.Devices.syncMark(dev)
     LiveWire.Sim.refresh(dev.grid and LiveWire.Registry.grid(dev.grid))

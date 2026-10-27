@@ -228,6 +228,30 @@ class Regressions(unittest.TestCase):
         assert(LWClearSnowAction.complete(action)==true and dev.snow==0)
         ''')
 
+    def test_turbine_brake_needs_no_electrical_level(self):
+        self.run_lua('''
+        local R,C,P=LiveWire.Registry,LiveWire.Commands,LiveWire.Protocol
+        local dev=R.addDevice({role="source",model="WindTurbine",x=0,y=0,z=0,cond=100})
+        local def=LiveWire.Defs.devices[dev.model]
+        C.checkDevice=function() return dev end
+        LiveWire.Devices.syncMark=function() end
+        LiveWire.Sim.refresh=function() end
+        -- An unskilled character operates the lever: the command must not read a level.
+        LiveWire.Install.level=function() error("the brake must not consult the Electrical level") end
+        local player={}
+        WORLD.wind=50
+        local w={windKph=WORLD.wind,clouds=0,month=6,temperature=15}
+        assert(LiveWire.Sim.sourceRaw(dev,def,w,12,1)>0)
+        C.handle(player,P.C_SET_BRAKE,{device=dev.id,brake=true})
+        assert(dev.brake==true and LiveWire.Sim.sourceRaw(dev,def,w,12,1)==0)
+        C.handle(player,P.C_SET_BRAKE,{device=dev.id,brake=false})
+        assert(dev.brake==false and LiveWire.Sim.sourceRaw(dev,def,w,12,1)>0)
+        -- A turbine left braked by an older version is released the same way.
+        dev.brake=true
+        C.handle(player,P.C_SET_BRAKE,{device=dev.id,brake=false})
+        assert(dev.brake==false)
+        ''')
+
 
 if __name__ == '__main__':
     unittest.main()

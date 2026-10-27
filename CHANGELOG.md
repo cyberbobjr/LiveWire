@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.3 — 2026-10-27
+
+### Fixes
+- Applying or releasing a wind turbine brake no longer requires an Electrical level. The brake is a mechanical lever, like inspecting a device, clearing snow or cleaning a panel, none of which ever needed a level.
+- Turbines left braked by a version older than 1.5.0, where inspecting a turbine applied its brake, can now be released by any character.
+
 ## 1.6.2 — 2026-10-27
 
 ### Wiring
