@@ -815,3 +815,37 @@ Version 1.6.1 publiée depuis `ba7ef61`, tag `v1.6.1`, avec la note du changelog
 Envoi principal et neuf traductions confirmés, code 0 ; onze captures Steam
 avant/après, inchangées. Vérification publique de la description anglaise et de
 la visibilité : OK. Résultats et limites dans le bilan de validation.
+
+
+## Correctif 1.6.4 — compatibilité des abonnés `LoadChunk` — 2026-10-28
+
+Signalement d'un joueur sur la page Steam : avec Let Me Drive! (`LetMeDrive`),
+la nourriture des frigos est comptée avariée en rentrant vite à la base. Ce mod
+remplace la table `Events.LoadChunk` et rejoue les abonnés des mods chargés après
+lui sur les images suivantes, sous un budget de quelques millisecondes par tick,
+en jetant ceux dont le chunk s'est déchargé.
+
+Deux abonnés de Live Wire ne supportent pas ce report, parce que le moteur purge
+les positions de générateur de l'ancre **avant** de déclencher `LoadChunk`, sur
+le chunk qui arrive et ses voisins à ±3 chunks, et parce que `Food.updateAge`
+applique toute l'absence avec l'état électrique de l'instant puis écrit
+`lastAged` — ce qui ne laisse plus rien à corriger au rattrapage
+(`LW_FridgeCatchup`). Détail et preuves : notes moteur NM-57 à NM-59.
+
+Correction retenue : `LW_Compat.addLoadChunk` inscrit ces deux abonnés
+(`LW_Anchor`, `LW_ChunkSync`) par `LetMeDrive.Gate.addRaw` quand cette fonction
+existe, sinon par `Events.LoadChunk.Add`. Test de capacité et non de liste de
+mods : sans ce mod, le code exécuté est celui d'avant. Les deux ordres de
+chargement donnent le bon résultat, la passerelle capturant l'événement au
+moment où son propre fichier s'exécute.
+
+Écarté sur demande utilisateur : réarmer les passes d'ancre depuis `OnTick`,
+pour son coût. Les autres abonnés `LoadChunk` de Live Wire (`LW_Circuits`,
+`LW_ServiceSync`, `LW_Appliances`, `LW_Visuals`, `LW_PumpView`) restent lissés :
+leur travail est déjà asynchrone par conception.
+
+Vérifications : `tools/check_mod.py` OK pour les trois côtés (le banc résout
+désormais les `require` du mod comme `LuaManager`, et signale l'erreur réelle
+d'un module requis au lieu de la seule cascade) ; 155 tests hors jeu réussis,
+dont cinq nouveaux dans `tests/test_compat.py`. **Aucun test en jeu** : la
+reproduction du dégât et la preuve de la correction restent à faire.

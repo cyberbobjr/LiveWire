@@ -179,3 +179,19 @@ entier de 0 à 10, appliqué aux raccordements d'équipements et au couplage
 d'onduleurs, au-dessus comme au-dessous. 0 limite les nouvelles liaisons au même
 étage. La portée horizontale et la couverture électrique restent distinctes.
 Les liaisons existantes sont conservées ; aucune migration de données ni de pattern.
+
+## Compatibilité Let Me Drive! — 2026-10-28
+
+Signalement d'un joueur : avec Let Me Drive! (`LetMeDrive`, 3805307651), la
+nourriture des frigos est comptée avariée en rentrant vite à la base. Cause confirmée statiquement : ce mod remplace
+la table `Events.LoadChunk` et rejoue les abonnés des mods chargés après lui sur
+les images suivantes, alors que le moteur purge les positions de générateur de
+l'ancre avant de déclencher `LoadChunk`, et que `Food.updateAge` applique toute
+l'absence avec l'état électrique de l'instant (NM-57 à NM-59).
+
+Choix utilisateur : corriger **uniquement** les deux abonnés dont le retard est
+destructeur (`LW_Anchor`, `LW_ChunkSync`), en les inscrivant hors de la file de
+ce mod et seulement s'il est installé. Les autres abonnés `LoadChunk` de Live Wire
+restent lissés par lui. **Pas de sonde périodique ni d'abonné `OnTick`** : le
+renfort qui réarmait les passes d'ancre depuis `OnTick` est explicitement écarté
+pour son coût. Aucune migration de pattern, de registre ni de sauvegarde.

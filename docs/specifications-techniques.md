@@ -283,6 +283,7 @@ Portée de la zone alimentée : options vanilla `GeneratorTileRange` (20) et `Ge
 | Computer Mod `ComputerModkum` (3725497089), Laptop `ComputerModLaptop` (3798992436) | Facultatif | Détection `LW_Compat.isModActive` ; vue `LIVEWIRE` ajoutée par enveloppe de `ComputerScreenUI` | Confirmé en jeu en solo pendant le développement |
 | Barils d'un mod (ex. Useful Barrels) | Facultatif | Tout objet à fluide d'au moins 20 L posé à côté de la pompe | Confirmé statiquement |
 | Project Viewpoint | Facultatif, mod `batman_LiveWireViewpoint` | Modèles `.obj` dans `common/media/livewire-viewpoint` | Non revérifié ici |
+| Let Me Drive! `LetMeDrive` (3805307651) | Facultatif ; correctif à sens unique | Les abonnés `LoadChunk` de `LW_Anchor` et `LW_ChunkSync` s'inscrivent par `LW_Compat.addLoadChunk`, qui passe par `LetMeDrive.Gate.addRaw` quand cette fonction existe, sinon par `Events.LoadChunk.Add`. Voir NM-57 à NM-59 | Confirmé statiquement ; essai en jeu non consigné |
 | Autres mods d'énergie | Non pris en charge | — | — |
 
 Multijoueur : serveur dédié autoritaire ; tests automatisés en jeu en solo et sur serveur dédié Windows avec deux clients, sauvegardes et redémarrages complets compris. Voir le [bilan de validation](annexes/tests/validation.md).
@@ -291,6 +292,7 @@ Multijoueur : serveur dédié autoritaire ; tests automatisés en jeu en solo et
 
 - `tools/check_mod.py` : contrôles statiques (ordre de chargement, syntaxe Lua, ASCII, traductions, définitions ↔ scripts, options, modèles, événements connus d'après les sources de référence).
 - `tests/test_physics.py`, `tests/test_simulation.py` : tests hors jeu sous Lua 5.1 (`lupa`) ; ils ne prouvent rien sur le moteur.
+- `tests/test_compat.py` : inscription des abonnés `LoadChunk` critiques selon la présence de la porte de sortie de Let Me Drive!, repli compris.
 - `autotest.json` + `autotest/*.lua` : configuration de l'outil `pz-autotest` (tests en jeu non surveillés).
 - Documentation générée : `tools/make_doc_images.py` (→ `docs/images/diagrams/`), `tools/make_doc_tables.py` (→ `docs/wiki/<langue>/_tables.md`).
 - Protocole de test en jeu : [`annexes/tests/protocole-tests.md`](annexes/tests/protocole-tests.md).

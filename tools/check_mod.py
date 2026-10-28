@@ -4,7 +4,8 @@ Run: python3 -I tools/check_mod.py [path/to/pz-source-42.21]
 Checks:
   1. every .lua file is ASCII and compiles as Lua 5.1 (Kahlua is close to 5.1);
   2. all files load in order in a permissive stub environment (catches load-time
-     errors such as calling a missing table);
+     errors such as calling a missing table), with require resolving this mod's
+     own modules and running each file once, as LuaManager does;
   3. every translation key used in Lua/scripts exists in EN and FR, EN and FR have
      the same keys, and lone '%' signs are flagged; every other language has the
      same files, keys, %N arguments and %% signs as EN;
@@ -51,6 +52,16 @@ def load_order():
     return out
 
 
+def require_path(path):
+    """What a file is reached by: its path under media/lua/<side>, no extension."""
+    for side in ("shared", "client", "server"):
+        base = os.path.join(LUA, side)
+        if path.startswith(base + os.sep):
+            rel = os.path.relpath(path, base)
+            return os.path.splitext(rel)[0].replace(os.sep, "/")
+    raise AssertionError("outside media/lua: %s" % path)
+
+
 STUBS = r"""
 local Stub = {}
 local mt = {}
@@ -67,7 +78,50 @@ Events = setmetatable({}, { __index = function(t, k)
 end })
 function isClient() return SIDE_CLIENT end
 function isServer() return SIDE_SERVER end
-function require() end
+-- LuaManager.require resolves <registered dir> + <path> + ".lua" and goes
+-- through RunLuaInternal, which keeps a `loaded` set: a file already run, by
+-- require or by the directory sweep, is never run again and its memoised return
+-- value comes back. A module that throws at load is logged once and its require
+-- returns nil, so the callers see a cascade rather than the real error; the
+-- harness keeps that first error aside so it can still be reported.
+-- A path this mod does not own (vanilla, another mod) is a WARN and nil in game.
+LW_SOURCES = {}
+LW_LOADED = {}
+LW_REQUIRE_ERR = nil
+function require(path)
+    if type(path) ~= "string" then return nil end
+    if string.sub(path, -4) == ".lua" then path = string.sub(path, 1, -5) end
+    local already = LW_LOADED[path]
+    if already ~= nil then return already end
+    local src = LW_SOURCES[path]
+    if src == nil then return nil end
+    local fn, err = loadstring(src, path)
+    if not fn then
+        if LW_REQUIRE_ERR == nil then LW_REQUIRE_ERR = path .. ": " .. tostring(err) end
+        LW_LOADED[path] = false
+        return nil
+    end
+    local ok, value = pcall(fn)
+    if not ok then
+        if LW_REQUIRE_ERR == nil then LW_REQUIRE_ERR = path .. ": " .. tostring(value) end
+        LW_LOADED[path] = false
+        return nil
+    end
+    if value == nil then value = true end
+    LW_LOADED[path] = value
+    return value
+end
+-- The directory sweep, with the same `loaded` set as require.
+function LW_RUN(path, src, name)
+    if LW_LOADED[path] ~= nil then return nil end
+    local fn, err = loadstring(src, name)
+    if not fn then return tostring(err) end
+    local ok, value = pcall(fn)
+    if not ok then return tostring(value) end
+    if value == nil then value = true end
+    LW_LOADED[path] = value
+    return nil
+end
 ISBaseTimedAction = { derive = function(self, name) local c = { Type = name }; return c end,
                       new = function(self, ch) return { character = ch } end }
 ISCollapsableWindow = { derive = function(self, name) local c = { Type = name }; return c end }
@@ -103,15 +157,23 @@ def check_load(side_client, side_server, label):
     lua.execute("SIDE_CLIENT = %s; SIDE_SERVER = %s" % (
         "true" if side_client else "false", "true" if side_server else "false"))
     lua.execute(STUBS)
-    loader = lua.eval("function(src, name) local f, err = loadstring(src, name); "
-                      "if not f then return err end; local ok, e = pcall(f); "
-                      "if not ok then return tostring(e) end; return nil end")
+    g = lua.globals()
+    # Every file this mod owns, so require resolves its own modules as the game
+    # does. Keyed by require path; a later side never shadows an earlier one.
+    sources = g["LW_SOURCES"]
+    for p in load_order():
+        key = require_path(p)
+        if sources[key] is None:
+            sources[key] = open(p, encoding="ascii").read()
+    run = g["LW_RUN"]
     for p in load_order():
         rel = os.path.relpath(p, ROOT)
-        err = loader(open(p, encoding="ascii").read(), rel)
+        err = run(require_path(p), open(p, encoding="ascii").read(), rel)
         if err:
             fail("[%s] %s: load error: %s" % (label, rel, err))
-    g = lua.globals()
+        if g["LW_REQUIRE_ERR"] is not None:
+            fail("[%s] %s: a module it requires failed: %s" % (label, rel, g["LW_REQUIRE_ERR"]))
+            g["LW_REQUIRE_ERR"] = None
     for name in ("LWLinkAction", "LWRepairAction",
                  "LWInspectAction", "LWClearSnowAction", "LWMeasureAction", "LWReconditionAction", "LWMuffleAction"):
         v = g[name]

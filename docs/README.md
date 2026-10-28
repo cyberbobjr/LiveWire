@@ -1,6 +1,6 @@
 # Live Wire — documentation
 
-Version **1.6.2** publiée le 2026-10-27 : portée verticale des câbles configurable (`LinkVerticalRange`, 0–10 étages, défaut 3). Les corrections de la 1.6.1 et les fonctionnalités de la 1.6.0 sont conservées. Dépôt poussé, wiki synchronisé et publication Steam confirmée dans les dix langues. Voir le [changelog](../CHANGELOG.md).
+Version **1.6.4** préparée le 2026-10-28, **non publiée** : compatibilité avec les mods qui étalent le chargement de la carte sur plusieurs images (Let Me Drive!), qui faisait compter avariée la nourriture des frigos au retour à la base. La 1.6.3 (frein d'éolienne sans niveau requis) et la 1.6.2 (portée verticale des câbles) sont conservées. Voir le [changelog](../CHANGELOG.md) et la [décision du 2026-10-28](decisions.md).
 
 Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétence Électricité un métier : panneaux solaires, éoliennes et roues à aubes, batteries en powerbank, onduleur qui alimente la maison et pompe à eau.
 

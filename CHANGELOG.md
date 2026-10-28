@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.4 — 2026-10-28
+
+### Fixes
+- Fixed refrigerated food spoiling when coming back to a base, especially by car, alongside a mod that spreads map loading over several frames, such as Let Me Drive!. The whole time away could be counted as unrefrigerated and rot everything in the fridges and freezers at once. Live Wire now restores its power coverage and updates the food as the map loads, whatever other mods are installed.
+
 ## 1.6.3 — 2026-10-27
 
 ### Fixes

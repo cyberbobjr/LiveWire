@@ -164,7 +164,7 @@ ils ne valident pas automatiquement l'ensemble des mécanismes décrits ici.
 ## 17. Un `IsoGenerator` ne crée pas les conteneurs de son sprite
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; comportement MP du conteneur ajouté par script : hypothèse
 - Preuve :
-  - `IsoGenerator.addToWorld` ne fait qu'ajouter l'objet aux listes de mise à jour, sans appeler `super.addToWorld` (`java/zombie/iso/objects/IsoGenerator.java:399-405`). C'est pourtant `IsoObject.addToWorld` qui appelle `createContainersFromSpriteProperties()` (`java/zombie/iso/IsoObject.java:4176-4182`).
+  - `IsoGenerator.addToWorld` ne fait qu'ajouter l'objet aux listes de mise à jour, sans appeler `super.addToWorld` (`java/zombie/iso/objects/IsoGenerator.java:399-405`). C'est pourtant `IsoObject.addToWorld` qui appelle `createContainersFromSpriteProperties()` (`java/zombie/iso/IsoObject.java:4177-4182`).
   - Cette méthode est publique (`IsoObject.java:4900`) ; elle ne fait rien si un conteneur existe déjà.
   - `IsoGenerator.save` et `load` passent par `IsoObject.save` et `load` (`IsoGenerator.java:369`, `:384`), qui écrivent les conteneurs (`IsoObject.java:1502-1510`).
 - Conséquence : pour donner un compartiment à un générateur de mod, il faut appeler `createContainersFromSpriteProperties()` sur l'autorité et sur chaque client qui reçoit l'objet. Une fois créé, le conteneur serait sauvegardé avec l'objet. À vérifier en jeu : transmission initiale et transferts MP.
@@ -173,7 +173,7 @@ ils ne valident pas automatiquement l'ensemble des mécanismes décrits ici.
 - Build : 42.21.0 — Date : 2026-10-17 — Statut : confirmé statiquement ; effet visible chez un client : hypothèse
 - Preuve :
   - Le client télécharge chaque chunk et le relit par `LoadFromBuffer` (`java/zombie/iso/WorldStreamer.java:661`). Cette lecture lit aussi la liste `generatorsTouchingThisChunk` (`java/zombie/iso/IsoChunk.java:3318-3331`).
-  - La purge `IsoGenerator.chunkLoaded` (`IsoChunk.java:3526`) est suivie de l'événement `LoadChunk`, déclenché sans condition de côté (`IsoChunk.java:3613`).
+  - La purge `IsoGenerator.chunkLoaded` (`IsoChunk.java:3526`) est suivie de l'événement `LoadChunk`, déclenché sans condition de côté (`IsoChunk.java:3612`).
   - `addGeneratorPos` et `removeGeneratorPos` ne transmettent rien. Seul un vrai générateur fait recalculer ses positions au client, par `syncIsoObjectReceive` (`java/zombie/iso/objects/IsoGenerator.java:550-568`).
   - Pour trouver un chunk, `IsoCell.getChunkForGridSquare` passe par `ServerMap` sur un serveur, alors que `IsoCell.getChunk(wx, wy)` ne lit que les cartes des joueurs locaux (`java/zombie/iso/IsoCell.java:361-388`).
 - Conséquences : un mod qui pose des positions par script doit :
@@ -521,3 +521,31 @@ ils ne valident pas automatiquement l'ensemble des mécanismes décrits ici.
   confirme ce repli vers le fichier du mod, avec casse exacte. Une recette
   à plusieurs sorties peut fixer son icône principale via son propre `Icon`.
   Aucun wrapper de rendu ou calcul par image n'est nécessaire.
+
+## 57. La purge des positions de générateur précède `LoadChunk` et déborde sur les chunks voisins
+- Build : 42.21.0 — Date : 2026-10-28 — Statut : confirmé statiquement
+- Preuve :
+  - `IsoChunk.doLoadGridsquare` appelle `IsoGenerator.chunkLoaded(this)` (`java/zombie/iso/IsoChunk.java:3526`) puis déclenche `LoadChunk` à la toute fin de la même méthode (`:3612`).
+  - `IsoGenerator.chunkLoaded` appelle `checkForMissingGenerators()` sur le chunk qui arrive **et sur tous ceux à ±`generatorChunkRange`** (`java/zombie/iso/objects/IsoGenerator.java:593-603`), soit ±3 chunks pour le rayon vanilla (`generatorChunkRange = generatorRadius / 8 + 1`, `:118`).
+  - `checkForMissingGenerators` retire toute position dont la case ne porte pas un `IsoGenerator` activé (`IsoChunk.java:4785-4797`). Une position virtuelle posée par `addGeneratorPos` est donc toujours retirée.
+  - `IsoGridSquare.haveElectricity()` ne lit que cette liste (`java/zombie/iso/IsoGridSquare.java:8223-8227`, via `IsoChunk.isGeneratorPoweringSquare`, `:4773-4783`).
+- Conséquence : un seul chunk qui arrive retire la couverture d'une ancre sur un carré de 7 × 7 chunks (56 × 56 cases) déjà chargés, jusqu'à l'exécution de l'abonné `LoadChunk`. Cet abonné doit donc s'exécuter **dans l'appel du moteur** : un mod qui remplace la table `Events.LoadChunk` pour étaler les abonnés sur plusieurs images laisse la zone sans courant entre-temps (voir note 59).
+
+## 58. Qui vieillit un aliment, et quand : une seule passe suffit à tout perdre
+- Build : 42.21.0 — Date : 2026-10-28 — Statut : confirmé statiquement
+- Preuve :
+  - `Food.updateAge` applique **toute** la durée écoulée depuis `lastAged` avec l'état électrique de l'instant, puis écrit `lastAged = maintenant` (`java/zombie/inventory/types/Food.java:668-712`).
+  - Les aliments d'un meuble entrent dans la liste de suivi dès les `addToWorld` du chargement du chunk (`IsoObject.addToWorld` → `ItemContainer.addItemsToProcessItems`, `java/zombie/iso/IsoObject.java:4177-4182`), donc avant `LoadChunk`.
+  - `IsoCell.ProcessItems` tourne à chaque image en solo, **une fois toutes les 5 s sur un serveur dédié**, et jamais sur un client MP (`java/zombie/iso/IsoCell.java:3499-3503`).
+  - Dans `Food.update`, `updateAge(false)` n'est appelé que sur un serveur dédié (`Food.java:351-353`) ; en solo, seul `updateRotting` peut le faire, pour les objets à `ReplaceOnRotten` ou si `DaysForRottenFoodRemoval >= 0` (défaut −1, `java/zombie/SandboxOptions.java:161`).
+  - En solo, le vieillissement vient surtout de l'interface : `ISInventoryPane` appelle `updateAge()` sur chaque objet affiché, à chaque image (`media/lua/client/ISUI/ISInventoryPane.lua:2266`, `:2573`).
+  - `Food.finishupdate` retire la plupart des aliments de la liste après une seule passe (`Food.java:1162-1180`).
+- Conséquence : un rattrapage qui compare `getLastAged()` à l'heure courante n'a plus rien à corriger dès que le moteur est passé une fois. La fenêtre est d'une image en solo dès que le joueur regarde le contenu du meuble, et de 0 à 5 s sur un serveur dédié sans aucun geste du joueur. Tout mécanisme qui corrige l'âge au chargement d'un chunk doit s'exécuter dans l'appel du moteur, pas une image plus tard.
+
+## 59. La table `Events.X` est remplaçable : l'ordre de chargement décide de l'immunité
+- Build : 42.21.0 — Date : 2026-10-28 — Statut : confirmé statiquement
+- Preuve :
+  - `Events.X` est une table Kahlua ordinaire qui porte deux fonctions Java. Un mod peut la remplacer par une table à lui : tout `Events.X.Add` ultérieur arrive chez lui, tandis que le déclencheur Java continue d'appeler sa propre liste, où le mod a inscrit un seul répartiteur.
+  - Les abonnés inscrits **avant** ce remplacement sont déjà dans la liste Java et restent exécutés dans l'appel du moteur, dans leur ordre d'origine.
+  - Observé sur un mod de lissage de performances qui capture ainsi `LoadGridsquare` et `LoadChunk` et rejoue les abonnés sous un budget de quelques millisecondes par tick, en jetant ceux dont le chunk s'est déchargé. Il expose `<Mod>.Gate.addRaw(événement, fonction)`, qui inscrit par l'`Add` d'origine.
+- Conséquence : un abonné dont l'instant d'exécution fait partie du contrat ne peut pas supposer qu'il tourne dans l'appel du moteur. Deux parades : s'inscrire avant le mod captureur (ordre de chargement), ou passer par la porte qu'il expose, en testant sa présence (`type(T.Gate.addRaw) == "function"`) plutôt que la liste des mods, avec repli sur `Events.X.Add`. Les deux ordres de chargement donnent alors le bon résultat.

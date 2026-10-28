@@ -8,6 +8,8 @@ if isClient() then return end
 
 LiveWire = LiveWire or {}
 
+require "LiveWire/LW_Compat"
+
 local CHUNK = 8
 
 local function onLoadChunk(chunk)
@@ -50,4 +52,7 @@ local function onLoadChunk(chunk)
     end
 end
 
-Events.LoadChunk.Add(onLoadChunk)
+-- Past any event queue a performance mod may have installed: the fridge
+-- catch-up has to settle the absence before anything ages the food, and a
+-- single vanilla pass would leave it nothing to correct (LW_Compat.addLoadChunk).
+LiveWire.Compat.addLoadChunk(onLoadChunk)

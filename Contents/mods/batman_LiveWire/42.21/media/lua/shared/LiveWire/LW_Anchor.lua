@@ -8,6 +8,7 @@
 -- See docs/architecture.md section 1.4.
 
 require "LiveWire/LW_SquareScan"
+require "LiveWire/LW_Compat"
 
 LiveWire = LiveWire or {}
 
@@ -265,7 +266,10 @@ local function onGameStart()
     end
 end
 
-Events.LoadChunk.Add(onLoadChunk)
+-- Past any event queue a performance mod may have installed: the generator
+-- positions purged by the engine must be back before the next frame reads them
+-- (LW_Compat.addLoadChunk).
+LiveWire.Compat.addLoadChunk(onLoadChunk)
 Events.OnTick.Add(onTick)
 Events.OnReceiveGlobalModData.Add(onReceiveGlobalModData)
 Events.OnGameStart.Add(onGameStart)
