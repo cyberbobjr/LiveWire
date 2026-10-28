@@ -849,3 +849,8 @@ désormais les `require` du mod comme `LuaManager`, et signale l'erreur réelle
 d'un module requis au lieu de la seule cascade) ; 155 tests hors jeu réussis,
 dont cinq nouveaux dans `tests/test_compat.py`. **Aucun test en jeu** : la
 reproduction du dégât et la preuve de la correction restent à faire.
+
+Version 1.6.4 publiée depuis `82ddcef`, tag `v1.6.4`, avec la note du changelog.
+Envoi principal et neuf traductions confirmés ; onze captures Steam inchangées ;
+bloc `Workshop ID / Mod ID` vérifié en fin de description anglaise ; objet public
+et lisible anonymement. Limite de validation inchangée : aucun test en jeu.

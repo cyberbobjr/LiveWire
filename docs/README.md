@@ -1,6 +1,6 @@
 # Live Wire — documentation
 
-Version **1.6.4** préparée le 2026-10-28, **non publiée** : compatibilité avec les mods qui étalent le chargement de la carte sur plusieurs images (Let Me Drive!), qui faisait compter avariée la nourriture des frigos au retour à la base. La 1.6.3 (frein d'éolienne sans niveau requis) et la 1.6.2 (portée verticale des câbles) sont conservées. Voir le [changelog](../CHANGELOG.md) et la [décision du 2026-10-28](decisions.md).
+Version **1.6.4** publiée le 2026-10-28 : compatibilité avec les mods qui étalent le chargement de la carte sur plusieurs images (Let Me Drive!), qui faisait compter avariée la nourriture des frigos au retour à la base. La 1.6.3 (frein d'éolienne sans niveau requis) et la 1.6.2 (portée verticale des câbles) sont conservées. Voir le [changelog](../CHANGELOG.md) et la [décision du 2026-10-28](decisions.md).
 
 Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétence Électricité un métier : panneaux solaires, éoliennes et roues à aubes, batteries en powerbank, onduleur qui alimente la maison et pompe à eau.
 
