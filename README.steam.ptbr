@@ -15,7 +15,8 @@ O quadro tem alavancas de iluminação, equipamentos e geral, com watts atuais p
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ptbr.png[/img]
 
-Solar 100 W, eólica 400 W, roda-d’água 120 W. Um inversor alimenta aparelhos a 20 quadrados e ±3 andares, até 1500 W; quatro acoplados dão 6000 W. Sem cabo por eletrodoméstico.
+Solar 100 W, eólica 400 W, roda-d’água 120 W. Um inversor alimenta aparelhos a 20 quadrados e ±3 andares, até 1500 W. Sem cabo por eletrodoméstico.
+[b]Precisa de mais de 1500 W?[/b] Coloque um segundo inversor sem nada conectado, clique direito > Live Wire > "Acoplar a um inversor" (1 kit de acoplamento de inversores, receita de Elétrica 6). Até 4 inversores acoplados: 6000 W.
 Bancos com 4 baterias guardam o excedente. Cabos: 1 fio por 4 quadrados, alcance 12. Perfis: valores do jogo, Realista 1993, Ultrarealista 1993 ou Conforto.
 
 [h2]Equipamentos[/h2]
@@ -69,6 +70,10 @@ Simulação e verificações no servidor, circuitos salvos e estados sincronizad
 
 Dúvidas, bugs ou ideias? Entre no Discord:
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+
+[h2]Uma observação sobre IA[/h2]
+
+Sou desenvolvedor há anos e já criava mods muito antes de existirem agentes de programação, muitas vezes às custas do tempo com a minha família. Uso abertamente o Claude Code e o Codex: cada funcionalidade continua sendo discutida, projetada e planejada, e não feita às cegas no "vibe coding". A IA veio para ficar; escolhi me adaptar em vez de resistir. Obrigado a todos que se posicionaram contra os ataques pessoais.
 
 [h2]Apoie o projeto[/h2]
 

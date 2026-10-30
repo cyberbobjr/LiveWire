@@ -15,7 +15,8 @@ Le tableau possède des leviers éclairage, équipements et principal, avec les 
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
-Solaire 100 W, éolien 400 W, roue à aubes 120 W. Un onduleur alimente les appareils à 20 cases et ±3 étages, jusqu'à 1 500 W ; quatre couplés donnent 6 000 W. Aucun câble par appareil domestique.
+Solaire 100 W, éolien 400 W, roue à aubes 120 W. Un onduleur alimente les appareils à 20 cases et ±3 étages, jusqu'à 1 500 W. Aucun câble par appareil domestique.
+[b]Besoin de plus de 1 500 W ?[/b] Posez un second onduleur sans rien y raccorder, clic droit dessus > Live Wire > « Coupler à un onduleur » (1 kit de couplage d'onduleurs, recette Électricité 6). Jusqu'à 4 onduleurs couplés : 6 000 W.
 Stockez le surplus dans des powerbanks (4 batteries chacune). Câbles : 1 fil par 4 cases, portée 12. Profils sandbox : Valeurs du jeu, Réaliste 1993, Ultra-réaliste 1993 ou Confort.
 
 [h2]Équipements[/h2]
@@ -69,6 +70,10 @@ Simulation et contrôles côté serveur, circuits sauvegardés et états des app
 
 Questions, bugs ou idées ? Rejoignez le Discord :
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+
+[h2]Un mot sur l'IA[/h2]
+
+Je suis développeur depuis des années et je créais des mods bien avant les agents de code, souvent au détriment du temps passé en famille. J'utilise ouvertement Claude Code et Codex : chaque fonctionnalité est toujours discutée, conçue et planifiée, pas « vibe codée » à l'aveugle. L'IA est là pour rester ; j'ai choisi de m'adapter plutôt que de résister. Merci à tous ceux qui ont pris ma défense face aux attaques personnelles.
 
 [h2]Soutenir le projet[/h2]
 

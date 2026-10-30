@@ -57,6 +57,9 @@ It depends on the sandbox `ConsumptionProfile`. With the default game values: li
 **Why did the breaker (or the inverter) trip?**
 The demand of the house appliances went above 1,500 W, for example a stacked washer + dryer. With a breaker panel, the breaker trips and the inverter takes no damage; use "Reset the breaker" once the load is lower. Without a breaker, the inverter trips and loses 3 condition points; use "Reset" on it. See [Optional equipment](06-optional-equipment.md).
 
+**1,500 W is not enough. Can I combine several inverters?**
+Yes: couple them. Place a second inverter with no equipment connected, right-click it, "Live Wire", then "Couple to an inverter", and pick the master inverter within cable range. It costs the electric wire for the distance and 1 Inverter Coupling Kit (recipe at Electrical level 6). A master takes up to 3 slaves, so 4 inverters give 6,000 W on one network, with one battery bank and the master's powered area. Each inverter switched on uses 20 W idle and wears as usual; a slave switched off or broken no longer counts. "Uncouple" on the slave gives the kit back. See [Optional equipment](06-optional-equipment.md#parallel-inverters-coupling).
+
 **How does the low battery alarm work?**
 Below 20 % stock it sends a message to players within 30 tiles and beeps every 10 game minutes until you choose "Silence the alarm". The beacon stays lit until the stock is back above 25 %. It needs Electrical level 2. See [Optional equipment](06-optional-equipment.md).
 

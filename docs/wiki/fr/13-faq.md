@@ -57,6 +57,9 @@ Cela dépend de l'option sandbox `ConsumptionProfile`. Avec les valeurs du jeu (
 **Pourquoi le disjoncteur (ou l'onduleur) a-t-il sauté ?**
 La demande des appareils de la maison a dépassé 1 500 W, par exemple un lave-linge + sèche-linge superposés. Avec un disjoncteur, c'est lui qui saute et l'onduleur ne subit aucun dommage ; utilisez « Réarmer le disjoncteur » une fois la charge réduite. Sans disjoncteur, l'onduleur saute et perd 3 points d'état ; utilisez « Réarmer » sur lui. Voir [Équipements optionnels](06-equipements-optionnels.md).
 
+**1 500 W ne suffisent pas. Puis-je associer plusieurs onduleurs ?**
+Oui : couplez-les. Posez un second onduleur sans aucun équipement raccordé, clic droit dessus, « Live Wire », puis « Coupler à un onduleur », et choisissez l'onduleur maître à portée de câble. Coût : le fil électrique de la distance et 1 kit de couplage d'onduleurs (recette au niveau 6 d'Électricité). Un maître accepte jusqu'à 3 esclaves : 4 onduleurs donnent 6 000 W sur un seul réseau, avec un seul parc de batteries et la zone alimentée du maître. Chaque onduleur allumé consomme 20 W à vide et s'use comme d'habitude ; un esclave éteint ou cassé ne compte plus. « Découpler » sur l'esclave rend le kit. Voir [Équipements optionnels](06-equipements-optionnels.md#onduleurs-en-parallèle-couplage).
+
 **Comment fonctionne l'alarme de batterie faible ?**
 Sous 20 % de stock, elle envoie un message aux joueurs à moins de 30 cases et bipe toutes les 10 minutes de jeu jusqu'à « Couper la sonnerie ». Le feu reste allumé jusqu'au retour du stock au-dessus de 25 %. Niveau 2 requis. Voir [Équipements optionnels](06-equipements-optionnels.md).
 

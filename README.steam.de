@@ -15,7 +15,8 @@ Der Sicherungskasten hat Hebel für Licht, Geräte und Hauptversorgung sowie akt
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_de.png[/img]
 
-Solar 100 W, Wind 400 W, Wasserrad 120 W. Ein Wechselrichter versorgt Geräte in 20 Feldern und ±3 Stockwerken mit bis zu 1.500 W; vier gekoppelte liefern 6.000 W. Keine Einzelkabel zu Haushaltsgeräten.
+Solar 100 W, Wind 400 W, Wasserrad 120 W. Ein Wechselrichter versorgt Geräte in 20 Feldern und ±3 Stockwerken mit bis zu 1.500 W. Keine Einzelkabel zu Haushaltsgeräten.
+[b]Mehr als 1.500 W nötig?[/b] Stelle einen zweiten Wechselrichter ohne Anschlüsse auf, Rechtsklick > Live Wire > „An einen Wechselrichter koppeln“ (1 Kopplungsset für Wechselrichter, Rezept Elektrik 6). Bis zu 4 gekoppelte Wechselrichter: 6.000 W.
 Batteriebänke speichern Überschüsse (je 4 Batterien). Kabel: 1 Draht pro 4 Felder, Reichweite 12. Verbrauchsprofile: Spielwerte, Realistisch 1993, Ultrarealistisch 1993 oder Komfort.
 
 [h2]Ausrüstung[/h2]
@@ -69,6 +70,10 @@ Serverseitige Simulation und Aktionsprüfung, gespeicherte Stromkreise und synch
 
 Fragen, Fehlerberichte oder Ideen? Komm auf den Discord:
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+
+[h2]Ein Wort zur KI[/h2]
+
+Ich bin seit Jahren Entwickler und habe Mods erstellt, lange bevor es Coding-Agenten gab – oft auf Kosten der Zeit mit meiner Familie. Ich nutze offen Claude Code und Codex: Jede Funktion wird weiterhin besprochen, entworfen und geplant, nicht blind „gevibecodet“. KI wird bleiben; ich habe mich entschieden, mich anzupassen, statt mich zu wehren. Danke an alle, die sich gegen die persönlichen Angriffe gestellt haben.
 
 [h2]Unterstütze das Projekt[/h2]
 

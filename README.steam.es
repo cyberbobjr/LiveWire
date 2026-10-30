@@ -15,7 +15,8 @@ El cuadro incluye palancas de iluminación, equipos y general, con vatios actual
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_es.png[/img]
 
-Solar 100 W, eólica 400 W, rueda hidráulica 120 W. Un inversor alimenta aparatos a 20 casillas y ±3 plantas, hasta 1500 W; cuatro acoplados dan 6000 W. Sin cable por aparato doméstico.
+Solar 100 W, eólica 400 W, rueda hidráulica 120 W. Un inversor alimenta aparatos a 20 casillas y ±3 plantas, hasta 1500 W. Sin cable por aparato doméstico.
+[b]¿Necesitas más de 1500 W?[/b] Coloca un segundo inversor sin nada conectado, clic derecho > Live Wire > «Acoplar a un inversor» (1 kit de acoplamiento de inversores, receta de Electricidad 6). Hasta 4 inversores acoplados: 6000 W.
 Bancos de 4 baterías para guardar el excedente. Cables: 1 alambre cada 4 casillas, alcance 12. Perfiles: valores del juego, Realista 1993, Ultrarealista 1993 o Confort.
 
 [h2]Equipo[/h2]
@@ -69,6 +70,10 @@ Simulación y comprobaciones en el servidor, circuitos guardados y estados sincr
 
 ¿Preguntas, errores o ideas? Únete al Discord:
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+
+[h2]Una nota sobre la IA[/h2]
+
+Soy desarrollador desde hace años y creaba mods mucho antes de que existieran los agentes de programación, a menudo a costa del tiempo con mi familia. Uso abiertamente Claude Code y Codex: cada función se sigue discutiendo, diseñando y planificando, no se hace a ciegas con «vibe coding». La IA ha llegado para quedarse; he elegido adaptarme en lugar de resistirme. Gracias a todos los que se opusieron a los ataques personales.
 
 [h2]Apoya el proyecto[/h2]
 
