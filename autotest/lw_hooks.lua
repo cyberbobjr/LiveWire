@@ -638,8 +638,17 @@ local function runPumpAndCoupling()
             -- synchronous functional fixture before checking relay creation.
             for _ = 1, 220 do LiveWire.Pump.tickDiscovery() end
             local nRelay = relaysOf(pdev)
+            -- Only relays feeding a plumbed fixture are filled: plumb it the vanilla way.
+            local fixture
+            local objs = findFixture(psq:getX(), psq:getY(), psq:getZ(), 12):getObjects()
+            for i = 0, objs:size() - 1 do
+                local spr = objs:get(i):getSprite()
+                if not fixture and spr and spr:getProperties():has(IsoFlagType.waterPiped) then fixture = objs:get(i) end
+            end
+            ISPlumbItem:new(p, fixture, nil):complete()
             local barrel0 = S.barrel:getFluidContainer():getAmount()
             LiveWire.Pump.step(pdev)
+            fixture:setUsesExternalWaterSource(false)
             local _, litres = relaysOf(pdev)
             local drawn = barrel0 - S.barrel:getFluidContainer():getAmount()
             local bsq = S.barrel:getSquare()

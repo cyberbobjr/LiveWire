@@ -28,15 +28,16 @@ Des barils d'eau posés au sol peuvent alimenter les points d'eau de toute une m
 - **Eau uniquement.** Un baril qui contient autre chose (essence, alcool…), même mélangé à de l'eau, est refusé. Un baril vide peut être raccordé ; il sert dès qu'il se remplit.
 - **L'eau de pluie sort propre.** L'eau de pluie d'un baril est croupie, mais un point d'eau raccordé donne de l'eau propre, comme en vanilla.
 - **Portée.** La pompe alimente les points d'eau raccordés situés dans une pièce, à **15 cases** au plus (option sandbox `PumpRange`, 5 à 30) et jusqu'à 3 étages au-dessus ou en dessous.
-- **Réservoirs relais invisibles.** Le jeu ne cherche la source d'un point d'eau qu'à l'étage juste au-dessus. La pompe pose donc un petit réservoir invisible de 25 litres au-dessus de chaque point d'eau desservi, et le garde rempli depuis les barils. Rien à poser à la main.
-- **Débit et courant.** 5 litres par minute de jeu et par pompe, 250 W pendant le pompage. La pompe **s'arrête seule** quand tous les réservoirs sont pleins : aucun courant consommé, aucun bruit.
+- **Réservoirs relais invisibles.** Le jeu ne cherche la source d'un point d'eau qu'à l'étage juste au-dessus. La pompe pose donc un petit réservoir invisible de 25 litres au-dessus de chaque point d'eau à portée. Rien à poser à la main.
+- **Seuls les points d'eau raccordés sont remplis.** Un réservoir vide suffit pour proposer **Raccorder la plomberie de…** : la pompe ne remplit donc que les réservoirs qui alimentent un point d'eau déjà raccordé avec la clé anglaise. Les éviers non raccordés, et ceux des maisons voisines, ne prennent pas l'eau de vos barils. Un point d'eau que vous raccordez reçoit de l'eau dans la minute de jeu qui suit.
+- **Débit et courant.** 5 litres par minute de jeu et par pompe, 250 W pendant le pompage. La pompe **s'arrête seule** quand les réservoirs de tous les points d'eau raccordés sont pleins : aucun courant consommé, aucun bruit.
 - **Les points d'eau déjà alimentés** (baril vanilla à l'étage, réseau d'eau encore en service, autre mod) le restent : la pompe ne leur fait pas concurrence.
 - **Plusieurs pompes** peuvent partager un même réseau.
 - **En votre absence**, la pluie continue de remplir les barils (c'est le jeu qui s'en charge). La pompe ne travaille que dans une zone chargée, là où l'on se sert de toute façon des points d'eau.
 
 ## Voir ce qui est alimenté
 
-- Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les points d'eau desservis, les barils raccordés et la pompe sont surlignés en bleu. **Masquer les points d'eau alimentés** l'éteint.
+- Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les points d'eau desservis, les barils raccordés et la pompe sont surlignés en bleu. Les points d'eau à portée qui ne sont pas encore raccordés sont surlignés en gris : ils ne reçoivent pas d'eau tant que vous ne les raccordez pas. **Masquer les points d'eau alimentés** l'éteint.
 - Un **voyant bleu** s'allume sur la pompe lorsqu'elle est alimentée, même au repos ou sans point d'eau raccordé. Il s'éteint sans courant ou lorsque le circuit équipements/principal est coupé.
 - Le menu de la pompe indique son état : en marche, à l'arrêt (tous les points d'eau pleins), pas de courant, pas d'eau dans les barils, hors service.
 - Le logiciel de gestion (onglet Équipements) affiche le nombre de pompes en service et leur débit en litres par heure. Rien d'autre sur la pompe n'y figure.

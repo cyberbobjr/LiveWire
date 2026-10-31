@@ -191,7 +191,16 @@ Champs principaux : `grid`, `rev` (révision croissante : la livraison n'est pas
   point commun pour éviter les réattributions oscillantes. Transfert du même
   objet, sans perte de fluide ; les sources vanilla gardent la priorité. Une
   découverte initiale inachevée conserve les relais sauvegardés. Débit limité à
-  5 L par minute, sans crédit accumulé au repos. Nettoyage sur tous les niveaux
+  5 L par minute, sans crédit accumulé au repos.
+- **Remplissage des relais** : la pose et la propriété des relais ne changent
+  pas, mais `needsOf` ne retient un relais non plein que si
+  `Pump.feedsPlumbedFixture` trouve, sur `z-1` dans sa case ou les 8 voisines, un
+  objet `waterPiped` avec `getUsesExternalWaterSource()` vrai dont
+  `IsoObject.FindExternalWaterSource` rend ce relais (un relais vide suffit à
+  l'option vanilla « Plumb »). Au plus 9 cases par relais et par minute, sans
+  cache : un raccordement est pris en compte à la minute suivante. L'eau d'un
+  relais devenu inutile reste en place ; l'état `idle`, le débit et
+  `Pump.demandW` ne comptent que les relais utiles. Nettoyage sur tous les niveaux
   renvoyés par le chunk.
 - **Marques** : si la tuile du modèle existe encore sur la position du registre,
   `Devices.find/validate` restaurent la marque au lieu de supprimer l'appareil ou

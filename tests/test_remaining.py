@@ -95,6 +95,74 @@ class Remaining(unittest.TestCase):
         assert(RF.amount==20 and BF.amount==45)
         ''')
 
+    def test_only_relays_feeding_a_plumbed_fixture_are_filled(self):
+        self.run_lua('''
+        local function list(t) return {size=function() return #t end,get=function(_,i) return t[i+1] end} end
+        local R,D,P=LiveWire.Registry,LiveWire.Defs,LiveWire.Pump
+        IsoFlagType={waterPiped=1}
+        Fluid={Water=1,TaintedWater=2}
+        instanceof=function() return false end
+        local squares={}
+        local function square(x,y,z,objects)
+            local sq={getX=function() return x end,getY=function() return y end,getZ=function() return z end,
+                getRoom=function() return true end,getObjects=function() return list(objects) end}
+            squares[LiveWire.posKey(x,y,z)]=sq
+            return sq
+        end
+        getCell=function() return {getGridSquare=function(_,x,y,z) return squares[LiveWire.posKey(x,y,z)] end} end
+        local function fluid(amount,capacity)
+            return {amount=amount,getAmount=function(s) return s.amount end,
+                getFreeCapacity=function(s) return capacity-s.amount end,
+                getSpecificFluidAmount=function() return 0 end,
+                removeFluid=function(s,n) s.amount=s.amount-n end,
+                addFluid=function(s,_,n) s.amount=s.amount+n end}
+        end
+        local inv=R.addDevice({role="inverter",model="Inverter",x=10,y=10,z=0,state="on"})
+        local g=R.createGrid(inv);g.powered=true
+        local pump=R.addDevice({id="p",role="pump",model="WaterPump",x=3,y=0,z=0,cond=100,
+            barrels={water={}},relays={}})
+        R.link(pump,g)
+        local function relay(x,fc)
+            local r={md={[D.RELAY_KEY]={pump=pump.id}}}
+            r.getModData=function(s) return s.md end
+            r.getFluidContainer=function() return fc end
+            r.sync=function() end
+            r.getSprite=function() return {getName=function() return D.RELAY_SPRITE end} end
+            r.getSquare=function() return square(x,0,1,{r}) end
+            r.getSquare()
+            pump.relays[LiveWire.posKey(x,0,1)]={x=x,y=0,z=1}
+            return r
+        end
+        local function fixture(plumbed)
+            return {plumbed=plumbed,getUsesExternalWaterSource=function(s) return s.plumbed end,
+                getSprite=function() return {getProperties=function() return {has=function() return true end} end} end}
+        end
+        -- Relay A above a sink that is not plumbed; relay B shared by an unplumbed sink
+        -- below it and a plumbed one next to it.
+        local FA,FB=fluid(0,25),fluid(3,25)
+        local A,B=relay(0,FA),relay(5,FB)
+        local sinkA,sinkB,sinkC=fixture(false),fixture(false),fixture(true)
+        square(0,0,0,{sinkA});square(5,0,0,{sinkB});square(6,0,0,{sinkC})
+        IsoObject={FindExternalWaterSource=function(sq) if sq:getX()<=1 then return A end return B end}
+        local BF=fluid(50,100)
+        local bs=square(3,0,0,{})
+        local barrel={getSquare=function() return bs end,getFluidContainer=function() return BF end,sync=function() end}
+        P.findBarrel=function() return barrel,true end
+        LiveWire.Install.barrelState=function() return "ok" end
+        assert(not P.feedsPlumbedFixture(0,0,1) and P.feedsPlumbedFixture(5,0,1))
+        P.step(pump)
+        assert(FA.amount==0 and FB.amount==8 and BF.amount==45 and pump.state=="running")
+        -- Plumbed by a player: supplied at the next minute, no inventory rebuild needed.
+        sinkA.plumbed=true
+        P.step(pump)
+        assert(FA.amount==5 and FB.amount==8 and BF.amount==40)
+        -- Every useful tank full: stopped, even with an unused empty relay, and no flow counted.
+        sinkA.plumbed=false;FB.amount=25
+        pump.pumped=0
+        P.step(pump)
+        assert(pump.state=="idle" and FA.amount==5 and BF.amount==40 and pump.pumped==0)
+        ''')
+
     def test_saved_relay_is_preserved_while_first_discovery_is_pending(self):
         self.pump_scene()
         self.run_lua('''
@@ -507,6 +575,48 @@ class ApplianceScope(unittest.TestCase):
         f.checkHaveElectricity=function() end;f.transmitModData=function() end
         A.restore(f)
         assert(container.kind=='fridge' and f.md.LiveWireCircuit==nil)
+        ''')
+
+
+class PumpViewColours(unittest.TestCase):
+    """Client highlight colours of "Show the supplied taps"; stubs only."""
+
+    def test_unplumbed_fixture_is_grey_and_plumbed_one_blue(self):
+        lua = make()
+        lua.execute('''
+        local D=LiveWire.Defs
+        IsoFlagType={waterPiped=1}
+        instanceof=function() return false end
+        LiveWire.RangeView={isShown=function() return true end,show=function() end,hide=function() end,
+            PUMP_COLOR={},HIDE_DISTANCE=50}
+        LiveWire.Install.barrelsInRange=function() return {} end
+        local PLAYER={getPlayerNum=function() return 0 end}
+        getPlayer=function() return PLAYER end
+        local relay={getModData=function() return {[D.RELAY_KEY]={pump="p"}} end,
+            getSprite=function() return {getName=function() return D.RELAY_SPRITE end} end}
+        IsoObject={FindExternalWaterSource=function() return relay end}
+        ''')
+        with open(os.path.join(LUA, 'client/LiveWire/LW_PumpView.lua'), encoding='ascii') as f:
+            lua.execute(f.read())
+        lua.execute('''
+        local PV=LiveWire.PumpView
+        PV.obj={}
+        local function obj(plumbed)
+            return {getSquare=function() return PV.SQ end,getObjectIndex=function() return 0 end,
+                getUsesExternalWaterSource=function() return plumbed end,
+                setHighlightColor=function(s,_,r,g,b) s.c={r,g,b} end,
+                setHighlighted=function(s,_,on) s.on=on end}
+        end
+        PV.SQ={getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end}
+        getCell=function() return {getGridSquare=function() return PV.SQ end} end
+        local pump,plumbed,other=obj(true),obj(true),obj(false)
+        pump.getSquare=function() return PV.SQ end
+        PV.obj,PV.id=pump,"p"
+        PV.fixtures={plumbed,other}
+        PV.refresh()
+        assert(plumbed.on and other.on and pump.on)
+        assert(plumbed.c[3]==PV.COLOR[3] and plumbed.c[1]==PV.COLOR[1])
+        assert(other.c[1]==PV.UNPLUMBED[1] and other.c[3]==PV.UNPLUMBED[3])
         ''')
 
 

@@ -295,7 +295,7 @@ A consumer placed like the other devices (level 6). It pumps water from water ba
 - No relay is placed above a tap that already has another water source (vanilla barrel above, running water, another mod).
 - While the network has power, the pump refills the relays from its barrels, at 5 L per game minute at most. It draws 250 W only while pumping, and stops when every tap is full. A light motor hum is heard within 4.5 tiles while it runs; zombies hear it within 2 tiles.
 - Only water is moved, and the rain keeps filling the barrels as before. Tainted water comes out clean at the tap, as in vanilla.
-- Right-click the pump > **Show the supplied taps**: a blue circle shows the range, and the supplied taps, the connected barrels and the pump are highlighted in blue. The pump has a blue light whenever powered, including while idle.
+- Right-click the pump > **Show the supplied taps**: a blue circle shows the range, and the supplied taps, the connected barrels and the pump are highlighted in blue; taps in range that are not plumbed yet are shown in grey. The pump has a blue light whenever powered, including while idle.
 - Several pumps per network. The software Equipment tab shows the number of pumps in service and their flow (L/h), nothing else.
 - **Before removing the mod**, run the debug action "Remove every water relay" (Live Wire menu > Debug, with administrator rights in multiplayer), otherwise the invisible relay tiles stay in the saved world. The action also stops every pump until the debug action "Enable the water pumps again".
 

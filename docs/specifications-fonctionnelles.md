@@ -657,14 +657,15 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 - Appareil posé `WaterPump`, Électricité 6 (fabrication et pose), raccordé à l'onduleur au fil électrique comme une source.
 - Barils : collecteurs d'eau de pluie vanilla ou barils d'un mod (tout objet à fluide d'au moins 20 L), posés sur une des 8 cases voisines de la pompe, même étage ; 8 barils au plus ; 1 tuyau `Base.MetalPipe` consommé par baril, rendu au débranchement.
 - Réservoirs relais invisibles de 25 L posés au-dessus des éviers, baignoires, douches et toilettes raccordés à moins de `PumpRange` cases (15 par défaut) et à 3 étages au plus : la plomberie vanilla y puise ; les robinets se raccordent à la clé à tuyau comme en vanilla.
-- Consommation 250 W seulement pendant le pompage, débit 5 L par minute de jeu au plus ; arrêt quand tous les relais sont pleins. Seule l'eau est déplacée ; l'eau croupie d'un baril sort propre au robinet (comportement vanilla).
+- Seuls les relais qui alimentent un point d'eau déjà raccordé (clé à tuyau) sont remplis : un relais vide suffit à proposer « Raccorder », et l'eau des barils ne part pas dans les éviers non raccordés ni dans ceux des maisons voisines. Un point d'eau raccordé est alimenté dès la minute de jeu suivante. L'eau déjà présente dans un relais devenu inutile y reste.
+- Consommation 250 W seulement pendant le pompage, débit 5 L par minute de jeu au plus ; arrêt quand tous les relais utiles sont pleins. Seule l'eau est déplacée ; l'eau croupie d'un baril sort propre au robinet (comportement vanilla).
 - Aucun débit n'est accumulé au repos. En cas de chevauchement, la pompe raccordée
   et non cassée la plus proche du point sous le relais le dessert ; une égalité
   est départagée par identifiant. Les robinets qui partagent un relais gardent un
   propriétaire commun. Un transfert vers une autre pompe conserve le réservoir
   et son eau. Le nettoyage de désinstallation couvre tous les étages du chunk.
 - Bourdonnement de moteur entendu à 4,5 cases ; bruit pour les zombies à 2 cases.
-- Menu « Afficher les robinets alimentés » ; voyant bleu tant qu'au moins un robinet est alimenté.
+- Menu « Afficher les robinets alimentés » (points d'eau raccordés en bleu, points d'eau à portée non raccordés en gris) ; voyant bleu tant qu'au moins un robinet est alimenté.
 - Action de debug et d'administration « Retirer tous les relais d'eau », à lancer avant de retirer le mod.
 
 ### 10.2 Onduleurs en parallèle (F21, version 1.3.0)

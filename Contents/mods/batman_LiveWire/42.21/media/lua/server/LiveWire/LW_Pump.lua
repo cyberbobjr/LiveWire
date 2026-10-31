@@ -2,9 +2,10 @@
 -- A pump moves water from the water barrels linked to it into invisible relay tanks
 -- (IsoThumpable with a FluidContainer) placed on the square ABOVE each plumbed fixture
 -- it serves: vanilla plumbing finds the relay as an external water source
--- (IsoObject.FindExternalWaterSource). Only water is moved; the barrels' own
--- FluidContainer is never replaced. Runs every game minute (tickMinute) and on link
--- changes (maintain).
+-- (IsoObject.FindExternalWaterSource), even empty. Only the relays that feed a plumbed
+-- fixture are filled (Pump.feedsPlumbedFixture).
+-- Only water is moved; the barrels' own FluidContainer is never replaced. Runs every
+-- game minute (tickMinute) and on link changes (maintain).
 if isClient() then return end
 require "LiveWire/LW_SquareScan"
 
@@ -399,7 +400,39 @@ local function sourcesOf(dev)
     return list
 end
 
--- Loaded relays of the pump with their free capacity, and the total.
+-- True when a plumbed fixture (getUsesExternalWaterSource) on the floor below, on the
+-- relay's square or one of the 8 around it, draws its water from this relay. An empty
+-- relay is enough to offer "Plumb" (IsoObject.FindExternalWaterSource returns the first
+-- empty source), so a relay that feeds no plumbed fixture is left unfilled. Checked each
+-- minute for relays that are not full only: at most 9 squares per relay, so a fixture
+-- plumbed by a player is supplied from the next minute without waiting for the
+-- inventory rebuild.
+function Pump.feedsPlumbedFixture(x, y, z)
+    local cell = getCell()
+    for oy = -1, 1 do
+        for ox = -1, 1 do
+            local sq = cell:getGridSquare(x + ox, y + oy, z - 1)
+            if sq then
+                local objs = sq:getObjects()
+                for i = 0, objs:size() - 1 do
+                    local o = objs:get(i)
+                    local spr = o:getSprite()
+                    local props = spr and spr:getProperties()
+                    if not instanceof(o, "IsoWorldInventoryObject") and props
+                        and props:has(IsoFlagType.waterPiped) and o:getUsesExternalWaterSource() then
+                        local src = IsoObject.FindExternalWaterSource(sq)
+                        local ss = src and LiveWire.Install.isRelay(src) and src:getSquare()
+                        if ss and ss:getX() == x and ss:getY() == y and ss:getZ() == z then return true end
+                    end
+                end
+            end
+        end
+    end
+    return false
+end
+
+-- Loaded relays of the pump that feed a plumbed fixture, with their free capacity, and
+-- the total. Water already in an unused relay stays there.
 local function needsOf(dev)
     local list, total = {}, 0
     local keys = {}
@@ -412,7 +445,7 @@ local function needsOf(dev)
         if mark and mark.pump == dev.id then
             local fc = relay:getFluidContainer()
             local need = fc:getFreeCapacity()
-            if need > 0.001 then
+            if need > 0.001 and Pump.feedsPlumbedFixture(r.x, r.y, r.z) then
                 list[#list + 1] = { obj = relay, fc = fc, need = need, key = keys[i], before = fc:getAmount() }
                 total = total + need
             end

@@ -49,6 +49,7 @@ local function authorityStart(player)
     player:setPerkLevelDebug(Perks.Electricity,10)
     local origin=player:getCurrentSquare()
     local fixture,fs
+    S.fixtures={}
     for x=origin:getX()-18,origin:getX()+18 do
         for y=origin:getY()-18,origin:getY()+18 do
             local sq=getCell():getGridSquare(x,y,origin:getZ())
@@ -57,8 +58,10 @@ local function authorityStart(player)
                 for i=0,objs:size()-1 do
                     local o=objs:get(i)
                     local sp=o:getSprite()
-                    if not fixture and sp and sp:getProperties():has(IsoFlagType.waterPiped) then
-                        fixture,fs=o,sq
+                    if sp and sp:getProperties():has(IsoFlagType.waterPiped)
+                        and not instanceof(o,"IsoWorldInventoryObject") then
+                        if not fixture then fixture,fs=o,sq end
+                        S.fixtures[#S.fixtures+1]=o
                     end
                 end
             end
@@ -206,11 +209,37 @@ local function authorityDone()
         check("C04 pump discovers fixture across real ticks",function()
             return src~=nil and LiveWire.Install.isRelay(src) and S.ticks>1,"ticks=" .. S.ticks
         end)
-        check("C04 real pump transfers water after discovery",function()
+        -- Only the relay of a plumbed fixture is filled; the vanilla plumbing action
+        -- (ISPlumbItem:complete) makes it useful from the next pump minute.
+        check("pump fills only relays feeding a plumbed fixture",function()
             S.grid.powered=true; device(S.inv).state="on"
-            local before=S.barrel:getFluidContainer():getAmount()
+            local plumbed,other,rp,ro
+            for i=1,#S.fixtures do
+                local f=S.fixtures[i]
+                local src=IsoObject.FindExternalWaterSource(f:getSquare())
+                if src and LiveWire.Install.isRelay(src) then
+                    if not plumbed then plumbed,rp=f,src
+                    elseif not other and src~=rp then other,ro=f,src end
+                end
+            end
+            if not (plumbed and other) then return false,"two fixtures with distinct relays not found" end
+            local bfc=S.barrel:getFluidContainer()
+            local b0,p0,o0=bfc:getAmount(),rp:getFluidContainer():getAmount(),ro:getFluidContainer():getAmount()
             LiveWire.Pump.step(S.pdev)
-            return S.barrel:getFluidContainer():getAmount()<before
+            local idleDrawn=b0-bfc:getAmount()
+            local idleState=S.pdev.state
+            ISPlumbItem:new(S.player,plumbed,nil):complete()
+            local b1=bfc:getAmount()
+            LiveWire.Pump.step(S.pdev)
+            local drawn=b1-bfc:getAmount()
+            local filled=rp:getFluidContainer():getAmount()-p0
+            local otherGain=ro:getFluidContainer():getAmount()-o0
+            plumbed:setUsesExternalWaterSource(false)
+            S.plumbed,S.unplumbed=plumbed,other
+            return idleDrawn<0.001 and idleState=="idle" and drawn>0.001
+                and math.abs(filled-drawn)<0.001 and math.abs(otherGain)<0.001,
+                string.format("unplumbed drawn=%.2f state=%s; plumbed drawn=%.2f filled=%.2f other=%.2f fixtures=%d",
+                    idleDrawn,tostring(idleState),drawn,filled,otherGain,#S.fixtures)
         end)
         if isServer() then
             sendServerCommand(S.player,"LWFixTest","scene",{wind=device(S.wind).id,
@@ -219,6 +248,33 @@ local function authorityDone()
             S.stage="network"; S.networkAt=getTimestampMs()
             return false
         end
+        -- Real "Show the supplied taps" view: plumbed fixture blue, unplumbed one grey.
+        if S.plumbed then
+            ISPlumbItem:new(S.player,S.plumbed,nil):complete()
+            LiveWire.PumpView.show(S.pump)
+            S.stage="pumpview";S.viewAt=getTimestampMs()
+            return false
+        end
+        S.stage="startRename"
+    end
+    if S.stage=="pumpview" then
+        local PV=LiveWire.PumpView
+        if (PV.job or PV.dirty or #PV.fixtures==0) and getTimestampMs()-S.viewAt<15000 then return false end
+        PV.refresh()
+        check("pump view: plumbed fixture blue, unplumbed fixture grey",function()
+            local idx=S.player:getPlayerNum()
+            local cp,cu=S.plumbed:getHighlightColor(idx),S.unplumbed:getHighlightColor(idx)
+            local good=S.plumbed:isHighlighted(idx) and S.unplumbed:isHighlighted(idx)
+                and math.abs(cp:getB()-PV.COLOR[3])<0.01 and math.abs(cp:getR()-PV.COLOR[1])<0.01
+                and math.abs(cu:getR()-PV.UNPLUMBED[1])<0.01 and math.abs(cu:getB()-PV.UNPLUMBED[3])<0.01
+            return good,string.format("plumbed=%.2f,%.2f,%.2f unplumbed=%.2f,%.2f,%.2f fixtures=%d",
+                cp:getR(),cp:getG(),cp:getB(),cu:getR(),cu:getG(),cu:getB(),#PV.fixtures)
+        end)
+        PV.hide()
+        S.plumbed:setUsesExternalWaterSource(false)
+        S.stage="startRename"
+    end
+    if S.stage=="startRename" then
         local dialog=LiveWire.NetworkName.open(S.player,device(S.inv).id,"")
         dialog.entry:setText("North SP")
         dialog:onClick(dialog.yes)

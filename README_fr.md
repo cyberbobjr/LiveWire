@@ -263,7 +263,7 @@ Un appareil posé comme les autres (niveau 6). Elle pompe l'eau des barils vers 
 - Aucun relais n'est posé au-dessus d'un robinet qui a déjà une autre source d'eau (baril vanilla à l'étage, eau courante, autre mod).
 - Tant que le réseau a du courant, la pompe remplit les relais depuis ses barils, à 5 L par minute de jeu au plus. Elle consomme 250 W seulement en pompant, et s'arrête quand tous les robinets sont pleins. Un léger bourdonnement de moteur s'entend à 4,5 cases pendant la marche ; les zombies l'entendent à 2 cases.
 - Seule l'eau est déplacée ; la pluie remplit toujours les barils comme avant. L'eau croupie sort propre au robinet, comme en vanilla.
-- Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les points d'eau desservis, les barils raccordés et la pompe sont surlignés en bleu. Un voyant bleu s'allume sur la pompe lorsqu'elle est alimentée, même au repos.
+- Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les points d'eau desservis, les barils raccordés et la pompe sont surlignés en bleu ; les points d'eau à portée pas encore raccordés apparaissent en gris. Un voyant bleu s'allume sur la pompe lorsqu'elle est alimentée, même au repos.
 - Plusieurs pompes par réseau. L'onglet Équipements du logiciel affiche le nombre de pompes en service et leur débit (L/h), rien d'autre.
 - **Avant de retirer le mod**, lancez l'action de débogage « Retirer tous les relais d'eau » (menu Live Wire > Débogage, avec les droits d'administrateur en multijoueur), sinon les tuiles invisibles des relais restent dans la sauvegarde. L'action arrête aussi toutes les pompes jusqu'à l'action de débogage « Réactiver les pompes à eau ».
 

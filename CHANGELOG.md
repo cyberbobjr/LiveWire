@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+- Fixed water poured into a barrel linked to a water pump seeming to disappear while the pump showed 0 L/h. The pump only filled its hidden tanks for every sink, shower and toilet in range, plumbed or not, including the neighbours' houses. It now only supplies the fixtures you have plumbed with a pipe wrench, and a newly plumbed fixture gets water within a game minute.
+
+### Improvements
+- Show the supplied taps now highlights in grey the fixtures in range that are not plumbed yet, so you can see which ones still need the pipe wrench.
+
 ## 1.6.4 — 2026-10-28
 
 ### Fixes

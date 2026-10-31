@@ -2,7 +2,9 @@
 -- Draws a blue circle of PumpRange tiles around the pump (LW_RangeView.lua) and
 -- highlights, in blue, the pump, the barrels linked to it, and every plumbed fixture
 -- it supplies. A fixture is supplied when vanilla finds one of this pump's relay
--- tanks as its external water source (IsoObject.FindExternalWaterSource).
+-- tanks as its external water source (IsoObject.FindExternalWaterSource). A fixture in
+-- range that is not plumbed yet (getUsesExternalWaterSource false) gets no water from
+-- the pump: it is highlighted in grey.
 -- The highlight is re-applied on every refresh: another code may clear it.
 if isServer() then return end
 require "LiveWire/LW_SquareScan"
@@ -20,6 +22,8 @@ PV.lastRefresh = 0
 PV.SQUARES_PER_TICK = 250
 PV.fixtures = {}
 PV.dirty = false
+PV.COLOR = { 0.30, 0.55, 1.0 }       -- pump, barrels, plumbed fixtures
+PV.UNPLUMBED = { 0.60, 0.60, 0.60 }  -- fixtures in range not plumbed yet
 
 local function defs() return LiveWire.Defs end
 
@@ -42,12 +46,12 @@ local function servedBy(src, id)
 end
 
 -- Objects to highlight: the pump, its linked barrels, and the fixtures it supplies.
--- Returns an array and a set (object -> true).
+-- Returns an array and a set (object -> colour).
 local function collect(pumpSq, id)
     local list, set = {}, {}
-    local function add(o)
+    local function add(o, color)
         if o and not set[o] then
-            set[o] = true
+            set[o] = color or PV.COLOR
             list[#list + 1] = o
         end
     end
@@ -65,7 +69,9 @@ local function collect(pumpSq, id)
         if sq and o:getObjectIndex() ~= -1
             and getCell():getGridSquare(sq:getX(), sq:getY(), sq:getZ()) == sq then
             local src = IsoObject.FindExternalWaterSource(sq)
-            if src and servedBy(src, id) then add(o) end
+            if src and servedBy(src, id) then
+                add(o, not o:getUsesExternalWaterSource() and PV.UNPLUMBED or nil)
+            end
         end
     end
     return list, set
@@ -116,8 +122,8 @@ function PV.refresh()
         end
     end
     for i = 1, #list do
-        local o = list[i]
-        o:setHighlightColor(idx, 0.30, 0.55, 1.0, 1.0)
+        local o, c = list[i], set[list[i]]
+        o:setHighlightColor(idx, c[1], c[2], c[3], 1.0)
         o:setHighlighted(idx, true, false)
         PV.hl[o] = true
     end
@@ -154,6 +160,8 @@ function PV.tickDiscovery()
     if not sq then return end
     if PV.dirty and not PV.job then
         PV.dirty = false
+PV.COLOR = { 0.30, 0.55, 1.0 }       -- pump, barrels, plumbed fixtures
+PV.UNPLUMBED = { 0.60, 0.60, 0.60 }  -- fixtures in range not plumbed yet
         PV.job = LiveWire.SquareScan.new(sq:getX(), sq:getY(), sq:getZ(),
             LiveWire.Config.get("PumpRange"), LiveWire.Config.verticalRange())
         PV.found = {}

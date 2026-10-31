@@ -28,15 +28,16 @@ Barrels of water standing on the ground can run the taps of a whole house. An el
 - **Only water.** A barrel holding anything else (petrol, alcohol...), even mixed with water, is refused. An empty barrel can be connected and is used once it fills up.
 - **Rain water comes out clean.** Rain collected in a barrel is tainted, but a plumbed tap gives clean water, as in vanilla.
 - **Range.** The pump supplies the plumbed fixtures inside a room within **15 tiles** of it (sandbox `PumpRange`, 5-30) and up to 3 floors up or down.
-- **Invisible relay tanks.** The game only looks for a water source on the floor just above a fixture. The pump therefore places a small invisible 25-litre tank above each fixture it supplies and keeps it filled from the barrels. Nothing to place by hand.
-- **Flow and power.** 5 litres per game minute per pump, 250 W while pumping. The pump **stops by itself** when every tank is full: no power used, no sound.
+- **Invisible relay tanks.** The game only looks for a water source on the floor just above a fixture. The pump therefore places a small invisible 25-litre tank above each fixture in range. Nothing to place by hand.
+- **Only plumbed fixtures are filled.** An empty tank is enough to offer **Plumb...**, so the pump only fills the tanks that feed a fixture already plumbed with the pipe wrench. Unplumbed sinks, and those of the neighbouring houses, take no water from your barrels. A fixture you plumb starts receiving water within a game minute.
+- **Flow and power.** 5 litres per game minute per pump, 250 W while pumping. The pump **stops by itself** when the tanks of every plumbed fixture are full: no power used, no sound.
 - **Fixtures that already have water** (a vanilla barrel upstairs, mains water still running, another mod) keep it: the pump does not compete with them.
 - **Several pumps** can share one network.
 - **While you are away**, rain keeps filling the barrels (the game handles it). The pump only works where the area is loaded, which is where taps are used anyway.
 
 ## Seeing what is supplied
 
-- Right-click the pump > **Show the supplied taps**: a blue circle shows the range, and the supplied fixtures, the connected barrels and the pump are highlighted in blue. **Hide the supplied taps** turns it off.
+- Right-click the pump > **Show the supplied taps**: a blue circle shows the range, and the supplied fixtures, the connected barrels and the pump are highlighted in blue. Fixtures in range that are not plumbed yet are highlighted in grey: they get no water until you plumb them. **Hide the supplied taps** turns it off.
 - A **blue light** shows on the pump when it is powered, even idle or without a linked fixture. It turns off without power or with the equipment/main circuit open.
 - The pump menu shows its state: pumping, stopped (every tap full), no power, no water in the barrels, out of order.
 - The management software (Equipment tab) shows the number of pumps in service and their flow in litres per hour. Nothing else about the pump is shown there.
