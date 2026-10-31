@@ -56,7 +56,8 @@ def main():
 
     # Wind.
     check(P.windFactor(5) == 0, "below cut-in")
-    check(approx(P.windFactor(25), (15 / 35) ** 3), "cubic ramp")
+    check(approx(P.windFactor(10), (10 / 30) ** 3), "produces from cut-in")
+    check(approx(P.windFactor(25), (25 / 30) ** 3), "cubic ramp")
     check(P.windFactor(60) == 1, "rated plateau")
     check(P.windFactor(90) == 0, "storm cut-out")
     check(approx(P.windAtHeight(20, 2), 26), "height bonus")

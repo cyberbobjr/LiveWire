@@ -30,7 +30,7 @@ Optional: breaker, battery alarm, soundproofing, vanilla backup generator and ma
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_en.png[/img]
 
-Solar direction matters: south 100%, east/west 85%, north 55%. Clouds, snow and dirt reduce output; rain washes panels, or clean with a rag + 0.5 L water. Wind produces from 10 km/h, reaches full power at 45–85 and brakes above. The water wheel produces day and night. Optional battery cold effects retain unavailable energy as a reserve; off by default.
+Solar direction matters: south 100%, east/west 85%, north 55%. Clouds, snow and dirt reduce output; rain washes panels, or clean with a rag + 0.5 L water. Wind produces from 10 km/h, full power at 30–85 and brakes above; +15% wind per floor up to the 3rd. The water wheel produces day and night. Optional battery cold effects retain unavailable energy as a reserve; off by default.
 
 [h2]Water pump[/h2]
 

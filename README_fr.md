@@ -288,11 +288,11 @@ Le serveur calcule toutes les 10 minutes de jeu, joueurs présents ou non (optio
 | Vent | Part de la puissance |
 |---|---|
 | Moins de 10 km/h | 0 |
-| 10 à 45 km/h | ((v − 10) / 35)³ |
-| 45 à 85 km/h | 100 % |
+| 10 à 30 km/h | (v / 30)³ |
+| 30 à 85 km/h | 100 % |
 | Plus de 85 km/h | 0 (frein automatique) |
 
-Exemples : 25 km/h ≈ 31 W, 40 km/h ≈ 252 W.
+Exemples : 10 km/h ≈ 15 W, 15 km/h ≈ 50 W, 25 km/h ≈ 231 W.
 
 **Roue à aubes (120 W)** : jour et nuit, ≈ 2,9 kWh par jour ; saison : printemps × 1,2, été × 0,8, automne et hiver × 1,0. Rivières seulement (le moteur ne sait pas distinguer le courant d'un lac).
 

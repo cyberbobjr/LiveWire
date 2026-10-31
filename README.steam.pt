@@ -30,7 +30,7 @@ Opcionais: quadro elétrico, alarme, insonorização, gerador vanilla de reserva
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_pt.png[/img]
 
-Orientação solar: sul 100%, este/oeste 85%, norte 55%. Nuvens, neve e sujidade reduzem a produção. A chuva limpa; também um trapo + 0,5 L de água. Vento desde 10 km/h, potência máxima a 45–85, travão acima disso. Roda ativa de dia e noite. O frio opcional preserva como reserva a energia inacessível das baterias; desligado por predefinição.
+Orientação solar: sul 100%, este/oeste 85%, norte 55%. Nuvens, neve e sujidade reduzem a produção. A chuva limpa; também um trapo + 0,5 L de água. Vento desde 10 km/h, potência máxima a 30–85, travão acima disso; +15% de vento por piso até ao 3.º. Roda ativa de dia e noite. O frio opcional preserva como reserva a energia inacessível das baterias; desligado por predefinição.
 
 [h2]Bomba de água[/h2]
 

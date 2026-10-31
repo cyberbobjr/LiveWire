@@ -42,17 +42,16 @@ Courbe en sinus entre l'aube et le crépuscule de la saison. Les nuages laissent
 
 ## Éolien (400 W)
 
-0 sous 10 km/h ; ((v − 10) / 35)³ entre 10 et 45 km/h ; 100 % de 45 à 85 km/h ; 0 au-dessus de 85 km/h (frein automatique). Le vent gagne 15 % par étage, jusqu'au 3e.
+0 sous 10 km/h ; (v / 30)³ entre 10 et 30 km/h ; 100 % de 30 à 85 km/h ; 0 au-dessus de 85 km/h (frein automatique). Le vent gagne 15 % par étage, jusqu'au 3e.
 
 | Vent (km/h) | Part de la puissance nominale | Puissance |
 |---|---|---|
 | 0 | 0 % | 0 W |
-| 10 | 0 % | 0 W |
-| 20 | 2 % | environ 9 W |
-| 25 | 8 % | environ 31 W |
-| 30 | 19 % | environ 75 W |
-| 40 | 63 % | environ 252 W |
-| 45 | 100 % | 400 W |
+| 10 | 4 % | environ 15 W |
+| 15 | 13 % | environ 50 W |
+| 20 | 30 % | environ 119 W |
+| 25 | 58 % | environ 231 W |
+| 30 | 100 % | 400 W |
 | 60 | 100 % | 400 W |
 | 85 | 100 % | 400 W |
 | 90 | 0 % (frein) | 0 W |

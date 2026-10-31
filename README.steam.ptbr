@@ -30,7 +30,7 @@ Opcionais: quadro elétrico, alarme, isolamento acústico, gerador vanilla de re
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ptbr.png[/img]
 
-Orientação solar: sul 100%, leste/oeste 85%, norte 55%. Nuvens, neve e sujeira reduzem a produção. A chuva limpa; também um pano + 0,5 L de água. Vento desde 10 km/h, potência máxima a 45–85, freio acima disso. Roda ativa dia e noite. O frio opcional preserva como reserva a energia inacessível das baterias; desativado por padrão.
+Orientação solar: sul 100%, leste/oeste 85%, norte 55%. Nuvens, neve e sujeira reduzem a produção. A chuva limpa; também um pano + 0,5 L de água. Vento desde 10 km/h, potência máxima a 30–85, freio acima disso; +15% de vento por andar até o 3º. Roda ativa dia e noite. O frio opcional preserva como reserva a energia inacessível das baterias; desativado por padrão.
 
 [h2]Bomba d'água[/h2]
 

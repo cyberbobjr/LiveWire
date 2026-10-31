@@ -35,7 +35,7 @@ Tout son réseau est déconnecté. Le tourner conserve les liaisons. Une source 
 Aucune limite : les productions s'additionnent. Une journée de référence (frigo-congélateur, 10 lumières pendant 6 h, télévision pendant 3 h) demande environ 3,8 kWh avec les valeurs du jeu et 7,4 kWh en Réaliste 1993. En hiver, 6 panneaux plus 1 éolienne donnent environ 4,3 kWh (assez pour les valeurs du jeu), et 1 roue à aubes plus 8 panneaux environ 7,7 kWh (assez pour Réaliste 1993). Voir [Production et calculs](04-production-et-calculs.md#exemple-de-dimensionnement).
 
 **Quelle vitesse de vent faut-il à l'éolienne ?**
-Rien en dessous de 10 km/h, 100 % (400 W) de 45 à 85 km/h, et frein automatique au-delà de 85 km/h. Entre les deux, 25 km/h donnent environ 31 W et 40 km/h environ 252 W. Le vent compte +15 % par étage jusqu'au 3e. Voir [Production et calculs](04-production-et-calculs.md).
+Rien en dessous de 10 km/h, environ 15 W à 10 km/h, 100 % (400 W) de 30 à 85 km/h, et frein automatique au-delà de 85 km/h. Entre les deux, 15 km/h donnent environ 50 W et 25 km/h environ 231 W. Posez-la sur un toit pour plus de vent. Le vent compte +15 % par étage jusqu'au 3e. Voir [Production et calculs](04-production-et-calculs.md).
 
 **Où poser la roue à aubes ?**
 Au rez-de-chaussée, sur la berge d'une rivière, à côté de l'eau de la rivière. Les lacs et étangs sont refusés car le moteur ne distingue pas le courant d'un lac. Elle demande le niveau 2 à la pose (7 à la fabrication) et produit jour et nuit (environ 2,9 kWh par jour). Voir [Équipements](02-equipements.md).

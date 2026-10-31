@@ -30,7 +30,7 @@ En option : disjoncteur, alarme, insonorisation, générateur vanilla de secours
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_fr.png[/img]
 
-Orientation solaire : sud 100 %, est/ouest 85 %, nord 55 %. Nuages, neige et saleté réduisent la production ; la pluie lave les panneaux, ou nettoyez avec un chiffon + 0,5 L d'eau. L'éolienne produit dès 10 km/h, à pleine puissance de 45 à 85, puis freine. La roue produit jour et nuit. Le froid des batteries, option désactivée par défaut, conserve l'énergie indisponible en réserve.
+Orientation solaire : sud 100 %, est/ouest 85 %, nord 55 %. Nuages, neige et saleté réduisent la production ; la pluie lave les panneaux, ou nettoyez avec un chiffon + 0,5 L d'eau. L'éolienne produit dès 10 km/h, à pleine puissance de 30 à 85, puis freine ; +15 % de vent par étage jusqu'au 3e. La roue produit jour et nuit. Le froid des batteries, option désactivée par défaut, conserve l'énergie indisponible en réserve.
 
 [h2]Pompe à eau[/h2]
 

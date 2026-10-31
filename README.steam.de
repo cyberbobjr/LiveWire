@@ -30,7 +30,7 @@ Optional: Sicherungskasten, Batteriealarm, Schalldämmung, Vanilla-Notstromgener
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_de.png[/img]
 
-Solarausrichtung: Süden 100%, Osten/Westen 85%, Norden 55%. Wolken, Schnee und Schmutz senken den Ertrag. Regen reinigt; manuell mit Lappen + 0,5 L Wasser. Windstrom ab 10 km/h, volle Leistung bei 45–85, darüber Bremse. Wasserkraft läuft Tag und Nacht. Optionale Batteriekälte bewahrt vorübergehend unzugängliche Energie als Reserve; standardmäßig aus.
+Solarausrichtung: Süden 100%, Osten/Westen 85%, Norden 55%. Wolken, Schnee und Schmutz senken den Ertrag. Regen reinigt; manuell mit Lappen + 0,5 L Wasser. Windstrom ab 10 km/h, volle Leistung bei 30–85, darüber Bremse; +15 % Wind pro Etage bis zur 3. Wasserkraft läuft Tag und Nacht. Optionale Batteriekälte bewahrt vorübergehend unzugängliche Energie als Reserve; standardmäßig aus.
 
 [h2]Wasserpumpe[/h2]
 

@@ -50,13 +50,15 @@ function Physics.windAtHeight(kph, z)
 end
 
 Physics.WIND_CUT_IN = 10
-Physics.WIND_RATED = 45
+Physics.WIND_RATED = 30
 Physics.WIND_CUT_OUT = 85
 
+-- Power grows with the cube of the wind speed from the cut-in speed, so the
+-- turbine already gives a few percent at 10 km/h (ordinary weather is 5-25 km/h).
 function Physics.windFactor(v)
     if v < Physics.WIND_CUT_IN or v > Physics.WIND_CUT_OUT then return 0 end
     if v >= Physics.WIND_RATED then return 1 end
-    local r = (v - Physics.WIND_CUT_IN) / (Physics.WIND_RATED - Physics.WIND_CUT_IN)
+    local r = v / Physics.WIND_RATED
     return r * r * r
 end
 

@@ -243,11 +243,11 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | Vent `v` | `f(v)` |
 |---|---|
 | < 10 km/h | 0 |
-| 10 à 45 km/h | `((v − 10) / 35)³` |
-| 45 à 85 km/h | 1 |
+| 10 à 30 km/h | `(v / 30)³` |
+| 30 à 85 km/h | 1 |
 | > 85 km/h | 0 (frein automatique) ; risque de dégât (§ 4.4) |
 
-- **Puissance nominale : 400 W.** À 25 km/h, l'éolienne produit ≈ **31 W** ; à 40 km/h, ≈ **252 W**.
+- **Puissance nominale : 400 W.** À 10 km/h, l'éolienne produit ≈ **15 W** ; à 15 km/h, ≈ **50 W** ; à 25 km/h, ≈ **231 W**. Le vent courant du jeu se situe surtout entre 5 et 25 km/h (`ClimateValues.java:265-270`), d'où la pleine puissance à 30 km/h.
 - **Point incertain** : la répartition réelle du vent n'est pas connue. La base plafonne vers 78 km/h hors période météo (`java/zombie/iso/weather/ClimateValues.java:265-270`). Le prototype P5 la mesurera.
 
 ### 3.4 Roue à aubes

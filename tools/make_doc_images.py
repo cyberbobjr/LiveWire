@@ -344,9 +344,9 @@ def solar_w(h, length, factor=1.0):
 def wind_w(v):
     if v < 10 or v > 85:
         return 0.0
-    if v >= 45:
+    if v >= 30:
         return 400.0
-    return 400.0 * ((v - 10) / 35.0) ** 3
+    return 400.0 * (v / 30.0) ** 3
 
 
 def plot(d, box, xs, series, xr, yr, xticks, yticks, lang, xlabel, ylabel):
@@ -427,8 +427,8 @@ def production(lang):
     xs = [i / 2 for i in range(0, 201)]
     title(d, (410, 28), t["c_wind"], lang, 345)
     P = plot(d, (450, 100, 750, 340), xs, [(ACCENT, [wind_w(x) for x in xs], 4, False)],
-             (0, 100), (0, 400), [0, 10, 25, 45, 85, 100], [0, 100, 200, 300, 400], lang, t["wind_axis"], "W")
-    for v in (25, 40):
+             (0, 100), (0, 400), [0, 10, 30, 85, 100], [0, 100, 200, 300, 400], lang, t["wind_axis"], "W")
+    for v in (15, 25):
         px, py = P(v, wind_w(v))
         d.ellipse((px - 5, py - 5, px + 5, py + 5), fill=INK)
         text(d, (px + 8, py - 4), "%d W" % round(wind_w(v)), fS, INK, anchor="ld")

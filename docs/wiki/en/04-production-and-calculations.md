@@ -45,20 +45,19 @@ Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcas
 ## Wind turbine (400 W)
 
 - 0 below 10 km/h.
-- ((v - 10) / 35)^3 between 10 and 45 km/h.
-- 100 % from 45 to 85 km/h.
+- (v / 30)^3 between 10 and 30 km/h.
+- 100 % from 30 to 85 km/h.
 - 0 above 85 km/h (automatic brake).
 - Wind is +15 % per floor, up to the 3rd.
 
 | Wind (km/h) | Share of nominal | Power |
 |---|---|---|
 | 0 | 0 % | 0 W |
-| 10 | 0 % | 0 W |
-| 20 | 2 % | about 9 W |
-| 25 | 8 % | about 31 W |
-| 30 | 19 % | about 75 W |
-| 40 | 63 % | about 252 W |
-| 45 | 100 % | 400 W |
+| 10 | 4 % | about 15 W |
+| 15 | 13 % | about 50 W |
+| 20 | 30 % | about 119 W |
+| 25 | 58 % | about 231 W |
+| 30 | 100 % | 400 W |
 | 60 | 100 % | 400 W |
 | 85 | 100 % | 400 W |
 | 90 | 0 % | 0 W (brake) |

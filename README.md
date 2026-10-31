@@ -324,11 +324,11 @@ Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcas
 | Wind speed | Share of nominal power |
 |---|---|
 | Below 10 km/h | 0 |
-| 10 to 45 km/h | ((v − 10) / 35)³ |
-| 45 to 85 km/h | 100 % |
+| 10 to 30 km/h | (v / 30)³ |
+| 30 to 85 km/h | 100 % |
 | Above 85 km/h | 0 (automatic brake) |
 
-Wind gets +15 % per floor, up to the 3rd. Examples: 25 km/h ≈ 31 W, 40 km/h ≈ 252 W.
+Wind gets +15 % per floor, up to the 3rd. Examples: 10 km/h ≈ 15 W, 15 km/h ≈ 50 W, 25 km/h ≈ 231 W.
 
 ### Water wheel (120 W)
 

@@ -6,6 +6,8 @@
 - Fixed water poured into a barrel linked to a water pump seeming to disappear while the pump showed 0 L/h. The pump only filled its hidden tanks for every sink, shower and toilet in range, plumbed or not, including the neighbours' houses. It now only supplies the fixtures you have plumbed with a pipe wrench, and a newly plumbed fixture gets water within a game minute.
 
 ### Improvements
+- Wind turbines are now useful in ordinary Zomboid weather. They produce from 10 km/h (about 15 W) and reach full power at 30 km/h instead of 45: about 50 W at 15 km/h and 230 W at 25 km/h, where they used to show 0 to 30 W.
+- Turbine blades now turn exactly when the turbine produces: they count the height bonus (+15% wind per floor, up to the 3rd) and stop above 85 km/h.
 - Show the supplied taps now highlights in grey the fixtures in range that are not plumbed yet, so you can see which ones still need the pipe wrench.
 
 ## 1.6.4 — 2026-10-28

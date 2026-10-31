@@ -35,7 +35,7 @@ Its whole network is disconnected. Rotating it keeps the links. A picked-up sour
 There is no limit; productions add up. A reference day (fridge-freezer, 10 lights for 6 h, TV for 3 h) needs about 3.8 kWh with the game values and 7.4 kWh with Realistic 1993. In winter, 6 panels plus 1 wind turbine give about 4.3 kWh (enough for the game values), and 1 water wheel plus 8 panels about 7.7 kWh (enough for Realistic 1993). See [Production and calculations](04-production-and-calculations.md#sizing-example).
 
 **What wind speed does the turbine need?**
-It produces nothing below 10 km/h, reaches 100 % (400 W) from 45 to 85 km/h, and brakes automatically above 85 km/h. In between, 25 km/h gives about 31 W and 40 km/h about 252 W. Wind counts +15 % per floor up to the 3rd. See [Production and calculations](04-production-and-calculations.md).
+It produces nothing below 10 km/h, gives about 15 W at 10 km/h, reaches 100 % (400 W) from 30 to 85 km/h, and brakes automatically above 85 km/h. In between, 15 km/h gives about 50 W and 25 km/h about 231 W. Build it on a roof for more wind. Wind counts +15 % per floor up to the 3rd. See [Production and calculations](04-production-and-calculations.md).
 
 **Where can I place the water wheel?**
 On the ground floor, on a river bank, next to river water. Lakes and ponds are refused because the engine cannot tell a lake's current. It needs Electrical level 7, and it produces day and night (about 2.9 kWh per day). See [Equipment](02-equipment.md).
