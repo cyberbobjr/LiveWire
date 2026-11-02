@@ -30,8 +30,7 @@ local function onLoadChunk(chunk)
     local R2 = reach * reach
     -- Copy first: validate() may remove devices from the registry.
     local list = R.devicesInChunk(cx, cy)
-    for i = 1, #list do
-        local dev = list[i]
+    local function sync(dev)
         local inChunk = dev.x >= x0 and dev.x <= x1 and dev.y >= y0 and dev.y <= y1
         local alive = true
         if inChunk and LiveWire.Defs.devices[dev.model] then alive = LiveWire.Devices.validate(dev) end
@@ -40,6 +39,11 @@ local function onLoadChunk(chunk)
             if inChunk and dev.role == "backup" then LiveWire.Backup.restore(dev) end
             if inChunk and dev.role == "inverter" then LiveWire.Devices.syncMark(dev) end
         end
+    end
+    for i = 1, #list do
+        -- One faulty device must not skip the rest of the chunk.
+        local ok, err = pcall(sync, list[i])
+        if not ok then LiveWire.warn("chunk sync failed for " .. tostring(list[i].id) .. ": " .. tostring(err)) end
     end
     for id in pairs(R.inverters) do
         local dev = R.device(id)

@@ -8,6 +8,11 @@
 ### Fixes
 - Fixed an occasional error `IndexOutOfBoundsException: Index: 0 Size: 0` in `LW_Circuits.lua` when moving away from a base, for example by car. Live Wire now drops its pending work on an area as soon as the game unloads it. When the area loads again, every appliance in it is checked again from the start, so none is missed.
 - Fixed breaker switches taking effect late just after arriving at a base or loading a save. Turning a circuit off or on could wait ten seconds or more while Live Wire checked the newly loaded area, and the inverter showed the old consumption meanwhile. Breaker commands now go first and take effect within a fraction of a second.
+- Fixed switching the inverter, the breaker panel or other network controls repeatedly making time run faster for the network: each action added a full game minute of production, battery charge, wear and generator fuel. Actions now only update the network state.
+- Fixed resetting a tripped inverter or wall breaker while water pumps were running: the reset was accepted, then tripped again at once and cost the inverter condition. The pumps now count in the reset check, and switching a tripped inverter off then on again no longer skips it.
+- Fixed a coupled inverter cabinet wearing at the rate of the main inverter's model instead of its own.
+- Fixed a water pump turning all the water it moves into tainted water when its barrel held only a trace of it. The relay now gets the barrel's own proportion.
+- A device destroyed outside Live Wire's own actions is now removed after two checks instead of one, so a single missed lookup can no longer delete it and its connections. One faulty device no longer stops the update of the other networks.
 - Fixed water poured into a barrel linked to a water pump seeming to disappear while the pump showed 0 L/h. The pump only filled its hidden tanks for every sink, shower and toilet in range, plumbed or not, including the neighbours' houses. It now only supplies the fixtures you have plumbed with a pipe wrench, and a newly plumbed fixture gets water within a game minute.
 
 ### Improvements

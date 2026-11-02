@@ -388,11 +388,19 @@ local function breakSlave(sl)
     LiveWire.notifyNear(sl.x, sl.y, sl.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Broken", {}, true)
 end
 
-function Sim.stepGrid(grid, now, w)
+-- evaluate: when no game time passed since the last step, still re-evaluate the
+-- state (trip, power, marks, publication) with a zero-length step. Time is never
+-- moved back: a command can no longer advance production, wear or fuel.
+function Sim.stepGrid(grid, now, w, evaluate)
     local R = LiveWire.Registry
     local inv = R.device(grid.inverter)
     if not inv then
-        R.grids()[grid.id] = nil
+        LiveWire.warn("grid " .. tostring(grid.id) .. " lost its inverter, dropping it")
+        local left = {}
+        for id in pairs(grid.members) do left[#left + 1] = id end
+        for _, sl in ipairs(R.slaves(grid)) do left[#left + 1] = sl.id end
+        R.dropGrid(grid)
+        for i = 1, #left do LiveWire.Devices.syncMark(R.device(left[i])) end
         return
     end
     local def = Defs.devices[inv.model]
@@ -400,21 +408,16 @@ function Sim.stepGrid(grid, now, w)
 
     local dt = now - (grid.lastTick or now)
     grid.lastTick = now
-    if dt <= 0 then return end
+    if dt <= 0 then
+        if not evaluate then return end
+        dt = 0
+    end
     if dt > Sim.MAX_CATCHUP_HOURS then dt = Sim.MAX_CATCHUP_HOURS end
 
+    -- A missing inverter is counted and removed by Devices.validate (Sim.tick).
     local invSq = getCell():getGridSquare(inv.x, inv.y, inv.z)
     local invObj = invSq and LiveWire.Devices.find(inv)
-    if invSq and not invObj then
-        inv.missing = (inv.missing or 0) + 1
-        if inv.missing >= 2 then
-            LiveWire.log("inverter " .. inv.id .. " is gone from its square, removing it")
-            Sim.updateAnchor(inv, false)
-            R.removeDevice(inv.id)
-        end
-        return
-    end
-    inv.missing = nil
+    if invSq and not invObj then return end
     local loaded = invObj ~= nil
     if not loaded and not LiveWire.Config.get("SimulateUnloaded") then return end
 
@@ -427,31 +430,10 @@ function Sim.stepGrid(grid, now, w)
     end
     local demandW = grid.demand or 0
 
-    -- Sources and equipment removed by another path (admin, other mod): drop them after
-    -- two consecutive checks of a loaded square.
+    -- Live Wire devices removed by another path (admin, other mod) are dropped by
+    -- Devices.validate (Sim.tick). Linked vanilla objects (generator, computer) are
+    -- found by their own ModData: drop them after two consecutive checks.
     do
-        local s0, b0, o0, _, _, p0 = R.members(grid)
-        local all = {}
-        for i = 1, #s0 do all[#all + 1] = s0[i] end
-        for i = 1, #b0 do all[#all + 1] = b0[i] end
-        for i = 1, #o0 do all[#all + 1] = o0[i] end
-        for i = 1, #p0 do all[#all + 1] = p0[i] end
-        local sl0 = R.slaves(grid)
-        for i = 1, #sl0 do all[#all + 1] = sl0[i] end
-        for i = 1, #all do
-            local dev = all[i]
-            local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
-            if sq and not LiveWire.Devices.find(dev) then
-                dev.missing = (dev.missing or 0) + 1
-                if dev.missing >= 2 then
-                    LiveWire.log("device " .. dev.id .. " is gone from its square, removing it")
-                    R.removeDevice(dev.id)
-                end
-            elseif sq then
-                dev.missing = nil
-            end
-        end
-        -- Linked vanilla objects (generator, computer) are found by their own ModData.
         local _, _, _, bk0, pc0 = R.members(grid)
         local vanilla = {}
         for i = 1, #bk0 do vanilla[#vanilla + 1] = { dev = bk0[i], mod = LiveWire.Backup } end
@@ -494,7 +476,13 @@ function Sim.stepGrid(grid, now, w)
     end
     -- Water pumps draw power while they move water (LW_Pump.lua); the breaker and
     -- the heavy-load test count them with the house demand.
-    local pumpW = LiveWire.Pump and LiveWire.Pump.demandW(pumps, dt) or 0
+    -- A zero-length step keeps the last measured pump power: demandW consumes the
+    -- litres counter and divides by the elapsed time.
+    local pumpW = grid.pumpW or 0
+    if dt > 0 then
+        pumpW = LiveWire.Pump and LiveWire.Pump.demandW(pumps, dt) or 0
+        grid.pumpW = pumpW
+    end
     demandW = demandW + pumpW
 
     local breaker = R.hasOption(grid, "breaker")
@@ -571,13 +559,15 @@ function Sim.stepGrid(grid, now, w)
         -- Intermediate catch-up transitions are private. Publish only the final
         -- state below, avoiding a burst of global anchor packets after an absence.
         local startHour = now - dt + (i - 1) * h
-        if r.onHours > 0 and not wasPowered then
+        -- A zero-length step serves no hours: its end state is the served state.
+        local served = r.onHours > 0 or (h <= 0 and r.on)
+        if served and not wasPowered then
             LiveWire.Journal.add(grid, "IGUI_LW_Event_PowerOn", {}, startHour)
         end
         if not r.on and (wasPowered or r.onHours > 0) then
             LiveWire.Journal.add(grid, "IGUI_LW_Event_PowerOff", {}, startHour + r.onHours)
         end
-        LiveWire.PowerHistory.record(R.data, inv, r.onHours > 0, startHour)
+        LiveWire.PowerHistory.record(R.data, inv, served, startHour)
         if not r.on then
             LiveWire.PowerHistory.record(R.data, inv, false, startHour + r.onHours)
         end
@@ -602,7 +592,8 @@ function Sim.stepGrid(grid, now, w)
                     local sh = 1
                     if demandW > capW * Defs.HEAVY_LOAD_RATIO then sh = 2 end
                     if sl.muffled then sh = sh * Defs.MUFFLED_WEAR end
-                    wearDevice(sl, def, r.onHours, sh)
+                    -- Each slave wears by its own model (inverter and cabinet can be coupled).
+                    wearDevice(sl, deviceDef(sl), r.onHours, sh)
                     if (sl.cond or 0) <= 0 then breakSlave(sl) end
                 end
             end
@@ -698,7 +689,10 @@ function Sim.tick()
     end
     for i = 1, #devIds do
         local dev = R.device(devIds[i])
-        if dev then LiveWire.Devices.validate(dev) end
+        if dev then
+            local ok, err = pcall(LiveWire.Devices.validate, dev)
+            if not ok then LiveWire.warn("validation failed for " .. devIds[i] .. ": " .. tostring(err)) end
+        end
     end
     local ids = {}
     for id in pairs(R.grids()) do ids[#ids + 1] = id end
@@ -716,9 +710,9 @@ end
 function Sim.refresh(grid)
     if not grid then return end
     local now = getGameTime():getWorldAgeHours()
-    -- A one-minute step re-evaluates the state without skipping the next tick.
-    if not grid.lastTick or grid.lastTick > now - 1 / 60 then grid.lastTick = now - 1 / 60 end
-    local ok, err = pcall(Sim.stepGrid, grid, now, weather())
+    -- Simulates only the game time elapsed since the last step (zero right after
+    -- one), then re-evaluates the state.
+    local ok, err = pcall(Sim.stepGrid, grid, now, weather(), true)
     if not ok then LiveWire.warn("refresh failed for " .. grid.id .. ": " .. tostring(err)) end
 end
 

@@ -143,7 +143,7 @@ end
 
 -- One network step.
 -- p = {
---   productionW, demandW (appliances), idleW, maxW, eff, dt (hours),
+--   productionW, demandW (appliances), idleW, maxW, eff, dt (hours, 0 re-evaluates the state),
 --   wasOn (bool), state ("on"|"off"|"tripped"|"broken"),
 --   batteries = { { charge = kWh, capacity = kWh } ... }  (mutated in place)
 -- }
@@ -196,7 +196,9 @@ function Physics.stepGrid(p)
             fraction = clamp(fraction, 0, 1)
             r.onHours = dt * fraction
             usefulW = fromProd * fraction
-            on = fraction >= 1 and (needKWh <= 0 or stock - needKWh > 1e-9)
+            -- Test the missing power, not the energy: a zero-length step (state
+            -- re-evaluation) needs no energy but still cannot serve from an empty stock.
+            on = fraction >= 1 and (missingW <= 0 or stock - needKWh > 1e-9)
             if needKWh > 0 and fraction > 0 then
                 for i = 1, #batteries do
                     local b = batteries[i]

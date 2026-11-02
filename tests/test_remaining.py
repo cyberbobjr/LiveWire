@@ -200,7 +200,8 @@ class Remaining(unittest.TestCase):
         local adopted=R.device(M.get(obj).id)
         assert(adopted.eff==0.85 and adopted.level==0)
         sq.getObjects=function() return {size=function() return 0 end} end
-        assert(not D.validate(adopted) and not R.device(adopted.id))
+        assert(not D.validate(adopted) and R.device(adopted.id), "one miss keeps the device")
+        assert(not D.validate(adopted) and not R.device(adopted.id), "second miss removes it")
         ''')
 
     def test_partial_step_uses_stock_and_conserves_energy(self):
@@ -617,6 +618,87 @@ class PumpViewColours(unittest.TestCase):
         assert(plumbed.on and other.on and pump.on)
         assert(plumbed.c[3]==PV.COLOR[3] and plumbed.c[1]==PV.COLOR[1])
         assert(other.c[1]==PV.UNPLUMBED[1] and other.c[3]==PV.UNPLUMBED[3])
+        ''')
+
+
+class LotA(unittest.TestCase):
+    """Review of 2026-11-02: refresh time, reset tests, lost grid, pump water."""
+
+    def setUp(self):
+        self.lua = make()
+
+    def run_lua(self, source):
+        self.lua.execute(source)
+
+    def test_refresh_never_advances_game_time(self):
+        self.run_lua('NPANELS=6;NBATS=4;DEMAND=150;BREAKER=false')
+        self.run_lua(SETUP)
+        self.run_lua('''
+        WORLD.hours=WORLD.hours+1/6; LiveWire.Sim.tick()
+        local stock,cond,rev=GRID.stock,INV.cond,GRID.rev
+        local slots={}
+        for _,d in pairs(LiveWire.Registry.devices()) do
+            for _,s in ipairs(d.slots or {}) do slots[#slots+1]={s=s,charge=s.charge} end
+        end
+        for _=1,200 do LiveWire.Sim.refresh(GRID) end
+        assert(GRID.lastTick==WORLD.hours, "refresh never moves the clock back")
+        assert(INV.cond==cond, "no wear from refreshes")
+        for _,e in ipairs(slots) do assert(e.s.charge==e.charge, "no charge from refreshes") end
+        assert(math.abs(GRID.stock-stock)<1e-12 and GRID.rev==rev+200, "state re-evaluated each time")
+        ''')
+
+    def test_zero_length_refresh_still_trips_and_cuts_an_empty_stock(self):
+        self.run_lua('NPANELS=0;NBATS=0;DEMAND=1800;BREAKER=false')
+        self.run_lua(SETUP)
+        self.run_lua('''
+        LiveWire.Sim.refresh(GRID)
+        assert(INV.state=="tripped" and INV.cond==97, "overload trips on a zero-length step")
+        local P=LiveWire.Physics
+        local empty=P.stepGrid({productionW=0,demandW=100,idleW=0,maxW=1500,eff=1,dt=0,
+            wasOn=true,state="on",batteries={{charge=0,capacity=1}}})
+        assert(not empty.on and empty.onHours==0 and empty.drawnKWh==0)
+        local full=P.stepGrid({productionW=0,demandW=100,idleW=0,maxW=1500,eff=1,dt=0,
+            wasOn=true,state="on",batteries={{charge=0.5,capacity=1}}})
+        assert(full.on and full.drawnKWh==0 and full.stockKWh==0.5)
+        ''')
+
+    def test_reset_and_switch_on_count_pumps_and_refuse_overload(self):
+        self.run_lua('NPANELS=0;NBATS=1;DEMAND=1000;BREAKER=false')
+        self.run_lua(SETUP)
+        self.run_lua('''
+        local notes={}
+        LiveWire.notify=function(_,key) notes[#notes+1]=key end
+        LiveWire.Commands.checkDevice=function() return INV end
+        GRID.pumpW=600; INV.state="tripped"
+        local C,P=LiveWire.Commands,LiveWire.Protocol
+        C.handle({},P.C_RESET,{inverter=INV.id})
+        assert(INV.state=="tripped" and notes[#notes]=="IGUI_LW_StillOverloaded", "pumps count at reset")
+        C.handle({},P.C_SET_INVERTER,{inverter=INV.id,on=false})
+        assert(INV.state=="off")
+        C.handle({},P.C_SET_INVERTER,{inverter=INV.id,on=true})
+        assert(INV.state=="off" and INV.cond==100, "isolating then switching on does not bypass the test")
+        GRID.pumpW=0
+        C.handle({},P.C_SET_INVERTER,{inverter=INV.id,on=true})
+        assert(INV.state=="on" and INV.cond==100)
+        ''')
+
+    def test_pump_keeps_the_barrel_proportion_of_tainted_water(self):
+        # Static guard only: the transfer runs inside Pump.step with real fluids.
+        src = pathlib.Path(LUA, 'server/LiveWire/LW_Pump.lua').read_text(encoding='ascii')
+        self.assertIn('n * src.fc:getSpecificFluidAmount(Fluid.TaintedWater) / inBarrel', src)
+        self.assertNotIn('tainted and Fluid.TaintedWater or Fluid.Water', src)
+
+    def test_lost_inverter_grid_is_dropped_with_its_links(self):
+        self.run_lua('NPANELS=1;NBATS=1;DEMAND=0;BREAKER=false')
+        self.run_lua(SETUP)
+        self.run_lua('''
+        local R=LiveWire.Registry
+        local members={}
+        for id in pairs(GRID.members) do members[#members+1]=R.device(id) end
+        R.devices()[INV.id]=nil
+        WORLD.hours=WORLD.hours+1/6; LiveWire.Sim.tick()
+        assert(R.grid(GRID.id)==nil and R.anchors[INV.id]==nil)
+        for _,m in ipairs(members) do assert(m.grid==nil, "members unlinked") end
         ''')
 
 

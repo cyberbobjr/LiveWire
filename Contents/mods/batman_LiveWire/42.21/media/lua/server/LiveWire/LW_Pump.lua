@@ -524,10 +524,14 @@ function Pump.step(dev)
             if want <= 0.001 then break end
             local n = math.min(want, src.fc:getAmount())
             if n > 0.001 then
-                -- Tainted water stays tainted in the relay: the tap purifies it, as vanilla.
-                local tainted = src.fc:getSpecificFluidAmount(Fluid.TaintedWater) > 0
+                -- Tainted water stays tainted in the relay (the tap purifies it, as
+                -- vanilla), in the barrel's own proportion: a trace never taints it all.
+                local inBarrel = src.fc:getAmount()
+                local tainted = inBarrel > 0
+                    and math.min(n, n * src.fc:getSpecificFluidAmount(Fluid.TaintedWater) / inBarrel) or 0
                 src.fc:removeFluid(n)
-                rn.fc:addFluid(tainted and Fluid.TaintedWater or Fluid.Water, n)
+                if n - tainted > 0 then rn.fc:addFluid(Fluid.Water, n - tainted) end
+                if tainted > 0 then rn.fc:addFluid(Fluid.TaintedWater, tainted) end
                 touchedBarrels[src.obj] = src
                 touchedRelays[rn.obj] = rn
                 moved = moved + n

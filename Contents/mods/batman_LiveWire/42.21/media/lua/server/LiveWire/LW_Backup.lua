@@ -210,6 +210,8 @@ function Backup.step(dev, stockFrac, h)
         dev.lastSet = gen:isActivated()
     end
     if not run then return 0 end
+    -- Zero-length step (state re-evaluation): full power, no fuel burnt.
+    if h <= 0 then return Backup.CHARGE_W end
 
     local litres = Backup.CHARGE_W * h / 1000 / Backup.KWH_PER_LITRE
     local used = math.min(litres, fuel)
