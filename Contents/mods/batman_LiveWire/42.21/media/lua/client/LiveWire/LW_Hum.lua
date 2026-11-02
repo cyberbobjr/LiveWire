@@ -1,29 +1,13 @@
--- Live Wire: soft electrical hum of switched-on inverters, played locally on each
--- client (no network packet). playSoundImpl(name, false, nil) is local; playSound /
--- playSoundLooped on a free emitter would be relayed and never stopped for other
--- players (knowledge/sounds-and-noise.md:13-17, FMODSoundEmitter.java:380-461).
--- Sound of the mod (media/sound/LiveWireInverterHum.ogg, looped), heard only one
--- tile around a switched-on inverter (powered or not), on the same floor. Silent
--- when the inverter is soundproofed (kit, mark field muf). The water pump has its own
--- motor sound (LiveWirePumpHum), heard within PUMP_RANGE while it runs (mark st
--- "running"). Each player sets its volume in Options > Mods (0 = off).
+-- Live Wire: device state selects native sound events. The world updates the
+-- emitters; FMOD handles distance, attenuation, occlusion and the SFX volume.
+-- Visuals already reconciles loaded device marks: no separate scan or OnTick.
 if isServer() then return end
 
 LiveWire = LiveWire or {}
-
-local Hum = {}
+local Hum = { SOUND = "LiveWireInverterHum", PUMP_SOUND = "LiveWirePumpHum", active = {} }
 LiveWire.Hum = Hum
 
-Hum.SOUND = "LiveWireInverterHum"
-Hum.PUMP_SOUND = "LiveWirePumpHum"
-Hum.RANGE = 1.5   -- tiles from the inverter centre: one tile around it
-Hum.PUMP_RANGE = 4.5   -- tiles from the pump centre while it runs
-Hum.CHECK_MS = 250
-Hum.active = {}   -- inverter object -> { em = emitter, id = sound ref, volume }
-local lastCheck = 0
-
--- Player option: hum volume in percent (Options > Mods > Live Wire).
-local options = nil
+local options
 if PZAPI and PZAPI.ModOptions then
     options = PZAPI.ModOptions:create("LiveWire", "UI_LW_Options_Title")
     options:addSlider("humVolume", "UI_LW_Options_HumVolume", 0, 100, 5, 100, "UI_LW_Options_HumVolume_tooltip")
@@ -31,12 +15,11 @@ end
 
 function Hum.volume()
     local o = options and options:getOption("humVolume")
-    local v = o and o:getValue() or 100
-    return LiveWire.clamp((tonumber(v) or 100) / 100, 0, 1)
+    return LiveWire.clamp((tonumber(o and o:getValue()) or 100) / 100, 0, 1)
 end
 
 local function playing(h)
-    return h and h.id and h.id ~= 0 and h.em:isPlaying(h.id)
+    return h and h.em:isPlaying(h.id)
 end
 
 function Hum.stop(obj)
@@ -46,74 +29,44 @@ function Hum.stop(obj)
 end
 
 function Hum.start(obj, volume, sound)
+    sound = sound or Hum.SOUND
     local h = Hum.active[obj]
-    if playing(h) then
-        if h.volume ~= volume then
-            h.em:setVolume(h.id, volume)
-            h.volume = volume
-        end
+    if playing(h) and h.sound == sound then
+        if h.volume ~= volume then h.em:setVolume(h.id, volume); h.volume = volume end
         return
     end
+    Hum.stop(obj)
     local sq = obj:getSquare()
+    if not sq then return end
     local em = getWorld():getFreeEmitter(sq:getX() + 0.5, sq:getY() + 0.5, sq:getZ())
-    if not em then return end
-    local ref = em:playSoundImpl(sound or Hum.SOUND, false, nil)
-    if ref and ref ~= 0 then em:setVolume(ref, volume) end
-    Hum.active[obj] = { em = em, id = ref, volume = volume }
+    -- Local playback: playSound would broadcast a loop without a matching MP stop.
+    local ref = em:playSoundImpl(sound, false, nil)
+    if not ref or ref == 0 then return end
+    if sound == Hum.PUMP_SOUND then em:setParameterValueByName(ref, "ClothingWasherLoaded", 0) end
+    em:setVolume(ref, volume)
+    Hum.active[obj] = { em = em, id = ref, sound = sound, volume = volume }
 end
 
-local function wantsHum(player, obj)
-    if obj:getObjectIndex() == -1 or not obj:getSquare() then return false end
-    local m = LiveWire.Marks.get(obj)
-    if not m or m.st ~= "on" or m.muf then return false end
-    local sq = obj:getSquare()
-    if math.floor(player:getZ()) ~= sq:getZ() then return false end
-    local dx, dy = player:getX() - (sq:getX() + 0.5), player:getY() - (sq:getY() + 0.5)
-    return dx * dx + dy * dy <= Hum.RANGE * Hum.RANGE
-end
-
-local function wantsPump(player, obj)
-    if obj:getObjectIndex() == -1 or not obj:getSquare() then return false end
-    local m = LiveWire.Marks.get(obj)
-    if not m or m.st ~= "running" then return false end
-    local sq = obj:getSquare()
-    if math.floor(player:getZ()) ~= sq:getZ() then return false end
-    local dx, dy = player:getX() - (sq:getX() + 0.5), player:getY() - (sq:getY() + 0.5)
-    return dx * dx + dy * dy <= Hum.PUMP_RANGE * Hum.PUMP_RANGE
-end
-
-local function update()
-    local player = getPlayer()
-    if not player or not LiveWire.Visuals then return end
-    local now = getTimestampMs()
-    if now - lastCheck < Hum.CHECK_MS then return end
-    lastCheck = now
-    local volume = Hum.volume()
-    local seen = {}
-    if volume > 0 then
-        local list = LiveWire.Visuals.inverters()
-        for i = 1, #list do
-            local o = list[i]
-            if wantsHum(player, o) then
-                seen[o] = true
-                Hum.start(o, volume)
-            end
-        end
-        local pumps = LiveWire.Visuals.pumps()
-        for i = 1, #pumps do
-            local o = pumps[i]
-            if wantsPump(player, o) then
-                seen[o] = true
-                Hum.start(o, volume, Hum.PUMP_SOUND)
-            end
-        end
+function Hum.sync(obj)
+    local model = LiveWire.Defs.modelOfObject(obj)
+    local def = model and LiveWire.Defs.devices[model]
+    if not def or (def.role ~= "inverter" and model ~= "WaterPump") then Hum.stop(obj); return end
+    local mark = LiveWire.Marks.get(obj)
+    local sound
+    if mark and obj:getSquare() and obj:getObjectIndex() ~= -1 then
+        if def.role == "inverter" and mark.st == "on" and not mark.muf then sound = Hum.SOUND end
+        if model == "WaterPump" and mark.st == "running" then sound = Hum.PUMP_SOUND end
     end
-    -- Collect first: never change a Kahlua table during pairs.
-    local stale = {}
-    for o in pairs(Hum.active) do
-        if not seen[o] then stale[#stale + 1] = o end
-    end
-    for i = 1, #stale do Hum.stop(stale[i]) end
+    local volume = sound and Hum.volume() or 0
+    if volume > 0 then Hum.start(obj, volume, sound) else Hum.stop(obj) end
 end
 
-Events.OnTick.Add(update)
+function Hum.clear()
+    local objects = {}
+    for obj in pairs(Hum.active) do objects[#objects + 1] = obj end
+    for _, obj in ipairs(objects) do Hum.stop(obj) end
+end
+
+Events.OnObjectAboutToBeRemoved.Add(Hum.stop)
+Events.OnDisconnect.Add(Hum.clear)
+Events.OnMainMenuEnter.Add(Hum.clear)

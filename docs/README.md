@@ -53,7 +53,7 @@ Les pages Steam (`README.steam*`, `workshop.txt`) et les README de la racine cha
 
 | Document | Rôle |
 |---|---|
-| [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) | 56 notes moteur sourcées (NM-n), avec Build, date et niveau de validation |
+| [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) | 61 notes moteur sourcées (NM-n), avec Build, date et niveau de validation |
 | [`annexes/conception/choix-et-extensions.md`](annexes/conception/choix-et-extensions.md) | Motivations de la pompe et du couplage ; propositions et questions ouvertes |
 | [`annexes/tests/protocole-tests.md`](annexes/tests/protocole-tests.md) | Préparation, commandes de reproduction et contrôles SP/MP |
 | [`annexes/tests/validation.md`](annexes/tests/validation.md) | Bilan des campagnes du 2026-10-24, résultats, conditions et limites |

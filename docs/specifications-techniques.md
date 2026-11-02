@@ -66,7 +66,7 @@ Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de déc
 
 ### 2.5 Autres scripts
 
-- `LiveWire_sounds.txt` (module `Base`) : `LiveWireInverterHum` (entendu à 1,5 case du centre de l'onduleur, `LW_Hum.lua`), `LiveWirePumpHum` (4,5 cases, pompe en marche).
+- `LiveWire_sounds.txt` (module `Base`) : `LiveWireInverterHum` utilise l'événement vanilla `Object/CarBatteryCharger/Running` (distances min/max 1/2) ; `LiveWirePumpHum`, `Object/ClothingWasher/Running` (1/4). Les noms des sons et le réglage de volume Live Wire sont conservés. Le mixage des effets, la spatialisation et l'atténuation sont natifs ; aucun contrôle Lua de distance ou d'étage. `LW_Hum.sync` adapte seulement les marques marche/arrêt et insonorisation, depuis la découverte et la réconciliation visuelle existantes (environ 1 s pour une marque modifiée). Suppression, déchargement et fin de session nettoient les boucles. Le bip garde un OnTick temporaire pendant ses trois secondes, retiré après le dernier bip.
 - `LiveWire_models.txt` : modèles au sol provisoires des objets d'inventaire (`media/models_X/LiveWire/*.glb`).
 - Butin : `media/lua/server/Items/LiveWire_Distributions.lua` (listes `ProceduralDistributions`) ; le disque `MonitorDisk` n'est ajouté que si le Computer Mod est actif. Tableau des chances : [`wiki/fr/09-tables-de-butin.md`](wiki/fr/09-tables-de-butin.md).
 

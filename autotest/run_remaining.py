@@ -25,14 +25,14 @@ def main():
             env.zomboid = previous.procs[0].cache
         old_server = next((p.cache for p in previous.procs if p.kind == 'server'), None) if previous else None
 
-        def server_command(env, cache, name, admin, password, xmx):
+        def server_command(env, cache, name, admin, password, xmx, debug=False):
             if old_server:
                 shutil.copytree(old_server / 'Saves', cache / 'Saves')
                 # A dedicated server reloads sandbox settings from Server/, not
                 # just the world snapshot. Keep the test's public-water shutdown.
                 settings = f'{name}_SandboxVars.lua'
                 shutil.copy2(old_server / 'Server' / settings, cache / 'Server' / settings)
-            return server_java_command(env, cache, name, admin, password, xmx)
+            return server_java_command(env, cache, name, admin, password, xmx, debug)
 
         def client_command(env, cache, xmx):
             command = cache / 'Lua' / core.LUA_DIR / 'command.txt'

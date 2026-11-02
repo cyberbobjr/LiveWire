@@ -197,6 +197,13 @@ function H.server.start(ctx)
     rep.check("registry ready on the server (schema 2)", function()
         return R.ready and not R.readOnly and R.data.schema == 2
     end)
+    -- Queued circuit scans are dropped unless the active map returns the same IsoChunk
+    -- at its position (LW_Circuits): ServerMap must pass for the player's chunk.
+    rep.check("loaded chunk found at its position by the server map", function()
+        local ch = S.player:getCurrentSquare():getChunk()
+        local wx, wy = LiveWire.Anchor.chunkCoords(ch)
+        return wx ~= nil and getCell():getChunkForGridSquare(wx * 8, wy * 8, S.player:getZ()) == ch
+    end)
     S.player:setPerkLevelDebug(Perks.Electricity, 10)
     for _ = 1, 30 do LiveWire.Install.giveItem(S.player, "Base.ElectricWire") end
     local px, py, pz = math.floor(S.player:getX()), math.floor(S.player:getY()), math.floor(S.player:getZ())

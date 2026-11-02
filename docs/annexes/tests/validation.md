@@ -1211,3 +1211,52 @@ code **0**, OK ; `git diff --check` : code **0**. Les essais de physique et de
 simulation sont également OK dans le passage de correction précédent.
 Aucun jeu lancé ni test natif Kahlua/MP/Linux effectué pour publier : la portée
 reste celle des contrôles statiques et des scénarios Lua hors jeu ci-dessus.
+
+
+## Son natif — 2026-11-02
+
+**Confirmé statiquement.** Les boucles de l’onduleur et de la pompe utilisent
+maintenant les événements vanilla du chargeur de batterie et du lave-linge. Le
+moteur gère leur spatialisation et leur volume SFX. Aucun OnTick propre au
+bourdonnement ni contrôle Lua de distance/étage ; les marques déjà suivies pour
+les voyants pilotent seulement marche/arrêt et insonorisation. Le bip ne garde
+un tick que pendant sa lecture (trois secondes maximum).
+
+**Confirmé en jeu**, 42.21.0, FMOD activé, vérification explicite de l’absence de
+DummySoundEmitter : événements disponibles et instances natives actives ; absence
+de redémarrage lorsque le joueur quitte l’ancienne portée Lua ; deux onduleurs de
+même sprite indépendants ; arrêt pompe et insonorisation ; volume du mod à zéro
+puis reprise ; deux bips simultanés avec une seule inscription temporaire ; retrait
+de l’objet et déchargement de la base sans boucle restante. Les deux derniers
+passages portent sur la version finale après revue du nettoyage des objets.
+
+Le scénario ajoute directement des objets marqués dans les **copies temporaires**.
+En MP, les changements viennent du serveur et traversent les vrais paquets ModData
+et de retrait ; le client attend leur effet sans appeler Hum.sync lui-même. Il ne
+valide ni la simulation électrique ni le débit hydraulique. Le lanceur commun
+reste intact : `autotest/run_sound.py` utilise son point d’extension pour retirer
+`-nosound`. Commandes : `python LiveWire/autotest/run_sound.py sp` puis `mp`,
+avec `--wait-idle 3600` et, en MP, `--clients 1 --client-run` imposés par ce script.
+
+| Passage | Code | Ligne summary | Preuves |
+|---|---:|---|---|
+| Préparation sp | 0 | client: `summary=Native sound PASS` | [runs/20261102-132612-sp-9b793cb61eed](../../../runs/20261102-132612-sp-9b793cb61eed/summary.txt) |
+| Préparation mp | 0 | server: `summary=Native sound authority PASS` ; client1: `summary=Native sound PASS` | [runs/20261102-132742-mp-288704d36f55](../../../runs/20261102-132742-mp-288704d36f55/summary.txt) |
+| Final sp | 0 | client: `summary=Native sound PASS` | [runs/20261102-133014-sp-a42c4760aa85](../../../runs/20261102-133014-sp-a42c4760aa85/summary.txt) |
+| Final mp | 0 | server: `summary=Native sound authority PASS` ; client1: `summary=Native sound PASS` | [runs/20261102-133124-mp-8bd0e63de4a6](../../../runs/20261102-133124-mp-8bd0e63de4a6/summary.txt) |
+
+Contrôles hors jeu : `check_mod.py` avec sources 42.21, code **0**, OK ; 17 tests
+`test_interface.py`, code **0**, OK. Le contrôle de diff ciblé sur les fichiers
+sonores et leur documentation est propre ; le contrôle global signale des espaces
+dans des modifications préexistantes de `autotest/lw_hooks.lua` et
+`autotest/lw_mp_hooks.lua`, laissées intactes.
+
+**Limites.** Aucun gain de FPS mesuré, aucune écoute humaine du timbre/volume,
+aucun serveur Linux ni deuxième client. Les sons sont fonctionnels dans FMOD,
+mais leur équilibre reste à écouter. L’ancien filtrage strict par étage est
+remplacé par l’occlusion et la spatialisation natives. La prise en compte d’une
+marque changée suit la réconciliation visuelle existante, soit environ une seconde.
+Les journaux gardent leurs alertes natives de démarrage ; les cinq erreurs de
+tuiles de végétation pendant la téléportation sont aussi présentes dans les
+passages solo de cette campagne. Aucune nouvelle erreur Lua ni erreur FMOD
+constatée pendant les hooks. Aucun commit ni publication.

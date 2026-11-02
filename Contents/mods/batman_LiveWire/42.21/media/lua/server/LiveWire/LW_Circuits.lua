@@ -1,14 +1,19 @@
 -- Live Wire: authoritative, persistent isolation of native appliance services.
 if isClient() then return end
 require "LiveWire/LW_Appliances"
+require "LiveWire/LW_Anchor"
 LiveWire = LiveWire or {}
 local Circuits = {}
 LiveWire.Circuits = Circuits
-local jobs, byKey, head, tail = {}, {}, 1, 0
+-- Two FIFO queues. Network jobs (breaker commands, a rebuilt appliance list) are
+-- always served before chunk discovery: coming back to a base loads hundreds of
+-- chunks at once, and a command must not wait behind their scans.
+local function newQueue() return { jobs = {}, head = 1, tail = 0 } end
+local grids, chunks, byKey = newQueue(), newQueue(), {}
 local isolated, positions, isolatedCursor = {}, {}, 1
 local nextBatchAt, nextSweepAt, sweepLeft, lastClock, preferSaved = 0, 0, 0, nil, false
 function Circuits.reset()
-    jobs, byKey, head, tail = {}, {}, 1, 0
+    grids, chunks, byKey = newQueue(), newQueue(), {}
     isolated, positions, isolatedCursor = {}, {}, 1
     nextBatchAt, nextSweepAt, sweepLeft, lastClock, preferSaved = 0, 0, 0, nil, false
 end
@@ -100,25 +105,56 @@ function Circuits.applyObject(o)
     -- and of the lifetime of the inverter that originally isolated the object.
     track(o, A.saved(o) ~= nil)
 end
-local function enqueue(key, job)
-    local previous = byKey[key]
-    if previous then
-        -- A new command must revisit the already processed prefix as well.
-        previous.objects, previous.entry, previous.index = job.objects, job.entry, 1
-        return
-    end
+local function push(q, key, job)
     job.key, job.index = key, 1
-    tail = tail + 1; jobs[tail], byKey[key] = job, job
+    q.tail = q.tail + 1; q.jobs[q.tail], byKey[key] = job, job
+end
+-- Oldest network job first, then the oldest chunk scan.
+local function front()
+    local job = grids.jobs[grids.head]
+    if job then return grids, job end
+    job = chunks.jobs[chunks.head]
+    if job then return chunks, job end
+end
+local function pop(q)
+    local job = q.jobs[q.head]
+    q.jobs[q.head], byKey[job.key] = nil, nil; q.head = q.head + 1
+    if q.head > q.tail then q.jobs, q.head, q.tail = {}, 1, 0 end
 end
 function Circuits.apply(grid)
     local e = LiveWire.Demand.inventories[grid.inverter]
     if not e then return end
     e.circuitBusy = true
-    enqueue("grid:" .. grid.inverter, { objects = e.objects, entry = e, inverter = grid.inverter })
+    local jobKey = "grid:" .. grid.inverter
+    local previous = byKey[jobKey]
+    if previous then
+        -- A new command must revisit the already processed prefix as well.
+        previous.objects, previous.entry, previous.index = e.objects, e, 1
+        return
+    end
+    push(grids, jobKey, { objects = e.objects, entry = e, inverter = grid.inverter })
 end
+-- Chunk jobs are keyed by world position, never by the IsoChunk reference: the
+-- engine recycles unloaded chunks (WorldReuserThread) and hands the same Java
+-- object to a later load, possibly elsewhere. A new load restarts the scan.
 function Circuits.onLoadChunk(chunk)
-    if byKey[chunk] then return end
-    enqueue(chunk, { chunk = chunk, z = chunk:getMinLevel(), zmax = chunk:getMaxLevel(), square = 0, object = 0 })
+    local wx, wy = LiveWire.Anchor.chunkCoords(chunk)
+    if not wx then return end
+    local job = { chunk = chunk, wx = wx, wy = wy, z = chunk:getMinLevel(), zmax = chunk:getMaxLevel(),
+        square = 0, object = 0 }
+    local jobKey = "chunk:" .. wx .. "," .. wy
+    local previous = byKey[jobKey]
+    if previous then
+        for k, v in pairs(job) do previous[k] = v end
+        return
+    end
+    push(chunks, jobKey, job)
+end
+-- The map slot is cleared on the main thread when a chunk unloads, before the
+-- save and the reuse thread may empty its squares. While the active map still
+-- returns this chunk at its position, no other thread can touch its squares.
+local function current(job)
+    return getCell():getChunkForGridSquare(job.wx * 8, job.wy * 8, job.z) == job.chunk
 end
 function Circuits.topologyChanged()
     local R = LiveWire.Registry
@@ -164,6 +200,10 @@ end
 local function stepJob(job)
     if job.chunk then
         -- Skip at most 32 empty squares per work unit; stop at the first object.
+        -- Unloaded (or recycled) since queued: drop the stale work. A later
+        -- LoadChunk queues a fresh scan of whatever is loaded there. One check
+        -- per step is enough: unloading never interleaves with this Lua call.
+        if not current(job) then return true end
         for _ = 1, 32 do
             if job.z > job.zmax then return true end
             local sq = job.chunk:getGridSquare(job.square % 8, math.floor(job.square / 8), job.z)
@@ -195,7 +235,7 @@ function Circuits.tick()
     -- OnTick only checks the clock between batches. Appliance work depends on
     -- real time, never FPS or time acceleration. No catch-up burst after a stall.
     if now < nextBatchAt then return end
-    nextBatchAt = now + (jobs[head] and 20 or 100)
+    nextBatchAt = now + (front() and 20 or 100)
     if sweepLeft == 0 and now >= nextSweepAt then
         sweepLeft, nextSweepAt = #isolated, now + 1000
     end
@@ -203,11 +243,10 @@ function Circuits.tick()
     -- queued work and saved objects so a stream of chunk loads cannot starve either.
     local budget = 16
     while budget > 0 do
-        local job = jobs[head]
+        local q, job = front()
         if job and (not preferSaved or sweepLeft == 0) then
             if stepJob(job) then
-                jobs[head], byKey[job.key] = nil, nil; head = head + 1
-                if head > tail then jobs, head, tail = {}, 1, 0 end
+                pop(q)
                 if job.entry then
                     job.entry.circuitBusy = false
                     local inv = R.device(job.inverter)

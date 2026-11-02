@@ -977,7 +977,14 @@ local function buildSteps()
             elseif demandTries < 20 then
                 stepIndex = stepIndex - 1
             else
-                rec(false, "C demand job measured the inverter", "no value after " .. demandTries .. " polls")
+                local id = LiveWire.Marks.get(S.inv).id
+                local e = LiveWire.Demand.inventories[id] or {}
+                local now = getGameTime():getWorldAgeHours()
+                rec(false, "C demand job measured the inverter", "no value after " .. demandTries .. " polls"
+                    .. string.format(" (entry %s, dirty %s for %.2f h, busy %s, queued %s, measured %s, job %s, queue %d, objects %d)",
+                        tostring(LiveWire.Demand.inventories[id] ~= nil), tostring(e.dirty), now - (e.dirtySince or now),
+                        tostring(e.circuitBusy), tostring(e.queued), tostring(e.measured),
+                        tostring(LiveWire.Demand.job and LiveWire.Demand.job.id), #LiveWire.Demand.queue, e.objects and #e.objects or -1))
             end
         end },
     }
@@ -1065,6 +1072,13 @@ function H.start(ctx)
     R = LiveWire.Registry
     p:setPerkLevelDebug(Perks.Electricity, 10)
     giveItem("Base.Screwdriver")
+    -- Queued circuit scans are dropped unless the active map returns the same IsoChunk
+    -- at its position (LW_Circuits): the player's loaded chunk must pass on the engine.
+    check("loaded chunk found at its position by the active map", function()
+        local ch = p:getCurrentSquare():getChunk()
+        local wx, wy = LiveWire.Anchor.chunkCoords(ch)
+        return wx ~= nil and cell:getChunkForGridSquare(wx * 8, wy * 8, p:getZ()) == ch
+    end)
     local vertical = ctx.params.vertical == "1"
     local ok, res = pcall(vertical and runVerticalChecks or runChecks)
     if not ok then rec(false, "checks aborted", res) end

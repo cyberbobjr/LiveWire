@@ -71,6 +71,7 @@ function V.track(obj)
     if known[obj] or not LiveWire.Defs.modelOfObject(obj) then return end
     known[obj] = true
     V.tracked[#V.tracked + 1] = obj
+    if LiveWire.Hum then LiveWire.Hum.sync(obj) end
 end
 
 -- Track our base tiles found on a square (one table lookup per object).
@@ -147,6 +148,7 @@ local function prune(player)
             keep = dx * dx + dy * dy <= d2
         end
         if not keep then
+            if LiveWire.Hum then LiveWire.Hum.stop(o) end
             known[o] = nil
             table.remove(V.tracked, i)
             if LiveWire.Adopt then LiveWire.Adopt.forget(o) end
@@ -237,6 +239,7 @@ end
 -- instead (FBORenderCell.isObjectRenderLayer_MinusFloor, FBORenderCell.java:1627).
 -- Without it, the turning blades vanished as soon as the wind made them turn.
 function V.apply(obj, now)
+    if LiveWire.Hum then LiveWire.Hum.sync(obj) end
     if LiveWire.Defs.modelOfObject(obj) == "WindTurbine" and not obj:isAnimating() then
         obj:setAnimating(true)
     end

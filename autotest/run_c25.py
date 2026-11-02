@@ -36,10 +36,10 @@ def main():
             env.zomboid = previous.procs[0].cache  # source is a stopped, private test copy
         old_server = next((p.cache for p in previous.procs if p.kind == 'server'), None) if previous else None
 
-        def server_command(env, cache, name, admin, password, xmx):
+        def server_command(env, cache, name, admin, password, xmx, debug=False):
             if old_server:
                 shutil.copytree(old_server / 'Saves', cache / 'Saves')
-            return server_java_command(env, cache, name, admin, password, xmx)
+            return server_java_command(env, cache, name, admin, password, xmx, debug)
 
         def client_command(env, cache, xmx):
             # The generic runner normally enables hooks only for client 1. C25

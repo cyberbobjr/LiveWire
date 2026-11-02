@@ -1,5 +1,18 @@
 # Live Wire — architecture
 
+## Son natif — 2026-11-02
+
+Pattern modulaire à serveur autoritaire conservé. Les états sonores restent issus
+des marques reçues de l'autorité. Le client `LW_Hum` utilise les événements sonores
+vanilla et les émetteurs mis à jour par le monde : aucun abonné OnTick propre au
+bourdonnement, aucun calcul de proximité. Le suivi visuel existant appelle
+`Hum.sync` à la découverte et à la réconciliation des états ; son nettoyage arrête
+le son d'un objet oublié. `Hum` ne dépend plus de `Visuals` et ne parcourt pas ses
+listes. FMOD assure la spatialisation, l'atténuation, l'occlusion et le mixage SFX.
+Le bip a seulement un abonnement temporaire pour garantir sa durée maximale.
+La validation fonctionnelle utilise le moteur sonore activé ; le ressenti sonore
+reste à écouter. Aucun gain de FPS annoncé.
+
 ## Complément local : revue de robustesse et performances du 2026-10-25
 
 Le pattern modulaire événementiel à serveur autoritaire reste inchangé.
