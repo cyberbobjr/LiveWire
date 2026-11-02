@@ -735,3 +735,36 @@ Le modèle éditable `.blend` est conservé localement avec ces rendus ; les rec
 versionnables restent portables, sans chemins personnels. Le LCD de pompe emploie
 une palette bleue et le débit FR une apostrophe ASCII : l'ancienne U+2019 n'est
 pas couverte par la police LCD mono. Pas de modification du routage du clic.
+
+### Armoire onduleur (1.7.0)
+
+Second modèle d'onduleur, `Defs.devices.InverterCabinet` : `role = "inverter"`,
+`maxW = 4500`, `idleW = 60`, niveau 6, XP 35, `wearDays = 5`, objet
+`Base.Mov_LiveWire_InverterCabinet`, tuiles 88-91 (S, E, N, W). Recette
+`LWMakeInverterCabinet` (Électricité 6) : 1 `Base.Mov_LiveWire_Inverter`, 4 déchets
+électroniques, 2 amplificateurs, 4 fils, 1 plaque d'acier, 8 vis ; tournevis et pince
+conservés. Absente des tables de butin. L'état d'un onduleur consommé par la recette
+est perdu ; l'armoire est un appareil neuf.
+
+Tout ce qui vise un onduleur passe par `role == "inverter"` ; les deux seuls endroits
+liés au modèle sont devenus génériques :
+- `Sim.capacityW` et `Sim.idleW` additionnent les valeurs de chaque onduleur selon son
+  propre modèle (maître en service, esclaves en service ou allumés) ; un réseau d'un seul
+  modèle garde exactement les anciens chiffres. Un onduleur et une armoire se couplent
+  entre eux (`MAX_SLAVES` inchangé).
+- `Visuals.wanted` lit les calques dans `def.overlays` (onduleur 24/28/68, armoire
+  92/96/100, + orientation) et le bourdonnement suit tout onduleur. L'écran LCD affiche
+  la marque du modèle (`def.lcdBrand`, `IGUI_LW_LCD_BrandCabinet`).
+
+Le jeu de tuiles passe de 88 à 104 cases (13 rangées). Le modèle
+`source/tiles/models/oso_inverter.glb` (0,90 × 0,74 × 2,00 m) est offert par
+PewPewCricket, diffusé sous licence MIT avec son accord (crédits du `README.md`) ; les
+modèles de tableau `breaker_panel_*.glb` sont gardés pour plus tard. Recette des tuiles :
+groupes `cabinet*` de `build_livewire_tiles.py` (`import_glb`, couleurs du modèle en
+peintures de la forge, lumières éteintes sur la tuile de base). Installation :
+`equipment_models.py` + `install_equipment_models.py`, qui ajoutent les cases 88-103 au
+pack, à la carte de profondeur et aux définitions de tuiles en vérifiant que les 88 cases
+existantes (pixels, profondeur, propriétés) restent identiques. Icône par
+`source/icons/extract_equipment_icons.py`. Viewpoint : palette complétée des couleurs du
+modèle (`glb_paints()`), modèles `cabinet*` et liaisons 88-103 ; les autres modèles ne
+changent que par leurs coordonnées de palette.

@@ -261,5 +261,7 @@
     "IGUI_LW_DeviceSnow": "Schneedecke: %1%%",
     "IGUI_LW_DeviceBraked": "Windradbremse angezogen",
     "IGUI_LW_DeviceReleased": "Windradbremse gelöst",
-    "IGUI_LW_DeviceWiring": "Wechselrichter für dieses Gerät wählen"
+    "IGUI_LW_DeviceWiring": "Wechselrichter für dieses Gerät wählen",
+    "IGUI_LW_Model_InverterCabinet": "Wechselrichterschrank",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - WECHSELRICHTERSCHRANK 4500 W"
 }

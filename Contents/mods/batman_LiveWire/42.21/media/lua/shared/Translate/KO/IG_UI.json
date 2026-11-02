@@ -261,5 +261,7 @@
     "IGUI_LW_DeviceSnow": "적설: %1%%",
     "IGUI_LW_DeviceBraked": "풍력 브레이크 작동",
     "IGUI_LW_DeviceReleased": "풍력 브레이크 해제",
-    "IGUI_LW_DeviceWiring": "이 장비의 인버터를 선택하세요"
+    "IGUI_LW_DeviceWiring": "이 장비의 인버터를 선택하세요",
+    "IGUI_LW_Model_InverterCabinet": "인버터 캐비닛",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - 인버터 캐비닛 4500 W"
 }

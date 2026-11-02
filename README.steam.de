@@ -40,7 +40,7 @@ Die Wasserpumpe (Elektrik 6) versorgt angeschlossene Sanitärgeräte in 15 Felde
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_de.png[/img]
 
-17 bebilderte Rezepte. Elektrikrezepte werden automatisch freigeschaltet; Rotorblätter und Mast unter Metallverarbeitung ohne Elektrikstufe. Windrad-Endmontage auf 6, Wasserradbau auf 7, jeweils mit zwei Verstärkern. Beide auf Stufe 2 aufstellen/aufheben. Spannungsprüfer zu Elektroschrott zerlegen. Alle Rezepte geben Elektrik-EP. Mehr Fundorte; Beutemultiplikator standardmäßig 5 (1–20), nur neue Würfe nach Neustart.
+18 bebilderte Rezepte. Elektrikrezepte werden automatisch freigeschaltet; Rotorblätter und Mast unter Metallverarbeitung ohne Elektrikstufe. Windrad-Endmontage auf 6, Wasserradbau auf 7, jeweils mit zwei Verstärkern. Beide auf Stufe 2 aufstellen/aufheben. Spannungsprüfer zu Elektroschrott zerlegen. Alle Rezepte geben Elektrik-EP. Mehr Fundorte; Beutemultiplikator standardmäßig 5 (1–20), nur neue Würfe nach Neustart.
 
 [h2]Verwaltungssoftware[/h2]
 
@@ -82,4 +82,4 @@ Gefällt dir der Mod? Ein Kaffee hilft, neue Funktionen und Übersetzungen zu fi
 
 [h2]Danksagungen[/h2]
 
-Erstellt von batmanfr. Eigener Code, Tiles und Sounds; kein Inhalt aus anderen Mods übernommen.
+Erstellt von batmanfr. Modell des Wechselrichterschranks: PewPewCricket. Eigener Code, Tiles und Sounds; kein Inhalt aus anderen Mods übernommen.

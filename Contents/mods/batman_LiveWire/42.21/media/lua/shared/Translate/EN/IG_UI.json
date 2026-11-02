@@ -259,6 +259,8 @@
     "IGUI_LW_Facing_1": "East",
     "IGUI_LW_Facing_2": "North",
     "IGUI_LW_Facing_3": "West",
+    "IGUI_LW_Model_InverterCabinet": "Inverter cabinet",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - INVERTER CABINET 4500 W",
     "IGUI_LW_App_Tab_Consumers_Short": "Consumers",
     "IGUI_LW_App_Tab_Forecast_Short": "Forecast",
     "IGUI_LW_App_Tab_Events_Short": "Events"

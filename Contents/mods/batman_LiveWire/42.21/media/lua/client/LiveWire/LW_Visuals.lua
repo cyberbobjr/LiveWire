@@ -1,13 +1,13 @@
 -- Live Wire: state lights and moving parts of the placed devices, drawn locally on
 -- each client as tile overlays (attachedAnimSprite, IsoObject.java:1821-1880):
---   inverter: lit screen when on, red light when tripped or broken, acoustic
---             foam panels when soundproofed;
+--   inverter and inverter cabinet: lit screen when on, red light when tripped or
+--             broken, acoustic foam panels when soundproofed;
 --   power bank and sources: green light when connected to an inverter;
 --   wind turbine: blades (the tile has none), turning with the wind;
 --   breaker: green while supplied, red when tripped; pump: blue LCD glow while
 --            supplied; alarm: lit beacon while it rings.
 -- The state comes from the device mark (modData.movableData.LiveWire, sent by the
--- server: st, pw, inv). Only our own overlays (24-71 and 80-87) are touched; the list
+-- server: st, pw, inv). Only our own overlays (24-71, 80-87, 92-103) are touched; the list
 -- is rebuilt from the mark whenever it differs, so overlays saved with a single
 -- player world are corrected at the next update.
 -- Devices are tracked when their chunk loads, when the server adds them (MP), by a small scan around the player and a slow spread sweep (no full scan in one frame).
@@ -22,10 +22,11 @@ local PREFIX = LiveWire.Defs.SHEET .. "_"
 local FIRST_OVERLAY = 24
 local LAST_OVERLAY = 71   -- 72-75 are the water pump (base device), 76 the relay tank
 
--- Overlay sprite indices: 24-71 (inverter, sources, breaker, alarm, wind blades) and
--- 80-87 (water pump light, breaker green light; 86-87 remain reserved).
+-- Overlay sprite indices: 24-71 (inverter, sources, breaker, alarm, wind blades),
+-- 80-87 (water pump light, breaker green light; 86-87 remain reserved) and 92-103
+-- (inverter cabinet; 88-91 is its base tile).
 local function isOverlay(n)
-    return (n >= FIRST_OVERLAY and n <= LAST_OVERLAY) or (n >= 80 and n <= 87)
+    return (n >= FIRST_OVERLAY and n <= LAST_OVERLAY) or (n >= 80 and n <= 87) or (n >= 92 and n <= 103)
 end
 
 -- Overlay sprites that exist in the pack (lights on the front are not drawn for the
@@ -37,6 +38,8 @@ end
 for i = 48, 63 do EXISTS[i] = true end
 for i = 80, 83 do EXISTS[i] = true end   -- pump light on top of the motor: all four facings
 EXISTS[84], EXISTS[85] = true, true      -- breaker supplied: S/E wall facings
+for _, i in ipairs({ 92, 93, 96, 97 }) do EXISTS[i] = true end   -- cabinet lights: S/E facings
+for i = 100, 103 do EXISTS[i] = true end -- cabinet foam: all four facings
 
 V.NEAR_RADIUS = 4      -- squares around the player checked every NEAR_MS (single player placement)
 V.NEAR_MS = 1000
@@ -172,10 +175,11 @@ function V.wanted(obj, now)
     local function add(i)
         if EXISTS[i] then out[#out + 1] = i end
     end
-    if model == "Inverter" then
-        if m and m.st == "on" then add(24 + f) end
-        if m and (m.st == "tripped" or m.st == "broken") then add(28 + f) end
-        if m and m.muf then add(68 + f) end
+    if def.role == "inverter" then
+        local o = def.overlays
+        if m and m.st == "on" then add(o.on + f) end
+        if m and (m.st == "tripped" or m.st == "broken") then add(o.fault + f) end
+        if m and m.muf then add(o.muffle + f) end
     elseif model == "PowerBank" then
         if m and m.inv then add(32 + f) end
     elseif model == "SolarPanel" then
@@ -248,7 +252,9 @@ function V.inverters()
     local out = {}
     for i = 1, #V.tracked do
         local o = V.tracked[i]
-        if LiveWire.Defs.modelOfObject(o) == "Inverter" then out[#out + 1] = o end
+        local model = LiveWire.Defs.modelOfObject(o)
+        local def = model and LiveWire.Defs.devices[model]
+        if def and def.role == "inverter" then out[#out + 1] = o end
     end
     return out
 end

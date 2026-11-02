@@ -14,5 +14,6 @@
     "Base.Mov_LiveWire_WaterPump": "물 펌프",
     "LiveWire.CouplingKit": "인버터 병렬 연결 키트",
     "LiveWire.WindTurbineBlades": "풍력 터빈 날개 세트",
-    "LiveWire.WindTurbineMast": "풍력 터빈 기둥"
+    "LiveWire.WindTurbineMast": "풍력 터빈 기둥",
+    "Base.Mov_LiveWire_InverterCabinet": "인버터 캐비닛"
 }

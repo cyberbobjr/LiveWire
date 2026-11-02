@@ -14,5 +14,6 @@
     "Base.Mov_LiveWire_WaterPump": "Pompe à eau",
     "LiveWire.CouplingKit": "Kit de couplage d'onduleurs",
     "LiveWire.WindTurbineBlades": "Jeu de pales d’éolienne",
-    "LiveWire.WindTurbineMast": "Mât d’éolienne"
+    "LiveWire.WindTurbineMast": "Mât d’éolienne",
+    "Base.Mov_LiveWire_InverterCabinet": "Armoire onduleur"
 }

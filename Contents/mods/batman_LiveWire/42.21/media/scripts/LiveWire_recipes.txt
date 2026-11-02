@@ -147,6 +147,34 @@ module LiveWire
         }
     }
 
+    /* Inverter cabinet (4500 W): an inverter rebuilt into a full-height cabinet. */
+    craftRecipe LWMakeInverterCabinet
+    {
+        timedAction = MakingElectrical,
+        time = 700,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:6,
+        AutoLearnAny = Electricity:6,
+        xpAward = Electricity:35,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
+            item 1 [Base.Mov_LiveWire_Inverter],
+            item 4 [Base.ElectronicsScrap],
+            item 2 [Base.Amplifier],
+            item 4 [Base.ElectricWire],
+            item 1 [Base.SheetMetal],
+            item 8 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 Base.Mov_LiveWire_InverterCabinet,
+        }
+    }
+
 
     craftRecipe LWMakeWindTurbineBlades
     {

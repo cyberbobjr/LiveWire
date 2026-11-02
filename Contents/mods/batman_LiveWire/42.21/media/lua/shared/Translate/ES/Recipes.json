@@ -15,5 +15,6 @@
     "LWMakeCouplingKit": "Fabricar kit de acoplamiento de inversores",
     "LWMakeWindTurbineBlades": "Fabricar palas de aerogenerador",
     "LWMakeWindTurbineMast": "Fabricar mástil de aerogenerador",
-    "LWDismantleVoltageTester": "Desmontar comprobador de tensión"
+    "LWDismantleVoltageTester": "Desmontar comprobador de tensión",
+    "LWMakeInverterCabinet": "Fabricar armario inversor"
 }

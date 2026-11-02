@@ -212,12 +212,24 @@ function Panel:lcdLine(s, y, font, now, reserve)
     self:clearStencilRect()
 end
 
+-- Brand line of the model (inverter cabinet: its own rating), looked up once.
+function Panel:brandKey()
+    if not self.brandChecked then
+        self.brandChecked = true
+        local obj = self.obj or LiveWire.Install.inverterById(self.player:getCurrentSquare(), self.inverterId)
+        local model = obj and LiveWire.Defs.modelOfObject(obj)
+        local def = model and LiveWire.Defs.devices[model]
+        self.brand = def and def.lcdBrand
+    end
+    return self.brand or "IGUI_LW_LCD_Brand"
+end
+
 function Panel:render()
     ISPanel.render(self)
     local snap = self:snapshot()
     local now = getTimestampMs()
     local blink = math.floor(now / 500) % 2 == 0
-    self:drawText(T("IGUI_LW_LCD_Brand"), 14, 10, 0.85, 0.87, 0.9, 1, UIFont.Small)
+    self:drawText(T(self:brandKey()), 14, 10, 0.85, 0.87, 0.9, 1, UIFont.Small)
 
     -- LCD: backlit when the inverter is on, dark otherwise.
     local st = snap and snap.inverter.state

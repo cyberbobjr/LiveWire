@@ -132,6 +132,7 @@ Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscri
 | Source | Éolienne | tuiles 4-7 (mât, nacelle, trois pales) | Dehors (`isOutside()`) ; bonus en hauteur (§ 3.3) ; pose/ramassage niv. 2, fabrication niv. 6 |
 | Source | Roue à aubes | tuiles 8-11 (roue en bois, génératrice) | Dehors, niveau 0, case voisine d'une eau de rivière (§ 3.4) ; pose/ramassage niv. 2, fabrication niv. 7 |
 | **Onduleur** | Onduleur (un seul modèle, D-17) | tuiles 12-15 (armoire grise, écran, voyants) | **N'importe quelle case de sol, intérieure comprise.** Aucun conteneur, pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) ; niv. 5 |
+| **Onduleur** | Armoire onduleur (1.7.0) | tuiles 88-91 (grande armoire électrique de 2 m ; modèle définitif offert par PewPewCricket, licence MIT) ; 4 500 W, 60 W à vide, fabriquée à partir d'un onduleur | Comme l'onduleur ; niv. 6 |
 | **Stockage** | Powerbank (4 batteries de voiture ou stationnaires) | tuiles 16-19 (bac de batteries) ; conteneur de la tuile `livewirepowerbank`, capacité 50 | N'importe quelle case de sol, intérieur compris ; niv. 2 |
 | Équipement | Disjoncteur | tuiles 20-21, objet mural (mur nord, mur ouest) | Sur un mur ; niv. 3 |
 | Équipement | Alarme de batterie faible | tuiles 22-23, objet mural | Sur un mur ; niv. 2 |

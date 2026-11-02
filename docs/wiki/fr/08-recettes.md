@@ -2,7 +2,7 @@
 
 # Recettes
 
-Les 17 recettes Live Wire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
+Les 18 recettes Live Wire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
 
 ![Planche illustrée des recettes Live Wire](../../images/diagrams/recipe_book_fr.png)
 

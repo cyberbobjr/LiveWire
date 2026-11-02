@@ -110,7 +110,7 @@ L'option sandbox **`ConsumptionProfile`** (« Profil de consommation ») fixe la
 
 ### Ce que changent les profils réalistes
 
-La limite de l'onduleur reste **1 500 W** (jusqu'à 6 000 W avec des [onduleurs couplés](06-equipements-optionnels.md)), dans l'ordre de grandeur des onduleurs autonomes des années 90. Avec les profils 1993 :
+La limite de l'onduleur reste **1 500 W** (4 500 W pour l'armoire onduleur ; les [onduleurs couplés](06-equipements-optionnels.md) s'additionnent), dans l'ordre de grandeur des onduleurs autonomes des années 90. Avec les profils 1993 :
 
 - Une cuisinière électrique (2 000 ou 3 000 W) ou un sèche-linge fait disjoncter un onduleur seul. Cuisinez au gaz, au poêle à bois ou au feu de camp, ou couplez des onduleurs. Un disjoncteur protège l'onduleur.
 - Les lumières deviennent la principale charge de nuit : éteignez les pièces vides.

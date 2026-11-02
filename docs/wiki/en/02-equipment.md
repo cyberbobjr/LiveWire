@@ -16,6 +16,7 @@ Every device is a real mod tile, placed like vanilla furniture. Each recipe give
 | Wind turbine | Source, 400 W; the blades turn with the wind | Outdoors; +15 % wind per floor up to the 3rd | 2 |
 | Water wheel | Source, 120 W day and night | Ground floor, next to a river | 2 |
 | Inverter | Heart of the network, 1,500 W | Any floor tile, indoors included | 5 |
+| Inverter cabinet | Heart of the network, 4,500 W, 60 W idle; built from an inverter | Any floor tile, indoors included | 6 |
 | Power bank | Storage, 4 batteries counted; opens like a crate (capacity 50) | Anywhere; picked up only when empty | 2 |
 | Breaker panel | Safety, optional | On a wall (north or west) | 3 |
 | Low battery alarm | Alert, optional | On a wall | 2 |
@@ -50,7 +51,7 @@ or salvaging the lower one.
 
 ## Lights on the tiles
 
-- Inverter screen: lit when on, red light on fault.
+- Inverter and inverter cabinet screen: lit when on, red light on fault.
 - Sources and power bank: green "connected" light.
 - Breaker: green when distribution is powered, red when tripped. A green lamp does not indicate safe electrical isolation.
 - Alarm: beacon lit while ringing.

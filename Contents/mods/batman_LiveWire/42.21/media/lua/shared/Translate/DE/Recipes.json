@@ -15,5 +15,6 @@
     "LWMakeCouplingKit": "Wechselrichter-Kopplungsset herstellen",
     "LWMakeWindTurbineBlades": "Windrad-Rotor bauen",
     "LWMakeWindTurbineMast": "Windradmast bauen",
-    "LWDismantleVoltageTester": "Spannungsprüfer zerlegen"
+    "LWDismantleVoltageTester": "Spannungsprüfer zerlegen",
+    "LWMakeInverterCabinet": "Wechselrichterschrank bauen"
 }

@@ -733,6 +733,38 @@ local function runPumpAndCoupling()
         S.inv2 = nil
         return freed, "coupled=" .. tostring(s.coupled) .. " grid=" .. tostring(s.grid)
     end)
+
+    -- Inverter cabinet (4500 W): placed with the furniture cursor, coupled with an inverter.
+    check("cabinet: furniture placement, 4500 W, lit screen overlay", function()
+        local cab = place("Base.Mov_LiveWire_InverterCabinet", SHEET .. "88", sq2)
+        if not cab then return false, "cabinet not placed" end
+        S.cab = cab
+        local dev = R.device(LiveWire.Marks.get(cab).id)
+        local g = dev and dev.grid and R.grid(dev.grid)
+        local cap = g and LiveWire.Sim.capacityW(g)
+        if dev then
+            dev.state = "on"
+            LiveWire.Devices.syncMark(dev)
+        end
+        LiveWire.Visuals.track(cab)
+        LiveWire.Visuals.apply(cab, getTimestampMs())
+        local lit = hasOverlay(cab, 92)
+        return dev ~= nil and dev.model == "InverterCabinet" and dev.role == "inverter" and cap == 4500 and lit,
+            "model=" .. tostring(dev and dev.model) .. " cap=" .. tostring(cap) .. " lit=" .. tostring(lit)
+    end)
+    check("cabinet: an inverter couples to it, capacity 6000 W", function()
+        if not S.cab then return false, "no cabinet" end
+        S.inv2 = place("Base.Mov_LiveWire_Inverter", SHEET .. "12", sq3)
+        if not S.inv2 then return false, "inverter not placed" end
+        local m = R.device(LiveWire.Marks.get(S.cab).id)
+        local okC = couple(S.inv2, S.cab)
+        local cap = m.grid and R.grid(m.grid) and LiveWire.Sim.capacityW(R.grid(m.grid))
+        local sq = S.inv2:getSquare()
+        standNear(sq)
+        ISMoveableSpriteProps.new(SHEET .. "12"):pickUpMoveable(p, sq, true)
+        S.inv2 = nil
+        return okC and cap == 6000, "action=" .. tostring(okC) .. " cap=" .. tostring(cap)
+    end)
 end
 
 -------------------------------------------------------------------------------
@@ -778,6 +810,22 @@ local function buildSteps()
             refreshVisuals()
         end },
         { wait = 2000, fn = function() shot("lw_02_inverter_bank") end },
+        { wait = 200, fn = function()
+            if not S.cab then return end
+            local csq = S.cab:getSquare()
+            p:setX(csq:getX() - 0.5)
+            p:setY(csq:getY() - 0.5)
+            refreshVisuals()
+        end },
+        { wait = 2000, fn = function() if S.cab then shot("lw_02b_cabinet") end end },
+        { wait = 200, fn = function()
+            -- Pick the cabinet up again: the demand checks below only expect the scene's inverter.
+            if not S.cab then return end
+            local csq = S.cab:getSquare()
+            standNear(csq)
+            ISMoveableSpriteProps.new(SHEET .. "88"):pickUpMoveable(p, csq, true)
+            S.cab = nil
+        end },
         { wait = 200, fn = function()
             debugAction("trip")
             debugAction("battery15")

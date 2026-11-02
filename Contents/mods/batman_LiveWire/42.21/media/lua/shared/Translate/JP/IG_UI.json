@@ -261,5 +261,7 @@
     "IGUI_LW_DeviceSnow": "積雪：%1%%",
     "IGUI_LW_DeviceBraked": "風車ブレーキ作動中",
     "IGUI_LW_DeviceReleased": "風車ブレーキ解除",
-    "IGUI_LW_DeviceWiring": "この機器のインバーターを選択"
+    "IGUI_LW_DeviceWiring": "この機器のインバーターを選択",
+    "IGUI_LW_Model_InverterCabinet": "インバーター盤",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - インバーター盤 4500 W"
 }

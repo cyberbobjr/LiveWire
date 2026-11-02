@@ -46,11 +46,19 @@ def srgb(c):
     return int(round(255 * (12.92 * c if c <= 0.0031308 else 1.055 * c ** (1 / 2.4) - 0.055)))
 
 
+def paints() -> dict:
+    """Recipe paints, then the flat colours of the contributed models (keys "glb_<material>")."""
+    out = {k: v[1] for k, v in T.PAINTS.items()}
+    out.update({f"glb_{k}": v for k, v in T.glb_paints().items()})
+    return out
+
+
 def palette():
-    keys = list(T.PAINTS)
+    colours_lin = paints()
+    keys = list(colours_lin)
     colours = {}
     for k in keys:
-        colours[k] = LIT.get(k) or tuple(srgb(v) for v in T.PAINTS[k][1])
+        colours[k] = LIT.get(k) or tuple(srgb(v) for v in colours_lin[k])
     rows = (len(keys) + COLS - 1) // COLS
     w, h = COLS * CELL, rows * CELL
     px = [[(255, 0, 255)] * w for _ in range(h)]
@@ -138,7 +146,7 @@ def main():
     for obj in list(bpy.data.objects):
         bpy.data.objects.remove(obj, do_unlink=True)
     mats = {}
-    for key in T.PAINTS:
+    for key in paints():
         m = bpy.data.materials.new(f"lw_vp_{key}")
         mats[key] = m
     px, uv = palette()

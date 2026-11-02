@@ -15,7 +15,8 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 MEDIA = ROOT / 'Contents/mods/batman_LiveWire'
 SPRITES = {'SolarPanel': 0, 'WaterWheel': 8, 'Inverter': 12, 'PowerBank': 16,
-           'Breaker': 20, 'BatteryAlarm': 22, 'WaterPump': 72}
+           'Breaker': 20, 'BatteryAlarm': 22, 'WaterPump': 72,
+           'InverterCabinet': 88}
 
 
 def main():

@@ -14,5 +14,6 @@
     "Base.Mov_LiveWire_WaterPump": "Bomba de agua",
     "LiveWire.CouplingKit": "Kit de acoplamiento de inversores",
     "LiveWire.WindTurbineBlades": "Juego de palas de aerogenerador",
-    "LiveWire.WindTurbineMast": "Mástil de aerogenerador"
+    "LiveWire.WindTurbineMast": "Mástil de aerogenerador",
+    "Base.Mov_LiveWire_InverterCabinet": "Armario inversor"
 }

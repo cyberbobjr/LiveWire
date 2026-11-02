@@ -261,5 +261,7 @@
     "IGUI_LW_DeviceSnow": "积雪覆盖：%1%%",
     "IGUI_LW_DeviceBraked": "风机制动已启用",
     "IGUI_LW_DeviceReleased": "风机制动已释放",
-    "IGUI_LW_DeviceWiring": "为此设备选择逆变器"
+    "IGUI_LW_DeviceWiring": "为此设备选择逆变器",
+    "IGUI_LW_Model_InverterCabinet": "逆变器柜",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - 逆变器柜 4500 W"
 }

@@ -40,7 +40,7 @@ La bomba (Electricidad 6) abastece sanitarios conectados a 15 casillas desde has
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_es.png[/img]
 
-17 recetas ilustradas. Desbloqueo automático en Electricidad; palas y mástil en Metalurgia sin nivel eléctrico. Montaje del aerogenerador al 6, fabricación de la rueda al 7, ambos con dos amplificadores. Colocar/recoger ambos al 2. Desmonta un comprobador para recuperar chatarra electrónica. Todas dan XP de Electricidad. Más lugares de botín; multiplicador 5 por defecto (1–20), solo tiradas futuras tras reiniciar.
+18 recetas ilustradas. Desbloqueo automático en Electricidad; palas y mástil en Metalurgia sin nivel eléctrico. Montaje del aerogenerador al 6, fabricación de la rueda al 7, ambos con dos amplificadores. Colocar/recoger ambos al 2. Desmonta un comprobador para recuperar chatarra electrónica. Todas dan XP de Electricidad. Más lugares de botín; multiplicador 5 por defecto (1–20), solo tiradas futuras tras reiniciar.
 
 [h2]Software de gestión[/h2]
 
@@ -82,4 +82,4 @@ Soy desarrollador desde hace años y creaba mods mucho antes de que existieran l
 
 [h2]Créditos[/h2]
 
-Creado por batmanfr. Código original, tiles y sonidos; no se ha tomado contenido de otros mods.
+Creado por batmanfr. Modelo del armario inversor: PewPewCricket. Código original, tiles y sonidos; no se ha tomado contenido de otros mods.

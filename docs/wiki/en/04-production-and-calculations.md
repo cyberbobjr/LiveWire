@@ -117,7 +117,7 @@ The sandbox option **`ConsumptionProfile`** sets how much power each switched-on
 
 ### What the realistic profiles change
 
-The inverter limit stays **1,500 W** (up to 6,000 W with [coupled inverters](06-optional-equipment.md)), in line with the off-grid inverters of the 1990s. In the 1993 profiles:
+The inverter limit stays **1,500 W** (4,500 W for the inverter cabinet; [coupled inverters](06-optional-equipment.md) add up), in line with the off-grid inverters of the 1990s. In the 1993 profiles:
 
 - An electric cooker (2,000 or 3,000 W) or a dryer trips a single inverter: cook on gas, a wood stove or a campfire, or couple inverters. A breaker panel protects the inverter.
 - Lights become the main night load: switch off empty rooms.

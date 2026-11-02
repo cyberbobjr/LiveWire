@@ -17,6 +17,13 @@ Added in 1.2.0:
   80-83   water pump serving taps: blue light   S E N W
   84-85   breaker supplied: green lamp          S E (previously reserved blank)
 
+Added in 1.7.0 (model contributed by PewPewCricket, MIT, see the credits in README.md;
+source/tiles/models/oso_inverter.glb):
+  88-91   inverter cabinet     S E N W   (4500 W inverter, made from an inverter)
+  92-95   inverter cabinet running: lit screen and green light   (overlay) S E N W
+  96-99   inverter cabinet fault: red light                      (overlay) S E N W
+  100-103 inverter cabinet soundproofed: acoustic foam panels    (overlay) S E N W
+
 Overlays (attachedAnimSprite, set by the client, LW_Visuals.lua; no properties):
   24-27   inverter running: lit screen and green light   S E N W
   28-31   inverter fault: red light                      S E N W
@@ -38,6 +45,8 @@ Needs pz-sprite-forge (MIT, https://github.com/Leeheejin/pz-sprite-forge).
        python source/tiles/build_livewire_tiles.py package <cells-dir> <project-root> [--no-preview]
    -> Contents/mods/batman_LiveWire/common/media/texturepacks/batman_livewire_01.pack
       Contents/mods/batman_LiveWire/common/media/batman_livewire_01.tiles
+   To add the inverter cabinet cells and keep every existing pixel, use
+   equipment_models.py and install_equipment_models.py instead (see their headers).
 3. Depth map (skill pz-blender-assets, scripts/build_depthmap.py):
        blender -b --factory-startup -P <skill>/scripts/build_depthmap.py -- source/tiles/build_livewire_tiles.py depth.json
        python <skill>/scripts/build_depthmap.py depth.json <mod>/common/media/texturepacks/batman_livewire_01.pack
@@ -48,6 +57,7 @@ from __future__ import annotations
 import json
 import math
 import os
+import struct
 import sys
 from pathlib import Path
 
@@ -402,6 +412,122 @@ def build_powerbank_led(k: Kit):
     return [k.box("bank_led_on", (0.32, -0.52 / 2 - 0.0095, 0.42 - 0.10), (0.08, 0.003, 0.08), "greenlit")]
 
 
+#: Contributed models (glTF, metres, Y up, front towards +Z = Blender -Y), see the
+#: credits in README.md. Their flat colours are kept as paints.
+MODELS = Path(__file__).resolve().parent / "models"
+#: Lights of the contributed models are drawn unlit on the base tiles; the
+#: overlays add the lit parts.
+GLB_UNLIT = {
+    "iso_3c6c8a_emit": (0.02, 0.035, 0.05),    # cabinet screen
+    "iso_6ea0b9_emit": (0.02, 0.035, 0.05),    # cabinet screen text
+    "iso_cd372d_emit": (0.117, 0.127, 0.122),  # cabinet red light
+    "iso_e8ac28_emit": (0.117, 0.127, 0.122),  # cabinet orange light
+    "iso_46b95a_emit": (0.117, 0.127, 0.122),  # cabinet green light
+}
+#: Contributed models in use (the breaker panels are kept for later).
+GLB_USED = ("oso_inverter.glb",)
+
+
+def glb_paints() -> dict:
+    """Paint (linear RGB) of every material of the models in use, lights unlit.
+    Plain Python (reads the glTF JSON chunk): also used by the Viewpoint export."""
+    paints = {}
+    for filename in GLB_USED:
+        data = (MODELS / filename).read_bytes()
+        size = struct.unpack_from("<I", data, 12)[0]
+        for mat in json.loads(data[20:20 + size])["materials"]:
+            name = mat["name"]
+            paints[name] = GLB_UNLIT.get(name) or tuple(mat["pbrMetallicRoughness"]["baseColorFactor"][:3])
+    return paints
+
+
+def glb_material(name: str, paint):
+    mat = bpy.data.materials.get(f"batman_lw_glb_{name}")
+    if mat is None:
+        # Steel class shading without its hue correction: keep the model's colours.
+        mat = F.forge_material(f"batman_lw_glb_{name}", "metal", tuple(paint), hue=lambda p: p)
+    return mat
+
+
+def import_glb(k: Kit, filename: str) -> list:
+    """Import a contributed model under the anchor, its materials turned into forge paints
+    (or, for the Viewpoint export, into its palette materials keyed "glb_<name>")."""
+    paints = glb_paints()
+    before = set(bpy.data.objects)
+    old_mats = set(bpy.data.materials)
+    bpy.ops.import_scene.gltf(filepath=str(MODELS / filename))
+    new = [obj for obj in bpy.data.objects if obj not in before]
+    for obj in new:
+        if obj.parent is None:
+            obj.parent = k.anchor
+        if obj.type == "MESH":
+            for slot in obj.material_slots:
+                name = slot.material.name
+                slot.material = k.mats.get(f"glb_{name}") or glb_material(name, paints[name])
+    for mat in set(bpy.data.materials) - old_mats:
+        if mat.users == 0:
+            bpy.data.materials.remove(mat)
+    return new
+
+
+#: Inverter cabinet (oso_inverter.glb): 0.90 x 0.74 x 2.00 m, front face at y = -0.374.
+CAB_FRONT = -0.374
+CAB_SCREEN = (-0.216, 1.61, 0.150, 0.126)   # x, z, width, height
+CAB_RED, CAB_GREEN = (-0.081, 1.670), (-0.081, 1.562)
+CAB_LED = 0.03
+
+
+def build_cabinet(k: Kit):
+    """Large 4500 W inverter: full-height cabinet with a screen, three status lights,
+    switches and vents on the front."""
+    import_glb(k, "oso_inverter.glb")
+
+
+def build_cabinet_on(k: Kit):
+    build_cabinet(k)
+    mark_holdout(k.anchor)
+    x, z, w, h = CAB_SCREEN
+    screen = k.box("cab_screen_on", (x, CAB_FRONT - 0.006, z), (w, 0.003, h), "screenlit")
+    gx, gz = CAB_GREEN
+    led = k.box("cab_led_green_on", (gx, CAB_FRONT - 0.006, gz), (CAB_LED, 0.003, CAB_LED), "greenlit")
+    return [screen, led]
+
+
+def build_cabinet_fault(k: Kit):
+    build_cabinet(k)
+    mark_holdout(k.anchor)
+    rx, rz = CAB_RED
+    return [k.box("cab_led_red_on", (rx, CAB_FRONT - 0.006, rz), (CAB_LED, 0.003, CAB_LED), "redlit")]
+
+
+def build_cabinet_muffle(k: Kit):
+    """Soundproofing kit on the cabinet: ribbed acoustic foam panels on the top, sides
+    and back; the front (screen, lights, switches) stays uncovered."""
+    build_cabinet(k)
+    mark_holdout(k.anchor)
+    hw, hd, h = 0.455, 0.376, 2.006
+    t = 0.03
+    parts = []
+    zc, hh = 1.0, 1.84
+    for sx in (-1, 1):
+        x = sx * (hw + t / 2)
+        parts.append(k.box(f"cmuf_side_{sx}", (x, 0.01, zc), (t, 2 * hd - 0.04, hh), "foam"))
+        for r in range(11):
+            parts.append(k.box(f"cmuf_side_{sx}_rib_{r}", (x + sx * t / 2, 0.01, 0.18 + r * 0.164),
+                               (0.016, 2 * hd - 0.10, 0.05), "foamridge"))
+    yb = hd + t / 2
+    parts.append(k.box("cmuf_back", (0, yb, zc), (2 * hw + 2 * t, t, hh), "foam"))
+    for r in range(11):
+        parts.append(k.box(f"cmuf_back_rib_{r}", (0, yb + t / 2, 0.18 + r * 0.164), (2 * hw, 0.016, 0.05),
+                           "foamridge"))
+    zt = h + t / 2
+    parts.append(k.box("cmuf_top", (0, 0.03, zt), (2 * hw + 2 * t, 2 * hd - 0.02, t), "foam"))
+    for r in range(6):
+        parts.append(k.box(f"cmuf_top_rib_{r}", (-0.35 + r * 0.14, 0.03, zt + t / 2),
+                           (0.05, 2 * hd - 0.08, 0.016), "foamridge"))
+    return parts
+
+
 BRK_W, BRK_D, BRK_H, BRK_Z = 0.30, 0.08, 0.40, 1.40
 
 
@@ -482,6 +608,7 @@ GROUPS = [
     ("breaker", [20, 21], build_breaker),
     ("alarm", [22, 23], build_alarm),
     ("pump", [72, 73, 74, 75], build_pump),
+    ("cabinet", [88, 89, 90, 91], build_cabinet),
 ]
 
 # Overlays drawn over a base tile (base rendered as a holdout).
@@ -498,6 +625,9 @@ OVERLAYS = [
     ("inverter_muffle", [68, 69, 70, 71], build_inverter_muffle),
     ("pump_led", [80, 81, 82, 83], build_pump_led),
     ("breaker_on", [84, 85], build_breaker_on),
+    ("cabinet_on", [92, 93, 94, 95], build_cabinet_on),
+    ("cabinet_fault", [96, 97, 98, 99], build_cabinet_fault),
+    ("cabinet_muffle", [100, 101, 102, 103], build_cabinet_muffle),
 ]
 ALL_GROUPS = GROUPS + OVERLAYS
 OVERLAY_KEYS = {key for key, _, _ in OVERLAYS}
@@ -527,7 +657,7 @@ def build(subject, mats) -> None:
     k = Kit(subject, mats)
     spots = {"solar": (-2.2, -0.6), "wind": (-1.1, 0.4), "hydro": (0.0, -0.8), "inverter": (1.1, 0.4),
              "powerbank": (2.2, -0.4), "breaker": (0.5, 1.0), "alarm": (1.6, 1.0),
-             "pump": (2.8, 0.6)}
+             "pump": (2.8, 0.6), "cabinet": (3.9, 0.4)}
     for key, _, fn in GROUPS:
         x, y = spots[key]
         if key == "wind":
@@ -630,9 +760,11 @@ PROPS = [
                      "PickUpWeight": "10", "PickUpLevel": "2", **_TOOLS}),
     (range(72, 76), {"CustomName": "Water Pump", "solidtrans": "", "BlocksPlacement": "",
                      "Material": "MetalPlates", "PickUpWeight": "80", "PickUpLevel": "6", **_TOOLS}),
+    (range(88, 92), {"CustomName": "Inverter Cabinet", "solidtrans": "", "BlocksPlacement": "",
+                     "Material": "MetalPlates", "PickUpWeight": "200", "PickUpLevel": "6", **_TOOLS}),
 ]
 FACING_NAMES = ["S", "E", "N", "W"]
-TOTAL = 88
+TOTAL = 104
 
 
 def styled_cells(group_dir: Path, work: Path, overlay: bool = False) -> list:
@@ -662,7 +794,7 @@ GLOW = {
     "inverter_on": (120, 255, 150), "inverter_fault": (255, 50, 30), "powerbank_led": (60, 255, 60),
     "solar_led": (60, 255, 60), "wind_led": (60, 255, 60), "hydro_led": (60, 255, 60),
     "breaker_trip": (255, 40, 20), "breaker_on": (60, 255, 60), "alarm_ring": (255, 50, 25),
-    "pump_led": (60, 140, 255),
+    "pump_led": (60, 140, 255), "cabinet_on": (120, 255, 150), "cabinet_fault": (255, 50, 30),
 }
 
 

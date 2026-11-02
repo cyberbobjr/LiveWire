@@ -2,7 +2,7 @@
 
 # Recipes
 
-The 17 Live Wire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
+The 18 Live Wire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
 
 ![Illustrated recipe board](../../images/diagrams/recipe_book_en.png)
 

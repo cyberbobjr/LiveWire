@@ -14,5 +14,6 @@
     "Base.Mov_LiveWire_WaterPump": "Water Pump",
     "LiveWire.CouplingKit": "Inverter Coupling Kit",
     "LiveWire.WindTurbineBlades": "Wind Turbine Blade Set",
-    "LiveWire.WindTurbineMast": "Wind Turbine Mast"
+    "LiveWire.WindTurbineMast": "Wind Turbine Mast",
+    "Base.Mov_LiveWire_InverterCabinet": "Inverter Cabinet"
 }

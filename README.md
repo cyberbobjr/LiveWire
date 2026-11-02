@@ -78,6 +78,7 @@ Placement rules added by the mod: outdoors (open sky) for the solar panel and wi
 | Wind turbine | Source, 400 W; blades turn with the wind | Outdoors; +15 % wind per floor up to the 3rd | 2 |
 | Water wheel | Source, 120 W day and night | Ground floor, next to a river | 2 |
 | Inverter | Heart of the network, 1,500 W | Any floor tile, indoors included | 5 |
+| Inverter cabinet | Heart of the network, 4,500 W; built from an inverter | Any floor tile, indoors included | 6 |
 | Power bank | Storage, 4 batteries counted; opens like a crate (capacity 50) | Anywhere; picked up only when empty | 2 |
 | Breaker panel | Safety, optional | On a wall (north or west) | 3 |
 | Low battery alarm | Alert, optional | On a wall | 2 |
@@ -401,7 +402,7 @@ There is no limit on the number of solar panels; productions add up (100 W nomin
 
 ## Recipes
 
-The 17 Live Wire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
+The 18 Live Wire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
 
 ![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png)
 
@@ -577,7 +578,7 @@ Also: 1 solar cell per calculator dismantled (no level); at level 8, a solar cel
 | Solar panel | −1 per 10 days | Thunderstorm, only if sandbox `StormDamage` (off by default) |
 | Wind turbine | −1 per 4 days | Wind > 85 km/h with `StormDamage` |
 | Water wheel | −1 per 6 days | none |
-| Inverter | −1 per 5 days while on | Load > 80 %: wear × 2; each trip without breaker: −3; soundproofed: × 1.25 |
+| Inverter, inverter cabinet | −1 per 5 days while on | Load > 80 %: wear × 2; each trip without breaker: −3; soundproofed: × 1.25 |
 | Breaker | −1 per 15 days | none |
 | Water pump | −1 per 10 days while pumping | none |
 | Power bank, alarm | −1 per 30 days | none |
@@ -600,7 +601,7 @@ Also: 1 solar cell per calculator dismantled (no level); at level 8, a solar cel
 | 3 | Solar panels, breaker, backup generator | Installation efficiency 0.85 |
 | 4 | Recondition a battery | Autonomy reading |
 | 5 | Inverter | none |
-| 6 | Wind turbine assembly, deep-cycle battery, management computer | Battery wear −10 % |
+| 6 | Inverter cabinet, wind turbine assembly, deep-cycle battery, management computer | Battery wear −10 % |
 | 7 | Water wheel crafting, load shedding | Installation efficiency 0.95 |
 | 8 | Solar cells from scrap, overhaul | Repair failure halved |
 | 9-10 | none | Installation efficiency 1.0; device wear −25 % |
@@ -674,6 +675,8 @@ The Workshop item also contains the optional mod **Live Wire - Viewpoint models*
 ### Licence and credits
 
 MIT licence (see [LICENSE](LICENSE)). Original creation: no code or asset from other mods.
+
+The inverter cabinet model was contributed by PewPewCricket, who agreed to its release under the MIT licence.
 
 ## For developers
 

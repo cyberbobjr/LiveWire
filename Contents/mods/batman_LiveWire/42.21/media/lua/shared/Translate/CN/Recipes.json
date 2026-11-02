@@ -15,5 +15,6 @@
     "LWMakeCouplingKit": "制作逆变器并联套件",
     "LWMakeWindTurbineBlades": "制作风力涡轮机叶片",
     "LWMakeWindTurbineMast": "制作风力涡轮机塔架",
-    "LWDismantleVoltageTester": "拆解电压测试仪"
+    "LWDismantleVoltageTester": "拆解电压测试仪",
+    "LWMakeInverterCabinet": "制作逆变器柜"
 }

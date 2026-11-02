@@ -40,7 +40,7 @@ A water pump (Electrical 6) supplies plumbed fixtures within 15 tiles from up to
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
 
-17 recipes, illustrated below. Electrical recipes unlock automatically; blades and masts are in Metalworking with no Electrical gate. Assemble a turbine at level 6; craft a water wheel at 7, both using two amplifiers. Place/pick up either at 2. Dismantle a voltage tester for scrap. Every recipe grants Electrical XP. Broader equipment/parts loot; sandbox multiplier 5 by default (1–20), future rolls only after restart.
+18 recipes, illustrated below. Electrical recipes unlock automatically; blades and masts are in Metalworking with no Electrical gate. Assemble a turbine at level 6; craft a water wheel at 7, both using two amplifiers. Place/pick up either at 2. Dismantle a voltage tester for scrap. Every recipe grants Electrical XP. Broader equipment/parts loot; sandbox multiplier 5 by default (1–20), future rolls only after restart.
 
 [h2]Management software[/h2]
 
@@ -82,4 +82,4 @@ Enjoying the mod? A coffee helps fund new features and translations.
 
 [h2]Credits[/h2]
 
-Created by batmanfr. Original code, tiles and sounds; no content taken from other mods.
+Created by batmanfr. Inverter cabinet model by PewPewCricket. Original code, tiles and sounds; no content taken from other mods.

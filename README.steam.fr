@@ -40,7 +40,7 @@ La pompe (Électricité 6) alimente les sanitaires raccordés à 15 cases depuis
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png[/img]
 
-17 recettes illustrées ci-dessous. Déblocage automatique en Électricité ; pales et mât en Métallerie, sans niveau électrique requis. Assemblage de l'éolienne au niveau 6, fabrication de la roue à 7, avec deux amplificateurs chacune. Pose/ramassage des deux au niveau 2. Le testeur se démonte en déchet électronique. Toutes les recettes donnent de l'XP électrique. Butin élargi : multiplicateur sandbox 5 par défaut (1–20), prochains tirages après redémarrage.
+18 recettes illustrées ci-dessous. Déblocage automatique en Électricité ; pales et mât en Métallerie, sans niveau électrique requis. Assemblage de l'éolienne au niveau 6, fabrication de la roue à 7, avec deux amplificateurs chacune. Pose/ramassage des deux au niveau 2. Le testeur se démonte en déchet électronique. Toutes les recettes donnent de l'XP électrique. Butin élargi : multiplicateur sandbox 5 par défaut (1–20), prochains tirages après redémarrage.
 
 [h2]Logiciel de gestion[/h2]
 
@@ -82,4 +82,4 @@ Vous aimez le mod ? Un café aide à financer de nouvelles fonctions et des trad
 
 [h2]Crédits[/h2]
 
-Créé par batmanfr. Code, tuiles et sons originaux ; aucun contenu repris d'autres mods.
+Créé par batmanfr. Modèle de l'armoire onduleur : PewPewCricket. Code, tuiles et sons originaux ; aucun contenu repris d'autres mods.

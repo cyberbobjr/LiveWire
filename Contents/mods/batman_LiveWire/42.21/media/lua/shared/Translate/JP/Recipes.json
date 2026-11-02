@@ -15,5 +15,6 @@
     "LWMakeCouplingKit": "インバーター連結キットを作る",
     "LWMakeWindTurbineBlades": "風車ブレードを製作",
     "LWMakeWindTurbineMast": "風車マストを製作",
-    "LWDismantleVoltageTester": "電圧テスターを分解"
+    "LWDismantleVoltageTester": "電圧テスターを分解",
+    "LWMakeInverterCabinet": "インバーター盤を作る"
 }

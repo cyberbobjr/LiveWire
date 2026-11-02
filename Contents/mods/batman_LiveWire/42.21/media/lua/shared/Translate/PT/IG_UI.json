@@ -261,5 +261,7 @@
     "IGUI_LW_DeviceSnow": "Cobertura de neve: %1%%",
     "IGUI_LW_DeviceBraked": "Travão eólico aplicado",
     "IGUI_LW_DeviceReleased": "Travão eólico solto",
-    "IGUI_LW_DeviceWiring": "Escolha o inversor para este equipamento"
+    "IGUI_LW_DeviceWiring": "Escolha o inversor para este equipamento",
+    "IGUI_LW_Model_InverterCabinet": "Armário inversor",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - ARMÁRIO INVERSOR 4500 W"
 }

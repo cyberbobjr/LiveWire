@@ -9,7 +9,7 @@
 | Panneau photovoltaïque | −1 tous les 10 jours | Orage, seulement avec l'option StormDamage (désactivée par défaut) |
 | Éolienne | −1 tous les 4 jours | Vent > 85 km/h avec StormDamage |
 | Roue à aubes | −1 tous les 6 jours | aucun |
-| Onduleur | −1 tous les 5 jours en marche | Charge > 80 % : usure × 2 ; chaque disjonction sans disjoncteur : −3 ; insonorisé : × 1,25 |
+| Onduleur, armoire onduleur | −1 tous les 5 jours en marche | Charge > 80 % : usure × 2 ; chaque disjonction sans disjoncteur : −3 ; insonorisé : × 1,25 |
 | Disjoncteur | −1 tous les 15 jours | aucun |
 | Powerbank, alarme | −1 tous les 30 jours | aucun |
 | Batterie | 100 / durée de vie en cycles par cycle complet | Décharge sous 20 % : usure doublée ; autodécharge 0,2 % par jour |
@@ -43,7 +43,7 @@
 | 3 | Panneaux photovoltaïques, disjoncteur, générateur de secours | Rendement de pose 0,85 |
 | 4 | Reconditionner une batterie | Lecture de l'autonomie |
 | 5 | Onduleur | aucun |
-| 6 | Assemblage de l’éolienne, batterie stationnaire, ordinateur de gestion | Usure des batteries −10 % |
+| 6 | Armoire onduleur, assemblage de l’éolienne, batterie stationnaire, ordinateur de gestion | Usure des batteries −10 % |
 | 7 | Fabrication de la roue à aubes, délestage | Rendement de pose 0,95 |
 | 8 | Cellules à partir de déchets, remise à neuf | Échec de réparation divisé par deux |
 | 9-10 | aucun | Rendement de pose 1,0 ; usure des appareils −25 % |

@@ -14,5 +14,6 @@
     "Base.Mov_LiveWire_WaterPump": "Bomba de água",
     "LiveWire.CouplingKit": "Kit de acoplamento de inversores",
     "LiveWire.WindTurbineBlades": "Conjunto de pás eólicas",
-    "LiveWire.WindTurbineMast": "Mastro de turbina eólica"
+    "LiveWire.WindTurbineMast": "Mastro de turbina eólica",
+    "Base.Mov_LiveWire_InverterCabinet": "Gabinete Inversor"
 }

@@ -15,5 +15,6 @@
     "LWMakeCouplingKit": "Fabriquer un kit de couplage d'onduleurs",
     "LWDismantleVoltageTester": "Démonter un testeur de tension",
     "LWMakeWindTurbineBlades": "Fabriquer un jeu de pales d’éolienne",
-    "LWMakeWindTurbineMast": "Fabriquer un mât d’éolienne"
+    "LWMakeWindTurbineMast": "Fabriquer un mât d’éolienne",
+    "LWMakeInverterCabinet": "Fabriquer une armoire onduleur"
 }

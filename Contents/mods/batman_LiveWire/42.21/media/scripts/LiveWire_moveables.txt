@@ -45,6 +45,16 @@ module Base
         WorldObjectSprite = batman_livewire_01_12,
     }
 
+    /* Large inverter (4500 W), built from an inverter; model contributed by PewPewCricket. */
+    item Mov_LiveWire_InverterCabinet
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LiveWireInverterCabinet,
+        Weight = 0.5,
+        WorldObjectSprite = batman_livewire_01_88,
+    }
+
     item Mov_LiveWire_PowerBank
     {
         DisplayCategory = Furniture,

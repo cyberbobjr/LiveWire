@@ -152,29 +152,38 @@ function Sim.inService(grid)
     return n, list
 end
 
--- Capacity of a grid in W: maxW of the model x number of inverters in service
--- (at least the master's maxW, so that a lone inverter behaves exactly as before).
+local function deviceDef(dev)
+    return dev and Defs.devices[dev.model] or {}
+end
+
+-- Capacity of a grid in W: sum of the maxW of each inverter in service, by its own
+-- model (an inverter and an inverter cabinet can be coupled). At least the master's
+-- maxW, so that a lone inverter behaves exactly as before.
 function Sim.capacityW(grid)
     local R = LiveWire.Registry
     local inv = R.device(grid.inverter)
-    local def = inv and Defs.devices[inv.model] or {}
-    local n = Sim.inService(grid)
-    if n < 1 then n = 1 end
-    return (def.maxW or 0) * n
+    local n, list = Sim.inService(grid)
+    local cap = 0
+    if n > #list then cap = deviceDef(inv).maxW or 0 end   -- the master is in service
+    for i = 1, #list do
+        cap = cap + (deviceDef(list[i]).maxW or 0)
+    end
+    if cap <= 0 then cap = deviceDef(inv).maxW or 0 end
+    return cap
 end
 
--- Idle consumption: idleW x number of switched-on inverters (master counts when on).
+-- Idle consumption: sum of the idleW of each switched-on inverter, by its own model
+-- (master counts when on).
 function Sim.idleW(grid)
     local R = LiveWire.Registry
     local inv = R.device(grid.inverter)
-    local def = inv and Defs.devices[inv.model] or {}
-    local n = 0
-    if inv and inv.state == "on" then n = 1 end
+    local w = 0
+    if inv and inv.state == "on" then w = deviceDef(inv).idleW or 0 end
     local slaves = R.slaves(grid)
     for i = 1, #slaves do
-        if slaves[i].state == "on" then n = n + 1 end
+        if slaves[i].state == "on" then w = w + (deviceDef(slaves[i]).idleW or 0) end
     end
-    return (def.idleW or 0) * n
+    return w
 end
 
 -- Public snapshot of a grid (primitive values only).

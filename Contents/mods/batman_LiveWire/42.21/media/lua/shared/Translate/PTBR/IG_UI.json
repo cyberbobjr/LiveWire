@@ -261,5 +261,7 @@
     "IGUI_LW_DeviceSnow": "Cobertura de neve: %1%%",
     "IGUI_LW_DeviceBraked": "Freio eólico acionado",
     "IGUI_LW_DeviceReleased": "Freio eólico liberado",
-    "IGUI_LW_DeviceWiring": "Escolha o inversor para este equipamento"
+    "IGUI_LW_DeviceWiring": "Escolha o inversor para este equipamento",
+    "IGUI_LW_Model_InverterCabinet": "Gabinete inversor",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - GABINETE INVERSOR 4500 W"
 }

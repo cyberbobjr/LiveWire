@@ -261,5 +261,7 @@
     "IGUI_LW_DeviceSnow": "Снежный покров: %1%%",
     "IGUI_LW_DeviceBraked": "Тормоз ветряка включён",
     "IGUI_LW_DeviceReleased": "Тормоз ветряка отпущен",
-    "IGUI_LW_DeviceWiring": "Выберите инвертор для этого устройства"
+    "IGUI_LW_DeviceWiring": "Выберите инвертор для этого устройства",
+    "IGUI_LW_Model_InverterCabinet": "Инверторный шкаф",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - ИНВЕРТОРНЫЙ ШКАФ 4500 W"
 }

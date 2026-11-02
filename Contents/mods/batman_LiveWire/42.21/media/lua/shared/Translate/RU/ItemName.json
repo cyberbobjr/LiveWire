@@ -14,5 +14,6 @@
     "Base.Mov_LiveWire_WaterPump": "Водяной насос",
     "LiveWire.CouplingKit": "Комплект сцепки инверторов",
     "LiveWire.WindTurbineBlades": "Комплект лопастей ветряка",
-    "LiveWire.WindTurbineMast": "Мачта ветряка"
+    "LiveWire.WindTurbineMast": "Мачта ветряка",
+    "Base.Mov_LiveWire_InverterCabinet": "Инверторный шкаф"
 }

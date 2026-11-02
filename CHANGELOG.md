@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### New features
+- New **inverter cabinet**: a full-height 4,500 W inverter (60 W idle) built from an ordinary inverter at Electrical level 6 (recipe "Build Inverter Cabinet"). It works like the inverter (screen, running and fault lights, soundproofing, wear) and can be coupled with inverters or other cabinets; the network capacity is the sum of the inverters in service. Model contributed by PewPewCricket.
+
 ### Fixes
 - Fixed water poured into a barrel linked to a water pump seeming to disappear while the pump showed 0 L/h. The pump only filled its hidden tanks for every sink, shower and toilet in range, plumbed or not, including the neighbours' houses. It now only supplies the fixtures you have plumbed with a pipe wrench, and a newly plumbed fixture gets water within a game minute.
 

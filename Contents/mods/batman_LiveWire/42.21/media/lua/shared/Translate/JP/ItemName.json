@@ -14,5 +14,6 @@
     "Base.Mov_LiveWire_WaterPump": "水ポンプ",
     "LiveWire.CouplingKit": "インバーター連結キット",
     "LiveWire.WindTurbineBlades": "風車ブレード一式",
-    "LiveWire.WindTurbineMast": "風車マスト"
+    "LiveWire.WindTurbineMast": "風車マスト",
+    "Base.Mov_LiveWire_InverterCabinet": "インバーター盤"
 }

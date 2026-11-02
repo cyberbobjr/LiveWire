@@ -11,7 +11,7 @@ Devices wear out over time, which lowers their output (see the condition factor 
 | Solar panel | -1 per 10 days | Thunderstorm, only if sandbox `StormDamage` (off by default) |
 | Wind turbine | -1 per 4 days | Wind above 85 km/h with `StormDamage` |
 | Water wheel | -1 per 6 days | none |
-| Inverter | -1 per 5 days while on | Load above 80 %: wear x 2; each trip without breaker: -3; soundproofed: x 1.25 |
+| Inverter, inverter cabinet | -1 per 5 days while on | Load above 80 %: wear x 2; each trip without breaker: -3; soundproofed: x 1.25 |
 | Breaker | -1 per 15 days | none |
 | Power bank, alarm | -1 per 30 days | none |
 | Battery | 100 / life cycles per full cycle | Discharge below 20 %: wear doubled; self-discharge 0.2 % per day |
@@ -43,7 +43,7 @@ The Voltage Tester (`LiveWire.VoltageTester`): right-click a tile, then **Live W
 | 3 | Solar panels, breaker, backup generator | Installation efficiency 0.85 |
 | 4 | Recondition a battery | Autonomy reading |
 | 5 | Inverter | none |
-| 6 | Wind turbine assembly, deep-cycle battery, management computer | Battery wear -10 % |
+| 6 | Inverter cabinet, wind turbine assembly, deep-cycle battery, management computer | Battery wear -10 % |
 | 7 | Water wheel crafting, load shedding | Installation efficiency 0.95 |
 | 8 | Solar cells from scrap, overhaul | Repair failure halved |
 | 9-10 | none | Installation efficiency 1.0; device wear -25 % |

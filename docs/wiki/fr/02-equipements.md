@@ -14,6 +14,7 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 | Éolienne | Source, 400 W ; les pales tournent avec le vent | Dehors ; +15 % de vent par étage jusqu'au 3e | 2 |
 | Roue à aubes | Source, 120 W jour et nuit | Rez-de-chaussée, au bord d'une rivière | 2 |
 | Onduleur | Cœur du réseau, 1 500 W | Toute case de sol, intérieur compris | 5 |
+| Armoire onduleur | Cœur du réseau, 4 500 W, 60 W à vide ; fabriquée à partir d'un onduleur | Toute case de sol, intérieur compris | 6 |
 | Powerbank | Stockage, 4 batteries comptées ; s'ouvre comme une caisse (capacité 50) | Partout ; ramassée seulement vide | 2 |
 | Disjoncteur | Sécurité, facultatif | Sur un mur (nord ou ouest) | 3 |
 | Alarme de batterie faible | Alerte, facultatif | Sur un mur | 2 |
@@ -28,7 +29,7 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 
 ## Voyants
 
-- Onduleur : écran allumé en marche, voyant rouge en cas de défaut.
+- Onduleur et armoire onduleur : écran allumé en marche, voyant rouge en cas de défaut.
 - Sources et powerbank : voyant vert « connecté ».
 - Disjoncteur : lampe rouge quand il a sauté.
 - Alarme : gyrophare allumé pendant la sonnerie.

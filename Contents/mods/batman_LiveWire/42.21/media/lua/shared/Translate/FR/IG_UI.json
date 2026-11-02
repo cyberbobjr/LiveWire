@@ -259,6 +259,8 @@
     "IGUI_LW_Facing_1": "Est",
     "IGUI_LW_Facing_2": "Nord",
     "IGUI_LW_Facing_3": "Ouest",
+    "IGUI_LW_Model_InverterCabinet": "Armoire onduleur",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - ARMOIRE ONDULEUR 4500 W",
     "IGUI_LW_App_Tab_Consumers_Short": "Consommateurs",
     "IGUI_LW_App_Tab_Forecast_Short": "Prévisions",
     "IGUI_LW_App_Tab_Events_Short": "Événements"

@@ -482,6 +482,26 @@ def scenario_slave_capacity():
     check(lua.eval("LiveWire.Sim.idleW(GRID)") == 20, "slave off: idle 20 W")
 
 
+def scenario_cabinet_capacity():
+    """An inverter cabinet (4500 W, idle 60 W) counts with its own figures, alone, as a
+    slave of an inverter and as a master with an inverter slave."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 0; DEMAND = 0; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute(SLAVE_SETUP)
+    lua.execute("SLAVE.model = 'InverterCabinet'")
+    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 6000, "inverter + cabinet slave: capacity 6000 W")
+    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 80, "inverter + cabinet slave: idle 80 W")
+    lua.execute("SLAVE.model = 'Inverter'; INV.model = 'InverterCabinet'")
+    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 6000, "cabinet + inverter slave: capacity 6000 W")
+    lua.execute("SLAVE.state = 'off'")
+    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 4500, "cabinet alone: capacity 4500 W")
+    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 60, "cabinet alone: idle 60 W")
+    lua.execute("INV.state = 'off'")
+    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 4500, "cabinet switched off: still rated 4500 W")
+    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 0, "cabinet switched off: no idle use")
+
+
 def scenario_slave_breaks():
     """A slave with no condition left breaks in the step and leaves the capacity."""
     lua = make()
@@ -597,6 +617,7 @@ def scenario_consumption_profiles():
 def main():
     scenario_consumption_profiles()
     scenario_slave_capacity()
+    scenario_cabinet_capacity()
     scenario_slave_breaks()
     scenario_slave_trip()
     scenario_slave_removal()

@@ -15,5 +15,6 @@
     "LWMakeCouplingKit": "인버터 병렬 연결 키트 만들기",
     "LWMakeWindTurbineBlades": "풍력 터빈 날개 제작",
     "LWMakeWindTurbineMast": "풍력 터빈 기둥 제작",
-    "LWDismantleVoltageTester": "전압 테스터 분해"
+    "LWDismantleVoltageTester": "전압 테스터 분해",
+    "LWMakeInverterCabinet": "인버터 캐비닛 만들기"
 }

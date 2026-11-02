@@ -15,5 +15,6 @@
     "LWMakeCouplingKit": "Изготовить комплект сцепки инверторов",
     "LWMakeWindTurbineBlades": "Сделать лопасти ветряка",
     "LWMakeWindTurbineMast": "Сделать мачту ветряка",
-    "LWDismantleVoltageTester": "Разобрать тестер напряжения"
+    "LWDismantleVoltageTester": "Разобрать тестер напряжения",
+    "LWMakeInverterCabinet": "Собрать инверторный шкаф"
 }

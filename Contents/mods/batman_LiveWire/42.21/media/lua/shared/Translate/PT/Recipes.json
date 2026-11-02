@@ -15,5 +15,6 @@
     "LWMakeCouplingKit": "Fabricar kit de acoplamento de inversores",
     "LWMakeWindTurbineBlades": "Fabricar pás eólicas",
     "LWMakeWindTurbineMast": "Fabricar mastro eólico",
-    "LWDismantleVoltageTester": "Desmontar testador de tensão"
+    "LWDismantleVoltageTester": "Desmontar testador de tensão",
+    "LWMakeInverterCabinet": "Fazer Armário Inversor"
 }

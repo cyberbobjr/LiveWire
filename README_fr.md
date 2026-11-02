@@ -361,7 +361,7 @@ Le nombre de panneaux n'est pas limité : les productions s'additionnent (100 W 
 
 ## Recettes
 
-Les 17 recettes Live Wire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
+Les 18 recettes Live Wire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
 
 ![Planche illustrée des recettes Live Wire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png)
 
@@ -529,7 +529,7 @@ Par ailleurs : 1 cellule photovoltaïque par calculatrice démontée (sans nivea
 | Panneau photovoltaïque | −1 tous les 10 jours | Orage, seulement avec `StormDamage` (désactivé par défaut) |
 | Éolienne | −1 tous les 4 jours | Vent > 85 km/h avec `StormDamage` |
 | Roue à aubes | −1 tous les 6 jours | — |
-| Onduleur | −1 tous les 5 jours en marche | Charge > 80 % : usure × 2 ; chaque déclenchement sans disjoncteur : −3 ; insonorisé : × 1,25 |
+| Onduleur, armoire onduleur | −1 tous les 5 jours en marche | Charge > 80 % : usure × 2 ; chaque déclenchement sans disjoncteur : −3 ; insonorisé : × 1,25 |
 | Disjoncteur | −1 tous les 15 jours | — |
 | Pompe à eau | −1 tous les 10 jours en pompant | — |
 | Powerbank, alarme | −1 tous les 30 jours | — |
@@ -552,7 +552,7 @@ Par ailleurs : 1 cellule photovoltaïque par calculatrice démontée (sans nivea
 | 3 | Panneaux photovoltaïques, disjoncteur, générateur de secours | Rendement de pose 0,85 |
 | 4 | Reconditionner une batterie | Lecture de l'autonomie |
 | 5 | Onduleur | — |
-| 6 | Assemblage de l’éolienne, batterie stationnaire, ordinateur de gestion | Usure des batteries −10 % |
+| 6 | Armoire onduleur, assemblage de l’éolienne, batterie stationnaire, ordinateur de gestion | Usure des batteries −10 % |
 | 7 | Fabrication de la roue à aubes, délestage | Rendement de pose 0,95 |
 | 8 | Cellules photovoltaïques à partir de déchets, remise à neuf | Échec de réparation divisé par deux |
 | 9-10 | — | Rendement de pose 1,0 ; usure des appareils −25 % |
@@ -614,6 +614,8 @@ L'objet Workshop contient aussi le mod facultatif **Live Wire - Viewpoint models
 Licence MIT (voir [LICENSE](LICENSE)).
 
 Création originale, sans code ni ressource repris d'autres mods.
+
+Le modèle de l'armoire onduleur a été offert par PewPewCricket, qui a accepté sa diffusion sous licence MIT.
 
 ## Pour les développeurs
 

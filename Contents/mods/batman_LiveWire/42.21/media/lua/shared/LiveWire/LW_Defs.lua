@@ -1,6 +1,6 @@
 -- Live Wire: static definitions of devices and batteries (pure data).
 -- Values come from docs/specifications-fonctionnelles.md (sections 2 to 5). The tiles are
--- geometric placeholders until the final models exist.
+-- geometric placeholders until the final models exist (the inverter cabinet has its final model).
 
 LiveWire = LiveWire or {}
 
@@ -40,6 +40,17 @@ Defs.devices = {
         item = "Base.Mov_LiveWire_Inverter", tile = 12, facings = 4,
         maxW = 1500, idleW = 20, level = 5, xp = 25,
         wearDays = 5,
+        -- Overlays (first sprite of each, + facing): running, fault, soundproofed.
+        overlays = { on = 24, fault = 28, muffle = 68 },
+    },
+    -- Large inverter built from an inverter (model contributed by PewPewCricket).
+    InverterCabinet = {
+        role = "inverter",
+        item = "Base.Mov_LiveWire_InverterCabinet", tile = 88, facings = 4,
+        maxW = 4500, idleW = 60, level = 6, xp = 35,
+        wearDays = 5,
+        overlays = { on = 92, fault = 96, muffle = 100 },
+        lcdBrand = "IGUI_LW_LCD_BrandCabinet",
     },
     PowerBank = {
         role = "storage",

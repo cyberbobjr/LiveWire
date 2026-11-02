@@ -458,6 +458,8 @@ def main():
             return 'ItemName'
         if key.startswith('LW'):
             return 'Recipes'
+        if key.startswith('Live_Wire_'):
+            return 'Moveables'
         return 'IG_UI' if key.startswith('IGUI_') else key.split('_')[0]
     for key in extra['EN']:
         f = translation_file(key)
@@ -474,7 +476,7 @@ def main():
     for lang, keys in extra.items():
         if lang in ('EN', 'FR'):
             continue
-        for f in ('IG_UI', 'ContextMenu', 'Tooltip', 'Sandbox', 'ItemName', 'Recipes'):
+        for f in ('IG_UI', 'ContextMenu', 'Tooltip', 'Sandbox', 'ItemName', 'Recipes', 'Moveables'):
             path = os.path.join(OUT, lang, f + '.json')
             with open(path, encoding='utf-8') as fh:
                 data = json.load(fh)

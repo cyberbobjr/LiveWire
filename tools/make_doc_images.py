@@ -486,6 +486,9 @@ RECIPES = [
      ["Screwdriver"], [(1, "Breaker")]),
     ("LWMakeInverterKit", 5, [(4, "ElectronicsScrap"), (2, "Amplifier"), (3, "ElectricWire"),
                               (1, "SmallSheetMetal"), (4, "Screws")], ["Screwdriver", "Pliers"], [(1, "Inverter")]),
+    ("LWMakeInverterCabinet", 6, [(1, "Inverter"), (4, "ElectronicsScrap"), (2, "Amplifier"), (4, "ElectricWire"),
+                                  (1, "SheetMetal"), (8, "Screws")], ["Screwdriver", "Pliers"],
+     [(1, "InverterCabinet")]),
     ("LWMakeWindTurbineBlades", None, [(2, "SheetMetal"), (2, "Screws")], ["SheetMetalSnips", "Hammer"],
      [(1, "WindTurbineBlades")]),
     ("LWMakeWindTurbineMast", None, [(1, "MetalPipe"), (2, "MetalBar"), (2, "Screws")], ["Hammer", "PipeWrench"],
@@ -511,6 +514,7 @@ MOD_ITEMS = {"VoltageTester": "LiveWire.VoltageTester", "SolarCell": "LiveWire.S
              "DeepCycleBattery": "LiveWire.DeepCycleBattery", "SoundproofKit": "LiveWire.SoundproofKit",
              "SolarPanel": "Base.Mov_LiveWire_SolarPanel", "WindTurbine": "Base.Mov_LiveWire_WindTurbine",
              "WaterWheel": "Base.Mov_LiveWire_WaterWheel", "Inverter": "Base.Mov_LiveWire_Inverter",
+             "InverterCabinet": "Base.Mov_LiveWire_InverterCabinet",
              "PowerBank": "Base.Mov_LiveWire_PowerBank", "Breaker": "Base.Mov_LiveWire_Breaker",
              "BatteryAlarm": "Base.Mov_LiveWire_BatteryAlarm", "WaterPump": "Base.Mov_LiveWire_WaterPump",
              "CouplingKit": "LiveWire.CouplingKit"}
@@ -605,7 +609,7 @@ def recipes(lang):
 
 # (icon key, figures shown under the name; language-neutral)
 EQUIP = [("SolarPanel", "100 W"), ("WindTurbine", "400 W \u00b7 10-85 km/h"), ("WaterWheel", "120 W"),
-         ("Inverter", "1500 W max"), ("PowerBank", "4 \u00d7 "), ("Breaker", "> 1500 W"),
+         ("Inverter", "1500 W max"), ("InverterCabinet", "4500 W max"), ("PowerBank", "4 \u00d7 "), ("Breaker", "> 1500 W"),
          ("BatteryAlarm", "< 20 %"), ("WaterPump", "250 W · 5 L/min")]
 
 

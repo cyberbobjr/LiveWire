@@ -261,5 +261,7 @@
     "IGUI_LW_DeviceSnow": "Nieve acumulada: %1%%",
     "IGUI_LW_DeviceBraked": "Freno eólico activado",
     "IGUI_LW_DeviceReleased": "Freno eólico liberado",
-    "IGUI_LW_DeviceWiring": "Elige un inversor para este equipo"
+    "IGUI_LW_DeviceWiring": "Elige un inversor para este equipo",
+    "IGUI_LW_Model_InverterCabinet": "Armario inversor",
+    "IGUI_LW_LCD_BrandCabinet": "LIVE WIRE - ARMARIO INVERSOR 4500 W"
 }
