@@ -16,7 +16,7 @@ El cuadro incluye palancas de iluminación, equipos y general, con vatios actual
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_es.png[/img]
 
 Solar 100 W, eólica 400 W, rueda hidráulica 120 W. Un inversor alimenta aparatos a 20 casillas y ±3 plantas, hasta 1500 W. Sin cable por aparato doméstico.
-[b]¿Necesitas más de 1500 W?[/b] Coloca un segundo inversor sin nada conectado, clic derecho > Live Wire > «Acoplar a un inversor» (1 kit de acoplamiento de inversores, receta de Electricidad 6). Hasta 4 inversores acoplados: 6000 W.
+[b]¿Necesitas más de 1500 W?[/b] Coloca un segundo inversor sin nada conectado, clic derecho > Live Wire > «Acoplar a un inversor» (1 kit de acoplamiento de inversores, receta de Electricidad 6). Hasta 4 inversores acoplados: 6000 W. Nuevo: convierte un inversor en un [b]armario inversor[/b] de 4500 W (Electricidad 6), también acoplable.
 Bancos de 4 baterías para guardar el excedente. Cables: 1 alambre cada 4 casillas, alcance 12. Perfiles: valores del juego, Realista 1993, Ultrarealista 1993 o Confort.
 
 [h2]Equipo[/h2]

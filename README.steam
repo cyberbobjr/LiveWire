@@ -16,7 +16,7 @@ The electrical panel has lighting, equipment and main levers, plus instant circu
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 
 Solar 100 W, wind 400 W, water wheel 120 W. An inverter supplies appliances within 20 tiles and ±3 floors, up to 1,500 W. No cable per household appliance.
-[b]Need more than 1,500 W?[/b] Place a second inverter with nothing connected, right-click it > Live Wire > "Couple to an inverter" (1 Inverter Coupling Kit, Electrical 6 recipe). Up to 4 coupled inverters: 6,000 W.
+[b]Need more than 1,500 W?[/b] Place a second inverter with nothing connected, right-click it > Live Wire > "Couple to an inverter" (1 Inverter Coupling Kit, Electrical 6 recipe). Up to 4 coupled inverters: 6,000 W. New: rebuild an inverter into a 4,500 W [b]inverter cabinet[/b] (Electrical 6); it couples too.
 Store surplus in power banks (4 batteries each). Cables: 1 wire per 4 tiles, range 12. Choose Game values, Realistic 1993, Ultra-realistic 1993 or Comfort consumption in sandbox options.
 
 [h2]Equipment[/h2]

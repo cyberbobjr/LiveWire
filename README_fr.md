@@ -235,7 +235,7 @@ Un onduleur insonorisé est recouvert de mousse acoustique grise sur le dessus, 
 | Alarme de batterie faible (mur) | Sous 20 % de stock : message aux joueurs à 30 cases, bip toutes les 10 minutes de jeu jusqu'à « Couper la sonnerie » ; le gyrophare reste allumé jusqu'à ce que le stock repasse au-dessus de 25 %. | 2 |
 | Générateur de secours (générateur vanilla) | Démarré par le mod sous 20 % de batterie, arrêté à 90 % (options sandbox). Fournit 1 200 W et brûle 1 L de carburant pour 3 kWh (en plus de sa consommation vanilla). Toujours bruyant et toxique en intérieur ; à brancher et alimenter en carburant à la manière vanilla. Ne démarre jamais sans batteries. | 3 |
 | Ordinateur de gestion (ordinateur de bureau vanilla) | Historique 48 h, prévision jusqu'à l'aube. Délestage au niveau 7 : éteint les lumières sous 15 % pour sauver le frigo, réarmé au-dessus de 30 %. | 6 |
-| Onduleurs couplés (jusqu'à 3 onduleurs de plus) | La puissance du réseau est la somme des onduleurs en service : jusqu'à 4 × 1 500 W = 6 000 W. Voir ci-dessous. | 6 |
+| Onduleurs couplés (jusqu'à 3 onduleurs de plus) | La puissance du réseau est la somme des onduleurs en service : jusqu'à 4 × 1 500 W = 6 000 W avec des onduleurs ordinaires, davantage avec des armoires onduleurs (4 500 W chacune). Voir ci-dessous. | 6 |
 
 ### Onduleurs en parallèle (couplage)
 
@@ -243,7 +243,7 @@ Dans une vraie installation autonome, on gagne de la puissance en ajoutant des o
 
 - Clic droit sur un onduleur > **Coupler à un onduleur** > un onduleur maître à portée de câble. L'onduleur cliqué devient **esclave**. Coût : le fil électrique de la distance et 1 **kit de couplage d'onduleurs** (recette au niveau 6 d'Électricité).
 - L'esclave ne doit avoir aucun équipement raccordé ; un maître accepte au plus 3 esclaves (4 onduleurs).
-- Un seul réseau, un seul parc de batteries, une seule zone alimentée (celle du maître). Capacité = 1 500 W × onduleurs en service ; chaque onduleur allumé consomme 20 W à vide et s'use comme d'habitude.
+- Un seul réseau, un seul parc de batteries, une seule zone alimentée (celle du maître). Capacité = somme des onduleurs en service (1 500 W par onduleur, 4 500 W par armoire onduleur ; les deux se couplent entre eux) ; chaque onduleur allumé consomme sa part à vide (20 W, 60 W pour une armoire) et s'use comme d'habitude.
 - Un esclave éteint ou cassé ne compte plus : si la demande dépasse alors ce qui reste, le disjoncteur (ou le maître) saute. Chaque esclave a son interrupteur ; on réarme sur le maître ou le disjoncteur.
 - **Découpler** sur l'esclave le rend de nouveau indépendant (le kit est rendu). Un maître ramassé libère ses esclaves.
 - La page État de l'écran LCD et le logiciel affichent « Couplés : n / total en service » et la capacité totale.
@@ -330,7 +330,7 @@ L'option sandbox **`ConsumptionProfile`** (« Profil de consommation ») fixe la
 
 #### Ce que changent les profils réalistes
 
-La limite de l'onduleur reste **1 500 W** (jusqu'à 6 000 W avec des [onduleurs couplés](#équipements-optionnels)), dans l'ordre de grandeur des onduleurs autonomes des années 90. Avec les profils 1993 :
+La limite de l'onduleur reste **1 500 W** (4 500 W pour l'armoire onduleur ; les [onduleurs couplés](#équipements-optionnels) s'additionnent), dans l'ordre de grandeur des onduleurs autonomes des années 90. Avec les profils 1993 :
 
 - Une cuisinière électrique (2 000 ou 3 000 W) ou un sèche-linge fait disjoncter un onduleur seul. Cuisinez au gaz, au poêle à bois ou au feu de camp, ou couplez des onduleurs. Un disjoncteur protège l'onduleur.
 - Les lumières deviennent la principale charge de nuit : éteignez les pièces vides.

@@ -16,14 +16,14 @@
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ru.png[/img]
 
 Солнце 100 Вт, ветер 400 Вт, водяное колесо 120 Вт. Инвертор питает приборы в 20 клетках и ±3 этажах, до 1500 Вт. Без проводов к каждому прибору.
-[b]Нужно больше 1500 Вт?[/b] Второй инвертор без подключений: ПКМ > Live Wire > «Сцепить с инвертором» (комплект сцепки, Электрика 6). До 4 инверторов: 6000 Вт.
+[b]Нужно больше 1500 Вт?[/b] Второй инвертор без подключений: ПКМ > Live Wire > «Сцепить с инвертором» (комплект сцепки, Электрика 6). До 4 инверторов: 6000 Вт. Или [b]инверторный шкаф[/b] из инвертора: 4500 Вт, Электрика 6.
 Блок хранит 4 батареи. Кабель: 1 провод на 4 клетки, дальность 12. Профили расхода: игровые значения, Реалистичный 1993, Ультрареалистичный 1993, Комфорт.
 
 [h2]Оборудование[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_ru.png[/img]
 
-Установка: панели снаружи (Электрика 3), ветряк снаружи и колесо на берегу реки (оба 2), инвертор (5), блок батарей (2). Два блока ставятся друг на друга; снимать пустыми, верхний первым.
+Установка: панели снаружи (Электрика 3), ветряк снаружи и колесо на берегу реки (оба 2), инвертор (5), блок батарей (2). Блоки ставятся друг на друга.
 Дополнительно: щиток, сигнализация, шумоизоляция, обычный резервный генератор и компьютер.
 
 [h2]Производство[/h2]
@@ -58,12 +58,12 @@ Live Wire Monitor: потребители (до 200), цветные силуэ�
 
 [h2]Документация[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Вики Live Wire (англ.)[/url] · Код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Вики (англ.)[/url] · Код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: необязательный мод [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) с 3D-моделями устройств — только для Project Viewpoint.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
-[b]Совместим с[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (необязательно).
+[b]Совместим с[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url].
 [b]Совместимость[/b]: не для совместной работы с другими модами энергосистем. Лицензия MIT.
 
 [h2]Discord[/h2]
@@ -82,4 +82,4 @@ Live Wire Monitor: потребители (до 200), цветные силуэ�
 
 [h2]Авторы[/h2]
 
-Создал batmanfr. Модель инверторного шкафа: PewPewCricket. Без содержимого других модов.
+Создал batmanfr. Шкаф: модель PewPewCricket. Без содержимого других модов.

@@ -276,7 +276,7 @@ Real off-grid systems get more power by adding identical inverters in parallel, 
 
 - Right-click an inverter > **Couple to an inverter** > a master inverter within cable range. The clicked inverter becomes a **slave**. Cost: the electric wire for the distance and 1 **inverter coupling kit** (recipe at Electrical 6).
 - The slave must have no equipment of its own; a master takes at most 3 slaves (4 inverters).
-- One network, one battery bank, one powered area (the master's). Capacity = 1,500 W × inverters in service; each switched-on inverter uses 20 W idle and wears as usual.
+- One network, one battery bank, one powered area (the master's). Capacity = sum of the inverters in service (1,500 W per inverter, 4,500 W per inverter cabinet; both can be coupled together); each switched-on inverter uses its idle consumption (20 W, 60 W for a cabinet) and wears as usual.
 - A slave switched off or broken no longer counts: if the demand then exceeds what is left, the breaker (or the master) trips. Each slave has its own On/Off switch; reset on the master or the breaker.
 - **Uncouple** on the slave makes it independent again (the kit is given back). A master picked up frees its slaves.
 - The LCD Status page and the software show "Coupled: n / total in service" and the total capacity.
@@ -371,7 +371,7 @@ The sandbox option **`ConsumptionProfile`** sets how much power each switched-on
 
 #### What the realistic profiles change
 
-The inverter limit stays **1,500 W** (up to 6,000 W with [coupled inverters](#optional-equipment-and-the-breaker)), in line with the off-grid inverters of the 1990s. In the 1993 profiles:
+The inverter limit stays **1,500 W** (4,500 W for the inverter cabinet; [coupled inverters](#optional-equipment-and-the-breaker) add up), in line with the off-grid inverters of the 1990s. In the 1993 profiles:
 
 - An electric cooker (2,000 or 3,000 W) or a dryer trips a single inverter: cook on gas, a wood stove or a campfire, or couple inverters. A breaker panel protects the inverter.
 - Lights become the main night load: switch off empty rooms.

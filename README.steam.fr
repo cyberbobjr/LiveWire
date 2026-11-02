@@ -16,7 +16,7 @@ Le tableau possède des leviers éclairage, équipements et principal, avec les 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
 Solaire 100 W, éolien 400 W, roue à aubes 120 W. Un onduleur alimente les appareils à 20 cases et ±3 étages, jusqu'à 1 500 W. Aucun câble par appareil domestique.
-[b]Besoin de plus de 1 500 W ?[/b] Posez un second onduleur sans rien y raccorder, clic droit dessus > Live Wire > « Coupler à un onduleur » (1 kit de couplage d'onduleurs, recette Électricité 6). Jusqu'à 4 onduleurs couplés : 6 000 W.
+[b]Besoin de plus de 1 500 W ?[/b] Posez un second onduleur sans rien y raccorder, clic droit dessus > Live Wire > « Coupler à un onduleur » (1 kit de couplage d'onduleurs, recette Électricité 6). Jusqu'à 4 onduleurs couplés : 6 000 W. Nouveau : transformez un onduleur en [b]armoire onduleur[/b] de 4 500 W (Électricité 6), couplable elle aussi.
 Stockez le surplus dans des powerbanks (4 batteries chacune). Câbles : 1 fil par 4 cases, portée 12. Profils sandbox : Valeurs du jeu, Réaliste 1993, Ultra-réaliste 1993 ou Confort.
 
 [h2]Équipements[/h2]
