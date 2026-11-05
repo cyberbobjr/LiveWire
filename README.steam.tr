@@ -1,0 +1,85 @@
+[h1]Live Wire - Elektrikçilik Becerisi Yenilemesi[/h1]
+
+[b]Build 42.21 · Tek oyunculu ve çok oyunculu (sunucu yetkili)[/b]
+
+Elektrik sonsuza dek kesildi... ama ışıkların sönmek zorunda değil. Kendi şebekeden bağımsız elektriğini kur: güneş panelleri, bir rüzgâr türbini veya bir su çarkı bir invertere beslenir, inverter de etrafındaki evin tamamına güç verir. Geceler için aküler ekle. Elektrikçilik becerisi nihayet önem kazanıyor: her cihazın bir seviyesi var ve seviyen kurulumu daha iyi yapıyor.
+
+[h2]1.6.0 — Kurulumunu yönet[/h2]
+
+Elektrik panosunda aydınlatma, cihazlar ve ana kollar var; ayrıca anlık devre ve toplam watt değerleri. Gerçek cihazları kapat, yeniden başlatmadan sonra bile önceki seçimlerini geri getir. Ana dağıtım açıkken kaynaklar şarj olmaya devam edebilir. Her cihazın LCD ekranı için sol tıkla; inverterini seçmek için Bağlantılar'ı kullan.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
+
+[h2]Nasıl çalışır[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
+
+Güneş 100 W, rüzgâr 400 W, su çarkı 120 W. Bir inverter 20 kare ve ±3 kat içindeki cihazlara, 1.500 W'a kadar güç verir. Her ev aleti için ayrı kablo gerekmez.
+[b]1.500 W'tan fazlası mı lazım?[/b] Boş bir ikinci inverter yerleştir, sağ tıkla > Live Wire > "Bir invertere bağla" (1 İnverter Bağlantı Kiti, Elektrikçilik 3 tarifi). En fazla 4 bağlı inverter: 6.000 W. Yeni: bir inverteri 4.500 W'lık [b]inverter dolabına[/b] dönüştür (Elektrikçilik 3); o da bağlanır.
+Fazlayı güç bankalarında depola (her biri 4 akü). Kablolar: her 4 karede 1 tel, menzil 12. Sandbox seçeneklerinde Oyun değerlerini, Gerçekçi 1993'ü, Ultra gerçekçi 1993'ü veya Konfor tüketimini seçebilirsin.
+
+[h2]Ekipman[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_en.png[/img]
+
+Güneş panellerini dışarıya (Elektrikçilik 3), türbinleri dışarıya ve su çarklarını nehir kıyısına (ikisi de 2), inverterleri (3) ve güç bankalarını (2) yerleştir. Bir karede iki banka üst üste konabilir; ayrı envanterleri ve bağlantıları olur. Kaldırmadan önce boşalt, önce üsttekini.
+İsteğe bağlı: sigorta, akü alarmı, ses yalıtımı, vanilla yedek jeneratör ve yönetim bilgisayarı.
+
+[h2]Üretim[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_en.png[/img]
+
+Güneşin yönü önemli: güney %100, doğu/batı %85, kuzey %55. Bulutlar, kar ve kir çıktıyı düşürür; yağmur panelleri temizler, ya da bir bezle ve 0,5 L suyla sen temizle. Rüzgâr 10 km/s'den itibaren üretir, 30–85'te tam güç verir ve üstünde fren yapar; kat başına +%15 rüzgâr, 3. kata kadar. Su çarkı gece gündüz üretir. İsteğe bağlı akü soğuk etkileri, kullanılamayan enerjiyi yedek olarak tutar; varsayılan olarak kapalı.
+
+[h2]Su pompası[/h2]
+
+Su pompası (Elektrikçilik 3), 15 kare içindeki tesisatlı donanımlara, en fazla 8 bitişik yağmur toplayıcıdan ya da [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] fıçılarından su verir; her biri bir metal boru ister. Tesisat için boru anahtarı kullan. Yağmur suyu temiz çıkar: dakikada 5 L'ye kadar, pomparken 250 W. Mavi ışık: güçlü demek, boştayken bile. Kaldırmadan önce tüm su rölelerini hata ayıklama/yönetici eylemiyle kaldır.
+
+[h2]Tarifler[/h2]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
+
+18 tarif, aşağıda resimli. Elektrik tarifleri otomatik açılır; kanatlar ve direkler Metal İşleme'dedir, Elektrikçilik şartı yoktur. Türbini 3. seviyede birleştir; su çarkını 4. seviyede yap, ikisi de iki amplifikatör ister. Her ikisini de 2. seviyede yerleştir veya topla. Bir voltaj test cihazını hurda için sök. Her tarif Elektrikçilik XP'si verir. Ekipman ve parça ganimeti daha geniş; sandbox çarpanı varsayılan 5 (1–20), yeni çekilişler yalnızca yeniden başlatmadan sonra.
+
+[h2]Yönetim yazılımı[/h2]
+
+Live Wire Monitor; 200 tüketiciye kadar ekler, renkli cihaz siluetleri, kablo görünümleri, son 30 olay ve üç günlük üretim tahmini; güçlü bir yönetim bilgisayarıyla birlikte, 48 saatlik geçmişle. Ağ adları LCD'lerde ve uyarılarda görünür. Vanilla masaüstü bilgisayarlar da çalışır; isteğe bağlı Computer Mod/Laptop Mod bir ganimet diski kullanır.
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
+
+[h2]Elektrik güvenliği ve XP[/h2]
+
+Aküleri Elektrikçilik 1/3/5'te test et: daha ayrıntılı bilgi verir. 4'te yenile (ölüyse 6): tutulan tornavida, hurda, tel, 0,5 L su; +15 durum, en fazla 80, dört kez. Ölü ve boş ekipmanı 3'te kurtar. Canlı çalışma riski varsayılan olarak açık: seviye 0/1/2/3/4/5/6+ için %50/42/33/25/17/8/0. Şok, alet elini yakar, tutulan eşyaları düşürür ve malzeme harcamadan önce işlemi iptal eder. Ana inverteri kapat; sigortayı açmak onu izole etmez.
+
+[h2]Çok oyunculu[/h2]
+
+Sunucu yetkili simülasyon ve eylem kontrolleri, kaydedilen devre seçimleri ve cihaz durumu senkronizasyonu. Modu devre dışı bırakmadan önce iki devreyi de kapat.
+
+[h2]Belgeler[/h2]
+
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire wiki (İngilizce)[/url] · Kaynak kodu: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: bu öğe ayrıca isteğe bağlı [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) modunu içerir; her cihazın 3B modelleri. Yalnızca Project Viewpoint kullanıyorsan etkinleştir.
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
+[b]Uyumlu:[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] ve [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (isteğe bağlı): yönetim yazılımı bilgisayar ganimetinde bulunan bir diskten kurulur ve masaüstlerinde uygulama olarak çalışır.
+[b]Uyumluluk[/b]: özgün bir yapım; diğer güç sistemi modlarıyla birlikte çalışması amaçlanmadı. Lisans MIT.
+
+[h2]Discord[/h2]
+
+Soru, hata bildirimi ya da fikrin mi var? Discord'a katıl:
+[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+
+[h2]Yapay zekâ hakkında bir not[/h2]
+
+Yıllardır geliştiriciyim ve kodlama ajanları ortaya çıkmadan çok önce mod yapıyordum; bu da çoğu zaman ailemle geçirdiğim zamandan çalıyordu. Claude Code ve Codex'i açıkça kullanıyorum: her özellik hâlâ tartışılıyor, tasarlanıyor ve planlanıyor; körü körüne "vibe coding" yapılmıyor. Yapay zekâ kalıcı; direnmek yerine uyum sağlamayı seçtim. Kişisel saldırılara karşı duran herkese teşekkür ederim.
+
+[h2]Projeyi destekle[/h2]
+
+Modu beğendin mi? Bir kahve yeni özellikler ve çevirilere kaynak sağlamaya yardımcı olur.
+[url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
+
+[h2]Emeği geçenler[/h2]
+
+batmanfr tarafından oluşturuldu. İnverter dolabı modeli: PewPewCricket. Özgün kod, karolar ve sesler; başka modlardan hiçbir içerik alınmadı.
