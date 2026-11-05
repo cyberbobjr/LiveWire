@@ -83,9 +83,9 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 | Phase | Situation | Ce que fait le joueur avec Live Wire |
 |---|---|---|
 | **1. Avant la coupure** (réseau public actif) | Le courant est partout. | Il récupère des batteries de voiture, du fil électrique, de l'électronique, des calculatrices et des livres d'électricité. Il fabrique un **testeur de tension** (niv. 1) et apprend à lire une installation. |
-| **2. La coupure** | Le générateur vanilla devient la seule source et attire les zombies. | Il installe un **onduleur** dans la maison (niv. 5) et une **powerbank** à côté (niv. 2), raccordée à l'onduleur, dans laquelle il range ses **batteries de voiture**. La nuit, la maison vit sur les batteries, sans bruit. *En v0.1, ces batteries se chargent par les sources ; la charge depuis un générateur vanilla arrive en v0.2 (§ 9).* |
-| **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou dans le jardin (niv. 3) et une **petite éolienne** (pose niv. 2, fabrication niv. 6). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
-| **4. Base autonome** | Plus de carburant. | Il ajoute une **roue à aubes** sur une rive de rivière (pose niv. 2, fabrication niv. 7), qui produit jour et nuit. Il dimensionne l'installation : assez de batteries pour la nuit, un onduleur assez puissant. Il entretient et remplace ce qui s'use. **Quand il part en expédition, la base continue de tourner** : le réfrigérateur reste froid. |
+| **2. La coupure** | Le générateur vanilla devient la seule source et attire les zombies. | Il installe un **onduleur** dans la maison (niv. 3) et une **powerbank** à côté (niv. 2), raccordée à l'onduleur, dans laquelle il range ses **batteries de voiture**. La nuit, la maison vit sur les batteries, sans bruit. *En v0.1, ces batteries se chargent par les sources ; la charge depuis un générateur vanilla arrive en v0.2 (§ 9).* |
+| **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou dans le jardin (niv. 3) et une **petite éolienne** (pose niv. 2, fabrication niv. 3). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
+| **4. Base autonome** | Plus de carburant. | Il ajoute une **roue à aubes** sur une rive de rivière (pose niv. 2, fabrication niv. 4), qui produit jour et nuit. Il dimensionne l'installation : assez de batteries pour la nuit, un onduleur assez puissant. Il entretient et remplace ce qui s'use. **Quand il part en expédition, la base continue de tourner** : le réfrigérateur reste froid. |
 | **5. Fin de partie** (versions suivantes) | La base est stable. | Pompe électrique, capteurs et alarme, clôture électrifiée, relais pour un grand bâtiment. |
 
 **Arbitrages proposés au joueur :**
@@ -129,10 +129,10 @@ Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscri
 | Rôle | Appareil | Aspect (**placeholder**) | Contraintes de pose |
 |---|---|---|---|
 | Source | Panneau photovoltaïque | tuiles 0-3 (panneau incliné sur un châssis) | Dehors, à ciel ouvert (`sq:isOutside()`) ; toit plat accepté ; niv. 3 |
-| Source | Éolienne | tuiles 4-7 (mât, nacelle, trois pales) | Dehors (`isOutside()`) ; bonus en hauteur (§ 3.3) ; pose/ramassage niv. 2, fabrication niv. 6 |
-| Source | Roue à aubes | tuiles 8-11 (roue en bois, génératrice) | Dehors, niveau 0, case voisine d'une eau de rivière (§ 3.4) ; pose/ramassage niv. 2, fabrication niv. 7 |
-| **Onduleur** | Onduleur (un seul modèle, D-17) | tuiles 12-15 (armoire grise, écran, voyants) | **N'importe quelle case de sol, intérieure comprise.** Aucun conteneur, pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) ; niv. 5 |
-| **Onduleur** | Armoire onduleur (1.7.0) | tuiles 88-91 (grande armoire électrique de 2 m ; modèle définitif offert par PewPewCricket, licence MIT) ; 4 500 W, 60 W à vide, fabriquée à partir d'un onduleur | Comme l'onduleur ; niv. 6 |
+| Source | Éolienne | tuiles 4-7 (mât, nacelle, trois pales) | Dehors (`isOutside()`) ; bonus en hauteur (§ 3.3) ; pose/ramassage niv. 2, fabrication niv. 3 |
+| Source | Roue à aubes | tuiles 8-11 (roue en bois, génératrice) | Dehors, niveau 0, case voisine d'une eau de rivière (§ 3.4) ; pose/ramassage niv. 2, fabrication niv. 4 |
+| **Onduleur** | Onduleur (un seul modèle, D-17) | tuiles 12-15 (armoire grise, écran, voyants) | **N'importe quelle case de sol, intérieure comprise.** Aucun conteneur, pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) ; niv. 3 |
+| **Onduleur** | Armoire onduleur (1.7.0) | tuiles 88-91 (grande armoire électrique de 2 m ; modèle définitif offert par PewPewCricket, licence MIT) ; 4 500 W, 60 W à vide, fabriquée à partir d'un onduleur | Comme l'onduleur ; niv. 3 |
 | **Stockage** | Powerbank (4 batteries de voiture ou stationnaires) | tuiles 16-19 (bac de batteries) ; conteneur de la tuile `livewirepowerbank`, capacité 50 | N'importe quelle case de sol, intérieur compris ; niv. 2 |
 | Équipement | Disjoncteur | tuiles 20-21, objet mural (mur nord, mur ouest) | Sur un mur ; niv. 3 |
 | Équipement | Alarme de batterie faible | tuiles 22-23, objet mural | Sur un mur ; niv. 2 |
@@ -159,9 +159,9 @@ Le système de base reste **source → onduleur → maison**, avec une **batteri
 | Équipement | Problème réglé | Effet en jeu | Niv. | Version proposée | Faisabilité |
 |---|---|---|---|---|---|
 | **Disjoncteur** (sécurité) | Une surcharge use l'onduleur (−3 d'état à chaque disjonction) | **Se fixe sur un mur, comme un vrai disjoncteur** (objet mural vanilla : mur nord ou ouest de sa case). Raccordé à un onduleur, il coupe **avant** l'onduleur : plus de dégât en cas de surcharge. Le réarmement reste manuel | 3 | 0.1 | Simple : règle du pas de simulation ; pose murale par le curseur vanilla (`MoveType = WallObject`) |
-| **Ordinateur de gestion** | Le tableau de bord ne montre que l'instant présent | **Un vrai ordinateur de bureau du jeu** (`Mov_DesktopComputer`), trouvé dans une maison, raccordé à l'onduleur. Tant qu'il est alimenté, il ajoute au tableau de bord un **historique de 48 h** (un point par heure : production, consommation, stock) et une **prévision** : « les batteries tiendront jusqu'à l'aube » ou non. Avec le **délestage** (niv. 7 de la personne qui l'a raccordé), il éteint une fois les lumières quand le stock passe sous 15 % (réarmé au-dessus de 30 %), pour garder le réfrigérateur. On peut aussi ouvrir le tableau de bord depuis l'ordinateur | 6 | 0.1 | Moyenne : l'historique est un tableau circulaire ; extinction des lumières sur le serveur par `IsoLightSwitch:setActive(false)`, qui se synchronise (`knowledge/power-and-lights.md:194-197`) |
+| **Ordinateur de gestion** | Le tableau de bord ne montre que l'instant présent | **Un vrai ordinateur de bureau du jeu** (`Mov_DesktopComputer`), trouvé dans une maison, raccordé à l'onduleur. Tant qu'il est alimenté, il ajoute au tableau de bord un **historique de 48 h** (un point par heure : production, consommation, stock) et une **prévision** : « les batteries tiendront jusqu'à l'aube » ou non. Avec le **délestage** (fonction logicielle, sans niveau requis : tout ordinateur raccordé déleste), il éteint une fois les lumières quand le stock passe sous 15 % (réarmé au-dessus de 30 %), pour garder le réfrigérateur. On peut aussi ouvrir le tableau de bord depuis l'ordinateur | 3 | 0.1 | Moyenne : l'historique est un tableau circulaire ; extinction des lumières sur le serveur par `IsoLightSwitch:setActive(false)`, qui se synchronise (`knowledge/power-and-lights.md:194-197`) |
 | **Alarme de batterie faible** | On découvre la panne trop tard | Bip (son vanilla `TelevisionTestBeep`, coupé après 3 s) et message aux joueurs à moins de 30 cases quand le stock passe sous 20 %. Rappel toutes les 2 h de jeu tant que le stock reste bas ; réarmée au-dessus de 25 % | 2 | 0.1 | Simple : `notify` du serveur et son local du client |
-| **Générateur de secours** | Plusieurs jours sans soleil ni vent vident les batteries | **Un générateur vanilla**, raccordé à l'onduleur (niv. 3). Le mod le **démarre** quand les batteries passent sous 20 % et l'**arrête** à 90 % (options `BackupStartPercent`, `BackupStopPercent`). En marche, il fournit 1 200 W au réseau et brûle 1 L d'essence pour 3 kWh, **en plus** de sa consommation vanilla pour les appareils qu'il alimente lui-même. Il reste un générateur vanilla : il faut le brancher (option vanilla), le remplir, il fait du bruit, s'use, et **il est toxique à l'intérieur**. Vide, débranché ou en panne : il ne démarre pas, et le tableau de bord le dit. Sans batterie, il ne démarre jamais | 3 | 0.1 | Moyenne : `IsoGenerator.setActivated`, `setFuel` (NM-32) |
+| **Générateur de secours** | Plusieurs jours sans soleil ni vent vident les batteries | **Un générateur vanilla**, raccordé à l'onduleur (niv. 2). Le mod le **démarre** quand les batteries passent sous 20 % et l'**arrête** à 90 % (options `BackupStartPercent`, `BackupStopPercent`). En marche, il fournit 1 200 W au réseau et brûle 1 L d'essence pour 3 kWh, **en plus** de sa consommation vanilla pour les appareils qu'il alimente lui-même. Il reste un générateur vanilla : il faut le brancher (option vanilla), le remplir, il fait du bruit, s'use, et **il est toxique à l'intérieur**. Vide, débranché ou en panne : il ne démarre pas, et le tableau de bord le dit. Sans batterie, il ne démarre jamais | 2 | 0.1 | Moyenne : `IsoGenerator.setActivated`, `setFuel` (NM-32) |
 
 **Règles communes :**
 - un équipement optionnel se pose et se raccorde à un onduleur comme une source (même action, même fil) ;
@@ -185,18 +185,18 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | `LWDismantleVoltageTester` | aucun | 1 `LiveWire.VoltageTester` ; [tournevis] | 1 `ElectronicsScrap` | 2 |
 | `LWSalvageSolarCell` (« Démonter une calculatrice ») | — | 1 `Base.Calculator` ; [tournevis] | 1 `ElectronicsScrap` + 1 `SolarCell` | 3 |
 | `LWMakeSolarPanelKit` | 3 | 10 `SolarCell`, 1 `SheetMetal`, 2 `ElectricWire`, 4 `Screws`, 1 `Glue` ; [tournevis, pinces] | `Mov_LiveWire_SolarPanel` | 15 |
-| `LWMakeSolarCellFromScrap` | 8 | 5 `ElectronicsScrap`, 1 `Aluminum` ; [pinces] | 1 `SolarCell` | 4 |
-| `LWMakeInverterKit` | 5 | 4 `ElectronicsScrap`, 2 `Amplifier`, 3 `ElectricWire`, 1 `SmallSheetMetal`, 4 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_Inverter` | 25 |
+| `LWMakeSolarCellFromScrap` | 3 | 5 `ElectronicsScrap`, 1 `Aluminum` ; [pinces] | 1 `SolarCell` | 4 |
+| `LWMakeInverterKit` | 3 | 4 `ElectronicsScrap`, 2 `Amplifier`, 3 `ElectricWire`, 1 `SmallSheetMetal`, 4 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_Inverter` | 25 |
 | `LWMakeWindTurbineBlades` | aucun | 2 `SheetMetal`, 2 `Screws` ; [cisailles, marteau] | `LiveWire.WindTurbineBlades` | 0 |
 | `LWMakeWindTurbineMast` | aucun | 1 `MetalPipe`, 2 `MetalBar`, 2 `Screws` ; [marteau, clé à tuyau] | `LiveWire.WindTurbineMast` | 0 |
-| `LWMakeWindTurbineKit` | 6 | 1 jeu de pales, 1 mât, 2 `Base.Amplifier`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 2 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_WindTurbine` | 30 |
-| `LWMakeWaterWheel` | 7 | 8 `Plank`, 20 `Nails`, 2 `Base.Amplifier`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 1 `MetalBar` ; [marteau, tournevis] | `Mov_LiveWire_WaterWheel` | 30 |
+| `LWMakeWindTurbineKit` | 3 | 1 jeu de pales, 1 mât, 2 `Base.Amplifier`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 2 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_WindTurbine` | 30 |
+| `LWMakeWaterWheel` | 4 | 8 `Plank`, 20 `Nails`, 2 `Base.Amplifier`, 3 `ElectricWire`, 4 `ElectronicsScrap`, 1 `MetalBar` ; [marteau, tournevis] | `Mov_LiveWire_WaterWheel` | 30 |
 | `LWMakePowerBankKit` | 2 | 2 `ElectronicsScrap`, 3 `ElectricWire`, 1 `SheetMetal`, 4 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_PowerBank` | 8 |
 | `LWMakeBreakerKit` | 3 | 2 `ElectronicsScrap`, 1 `ElectricWire`, 1 `SmallSheetMetal`, 2 `Screws` ; [tournevis] | `Mov_LiveWire_Breaker` | 8 |
-| `LWMakeDeepCycleBattery` | 6 | 2 batteries de voiture (`CarBattery1/2/3` indifférentes), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
+| `LWMakeDeepCycleBattery` | 3 | 2 batteries de voiture (`CarBattery1/2/3` indifférentes), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
 
 - **Apprentissage (validé : D-6).** Recettes connues automatiquement à leur niveau (`AutoLearnAny = Electricity:n`, champ vu dans `recipes_traps.txt:99-121`).
-- **Équilibrage.** Les calculatrices sont la porte d'entrée du solaire (10 par panneau) ; au niveau 8, on n'en dépend plus.
+- **Équilibrage.** Les calculatrices sont la porte d'entrée du solaire (10 par panneau) ; au niveau 3, on n'en dépend plus.
 - **Butin.** Cellules photovoltaïques : garages, ateliers, électriciens (`GarageTools`, `CrateTools`, `GarageMetalwork`, `MechanicShelfElectric`, `ElectricianTools`, `MetalShopTools`, `WireFactoryElectric`, `ToolStoreMisc`). Panneaux tout faits, plus rares : garages, ateliers, quincailleries (`GarageTools`, `CrateTools`, `GarageMetalwork`, `ToolStoreMisc`, `ToolStoreTools`). Disque du logiciel (Computer Mod seulement) : magasins et caisses d'informatique, bureaux.
 
 ---
@@ -298,12 +298,12 @@ Les niveaux vanilla vont de 0 à 10 (`Perks.Electricity`, `java/zombie/character
 | 0 | Lire un testeur : « alimenté / non alimenté » | — |
 | 1 | Testeur de tension (I-1, v0.1) | Lecture détaillée de la case (§ 6.4) |
 | 2 | Cellules de calculatrice ; **powerbank** (I-6, v0.1) ; chargeur de piles (I-2, v0.2) | Usure des batteries −5 % |
-| 3 | Panneaux photovoltaïques (I-9, v0.1) ; désarmer une alarme (I-3, v0.3) | Rendement de pose 0,85 |
-| 4 | Réparer les appareils, dont les cuisinières (I-5, v0.2) ; reconditionner une batterie (v0.1) | Lecture de l'autonomie |
-| 5 | **Onduleur** (I-6, v0.1) | — |
-| 6 | Éolienne (I-9, v0.1) ; batterie stationnaire (v0.1) ; pompe électrique (I-7, v0.2) | Usure des batteries −10 % |
-| 7 | Roue à aubes (I-9, v0.1) ; capteurs et alarme de base (I-4, v0.3) | Rendement de pose 0,95 |
-| 8 | Cellules à partir de déchets (v0.1) ; clôture électrifiée (I-8, v0.4) | Chance d'échec de réparation divisée par 2 |
+| 3 | Panneaux photovoltaïques (I-9, v0.1) ; **onduleur** (I-6, v0.1) ; éolienne (I-9, v0.1) ; batterie stationnaire (v0.1) ; pompe électrique (I-7, v0.2) ; cellules à partir de déchets (v0.1) ; désarmer une alarme (I-3, v0.3) | Rendement de pose 0,85 |
+| 4 | Réparer les appareils, dont les cuisinières (I-5, v0.2) ; reconditionner une batterie (v0.1) ; roue à aubes (I-9, v0.1) | Lecture de l'autonomie |
+| 5 | — | — |
+| 6 | — | Usure des batteries −10 % |
+| 7 | Capteurs et alarme de base (I-4, v0.3) | Rendement de pose 0,95 |
+| 8 | Clôture électrifiée (I-8, v0.4) | Chance d'échec de réparation divisée par 2 |
 | 9-10 | Onduleur relais : raccorder un grand bâtiment (I-10, v0.4) | Rendement de pose 1,0 ; usure des appareils −25 % |
 
 ### 4.2 Expérience
@@ -348,7 +348,7 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 - coût : 1 `ElectronicsScrap` et 1 `ElectricWire` ;
 - gain : `5 + niveau` points d'état ;
 - échec : `max(5, 40 − 5 × niveau)` %, la pièce est perdue ;
-- au-delà de 90 points, il faut « Remettre à neuf » (niv. 8 : 4 `ElectronicsScrap` et 2 `ElectricWire`), qui ramène l'état à 100.
+- au-delà de 90 points, il faut « Remettre à neuf » (niv. 3 : 4 `ElectronicsScrap` et 2 `ElectricWire`), qui ramène l'état à 100.
 
 **Reconditionner une batterie** (niv. 4, batterie en inventaire) :
 - extension locale I12 après 1.5.0 : tournevis, 1 `ElectronicsScrap`, 1 `ElectricWire` et 0,5 l d'eau ;
@@ -655,7 +655,7 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 
 ### 10.1 Pompe à eau (F20, version 1.2.0)
 
-- Appareil posé `WaterPump`, Électricité 6 (fabrication et pose), raccordé à l'onduleur au fil électrique comme une source.
+- Appareil posé `WaterPump`, Électricité 3 (fabrication et pose), raccordé à l'onduleur au fil électrique comme une source.
 - Barils : collecteurs d'eau de pluie vanilla ou barils d'un mod (tout objet à fluide d'au moins 20 L), posés sur une des 8 cases voisines de la pompe, même étage ; 8 barils au plus ; 1 tuyau `Base.MetalPipe` consommé par baril, rendu au débranchement.
 - Réservoirs relais invisibles de 25 L posés au-dessus des éviers, baignoires, douches et toilettes raccordés à moins de `PumpRange` cases (15 par défaut) et à 3 étages au plus : la plomberie vanilla y puise ; les robinets se raccordent à la clé à tuyau comme en vanilla.
 - Seuls les relais qui alimentent un point d'eau déjà raccordé (clé à tuyau) sont remplis : un relais vide suffit à proposer « Raccorder », et l'eau des barils ne part pas dans les éviers non raccordés ni dans ceux des maisons voisines. Un point d'eau raccordé est alimenté dès la minute de jeu suivante. L'eau déjà présente dans un relais devenu inutile y reste.
@@ -671,7 +671,7 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 
 ### 10.2 Onduleurs en parallèle (F21, version 1.3.0)
 
-- Jusqu'à 3 onduleurs esclaves couplés à un onduleur maître (4 par réseau), avec un kit de couplage (`LiveWire.CouplingKit`, Électricité 6) et du fil électrique.
+- Jusqu'à 3 onduleurs esclaves couplés à un onduleur maître (4 par réseau), avec un kit de couplage (`LiveWire.CouplingKit`, Électricité 3) et du fil électrique.
 - Capacité du réseau = somme des onduleurs en service (6 000 W au plus) ; une seule batterie de stockage et une seule zone alimentée, celle du maître.
 - Chaque onduleur garde son interrupteur et son usure ; un esclave éteint ou en panne baisse la capacité, et le réseau disjoncte si la demande dépasse alors la capacité. Un esclave ne disjoncte pas seul : on réarme le maître.
 - « Découpler » rend un esclave indépendant et rend le kit (pas le fil).

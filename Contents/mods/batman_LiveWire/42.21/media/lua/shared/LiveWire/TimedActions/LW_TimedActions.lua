@@ -358,7 +358,7 @@ end
 --------------------------------------------------------------------------------
 LWRepairAction = ISBaseTimedAction:derive("LWRepairAction")
 
-LWRepairAction.OVERHAUL_LEVEL = 8
+LWRepairAction.OVERHAUL_LEVEL = 3
 
 function LWRepairAction.parts(overhaul)
     if overhaul then return 4, 2 end

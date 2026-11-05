@@ -1,9 +1,11 @@
 if isClient() then return end
 
 -- Live Wire: loot. Mod-only solar cells and ready-made equipment in garages, workshops,
--- electricians and hardware stores; the management software disk only when the Computer Mod is active (it
--- is useless without it).
+-- electricians, hardware stores and electrician or metalworker vehicles; the management software disk only
+-- when the Computer Mod is active (it is useless without it).
 require "Items/ProceduralDistributions"
+-- VehicleDistributions is read from the events only: requiring it here would run it before the vehicle
+-- junk tables (server/Vehicles/VehicleDistribution_*Junk.lua) and leave its junk entries empty.
 require "LiveWire/LW_Config"
 
 -- Management software disk (only with the Computer Mod).
@@ -21,15 +23,18 @@ local CELL_LISTS = {
 
 -- Ready-made solar panels (placeable): garages, workshops, hardware stores.
 local PANEL_LISTS = {
-    GarageTools = 0.3, CrateTools = 0.3, GarageMetalwork = 0.2, ToolStoreMisc = 0.5, ToolStoreTools = 0.3,
+    GarageTools = 0.3, CrateTools = 0.3, GarageMetalwork = 0.5, ToolStoreMisc = 0.5, ToolStoreTools = 0.3,
     CrateElectronics = 0.5, ElectronicStoreMisc = 0.5, CrateMetalwork = 0.3, ToolStoreMetalwork = 0.3,
+    GarageMechanics = 0.3,
 }
 
--- Ready-made Live Wire equipment: electricians, electrical shelves, hardware stores, garages.
+-- Ready-made Live Wire equipment: electricians, electrical shelves, hardware stores, garages
+-- (tool, mechanics and metalwork shelves).
 local EQUIPMENT = {
     ["LiveWire.VoltageTester"] = {
         ElectricianTools = 3, ToolStoreTools = 1, GarageTools = 1, CrateTools = 1, WireFactoryElectric = 1,
         ElectronicStoreMisc = 1, CrateElectronics = 1, MechanicShelfElectric = 1, MechanicShelfTools = 1,
+        GarageMechanics = 1, GarageMetalwork = 0.5,
     },
     ["LiveWire.DeepCycleBattery"] = {
         MechanicShelfElectric = 1, CarSupplyBatteries = 2, GarageMechanics = 0.3,
@@ -38,11 +43,12 @@ local EQUIPMENT = {
     ["Base.Mov_LiveWire_Inverter"] = {
         ElectricianTools = 0.5, WireFactoryElectric = 0.5, ToolStoreMisc = 0.2, GarageTools = 0.1,
         CrateElectronics = 0.5, ElectronicStoreMisc = 0.5, ElectronicStoreAppliances = 0.3,
-        MechanicShelfElectric = 0.3, CrateTools = 0.2,
+        MechanicShelfElectric = 0.3, CrateTools = 0.2, GarageMechanics = 0.3,
     },
     ["Base.Mov_LiveWire_Breaker"] = {
         ElectricianTools = 1, WireFactoryElectric = 1, ToolStoreMisc = 0.5, GarageTools = 0.3, CrateTools = 0.3,
         CrateElectronics = 0.7, ElectronicStoreMisc = 0.5, ToolStoreTools = 0.5, CrateMetalwork = 0.3,
+        GarageMechanics = 0.3, GarageMetalwork = 0.3,
     },
     ["Base.Mov_LiveWire_PowerBank"] = {
         ElectricianTools = 0.5, MechanicShelfElectric = 0.5, ToolStoreMisc = 0.3, GarageTools = 0.2,
@@ -52,12 +58,13 @@ local EQUIPMENT = {
     ["Base.Mov_LiveWire_BatteryAlarm"] = {
         ElectricianTools = 1, WireFactoryElectric = 1, ToolStoreMisc = 0.5,
         CrateElectronics = 0.7, ElectronicStoreMisc = 0.5, CrateTools = 0.3, GarageTools = 0.3,
+        GarageMechanics = 0.3,
     },
     ["Base.Mov_LiveWire_WindTurbine"] = {
         ToolStoreMisc = 0.3, WireFactoryElectric = 0.5,
         CrateElectronics = 0.3, CrateMetalwork = 0.3, ToolStoreMetalwork = 0.5,
         CrateTools = 0.3, WireFactoryTools = 0.5, CrateFarming = 0.3,
-        ToolStoreFarming = 0.3, MechanicShelfTools = 0.3,
+        ToolStoreFarming = 0.3, MechanicShelfTools = 0.3, GarageMetalwork = 0.2,
     },
     ["Base.Mov_LiveWire_WaterWheel"] = {
         CrateCarpentry = 0.5, ToolStoreCarpentry = 0.5, CrateFarming = 0.5,
@@ -65,20 +72,43 @@ local EQUIPMENT = {
     },
     ["LiveWire.WindTurbineBlades"] = {
         CrateMetalwork = 1, ToolStoreMetalwork = 1, CrateTools = 0.7,
-        CrateFarming = 0.7, ToolStoreFarming = 0.7, WireFactoryTools = 0.7,
+        CrateFarming = 0.7, ToolStoreFarming = 0.7, WireFactoryTools = 0.7, GarageMetalwork = 0.7,
     },
     ["LiveWire.WindTurbineMast"] = {
         CrateMetalwork = 1, ToolStoreMetalwork = 1, CrateTools = 0.7,
-        CrateMechanics = 0.7, CrateFarming = 0.7, ToolStoreFarming = 0.7,
+        CrateMechanics = 0.7, CrateFarming = 0.7, ToolStoreFarming = 0.7, GarageMetalwork = 0.7,
     },
 }
 
+-- Vehicle containers (VehicleDistributions tables shared by the electrician profile, including the
+-- electrical company vans, and by the metalworker profile).
+local VEHICLE = {
+    ["LiveWire.VoltageTester"] = { ElectricianTruckBed = 2, ElectricianGloveBox = 1, ElectricianSeat = 1 },
+    ["LiveWire.SolarCell"] = { ElectricianTruckBed = 2 },
+    ["Base.Mov_LiveWire_Breaker"] = { ElectricianTruckBed = 1 },
+    ["Base.Mov_LiveWire_BatteryAlarm"] = { ElectricianTruckBed = 1 },
+    ["Base.Mov_LiveWire_Inverter"] = { ElectricianTruckBed = 0.5 },
+    ["Base.Mov_LiveWire_PowerBank"] = { ElectricianTruckBed = 0.5 },
+    ["Base.Mov_LiveWire_SolarPanel"] = { ElectricianTruckBed = 0.5, MetalWelderTruckBed = 0.3 },
+    ["LiveWire.WindTurbineBlades"] = { MetalWelderTruckBed = 1 },
+    ["LiveWire.WindTurbineMast"] = { MetalWelderTruckBed = 1 },
+    ["Base.Mov_LiveWire_WindTurbine"] = { MetalWelderTruckBed = 0.3 },
+}
+
+local function proceduralList(name)
+    return ProceduralDistributions.list[name]
+end
+
+local function vehicleList(name)
+    return VehicleDistributions and VehicleDistributions[name]
+end
+
 -- Absolute weights, not repeated multiplication: merging or initializing twice
 -- must neither duplicate entries nor compound the configured multiplier.
-local function add(lists, fullType, multiplier)
+local function add(lists, fullType, multiplier, find)
     local changed = false
     for name, weight in pairs(lists) do
-        local list = ProceduralDistributions.list[name]
+        local list = (find or proceduralList)(name)
         if list and list.items then
             local items, index = list.items, nil
             for i = 1, #items, 2 do
@@ -105,6 +135,9 @@ local function equipment(multiplier)
     if add(PANEL_LISTS, "Base.Mov_LiveWire_SolarPanel", multiplier) then changed = true end
     for fullType, lists in pairs(EQUIPMENT) do
         if add(lists, fullType, multiplier) then changed = true end
+    end
+    for fullType, lists in pairs(VEHICLE) do
+        if add(lists, fullType, multiplier, vehicleList) then changed = true end
     end
     return changed
 end

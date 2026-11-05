@@ -1,9 +1,9 @@
 # Changelog
 
-## Unreleased
+## 1.7.0 — 2026-11-05
 
 ### New features
-- New **inverter cabinet**: a full-height 4,500 W inverter (60 W idle) built from an ordinary inverter at Electrical level 6 (recipe "Build Inverter Cabinet"). It works like the inverter (screen, running and fault lights, soundproofing, wear) and can be coupled with inverters or other cabinets; the network capacity is the sum of the inverters in service. Model contributed by PewPewCricket.
+- New **inverter cabinet**: a full-height 4,500 W inverter (60 W idle) built from an ordinary inverter at Electrical level 3 (recipe "Build Inverter Cabinet"). It works like the inverter (screen, running and fault lights, soundproofing, wear) and can be coupled with inverters or other cabinets; the network capacity is the sum of the inverters in service. Model contributed by PewPewCricket.
 
 ### Fixes
 - Fixed an occasional error `IndexOutOfBoundsException: Index: 0 Size: 0` in `LW_Circuits.lua` when moving away from a base, for example by car. Live Wire now drops its pending work on an area as soon as the game unloads it. When the area loads again, every appliance in it is checked again from the start, so none is missed.
@@ -16,7 +16,11 @@
 - Fixed water poured into a barrel linked to a water pump seeming to disappear while the pump showed 0 L/h. The pump only filled its hidden tanks for every sink, shower and toilet in range, plumbed or not, including the neighbours' houses. It now only supplies the fixtures you have plumbed with a pipe wrench, and a newly plumbed fixture gets water within a game minute.
 
 ### Improvements
+- Lower Electrical requirements: everything you build, place or connect now needs at most Electrical level 3. Inverter kit, inverter cabinet, wind turbine assembly, water pump, inverter coupling kit, deep-cycle battery and solar cells from scrap are now crafted at level 3; inverters, inverter cabinets and water pumps are placed at level 3; coupling inverters and overhauling a device need level 3; connecting a backup generator needs level 2. The water wheel is crafted at level 4.
+- The management computer's automatic load shedding is a software feature: it no longer requires any Electrical level, any connected computer turns the lights off when the batteries run low.
 - Inverters and water pumps now use quiet native game sounds, with the game's spatial audio and sound-effects volume. Soundproofing and the Live Wire volume setting are preserved. Removed the separate per-frame hum handler; the alarm beep is only monitored while it is playing.
+- Ready-made equipment is easier to find in house garages. Mechanic shelves can now hold a voltage tester, an inverter, a breaker panel, a low battery alarm or a solar panel, in addition to deep-cycle batteries and power banks. Metalwork shelves can now hold a voltage tester, a breaker panel, a wind turbine, blades and a mast, in addition to solar cells, and solar panels are more common there.
+- Electrician vehicles (including the electrical company vans) can now carry Live Wire equipment: voltage testers, solar cells and panels, breaker panels, alarms, inverters and power banks in the truck bed or trunk, and a voltage tester in the glove box or on the passenger seat. Metalworker vehicles can carry blades, masts, wind turbines and solar panels. As with any loot change, only containers and vehicles not yet generated benefit: explore new areas.
 - Wind turbines are now useful in ordinary Zomboid weather. They produce from 10 km/h (about 15 W) and reach full power at 30 km/h instead of 45: about 50 W at 15 km/h and 230 W at 25 km/h, where they used to show 0 to 30 W.
 - Turbine blades now turn exactly when the turbine produces: they count the height bonus (+15% wind per floor, up to the 3rd) and stop above 85 km/h.
 - Show the supplied taps now highlights in grey the fixtures in range that are not plumbed yet, so you can see which ones still need the pipe wrench.

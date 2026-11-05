@@ -16,14 +16,14 @@ The electrical panel has lighting, equipment and main levers, plus instant circu
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 
 Solar 100 W, wind 400 W, water wheel 120 W. An inverter supplies appliances within 20 tiles and ±3 floors, up to 1,500 W. No cable per household appliance.
-[b]Need more than 1,500 W?[/b] Place a second inverter with nothing connected, right-click it > Live Wire > "Couple to an inverter" (1 Inverter Coupling Kit, Electrical 6 recipe). Up to 4 coupled inverters: 6,000 W. New: rebuild an inverter into a 4,500 W [b]inverter cabinet[/b] (Electrical 6); it couples too.
+[b]Need more than 1,500 W?[/b] Place a second inverter with nothing connected, right-click it > Live Wire > "Couple to an inverter" (1 Inverter Coupling Kit, Electrical 3 recipe). Up to 4 coupled inverters: 6,000 W. New: rebuild an inverter into a 4,500 W [b]inverter cabinet[/b] (Electrical 3); it couples too.
 Store surplus in power banks (4 batteries each). Cables: 1 wire per 4 tiles, range 12. Choose Game values, Realistic 1993, Ultra-realistic 1993 or Comfort consumption in sandbox options.
 
 [h2]Equipment[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_en.png[/img]
 
-Place solar panels outdoors (Electrical 3), turbines outdoors and water wheels on river banks (both 2), inverters (5) and power banks (2). Stack two banks on one tile, with separate inventories and connections; empty them before removal, upper bank first.
+Place solar panels outdoors (Electrical 3), turbines outdoors and water wheels on river banks (both 2), inverters (3) and power banks (2). Stack two banks on one tile, with separate inventories and connections; empty them before removal, upper bank first.
 Optional: breaker, battery alarm, soundproofing, vanilla backup generator and management computer.
 
 [h2]Production[/h2]
@@ -34,13 +34,13 @@ Solar direction matters: south 100%, east/west 85%, north 55%. Clouds, snow and 
 
 [h2]Water pump[/h2]
 
-A water pump (Electrical 6) supplies plumbed fixtures within 15 tiles from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] barrels, one metal pipe each. Use a pipe wrench for plumbing. Rainwater comes out clean: up to 5 L/min, 250 W while pumping. Blue light = powered, even idle. Before uninstalling, remove all water relays with the debug/admin action.
+A water pump (Electrical 3) supplies plumbed fixtures within 15 tiles from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] barrels, one metal pipe each. Use a pipe wrench for plumbing. Rainwater comes out clean: up to 5 L/min, 250 W while pumping. Blue light = powered, even idle. Before uninstalling, remove all water relays with the debug/admin action.
 
 [h2]Recipes[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
 
-18 recipes, illustrated below. Electrical recipes unlock automatically; blades and masts are in Metalworking with no Electrical gate. Assemble a turbine at level 6; craft a water wheel at 7, both using two amplifiers. Place/pick up either at 2. Dismantle a voltage tester for scrap. Every recipe grants Electrical XP. Broader equipment/parts loot; sandbox multiplier 5 by default (1–20), future rolls only after restart.
+18 recipes, illustrated below. Electrical recipes unlock automatically; blades and masts are in Metalworking with no Electrical gate. Assemble a turbine at level 3; craft a water wheel at 4, both using two amplifiers. Place/pick up either at 2. Dismantle a voltage tester for scrap. Every recipe grants Electrical XP. Broader equipment/parts loot; sandbox multiplier 5 by default (1–20), future rolls only after restart.
 
 [h2]Management software[/h2]
 

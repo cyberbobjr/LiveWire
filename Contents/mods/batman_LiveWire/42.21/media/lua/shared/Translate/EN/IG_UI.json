@@ -147,7 +147,7 @@
     "IGUI_LW_Backup_Fuel": "Fuel: %1%%",
     "IGUI_LW_Backup_Thresholds": "Starts below %1%% of battery, stops at %2%%.",
     "IGUI_LW_Section_Computer": "Management computer",
-    "IGUI_LW_Computer_None": "Connect a desktop computer (Electrical 6) to see the history and the forecast.",
+    "IGUI_LW_Computer_None": "Connect a desktop computer (Electrical 3) to see the history and the forecast.",
     "IGUI_LW_Computer_Off": "The computer has no power.",
     "IGUI_LW_Computer_NoHistory": "Recording... (one point per hour)",
     "IGUI_LW_Computer_Shed": "Load shedding: lights are switched off below 15%% of battery.",

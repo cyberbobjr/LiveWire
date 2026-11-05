@@ -2,7 +2,7 @@
 
 # Loot Tables
 
-Live Wire adds solar cells, ready-made equipment and an optional software disk to vanilla loot lists.
+Live Wire adds solar cells, ready-made equipment and an optional software disk to vanilla loot lists. Electrician vehicles (including the electrical company vans) and metalworker vehicles also carry equipment: lists named `ElectricianTruckBed`, `ElectricianGloveBox`, `ElectricianSeat` and `MetalWelderTruckBed` below.
 
 ## How to read the tables
 
@@ -28,6 +28,7 @@ Weights at ×5; estimates assume this list is selected and a vanilla loot modifi
 | `ElectronicStoreMisc` | Electronics store, miscellaneous | 10 | 4 | 21.9 % |
 | `ToolStoreMetalwork` | Hardware store, metalwork | 5 | 4 | 11.5 % |
 | `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
+| `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 10 | 4 | 21.9 % |
 
 ## Ready-made Live Wire equipment
 
@@ -39,16 +40,20 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 
 | Equipment | Vanilla list | Where | Weight (×5) | Rolls | ≈ chance per container |
 |---|---|---|---|---|---|
-| <img src="../../images/icons/SolarPanel.png" width="24" height="24"> **Solar Panel** (furniture: × 0.6 included) | `ToolStoreMisc` | Hardware store, miscellaneous | 2.5 | 4 | 5.9 % |
+| <img src="../../images/icons/SolarPanel.png" width="24" height="24"> **Solar Panel** (furniture: × 0.6 included) | `GarageMetalwork` | Garage metalwork storage | 2.5 | 4 | 5.9 % |
+|  | `ToolStoreMisc` | Hardware store, miscellaneous | 2.5 | 4 | 5.9 % |
 |  | `CrateElectronics` | Electronics crates | 2.5 | 4 | 5.9 % |
 |  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 2.5 | 4 | 5.9 % |
 |  | `GarageTools` | Garage tool storage | 1.5 | 4 | 3.6 % |
 |  | `CrateTools` | Tool crates | 1.5 | 4 | 3.6 % |
 |  | `ToolStoreTools` | Hardware store, tools | 1.5 | 4 | 3.6 % |
 |  | `CrateMetalwork` | Metalwork crates | 1.5 | 4 | 3.6 % |
 |  | `ToolStoreMetalwork` | Hardware store, metalwork | 1.5 | 4 | 3.6 % |
-|  | `GarageMetalwork` | Garage metalwork storage | 1 | 4 | 2.4 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 1.5 | 4 | 3.6 % |
+|  | `MetalWelderTruckBed` | Metalworker vehicle, truck bed or trunk | 1.5 | 4 | 3.6 % |
 | <img src="../../images/icons/VoltageTester.png" width="24" height="24"> **Voltage Tester** | `ElectricianTools` | Electrician's tools | 15 | 3 | 24.6 % |
+|  | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 10 | 4 | 21.9 % |
 |  | `ToolStoreTools` | Hardware store, tools | 5 | 4 | 11.5 % |
 |  | `GarageTools` | Garage tool storage | 5 | 4 | 11.5 % |
 |  | `CrateTools` | Tool crates | 5 | 4 | 11.5 % |
@@ -57,6 +62,10 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 |  | `CrateElectronics` | Electronics crates | 5 | 4 | 11.5 % |
 |  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 5 | 4 | 11.5 % |
 |  | `MechanicShelfTools` | Mechanic shop, tools | 5 | 4 | 11.5 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 5 | 4 | 11.5 % |
+|  | `ElectricianGloveBox` | Electrician vehicle, glove box | 5 | 1 | 3.0 % |
+|  | `ElectricianSeat` | Electrician vehicle, passenger seat | 5 | 1 | 3.0 % |
+|  | `GarageMetalwork` | Garage metalwork storage | 2.5 | 4 | 5.9 % |
 | <img src="../../images/icons/DeepCycleBattery.png" width="24" height="24"> **Deep-Cycle Battery** | `CarSupplyBatteries` | Car parts store, batteries | 10 | 4 | 21.9 % |
 |  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 5 | 4 | 11.5 % |
 |  | `CrateMechanics` | Mechanic supply crates | 3.5 | 4 | 8.1 % |
@@ -68,13 +77,16 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 |  | `WireFactoryElectric` | Wire factory, electrical | 2.5 | 4 | 5.9 % |
 |  | `CrateElectronics` | Electronics crates | 2.5 | 4 | 5.9 % |
 |  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
+|  | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 2.5 | 4 | 5.9 % |
 |  | `ElectronicStoreAppliances` | Electronics store, appliances | 1.5 | 1 | 0.9 % |
 |  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 1.5 | 4 | 3.6 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 1.5 | 4 | 3.6 % |
 |  | `ToolStoreMisc` | Hardware store, miscellaneous | 1 | 4 | 2.4 % |
 |  | `CrateTools` | Tool crates | 1 | 4 | 2.4 % |
 |  | `GarageTools` | Garage tool storage | 0.5 | 4 | 1.2 % |
 | <img src="../../images/icons/Breaker.png" width="24" height="24"> **Breaker Panel** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 5 | 3 | 8.7 % |
 |  | `WireFactoryElectric` | Wire factory, electrical | 5 | 4 | 11.5 % |
+|  | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 5 | 4 | 11.5 % |
 |  | `CrateElectronics` | Electronics crates | 3.5 | 4 | 8.1 % |
 |  | `ToolStoreMisc` | Hardware store, miscellaneous | 2.5 | 4 | 5.9 % |
 |  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
@@ -82,9 +94,12 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 |  | `GarageTools` | Garage tool storage | 1.5 | 4 | 3.6 % |
 |  | `CrateTools` | Tool crates | 1.5 | 4 | 3.6 % |
 |  | `CrateMetalwork` | Metalwork crates | 1.5 | 4 | 3.6 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 1.5 | 4 | 3.6 % |
+|  | `GarageMetalwork` | Garage metalwork storage | 1.5 | 4 | 3.6 % |
 | <img src="../../images/icons/PowerBank.png" width="24" height="24"> **Power Bank** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 2.5 | 3 | 4.4 % |
 |  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 2.5 | 4 | 5.9 % |
 |  | `CrateElectronics` | Electronics crates | 2.5 | 4 | 5.9 % |
+|  | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 2.5 | 4 | 5.9 % |
 |  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2 | 4 | 4.7 % |
 |  | `ToolStoreMisc` | Hardware store, miscellaneous | 1.5 | 4 | 3.6 % |
 |  | `CrateMechanics` | Mechanic supply crates | 1.5 | 4 | 3.6 % |
@@ -93,11 +108,13 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 |  | `CrateTools` | Tool crates | 1 | 4 | 2.4 % |
 | <img src="../../images/icons/BatteryAlarm.png" width="24" height="24"> **Low Battery Alarm** (furniture: × 0.6 included) | `ElectricianTools` | Electrician's tools | 5 | 3 | 8.7 % |
 |  | `WireFactoryElectric` | Wire factory, electrical | 5 | 4 | 11.5 % |
+|  | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 5 | 4 | 11.5 % |
 |  | `CrateElectronics` | Electronics crates | 3.5 | 4 | 8.1 % |
 |  | `ToolStoreMisc` | Hardware store, miscellaneous | 2.5 | 4 | 5.9 % |
 |  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 2.5 | 4 | 5.9 % |
 |  | `CrateTools` | Tool crates | 1.5 | 4 | 3.6 % |
 |  | `GarageTools` | Garage tool storage | 1.5 | 4 | 3.6 % |
+|  | `GarageMechanics` | Garage, mechanic storage | 1.5 | 4 | 3.6 % |
 | <img src="../../images/icons/WindTurbine.png" width="24" height="24"> **Wind Turbine** (furniture: × 0.6 included) | `WireFactoryElectric` | Wire factory, electrical | 2.5 | 4 | 5.9 % |
 |  | `ToolStoreMetalwork` | Hardware store, metalwork | 2.5 | 4 | 5.9 % |
 |  | `WireFactoryTools` | Wire factory, tools | 2.5 | 4 | 5.9 % |
@@ -108,6 +125,8 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 |  | `CrateFarming` | Farming supply crates | 1.5 | 4 | 3.6 % |
 |  | `ToolStoreFarming` | Hardware/outdoor store, farming | 1.5 | 4 | 3.6 % |
 |  | `MechanicShelfTools` | Mechanic shop, tools | 1.5 | 4 | 3.6 % |
+|  | `MetalWelderTruckBed` | Metalworker vehicle, truck bed or trunk | 1.5 | 4 | 3.6 % |
+|  | `GarageMetalwork` | Garage metalwork storage | 1 | 4 | 2.4 % |
 | <img src="../../images/icons/WaterWheel.png" width="24" height="24"> **Water Wheel** (furniture: × 0.6 included) | `CrateCarpentry` | Carpentry crates | 2.5 | 4 | 5.9 % |
 |  | `ToolStoreCarpentry` | Hardware store, carpentry | 2.5 | 4 | 5.9 % |
 |  | `CrateFarming` | Farming supply crates | 2.5 | 4 | 5.9 % |
@@ -117,16 +136,20 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 |  | `CrateMetalwork` | Metalwork crates | 1.5 | 4 | 3.6 % |
 | <img src="../../images/icons/WindTurbineBlades.png" width="24" height="24"> **Wind Turbine Blade Set** | `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
 |  | `ToolStoreMetalwork` | Hardware store, metalwork | 5 | 4 | 11.5 % |
+|  | `MetalWelderTruckBed` | Metalworker vehicle, truck bed or trunk | 5 | 4 | 11.5 % |
 |  | `CrateTools` | Tool crates | 3.5 | 4 | 8.1 % |
 |  | `CrateFarming` | Farming supply crates | 3.5 | 4 | 8.1 % |
 |  | `ToolStoreFarming` | Hardware/outdoor store, farming | 3.5 | 4 | 8.1 % |
 |  | `WireFactoryTools` | Wire factory, tools | 3.5 | 4 | 8.1 % |
+|  | `GarageMetalwork` | Garage metalwork storage | 3.5 | 4 | 8.1 % |
 | <img src="../../images/icons/WindTurbineMast.png" width="24" height="24"> **Wind Turbine Mast** | `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
 |  | `ToolStoreMetalwork` | Hardware store, metalwork | 5 | 4 | 11.5 % |
+|  | `MetalWelderTruckBed` | Metalworker vehicle, truck bed or trunk | 5 | 4 | 11.5 % |
 |  | `CrateTools` | Tool crates | 3.5 | 4 | 8.1 % |
 |  | `CrateMechanics` | Mechanic supply crates | 3.5 | 4 | 8.1 % |
 |  | `CrateFarming` | Farming supply crates | 3.5 | 4 | 8.1 % |
 |  | `ToolStoreFarming` | Hardware/outdoor store, farming | 3.5 | 4 | 8.1 % |
+|  | `GarageMetalwork` | Garage metalwork storage | 3.5 | 4 | 8.1 % |
 
 ## Mod components
 
@@ -150,7 +173,7 @@ item is added, removed or reweighted by this option.
 ## Other ways to get solar cells
 
 - Dismantle a calculator: 1 solar cell each, no level required.
-- At Electrical level 8, make a solar cell from 5 electronics scrap + 1 aluminum.
+- At Electrical level 3, make a solar cell from 5 electronics scrap + 1 aluminum.
 
 ## See also
 

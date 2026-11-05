@@ -8,8 +8,8 @@ These four add-ons are not required to run a network, but they make it safer and
 |---|---|---|
 | Breaker panel (wall) | Trips instead of the inverter when the house demand exceeds its maximum (1,500 W, 4,500 W for an inverter cabinet), so the inverter does not lose 3 condition points. Red lamp when tripped; reset on the breaker itself ("Reset the breaker"), refused while still overloaded. | 3 |
 | Low battery alarm (wall) | Below 20 % stock: a message to players within 30 tiles, then a beep every 10 game minutes until "Silence the alarm". The beacon stays lit until the stock is back above 25 %. | 2 |
-| Backup generator (vanilla generator) | Started by the mod under 20 % battery, stopped at 90 % (sandbox `BackupStartPercent` / `BackupStopPercent`). Supplies 1,200 W, burns 1 L of fuel per 3 kWh (on top of its vanilla consumption). Still noisy and toxic indoors; it must be plugged and fuelled the vanilla way. Never starts without batteries. | 3 |
-| Management computer (vanilla desktop computer) | 48 h history, three-day weather forecast, consumer list and event log. Load shedding at level 7: switches the lights off under 15 % to keep the fridge, re-armed above 30 %. | 6 |
+| Backup generator (vanilla generator) | Started by the mod under 20 % battery, stopped at 90 % (sandbox `BackupStartPercent` / `BackupStopPercent`). Supplies 1,200 W, burns 1 L of fuel per 3 kWh (on top of its vanilla consumption). Still noisy and toxic indoors; it must be plugged and fuelled the vanilla way. Never starts without batteries. | 2 |
+| Management computer (vanilla desktop computer) | 48 h history, three-day weather forecast, consumer list and event log. Automatic load shedding: switches the lights off under 15 % to keep the fridge, re-armed above 30 %. | 3 |
 
 The management computer and the backup generator are not crafted: they are vanilla objects found in the world. Link them from their own right-click menu (see [Wiring](03-wiring.md)).
 
@@ -17,7 +17,7 @@ The management computer and the backup generator are not crafted: they are vanil
 
 Real off-grid systems get more power by adding identical inverters in parallel, not by pushing one beyond its rating. Live Wire does the same:
 
-- Right-click an inverter > **Couple to an inverter** > a master inverter within cable range. The clicked inverter becomes a **slave**. Cost: the electric wire for the distance and 1 **inverter coupling kit** (recipe at Electrical 6).
+- Right-click an inverter > **Couple to an inverter** > a master inverter within cable range. The clicked inverter becomes a **slave**. Cost: the electric wire for the distance and 1 **inverter coupling kit** (recipe at Electrical 3).
 - The slave must have no equipment of its own; a master takes at most 3 slaves (4 inverters).
 - One network, one battery bank, one powered area (the master's). Capacity = sum of the inverters in service (1,500 W per inverter, 4,500 W per inverter cabinet; both can be coupled together); each switched-on inverter uses its idle consumption (20 W, 60 W for a cabinet) and wears as usual.
 - A slave switched off or broken no longer counts: if the demand then exceeds what is left, the breaker (or the master) trips. Each slave has its own On/Off switch; reset on the master or the breaker.

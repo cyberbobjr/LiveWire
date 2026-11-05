@@ -38,16 +38,16 @@ Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inv
 | Modèle (`Defs.devices`) | Objet posable | Rôle | Tuiles (index, orientations) | Chiffres | Niveau | XP pose | Usure (`wearDays`) |
 |---|---|---|---|---|---|---|---|
 | `SolarPanel` | `Base.Mov_LiveWire_SolarPanel` | `source` / `solar` | 0, 4 | 100 W nominal, dehors | 3 | 10 | 10 |
-| `WindTurbine` | `Base.Mov_LiveWire_WindTurbine` | `source` / `wind` | 4, 4 | 400 W nominal, dehors | 6 | 20 | 4 |
-| `WaterWheel` | `Base.Mov_LiveWire_WaterWheel` | `source` / `hydro` | 8, 4 | 120 W nominal, dehors, rivière | 7 | 20 | 6 |
-| `Inverter` | `Base.Mov_LiveWire_Inverter` | `inverter` | 12, 4 | 1 500 W max, 20 W à vide | 5 | 25 | 5 |
+| `WindTurbine` | `Base.Mov_LiveWire_WindTurbine` | `source` / `wind` | 4, 4 | 400 W nominal, dehors | 2 | 20 | 4 |
+| `WaterWheel` | `Base.Mov_LiveWire_WaterWheel` | `source` / `hydro` | 8, 4 | 120 W nominal, dehors, rivière | 2 | 20 | 6 |
+| `Inverter` | `Base.Mov_LiveWire_Inverter` | `inverter` | 12, 4 | 1 500 W max, 20 W à vide | 3 | 25 | 5 |
 | `PowerBank` | `Base.Mov_LiveWire_PowerBank` | `storage` | 16, 4 | 4 batteries comptées, conteneur `livewirepowerbank` (capacité 50) | 2 | 5 | 30 |
 | `Breaker` | `Base.Mov_LiveWire_Breaker` | `option` / `breaker` | 20, 2 (mural) | — | 3 | 5 | 15 |
 | `BatteryAlarm` | `Base.Mov_LiveWire_BatteryAlarm` | `option` / `alarm` | 22, 2 (mural) | alerte sous 20 %, réarmée à 25 %, rappel toutes les 2 h | 2 | 5 | 30 |
-| `WaterPump` | `Base.Mov_LiveWire_WaterPump` | `pump` | 72, 4 | 250 W, 5 L/min | 6 | 20 | 10 |
+| `WaterPump` | `Base.Mov_LiveWire_WaterPump` | `pump` | 72, 4 | 250 W, 5 L/min | 3 | 20 | 10 |
 
 - Tuile `batman_livewire_01_76` : réservoir relais transparent de la pompe (`Defs.RELAY_SPRITE`), jamais reconnu comme appareil.
-- Objets vanilla raccordés (rôles du registre sans tuile du mod) : générateur vanilla en secours (`role = "backup"`, modèle `BackupGenerator`, niveau 3) et ordinateur de bureau vanilla de gestion (`role = "computer"`, modèle `ManagementComputer`, niveau 6 ; délestage au niveau 7).
+- Objets vanilla raccordés (rôles du registre sans tuile du mod) : générateur vanilla en secours (`role = "backup"`, modèle `BackupGenerator`, niveau 2) et ordinateur de bureau vanilla de gestion (`role = "computer"`, modèle `ManagementComputer`, niveau 3 pour le raccordement ; délestage sans niveau requis).
 
 ### 2.3 Batteries reconnues (`Defs.batteries`)
 
@@ -558,14 +558,35 @@ condition de sélection de la liste : `1 − (1 − poids × modificateur / 100)
 sans effet de densité de zombies, du temps ni limite de place. Cela ne mesure pas
 la fréquence effective de découverte dans une carte ou une partie donnée.
 
+Étagères de garage (2026-11-03). Les étagères des garages de maison tirent surtout
+`GarageCarpentry`, `GarageMechanics` et `GarageMetalwork` (un conteneur au plus par
+pièce pour chacune), rarement `GarageTools`. Ajouts, poids de base avant multiplicateur :
+`GarageMechanics` reçoit le testeur (1), l'onduleur (0,3), le disjoncteur (0,3) et
+l'alarme (0,3) ; `GarageMetalwork` reçoit le testeur (0,5), le disjoncteur (0,3),
+l'éolienne (0,2), les pales (0,7) et le mât (0,7). Panneau solaire : `GarageMetalwork`
+0,2 → 0,5, `GarageMechanics` 0,3. Total : 98 couples type/liste procéduraux.
+
+Véhicules (2026-11-03). Table `VEHICLE` sur les listes partagées de `VehicleDistributions` :
+`ElectricianTruckBed` (4 tirages ; testeur 2, cellules 2, disjoncteur 1, alarme 1,
+onduleur 0,5, banque d'énergie 0,5, panneau 0,5), `ElectricianGloveBox` et
+`ElectricianSeat` (1 tirage ; testeur 1), `MetalWelderTruckBed` (4 tirages ; pales 1,
+mât 1, éolienne 0,3, panneau 0,3). Profil électricien : utilitaires `Van_LectroMax`,
+`VanPluggedInElectrics`, `Van_VoltMojo`, et profil tiré parmi d'autres pour
+camionnettes, fourgons et pick-up. Même multiplicateur et même mise à jour
+idempotente ; `ItemPickerJava.Parse()` relit aussi `VehicleDistributions[1]`, dont les
+profils partagent ces tables par référence. Le fichier ne fait **pas** de
+`require "Vehicles/VehicleDistributions"` : il s'exécuterait avant les tables de
+déchets des véhicules et laisserait leurs `junk` vides ; la table n'est lue que
+dans les événements. 13 couples véhicule. Un véhicule déjà apparu n'est pas re-rempli.
+
 ## Fabrication des sources et composants (F32)
 
 - Objets normaux : `LiveWire.WindTurbineBlades` (jeu de trois pales, poids 4),
   `LiveWire.WindTurbineMast` (4). Représentations vanilla temporaires :
   SheetMetal/MetalSheet et SteelRod_Full/SteelRod.
 - Recettes `LWMakeWindTurbineBlades` et `LWMakeWindTurbineMast` en Metalworking,
-  sans niveau requis, avec 2 XP d'Électricité chacune. Assemblage : niveau 6/30 XP éolienne,
-  7/30 XP roue ; deux `Base.Amplifier` dans chaque recette. Démontage vanilla des
+  sans niveau requis, avec 2 XP d'Électricité chacune. Assemblage : niveau 3/30 XP éolienne,
+  4/30 XP roue ; deux `Base.Amplifier` dans chaque recette. Démontage vanilla des
   haut-parleurs intégralement conservé, sans hook ni recette dédiée.
 - Durée éolienne 180 + 180 + 240 = 600. Mât : `Base.MetalPipe` au lieu du tuyau
   plastique `Base.Pipe`, deux barres ; total des trois étapes : six vis.
@@ -739,9 +760,9 @@ pas couverte par la police LCD mono. Pas de modification du routage du clic.
 ### Armoire onduleur (1.7.0)
 
 Second modèle d'onduleur, `Defs.devices.InverterCabinet` : `role = "inverter"`,
-`maxW = 4500`, `idleW = 60`, niveau 6, XP 35, `wearDays = 5`, objet
+`maxW = 4500`, `idleW = 60`, niveau 3, XP 35, `wearDays = 5`, objet
 `Base.Mov_LiveWire_InverterCabinet`, tuiles 88-91 (S, E, N, W). Recette
-`LWMakeInverterCabinet` (Électricité 6) : 1 `Base.Mov_LiveWire_Inverter`, 4 déchets
+`LWMakeInverterCabinet` (Électricité 3) : 1 `Base.Mov_LiveWire_Inverter`, 4 déchets
 électroniques, 2 amplificateurs, 4 fils, 1 plaque d'acier, 8 vis ; tournevis et pince
 conservés. Absente des tables de butin. L'état d'un onduleur consommé par la recette
 est perdu ; l'armoire est un appareil neuf.

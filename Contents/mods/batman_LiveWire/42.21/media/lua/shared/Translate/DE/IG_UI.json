@@ -144,7 +144,7 @@
     "IGUI_LW_Backup_Fuel": "Kraftstoff: %1%%",
     "IGUI_LW_Backup_Thresholds": "Startet unter %1%% Batterieladung, stoppt bei %2%%.",
     "IGUI_LW_Section_Computer": "Verwaltungscomputer",
-    "IGUI_LW_Computer_None": "Schließe einen Desktop-Computer (Elektrotechnik 6) an, um Verlauf und Prognose zu sehen.",
+    "IGUI_LW_Computer_None": "Schließe einen Desktop-Computer (Elektrotechnik 3) an, um Verlauf und Prognose zu sehen.",
     "IGUI_LW_Computer_Off": "Der Computer hat keinen Strom.",
     "IGUI_LW_Computer_NoHistory": "Aufzeichnung läuft ... (ein Messpunkt pro Stunde)",
     "IGUI_LW_Computer_Shed": "Lastabwurf: Lampen werden unter 15%% Batterieladung ausgeschaltet.",

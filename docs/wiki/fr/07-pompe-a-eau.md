@@ -10,7 +10,7 @@ Des barils d'eau posés au sol peuvent alimenter les points d'eau de toute une m
 
 | Objet | Détail |
 |---|---|
-| Pompe à eau | Recette au niveau 6 d'Électricité (voir [Recettes](08-recettes.md)). Se pose comme tout équipement Live Wire, dedans ou dehors. |
+| Pompe à eau | Recette au niveau 3 d'Électricité (voir [Recettes](08-recettes.md)). Se pose comme tout équipement Live Wire, dedans ou dehors. |
 | Fil électrique | Pour raccorder la pompe à un onduleur, comme tout équipement (1 fil pour 4 cases). |
 | Barils d'eau | Récupérateurs d'eau de pluie vanilla, ou barils du mod facultatif **Useful Barrels**. Jusqu'à 8 par pompe. |
 | Tuyaux en métal | 1 par baril, rendu quand on débranche le baril. |

@@ -144,7 +144,7 @@
     "IGUI_LW_Backup_Fuel": "Combustível: %1%%",
     "IGUI_LW_Backup_Thresholds": "Arranca abaixo de %1%% de bateria, para em %2%%.",
     "IGUI_LW_Section_Computer": "Computador de gestão",
-    "IGUI_LW_Computer_None": "Liga um computador de secretária (Eletricidade 6) para ver o histórico e a previsão.",
+    "IGUI_LW_Computer_None": "Liga um computador de secretária (Eletricidade 3) para ver o histórico e a previsão.",
     "IGUI_LW_Computer_Off": "O computador não tem energia.",
     "IGUI_LW_Computer_NoHistory": "A registar... (um ponto por hora)",
     "IGUI_LW_Computer_Shed": "Corte de carga: as luzes são desligadas abaixo de 15%% de bateria.",

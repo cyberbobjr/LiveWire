@@ -8,8 +8,8 @@ Quatre équipements facultatifs renforcent un réseau. Chaque réseau en accepte
 |---|---|---|
 | Disjoncteur (mural) | Saute à la place de l'onduleur quand la demande de la maison dépasse son maximum (1 500 W, 4 500 W pour une armoire onduleur) : l'onduleur ne perd plus 3 points d'état. Lampe rouge quand il a sauté ; réarmement sur le disjoncteur lui-même (« Réarmer le disjoncteur »), refusé tant qu'il y a surcharge. | 3 |
 | Alarme de batterie faible (murale) | Sous 20 % de stock : message aux joueurs à moins de 30 cases, bip toutes les 10 minutes de jeu jusqu'à « Couper la sonnerie » ; le gyrophare reste allumé jusqu'à ce que le stock repasse au-dessus de 25 %. | 2 |
-| Générateur de secours (générateur vanilla) | Démarré par le mod sous 20 % de batterie, arrêté à 90 % (options sandbox). Fournit 1 200 W et brûle 1 L de carburant par 3 kWh (en plus de sa consommation vanilla). Toujours bruyant et toxique en intérieur ; à brancher et alimenter en carburant à la manière vanilla. Ne démarre jamais sans batterie. | 3 |
-| Ordinateur de gestion (ordinateur de bureau vanilla) | Historique 48 h, prévisions météo sur trois jours, consommateurs et journal d'événements. Délestage au niveau 7 : éteint les lumières sous 15 % pour garder le frigo, réarmé au-dessus de 30 %. | 6 |
+| Générateur de secours (générateur vanilla) | Démarré par le mod sous 20 % de batterie, arrêté à 90 % (options sandbox). Fournit 1 200 W et brûle 1 L de carburant par 3 kWh (en plus de sa consommation vanilla). Toujours bruyant et toxique en intérieur ; à brancher et alimenter en carburant à la manière vanilla. Ne démarre jamais sans batterie. | 2 |
+| Ordinateur de gestion (ordinateur de bureau vanilla) | Historique 48 h, prévisions météo sur trois jours, consommateurs et journal d'événements. Délestage automatique : éteint les lumières sous 15 % pour garder le frigo, réarmé au-dessus de 30 %. | 3 |
 
 Le générateur de secours et l'ordinateur ne se fabriquent pas : ce sont des objets vanilla trouvés dans le monde.
 
@@ -17,7 +17,7 @@ Le générateur de secours et l'ordinateur ne se fabriquent pas : ce sont des ob
 
 Dans une vraie installation autonome, on gagne de la puissance en ajoutant des onduleurs identiques en parallèle, pas en poussant un onduleur au-delà de sa capacité. Live Wire fait de même :
 
-- Clic droit sur un onduleur > **Coupler à un onduleur** > un onduleur maître à portée de câble. L'onduleur cliqué devient **esclave**. Coût : le fil électrique de la distance et 1 **kit de couplage d'onduleurs** (recette au niveau 6 d'Électricité).
+- Clic droit sur un onduleur > **Coupler à un onduleur** > un onduleur maître à portée de câble. L'onduleur cliqué devient **esclave**. Coût : le fil électrique de la distance et 1 **kit de couplage d'onduleurs** (recette au niveau 3 d'Électricité).
 - L'esclave ne doit avoir aucun équipement raccordé ; un maître accepte au plus 3 esclaves (4 onduleurs).
 - Un seul réseau, un seul parc de batteries, une seule zone alimentée (celle du maître). Capacité = somme des onduleurs en service (1 500 W par onduleur, 4 500 W par armoire onduleur ; les deux se couplent entre eux) ; chaque onduleur allumé consomme sa part à vide (20 W, 60 W pour une armoire) et s'use comme d'habitude.
 - Un esclave éteint ou cassé ne compte plus : si la demande dépasse alors ce qui reste, le disjoncteur (ou le maître) saute. Chaque esclave a son interrupteur ; on réarme sur le maître ou le disjoncteur.

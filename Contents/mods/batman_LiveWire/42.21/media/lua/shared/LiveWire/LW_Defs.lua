@@ -38,7 +38,7 @@ Defs.devices = {
     Inverter = {
         role = "inverter",
         item = "Base.Mov_LiveWire_Inverter", tile = 12, facings = 4,
-        maxW = 1500, idleW = 20, level = 5, xp = 25,
+        maxW = 1500, idleW = 20, level = 3, xp = 25,
         wearDays = 5,
         -- Overlays (first sprite of each, + facing): running, fault, soundproofed.
         overlays = { on = 24, fault = 28, muffle = 68 },
@@ -47,7 +47,7 @@ Defs.devices = {
     InverterCabinet = {
         role = "inverter",
         item = "Base.Mov_LiveWire_InverterCabinet", tile = 88, facings = 4,
-        maxW = 4500, idleW = 60, level = 6, xp = 35,
+        maxW = 4500, idleW = 60, level = 3, xp = 35,
         wearDays = 5,
         overlays = { on = 92, fault = 96, muffle = 100 },
         lcdBrand = "IGUI_LW_LCD_BrandCabinet",
@@ -77,7 +77,7 @@ Defs.devices = {
     WaterPump = {
         role = "pump",
         item = "Base.Mov_LiveWire_WaterPump", tile = 72, facings = 4,
-        pumpW = 250, level = 6, xp = 20,
+        pumpW = 250, level = 3, xp = 20,
         wearDays = 10,
     },
 }
@@ -104,10 +104,9 @@ end
 -- Vanilla objects wired to an inverter. Their link is stored in their own ModData
 -- under these keys (never the device mark), so vanilla actions stay available.
 Defs.BACKUP_KEY = "LiveWireBackup"
-Defs.BACKUP_LEVEL = 3          -- vanilla generator as backup power
+Defs.BACKUP_LEVEL = 2          -- vanilla generator as backup power
 Defs.COMPUTER_KEY = "LiveWireComputer"
-Defs.COMPUTER_LEVEL = 6        -- vanilla desktop computer as management computer
-Defs.SHED_LEVEL = 7            -- load shedding by the management computer
+Defs.COMPUTER_LEVEL = 3        -- vanilla desktop computer as management computer
 Defs.ALARM_BELOW = 0.20
 Defs.ALARM_RESET = 0.25
 Defs.ALARM_REPEAT_HOURS = 2
@@ -146,7 +145,7 @@ Defs.MUFFLED_WEAR = 1.25   -- a soundproofed inverter runs warmer
 -- Parallel inverters (docs/annexes/conception/choix-et-extensions.md, section 5).
 Defs.MAX_SLAVES = 3                         -- 4 inverters per network
 Defs.COUPLING_KIT = "LiveWire.CouplingKit"
-Defs.COUPLING_LEVEL = 6
+Defs.COUPLING_LEVEL = 3
 
 -- Installation efficiency from the installer's Electrical level.
 function Defs.installEfficiency(level)

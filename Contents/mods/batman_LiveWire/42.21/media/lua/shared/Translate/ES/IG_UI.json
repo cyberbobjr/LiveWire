@@ -144,7 +144,7 @@
     "IGUI_LW_Backup_Fuel": "Combustible: %1%%",
     "IGUI_LW_Backup_Thresholds": "Arranca por debajo del %1%% de batería y se detiene al %2%%.",
     "IGUI_LW_Section_Computer": "Ordenador de gestión",
-    "IGUI_LW_Computer_None": "Conecta un ordenador de sobremesa (Electrónica 6) para ver el historial y la previsión.",
+    "IGUI_LW_Computer_None": "Conecta un ordenador de sobremesa (Electrónica 3) para ver el historial y la previsión.",
     "IGUI_LW_Computer_Off": "El ordenador no tiene corriente.",
     "IGUI_LW_Computer_NoHistory": "Registrando... (un punto por hora)",
     "IGUI_LW_Computer_Shed": "Deslastre de carga: las luces se apagan por debajo del 15%% de batería.",

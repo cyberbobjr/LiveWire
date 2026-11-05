@@ -144,7 +144,7 @@
     "IGUI_LW_Backup_Fuel": "燃料: %1%%",
     "IGUI_LW_Backup_Thresholds": "电池低于 %1%% 时启动, 达到 %2%% 时停止.",
     "IGUI_LW_Section_Computer": "管理电脑",
-    "IGUI_LW_Computer_None": "连接一台台式电脑 (电工 6 级) 以查看历史和预测.",
+    "IGUI_LW_Computer_None": "连接一台台式电脑 (电工 3 级) 以查看历史和预测.",
     "IGUI_LW_Computer_Off": "电脑没有电力.",
     "IGUI_LW_Computer_NoHistory": "正在记录... (每小时一个数据点)",
     "IGUI_LW_Computer_Shed": "减载: 电池低于 15%% 时关闭灯具.",

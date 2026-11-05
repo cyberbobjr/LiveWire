@@ -749,7 +749,7 @@ PROPS = [
     (range(8, 12), {"CustomName": "Water Wheel", "solidtrans": "", "BlocksPlacement": "",
                     "Material": "Wood", "PickUpWeight": "150", "PickUpLevel": "2", **_TOOLS}),
     (range(12, 16), {"CustomName": "Inverter", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "120", "PickUpLevel": "5", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "120", "PickUpLevel": "3", **_TOOLS}),
     (range(16, 20), {"CustomName": "Power Bank", "solidtrans": "", "BlocksPlacement": "", "IsLow": "",
                      "IsTable": "", "IsStackable": "", "Surface": "18",
                      "container": "livewirepowerbank", "ContainerCapacity": "50", "ContainerPosition": "Low",
@@ -759,9 +759,9 @@ PROPS = [
     (range(22, 24), {"CustomName": "Battery Alarm", "MoveType": "WallObject", "Material": "MetalPlates",
                      "PickUpWeight": "10", "PickUpLevel": "2", **_TOOLS}),
     (range(72, 76), {"CustomName": "Water Pump", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "80", "PickUpLevel": "6", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "80", "PickUpLevel": "3", **_TOOLS}),
     (range(88, 92), {"CustomName": "Inverter Cabinet", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "200", "PickUpLevel": "6", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "200", "PickUpLevel": "3", **_TOOLS}),
 ]
 FACING_NAMES = ["S", "E", "N", "W"]
 TOTAL = 104

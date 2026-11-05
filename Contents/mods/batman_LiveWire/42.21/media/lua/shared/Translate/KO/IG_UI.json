@@ -144,7 +144,7 @@
     "IGUI_LW_Backup_Fuel": "연료: %1%%",
     "IGUI_LW_Backup_Thresholds": "배터리가 %1%% 아래로 떨어지면 시작하고, %2%%에 도달하면 멈춥니다.",
     "IGUI_LW_Section_Computer": "관리용 컴퓨터",
-    "IGUI_LW_Computer_None": "기록과 예측을 보려면 데스크톱 컴퓨터(전기공학 6)를 연결하세요.",
+    "IGUI_LW_Computer_None": "기록과 예측을 보려면 데스크톱 컴퓨터(전기공학 3)를 연결하세요.",
     "IGUI_LW_Computer_Off": "컴퓨터에 전력이 없습니다.",
     "IGUI_LW_Computer_NoHistory": "기록 중... (1시간마다 한 점)",
     "IGUI_LW_Computer_Shed": "부하 차단: 배터리가 15%% 아래로 떨어지면 조명이 꺼집니다.",

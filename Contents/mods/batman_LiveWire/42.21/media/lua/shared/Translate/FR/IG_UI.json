@@ -147,7 +147,7 @@
     "IGUI_LW_Backup_Fuel": "Carburant : %1 %%",
     "IGUI_LW_Backup_Thresholds": "Démarre sous %1 %% de batterie, s'arrête à %2 %%.",
     "IGUI_LW_Section_Computer": "Ordinateur de gestion",
-    "IGUI_LW_Computer_None": "Raccordez un ordinateur de bureau (Électricité 6) pour voir l'historique et la prévision.",
+    "IGUI_LW_Computer_None": "Raccordez un ordinateur de bureau (Électricité 3) pour voir l'historique et la prévision.",
     "IGUI_LW_Computer_Off": "L'ordinateur n'est pas alimenté.",
     "IGUI_LW_Computer_NoHistory": "Enregistrement... (un point par heure)",
     "IGUI_LW_Computer_Shed": "Délestage : les lumières sont éteintes sous 15 %% de batterie.",

@@ -19,7 +19,7 @@ Devices wear out over time, which lowers their output (see the condition factor 
 ## Repair, overhaul, recondition
 
 - **Repair**: 1 electronics scrap + 1 electric wire, gains 5 + Electrical level points (up to 90). Failure chance: max(5, 40 - 5 x level) %, halved from level 8. Parts are lost on failure.
-- **Overhaul** (level 8): 4 electronics scrap + 2 electric wires, back to 100.
+- **Overhaul** (level 3): 4 electronics scrap + 2 electric wires, back to 100.
 - **Recondition a battery** (level 4, or 6 when dead): kept screwdriver, 1 electronics scrap + 1 wire + 0.5 L water; +15 condition, capped at 80, four repairs maximum. See the full battery rules below.
 
 ## Voltage tester
@@ -39,13 +39,13 @@ The Voltage Tester (`LiveWire.VoltageTester`): right-click a tile, then **Live W
 |---|---|---|
 | 0 | Read a tester: powered or not | none |
 | 1 | Voltage tester | Detailed reading of the tile |
-| 2 | Power bank, low battery alarm, soundproofing kit | Battery wear -5 % |
-| 3 | Solar panels, breaker, backup generator | Installation efficiency 0.85 |
-| 4 | Recondition a battery | Autonomy reading |
-| 5 | Inverter | none |
-| 6 | Inverter cabinet, wind turbine assembly, deep-cycle battery, management computer | Battery wear -10 % |
-| 7 | Water wheel crafting, load shedding | Installation efficiency 0.95 |
-| 8 | Solar cells from scrap, overhaul | Repair failure halved |
+| 2 | Power bank, low battery alarm, soundproofing kit, backup generator | Battery wear -5 % |
+| 3 | Solar panels, breaker, inverter, inverter cabinet, wind turbine assembly, deep-cycle battery, water pump, inverter coupling, solar cells from scrap, management computer (with load shedding), overhaul | Installation efficiency 0.85 |
+| 4 | Recondition a battery, water wheel crafting | Autonomy reading |
+| 5 | none | none |
+| 6 | none | Battery wear -10 % |
+| 7 | none | Installation efficiency 0.95 |
+| 8 | none | Repair failure halved |
 | 9-10 | none | Installation efficiency 1.0; device wear -25 % |
 
 ## Experience
@@ -83,7 +83,7 @@ are unaffected. This does not erase charge or reset condition/cycles.
 Dead, empty equipment can be salvaged at level 3 with a screwdriver: one scrap and
 one wire, plus a solar cell for a panel. Live maintenance risk is optional; see the detailed rules below.
 
-Wind turbines and water wheels need Electrical 2 to place/pick up; crafting stays at 6 and 7 respectively. Mechanical blade/mast recipes need no Electrical level.
+Wind turbines and water wheels need Electrical 2 to place/pick up; crafting needs 3 and 4 respectively. Mechanical blade/mast recipes need no Electrical level.
 
 ## Electrical safety and experience
 

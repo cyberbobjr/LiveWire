@@ -16,14 +16,14 @@ Le tableau possède des leviers éclairage, équipements et principal, avec les 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
 Solaire 100 W, éolien 400 W, roue à aubes 120 W. Un onduleur alimente les appareils à 20 cases et ±3 étages, jusqu'à 1 500 W. Aucun câble par appareil domestique.
-[b]Besoin de plus de 1 500 W ?[/b] Posez un second onduleur sans rien y raccorder, clic droit dessus > Live Wire > « Coupler à un onduleur » (1 kit de couplage d'onduleurs, recette Électricité 6). Jusqu'à 4 onduleurs couplés : 6 000 W. Nouveau : transformez un onduleur en [b]armoire onduleur[/b] de 4 500 W (Électricité 6), couplable elle aussi.
+[b]Besoin de plus de 1 500 W ?[/b] Posez un second onduleur sans rien y raccorder, clic droit dessus > Live Wire > « Coupler à un onduleur » (1 kit de couplage d'onduleurs, recette Électricité 3). Jusqu'à 4 onduleurs couplés : 6 000 W. Nouveau : transformez un onduleur en [b]armoire onduleur[/b] de 4 500 W (Électricité 3), couplable elle aussi.
 Stockez le surplus dans des powerbanks (4 batteries chacune). Câbles : 1 fil par 4 cases, portée 12. Profils sandbox : Valeurs du jeu, Réaliste 1993, Ultra-réaliste 1993 ou Confort.
 
 [h2]Équipements[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png[/img]
 
-Posez les panneaux dehors (Électricité 3), les éoliennes dehors et les roues à aubes sur une berge (2 pour les deux), les onduleurs (5) et les powerbanks (2). Empilez deux powerbanks sur une case, inventaires et liens séparés ; videz-les avant ramassage, celle du haut en premier.
+Posez les panneaux dehors (Électricité 3), les éoliennes dehors et les roues à aubes sur une berge (2 pour les deux), les onduleurs (3) et les powerbanks (2). Empilez deux powerbanks sur une case, inventaires et liens séparés ; videz-les avant ramassage, celle du haut en premier.
 En option : disjoncteur, alarme, insonorisation, générateur vanilla de secours et ordinateur de gestion.
 
 [h2]Production[/h2]
@@ -34,13 +34,13 @@ Orientation solaire : sud 100 %, est/ouest 85 %, nord 55 %. Nuages, neige et sal
 
 [h2]Pompe à eau[/h2]
 
-La pompe (Électricité 6) alimente les sanitaires raccordés à 15 cases depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum, un tuyau métallique chacun. Plomberie à la clé à tuyau. Eau de pluie rendue propre : jusqu'à 5 L/min, 250 W en pompant. Voyant bleu = alimentée, même au repos. Avant désinstallation, retirez les relais d'eau via l'action debug/admin.
+La pompe (Électricité 3) alimente les sanitaires raccordés à 15 cases depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum, un tuyau métallique chacun. Plomberie à la clé à tuyau. Eau de pluie rendue propre : jusqu'à 5 L/min, 250 W en pompant. Voyant bleu = alimentée, même au repos. Avant désinstallation, retirez les relais d'eau via l'action debug/admin.
 
 [h2]Recettes[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png[/img]
 
-18 recettes illustrées ci-dessous. Déblocage automatique en Électricité ; pales et mât en Métallerie, sans niveau électrique requis. Assemblage de l'éolienne au niveau 6, fabrication de la roue à 7, avec deux amplificateurs chacune. Pose/ramassage des deux au niveau 2. Le testeur se démonte en déchet électronique. Toutes les recettes donnent de l'XP électrique. Butin élargi : multiplicateur sandbox 5 par défaut (1–20), prochains tirages après redémarrage.
+18 recettes illustrées ci-dessous. Déblocage automatique en Électricité ; pales et mât en Métallerie, sans niveau électrique requis. Assemblage de l'éolienne au niveau 3, fabrication de la roue à 4, avec deux amplificateurs chacune. Pose/ramassage des deux au niveau 2. Le testeur se démonte en déchet électronique. Toutes les recettes donnent de l'XP électrique. Butin élargi : multiplicateur sandbox 5 par défaut (1–20), prochains tirages après redémarrage.
 
 [h2]Logiciel de gestion[/h2]
 

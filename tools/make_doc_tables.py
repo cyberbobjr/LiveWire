@@ -20,6 +20,8 @@ ROLLS = {"GarageTools": 4, "CrateTools": 4, "GarageMetalwork": 4, "MechanicShelf
          "ToolStoreMetalwork": 4, "MechanicShelfTools": 4, "CrateMechanics": 4,
          "CampingStoreGear": 4, "ElectronicStoreAppliances": 1}
 ROLLS.update(WireFactoryTools=4, CrateFarming=4, ToolStoreFarming=4, CrateCarpentry=4, ToolStoreCarpentry=4)
+# Vehicle containers (VehicleDistributions), see VEHICLE in LiveWire_Distributions.lua.
+ROLLS.update(ElectricianTruckBed=4, ElectricianGloveBox=1, ElectricianSeat=1, MetalWelderTruckBed=4)
 WHERE = {
     "EN": {"ElectricianTools": "Electrician's tools", "ToolStoreTools": "Hardware store, tools",
            "ToolStoreMisc": "Hardware store, miscellaneous", "GarageTools": "Garage tool storage",
@@ -50,48 +52,65 @@ WHERE['EN'].update(WireFactoryTools='Wire factory, tools', CrateFarming='Farming
 WHERE['FR'].update(WireFactoryTools='Usine de câbles, outils', CrateFarming='Caisses de matériel agricole',
     ToolStoreFarming='Quincaillerie ou magasin extérieur, agriculture', CrateCarpentry='Caisses de menuiserie',
     ToolStoreCarpentry='Quincaillerie, menuiserie')
+WHERE['EN'].update(ElectricianTruckBed='Electrician vehicle, truck bed or trunk',
+    ElectricianGloveBox='Electrician vehicle, glove box', ElectricianSeat='Electrician vehicle, passenger seat',
+    MetalWelderTruckBed='Metalworker vehicle, truck bed or trunk')
+WHERE['FR'].update(ElectricianTruckBed="Véhicule d'électricien, plateau ou coffre",
+    ElectricianGloveBox="Véhicule d'électricien, boîte à gants", ElectricianSeat="Véhicule d'électricien, siège passager",
+    MetalWelderTruckBed='Véhicule de métallier, plateau ou coffre')
+VEHICLE_LISTS = {'ElectricianTruckBed', 'ElectricianGloveBox', 'ElectricianSeat', 'MetalWelderTruckBed'}
 # Base weights from LiveWire_Distributions.lua; displayed at the default x5.
 LOOT_MULTIPLIER = 5
 CELL_LISTS = {'GarageTools': 2, 'CrateTools': 1, 'GarageMetalwork': 1, 'MechanicShelfElectric': 2,
               'ElectricianTools': 3, 'MetalShopTools': 1, 'WireFactoryElectric': 2, 'ToolStoreMisc': 2,
-              'CrateElectronics': 2, 'ElectronicStoreMisc': 2, 'ToolStoreMetalwork': 1, 'CrateMetalwork': 1}
+              'CrateElectronics': 2, 'ElectronicStoreMisc': 2, 'ToolStoreMetalwork': 1, 'CrateMetalwork': 1,
+              'ElectricianTruckBed': 2}
 EQUIPMENT = [
     ("SolarPanel", "Base.Mov_LiveWire_SolarPanel", True,
-     {"GarageTools": 0.3, "CrateTools": 0.3, "GarageMetalwork": 0.2, "ToolStoreMisc": 0.5, "ToolStoreTools": 0.3,
-      "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.5, "CrateMetalwork": 0.3, "ToolStoreMetalwork": 0.3}),
+     {"GarageTools": 0.3, "CrateTools": 0.3, "GarageMetalwork": 0.5, "ToolStoreMisc": 0.5, "ToolStoreTools": 0.3,
+      "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.5, "CrateMetalwork": 0.3, "ToolStoreMetalwork": 0.3,
+      "GarageMechanics": 0.3, "ElectricianTruckBed": 0.5, "MetalWelderTruckBed": 0.3}),
     ("VoltageTester", "LiveWire.VoltageTester", False,
      {"ElectricianTools": 3, "ToolStoreTools": 1, "GarageTools": 1, "CrateTools": 1, "WireFactoryElectric": 1,
-      "ElectronicStoreMisc": 1, "CrateElectronics": 1, "MechanicShelfElectric": 1, "MechanicShelfTools": 1}),
+      "ElectronicStoreMisc": 1, "CrateElectronics": 1, "MechanicShelfElectric": 1, "MechanicShelfTools": 1,
+      "GarageMechanics": 1, "GarageMetalwork": 0.5,
+      "ElectricianTruckBed": 2, "ElectricianGloveBox": 1, "ElectricianSeat": 1}),
     ("DeepCycleBattery", "LiveWire.DeepCycleBattery", False,
      {"MechanicShelfElectric": 1, "CarSupplyBatteries": 2, "GarageMechanics": 0.3,
       "CrateMechanics": 0.7, "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.5, "CampingStoreGear": 0.3}),
     ("Inverter", "Base.Mov_LiveWire_Inverter", True,
      {"ElectricianTools": 0.5, "WireFactoryElectric": 0.5, "ToolStoreMisc": 0.2, "GarageTools": 0.1,
       "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.5, "ElectronicStoreAppliances": 0.3,
-      "MechanicShelfElectric": 0.3, "CrateTools": 0.2}),
+      "MechanicShelfElectric": 0.3, "CrateTools": 0.2, "GarageMechanics": 0.3,
+      "ElectricianTruckBed": 0.5}),
     ("Breaker", "Base.Mov_LiveWire_Breaker", True,
      {"ElectricianTools": 1, "WireFactoryElectric": 1, "ToolStoreMisc": 0.5, "GarageTools": 0.3, "CrateTools": 0.3,
-      "CrateElectronics": 0.7, "ElectronicStoreMisc": 0.5, "ToolStoreTools": 0.5, "CrateMetalwork": 0.3}),
+      "CrateElectronics": 0.7, "ElectronicStoreMisc": 0.5, "ToolStoreTools": 0.5, "CrateMetalwork": 0.3,
+      "GarageMechanics": 0.3, "GarageMetalwork": 0.3, "ElectricianTruckBed": 1}),
     ("PowerBank", "Base.Mov_LiveWire_PowerBank", True,
      {"ElectricianTools": 0.5, "MechanicShelfElectric": 0.5, "ToolStoreMisc": 0.3, "GarageTools": 0.2,
       "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.4, "CrateMechanics": 0.3,
-      "GarageMechanics": 0.2, "CrateTools": 0.2}),
+      "GarageMechanics": 0.2, "CrateTools": 0.2, "ElectricianTruckBed": 0.5}),
     ("BatteryAlarm", "Base.Mov_LiveWire_BatteryAlarm", True,
      {"ElectricianTools": 1, "WireFactoryElectric": 1, "ToolStoreMisc": 0.5,
-      "CrateElectronics": 0.7, "ElectronicStoreMisc": 0.5, "CrateTools": 0.3, "GarageTools": 0.3}),
+      "CrateElectronics": 0.7, "ElectronicStoreMisc": 0.5, "CrateTools": 0.3, "GarageTools": 0.3,
+      "GarageMechanics": 0.3, "ElectricianTruckBed": 1}),
     ("WindTurbine", "Base.Mov_LiveWire_WindTurbine", True,
      {"ToolStoreMisc": 0.3, "WireFactoryElectric": 0.5, "CrateElectronics": 0.3,
       "CrateMetalwork": 0.3, "ToolStoreMetalwork": 0.5, "CrateTools": 0.3,
-      "WireFactoryTools": 0.5, "CrateFarming": 0.3, "ToolStoreFarming": 0.3, "MechanicShelfTools": 0.3}),
+      "WireFactoryTools": 0.5, "CrateFarming": 0.3, "ToolStoreFarming": 0.3, "MechanicShelfTools": 0.3, "GarageMetalwork": 0.2,
+      "MetalWelderTruckBed": 0.3}),
     ("WaterWheel", "Base.Mov_LiveWire_WaterWheel", True,
      {"CrateCarpentry": 0.5, "ToolStoreCarpentry": 0.5, "CrateFarming": 0.5,
       "ToolStoreFarming": 0.3, "CrateTools": 0.3, "CrateMechanics": 0.3, "CrateMetalwork": 0.3}),
     ("WindTurbineBlades", "LiveWire.WindTurbineBlades", False,
      {"CrateMetalwork": 1, "ToolStoreMetalwork": 1, "CrateTools": 0.7,
-      "CrateFarming": 0.7, "ToolStoreFarming": 0.7, "WireFactoryTools": 0.7}),
+      "CrateFarming": 0.7, "ToolStoreFarming": 0.7, "WireFactoryTools": 0.7, "GarageMetalwork": 0.7,
+      "MetalWelderTruckBed": 1}),
     ("WindTurbineMast", "LiveWire.WindTurbineMast", False,
      {"CrateMetalwork": 1, "ToolStoreMetalwork": 1, "CrateTools": 0.7,
-      "CrateMechanics": 0.7, "CrateFarming": 0.7, "ToolStoreFarming": 0.7}),
+      "CrateMechanics": 0.7, "CrateFarming": 0.7, "ToolStoreFarming": 0.7, "GarageMetalwork": 0.7,
+      "MetalWelderTruckBed": 1}),
 ]
 T = {
     "EN": {"recipe": "Recipe", "in": "Ingredients", "skill": "Skill", "out": "Result", "tools": "Tools (kept)",

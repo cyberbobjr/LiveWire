@@ -144,7 +144,7 @@
     "IGUI_LW_Backup_Fuel": "燃料: %1%%",
     "IGUI_LW_Backup_Thresholds": "バッテリーが%1%%を下回ると始動し、%2%%で停止します。",
     "IGUI_LW_Section_Computer": "管理用コンピューター",
-    "IGUI_LW_Computer_None": "デスクトップコンピューター(電気工学6)を接続すると、履歴と予測を表示できます。",
+    "IGUI_LW_Computer_None": "デスクトップコンピューター(電気工学3)を接続すると、履歴と予測を表示できます。",
     "IGUI_LW_Computer_Off": "コンピューターに電力がありません。",
     "IGUI_LW_Computer_NoHistory": "記録中...(1時間ごとに1点)",
     "IGUI_LW_Computer_Shed": "負荷制限: バッテリーが15%%を下回ると照明を消します。",

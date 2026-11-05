@@ -180,6 +180,17 @@ d'onduleurs, au-dessus comme au-dessous. 0 limite les nouvelles liaisons au mêm
 étage. La portée horizontale et la couverture électrique restent distinctes.
 Les liaisons existantes sont conservées ; aucune migration de données ni de pattern.
 
+## Équipements sur les étagères de garage — 2026-11-03
+
+Signalement utilisateur : aucun équipement trouvé dans des dizaines de garages. Mesure
+en jeu sur les listes parsées : le butin sort bien, mais une partie créée avant l'ajout
+du butin garde ses conteneurs déjà remplis, et les étagères de garage tirent surtout
+des listes menuiserie, mécanique et métallurgie, presque sans équipement. Choix
+utilisateur : ajouter quelques équipements aux étagères de mécanique et de métallurgie,
+puis davantage de panneaux solaires sur ces étagères et des équipements dans les véhicules
+d'électricien (et de métallier pour l'éolien). Pas de remplissage rétroactif des conteneurs
+ni des véhicules déjà générés.
+
 ## Compatibilité Let Me Drive! — 2026-10-28
 
 Signalement d'un joueur : avec Let Me Drive! (`LetMeDrive`, 3805307651), la

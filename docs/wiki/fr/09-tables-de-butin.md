@@ -2,6 +2,8 @@
 
 # Tables de butin
 
+Les véhicules d'électricien (dont les utilitaires des entreprises d'électricité) et de métallier transportent aussi des équipements : listes `ElectricianTruckBed`, `ElectricianGloveBox`, `ElectricianSeat` et `MetalWelderTruckBed` ci-dessous.
+
 ## Lire les poids et les tirages
 
 Project Zomboid teste chaque objet indépendamment à chaque tirage d'une liste de conteneur. Un poids W donne environ W % par tirage à rareté normale du butin (avant les réglages sandbox de butin et la densité de zombies). La colonne « Tirages » est le nombre de tirages de cette liste vanilla.
@@ -26,6 +28,7 @@ Poids à ×5 ; estimations si cette liste est sélectionnée, avec un modificate
 | `ElectronicStoreMisc` | Magasin d'électronique, divers | 10 | 4 | 21,9 % |
 | `ToolStoreMetalwork` | Quincaillerie, métallerie | 5 | 4 | 11,5 % |
 | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
+| `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 10 | 4 | 21,9 % |
 
 ## Équipements Live Wire tout faits
 
@@ -37,16 +40,20 @@ Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox
 
 | Équipement | Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
 |---|---|---|---|---|---|
-| <img src="../../images/icons/SolarPanel.png" width="24" height="24"> **Panneau photovoltaïque** (meuble : × 0,6 inclus) | `ToolStoreMisc` | Quincaillerie, divers | 2,5 | 4 | 5,9 % |
+| <img src="../../images/icons/SolarPanel.png" width="24" height="24"> **Panneau photovoltaïque** (meuble : × 0,6 inclus) | `GarageMetalwork` | Rangement de métallerie de garage | 2,5 | 4 | 5,9 % |
+|  | `ToolStoreMisc` | Quincaillerie, divers | 2,5 | 4 | 5,9 % |
 |  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
+|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 2,5 | 4 | 5,9 % |
 |  | `GarageTools` | Rangement d'outils de garage | 1,5 | 4 | 3,6 % |
 |  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
 |  | `ToolStoreTools` | Quincaillerie, outils | 1,5 | 4 | 3,6 % |
 |  | `CrateMetalwork` | Caisses de métallerie | 1,5 | 4 | 3,6 % |
 |  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 1,5 | 4 | 3,6 % |
-|  | `GarageMetalwork` | Rangement de métallerie de garage | 1 | 4 | 2,4 % |
+|  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
+|  | `MetalWelderTruckBed` | Véhicule de métallier, plateau ou coffre | 1,5 | 4 | 3,6 % |
 | <img src="../../images/icons/VoltageTester.png" width="24" height="24"> **Testeur de tension** | `ElectricianTools` | Outils d'électricien | 15 | 3 | 24,6 % |
+|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 10 | 4 | 21,9 % |
 |  | `ToolStoreTools` | Quincaillerie, outils | 5 | 4 | 11,5 % |
 |  | `GarageTools` | Rangement d'outils de garage | 5 | 4 | 11,5 % |
 |  | `CrateTools` | Caisses d'outils | 5 | 4 | 11,5 % |
@@ -55,6 +62,10 @@ Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox
 |  | `CrateElectronics` | Caisses d'électronique | 5 | 4 | 11,5 % |
 |  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 5 | 4 | 11,5 % |
 |  | `MechanicShelfTools` | Garage automobile, outils | 5 | 4 | 11,5 % |
+|  | `GarageMechanics` | Garage, rangement mécanique | 5 | 4 | 11,5 % |
+|  | `ElectricianGloveBox` | Véhicule d'électricien, boîte à gants | 5 | 1 | 3,0 % |
+|  | `ElectricianSeat` | Véhicule d'électricien, siège passager | 5 | 1 | 3,0 % |
+|  | `GarageMetalwork` | Rangement de métallerie de garage | 2,5 | 4 | 5,9 % |
 | <img src="../../images/icons/DeepCycleBattery.png" width="24" height="24"> **Batterie stationnaire** | `CarSupplyBatteries` | Magasin de pièces auto, batteries | 10 | 4 | 21,9 % |
 |  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 5 | 4 | 11,5 % |
 |  | `CrateMechanics` | Caisses de mécanique | 3,5 | 4 | 8,1 % |
@@ -66,13 +77,16 @@ Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
 |  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
+|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreAppliances` | Magasin d'électronique, appareils | 1,5 | 1 | 0,9 % |
 |  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 1,5 | 4 | 3,6 % |
+|  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 1 | 4 | 2,4 % |
 |  | `CrateTools` | Caisses d'outils | 1 | 4 | 2,4 % |
 |  | `GarageTools` | Rangement d'outils de garage | 0,5 | 4 | 1,2 % |
 | <img src="../../images/icons/Breaker.png" width="24" height="24"> **Disjoncteur** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 5 | 4 | 11,5 % |
+|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 5 | 4 | 11,5 % |
 |  | `CrateElectronics` | Caisses d'électronique | 3,5 | 4 | 8,1 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
@@ -80,9 +94,12 @@ Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox
 |  | `GarageTools` | Rangement d'outils de garage | 1,5 | 4 | 3,6 % |
 |  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
 |  | `CrateMetalwork` | Caisses de métallerie | 1,5 | 4 | 3,6 % |
+|  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
+|  | `GarageMetalwork` | Rangement de métallerie de garage | 1,5 | 4 | 3,6 % |
 | <img src="../../images/icons/PowerBank.png" width="24" height="24"> **Powerbank** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 2,5 | 3 | 4,4 % |
 |  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 2,5 | 4 | 5,9 % |
 |  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
+|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2 | 4 | 4,7 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 1,5 | 4 | 3,6 % |
 |  | `CrateMechanics` | Caisses de mécanique | 1,5 | 4 | 3,6 % |
@@ -91,11 +108,13 @@ Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox
 |  | `CrateTools` | Caisses d'outils | 1 | 4 | 2,4 % |
 | <img src="../../images/icons/BatteryAlarm.png" width="24" height="24"> **Alarme de batterie faible** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 5 | 4 | 11,5 % |
+|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 5 | 4 | 11,5 % |
 |  | `CrateElectronics` | Caisses d'électronique | 3,5 | 4 | 8,1 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
 |  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
 |  | `GarageTools` | Rangement d'outils de garage | 1,5 | 4 | 3,6 % |
+|  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
 | <img src="../../images/icons/WindTurbine.png" width="24" height="24"> **Éolienne** (meuble : × 0,6 inclus) | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
 |  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 2,5 | 4 | 5,9 % |
 |  | `WireFactoryTools` | Usine de câbles, outils | 2,5 | 4 | 5,9 % |
@@ -106,6 +125,8 @@ Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox
 |  | `CrateFarming` | Caisses de matériel agricole | 1,5 | 4 | 3,6 % |
 |  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 1,5 | 4 | 3,6 % |
 |  | `MechanicShelfTools` | Garage automobile, outils | 1,5 | 4 | 3,6 % |
+|  | `MetalWelderTruckBed` | Véhicule de métallier, plateau ou coffre | 1,5 | 4 | 3,6 % |
+|  | `GarageMetalwork` | Rangement de métallerie de garage | 1 | 4 | 2,4 % |
 | <img src="../../images/icons/WaterWheel.png" width="24" height="24"> **Roue à aubes** (meuble : × 0,6 inclus) | `CrateCarpentry` | Caisses de menuiserie | 2,5 | 4 | 5,9 % |
 |  | `ToolStoreCarpentry` | Quincaillerie, menuiserie | 2,5 | 4 | 5,9 % |
 |  | `CrateFarming` | Caisses de matériel agricole | 2,5 | 4 | 5,9 % |
@@ -115,16 +136,20 @@ Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox
 |  | `CrateMetalwork` | Caisses de métallerie | 1,5 | 4 | 3,6 % |
 | <img src="../../images/icons/WindTurbineBlades.png" width="24" height="24"> **Jeu de pales d’éolienne** | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
 |  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 5 | 4 | 11,5 % |
+|  | `MetalWelderTruckBed` | Véhicule de métallier, plateau ou coffre | 5 | 4 | 11,5 % |
 |  | `CrateTools` | Caisses d'outils | 3,5 | 4 | 8,1 % |
 |  | `CrateFarming` | Caisses de matériel agricole | 3,5 | 4 | 8,1 % |
 |  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 3,5 | 4 | 8,1 % |
 |  | `WireFactoryTools` | Usine de câbles, outils | 3,5 | 4 | 8,1 % |
+|  | `GarageMetalwork` | Rangement de métallerie de garage | 3,5 | 4 | 8,1 % |
 | <img src="../../images/icons/WindTurbineMast.png" width="24" height="24"> **Mât d’éolienne** | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
 |  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 5 | 4 | 11,5 % |
+|  | `MetalWelderTruckBed` | Véhicule de métallier, plateau ou coffre | 5 | 4 | 11,5 % |
 |  | `CrateTools` | Caisses d'outils | 3,5 | 4 | 8,1 % |
 |  | `CrateMechanics` | Caisses de mécanique | 3,5 | 4 | 8,1 % |
 |  | `CrateFarming` | Caisses de matériel agricole | 3,5 | 4 | 8,1 % |
 |  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 3,5 | 4 | 8,1 % |
+|  | `GarageMetalwork` | Rangement de métallerie de garage | 3,5 | 4 | 8,1 % |
 
 ## Pièces du mod
 
@@ -148,7 +173,7 @@ et poids existants. Cette option n'ajoute, ne retire ni ne repondère aucun obje
 ## Autres moyens d'obtenir des cellules
 
 - Une cellule photovoltaïque par calculatrice démontée (aucun niveau requis).
-- Au niveau 8 d'Électricité : une cellule à partir de 5 déchets électroniques et 1 aluminium.
+- Au niveau 3 d'Électricité : une cellule à partir de 5 déchets électroniques et 1 aluminium.
 
 ## Voir aussi
 

@@ -269,7 +269,7 @@ function Sim.snapshot(grid)
     if c then
         local on = grid.computerOn == true
         snap.computer = { id = c.id, powered = on,
-                          shed = (c.level or 0) >= LiveWire.Config.requiredLevel(Defs.SHED_LEVEL) }
+                          shed = true }
         if on then
             snap.history = {}
             for i, hs in ipairs(grid.history or {}) do snap.history[i] = { p = hs.p, d = hs.d, s = hs.s } end

@@ -19,7 +19,7 @@
 | Action | Niveau | Coût | Effet |
 |---|---|---|---|
 | Réparer (Repair) | selon l'appareil | 1 déchets électroniques + 1 fil électrique | Gain de 5 + niveau d'Électricité en points d'état (jusqu'à 90). Échec : max(5, 40 − 5 × niveau) %, divisé par deux dès le niveau 8 ; pièces perdues en cas d'échec |
-| Remise à neuf (Overhaul) | 8 | 4 déchets électroniques + 2 fils électriques | Retour à 100 |
+| Remise à neuf (Overhaul) | 3 | 4 déchets électroniques + 2 fils électriques | Retour à 100 |
 | Reconditionner une batterie | 4, ou 6 si morte | Tournevis conservé, 1 déchet électronique + 1 fil + 0,5 L d'eau | +15 d'état, plafond 80, quatre réparations au maximum ; cycles et énergie conservés, une batterie morte revient vide |
 
 ## Testeur de tension
@@ -39,13 +39,13 @@
 |---|---|---|
 | 0 | Lire un testeur : alimenté ou non | aucun |
 | 1 | Testeur de tension | Lecture détaillée de la case |
-| 2 | Powerbank, alarme de batterie faible, kit d'insonorisation | Usure des batteries −5 % |
-| 3 | Panneaux photovoltaïques, disjoncteur, générateur de secours | Rendement de pose 0,85 |
-| 4 | Reconditionner une batterie | Lecture de l'autonomie |
-| 5 | Onduleur | aucun |
-| 6 | Armoire onduleur, assemblage de l’éolienne, batterie stationnaire, ordinateur de gestion | Usure des batteries −10 % |
-| 7 | Fabrication de la roue à aubes, délestage | Rendement de pose 0,95 |
-| 8 | Cellules à partir de déchets, remise à neuf | Échec de réparation divisé par deux |
+| 2 | Powerbank, alarme de batterie faible, kit d'insonorisation, générateur de secours | Usure des batteries −5 % |
+| 3 | Panneaux photovoltaïques, disjoncteur, onduleur, armoire onduleur, assemblage de l’éolienne, batterie stationnaire, pompe à eau, couplage d'onduleurs, cellules à partir de déchets, ordinateur de gestion (avec délestage), remise à neuf | Rendement de pose 0,85 |
+| 4 | Reconditionner une batterie, fabrication de la roue à aubes | Lecture de l'autonomie |
+| 5 | aucun | aucun |
+| 6 | aucun | Usure des batteries −10 % |
+| 7 | aucun | Rendement de pose 0,95 |
+| 8 | aucun | Échec de réparation divisé par deux |
 | 9-10 | aucun | Rendement de pose 1,0 ; usure des appareils −25 % |
 
 ## Expérience
@@ -88,7 +88,7 @@ Un équipement mort et vide peut être démonté au niveau 3 avec un tournevis. 
 retiré une seule fois et rend quelques pièces ; les batteries doivent être retirées
 de la banque avant ce démontage.
 
-Éoliennes et roues à aubes : pose/ramassage au niveau 2 ; fabrication aux niveaux 6 et 7 respectivement. Les pales et le mât se fabriquent sans niveau électrique.
+Éoliennes et roues à aubes : pose/ramassage au niveau 2 ; fabrication aux niveaux 3 et 4 respectivement. Les pales et le mât se fabriquent sans niveau électrique.
 
 ## Sécurité électrique et expérience
 

@@ -13,7 +13,7 @@ No. One source and one inverter is the minimal system. Without batteries the hou
 One source (solar panel 100 W, wind turbine 400 W or water wheel 120 W) and one inverter, linked by electric wire. Every powered appliance within 20 tiles and 3 floors of the inverter is then powered, with no per-appliance wiring. See [Equipment](02-equipment.md).
 
 **Which Electrical level do I need for what?**
-Power bank, low battery alarm and soundproofing kit: level 2. Solar panel, breaker panel and backup generator: level 3. Inverter: level 5. Place/pick up wind turbines and water wheels: level 2. Final turbine assembly, deep-cycle battery and management computer: level 6. Water-wheel crafting and load shedding: level 7. Overhaul and solar cells from scrap: level 8. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
+Power bank, low battery alarm, soundproofing kit and backup generator: level 2. Place/pick up wind turbines and water wheels: level 2. Solar panel, breaker panel, inverter, inverter cabinet, coupling, water pump, final turbine assembly, deep-cycle battery, solar cells from scrap, management computer (with load shedding) and overhaul: level 3. Water-wheel crafting: level 4. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
 
 ## Wiring
 
@@ -38,7 +38,7 @@ There is no limit; productions add up. A reference day (fridge-freezer, 10 light
 It produces nothing below 10 km/h, gives about 15 W at 10 km/h, reaches 100 % (400 W) from 30 to 85 km/h, and brakes automatically above 85 km/h. In between, 15 km/h gives about 50 W and 25 km/h about 231 W. Build it on a roof for more wind. Wind counts +15 % per floor up to the 3rd. See [Production and calculations](04-production-and-calculations.md).
 
 **Where can I place the water wheel?**
-On the ground floor, on a river bank, next to river water. Lakes and ponds are refused because the engine cannot tell a lake's current. It needs Electrical level 7, and it produces day and night (about 2.9 kWh per day). See [Equipment](02-equipment.md).
+On the ground floor, on a river bank, next to river water. Lakes and ponds are refused because the engine cannot tell a lake's current. It needs Electrical level 2 to place (4 to craft), and it produces day and night (about 2.9 kWh per day). See [Equipment](02-equipment.md).
 
 **What about night, winter and snow?**
 Solar panels follow a sine curve between dawn and dusk: about 0.94 kWh per summer day and 0.60 kWh in winter, and 20 % remains under full overcast. Snow stops a panel during snowfall until it melts above 0 degrees C or you use "Clear the snow". Water wheels run day and night. See [Production and calculations](04-production-and-calculations.md).
@@ -58,7 +58,7 @@ It depends on the sandbox `ConsumptionProfile`. With the default game values: li
 The demand of the house appliances went above 1,500 W, for example a stacked washer + dryer. With a breaker panel, the breaker trips and the inverter takes no damage; use "Reset the breaker" once the load is lower. Without a breaker, the inverter trips and loses 3 condition points; use "Reset" on it. See [Optional equipment](06-optional-equipment.md).
 
 **1,500 W is not enough. Can I combine several inverters?**
-Yes: couple them. Place a second inverter with no equipment connected, right-click it, "Live Wire", then "Couple to an inverter", and pick the master inverter within cable range. It costs the electric wire for the distance and 1 Inverter Coupling Kit (recipe at Electrical level 6). A master takes up to 3 slaves, so 4 inverters give 6,000 W on one network, with one battery bank and the master's powered area. Each inverter switched on uses 20 W idle and wears as usual; a slave switched off or broken no longer counts. "Uncouple" on the slave gives the kit back. See [Optional equipment](06-optional-equipment.md#parallel-inverters-coupling). You can also turn an inverter into an **inverter cabinet** (4,500 W, 60 W idle, recipe at Electrical level 6); cabinets couple like inverters.
+Yes: couple them. Place a second inverter with no equipment connected, right-click it, "Live Wire", then "Couple to an inverter", and pick the master inverter within cable range. It costs the electric wire for the distance and 1 Inverter Coupling Kit (recipe at Electrical level 3). A master takes up to 3 slaves, so 4 inverters give 6,000 W on one network, with one battery bank and the master's powered area. Each inverter switched on uses 20 W idle and wears as usual; a slave switched off or broken no longer counts. "Uncouple" on the slave gives the kit back. See [Optional equipment](06-optional-equipment.md#parallel-inverters-coupling). You can also turn an inverter into an **inverter cabinet** (4,500 W, 60 W idle, recipe at Electrical level 3); cabinets couple like inverters.
 
 **How does the low battery alarm work?**
 Below 20 % stock it sends a message to players within 30 tiles and beeps every 10 game minutes until you choose "Silence the alarm". The beacon stays lit until the stock is back above 25 %. It needs Electrical level 2. See [Optional equipment](06-optional-equipment.md).
@@ -91,7 +91,7 @@ Zombies hear a running inverter within 2 tiles (sandbox `InverterNoiseRadius`, 0
 Per game days, roughly: solar panel -1 per 10 days, wind turbine -1 per 4, water wheel -1 per 6, inverter -1 per 5 while on (twice as fast above 80 % load), breaker -1 per 15, power bank and alarm -1 per 30. Storm damage is off by default (`StormDamage`). See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md).
 
 **How do I repair or overhaul a device?**
-Repair: 1 electronics scrap + 1 electric wire, gaining 5 + your Electrical level points (up to 90), with a failure chance of max(5, 40 - 5 x level) % that loses the parts. Overhaul (level 8, 4 scrap + 2 wires) restores 100. A battery can be reconditioned at level 4 (6 when dead): kept screwdriver, scrap, wire and 0.5 L water; +15 condition, cap 80, four repairs maximum. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md).
+Repair: 1 electronics scrap + 1 electric wire, gaining 5 + your Electrical level points (up to 90), with a failure chance of max(5, 40 - 5 x level) % that loses the parts. Overhaul (level 3, 4 scrap + 2 wires) restores 100. A battery can be reconditioned at level 4 (6 when dead): kept screwdriver, scrap, wire and 0.5 L water; +15 condition, cap 80, four repairs maximum. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md).
 
 ## Multiplayer and server
 
