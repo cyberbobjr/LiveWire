@@ -14,7 +14,7 @@ Le serveur fait autorité : le mod est conçu pour le multijoueur et les serveur
 |---|---|---|
 | Produire | Panneau (100 W), éolienne (400 W), roue à aubes (120 W) | Nombre de sources illimité par onduleur, chacune à portée de câble (12 cases horizontalement et 3 étages d'écart au plus par défaut) |
 | Stocker (facultatif) | Batteries de voiture ou batteries stationnaires dans une powerbank | 4 batteries comptées par powerbank, rendement de charge de 0,90, plusieurs powerbanks par onduleur |
-| Convertir et distribuer | Onduleur | 1 500 W maximum pour la maison, 20 W de consommation à vide, rendement de 0,85 à 1,0 selon le niveau de l'installateur, un seul par réseau (ou une armoire onduleur de 4 500 W, 60 W à vide, fabriquée à partir d'un onduleur au niveau 3) |
+| Convertir et distribuer | Onduleur | 1 500 W maximum pour la maison, 20 W de consommation à vide, rendement de 0,85 à 1,0 selon le niveau d'Électricité de celui qui le branche, un seul par réseau (ou une armoire onduleur de 4 500 W, 60 W à vide, fabriquée à partir d'un onduleur au niveau 3) |
 | Alimenter | La maison | Tout appareil branché à moins de 20 cases et ±3 étages de l'onduleur est alimenté (options vanilla GeneratorTileRange et GeneratorVerticalPowerRange) |
 
 ![Tous les équipements Live Wire et leurs chiffres](../../images/diagrams/equipment_fr.png)
@@ -42,7 +42,7 @@ Limite du moteur : l'état d'alimentation trouvé au rechargement de la zone com
 ## Étape par étape
 
 1. **Trouver une source et un onduleur.** Des panneaux solaires et des onduleurs tout faits se trouvent dans les garages, les quincailleries et les rangements d'électricien ([Tables de butin](09-tables-de-butin.md)). On peut aussi les fabriquer dans la catégorie **Électricité** : panneau solaire au niveau 3 d'Électricité (10 cellules solaires, récupérées sur des calculatrices avec un tournevis), onduleur au niveau 3 ([Recettes](08-recettes.md)).
-2. **Les poser** avec le curseur de meubles vanilla. Poser et ramasser demandent un tournevis et le niveau d'Électricité de l'appareil. Panneaux solaires, éoliennes et roues à aubes se posent dehors ; l'onduleur peut aller à l'intérieur.
+2. **Les poser** avec le curseur de meubles vanilla. Poser et tourner ne demandent ni outil ni niveau ; ramasser demande un tournevis. Brancher un appareil à l'onduleur demande son niveau d'Électricité ([Raccordement](03-raccordement.md)). Panneaux solaires, éoliennes et roues à aubes se posent dehors ; l'onduleur peut aller à l'intérieur.
 3. **Raccorder la source** : clic droit dessus, **Live Wire**, puis **Raccorder à un onduleur** (ou, depuis l'onduleur, **Raccorder un équipement**). Il faut 1 fil électrique par tranche de 4 cases, arrondi au-dessus ([Raccordement](03-raccordement.md)).
 4. **Vérifier** : l'onduleur démarre allumé. Son menu contextuel affiche la zone alimentée (un cercle cyan au sol) et ouvre son écran ([Écran et logiciel](05-ecran-et-logiciel.md)).
 5. **Stocker pour la nuit** (facultatif) : une powerbank garnie de batteries de voiture ou à décharge profonde, raccordée de la même façon ([Équipements](02-equipements.md)).

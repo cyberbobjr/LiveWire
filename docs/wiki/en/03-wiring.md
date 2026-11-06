@@ -6,7 +6,7 @@ Devices are linked to an inverter with electric wire. The house itself needs no 
 
 ## Step by step
 
-1. Craft the devices (see [Recipes](08-recipes.md)) and place them with the furniture cursor.
+1. Craft the devices (see [Recipes](08-recipes.md)) and place them with the furniture cursor. Each link to the inverter needs the device's Electrical level (see [Equipment](02-equipment.md)); putting an inverter into service with its first link needs level 3.
 2. Right-click a device, then **Live Wire**, then the device name. It shows "Connected to the inverter N tiles away" or "Not connected". Then choose **Connect to an inverter**: one line per inverter in range, "Inverter N tiles away (k wires)".
 3. Or right-click the inverter and choose **Connect equipment**: a list of free equipment in range with distance and number of wires. **Disconnect equipment** does the opposite.
 

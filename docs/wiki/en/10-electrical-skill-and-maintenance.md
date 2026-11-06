@@ -55,10 +55,11 @@ Always given by the server (sandbox `XPMultiplier`).
 | Action | XP |
 |---|---|
 | Mod recipes | see [Recipes](08-recipes.md) |
-| Place a solar panel | 10 |
-| Place a wind turbine or water wheel | 20 |
-| Place an inverter | 25 |
-| Connect a source or battery | 3 |
+| First link of a solar panel (once) | 10 |
+| First link of a wind turbine or water wheel (once) | 20 |
+| First link of an inverter, putting it into service (once) | 25 |
+| Link a vanilla generator or computer | 3 (plus the inverter's XP if that link puts it into service) |
+| Couple two inverters | 5 (plus the inverter's XP if due) |
 | Inspect a device | 2 (once per device per day) |
 | Measure with the tester | 1 (once per tile per hour) |
 | Repair | 5 + 1 per point, max 15 |
@@ -83,7 +84,7 @@ are unaffected. This does not erase charge or reset condition/cycles.
 Dead, empty equipment can be salvaged at level 3 with a screwdriver: one scrap and
 one wire, plus a solar cell for a panel. Live maintenance risk is optional; see the detailed rules below.
 
-Wind turbines and water wheels need Electrical 2 to place/pick up; crafting needs 3 and 4 respectively. Mechanical blade/mast recipes need no Electrical level.
+Wind turbines and water wheels need Electrical 2 to link to an inverter; crafting needs 3 and 4 respectively. Placing and picking up need no Electrical level (picking up needs a screwdriver). Mechanical blade/mast recipes need no Electrical level.
 
 ## Electrical safety and experience
 

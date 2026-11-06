@@ -159,19 +159,23 @@ function Install.checkLink(character, target, inverterObj)
     end
     local kind = Install.linkKind(target)
     if not kind then return false, "Tooltip_LW_Invalid" end
+    local need = 0
     if kind == "device" then
         local tm = LiveWire.Marks.get(target)
         local tdef = LiveWire.Defs.devices[tm.model]
         if not tdef or tdef.role == "inverter" then return false, "Tooltip_LW_Invalid" end
         if tm.inv == im.id then return false, "Tooltip_LW_AlreadyLinked" end
+        need = tdef.level or 0
     else
         local vm = Install.vanillaMark(target)
         if vm and vm.inverter == im.id then return false, "Tooltip_LW_AlreadyLinked" end
+        if kind == "backup" then need = LiveWire.Defs.BACKUP_LEVEL
+        elseif kind == "computer" then need = LiveWire.Defs.COMPUTER_LEVEL end
     end
-    local need = nil
-    if kind == "backup" then need = LiveWire.Defs.BACKUP_LEVEL
-    elseif kind == "computer" then need = LiveWire.Defs.COMPUTER_LEVEL end
-    if need and not Install.hasLevel(character, need) then
+    -- Placing is free; wiring is the electrician's work. The first link of an
+    -- inverter also puts it in service, which needs the inverter's own level.
+    if not im.svc then need = math.max(need, LiveWire.Defs.devices[im.model].level or 0) end
+    if not Install.hasLevel(character, need) then
         return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(need)
     end
     local wires = Install.wiresFor(dist)
@@ -420,10 +424,7 @@ function Install.checkBarrelLink(character, barrel, pumpObj)
     local bm = Install.barrelMark(barrel)
     if bm and bm.pump == pm.id then return false, "Tooltip_LW_AlreadyLinked" end
     if bm then return false, "Tooltip_LW_BarrelOtherPump" end
-    local pumpDef = LiveWire.Defs.devices.WaterPump
-    if not Install.hasLevel(character, pumpDef.level) then
-        return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(pumpDef.level)
-    end
+    -- Plumbing only (pipes): no Electrical level; linking the pump to the inverter needs it.
     if (pm.nb or 0) >= LiveWire.Defs.PUMP_MAX_BARRELS then
         return false, "Tooltip_LW_PumpFull", tostring(LiveWire.Defs.PUMP_MAX_BARRELS)
     end

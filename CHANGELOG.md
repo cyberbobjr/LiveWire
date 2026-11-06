@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.7.2 — 2026-11-07
+
+### Improvements
+- Placing a device no longer needs any Electrical level: anyone can carry, place and rotate solar panels, inverters, wind turbines and the rest. Picking one up only needs a screwdriver.
+- The Electrical level is now needed to **link** a device to an inverter: solar panel, breaker panel and water pump at 3; wind turbine, water wheel, power bank and battery alarm at 2. The first link made to an inverter puts it in service and needs level 3; after that, a level 2 electrician can add level 2 devices to it.
+- Installation efficiency and battery wear now depend on whoever links the device, not on who placed it. A better electrician re-linking a device improves it; a weaker one never lowers it.
+- A device's Electrical experience is now given once, at its first link, instead of each time it is placed.
+- Linking a water barrel to the pump no longer needs an Electrical level: it is plumbing.
+- The sandbox option that disables level requirements now also covers these links.
+
 ## 1.7.1 — 2026-11-06
 
 ### Fixes

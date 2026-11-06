@@ -318,7 +318,7 @@ Essais manuels sur monde de test, après redémarrage complet :
    manquantes et double demande ; pas de duplication. CD, télécommande et alarme
    vanilla : résultats précédents conservés. Vérifier les icônes de toutes les
    recettes et les sorties après création, y compris sept équipements corrigés.
-4. Pose et ramassage aux niveaux 1 puis 2, quatre orientations des deux machines.
+4. Pose et ramassage aux niveaux 1 puis 2, quatre orientations des deux machines. *(Superseded par D-29 du 2026-11-07 : pose et ramassage sans niveau ; tester plutôt le branchement au niveau 2.)*
    Vérifier refus à 1, réussite à 2, soleil/vent/berge et collisions habituelles.
    Éolienne intérieure et roue éloignée d'une rivière restent refusées.
 5. Butin en nouvelles zones : pales, mâts et deux machines complètes,

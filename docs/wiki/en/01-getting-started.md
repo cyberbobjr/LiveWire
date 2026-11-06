@@ -25,7 +25,7 @@ flowchart LR
 |---|---|---|
 | Sources produce | Solar panel 100 W, wind turbine 400 W, water wheel 120 W (nominal) | Any number per inverter, each within cable range (12 tiles horizontally, 3 floors apart at most by default) |
 | Batteries store (optional) | Car batteries or deep-cycle batteries inside a power bank | 4 batteries counted per power bank, charge efficiency 0.90. Several power banks per inverter |
-| The inverter converts and distributes | Inverter | 1,500 W max (house demand), 20 W idle consumption, efficiency 0.85 to 1.0 (from the installer's level). One per network (or a 4,500 W inverter cabinet, 60 W idle, built from an inverter at Electrical 3), can be placed indoors, no toxicity (it is not a game generator) |
+| The inverter converts and distributes | Inverter | 1,500 W max (house demand), 20 W idle consumption, efficiency 0.85 to 1.0 (from the Electrical level of whoever links it). One per network (or a 4,500 W inverter cabinet, 60 W idle, built from an inverter at Electrical 3), can be placed indoors, no toxicity (it is not a game generator) |
 | The house | Every powered appliance | Every appliance within 20 tiles and 3 floors up or down of the inverter is powered. No per-appliance wiring |
 
 The 20 tiles and 3 floors come from the vanilla options `GeneratorTileRange` and `GeneratorVerticalPowerRange`. The game itself decides what is powered (a square is powered as if it were near a generator), so fridges, lights, stoves, TVs and radios work exactly as in vanilla.
@@ -47,7 +47,7 @@ A water pump wired to the inverter keeps the house taps supplied from water barr
 ## First steps
 
 1. **Get a source and an inverter.** Ready-made solar panels and inverters turn up in garages, hardware stores and electrician storage ([Loot tables](09-loot-tables.md)). You can also craft them in the **Electrical** category: solar panel at Electrical 3 (10 solar cells, salvaged from calculators with a screwdriver), inverter at Electrical 3 ([Recipes](08-recipes.md)).
-2. **Place them** with the vanilla furniture cursor. Placing and picking up need a screwdriver and the device's Electrical level. Solar panels, wind turbines and water wheels must stand outdoors; the inverter can go indoors.
+2. **Place them** with the vanilla furniture cursor. Placing needs no tool or level; picking up needs a screwdriver. Linking each device to the inverter needs its own Electrical level (see [Wiring](03-wiring.md)). Solar panels, wind turbines and water wheels must stand outdoors; the inverter can go indoors.
 3. **Connect the source**: right-click it, **Live Wire**, then **Connect to an inverter** (or, from the inverter, **Connect equipment**). It costs 1 electric wire per 4 tiles, rounded up ([Wiring](03-wiring.md)).
 4. **Check the result**: the inverter starts switched on. Its right-click menu shows the powered area (a cyan circle on the ground) and opens its screen ([Inverter screen and software](05-inverter-screen-and-software.md)).
 5. **Add storage for the night** (optional): a power bank holding car batteries or deep-cycle batteries, connected the same way ([Equipment](02-equipment.md)).

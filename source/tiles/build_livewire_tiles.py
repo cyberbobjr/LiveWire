@@ -736,32 +736,34 @@ def main() -> None:
 # Packaging (plain Python with Pillow + pzforge)
 # --------------------------------------------------------------------------- #
 
-#: Electrician = screwdriver and the Electrical skill (ISMoveableDefinitions.lua:313);
-#: PickUpLevel is also the level required to place (ISMoveableSpriteProps.lua:485-494).
-_TOOLS = {"PickUpTool": "Electrician", "PlaceTool": "Electrician"}
+#: Placing needs no tool and no level (no PlaceTool: ISMoveableSpriteProps.lua:1959).
+#: Picking up needs a screwdriver (Electrician, ISMoveableDefinitions.lua:313) but no
+#: level (no PickUpLevel: ISMoveableSpriteProps.lua:485-494). The Electrical level is
+#: required to link a device to an inverter (LW_Install.lua, Install.checkLink).
+_TOOLS = {"PickUpTool": "Electrician"}
 PROPS = [
     (range(0, 4), {"CustomName": "Solar Panel", "solidtrans": "", "BlocksPlacement": "",
-                   "Material": "MetalPlates", "PickUpWeight": "90", "PickUpLevel": "3", **_TOOLS}),
+                   "Material": "MetalPlates", "PickUpWeight": "90", **_TOOLS}),
     # CustomItem: the tile has no blades, the item keeps its own icon (Moveable.java:128-141).
     (range(4, 8), {"CustomName": "Wind Turbine", "solidtrans": "", "BlocksPlacement": "",
-                   "Material": "MetalPlates", "PickUpWeight": "150", "PickUpLevel": "2",
+                   "Material": "MetalPlates", "PickUpWeight": "150",
                    "CustomItem": "Base.Mov_LiveWire_WindTurbine", **_TOOLS}),
     (range(8, 12), {"CustomName": "Water Wheel", "solidtrans": "", "BlocksPlacement": "",
-                    "Material": "Wood", "PickUpWeight": "300", "PickUpLevel": "2", **_TOOLS}),
+                    "Material": "Wood", "PickUpWeight": "300", **_TOOLS}),
     (range(12, 16), {"CustomName": "Inverter", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "120", "PickUpLevel": "3", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "120", **_TOOLS}),
     (range(16, 20), {"CustomName": "Power Bank", "solidtrans": "", "BlocksPlacement": "", "IsLow": "",
                      "IsTable": "", "IsStackable": "", "Surface": "18",
                      "container": "livewirepowerbank", "ContainerCapacity": "50", "ContainerPosition": "Low",
-                     "Material": "MetalPlates", "PickUpWeight": "100", "PickUpLevel": "2", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "100", **_TOOLS}),
     (range(20, 22), {"CustomName": "Breaker Panel", "MoveType": "WallObject", "Material": "MetalPlates",
-                     "PickUpWeight": "30", "PickUpLevel": "3", **_TOOLS}),
+                     "PickUpWeight": "30", **_TOOLS}),
     (range(22, 24), {"CustomName": "Battery Alarm", "MoveType": "WallObject", "Material": "MetalPlates",
-                     "PickUpWeight": "10", "PickUpLevel": "2", **_TOOLS}),
+                     "PickUpWeight": "10", **_TOOLS}),
     (range(72, 76), {"CustomName": "Water Pump", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "80", "PickUpLevel": "3", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "80", **_TOOLS}),
     (range(88, 92), {"CustomName": "Inverter Cabinet", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "300", "PickUpLevel": "3", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "300", **_TOOLS}),
 ]
 FACING_NAMES = ["S", "E", "N", "W"]
 TOTAL = 104

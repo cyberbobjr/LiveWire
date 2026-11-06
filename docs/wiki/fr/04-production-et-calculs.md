@@ -10,7 +10,7 @@ Le serveur calcule tout toutes les 10 minutes de jeu, joueurs présents ou non (
 
 ## Puissance d'une source
 
-P = nominale × facteur de source × facteur d'état × rendement de pose × multiplicateur sandbox
+P = nominale × facteur de source × facteur d'état × rendement d'installation × multiplicateur sandbox
 
 Chaque source lisse sa sortie (réponse sur 30 minutes de jeu) : un nuage de passage ne fait pas clignoter la maison.
 
@@ -26,9 +26,9 @@ Facteur d'état = 0,5 + 0,5 × état/100.
 | 25 | 0,625 |
 | 0 | 0,500 |
 
-### Rendement de pose
+### Rendement d'installation
 
-Il dépend du niveau d'Électricité de l'installateur au moment de la pose.
+Il est fixé au premier branchement de l'appareil, d'après le niveau d'Électricité de celui qui le branche (le meilleur niveau vu est conservé).
 
 | Niveau | Rendement |
 |---|---|
@@ -67,7 +67,7 @@ Jour et nuit, environ 2,9 kWh par jour. Rivières seulement (le moteur ne sait p
 | Automne | × 1,0 | 120 W | environ 2,9 |
 | Hiver | × 1,0 | 120 W | environ 2,9 |
 
-(Valeurs nominales, avant état et rendement de pose.)
+(Valeurs nominales, avant état et rendement d'installation.)
 
 ## Charge des batteries
 

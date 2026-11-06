@@ -47,7 +47,7 @@ Live Wire repose sur **trois rôles et un seul réseau** :
 
 - **Les sources produisent** : panneau photovoltaïque (100 W), éolienne (400 W), roue à aubes (120 W), en puissance nominale. Le nombre de sources par onduleur n'est pas limité ; chacune doit se trouver à portée de fil (12 cases horizontalement, 3 étages d'écart au plus par défaut).
 - **Les batteries stockent** (facultatif) : batteries de voiture ou batteries stationnaires, rangées dans une powerbank (4 batteries comptées par powerbank, rendement de charge 0,90). Plusieurs powerbanks par onduleur.
-- **L'onduleur convertit et distribue** : 1 500 W maximum (demande de la maison), 20 W de consommation à vide, rendement de 0,85 à 1,0 (selon le niveau de l'installateur), un seul par réseau. Il se pose à l'intérieur et n'est pas toxique (ce n'est pas un générateur du jeu).
+- **L'onduleur convertit et distribue** : 1 500 W maximum (demande de la maison), 20 W de consommation à vide, rendement de 0,85 à 1,0 (selon le niveau d'Électricité de celui qui le branche), un seul par réseau. Il se pose à l'intérieur et n'est pas toxique (ce n'est pas un générateur du jeu).
 - **La maison** : tout appareil situé dans un rayon de 20 cases et à ±3 étages de l'onduleur (options vanilla `GeneratorTileRange` et `GeneratorVerticalPowerRange`) est alimenté. Aucun câblage appareil par appareil.
 
 ![Schéma : sources, onduleur, powerbank et maison](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png)
@@ -60,7 +60,7 @@ C'est le jeu lui-même qui décide ce qui est alimenté (une case est alimentée
 
 ## Équipements et batteries
 
-Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meubles vanilla (fantôme, 4 orientations, 2 pour les objets muraux). La pose, comme le ramassage, exige un tournevis et le niveau d'Électricité indiqué. Un appareil ramassé garde son état. Règles de pose ajoutées par le mod : en extérieur (ciel dégagé) pour le panneau et l'éolienne ; au rez-de-chaussée, sur la berge, contre l'eau d'une rivière pour la roue à aubes (lacs et étangs refusés). Une case refusée affiche la raison en rouge dans le panneau du curseur.
+Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meubles vanilla (fantôme, 4 orientations, 2 pour les objets muraux). Poser et tourner ne demandent ni outil ni niveau ; ramasser exige un tournevis, sans niveau. Le niveau d'Électricité indiqué est celui du branchement à un onduleur ; mettre un onduleur en service (premier branchement) exige le niveau 3. Un appareil ramassé garde son état. Règles de pose ajoutées par le mod : en extérieur (ciel dégagé) pour le panneau et l'éolienne ; au rez-de-chaussée, sur la berge, contre l'eau d'une rivière pour la roue à aubes (lacs et étangs refusés). Une case refusée affiche la raison en rouge dans le panneau du curseur.
 
 ![Tous les équipements Live Wire et leurs chiffres](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png)
 
@@ -196,7 +196,7 @@ Capacité effective = nominale × (0,4 + 0,6 × état/100) × `BatteryCapacityMu
 
 ## Raccorder les éléments
 
-1. Fabriquez les appareils ([recettes](#recettes)) et posez-les avec le curseur de meubles.
+1. Fabriquez les appareils ([recettes](#recettes)) et posez-les avec le curseur de meubles. Chaque branchement à l'onduleur exige le niveau d'Électricité de l'appareil (tableau ci-dessous).
 2. Clic droit sur un appareil > « Live Wire » > nom de l'appareil : affiche « Raccordé à l'onduleur à N cases » ou « Non raccordé », puis « Raccorder à un onduleur » > une ligne par onduleur à portée : « Onduleur à N cases (k fil(s)) ». Ou clic droit sur l'onduleur > « Raccorder un équipement » (liste des équipements libres à portée, avec distance et nombre de fils) / « Débrancher un équipement ».
 3. **Coût** : fil électrique `Base.ElectricWire`, **1 fil par tranche de 4 cases** de distance, arrondi au supérieur, au moins 1 (option `WirePerTiles` ; 0 = gratuit). Exemple : un panneau à 9 cases de l'onduleur coûte 9 / 4 = 2,25, soit **3 fils**.
 4. **Portée** : 12 cases horizontalement (option `LinkRange`, de 4 à 30), 3 étages d'écart au plus par défaut (option `LinkVerticalRange`, de 0 à 10 ; 0 = même étage uniquement). La portée verticale s'applique aussi au couplage d'onduleurs.
@@ -277,7 +277,7 @@ Quand la demande des appareils de la maison dépasse le maximum de l'onduleur, *
 
 ## Pompe à eau
 
-Un appareil posé comme les autres (niveau 3). Elle pompe l'eau des barils vers les robinets de la maison. Pas encore testée en jeu.
+Un appareil posé comme les autres, branché à l'onduleur au niveau 3. Elle pompe l'eau des barils vers les robinets de la maison. Pas encore testée en jeu.
 
 - Raccordez la pompe à l'onduleur avec du fil électrique, comme pour tout appareil.
 - Raccordez chaque baril d'eau (récupérateur d'eau de pluie vanilla, ou baril du mod facultatif Useful Barrels) avec un **tuyau en métal** (`Base.MetalPipe`, rendu au débranchement). Le baril doit être à côté de la pompe : l'une de ses 8 cases voisines, au même étage. Jusqu'à 8 barils par pompe. Seul un baril qui contient de l'eau (ou vide) peut être raccordé.
@@ -297,10 +297,10 @@ Le serveur calcule toutes les 10 minutes de jeu, joueurs présents ou non (optio
 
 ![Trois graphiques : journée solaire, courbe de l'éolienne, énergie par jour face à une maison type](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_fr.png)
 
-**Puissance d'une source** : P = nominale × facteur de la source × facteur d'état × rendement de pose × multiplicateur sandbox.
+**Puissance d'une source** : P = nominale × facteur de la source × facteur d'état × rendement d'installation × multiplicateur sandbox.
 
 - Facteur d'état = 0,5 + 0,5 × état/100.
-- Rendement de pose (niveau d'Électricité de l'installateur à la pose) : 0,85 (niveaux 3 à 6), 0,95 (7 et 8), 1,0 (9 et 10).
+- Rendement d'installation (niveau d'Électricité de celui qui branche l'appareil, au premier branchement ; le meilleur niveau vu est gardé) : 0,85 (niveaux 3 à 6), 0,95 (7 et 8), 1,0 (9 et 10).
 - Chaque source lisse sa sortie (réponse sur 30 minutes de jeu) : un nuage de passage ne fait pas vaciller la maison.
 
 **Solaire (100 W)** : courbe sinusoïdale entre l'aube et le crépuscule de la saison ; un ciel couvert laisse 20 % (facteur × (1 − 0,8 × nuages)) ; la neige recouvre le panneau pendant les chutes et fond au-dessus de 0 °C (action « Déneiger »). Environ 0,94 kWh par jour d'été et 0,60 kWh en hiver (panneau neuf, ciel clair).
@@ -594,15 +594,15 @@ Par ailleurs : 1 cellule photovoltaïque par calculatrice démontée (sans nivea
 | 0 | Lire un testeur : alimenté ou non | — |
 | 1 | Testeur de tension | Lecture détaillée de la case |
 | 2 | Powerbank, alarme de batterie faible, kit d'insonorisation, générateur de secours | Usure des batteries −5 % |
-| 3 | Panneaux photovoltaïques, disjoncteur, onduleur, armoire onduleur, assemblage de l’éolienne, batterie stationnaire, pompe à eau, couplage d'onduleurs, cellules photovoltaïques à partir de déchets, ordinateur de gestion (avec délestage), remise à neuf | Rendement de pose 0,85 |
+| 3 | Panneaux photovoltaïques, disjoncteur, onduleur, armoire onduleur, assemblage de l’éolienne, batterie stationnaire, pompe à eau, couplage d'onduleurs, cellules photovoltaïques à partir de déchets, ordinateur de gestion (avec délestage), remise à neuf | Rendement d'installation 0,85 |
 | 4 | Reconditionner une batterie, fabrication de la roue à aubes | Lecture de l'autonomie |
 | 5 | — | — |
 | 6 | — | Usure des batteries −10 % |
-| 7 | — | Rendement de pose 0,95 |
+| 7 | — | Rendement d'installation 0,95 |
 | 8 | — | Échec de réparation divisé par deux |
-| 9-10 | — | Rendement de pose 1,0 ; usure des appareils −25 % |
+| 9-10 | — | Rendement d'installation 1,0 ; usure des appareils −25 % |
 
-**Expérience** (toujours attribuée par le serveur) : recettes du mod (voir le tableau) ; poser une source 10 (panneau), 20 (éolienne, roue à aubes) ; poser un onduleur 25 ; connecter une source ou une batterie 3 ; inspecter un appareil 2 (une fois par appareil et par jour) ; mesurer avec le testeur 1 (une fois par case et par heure) ; réparer 5 + 1 par point, 15 au maximum ; reconditionner une batterie 8 ; réinitialiser après avoir corrigé une surcharge 5 (une fois par heure) ; insonoriser l'onduleur 3.
+**Expérience** (toujours attribuée par le serveur) : recettes du mod (voir le tableau) ; premier branchement d'une source (une fois) 10 (panneau), 20 (éolienne, roue à aubes) ; mise en service d'un onduleur (premier branchement, une fois) 25 ; brancher un générateur ou un ordinateur vanilla 3 (plus l'XP de l'onduleur si ce branchement le met en service) ; coupler deux onduleurs 5 ; inspecter un appareil 2 (une fois par appareil et par jour) ; mesurer avec le testeur 1 (une fois par case et par heure) ; réparer 5 + 1 par point, 15 au maximum ; reconditionner une batterie 8 ; réinitialiser après avoir corrigé une surcharge 5 (une fois par heure) ; insonoriser l'onduleur 3.
 
 ## Options sandbox
 
@@ -627,7 +627,7 @@ Page « LiveWire » des options sandbox.
 | `LiveWorkRisk` | activé | — | Risque de choc pendant une intervention sous tension ; éteindre l'onduleur maître |
 | `StormDamage` | désactivé | — | Dégâts d'orage et de vent fort |
 | `XPMultiplier` | 1,0 | 0-10 | Expérience donnée par le mod |
-| `SkillGates` | activé | — | Désactivé = aucun niveau requis |
+| `SkillGates` | activé | — | Désactivé = aucun niveau requis pour brancher ou mettre en service |
 | `SimulateUnloaded` | activé | — | Continue de simuler sans personne à proximité |
 | `BackupStartPercent` / `BackupStopPercent` | 20 / 90 | 0-90 / 10-100 | Seuils du générateur de secours |
 

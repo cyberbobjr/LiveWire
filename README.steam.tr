@@ -23,7 +23,7 @@ Fazlayı güç bankalarında depola (her biri 4 akü). Kablolar: her 4 karede 1 
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_en.png[/img]
 
-Güneş panellerini dışarıya (Elektrikçilik 3), türbinleri dışarıya ve su çarklarını nehir kıyısına (ikisi de 2), inverterleri (3) ve güç bankalarını (2) yerleştir. Bir karede iki banka üst üste konabilir; ayrı envanterleri ve bağlantıları olur. Kaldırmadan önce boşalt, önce üsttekini.
+Güneş panellerini ve türbinleri dışarıya, su çarklarını nehir kıyısına yerleştir; seviye istemez. Bağlama: panel ve inverter Elektrikçilik 3; türbin, su çarkı, güç bankası 2. Bir karede iki banka üst üste konabilir; ayrı envanterleri ve bağlantıları olur. Kaldırmadan önce boşalt, önce üsttekini.
 İsteğe bağlı: sigorta, akü alarmı, ses yalıtımı, vanilla yedek jeneratör ve yönetim bilgisayarı.
 
 [h2]Üretim[/h2]
@@ -40,7 +40,7 @@ Su pompası (Elektrikçilik 3), 15 kare içindeki tesisatlı donanımlara, en fa
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
 
-18 tarif, aşağıda resimli. Elektrik tarifleri otomatik açılır; kanatlar ve direkler Metal İşleme'dedir, Elektrikçilik şartı yoktur. Türbini 3. seviyede birleştir; su çarkını 4. seviyede yap, ikisi de iki amplifikatör ister. Her ikisini de 2. seviyede yerleştir veya topla. Bir voltaj test cihazını hurda için sök. Her tarif Elektrikçilik XP'si verir. Ekipman ve parça ganimeti daha geniş; sandbox çarpanı varsayılan 5 (1–20), yeni çekilişler yalnızca yeniden başlatmadan sonra.
+18 tarif, aşağıda resimli. Elektrik tarifleri otomatik açılır; kanatlar ve direkler Metal İşleme'dedir, Elektrikçilik şartı yoktur. Türbini 3. seviyede birleştir; su çarkını 4. seviyede yap, ikisi de iki amplifikatör ister. Her ikisini bağlamak 2. seviye ister; yerleştirmek seviye istemez. Bir voltaj test cihazını hurda için sök. Her tarif Elektrikçilik XP'si verir. Ekipman ve parça ganimeti daha geniş; sandbox çarpanı varsayılan 5 (1–20), yeni çekilişler yalnızca yeniden başlatmadan sonra.
 
 [h2]Yönetim yazılımı[/h2]
 

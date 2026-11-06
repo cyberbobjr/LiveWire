@@ -49,7 +49,7 @@ Solar panels, wind turbines and water wheels produce silent power. An inverter p
 
 - **Sources produce.** Solar panel 100 W, wind turbine 400 W, water wheel 120 W (nominal). Any number of sources per inverter; each must be within cable range (12 tiles horizontally, at most 3 floors apart by default).
 - **Batteries store (optional).** Car batteries or deep-cycle batteries inside a power bank (4 counted per power bank, charge efficiency 0.90). Several power banks per inverter.
-- **The inverter converts and distributes.** 1,500 W max (house demand), 20 W idle consumption, efficiency 0.85 to 1.0 (from the installer's level). One per network, can be placed indoors, no toxicity (it is not a game generator).
+- **The inverter converts and distributes.** 1,500 W max (house demand), 20 W idle consumption, efficiency 0.85 to 1.0 (from the Electrical level of whoever links it). One per network, can be placed indoors, no toxicity (it is not a game generator).
 - **The house.** Every powered appliance within 20 tiles and ±3 floors of the inverter (vanilla options `GeneratorTileRange` / `GeneratorVerticalPowerRange`) is powered. No per-appliance wiring.
 
 ![How it works: sources, inverter, house and power bank](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png)
@@ -64,7 +64,7 @@ The game itself decides what is powered (a square is powered as if near a genera
 
 ## Equipment
 
-Each recipe gives a placeable furniture item `Base.Mov_LiveWire_*`. Place, rotate and pick up with the vanilla furniture cursor (ghost, 4 facings, 2 for wall objects). The tile requires a screwdriver and the Electrical level below, also to pick up. A picked-up device keeps its condition.
+Each recipe gives a placeable furniture item `Base.Mov_LiveWire_*`. Place, rotate and pick up with the vanilla furniture cursor (ghost, 4 facings, 2 for wall objects). Placing and rotating need no tool and no level; picking up needs a screwdriver, no level. The Electrical level below is the one needed to link the device to an inverter (putting an inverter into service, with its first link, needs level 3). A picked-up device keeps its condition.
 
 Placement rules added by the mod: outdoors (open sky) for the solar panel and wind turbine; river bank, ground floor, next to river water for the water wheel (lakes and ponds are refused). A refused square shows the reason in red in the cursor panel.
 
@@ -72,7 +72,7 @@ Placement rules added by the mod: outdoors (open sky) for the solar panel and wi
 
 *All devices with their key figures.*
 
-| Device | Role | Placement | Electrical level |
+| Device | Role | Placement | Electrical level to link |
 |---|---|---|---|
 | Solar panel | Source, 100 W | Outdoors, open sky; flat roof OK | 3 |
 | Wind turbine | Source, 400 W; blades turn with the wind | Outdoors; +15 % wind per floor up to the 3rd | 2 |
@@ -107,7 +107,7 @@ Effective capacity = nominal × (0.4 + 0.6 × condition / 100) × `BatteryCapaci
 
 ## How to connect (wiring)
 
-1. Craft the devices (see [Recipes](#recipes)) and place them with the furniture cursor.
+1. Craft the devices (see [Recipes](#recipes)) and place them with the furniture cursor. Each link to the inverter needs the device's Electrical level (table above).
 2. Right-click a device > **Live Wire** > device name. It shows "Connected to the inverter N tiles away" or "Not connected", then **Connect to an inverter** > one line per inverter in range: "Inverter N tiles away (k wires)". Or right-click the inverter > **Connect equipment** (list of free equipment in range with distance and wires) / **Disconnect equipment**.
 3. Pay the cost in electric wire `Base.ElectricWire`.
 4. Respect the limits per network.
@@ -310,7 +310,7 @@ When the demand of the house appliances exceeds the inverter maximum, 1,500 W (t
 
 ## Water pump
 
-A consumer placed like the other devices (level 3). It pumps water from water barrels into the house taps. Not tested in game yet.
+A consumer placed like the other devices, linked to the inverter at level 3. It pumps water from water barrels into the house taps. Not tested in game yet.
 
 - Link the pump to the inverter with electric wire, as for any device.
 - Link each water barrel (vanilla rain collector, or a barrel of the optional mod Useful Barrels) with one **iron pipe** (`Base.MetalPipe`, given back when the barrel is disconnected). The barrel must stand next to the pump: one of its 8 neighbouring squares, same floor. Up to 8 barrels per pump. Only a barrel holding water (or empty) can be connected.
@@ -335,7 +335,7 @@ The server computes every 10 game minutes, players present or not (sandbox `Simu
 **Source power:** `P = nominal × source factor × condition factor × installation efficiency × sandbox multiplier`
 
 - Condition factor = 0.5 + 0.5 × condition / 100.
-- Installation efficiency (installer's Electrical level when placed): 0.85 (levels 3-6), 0.95 (7-8), 1.0 (9-10).
+- Installation efficiency (Electrical level of whoever first links the device; the best level seen is kept): 0.85 (levels 3-6), 0.95 (7-8), 1.0 (9-10).
 - Each source smooths its output (30 game minutes response): a passing cloud does not make the house flicker.
 
 ### Solar (100 W)
@@ -654,9 +654,9 @@ Also: 1 solar cell per calculator dismantled (no level); at level 3, a solar cel
 **Experience** (always given by the server):
 
 - Mod recipes: their XP is listed on the wiki page [Maintenance and skill](docs/wiki/en/10-electrical-skill-and-maintenance.md).
-- Place a source: 10 (panel), 20 (wind turbine, water wheel).
-- Place an inverter: 25.
-- Connect a source or battery: 3.
+- First link of a source (once): 10 (panel), 20 (wind turbine, water wheel).
+- First link of an inverter, putting it into service (once): 25.
+- Link a vanilla generator or computer: 3 (plus the inverter's XP if that link puts it into service). Couple two inverters: 5.
 - Inspect a device: 2 (once per device per day).
 - Measure with the tester: 1 (once per tile per hour).
 - Repair: 5 + 1 per point, max 15.

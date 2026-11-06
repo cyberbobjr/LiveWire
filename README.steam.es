@@ -23,7 +23,7 @@ Bancos de 4 baterías para guardar el excedente. Cables: 1 alambre cada 4 casill
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_es.png[/img]
 
-Paneles al aire libre (Electricidad 3), aerogeneradores fuera y ruedas en la orilla de un río (ambos 2), inversores (3), bancos (2). Apila dos bancos por casilla con inventarios y conexiones separados; vacíalos antes de recogerlos, primero el superior.
+Colocar no requiere nivel: paneles y aerogeneradores fuera, ruedas en la orilla de un río, inversores, bancos. Conectar: paneles e inversores con Electricidad 3; aerogeneradores, ruedas y bancos con 2. Apila dos bancos por casilla con inventarios y conexiones separados; vacíalos antes de recogerlos, primero el superior.
 Opcionales: cuadro eléctrico, alarma, insonorización, generador vanilla de respaldo y ordenador de gestión.
 
 [h2]Producción[/h2]
@@ -40,7 +40,7 @@ La bomba (Electricidad 3) abastece sanitarios conectados a 15 casillas desde has
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_es.png[/img]
 
-18 recetas ilustradas. Desbloqueo automático en Electricidad; palas y mástil en Metalurgia sin nivel eléctrico. Montaje del aerogenerador al 3, fabricación de la rueda al 4, ambos con dos amplificadores. Colocar/recoger ambos al 2. Desmonta un comprobador para recuperar chatarra electrónica. Todas dan XP de Electricidad. Más lugares de botín; multiplicador 5 por defecto (1–20), solo tiradas futuras tras reiniciar.
+18 recetas ilustradas. Desbloqueo automático en Electricidad; palas y mástil en Metalurgia sin nivel eléctrico. Montaje del aerogenerador al 3, fabricación de la rueda al 4, ambos con dos amplificadores. Conectar ambos al 2; colocar no requiere nivel. Desmonta un comprobador para recuperar chatarra electrónica. Todas dan XP de Electricidad. Más lugares de botín; multiplicador 5 por defecto (1–20), solo tiradas futuras tras reiniciar.
 
 [h2]Software de gestión[/h2]
 

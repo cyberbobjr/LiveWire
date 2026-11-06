@@ -10,7 +10,7 @@ Every device is a real mod tile, placed like vanilla furniture. Each recipe give
 
 ## Devices
 
-| Device | Role | Placement | Electrical level |
+| Device | Role | Placement | Electrical level to link |
 |---|---|---|---|
 | Solar panel | Source, 100 W | Outdoors, open sky; a flat roof is fine | 3 |
 | Wind turbine | Source, 400 W; the blades turn with the wind | Outdoors; +15 % wind per floor up to the 3rd | 2 |
@@ -60,7 +60,8 @@ or salvaging the lower one.
 ## Placement rules
 
 - Place, rotate and pick up with the vanilla furniture cursor (ghost, 4 facings, 2 for wall objects).
-- The tile requires a **screwdriver** and the Electrical level shown above, also to pick it up.
+- Placing and rotating need no tool and no level; picking up needs a **screwdriver**, no level.
+- Linking it to an inverter needs the Electrical level shown above. Putting an inverter into service (its first link) needs level 3.
 - A picked-up device keeps its condition.
 - Solar panel and wind turbine: outdoors (open sky).
 - Water wheel: river bank, ground floor, next to river water. Lakes and ponds are refused.

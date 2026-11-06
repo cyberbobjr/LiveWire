@@ -204,6 +204,25 @@ class Remaining(unittest.TestCase):
         assert(not D.validate(adopted) and not R.device(adopted.id), "second miss removes it")
         ''')
 
+    def test_link_sets_installer_quality_and_gives_device_experience_once(self):
+        self.run_lua('''
+        Perks=Perks or {Electricity=1}
+        local R,D=LiveWire.Registry,LiveWire.Devices
+        local inv=R.addDevice({role="inverter",model="Inverter",x=0,y=0,z=0,cond=100,eff=0.85,level=0,state="on",xpd=false})
+        local bank=R.addDevice({role="storage",model="PowerBank",x=1,y=0,z=0,cond=100,eff=0.85,level=0,state="ok",wearFactor=1,slots={},xpd=false})
+        local lvl=7
+        local ch={getPerkLevel=function() return lvl end}
+        local xp=D.wired(ch,bank,inv)
+        assert(xp==LiveWire.Defs.devices.PowerBank.xp+LiveWire.Defs.devices.Inverter.xp, "first link: both experiences")
+        assert(inv.svc==true and inv.xpd==true and bank.xpd==true)
+        assert(bank.level==7 and bank.eff==0.95 and bank.wearFactor==0.90 and inv.level==7 and inv.eff==0.95)
+        lvl=3
+        assert(D.wired(ch,bank,inv)==0, "experience given once")
+        assert(bank.level==7 and bank.eff==0.95 and bank.wearFactor==0.90, "a weaker electrician keeps the best install")
+        local old=R.addDevice({role="source",model="SolarPanel",x=2,y=0,z=0,cond=100,eff=0.85,level=3,state="ok"})
+        assert(D.wired(ch,old,inv)==0, "older saves: experience already given at placement")
+        ''')
+
     def test_partial_step_uses_stock_and_conserves_energy(self):
         self.run_lua('''
         local P=LiveWire.Physics

@@ -11,9 +11,11 @@ LiveWire.Defs = Defs
 -- Each device is a tile of the mod tileset (source/tiles/build_livewire_tiles.py):
 -- `tile` is the index of its first sprite, `facings` the number of sprites (S, E,
 -- N, W; wall objects: S = north wall, E = west wall). Placing and picking up use
--- the vanilla furniture cursor; the Electrical level and the screwdriver come from
--- the tile properties (PickUpLevel, PickUpTool = Electrician). `item` is the
--- placeable inventory item made by the recipe.
+-- the vanilla furniture cursor: placing needs nothing, picking up a screwdriver
+-- (tile PickUpTool = Electrician, no PickUpLevel). `level` is the Electrical level
+-- needed to link the device to an inverter, or for an inverter to put it in
+-- service (first link). `xp` is awarded once, at the device's first link. `item` is
+-- the placeable inventory item made by the recipe.
 Defs.SHEET = "batman_livewire_01"
 
 Defs.devices = {
@@ -147,7 +149,7 @@ Defs.MAX_SLAVES = 3                         -- 4 inverters per network
 Defs.COUPLING_KIT = "LiveWire.CouplingKit"
 Defs.COUPLING_LEVEL = 3
 
--- Installation efficiency from the installer's Electrical level.
+-- Installation efficiency from the Electrical level of whoever linked the device.
 function Defs.installEfficiency(level)
     if level >= 9 then return 1.0 end
     if level >= 7 then return 0.95 end

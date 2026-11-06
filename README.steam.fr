@@ -23,7 +23,7 @@ Stockez le surplus dans des powerbanks (4 batteries chacune). Câbles : 1 fil pa
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png[/img]
 
-Posez les panneaux dehors (Électricité 3), les éoliennes dehors et les roues à aubes sur une berge (2 pour les deux), les onduleurs (3) et les powerbanks (2). Empilez deux powerbanks sur une case, inventaires et liens séparés ; videz-les avant ramassage, celle du haut en premier.
+Poser ne demande aucun niveau : panneaux et éoliennes dehors, roues à aubes sur une berge, onduleurs, powerbanks. Raccordement : panneaux et onduleurs 3 ; éoliennes, roues et powerbanks 2. Empilez deux powerbanks sur une case, inventaires et liens séparés ; videz-les avant ramassage, celle du haut en premier.
 En option : disjoncteur, alarme, insonorisation, générateur vanilla de secours et ordinateur de gestion.
 
 [h2]Production[/h2]
@@ -40,7 +40,7 @@ La pompe (Électricité 3) alimente les sanitaires raccordés à 15 cases depuis
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png[/img]
 
-18 recettes illustrées ci-dessous. Déblocage automatique en Électricité ; pales et mât en Métallerie, sans niveau électrique requis. Assemblage de l'éolienne au niveau 3, fabrication de la roue à 4, avec deux amplificateurs chacune. Pose/ramassage des deux au niveau 2. Le testeur se démonte en déchet électronique. Toutes les recettes donnent de l'XP électrique. Butin élargi : multiplicateur sandbox 5 par défaut (1–20), prochains tirages après redémarrage.
+18 recettes illustrées ci-dessous. Déblocage automatique en Électricité ; pales et mât en Métallerie, sans niveau électrique requis. Assemblage de l'éolienne au niveau 3, fabrication de la roue à 4, avec deux amplificateurs chacune. Raccordement des deux au niveau 2 ; pose sans niveau. Le testeur se démonte en déchet électronique. Toutes les recettes donnent de l'XP électrique. Butin élargi : multiplicateur sandbox 5 par défaut (1–20), prochains tirages après redémarrage.
 
 [h2]Logiciel de gestion[/h2]
 

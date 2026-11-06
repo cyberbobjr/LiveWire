@@ -40,7 +40,7 @@ requires Electrical 4 to craft, also using two amplifiers.
 Blade sets and masts can also be found in technical loot. Amplifiers are vanilla
 parts recovered by dismantling devices. The vanilla speaker recipe yields one
 amplifier and one electronics scrap. Their loot rates are unchanged. Both complete
-machines require only Electrical 2 to place or pick up. Existing machines and IDs
+machines require only Electrical 2 to link to an inverter; placing and picking up need no level. Existing machines and IDs
 remain valid. The two new parts currently use vanilla placeholder icons and models.
 
 Equipment recipes show their output icon after a full game restart.
@@ -49,7 +49,7 @@ Equipment recipes show their output icon after a full game restart.
 
 **Build Inverter Cabinet** turns an ordinary inverter into a full-height inverter
 cabinet: 4,500 W instead of 1,500 W, 60 W idle consumption instead of 20 W. It needs
-Electrical 3 to craft, place and pick up. The inverter used in the recipe is consumed
+Electrical 3 to craft and to put it into service (its first link); placing and picking up need no level. The inverter used in the recipe is consumed
 (its condition is lost: the cabinet starts new). A cabinet works like an inverter
 (screen, running and fault lights, soundproofing kit, wear) and couples with inverters
 or other cabinets; the network capacity is the sum of the inverters in service.

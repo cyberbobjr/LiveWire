@@ -33,11 +33,11 @@ Toute modification d'un identifiant de ce document (type d'objet, clé de ModDat
 
 ### 2.2 Appareils posés (`LiveWire_moveables.txt`, module `Base`, et `LW_Defs.lua`)
 
-Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inventaire est un `base:moveable` posé au curseur de meubles vanilla (outil `Electrician`, niveau `PickUpLevel` de la tuile). Le **nom de modèle** est la clé stockée dans le registre : ne jamais le renommer.
+Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inventaire est un `base:moveable` posé au curseur de meubles vanilla. Pose et rotation ne demandent ni outil ni niveau ; le ramassage demande `PickUpTool = Electrician`, sans niveau. La tuile ne porte ni `PickUpLevel` ni `PlaceTool`. Le niveau d'Électricité est vérifié au **branchement** (`Defs.devices.*.level`, D-29). Le **nom de modèle** est la clé stockée dans le registre : ne jamais le renommer.
 
 **Poids** : `PickUpWeight / 10` de la tuile (`Moveable.java:145-150`), sauf l'éolienne dont la tuile porte `CustomItem` et qui prend le `Weight` du script (`Moveable.java:129-134`). Le `Weight` de chaque script reprend celui de la tuile. Règle : jamais moins que la somme des composants de la recette (poids vanilla), relevé au poids réaliste à l'échelle du jeu. Panneau 9, éolienne 15, roue à aubes 30, onduleur 12, armoire onduleur 30, powerbank 10, tableau 3, alarme 1, pompe 8.
 
-| Modèle (`Defs.devices`) | Objet posable | Rôle | Tuiles (index, orientations) | Chiffres | Niveau | XP pose | Usure (`wearDays`) |
+| Modèle (`Defs.devices`) | Objet posable | Rôle | Tuiles (index, orientations) | Chiffres | Niveau (branchement) | XP (1er branchement) | Usure (`wearDays`) |
 |---|---|---|---|---|---|---|---|
 | `SolarPanel` | `Base.Mov_LiveWire_SolarPanel` | `source` / `solar` | 0, 4 | 100 W nominal, dehors | 3 | 10 | 10 |
 | `WindTurbine` | `Base.Mov_LiveWire_WindTurbine` | `source` / `wind` | 4, 4 | 400 W nominal, dehors | 2 | 20 | 4 |
@@ -49,7 +49,7 @@ Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inv
 | `WaterPump` | `Base.Mov_LiveWire_WaterPump` | `pump` | 72, 4 | 250 W, 5 L/min | 3 | 20 | 10 |
 
 - Tuile `batman_livewire_01_76` : réservoir relais transparent de la pompe (`Defs.RELAY_SPRITE`), jamais reconnu comme appareil.
-- Objets vanilla raccordés (rôles du registre sans tuile du mod) : générateur vanilla en secours (`role = "backup"`, modèle `BackupGenerator`, niveau 2) et ordinateur de bureau vanilla de gestion (`role = "computer"`, modèle `ManagementComputer`, niveau 3 pour le raccordement ; délestage sans niveau requis).
+- Objets vanilla raccordés (rôles du registre sans tuile du mod) : générateur vanilla en secours (`role = "backup"`, modèle `BackupGenerator`, niveau 2) et ordinateur de bureau vanilla de gestion (`role = "computer"`, modèle `ManagementComputer`, niveau 3 pour le branchement ; délestage sans niveau requis).
 
 ### 2.3 Batteries reconnues (`Defs.batteries`)
 
@@ -60,7 +60,7 @@ Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inv
 | `Base.CarBattery3` | 0,90 kWh | 150 |
 | `LiveWire.DeepCycleBattery` | 1,50 kWh | 600 |
 
-Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de décharge profonde 20 % ; redémarrage à 2 % du stock ; lissage des sources τ = 0,5 h ; perte d'état à la disjonction sans disjoncteur 3 ; forte charge au-delà de 80 % ; usure ×1,25 d'un onduleur insonorisé. Rendement d'installation : 0,85 (niveau < 7), 0,95 (7-8), 1,0 (9-10). Échec de réparation : `max(5, 40 − 5 × niveau)` %, divisé par deux dès le niveau 8.
+Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de décharge profonde 20 % ; redémarrage à 2 % du stock ; lissage des sources τ = 0,5 h ; perte d'état à la disjonction sans disjoncteur 3 ; forte charge au-delà de 80 % ; usure ×1,25 d'un onduleur insonorisé. Rendement d'installation (niveau de celui qui branche, D-29) : 0,85 (niveau < 7), 0,95 (7-8), 1,0 (9-10). Échec de réparation : `max(5, 40 − 5 × niveau)` %, divisé par deux dès le niveau 8.
 
 ### 2.4 Recettes (`LiveWire_recipes.txt`, module `LiveWire`, catégorie `Electrical`)
 
@@ -154,7 +154,7 @@ Champs principaux : `grid`, `rev` (révision croissante : la livraison n'est pas
 ### 4.2 Registre, schéma 2
 
 - **Identifiants** `d<n>` (appareil) et `g<n>` (réseau), tirés de `nextId`, jamais réutilisés.
-- **Appareil** (champs communs) : `id`, `role` (`source`, `inverter`, `storage`, `option`, `pump`, `backup`, `computer`), `model`, `x`, `y`, `z`, `grid`, `cond`, `eff`, `level` (niveau de l'installateur), `state`.
+- **Appareil** (champs communs) : `id`, `role` (`source`, `inverter`, `storage`, `option`, `pump`, `backup`, `computer`), `model`, `x`, `y`, `z`, `grid`, `cond`, `eff`, `level` (meilleur niveau d'Électricité de ceux qui ont branché l'appareil, D-29), `state`.
   - `state` : onduleur `on` / `off` / `tripped` / `broken` ; source et équipement `ok` / `tripped` / `broken` ; pompe `idle` / `running` ; secours `standby`…
   - Source : `pOut` (W lissés), `raw`, `snow`. Onduleur : `muffled`, `coupled` (id du maître pour un esclave). Powerbank : `wearFactor`, `slots[] { id, model, charge, cond, cycles }` (instantané des batteries quand la case n'est pas chargée). Pompe : `barrels[posKey]`, `relays[posKey]`. Secours : `fuel`, `fuelSeen`, `connected`.
 - **Réseau** : `id`, `name`, `inverter`, `members { [idAppareil] = true }`, `slaves`, `demand`, `production`, `stock`, `capacity`, `lost`, `powered`, `lastTick` (âge du monde en heures), `rev`, et selon les équipements `alarmOn`, `alarmAck`, `alarmAt`, `computerOn`, `history`, `historyAt`, `backupW`, `shed`, `appliances`.
@@ -259,7 +259,7 @@ sont retirés ; la table d'ancres continue de passer par `ModData.request/transm
 | `LiveWire.WirePerTiles` | integer | 4 | 0-20 | Un fil électrique par N cases de câble (0 = gratuit) |
 | `LiveWire.StormDamage` | boolean | false | — | Orages et vents très forts abîment panneaux et éoliennes |
 | `LiveWire.XPMultiplier` | double | 1,0 | 0-10 | Expérience donnée par les actions Live Wire |
-| `LiveWire.SkillGates` | boolean | true | — | Désactivée : aucun niveau d'Électricité exigé |
+| `LiveWire.SkillGates` | boolean | true | — | Désactivée : aucun niveau d'Électricité exigé pour brancher ni mettre en service |
 | `LiveWire.SimulateUnloaded` | boolean | true | — | Production, consommation et usure continuent sans joueur proche |
 | `LiveWire.BackupStartPercent` | integer | 20 | 0-90 | Démarrage du générateur de secours sous ce pourcentage de batterie |
 | `LiveWire.BackupStopPercent` | integer | 90 | 10-100 | Arrêt du générateur ; seuil effectif relevé si nécessaire à démarrage + 5 points |
@@ -592,8 +592,8 @@ dans les événements. 13 couples véhicule. Un véhicule déjà apparu n'est pa
   haut-parleurs intégralement conservé, sans hook ni recette dédiée.
 - Durée éolienne 180 + 180 + 240 = 600. Mât : `Base.MetalPipe` au lieu du tuyau
   plastique `Base.Pipe`, deux barres ; total des trois étapes : six vis.
-- `Defs.devices.*.level` et `PickUpLevel=2` des sprites 4–11 concordent. Niveau
-  natif partagé entre pose et ramassage. Tiledef 7174, tileset ID 1, indices,
+- `Defs.devices.*.level` est le niveau de **branchement** ; il n'est plus relié à
+  `PickUpLevel` (tuiles sans `PickUpLevel` ni `PlaceTool`, D-29). Tiledef 7174, tileset ID 1, indices,
   sprites, packs, profondeur et état des machines conservés. Pas de migration
   des objets publiés. Le type intermédiaire de prototype non publié est retiré,
   sans conversion d'éventuels inventaires de test ; aucune sauvegarde n'est éditée.

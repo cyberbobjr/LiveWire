@@ -44,8 +44,7 @@ La roue à aubes se fabrique au niveau 4, avec deux amplificateurs également.
 Pales et mâts peuvent aussi être trouvés dans le butin technique. Les amplificateurs
 sont des pièces vanilla : récupérez-les notamment par démontage des appareils.
 Démonter un haut-parleur donne un amplificateur et un déchet par la recette vanilla.
-Leur butin reste inchangé. La pose et le ramassage des deux machines complètes
-demandent seulement le niveau 2. Machines existantes et identifiants conservés.
+Leur butin reste inchangé. Le branchement des deux machines complètes à un onduleur demande seulement le niveau 2 ; la pose et le ramassage n'en demandent aucun. Machines existantes et identifiants conservés.
 Les deux nouvelles pièces ont temporairement des icônes et modèles au sol vanilla.
 
 Les recettes des équipements affichent leur icône de résultat après redémarrage
@@ -55,7 +54,7 @@ complet du jeu.
 
 **Fabriquer une armoire onduleur** transforme un onduleur ordinaire en grande armoire
 électrique : 4 500 W au lieu de 1 500 W, 60 W de consommation à vide au lieu de 20 W.
-Il faut le niveau 3 d'Électricité pour la fabriquer, la poser et la ramasser.
+Il faut le niveau 3 d'Électricité pour la fabriquer et la mettre en service (premier branchement) ; la pose et le ramassage n'en demandent aucun.
 L'onduleur utilisé est consommé (son état est perdu : l'armoire est neuve). L'armoire
 fonctionne comme un onduleur (écran, voyants de marche et de défaut, kit
 d'insonorisation, usure) et se couple avec des onduleurs ou d'autres armoires ; la

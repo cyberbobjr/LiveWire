@@ -40,13 +40,13 @@
 | 0 | Lire un testeur : alimenté ou non | aucun |
 | 1 | Testeur de tension | Lecture détaillée de la case |
 | 2 | Powerbank, alarme de batterie faible, kit d'insonorisation, générateur de secours | Usure des batteries −5 % |
-| 3 | Panneaux photovoltaïques, disjoncteur, onduleur, armoire onduleur, assemblage de l’éolienne, batterie stationnaire, pompe à eau, couplage d'onduleurs, cellules à partir de déchets, ordinateur de gestion (avec délestage), remise à neuf | Rendement de pose 0,85 |
+| 3 | Panneaux photovoltaïques, disjoncteur, onduleur, armoire onduleur, assemblage de l’éolienne, batterie stationnaire, pompe à eau, couplage d'onduleurs, cellules à partir de déchets, ordinateur de gestion (avec délestage), remise à neuf | Rendement d'installation 0,85 |
 | 4 | Reconditionner une batterie, fabrication de la roue à aubes | Lecture de l'autonomie |
 | 5 | aucun | aucun |
 | 6 | aucun | Usure des batteries −10 % |
-| 7 | aucun | Rendement de pose 0,95 |
+| 7 | aucun | Rendement d'installation 0,95 |
 | 8 | aucun | Échec de réparation divisé par deux |
-| 9-10 | aucun | Rendement de pose 1,0 ; usure des appareils −25 % |
+| 9-10 | aucun | Rendement d'installation 1,0 ; usure des appareils −25 % |
 
 ## Expérience
 
@@ -55,9 +55,10 @@ Toujours attribuée par le serveur.
 | Action | Expérience |
 |---|---|
 | Recettes du mod | voir [Recettes](08-recettes.md) |
-| Poser une source | 10 (panneau), 20 (éolienne, roue à aubes) |
-| Poser un onduleur | 25 |
-| Connecter une source ou une batterie | 3 |
+| Premier branchement d'une source (une fois) | 10 (panneau), 20 (éolienne, roue à aubes) |
+| Mise en service d'un onduleur (premier branchement, une fois) | 25 |
+| Brancher un générateur ou un ordinateur vanilla | 3 (plus l'XP de l'onduleur si ce branchement le met en service) |
+| Coupler deux onduleurs | 5 (plus l'XP de l'onduleur si due) |
 | Inspecter un appareil | 2 (une fois par appareil et par jour) |
 | Mesurer au testeur | 1 (une fois par case et par heure) |
 | Réparer | 5 + 1 par point, maximum 15 |
@@ -65,7 +66,7 @@ Toujours attribuée par le serveur.
 | Réarmer après avoir réglé une surcharge | 5 (une fois par heure) |
 | Insonoriser l'onduleur | 3 |
 
-L'option XPMultiplier ajuste l'expérience donnée, et SkillGates = false supprime les niveaux requis ([Options sandbox](11-options-sandbox.md)).
+L'option XPMultiplier ajuste l'expérience donnée, et SkillGates = false supprime les niveaux requis pour brancher ou mettre en service ([Options sandbox](11-options-sandbox.md)).
 
 ## Test des batteries et entretien
 
@@ -88,7 +89,7 @@ Un équipement mort et vide peut être démonté au niveau 3 avec un tournevis. 
 retiré une seule fois et rend quelques pièces ; les batteries doivent être retirées
 de la banque avant ce démontage.
 
-Éoliennes et roues à aubes : pose/ramassage au niveau 2 ; fabrication aux niveaux 3 et 4 respectivement. Les pales et le mât se fabriquent sans niveau électrique.
+Éoliennes et roues à aubes : branchement au niveau 2 ; fabrication aux niveaux 3 et 4 respectivement. Pose et ramassage sans niveau. Les pales et le mât se fabriquent sans niveau électrique.
 
 ## Sécurité électrique et expérience
 

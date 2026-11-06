@@ -66,4 +66,4 @@ Stockage : [powerbanks superposées](annexes/plans/powerbanks-superposees.md).
 
 Butin : [fréquence et lieux des équipements](annexes/plans/butin-equipements.md).
 
-Sources : [fabrication de l’éolienne, composants et pose niveau 2](annexes/plans/fabrication-eolienne-et-composants.md).
+Sources : [fabrication de l’éolienne, composants et branchement niveau 2 (pose sans niveau)](annexes/plans/fabrication-eolienne-et-composants.md).

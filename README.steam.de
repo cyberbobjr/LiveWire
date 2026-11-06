@@ -23,7 +23,7 @@ Batteriebänke speichern Überschüsse (je 4 Batterien). Kabel: 1 Draht pro 4 Fe
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_de.png[/img]
 
-Solarmodule draußen aufstellen (Elektrik 3), Windräder draußen und Wasserräder am Flussufer (beide 2), Wechselrichter (3), Batteriebänke (2). Zwei Bänke passen übereinander auf ein Feld, mit getrennten Inventaren und Anschlüssen. Vor dem Aufheben leeren, obere Bank zuerst.
+Aufstellen braucht keine Stufe: Solarmodule und Windräder draußen, Wasserräder am Flussufer, Wechselrichter, Batteriebänke. Anschluss: Solarmodule und Wechselrichter Elektrik 3; Windräder, Wasserräder, Batteriebänke 2. Zwei Bänke passen übereinander auf ein Feld, mit getrennten Inventaren und Anschlüssen. Vor dem Aufheben leeren, obere Bank zuerst.
 Optional: Sicherungskasten, Batteriealarm, Schalldämmung, Vanilla-Notstromgenerator und Verwaltungscomputer.
 
 [h2]Erzeugung[/h2]
@@ -40,7 +40,7 @@ Die Wasserpumpe (Elektrik 3) versorgt angeschlossene Sanitärgeräte in 15 Felde
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_de.png[/img]
 
-18 bebilderte Rezepte. Elektrikrezepte werden automatisch freigeschaltet; Rotorblätter und Mast unter Metallverarbeitung ohne Elektrikstufe. Windrad-Endmontage auf 3, Wasserradbau auf 4, jeweils mit zwei Verstärkern. Beide auf Stufe 2 aufstellen/aufheben. Spannungsprüfer zu Elektroschrott zerlegen. Alle Rezepte geben Elektrik-EP. Mehr Fundorte; Beutemultiplikator standardmäßig 5 (1–20), nur neue Würfe nach Neustart.
+18 bebilderte Rezepte. Elektrikrezepte werden automatisch freigeschaltet; Rotorblätter und Mast unter Metallverarbeitung ohne Elektrikstufe. Windrad-Endmontage auf 3, Wasserradbau auf 4, jeweils mit zwei Verstärkern. Beide auf Stufe 2 anschließen; Aufstellen braucht keine Stufe. Spannungsprüfer zu Elektroschrott zerlegen. Alle Rezepte geben Elektrik-EP. Mehr Fundorte; Beutemultiplikator standardmäßig 5 (1–20), nur neue Würfe nach Neustart.
 
 [h2]Verwaltungssoftware[/h2]
 

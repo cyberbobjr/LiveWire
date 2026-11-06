@@ -23,7 +23,7 @@ Store surplus in power banks (4 batteries each). Cables: 1 wire per 4 tiles, ran
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_en.png[/img]
 
-Place solar panels outdoors (Electrical 3), turbines outdoors and water wheels on river banks (both 2), inverters (3) and power banks (2). Stack two banks on one tile, with separate inventories and connections; empty them before removal, upper bank first.
+Placing needs no level: solar panels and turbines outdoors, water wheels on river banks, inverters, power banks. Linking: solar panels and inverters 3; turbines, water wheels, power banks 2. Stack two banks on one tile, with separate inventories and connections; empty them before removal, upper bank first.
 Optional: breaker, battery alarm, soundproofing, vanilla backup generator and management computer.
 
 [h2]Production[/h2]
@@ -40,7 +40,7 @@ A water pump (Electrical 3) supplies plumbed fixtures within 15 tiles from up to
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
 
-18 recipes, illustrated below. Electrical recipes unlock automatically; blades and masts are in Metalworking with no Electrical gate. Assemble a turbine at level 3; craft a water wheel at 4, both using two amplifiers. Place/pick up either at 2. Dismantle a voltage tester for scrap. Every recipe grants Electrical XP. Broader equipment/parts loot; sandbox multiplier 5 by default (1–20), future rolls only after restart.
+18 recipes, illustrated below. Electrical recipes unlock automatically; blades and masts are in Metalworking with no Electrical gate. Assemble a turbine at level 3; craft a water wheel at 4, both using two amplifiers. Linking either needs level 2; placing needs no level. Dismantle a voltage tester for scrap. Every recipe grants Electrical XP. Broader equipment/parts loot; sandbox multiplier 5 by default (1–20), future rolls only after restart.
 
 [h2]Management software[/h2]
 

@@ -23,7 +23,7 @@ Bancos com 4 baterias guardam o excedente. Cabos: 1 fio por 4 quadrados, alcance
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_pt.png[/img]
 
-Painéis no exterior (Eletricidade 3), turbinas no exterior e rodas na margem de um rio (ambas 2), inversores (3), bancos (2). Empilhe dois bancos por quadrado com inventários e ligações separados; esvazie antes de recolher, primeiro o superior.
+Colocar não exige nível (painéis e turbinas no exterior, rodas na margem de um rio, inversores, bancos). Ligar: painéis e inversores com Eletricidade 3; turbinas, rodas e bancos com 2. Empilhe dois bancos por quadrado com inventários e ligações separados; esvazie antes de recolher, primeiro o superior.
 Opcionais: quadro elétrico, alarme, insonorização, gerador vanilla de reserva e computador de gestão.
 
 [h2]Produção[/h2]
@@ -40,7 +40,7 @@ A bomba (Eletricidade 3) abastece sanitários ligados num raio de 15 quadrados a
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_pt.png[/img]
 
-18 receitas ilustradas. Desbloqueio automático em Eletricidade; pás e mastro em Metalurgia sem nível elétrico. Montagem da turbina ao 3, fabrico da roda ao 4, ambas com dois amplificadores. Colocar/recolher ambas ao 2. Desmonte um testador para recuperar sucata eletrónica. Todas dão XP de Eletricidade. Mais locais de saque; multiplicador 5 por predefinição (1–20), apenas sorteios futuros após reiniciar.
+18 receitas ilustradas. Desbloqueio automático em Eletricidade; pás e mastro em Metalurgia sem nível elétrico. Montagem da turbina ao 3, fabrico da roda ao 4, ambas com dois amplificadores. Ligar ambas ao 2; colocar não exige nível. Desmonte um testador para recuperar sucata eletrónica. Todas dão XP de Eletricidade. Mais locais de saque; multiplicador 5 por predefinição (1–20), apenas sorteios futuros após reiniciar.
 
 [h2]Software de gestão[/h2]
 

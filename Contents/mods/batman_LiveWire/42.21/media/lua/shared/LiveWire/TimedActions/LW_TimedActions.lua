@@ -123,7 +123,7 @@ function LWLinkAction:complete()
     local kind = I().linkKind(target)
     if LiveWire.Maintenance.liveWork(ch, grid) then return false end
     if kind == "backup" or kind == "computer" then
-        return LWLinkAction.linkVanilla(ch, target, kind, grid, wires)
+        return LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
     end
 
     -- Already on this network: nothing to do (no wire, no XP).
@@ -147,9 +147,11 @@ function LWLinkAction:complete()
     if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
 
     R().link(tdev, grid)
+    local xp = LiveWire.Devices.wired(ch, tdev, inv)
     LiveWire.Devices.syncMark(tdev)
+    LiveWire.Devices.syncMark(inv)
     if tdef and tdef.role == "pump" and LiveWire.Pump then LiveWire.Pump.maintain(tdev) end
-    LiveWire.Xp.award(ch, 3)
+    LiveWire.Xp.award(ch, xp)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(ch, "IGUI_LW_Linked", {})
     return true
@@ -157,7 +159,7 @@ end
 
 -- A vanilla generator (backup power) or desktop computer (management computer):
 -- one of each per network. The vanilla object is only marked in its ModData.
-function LWLinkAction.linkVanilla(ch, target, kind, grid, wires)
+function LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
     local m = I().vanillaMark(target)
     local old = m and R().device(m.id)
     if old and old.grid == grid.id then
@@ -179,7 +181,9 @@ function LWLinkAction.linkVanilla(ch, target, kind, grid, wires)
     else
         LiveWire.Computer.register(target, grid, I().level(ch))
     end
-    LiveWire.Xp.award(ch, 3)
+    local xp = inv and LiveWire.Devices.wired(ch, nil, inv) or 0
+    if inv then LiveWire.Devices.syncMark(inv) end
+    LiveWire.Xp.award(ch, 3 + xp)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(ch, "IGUI_LW_Linked", {})
     return true
@@ -269,9 +273,10 @@ function LWCoupleAction:complete()
     LiveWire.Anchor.set(sdev.id, R().anchors[sdev.id] or sdev, false)
     LiveWire.Demand.invalidate(sdev.id)
     R().couple(sdev, mgrid)
+    local xp = LiveWire.Devices.wired(ch, sdev, mdev)
     LiveWire.Devices.syncMark(sdev)
     LiveWire.Devices.syncMark(mdev)
-    LiveWire.Xp.award(ch, 5)
+    LiveWire.Xp.award(ch, 5 + xp)
     LiveWire.Sim.refresh(mgrid)
     LiveWire.notify(ch, "IGUI_LW_Coupled", {})
     return true

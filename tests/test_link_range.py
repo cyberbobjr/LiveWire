@@ -53,6 +53,29 @@ class LinkRange(unittest.TestCase):
         end
         ''')
 
+    def test_link_needs_device_level_and_inverter_level_until_in_service(self):
+        self.lua.execute('''
+        local I=LiveWire.Install
+        local lvl=2
+        PLAYER.getPerkLevel=function() return lvl end
+        local wind=object(1,0,0,'WindTurbine','d3')
+        local solar=object(2,0,0,'SolarPanel','d4')
+        local ok,why,need=I.checkLink(PLAYER,wind,INVERTER)
+        assert(not ok and why=='Tooltip_LW_NeedLevel' and need==3, 'first link puts the inverter in service')
+        INVERTER.mark.svc=true
+        assert(I.checkLink(PLAYER,wind,INVERTER), 'wind turbine: level 2 once in service')
+        assert(I.checkLink(PLAYER,GENERATOR,INVERTER), 'backup generator: level 2')
+        ok,why,need=I.checkLink(PLAYER,solar,INVERTER)
+        assert(not ok and why=='Tooltip_LW_NeedLevel' and need==3, 'solar panel: level 3')
+        lvl=3
+        assert(I.checkLink(PLAYER,solar,INVERTER))
+        lvl=0
+        INVERTER.mark.svc=nil
+        SandboxVars={LiveWire={SkillGates=false}}
+        assert(I.checkLink(PLAYER,solar,INVERTER), 'skill gates off: no level')
+        SandboxVars=nil
+        ''')
+
     def test_live_setting_controls_links_and_coupling_including_zero(self):
         self.lua.execute('''
         local floors=3

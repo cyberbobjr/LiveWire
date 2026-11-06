@@ -11,6 +11,8 @@ contrôles d'autorité lisent la valeur courante. Couplage et raccordements util
 la même limite. La portée horizontale et son coût restent inchangés.
 Suite `unittest discover` : 149 tests, dont 5 ignorés, code 0.
 
+> **Note 2026-11-07 (D-29) :** ce passage valide les niveaux de pose d'alors (panneau à +2, powerbank à +3). Depuis D-29, la pose ne demande aucun niveau et le niveau se vérifie au branchement ; ce résultat n'est pas réexécuté. Résultat historique conservé.
+
 **Confirmé en jeu solo 42.21.0 :** code de sortie **0**,
 `summary=9/9 PASS`, dossier local `runs/20261027-091208-sp-871e499158e2/`.
 Sources et objets réellement placés dans une copie jetable du monde : découverte
@@ -696,6 +698,8 @@ documentaire concordent avec les scripts. Ces contrôles hors jeu ne constituent
 pas un essai SP/MP réel ; les limites de validation précédentes restent applicables.
 
 ## 2026-10-25 — F32 : sources, composants et pose niveau 2
+
+> **Note 2026-11-07 (D-29) :** les niveaux de pose cités ci-dessous sont remplacés : pose et ramassage sans niveau, le niveau 2 ne s'applique plus qu'au branchement. Résultat historique conservé.
 
 Éolienne en trois étapes, deux amplificateurs vanilla par machine, pose/ramassage
 niveau 2 sur les huit sprites, fabrication 6 et 7 conservée. Butin élargi, limité

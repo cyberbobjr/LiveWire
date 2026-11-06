@@ -10,7 +10,7 @@ Barrels of water standing on the ground can run the taps of a whole house. An el
 
 | Item | Detail |
 |---|---|
-| Water pump | Recipe at Electrical 3 (see [Recipes](08-recipes.md)). Placed like any Live Wire device, indoors or outdoors. |
+| Water pump | Recipe at Electrical 3 (see [Recipes](08-recipes.md)). Placed like any Live Wire device, indoors or outdoors, with no level. Linking the pump to the inverter needs Electrical 3; linking a barrel to the pump needs no level (a pipe). |
 | Electric wire | To connect the pump to an inverter, like any device (1 wire per 4 tiles). |
 | Water barrels | Vanilla rain collectors, or the barrels of the optional mod **Useful Barrels**. Up to 8 per pump. |
 | Iron pipes | 1 per barrel, given back when the barrel is disconnected. |

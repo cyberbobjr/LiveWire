@@ -48,7 +48,7 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 | F27 | Démontage pour pièces et risque électrique | § 11 |
 | F28 | Tableau électrique graphique, deux circuits indépendants | § 11 |
 | F29 | Clic direct, LCD individuels, raccordements ciblés et globaux | § 12 |
-| F32 | Éolienne en trois étapes, amplificateurs, pose éolienne/roue au niveau 2 | § 15 |
+| F32 | Éolienne en trois étapes, amplificateurs, branchement éolienne/roue au niveau 2 (pose sans niveau) | § 15 |
 | F31 | Butin d’équipements réglable, lieux élargis | § 14 |
 | F30 | Deux powerbanks superposées, conteneurs et raccordements distincts | § 13 |
 
@@ -84,8 +84,8 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 |---|---|---|
 | **1. Avant la coupure** (réseau public actif) | Le courant est partout. | Il récupère des batteries de voiture, du fil électrique, de l'électronique, des calculatrices et des livres d'électricité. Il fabrique un **testeur de tension** (niv. 1) et apprend à lire une installation. |
 | **2. La coupure** | Le générateur vanilla devient la seule source et attire les zombies. | Il installe un **onduleur** dans la maison (niv. 3) et une **powerbank** à côté (niv. 2), raccordée à l'onduleur, dans laquelle il range ses **batteries de voiture**. La nuit, la maison vit sur les batteries, sans bruit. *En v0.1, ces batteries se chargent par les sources ; la charge depuis un générateur vanilla arrive en v0.2 (§ 9).* |
-| **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou dans le jardin (niv. 3) et une **petite éolienne** (pose niv. 2, fabrication niv. 3). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
-| **4. Base autonome** | Plus de carburant. | Il ajoute une **roue à aubes** sur une rive de rivière (pose niv. 2, fabrication niv. 4), qui produit jour et nuit. Il dimensionne l'installation : assez de batteries pour la nuit, un onduleur assez puissant. Il entretient et remplace ce qui s'use. **Quand il part en expédition, la base continue de tourner** : le réfrigérateur reste froid. |
+| **3. Premières sources** | Le carburant se raréfie. | Il pose des **panneaux photovoltaïques** sur un toit plat ou dans le jardin et les **branche** à l'onduleur (niv. 3), puis une **petite éolienne** (branchement niv. 2, fabrication niv. 3). Il apprend que la production dépend de l'heure, des nuages, de la neige et du vent. |
+| **4. Base autonome** | Plus de carburant. | Il ajoute une **roue à aubes** sur une rive de rivière (branchement niv. 2, fabrication niv. 4), qui produit jour et nuit. Il dimensionne l'installation : assez de batteries pour la nuit, un onduleur assez puissant. Il entretient et remplace ce qui s'use. **Quand il part en expédition, la base continue de tourner** : le réfrigérateur reste froid. |
 | **5. Fin de partie** (versions suivantes) | La base est stable. | Pompe électrique, capteurs et alarme, clôture électrifiée, relais pour un grand bâtiment. |
 
 **Arbitrages proposés au joueur :**
@@ -107,7 +107,7 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
   - tous sont marqués `placeholder` dans les scripts et dans ce document.
 - **Objets vanilla réutilisés tels quels** : batteries de voiture `Base.CarBattery1/2/3`, `Base.ElectricWire`, `Base.ElectronicsScrap`, `Base.Calculator`, `Base.SmallSheetMetal`, `Base.SheetMetal`, `Base.Screws`, `Base.Pipe`, `Base.MetalBar`, `Base.Plank`, `Base.Nails`, `Base.Amplifier`, `Base.Speaker`, `Base.LightBulb`, `Base.Battery`, `Base.Glue`, `Base.Aluminum`, `Base.ScrapMetal`. Tous existent en 42.21 (`media/scripts/generated/items/normal.txt`, `drainable.txt`, `weapon.txt`).
 - **Outils, par tag vanilla** : tournevis `base:screwdriver`, pinces `base:pliers`, marteau `base:hammer`. Syntaxe `craftRecipe` 42.21 : `item 1 tags[base:screwdriver] mode:keep` (`media/scripts/generated/recipes/recipes_traps.txt:99-121`).
-- **Équipements : des meubles posables.** La recette donne un meuble `Base.Mov_LiveWire_*` (nom, poids et icône tirés de la tuile ; l'éolienne, dont la tuile porte `CustomItem`, prend le poids de son script). On le pose, le tourne et le ramasse avec le **curseur de meubles vanilla** : fantôme de la tuile, quatre orientations (deux pour les objets muraux), tournevis et niveau d'Électricité exigés par la tuile (`PickUpTool = Electrician`, `PickUpLevel`). Ramassé, l'équipement garde son état.
+- **Équipements : des meubles posables.** La recette donne un meuble `Base.Mov_LiveWire_*` (nom, poids et icône tirés de la tuile ; l'éolienne, dont la tuile porte `CustomItem`, prend le poids de son script). On le pose, le tourne et le ramasse avec le **curseur de meubles vanilla** : fantôme de la tuile, quatre orientations (deux pour les objets muraux), aucun niveau ni outil pour poser et tourner ; ramasser exige un tournevis (`PickUpTool = Electrician`), sans niveau. Le niveau d'Électricité se demande au **branchement** à un onduleur (§ 2.3, D-29). Ramassé, l'équipement garde son état.
 - **Batteries : rangées dans une powerbank.** Une batterie ne se pose jamais au sol : on la range dans une powerbank, qu'on ouvre comme une caisse (§ 5.1). Elle reste un vrai objet, avec son icône et sa charge vanilla.
 
 ### 2.2 Objets d'inventaire
@@ -126,16 +126,16 @@ Meubles posables (module `Base`, comme les `Mov_*` vanilla) : `Mov_LiveWire_Sola
 
 Un appareil posé porte une **marque Live Wire** (son identifiant) et est inscrit dans le registre du serveur.
 
-| Rôle | Appareil | Aspect (**placeholder**) | Contraintes de pose |
+| Rôle | Appareil | Aspect (**placeholder**) | Contraintes de pose et de branchement (niveau d'Électricité de celui qui branche) |
 |---|---|---|---|
-| Source | Panneau photovoltaïque | tuiles 0-3 (panneau incliné sur un châssis) | Dehors, à ciel ouvert (`sq:isOutside()`) ; toit plat accepté ; niv. 3 |
-| Source | Éolienne | tuiles 4-7 (mât, nacelle, trois pales) | Dehors (`isOutside()`) ; bonus en hauteur (§ 3.3) ; pose/ramassage niv. 2, fabrication niv. 3 |
-| Source | Roue à aubes | tuiles 8-11 (roue en bois, génératrice) | Dehors, niveau 0, case voisine d'une eau de rivière (§ 3.4) ; pose/ramassage niv. 2, fabrication niv. 4 |
-| **Onduleur** | Onduleur (un seul modèle, D-17) | tuiles 12-15 (armoire grise, écran, voyants) | **N'importe quelle case de sol, intérieure comprise.** Aucun conteneur, pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) ; niv. 3 |
-| **Onduleur** | Armoire onduleur (1.7.0) | tuiles 88-91 (grande armoire électrique de 2 m ; modèle définitif offert par PewPewCricket, licence MIT) ; 4 500 W, 60 W à vide, fabriquée à partir d'un onduleur | Comme l'onduleur ; niv. 3 |
-| **Stockage** | Powerbank (4 batteries de voiture ou stationnaires) | tuiles 16-19 (bac de batteries) ; conteneur de la tuile `livewirepowerbank`, capacité 50 | N'importe quelle case de sol, intérieur compris ; niv. 2 |
-| Équipement | Disjoncteur | tuiles 20-21, objet mural (mur nord, mur ouest) | Sur un mur ; niv. 3 |
-| Équipement | Alarme de batterie faible | tuiles 22-23, objet mural | Sur un mur ; niv. 2 |
+| Source | Panneau photovoltaïque | tuiles 0-3 (panneau incliné sur un châssis) | Dehors, à ciel ouvert (`sq:isOutside()`) ; toit plat accepté ; branchement niv. 3 ; pose sans niveau |
+| Source | Éolienne | tuiles 4-7 (mât, nacelle, trois pales) | Dehors (`isOutside()`) ; bonus en hauteur (§ 3.3) ; branchement niv. 2, fabrication niv. 3 ; pose et ramassage sans niveau |
+| Source | Roue à aubes | tuiles 8-11 (roue en bois, génératrice) | Dehors, niveau 0, case voisine d'une eau de rivière (§ 3.4) ; branchement niv. 2, fabrication niv. 4 ; pose et ramassage sans niveau |
+| **Onduleur** | Onduleur (un seul modèle, D-17) | tuiles 12-15 (armoire grise, écran, voyants) | **N'importe quelle case de sol, intérieure comprise.** Aucun conteneur, pas de toxicité : ce n'est pas un générateur du moteur (`architecture.md`, § 1) ; mise en service (premier branchement) niv. 3 |
+| **Onduleur** | Armoire onduleur (1.7.0) | tuiles 88-91 (grande armoire électrique de 2 m ; modèle définitif offert par PewPewCricket, licence MIT) ; 4 500 W, 60 W à vide, fabriquée à partir d'un onduleur | Comme l'onduleur ; mise en service niv. 3 |
+| **Stockage** | Powerbank (4 batteries de voiture ou stationnaires) | tuiles 16-19 (bac de batteries) ; conteneur de la tuile `livewirepowerbank`, capacité 50 | N'importe quelle case de sol, intérieur compris ; branchement niv. 2 |
+| Équipement | Disjoncteur | tuiles 20-21, objet mural (mur nord, mur ouest) | Sur un mur ; branchement niv. 3 |
+| Équipement | Alarme de batterie faible | tuiles 22-23, objet mural | Sur un mur ; branchement niv. 2 |
 
 Les règles « dehors » et « berge de rivière » s'ajoutent aux contrôles vanilla du curseur ; une case refusée est signalée en rouge dans le panneau d'information du curseur.
 
@@ -207,7 +207,7 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 
 - **Unités.** Puissance en watts (W), énergie en kilowattheures (kWh).
 - **Pas de simulation.** Le serveur calcule toutes les **10 minutes de jeu** (`architecture.md`, § 4), **que des joueurs soient présents ou non**.
-- **Météo globale.** Toute la carte partage la même météo (NM-12). Ce qui distingue deux appareils, c'est leur pose (ciel ouvert, rive), leur état et le niveau de l'installateur.
+- **Météo globale.** Toute la carte partage la même météo (NM-12). Ce qui distingue deux appareils, c'est leur pose (ciel ouvert, rive), leur état et le niveau d'Électricité de celui qui les a branchés.
 - **Formule commune** : `P = P_nominale × facteur_source × facteur_état × facteur_pose × multiplicateur_sandbox`.
   - `facteur_état = 0,5 + 0,5 × état/100`.
   - Un appareil d'état 0 est en panne et produit 0.
@@ -298,13 +298,15 @@ Les niveaux vanilla vont de 0 à 10 (`Perks.Electricity`, `java/zombie/character
 | 0 | Lire un testeur : « alimenté / non alimenté » | — |
 | 1 | Testeur de tension (I-1, v0.1) | Lecture détaillée de la case (§ 6.4) |
 | 2 | Cellules de calculatrice ; **powerbank** (I-6, v0.1) ; chargeur de piles (I-2, v0.2) | Usure des batteries −5 % |
-| 3 | Panneaux photovoltaïques (I-9, v0.1) ; **onduleur** (I-6, v0.1) ; éolienne (I-9, v0.1) ; batterie stationnaire (v0.1) ; pompe électrique (I-7, v0.2) ; cellules à partir de déchets (v0.1) ; désarmer une alarme (I-3, v0.3) | Rendement de pose 0,85 |
+| 3 | Panneaux photovoltaïques (I-9, v0.1) ; **onduleur** (I-6, v0.1) ; éolienne (I-9, v0.1) ; batterie stationnaire (v0.1) ; pompe électrique (I-7, v0.2) ; cellules à partir de déchets (v0.1) ; désarmer une alarme (I-3, v0.3) | Rendement d'installation 0,85 |
 | 4 | Réparer les appareils, dont les cuisinières (I-5, v0.2) ; reconditionner une batterie (v0.1) ; roue à aubes (I-9, v0.1) | Lecture de l'autonomie |
 | 5 | — | — |
 | 6 | — | Usure des batteries −10 % |
-| 7 | Capteurs et alarme de base (I-4, v0.3) | Rendement de pose 0,95 |
+| 7 | Capteurs et alarme de base (I-4, v0.3) | Rendement d'installation 0,95 |
 | 8 | Clôture électrifiée (I-8, v0.4) | Chance d'échec de réparation divisée par 2 |
-| 9-10 | Onduleur relais : raccorder un grand bâtiment (I-10, v0.4) | Rendement de pose 1,0 ; usure des appareils −25 % |
+| 9-10 | Onduleur relais : raccorder un grand bâtiment (I-10, v0.4) | Rendement d'installation 1,0 ; usure des appareils −25 % |
+
+Depuis D-29 (2026-11-07) : poser et ramasser ne demandent aucun niveau. Les niveaux qui concernent un appareil (panneau 3, éolienne 2, roue 2, powerbank 2, disjoncteur 3, alarme 2, pompe 3) sont ceux de son **branchement** à un onduleur (§ 2.3). La fabrication garde ses niveaux.
 
 ### 4.2 Expérience
 
@@ -313,9 +315,10 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 | Geste | XP | Limite |
 |---|---|---|
 | Recette du mod | colonne XP du § 2.5 | — |
-| Poser une source | 10 (panneau), 20 (éolienne, roue) | — |
-| Poser un onduleur | 25 | — |
-| Raccorder une source ou une batterie | 3 | — |
+| Premier branchement d'une source (XP de l'appareil, une seule fois) | 10 (panneau), 20 (éolienne, roue) | — |
+| Mise en service d'un onduleur (premier branchement) | 25 | — |
+| Brancher un générateur ou un ordinateur vanilla | 3 (plus l'XP de l'onduleur si ce branchement le met en service) | — |
+| Coupler deux onduleurs | 5 (plus l'XP de l'onduleur si due) | — |
 | Inspecter un appareil (5 s) | 2 | 1 fois par appareil et par jour de jeu |
 | Mesurer au testeur | 1 | 1 fois par case et par heure de jeu ; plafond global de 5 XP de base par joueur sur une heure glissante, conservé après reconnexion/redémarrage |
 | Réparer | 5 + 1 par point réparé, au plus 15 | — |
@@ -324,8 +327,8 @@ L'expérience est **toujours donnée sur le serveur**, car `addXp` est sans effe
 
 ### 4.3 Effets du niveau à l'installation
 
-- **Rendement de pose.** Il est enregistré sur l'appareil quand on le pose (niveau de la personne qui pose) : 0,85 (niv. 3 à 6), 0,95 (niv. 7-8), 1,0 (niv. 9-10). Il s'applique à la production d'une source et au rendement d'un onduleur (§ 5.2).
-- **Pas d'échec de pose** depuis 0.1.1 : la pose est celle d'un meuble vanilla, réservée au niveau requis.
+- **Rendement d'installation.** Il est enregistré sur l'appareil à son premier branchement, selon le niveau d'Électricité de celui qui le branche (le meilleur niveau vu est conservé) : 0,85 (niv. 3 à 6), 0,95 (niv. 7-8), 1,0 (niv. 9-10). Il s'applique à la production d'une source et au rendement d'un onduleur (§ 5.2). Usure des appareils −25 % (niv. 9-10) et facteur d'usure de la batterie de la powerbank viennent aussi du niveau de celui qui branche.
+- **Pas d'échec de pose** depuis 0.1.1 : la pose est celle d'un meuble vanilla, sans niveau requis (D-29).
 
 ### 4.4 Usure, pannes, réparation
 
@@ -397,7 +400,7 @@ Les trois batteries vanilla ont le même `UseDelta`, donc ces capacités sont un
 | | Onduleur |
 |---|---|
 | Puissance maximale | 1 500 W |
-| Rendement (selon le niveau à la pose) | 0,85 à 1,0 |
+| Rendement (selon le niveau de celui qui le branche) | 0,85 à 1,0 |
 | Consommation à vide (en marche) | 20 W |
 | Bruit | **très léger bourdonnement** |
 
@@ -493,7 +496,7 @@ Toutes les options sont dans un sous-menu **« Live Wire »**. Une option imposs
 | Un ordinateur de bureau (raccordé, ou onduleur à portée) | Ordinateur de gestion → Ouvrir le tableau de bord · Raccorder à l'onduleur · Débrancher |
 | N'importe où, en mode debug ou admin | Debug (§ 6.5) |
 
-Poser, tourner et **ramasser** un équipement passent par le menu et le curseur de meubles vanilla. Ramasser un onduleur débranche tout son réseau ; une powerbank ne se ramasse que vide (règle vanilla des conteneurs). « Démonter » (ferraille) et « Détruire » à la masse restent refusés (`architecture.md`, § 2.4). Les batteries entrent et sortent de la powerbank par l'inventaire vanilla (§ 5.1).
+Poser, tourner et **ramasser** un équipement passent par le menu et le curseur de meubles vanilla. Poser et tourner ne demandent aucun niveau ; ramasser demande un tournevis, sans niveau. Le branchement exige le niveau de l'appareil (§ 2.3). Ramasser un onduleur débranche tout son réseau ; une powerbank ne se ramasse que vide (règle vanilla des conteneurs). « Démonter » (ferraille) et « Détruire » à la masse restent refusés (`architecture.md`, § 2.4). Les batteries entrent et sortent de la powerbank par l'inventaire vanilla (§ 5.1).
 
 ### 6.1 bis Nouveautés 0.1.2
 
@@ -603,7 +606,7 @@ Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
 | `LiveWire.StormDamage` | booléen | — | **faux** | Dégâts d'orage et de tempête (désactivés par défaut, choix de l'utilisateur) |
 | `LiveWire.RiverFreeze` | booléen | — | faux | Gel des roues à aubes |
 | `LiveWire.XPMultiplier` | réel | 0 – 10 | 1,0 | Expérience du mod |
-| `LiveWire.SkillGates` | booléen | — | vrai | Faux = aucun niveau requis |
+| `LiveWire.SkillGates` | booléen | — | vrai | Faux = aucun niveau requis pour brancher ou mettre en service (la pose n'en exige pas) |
 | `LiveWire.SimulateUnloaded` | booléen | — | vrai | L'installation fonctionne quand personne n'est à proximité |
 | `LiveWire.BackupStartPercent` | entier | 0 – 90 | 20 | Le générateur de secours démarre sous ce pourcentage de batterie |
 | `LiveWire.BackupStopPercent` | entier | 10 – 100 | 90 | Il s'arrête à ce pourcentage |
@@ -846,8 +849,8 @@ supplémentaires. Les listes et estimations sont dans le [guide du butin](wiki/f
 
 ## 15. Fabrication et accessibilité des sources (F32)
 
-Pose et ramassage de l'éolienne et de la roue à aubes à Électricité 2, sur leurs
-quatre orientations. Fabrication à 6 et 7 conservée. Pales et mât sont des objets
+Branchement de l'éolienne et de la roue à aubes à Électricité 2 ; pose et ramassage
+sans niveau, sur leurs quatre orientations. Fabrication à 6 et 7 conservée. Pales et mât sont des objets
 d'inventaire fabriquables sans niveau électrique ou trouvables.
 L'assemblage de l'éolienne consomme ces pièces et deux amplificateurs vanilla ;
 la roue consomme aussi deux amplificateurs. Le démontage vanilla d'un haut-parleur

@@ -13,7 +13,7 @@ No. One source and one inverter is the minimal system. Without batteries the hou
 One source (solar panel 100 W, wind turbine 400 W or water wheel 120 W) and one inverter, linked by electric wire. Every powered appliance within 20 tiles and 3 floors of the inverter is then powered, with no per-appliance wiring. See [Equipment](02-equipment.md).
 
 **Which Electrical level do I need for what?**
-Power bank, low battery alarm, soundproofing kit and backup generator: level 2. Place/pick up wind turbines and water wheels: level 2. Solar panel, breaker panel, inverter, inverter cabinet, coupling, water pump, final turbine assembly, deep-cycle battery, solar cells from scrap, management computer (with load shedding) and overhaul: level 3. Water-wheel crafting: level 4. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
+Placing and picking up need no level (picking up needs a screwdriver). The level applies to linking to an inverter: power bank, low battery alarm, backup generator, wind turbine and water wheel: level 2; solar panel, breaker panel, inverter and inverter cabinet (the first link puts it into service), coupling, water pump and management computer (with load shedding): level 3. Crafting: soundproofing kit level 2, water wheel level 4, final turbine assembly, deep-cycle battery, solar cells from scrap and overhaul level 3. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
 
 ## Wiring
 
@@ -38,7 +38,7 @@ There is no limit; productions add up. A reference day (fridge-freezer, 10 light
 It produces nothing below 10 km/h, gives about 15 W at 10 km/h, reaches 100 % (400 W) from 30 to 85 km/h, and brakes automatically above 85 km/h. In between, 15 km/h gives about 50 W and 25 km/h about 231 W. Build it on a roof for more wind. Wind counts +15 % per floor up to the 3rd. See [Production and calculations](04-production-and-calculations.md).
 
 **Where can I place the water wheel?**
-On the ground floor, on a river bank, next to river water. Lakes and ponds are refused because the engine cannot tell a lake's current. It needs Electrical level 2 to place (4 to craft), and it produces day and night (about 2.9 kWh per day). See [Equipment](02-equipment.md).
+On the ground floor, on a river bank, next to river water. Lakes and ponds are refused because the engine cannot tell a lake's current. It needs Electrical level 2 to be linked to an inverter (4 to craft); placing needs no level, and it produces day and night (about 2.9 kWh per day). See [Equipment](02-equipment.md).
 
 **What about night, winter and snow?**
 Solar panels follow a sine curve between dawn and dusk: about 0.94 kWh per summer day and 0.60 kWh in winter, and 20 % remains under full overcast. Snow stops a panel during snowfall until it melts above 0 degrees C or you use "Clear the snow". Water wheels run day and night. See [Production and calculations](04-production-and-calculations.md).
@@ -61,7 +61,7 @@ The demand of the house appliances went above 1,500 W, for example a stacked was
 Yes: couple them. Place a second inverter with no equipment connected, right-click it, "Live Wire", then "Couple to an inverter", and pick the master inverter within cable range. It costs the electric wire for the distance and 1 Inverter Coupling Kit (recipe at Electrical level 3). A master takes up to 3 slaves, so 4 inverters give 6,000 W on one network, with one battery bank and the master's powered area. Each inverter switched on uses 20 W idle and wears as usual; a slave switched off or broken no longer counts. "Uncouple" on the slave gives the kit back. See [Optional equipment](06-optional-equipment.md#parallel-inverters-coupling). You can also turn an inverter into an **inverter cabinet** (4,500 W, 60 W idle, recipe at Electrical level 3); cabinets couple like inverters.
 
 **How does the low battery alarm work?**
-Below 20 % stock it sends a message to players within 30 tiles and beeps every 10 game minutes until you choose "Silence the alarm". The beacon stays lit until the stock is back above 25 %. It needs Electrical level 2. See [Optional equipment](06-optional-equipment.md).
+Below 20 % stock it sends a message to players within 30 tiles and beeps every 10 game minutes until you choose "Silence the alarm". The beacon stays lit until the stock is back above 25 %. Linking it needs Electrical level 2. See [Optional equipment](06-optional-equipment.md).
 
 **How does the backup generator work?**
 A vanilla generator linked to the inverter is started by the mod under 20 % battery and stopped at 90 % (sandbox `BackupStartPercent` and `BackupStopPercent`). It supplies 1,200 W and burns 1 L of fuel per 3 kWh on top of its vanilla consumption. It stays noisy and toxic indoors, must be plugged and fuelled the vanilla way, and never starts without batteries. See [Optional equipment](06-optional-equipment.md).
@@ -121,4 +121,4 @@ It is not linked to an inverter. Right-click it, "Live Wire", then "Connect to a
 Check that the inverter is on ("Turn on") and not tripped ("Reset"), that appliances are within 20 tiles and 3 floors (use "Show the powered area"), and that a source is actually producing (night, no wind, snow). The inverter screen shows production, load and status. See [Inverter screen and software](05-inverter-screen-and-software.md).
 
 **The tile does not appear when I place it.**
-The furniture cursor refuses squares that break the placement rules and shows the reason in red in the cursor panel: outdoors with open sky for solar panel and wind turbine, river bank on the ground floor for the water wheel, a north or west wall for the breaker panel. You also need a screwdriver and the required Electrical level. See [Equipment](02-equipment.md).
+The furniture cursor refuses squares that break the placement rules and shows the reason in red in the cursor panel: outdoors with open sky for solar panel and wind turbine, river bank on the ground floor for the water wheel, a north or west wall for the breaker panel. Placing needs no tool and no Electrical level; the level only applies when you link the device to an inverter. See [Equipment](02-equipment.md).

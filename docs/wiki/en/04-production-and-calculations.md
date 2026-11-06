@@ -30,7 +30,7 @@ Condition factor = 0.5 + 0.5 x condition / 100.
 
 ### Installation efficiency
 
-Based on the installer's Electrical level when the device was placed.
+Based on the Electrical level of whoever first links the device to an inverter (the best level seen is kept).
 
 | Electrical level | Efficiency |
 |---|---|
