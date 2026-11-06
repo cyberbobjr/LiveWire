@@ -747,7 +747,7 @@ PROPS = [
                    "Material": "MetalPlates", "PickUpWeight": "150", "PickUpLevel": "2",
                    "CustomItem": "Base.Mov_LiveWire_WindTurbine", **_TOOLS}),
     (range(8, 12), {"CustomName": "Water Wheel", "solidtrans": "", "BlocksPlacement": "",
-                    "Material": "Wood", "PickUpWeight": "150", "PickUpLevel": "2", **_TOOLS}),
+                    "Material": "Wood", "PickUpWeight": "300", "PickUpLevel": "2", **_TOOLS}),
     (range(12, 16), {"CustomName": "Inverter", "solidtrans": "", "BlocksPlacement": "",
                      "Material": "MetalPlates", "PickUpWeight": "120", "PickUpLevel": "3", **_TOOLS}),
     (range(16, 20), {"CustomName": "Power Bank", "solidtrans": "", "BlocksPlacement": "", "IsLow": "",
@@ -761,7 +761,7 @@ PROPS = [
     (range(72, 76), {"CustomName": "Water Pump", "solidtrans": "", "BlocksPlacement": "",
                      "Material": "MetalPlates", "PickUpWeight": "80", "PickUpLevel": "3", **_TOOLS}),
     (range(88, 92), {"CustomName": "Inverter Cabinet", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "200", "PickUpLevel": "3", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "300", "PickUpLevel": "3", **_TOOLS}),
 ]
 FACING_NAMES = ["S", "E", "N", "W"]
 TOTAL = 104

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.1 — 2026-11-06
+
+### Fixes
+- Fixed the wind turbine weighing only 0.5 once picked up or crafted. It now weighs 15.
+
+### Improvements
+- Reworked equipment weights for realism: nothing weighs less than the parts used to build it. Water wheel 30 (was 15), inverter cabinet 30 (was 20), deep-cycle battery 12 (was 9), soundproofing kit 13 (was 3), wind turbine mast 4.6, blades 4.1, coupling kit 0.7, voltage tester 0.6, solar cell 0.1.
+
 ## 1.7.0 — 2026-11-05
 
 ### New features

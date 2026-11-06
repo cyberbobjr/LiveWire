@@ -3,7 +3,10 @@ module Base
     /* Placeable equipment of the batman_livewire_01 tileset (tiledef 7174).
        Placed with the vanilla furniture cursor (screwdriver and Electrical level
        from the tile: PickUpTool/PlaceTool = Electrician, PickUpLevel). Name and
-       weight come from the tile (Moveable.ReadFromWorldSprite). Explicit item
+       weight come from the tile (Moveable.ReadFromWorldSprite: PickUpWeight / 10),
+       except for a tile with CustomItem (wind turbine), which takes the script
+       Weight. Each Weight below mirrors the tile and is at least the sum of the
+       recipe inputs. Explicit item
        icons also serve crafting previews, which read the script texture before
        any Moveable instance is created. */
 
@@ -12,7 +15,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWireSolarPanel,
-        Weight = 0.5,
+        Weight = 9.0,
         WorldObjectSprite = batman_livewire_01_0,
     }
 
@@ -23,7 +26,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWireWindTurbine,
-        Weight = 0.5,
+        Weight = 15.0,
         WorldObjectSprite = batman_livewire_01_4,
     }
 
@@ -32,7 +35,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWireWaterWheel,
-        Weight = 0.5,
+        Weight = 30.0,
         WorldObjectSprite = batman_livewire_01_8,
     }
 
@@ -41,7 +44,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWireInverter,
-        Weight = 0.5,
+        Weight = 12.0,
         WorldObjectSprite = batman_livewire_01_12,
     }
 
@@ -51,7 +54,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWireInverterCabinet,
-        Weight = 0.5,
+        Weight = 30.0,
         WorldObjectSprite = batman_livewire_01_88,
     }
 
@@ -60,7 +63,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWirePowerBank,
-        Weight = 0.5,
+        Weight = 10.0,
         WorldObjectSprite = batman_livewire_01_16,
     }
 
@@ -69,7 +72,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWireBreaker,
-        Weight = 0.5,
+        Weight = 3.0,
         WorldObjectSprite = batman_livewire_01_20,
     }
 
@@ -78,7 +81,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWireBatteryAlarm,
-        Weight = 0.5,
+        Weight = 1.0,
         WorldObjectSprite = batman_livewire_01_22,
     }
 
@@ -87,7 +90,7 @@ module Base
         DisplayCategory = Furniture,
         ItemType = base:moveable,
         Icon = LiveWireWaterPump,
-        Weight = 0.5,
+        Weight = 8.0,
         WorldObjectSprite = batman_livewire_01_72,
     }
 }

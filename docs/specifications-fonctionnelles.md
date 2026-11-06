@@ -107,16 +107,16 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
   - tous sont marqués `placeholder` dans les scripts et dans ce document.
 - **Objets vanilla réutilisés tels quels** : batteries de voiture `Base.CarBattery1/2/3`, `Base.ElectricWire`, `Base.ElectronicsScrap`, `Base.Calculator`, `Base.SmallSheetMetal`, `Base.SheetMetal`, `Base.Screws`, `Base.Pipe`, `Base.MetalBar`, `Base.Plank`, `Base.Nails`, `Base.Amplifier`, `Base.Speaker`, `Base.LightBulb`, `Base.Battery`, `Base.Glue`, `Base.Aluminum`, `Base.ScrapMetal`. Tous existent en 42.21 (`media/scripts/generated/items/normal.txt`, `drainable.txt`, `weapon.txt`).
 - **Outils, par tag vanilla** : tournevis `base:screwdriver`, pinces `base:pliers`, marteau `base:hammer`. Syntaxe `craftRecipe` 42.21 : `item 1 tags[base:screwdriver] mode:keep` (`media/scripts/generated/recipes/recipes_traps.txt:99-121`).
-- **Équipements : des meubles posables.** La recette donne un meuble `Base.Mov_LiveWire_*` (nom, poids et icône tirés de la tuile). On le pose, le tourne et le ramasse avec le **curseur de meubles vanilla** : fantôme de la tuile, quatre orientations (deux pour les objets muraux), tournevis et niveau d'Électricité exigés par la tuile (`PickUpTool = Electrician`, `PickUpLevel`). Ramassé, l'équipement garde son état.
+- **Équipements : des meubles posables.** La recette donne un meuble `Base.Mov_LiveWire_*` (nom, poids et icône tirés de la tuile ; l'éolienne, dont la tuile porte `CustomItem`, prend le poids de son script). On le pose, le tourne et le ramasse avec le **curseur de meubles vanilla** : fantôme de la tuile, quatre orientations (deux pour les objets muraux), tournevis et niveau d'Électricité exigés par la tuile (`PickUpTool = Electrician`, `PickUpLevel`). Ramassé, l'équipement garde son état.
 - **Batteries : rangées dans une powerbank.** Une batterie ne se pose jamais au sol : on la range dans une powerbank, qu'on ouvre comme une caisse (§ 5.1). Elle reste un vrai objet, avec son icône et sa charge vanilla.
 
 ### 2.2 Objets d'inventaire
 
 | Objet (`LiveWire.…`) | Nom FR (EN) | Type | Poids | Placeholder | Rôle |
 |---|---|---|---|---|---|
-| `VoltageTester` | Testeur de tension (Voltage Tester) | normal | 0,3 | icône et modèle de `Base.Remote`, **placeholder** | Diagnostic (§ 6.4) |
-| `SolarCell` | Cellule photovoltaïque (Solar Cell) | normal | 0,05 | icône de `Base.ElectronicsScrap`, **placeholder** | Composant des panneaux |
-| `DeepCycleBattery` | Batterie stationnaire (Deep-Cycle Battery) | drainable | 9 | modèle `CarBattery` vanilla (`WorldStaticModel = CarBattery`, `drainable.txt:2335-2351`), **placeholder** | Batterie longue durée |
+| `VoltageTester` | Testeur de tension (Voltage Tester) | normal | 0,6 | icône et modèle de `Base.Remote`, **placeholder** | Diagnostic (§ 6.4) |
+| `SolarCell` | Cellule photovoltaïque (Solar Cell) | normal | 0,1 | icône de `Base.ElectronicsScrap`, **placeholder** | Composant des panneaux |
+| `DeepCycleBattery` | Batterie stationnaire (Deep-Cycle Battery) | drainable | 12 | modèle `CarBattery` vanilla (`WorldStaticModel = CarBattery`, `drainable.txt:2335-2351`), **placeholder** | Batterie longue durée |
 
 Meubles posables (module `Base`, comme les `Mov_*` vanilla) : `Mov_LiveWire_SolarPanel`, `Mov_LiveWire_WindTurbine`, `Mov_LiveWire_WaterWheel`, `Mov_LiveWire_Inverter`, `Mov_LiveWire_PowerBank`, `Mov_LiveWire_Breaker`, `Mov_LiveWire_BatteryAlarm`. Noms dans `Moveables.json` (`Live_Wire_<CustomName>`).
 

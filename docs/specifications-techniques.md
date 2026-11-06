@@ -24,16 +24,18 @@ Toute modification d'un identifiant de ce document (type d'objet, clé de ModDat
 
 | Type complet | `ItemType` | Poids | Usage |
 |---|---|---|---|
-| `LiveWire.VoltageTester` | `base:normal` | 0,3 | Testeur de tension (lecture de l'état d'un appareil) |
-| `LiveWire.SolarCell` | `base:normal` | 0,05 | Ingrédient du panneau solaire |
-| `LiveWire.DeepCycleBattery` | `base:drainable` | 9,0 | Batterie à décharge profonde (`ConditionMax = 100`, `KeepOnDeplete`) |
-| `LiveWire.SoundproofKit` | `base:normal` | 3,0 | Kit d'insonorisation d'un onduleur |
-| `LiveWire.CouplingKit` | `base:normal` | 0,3 | Kit de couplage d'un onduleur esclave |
+| `LiveWire.VoltageTester` | `base:normal` | 0,6 | Testeur de tension (lecture de l'état d'un appareil) |
+| `LiveWire.SolarCell` | `base:normal` | 0,1 | Ingrédient du panneau solaire |
+| `LiveWire.DeepCycleBattery` | `base:drainable` | 12,0 | Batterie à décharge profonde (`ConditionMax = 100`, `KeepOnDeplete`) |
+| `LiveWire.SoundproofKit` | `base:normal` | 13,0 | Kit d'insonorisation d'un onduleur |
+| `LiveWire.CouplingKit` | `base:normal` | 0,7 | Kit de couplage d'un onduleur esclave |
 | `LiveWire.MonitorDisk` | `base:normal` | 0,1 | Disque du logiciel pour le Computer Mod |
 
 ### 2.2 Appareils posés (`LiveWire_moveables.txt`, module `Base`, et `LW_Defs.lua`)
 
 Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inventaire est un `base:moveable` posé au curseur de meubles vanilla (outil `Electrician`, niveau `PickUpLevel` de la tuile). Le **nom de modèle** est la clé stockée dans le registre : ne jamais le renommer.
+
+**Poids** : `PickUpWeight / 10` de la tuile (`Moveable.java:145-150`), sauf l'éolienne dont la tuile porte `CustomItem` et qui prend le `Weight` du script (`Moveable.java:129-134`). Le `Weight` de chaque script reprend celui de la tuile. Règle : jamais moins que la somme des composants de la recette (poids vanilla), relevé au poids réaliste à l'échelle du jeu. Panneau 9, éolienne 15, roue à aubes 30, onduleur 12, armoire onduleur 30, powerbank 10, tableau 3, alarme 1, pompe 8.
 
 | Modèle (`Defs.devices`) | Objet posable | Rôle | Tuiles (index, orientations) | Chiffres | Niveau | XP pose | Usure (`wearDays`) |
 |---|---|---|---|---|---|---|---|
@@ -581,8 +583,8 @@ dans les événements. 13 couples véhicule. Un véhicule déjà apparu n'est pa
 
 ## Fabrication des sources et composants (F32)
 
-- Objets normaux : `LiveWire.WindTurbineBlades` (jeu de trois pales, poids 4),
-  `LiveWire.WindTurbineMast` (4). Représentations vanilla temporaires :
+- Objets normaux : `LiveWire.WindTurbineBlades` (jeu de trois pales, poids 4,1),
+  `LiveWire.WindTurbineMast` (4,6). Représentations vanilla temporaires :
   SheetMetal/MetalSheet et SteelRod_Full/SteelRod.
 - Recettes `LWMakeWindTurbineBlades` et `LWMakeWindTurbineMast` en Metalworking,
   sans niveau requis, avec 2 XP d'Électricité chacune. Assemblage : niveau 3/30 XP éolienne,
