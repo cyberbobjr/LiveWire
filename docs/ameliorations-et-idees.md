@@ -91,7 +91,7 @@ validation hors jeu et contrôles manuels restants dans le
 | I19 | Bascule avec un générateur vanilla | ⬜ Proposée |  |
 | I20 | Couper l'alarme au tableau électrique | ⬜ Proposée |  |
 | I21 | Disjoncteur : circuits lumières et équipements | ✅ Publié en 1.6.0 | GUI à leviers, quatre combinaisons, services natifs arrêtés, choix persistants ; validation détaillée dans le bilan |
-| I22 | Câbler les appareils consommateurs | ⬜ Proposée | Sous-mod dédié, mécaniques de LG Extended Electricity réalisées sans code repris |
+| I22 | Câbler les appareils consommateurs | ⬜ Décidée (D-31 à D-34), pas commencée | Sous-mod LiveWire Extended : bâtiment entier, relais, borne et zone extérieure, lampadaires ; [plan](annexes/plans/livewire-extended.md) |
 | I23 | Compatibilité caméra de surveillance | ⬜ À creuser | Sous-mod de compatibilité avec le mod Workshop 3825788212 |
 
 ---
@@ -659,7 +659,9 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Faisabilité moteur à étudier.** Articulation avec le mécanisme d'alimentation par ancres (`architecture.md`), avec la demande (`LW_Demand`), avec les circuits du disjoncteur (I21) et avec l'affichage des consommateurs (I01). Décider si le câblage remplace la portée ou s'ajoute à elle.
 - **Impact MP.** Raccordement validé par le serveur, comme les autres équipements.
 - **Effort.** L, à préciser après l'inventaire.
-- **Avancement : ⬜ proposée par l'utilisateur le 2026-11-08 ; inventaire et décision à faire.**
+- **Avancement : ⬜ décidée le 2026-11-08, pas commencée** après inventaire du mod 3779562002 (variante `42.20`) : décisions D-31 à
+  D-34 dans [`decisions.md`](decisions.md), livraison suivant le [plan](annexes/plans/livewire-extended.md). Le câblage
+  s'ajoute à la portée (D-33). Le comptage unique des meubles de plusieurs cases va dans Live Wire de base (D-31).
 
 ### I23 — Compatibilité caméra de surveillance (sous-mod)
 - **Origine.** Commentaire Steam du 2026-11-07 (66辉.生存狂) : intégrer le mod Workshop 3825788212, qui permet de regarder les environs à travers une caméra.

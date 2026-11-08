@@ -193,6 +193,29 @@ puis davantage de panneaux solaires sur ces étagères et des équipements dans 
 d'électricien (et de métallier pour l'éolien). Pas de remplissage rétroactif des conteneurs
 ni des véhicules déjà générés.
 
+## LiveWire Extended et meubles de plusieurs cases — 2026-11-08
+
+Origine : idée I22 (commentaire Steam du 2026-11-07), analyse du mod Workshop 3779562002
+(LG Extended Electricity et LG Realistic Power Usage, variante `42.20`) présentée le 2026-11-08.
+Plan de livraison : [`annexes/plans/livewire-extended.md`](annexes/plans/livewire-extended.md).
+
+| # | Sujet | Décision |
+|---|---|---|
+| D-31 | Meubles de plusieurs cases (2026-11-08, demande de l'utilisateur) | **Live Wire de base** compte un appareil de plusieurs cases **une seule fois**, sur la case d'origine de sa grille de sprites (`IsoObject.getSpriteGridObjectsIncludingSelf`, `IsoObject.java:5047`). Vaut pour la facture, le délestage et l'affichage. **Remplace** la phrase de D-28 « appareils de deux cases toujours comptés deux fois (comme le vanilla) », choisie le 2026-10-21 pour ne pas changer les sauvegardes : l'utilisateur préfère désormais la consommation juste. Limites de l'onduleur inchangées. Le double comptage actuel est confirmé statiquement côté Live Wire (`LW_Demand.lua:250-268`) ; son existence côté moteur pour chaque meuble reste à mesurer (étape E0 du plan) |
+| D-32 | Sous-mod facultatif (2026-11-08) | Nouveau mod **`batman_LiveWireExtended`**, nom affiché « LiveWire Extended », dans le même dépôt, `require=batman_LiveWire`, sur le modèle de `batman_LiveWireViewpoint`. **Sans lui, Live Wire fonctionne exactement comme avant** : la base reçoit seulement un point d'extension « couverture » (quelles cases alimente un onduleur), dont l'implémentation par défaut est le disque actuel (D-12). Le sous-mod ne modifie ni `GeneratorTileRange` ni `GeneratorVerticalPowerRange`, et range ses données sous sa propre clé ModData : le décocher ramène au disque sans menu de sortie. Il se déclare incompatible avec `LGExtendedElectricity`, qui force `GeneratorTileRange` à 1 alors que Live Wire en tire sa portée (`LW_Config.lua:52`). Création indépendante (`developpement.md`) : mécaniques reprises, ni code, ni texte, ni nom, ni asset de ce mod |
+| D-33 | Périmètre (2026-11-08, choix de l'utilisateur : « tout, lampadaires compris ») | Avec le sous-mod : **bâtiment entier** (tous les étages, toit, sous-sol, bande extérieure réglable) sur action du joueur ; facture, disjoncteur et partage par les règles existantes de Live Wire ; **relais vers un bâtiment éloigné** ; **lampadaires** raccordables ; vue de la zone alimentée. Exclus car propres aux générateurs : carburant, fûts, conduites, pompes de station, reprise de la portée des générateurs. Pour qui active le sous-mod, cette couverture s'ajoute au rayon de D-12 au lieu de le remplacer |
+| D-34 | Alimenter une zone extérieure (2026-11-08, solution D choisie par l'utilisateur) | **Borne extérieure + zone réglable.** Le joueur pose une borne, la raccorde à un onduleur avec du fil, puis trace sa zone dans une limite autour d'elle. Le moteur alimente par blocs de 8 × 8 cases (`IsoChunk.java:4773`, `IsoGenerator.java:637`) : la zone tracée s'arrondit aux blocs, et l'aperçu montre les cases réellement alimentées. Couvre les constructions des joueurs, solo comme serveur dédié. Dehors, l'option vanilla « générateur en extérieur » reste souveraine (`IsoGridSquare.java:8224`) |
+
+**Réglages par défaut (confirmés par défaut, modifiables par l'utilisateur)** :
+raccorder un bâtiment se fait par une action sur l'onduleur ou sur une borne, sans outil ni fil, au niveau 3
+d'Électricité (celui de la mise en service, D-29) ; bande extérieure d'une case, option sandbox de 0 à 8 ; une borne
+couvre au plus 2 × 2 blocs (16 × 16 cases) et ±1 étage de sa position, se fabrique et se branche au niveau 3, et se relie
+par les règles de câble existantes (`LinkRange`, `LinkVerticalRange`, `WirePerTiles`) ; une borne posée dans ou près
+d'un bâtiment éloigné peut aussi « raccorder le bâtiment » : c'est le relais de D-33, sans objet supplémentaire.
+
+**Arbitrage ouvert** : Q01 — façon de rendre un lampadaire raccordable (voir le plan, étape E9), à trancher après la
+mesure moteur E0.
+
 ## Compatibilité Let Me Drive! — 2026-10-28
 
 Signalement d'un joueur : avec Let Me Drive! (`LetMeDrive`, 3805307651), la
