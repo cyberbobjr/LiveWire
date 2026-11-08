@@ -223,6 +223,28 @@ débranchement de sortie. Le moteur interdit tout courant de générateur à un 
 latitude 38°, `ErosionSeason.java:380-421`, lus par `LW_Simulation.lua:35-36`). L'ajout d'un facteur de hauteur du
 soleil à midi a été proposé puis **écarté par l'utilisateur** : modèle inchangé.
 
+## LiveWire Extended : tableaux électriques et disjoncteurs par appareil — 2026-11-08
+
+Demande de l'utilisateur : des tableaux électriques où les joueurs raccordent directement des disjoncteurs à des points
+électriques (interrupteurs, appareils, pompes à eau, ordinateurs, machines à coudre de My Tailor Is Rich, appareils de
+Functional Appliances 2, et tout appareil d'un autre mod), avec des disjoncteurs renommables pour cartographier
+l'installation. Plan : [`annexes/plans/livewire-extended.md`](annexes/plans/livewire-extended.md), étapes E12 et
+suivantes.
+
+| # | Sujet | Décision |
+|---|---|---|
+| D-35 | Tableau et disjoncteurs (2026-11-08) | Dans **LiveWire Extended** : tableau mural de 8, 16 ou 24 modules relié à un onduleur ; disjoncteurs à installer (objets de 15, 20 et 30 A en 120 V, double 30 A en 240 V pour four et sèche-linge) ; chaque disjoncteur protège son circuit et saute au-delà de son calibre, seul ; réarmement sur le tableau. Le disjoncteur et le tableau à deux circuits de la base (D-20, I21) restent le **disjoncteur général** du réseau |
+| D-36 | Raccordement d'un point (2026-11-08) | Clic droit sur l'appareil « Raccorder au tableau… », ou depuis le tableau ; fil selon la distance, tournevis, niveau d'Électricité selon l'appareil. Une **pièce** et son interrupteur mural forment un seul point d'éclairage ; une borne extérieure (D-34) est un point dont toute la zone suit le disjoncteur. Étiquette de chaque disjoncteur modifiable au stylo ou au crayon (`Base.Pen`, `Pencil`, `RedPen`, `BluePen`), texte filtré et validé par le serveur ; fenêtre du tableau avec charge par circuit, « Localiser », et circuit indiqué dans l'info-bulle de l'appareil |
+| D-37 | Appareil non raccordé (2026-11-08, choix 2 de l'utilisateur) | **Dès qu'un tableau dessert un bâtiment ou une zone, un appareil qui n'y est pas raccordé n'a plus de courant.** Sans tableau, la règle actuelle de la zone s'applique (tout est alimenté). Réalisme maximal assumé : poser un tableau impose de câbler |
+| D-38 | Appareils pris en charge (2026-11-08) | Registre d'**adaptateurs** dans Extended (reconnaître, consommation, état, couper, rétablir). Premiers adaptateurs : les familles vanilla déjà isolées par I21 ([circuits-42-21](annexes/recherches/circuits-42-21.md)), la pompe à eau et l'ordinateur Live Wire, les machines à coudre de My Tailor Is Rich (son test de courant `MTIR_SewingMachine.lua:104-112` interrogera Live Wire s'il est présent, sans dépendance obligatoire), Functional Appliances 2 (`FunctionalAppliances2`, 3042138819, variante 42.20 : ses menus et son serveur testent `square:haveElectricity()`, méthode de coupure à mesurer). Un appareil de mod aux classes vanilla est couvert d'office ; les autres demandent un adaptateur |
+| D-39 | Idées retenues et écartées (2026-11-08) | **Retenu** : interrupteur crépusculaire sur un disjoncteur (circuit allumé seulement entre le crépuscule et l'aube du jour). **Écartés** : différentiel, sous-tableau. Non retenus faute de décision : compteur par circuit, consignation au cadenas |
+
+**Arbitrage ouvert** : Q02 — tableaux déjà présents dans les maisons. Le mod Knox Power (`KnoxPower`, 3814302595,
+variante `42`, v1.3.5) en pose un dans une partie des bâtiments au premier chargement, en réutilisant le coffret vanilla
+`industry_02_212` à `215` quand il existe (`KP_PrePlace.lua:1-39`). La feuille `industry_02` existe bien dans
+`newtiledefinitions.tiles` ; que ces quatre tuiles soient des coffrets électriques reste à vérifier. Knox Power a aussi
+ses propres tableaux, disjoncteurs et zones : il recoupe largement Extended.
+
 ## Compatibilité Let Me Drive! — 2026-10-28
 
 Signalement d'un joueur : avec Let Me Drive! (`LetMeDrive`, 3805307651), la
