@@ -2,5 +2,8 @@
     "ContextMenu_LWX_Root": "LiveWire Extended",
     "ContextMenu_LWX_ConnectBuilding": "Connect the building",
     "ContextMenu_LWX_DisconnectBuilding": "Disconnect the building at %1, %2",
-    "ContextMenu_LWX_DisconnectZone": "Disconnect the zone at %1, %2"
+    "ContextMenu_LWX_DisconnectZone": "Disconnect the zone at %1, %2",
+    "ContextMenu_LWX_LinkTerminal": "Link to an inverter",
+    "ContextMenu_LWX_UnlinkTerminal": "Unlink the terminal",
+    "ContextMenu_LWX_InverterAt": "Inverter, %1 squares away"
 }

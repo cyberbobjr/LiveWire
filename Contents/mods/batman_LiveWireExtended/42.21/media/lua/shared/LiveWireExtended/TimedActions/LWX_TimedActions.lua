@@ -3,6 +3,7 @@
 -- complete() runs in single player and on the server only, and re-checks everything.
 require "TimedActions/ISBaseTimedAction"
 require "LiveWireExtended/LWX_Core"
+require "LiveWireExtended/LWX_Terminal"
 
 local X = LiveWire.Extended
 
@@ -19,18 +20,6 @@ end
 local function allowed(character, sq)
     if not SafeHouse then return true end
     return SafeHouse.isSafehouseAllowInteract(sq, character)
-end
-
--- Registry inverter behind a placed Live Wire object (authority only).
-function X.inverterOf(obj)
-    local m = LiveWire.Marks.get(obj)
-    local R = LiveWire.Registry
-    if not m or not R or not R.ready or isClient() then return nil end
-    local dev = R.device(m.id)
-    local sq = obj:getSquare()
-    if not dev or dev.role ~= "inverter" or dev.coupled or not sq
-        or dev.x ~= sq:getX() or dev.y ~= sq:getY() or dev.z ~= sq:getZ() then return nil end
-    return dev
 end
 
 --------------------------------------------------------------------------------
@@ -77,6 +66,56 @@ function LWXBuildingAction:new(character, target, disconnect, areaKey)
     o.target = target
     o.disconnect = disconnect == true
     o.areaKey = areaKey
+    o.maxTime = o:getDuration()
+    return o
+end
+
+--------------------------------------------------------------------------------
+-- Link a power terminal to an inverter with electric wire, or unlink it.
+--------------------------------------------------------------------------------
+LWXTerminalAction = ISBaseTimedAction:derive("LWXTerminalAction")
+
+function LWXTerminalAction:isValid()
+    return stillThere(self.target) and (self.unlink or stillThere(self.inverter))
+end
+
+function LWXTerminalAction:waitToStart()
+    self.character:faceThisObject(self.target)
+    return self.character:shouldBeTurning()
+end
+
+function LWXTerminalAction:update()
+    self.character:setMetabolicTarget(Metabolics.LightWork)
+end
+
+function LWXTerminalAction:start()
+    self:setActionAnim(CharacterActionAnims.Disassemble)
+    self:setOverrideHandModels("Screwdriver", nil)
+end
+
+function LWXTerminalAction:stop() ISBaseTimedAction.stop(self) end
+function LWXTerminalAction:perform() ISBaseTimedAction.perform(self) end
+
+function LWXTerminalAction:complete()
+    local ch, obj = self.character, self.target
+    if not stillThere(obj) or not X.Terminals or not X.Terminal.isTerminal(obj) then return false end
+    local sq = obj:getSquare()
+    if not near(ch, sq, 2) or not allowed(ch, sq) then return false end
+    if self.unlink then return X.Terminals.unlink(ch, obj) end
+    if not stillThere(self.inverter) then return false end
+    return X.Terminals.link(ch, obj, self.inverter)
+end
+
+function LWXTerminalAction:getDuration()
+    if self.character:isTimedActionInstant() then return 1 end
+    return 250
+end
+
+function LWXTerminalAction:new(character, target, inverter, unlink)
+    local o = ISBaseTimedAction.new(self, character)
+    o.target = target
+    o.inverter = inverter
+    o.unlink = unlink == true
     o.maxTime = o:getDuration()
     return o
 end

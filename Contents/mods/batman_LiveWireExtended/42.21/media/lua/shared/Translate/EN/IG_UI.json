@@ -1,4 +1,8 @@
 {
     "IGUI_LWX_BuildingConnected": "Building connected: %1 blocks powered.",
-    "IGUI_LWX_AreaDisconnected": "Disconnected."
+    "IGUI_LWX_AreaDisconnected": "Disconnected.",
+    "IGUI_LWX_TerminalLinked": "Terminal linked: its block has power.",
+    "IGUI_LWX_TerminalUnlinked": "Terminal unlinked.",
+    "IGUI_LWX_ZoneTooBig": "The zone is limited to 2 x 2 blocks (16 x 16 squares).",
+    "IGUI_LWX_ZoneTooFar": "The zone must stay next to the terminal: within one block of its own."
 }

@@ -6,3 +6,5 @@ incompatible=\LGExtendedElectricity
 poster=poster.png
 versionMin=42.21
 modversion=1.7.2
+pack=batman_livewireext_01
+tiledef=batman_livewireext_01 7175

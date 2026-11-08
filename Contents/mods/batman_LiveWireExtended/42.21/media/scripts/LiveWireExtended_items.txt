@@ -1,0 +1,41 @@
+module Base
+{
+    /* PLACEHOLDER tile (simple shapes, source/tiles/build_extended_tiles.py), tiledef 7175.
+       Outdoor power terminal of LiveWire Extended (D-34). Placed with the vanilla
+       furniture cursor: placing needs nothing, picking up a screwdriver (tile
+       PickUpTool = Electrician); linking it to an inverter needs Electrical 3.
+       Weight mirrors the tile (PickUpWeight 40 / 10) and is above the recipe inputs. */
+    item Mov_LWX_Terminal
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LWXTerminal,
+        Weight = 4.0,
+        WorldObjectSprite = batman_livewireext_01_0,
+    }
+
+    craftRecipe LWXMakeTerminal
+    {
+        timedAction = MakingElectrical,
+        time = 400,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:15,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 [Base.MetalPipe],
+            item 1 [Base.SmallSheetMetal],
+            item 2 [Base.ElectricWire],
+            item 2 [Base.ElectronicsScrap],
+            item 4 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 Base.Mov_LWX_Terminal,
+        }
+    }
+}

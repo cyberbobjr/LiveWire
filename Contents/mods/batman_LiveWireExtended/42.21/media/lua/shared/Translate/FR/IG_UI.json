@@ -1,4 +1,8 @@
 {
     "IGUI_LWX_BuildingConnected": "Bâtiment raccordé : %1 blocs alimentés.",
-    "IGUI_LWX_AreaDisconnected": "Débranché."
+    "IGUI_LWX_AreaDisconnected": "Débranché.",
+    "IGUI_LWX_TerminalLinked": "Borne raccordée : son bloc est alimenté.",
+    "IGUI_LWX_TerminalUnlinked": "Borne débranchée.",
+    "IGUI_LWX_ZoneTooBig": "La zone est limitée à 2 x 2 blocs (16 x 16 cases).",
+    "IGUI_LWX_ZoneTooFar": "La zone doit rester près de la borne : à un bloc au plus du sien."
 }
