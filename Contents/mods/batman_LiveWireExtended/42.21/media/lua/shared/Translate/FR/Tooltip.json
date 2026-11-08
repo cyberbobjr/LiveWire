@@ -1,0 +1,6 @@
+{
+    "Tooltip_LWX_NeedLevel": "Nécessite le niveau %1 en Électricité.",
+    "Tooltip_LWX_NoBuilding": "Aucun bâtiment à portée de l'onduleur.",
+    "Tooltip_LWX_AlreadyConnected": "Ce bâtiment est déjà raccordé à un onduleur.",
+    "Tooltip_LWX_ConnectBuilding": "Alimente tous les étages du bâtiment en %1, %2, son sous-sol et une bande autour. Le jeu alimente des blocs entiers de 8 x 8 cases : les cases voisines de ces blocs reçoivent aussi le courant."
+}

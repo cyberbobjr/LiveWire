@@ -1,0 +1,6 @@
+{
+    "Tooltip_LWX_NeedLevel": "Requires Electrical level %1.",
+    "Tooltip_LWX_NoBuilding": "No building within the inverter's reach.",
+    "Tooltip_LWX_AlreadyConnected": "This building is already connected to an inverter.",
+    "Tooltip_LWX_ConnectBuilding": "Powers every floor of the building at %1, %2, its basement and a strip around it. The game powers whole 8 x 8 blocks: nearby squares of the same blocks get power too."
+}

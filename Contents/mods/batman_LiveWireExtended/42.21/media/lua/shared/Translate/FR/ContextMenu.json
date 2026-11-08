@@ -1,0 +1,6 @@
+{
+    "ContextMenu_LWX_Root": "LiveWire Extended",
+    "ContextMenu_LWX_ConnectBuilding": "Raccorder le bâtiment",
+    "ContextMenu_LWX_DisconnectBuilding": "Débrancher le bâtiment en %1, %2",
+    "ContextMenu_LWX_DisconnectZone": "Débrancher la zone en %1, %2"
+}

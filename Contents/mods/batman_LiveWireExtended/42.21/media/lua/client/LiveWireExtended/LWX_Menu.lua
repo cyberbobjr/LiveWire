@@ -1,0 +1,93 @@
+-- LiveWire Extended: "LiveWire Extended" submenu on a Live Wire inverter. Every option
+-- is re-checked by the authority in its timed action.
+if isServer() then return end
+require "LiveWireExtended/LWX_Data"
+require "LiveWireExtended/LWX_Buildings"
+
+local X = LiveWire.Extended
+local D = X.Data
+local Menu = {}
+X.Menu = Menu
+
+Menu.LEVEL = 3
+
+local function disable(option, key, arg)
+    local t = ISWorldObjectContextMenu.addToolTip()
+    t.description = getText(key, arg)
+    option.toolTip = t
+    option.notAvailable = true
+end
+
+local function hint(option, key, arg1, arg2)
+    local t = ISWorldObjectContextMenu.addToolTip()
+    t.description = getText(key, arg1, arg2)
+    option.toolTip = t
+end
+
+local function queueNear(player, sq, action)
+    if luautils.walkAdj(player, sq) then ISTimedActionQueue.add(action) end
+end
+
+function Menu.onBuilding(player, obj, disconnect, key)
+    queueNear(player, obj:getSquare(), LWXBuildingAction:new(player, obj, disconnect, key))
+end
+
+-- Inverter among the clicked objects (a Live Wire mark whose model is an inverter).
+function Menu.inverterIn(worldobjects)
+    for _, o in ipairs(worldobjects) do
+        local sq = o and o.getSquare and o:getSquare()
+        if sq then
+            local objs = sq:getObjects()
+            for i = 0, objs:size() - 1 do
+                local cand = objs:get(i)
+                local m = LiveWire.Marks.get(cand)
+                local def = m and LiveWire.Defs.devices[m.model]
+                if def and def.role == "inverter" then return cand, m end
+            end
+        end
+    end
+    return nil
+end
+
+function Menu.areaLabel(entry)
+    local a = entry.area
+    local x, y = a.label and a.label.x or 0, a.label and a.label.y or 0
+    if a.kind == "zone" then return getText("ContextMenu_LWX_DisconnectZone", tostring(x), tostring(y)) end
+    return getText("ContextMenu_LWX_DisconnectBuilding", tostring(x), tostring(y))
+end
+
+function Menu.addBuildingOptions(sub, player, obj, mark)
+    local sq = obj:getSquare()
+    local o = sub:addOption(getText("ContextMenu_LWX_ConnectBuilding"), player, Menu.onBuilding, obj, false, nil)
+    local def = X.Buildings.find(sq:getX(), sq:getY(), sq:getZ(), LiveWire.Config.tileRange(),
+        LiveWire.Config.verticalRange())
+    if not LiveWire.Install.hasLevel(player, Menu.LEVEL) then
+        disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(Menu.LEVEL)))
+    elseif not def then
+        disable(o, "Tooltip_LWX_NoBuilding")
+    elseif D.ownerOf(X.Buildings.key(def)) then
+        disable(o, "Tooltip_LWX_AlreadyConnected")
+    else
+        hint(o, "Tooltip_LWX_ConnectBuilding", tostring(def:getX()), tostring(def:getY()))
+    end
+    for _, entry in ipairs(D.areaList(mark.id)) do
+        if entry.area.kind == "building" then
+            sub:addOption(Menu.areaLabel(entry), player, Menu.onBuilding, obj, true, entry.key)
+        end
+    end
+end
+
+local function onFillWorld(playerNum, context, worldobjects, test)
+    local player = getSpecificPlayer(playerNum)
+    if not player then return end
+    local obj, mark = Menu.inverterIn(worldobjects)
+    if not obj then return end
+    if test then return ISWorldObjectContextMenu.setTest() end
+    local root = context:addOption(getText("ContextMenu_LWX_Root"), worldobjects, nil)
+    local sub = ISContextMenu:getNew(context)
+    context:addSubMenu(root, sub)
+    Menu.addBuildingOptions(sub, player, obj, mark)
+    if Menu.extra then Menu.extra(sub, player, obj, mark) end
+end
+
+Events.OnFillWorldObjectContextMenu.Add(onFillWorld)
