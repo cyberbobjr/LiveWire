@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+### Fixes
+- Fixed fridges, freezers and other appliances losing power at random while the inverter still had plenty of power, until the inverter or the breaker panel was switched off and on again. It happened when the game loaded part of the map diagonally near the base, more often with a vanilla generator nearby (for example a backup generator).
+
 ## 1.7.2 — 2026-11-07
 
 ### Improvements

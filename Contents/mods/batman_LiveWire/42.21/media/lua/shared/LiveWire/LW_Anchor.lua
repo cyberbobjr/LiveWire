@@ -212,8 +212,24 @@ function Anchor.chunkCoords(chunk)
     return nil
 end
 
--- Re-apply every anchor whose disc touches the loaded chunk (the purge also hit the
--- neighbours within generatorChunkRange, so the whole disc is re-applied).
+-- Chunks the engine purges when one chunk loads: the square of +/- generatorChunkRange
+-- chunks around it (IsoGenerator.chunkLoaded, IsoGenerator.java:593-603). That range is
+-- a static field: 2 until an IsoGenerator exists in the session, then radius / 8 + 1
+-- (IsoGenerator.java:67, 115-119), so take the larger of the two.
+function Anchor.purgeChunkRange(R)
+    return math.max(2, math.floor(R / CHUNK) + 1)
+end
+
+-- Can loading chunk (cx, cy) purge the anchor from one of the chunks of its disc?
+-- Square (Chebyshev) test on chunk coordinates, like the engine: a circle around
+-- the anchor misses the diagonal neighbours of the disc.
+function Anchor.purgedBy(a, cx, cy, R)
+    local g = Anchor.purgeChunkRange(R)
+    return cx >= math.floor((a.x - R) / CHUNK) - g and cx <= math.floor((a.x + R) / CHUNK) + g
+        and cy >= math.floor((a.y - R) / CHUNK) - g and cy <= math.floor((a.y + R) / CHUNK) + g
+end
+
+-- Re-apply every anchor the loaded chunk may have purged, on its whole disc.
 Anchor.pendingPasses = 0
 
 local function onLoadChunk(chunk)
@@ -221,11 +237,8 @@ local function onLoadChunk(chunk)
     local cx, cy = Anchor.chunkCoords(chunk)
     if not cx then return end
     local R = LiveWire.Config.tileRange()
-    local reach = R + 2 * CHUNK
-    for id, a in pairs(Anchor.table()) do
-        local px, py = cx * CHUNK + CHUNK / 2, cy * CHUNK + CHUNK / 2
-        local dx, dy = px - a.x, py - a.y
-        if dx * dx + dy * dy <= reach * reach then
+    for _, a in pairs(Anchor.table()) do
+        if Anchor.purgedBy(a, cx, cy, R) then
             Anchor.apply(a, a.on == true)
             Anchor.pendingPasses = 2
         end
