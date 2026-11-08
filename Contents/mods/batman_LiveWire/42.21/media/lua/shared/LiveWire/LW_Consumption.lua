@@ -71,6 +71,30 @@ local function profileWatts(o, p, t)
     return w or p * 1000 * t.otherFactor
 end
 
+-- D-31: a piece of furniture of several squares (sprite grid) can report a consumption
+-- on each of its objects. It is counted once, on the first consuming object in grid
+-- order: the origin of the grid whenever it consumes. Its other objects draw 0 W.
+local pieces -- reused ArrayList, created on first use
+local function gridOrder(g, o)
+    local s = o:getSprite()
+    return (g:getSpriteGridPosZ(s) * g:getHeight() + g:getSpriteGridPosY(s)) * g:getWidth()
+        + g:getSpriteGridPosX(s)
+end
+function Consumption.countedPiece(o)
+    local g = o:getSpriteGrid()
+    if not g or g:getSpriteCount() <= 1 then return true end
+    pieces = pieces or ArrayList.new()
+    o:getSpriteGridObjectsIncludingSelf(pieces)
+    local mine = gridOrder(g, o)
+    for i = 0, pieces:size() - 1 do
+        local other = pieces:get(i)
+        if other ~= o and gridOrder(g, other) < mine and other:getGeneratorPowerConsumption() > 0 then
+            return false
+        end
+    end
+    return true
+end
+
 -- Draw in W of an appliance, 0 when it is off; includes LiveWire.PowerScale.
 -- `profile` is optional (read once by the caller for a whole scan).
 function Consumption.watts(o, profile, beforeCircuit)
@@ -80,6 +104,7 @@ function Consumption.watts(o, profile, beforeCircuit)
         and LiveWire.Appliances.blocked(o) then return 0 end
     local p = o:getGeneratorPowerConsumption()
     if not p or p <= 0 then return 0 end
+    if not Consumption.countedPiece(o) then return 0 end
     local scale = LiveWire.Config.get("PowerScale") or 1
     profile = profile or Consumption.profile()
     if profile == Consumption.ENGINE then return p * 1000 * scale end

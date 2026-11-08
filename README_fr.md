@@ -347,7 +347,7 @@ L'option sandbox **`ConsumptionProfile`** (« Profil de consommation ») fixe la
 - **Ultra-réaliste 1993** : appareils plus anciens et plus gourmands. Plafonniers de 100 W, grand téléviseur cathodique, frigo des années 80, cuisinière et sèche-linge à pleine puissance.
 - **Confort** : la moitié des valeurs du jeu, avec le lave-linge + sèche-linge superposé corrigé.
 - `PowerScale` multiplie le résultat du profil (1 = aucun changement). L'onduleur consomme toujours 20 W à vide.
-- Un appareil de deux cases avec un frigo ou un congélateur sur chacune (grands frigos de magasin) compte deux fois, comme avec un générateur vanilla : c'est un appareil plus gros.
+- Un appareil de plusieurs cases (grands frigos de magasin, cuisinières larges) compte une seule fois, sur sa première case : les autres cases du même meuble ne consomment rien.
 - Le profil peut changer en cours de partie : la demande suit à la mesure suivante.
 
 #### Ce que changent les profils réalistes

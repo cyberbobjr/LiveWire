@@ -606,6 +606,7 @@ local function obj(cls, p, extra)
     local o = { cls = cls, p = p, piped = 0, fridge = false, freezer = false }
     for k, v in pairs(extra or {}) do o[k] = v end
     function o:getGeneratorPowerConsumption() return self.p end
+    function o:getSpriteGrid() return nil end -- single-tile appliance (IsoObject.java:5058)
     function o:getPipedFuelAmount() return self.piped end
     function o:getContainerByType(t)
         if t == "fridge" and self.fridge then return {} end

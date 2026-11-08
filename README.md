@@ -388,7 +388,7 @@ The sandbox option **`ConsumptionProfile`** sets how much power each switched-on
 - **Ultra-realistic 1993** uses older, hungrier appliances: 100 W fixtures, a large CRT, a 1980s fridge, a full-power range and dryer.
 - **Comfort** halves the game values and fixes the stacked washer + dryer.
 - `PowerScale` multiplies the result of the profile (1 = no change). The inverter itself always uses 20 W idle.
-- An appliance that spans two tiles with a fridge or freezer on each (large shop fridges) counts twice, like with a vanilla generator: it is a bigger appliance.
+- An appliance that spans several tiles (large shop fridges, wide stoves) counts once, on its first tile: the other tiles of the same piece of furniture draw nothing.
 - The profile can be changed during a game: the demand follows at the next measurement.
 
 #### What the realistic profiles change

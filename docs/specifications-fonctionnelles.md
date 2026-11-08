@@ -436,7 +436,7 @@ Les trois batteries vanilla ont le même `UseDelta`, donc ces capacités sont un
 **Justification des valeurs 1993** (ordres de grandeur, non sourcés ligne à ligne) : ampoule à incandescence de 60 W (100 W pour un plafonnier) ; téléviseur cathodique de 63 cm ≈ 80 W ; réfrigérateur-congélateur américain du début des années 90 ≈ 1 100 kWh/an (≈ 130 W de moyenne), plus ancien ≈ 1 600 kWh/an ; cuisinière électrique en 240 V, 2 à 3 kW en marche ; sèche-linge électrique 3 à 5 kW ; micro-ondes 1 000 à 1 500 W absorbés ; chargeur de batterie de 10 A ≈ 150 W.
 
 **Limites.**
-- Un appareil de deux cases dont chaque case porte un frigo ou un congélateur compte deux fois, comme avec le générateur vanilla (`IsoGenerator.java:279-285`).
+- Un appareil de plusieurs cases (grille de sprites) compte une seule fois (D-31) : sur le premier objet consommateur dans l'ordre de la grille, c'est-à-dire la case d'origine dès qu'elle consomme (`LW_Consumption.countedPiece`). Les autres objets du meuble valent 0 W pour la facture, le détail par famille, les circuits et l'affichage. Si la case retenue est hors de la zone de tout onduleur, le meuble n'est facturé par aucun.
 - Avec les profils 1993, une cuisinière ou un sèche-linge dépasse les 1 500 W d'un onduleur seul. La disjonction est voulue (onduleurs autonomes de l'époque) ; parade : onduleurs couplés ou cuisson au gaz.
 - Le profil est relu à chaque mesure : un changement en cours de partie s'applique à la mesure suivante.
 

@@ -6,6 +6,7 @@
 - Fixed fridges, freezers and other appliances losing power at random while the inverter still had plenty of power, until the inverter or the breaker panel was switched off and on again. It happened when the game loaded part of the map diagonally near the base, more often with a vanilla generator nearby (for example a backup generator).
 
 ### Improvements
+- Appliances that span several tiles, such as large shop fridges, are now counted once instead of once per tile.
 - The backup generator now tells you when it switches to manual control. Switching it on or off yourself still hands it over to you, but a message now appears next to it, and the inverter screen and the management software show how to give control back: right-click the generator > Live Wire > Backup generator > Resume automatic backup. A confirmation appears when automatic control resumes.
 - Live Wire windows now follow the game's font size option: the inverter screen, power bank and device screens, breaker panel, connection list and computer screen grow with larger fonts (for example on 4K screens) instead of keeping their 1080p size. They always stay inside the screen.
 
