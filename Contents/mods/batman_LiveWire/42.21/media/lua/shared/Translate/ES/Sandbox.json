@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "Si está desactivado, no se requiere ningún nivel de Electrónica.",
     "Sandbox_LiveWire_SimulateUnloaded": "Funcionar sin jugadores cerca",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "La producción, el consumo y el desgaste continúan cuando no hay ningún jugador cerca.",
+    "Sandbox_LiveWire_GridCharging": "Cargar desde la red pública",
+    "Sandbox_LiveWire_GridCharging_tooltip": "Mientras la red eléctrica pública funcione, un inversor dentro de un edificio se alimenta de ella y carga sus baterías (hasta una quinta parte de su potencia nominal).",
     "Sandbox_LiveWire_BackupStartPercent": "Arranque del respaldo (porcentaje)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Un generador de respaldo arranca cuando las baterías bajan de este porcentaje.",
     "Sandbox_LiveWire_BackupStopPercent": "Parada del respaldo (porcentaje)",

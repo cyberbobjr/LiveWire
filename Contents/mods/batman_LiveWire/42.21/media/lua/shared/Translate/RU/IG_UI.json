@@ -98,6 +98,8 @@
     "IGUI_LW_LCD_Brand": "LIVE WIRE - ИНВЕРТОР 1500 W",
     "IGUI_LW_LCD_Page_Balance": "ВЫРАБОТКА / НАГРУЗКА",
     "IGUI_LW_LCD_Prod": "ВЫРАБ.  %1 W",
+    "IGUI_LW_LCD_Mains": "СЕТЬ   %1 W",
+    "IGUI_LW_LCD_Grid": "Городская сеть: %1 W",
     "IGUI_LW_LCD_Load": "НАГРУЗКА %1 W / %2 W",
     "IGUI_LW_LCD_BarProd": "ВЫРАБ.",
     "IGUI_LW_LCD_BarLoad": "НАГРУЗ.",

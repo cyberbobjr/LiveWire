@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "禁用后不需要任何电工等级.",
     "Sandbox_LiveWire_SimulateUnloaded": "无玩家附近时运行",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "无玩家在附近时, 发电, 用电和损耗照常进行.",
+    "Sandbox_LiveWire_GridCharging": "从公共电网充电",
+    "Sandbox_LiveWire_GridCharging_tooltip": "公共电网仍在运行时, 建筑内的逆变器由电网供电并为其电池充电 (最多为额定功率的五分之一).",
     "Sandbox_LiveWire_BackupStartPercent": "备用发电机启动 (百分比)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "电池低于此百分比时备用发电机启动.",
     "Sandbox_LiveWire_BackupStopPercent": "备用发电机停止 (百分比)",

@@ -98,6 +98,8 @@
     "IGUI_LW_LCD_Brand": "LIVE WIRE - 逆变器 1500 W",
     "IGUI_LW_LCD_Page_Balance": "发电 / 用电",
     "IGUI_LW_LCD_Prod": "发电   %1 W",
+    "IGUI_LW_LCD_Mains": "电网   %1 W",
+    "IGUI_LW_LCD_Grid": "公共电网: %1 W",
     "IGUI_LW_LCD_Load": "用电   %1 W / %2 W",
     "IGUI_LW_LCD_BarProd": "发电",
     "IGUI_LW_LCD_BarLoad": "用电",

@@ -629,6 +629,7 @@ Page « LiveWire » des options sandbox.
 | `XPMultiplier` | 1,0 | 0-10 | Expérience donnée par le mod |
 | `SkillGates` | activé | — | Désactivé = aucun niveau requis pour brancher ou mettre en service |
 | `SimulateUnloaded` | activé | — | Continue de simuler sans personne à proximité |
+| `GridCharging` | activé | — | Tant que le réseau public fonctionne, un onduleur dans un bâtiment s'alimente et recharge ses batteries sur le secteur |
 | `BackupStartPercent` / `BackupStopPercent` | 20 / 90 | 0-90 / 10-100 | Seuils du générateur de secours |
 
 **Option joueur** (Options > Mods > Live Wire) : volume du bourdonnement de l'onduleur, de 0 à 100 (0 = coupé).

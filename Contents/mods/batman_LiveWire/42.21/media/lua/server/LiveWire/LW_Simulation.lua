@@ -48,6 +48,14 @@ local function solarMean(t0, h, w)
     return (a + b) / h
 end
 
+-- World hour after which the public grid is off (vanilla doesPowerGridExist,
+-- SandboxOptions.java:1230: world age in days <= ElecShutModifier).
+function Sim.gridShutHour()
+    local opts = getSandboxOptions and getSandboxOptions()
+    if not opts then return -1 end
+    return opts:getElecShutModifier() * 24
+end
+
 local function chance(probability)
     return ZombRandFloat(0, 1) < probability
 end
@@ -202,6 +210,7 @@ function Sim.snapshot(grid)
         production = math.floor((grid.production or 0) + 0.5),
         stock = grid.stock or 0, capacity = grid.capacity or 0,
         lost = grid.lost or 0,
+        gridW = grid.gridW and math.floor(grid.gridW + 0.5) or nil,
         sources = {}, batteries = {}, options = {}, appliances = {},
         coverage = { radius = LiveWire.Config.tileRange(), floors = LiveWire.Config.verticalRange() },
     }
@@ -421,6 +430,13 @@ function Sim.stepGrid(grid, now, w, evaluate)
     local loaded = invObj ~= nil
     if not loaded and not LiveWire.Config.get("SimulateUnloaded") then return end
 
+    -- Public grid charging: the inverter must stand in a building the grid serves,
+    -- as vanilla appliances (IsoObject.java:5716). The site is remembered for the
+    -- steps run while its square is unloaded.
+    if invSq then inv.gridSite = (invSq:getRoom() ~= nil and not invSq:isNoPower()) or nil end
+    local gridShutH = -math.huge
+    if inv.gridSite and LiveWire.Config.get("GridCharging") then gridShutH = Sim.gridShutHour() end
+
     if loaded then
         local d, breakdown = LiveWire.Demand.measure(inv)
         if d then
@@ -490,6 +506,7 @@ function Sim.stepGrid(grid, now, w, evaluate)
     local n = math.max(1, math.ceil(dt / Sim.SUBSTEP_HOURS - 1e-9))
     local h = dt / n
     local totalLost = 0
+    local gridKWh = 0
     local prodW = 0
     local backupW = 0
 
@@ -530,6 +547,8 @@ function Sim.stepGrid(grid, now, w, evaluate)
             if slaves[s].state == "on" and (slaves[s].cond or 0) <= 0 then breakSlave(slaves[s]) end
         end
         local capW, idleNow = Sim.capacityW(grid), Sim.idleW(grid)
+        local gridW = 0
+        if now - dt + (i - 0.5) * h <= gridShutH then gridW = capW * Defs.GRID_CHARGE_RATIO end
         -- A tripped breaker cuts the house: the inverter stays on (it still charges).
         local physState = inv.state
         -- Isolating a failed unit changes its switch, never repairs its converter.
@@ -538,9 +557,10 @@ function Sim.stepGrid(grid, now, w, evaluate)
         local r = Physics.stepGrid({
             productionW = prodW + backupW, demandW = demandW, idleW = idleNow, maxW = capW,
             eff = inv.eff, dt = h, wasOn = grid.powered == true, state = physState,
-            batteries = entries,
+            batteries = entries, gridW = gridW,
         })
         totalLost = totalLost + r.lostKWh
+        gridKWh = gridKWh + r.gridKWh
 
         if r.tripped then
             local args = { tostring(math.floor(demandW + 0.5)), tostring(capW) }
@@ -629,6 +649,13 @@ function Sim.stepGrid(grid, now, w, evaluate)
     grid.stock = stock
     grid.capacity = capacity
     grid.lost = totalLost
+    -- Mean public grid draw of the step (a zero-length step keeps the last value);
+    -- nil when this inverter cannot use the grid (option off, outside a building).
+    if gridShutH == -math.huge then
+        grid.gridW = nil
+    elseif dt > 0 then
+        grid.gridW = gridKWh * 1000 / dt
+    end
     grid.rev = (grid.rev or 0) + 1
 
     local on = grid.powered == true and inv.state == "on"

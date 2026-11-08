@@ -608,6 +608,7 @@ Page `LiveWire`. Valeurs par défaut validées le 2026-10-17.
 | `LiveWire.XPMultiplier` | réel | 0 – 10 | 1,0 | Expérience du mod |
 | `LiveWire.SkillGates` | booléen | — | vrai | Faux = aucun niveau requis pour brancher ou mettre en service (la pose n'en exige pas) |
 | `LiveWire.SimulateUnloaded` | booléen | — | vrai | L'installation fonctionne quand personne n'est à proximité |
+| `LiveWire.GridCharging` | booléen | — | vrai | Recharge sur le réseau public tant qu'il fonctionne (onduleur dans un bâtiment, D-30) |
 | `LiveWire.BackupStartPercent` | entier | 0 – 90 | 20 | Le générateur de secours démarre sous ce pourcentage de batterie |
 | `LiveWire.BackupStopPercent` | entier | 10 – 100 | 90 | Il s'arrête à ce pourcentage |
 

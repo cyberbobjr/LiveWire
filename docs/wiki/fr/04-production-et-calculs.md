@@ -74,11 +74,12 @@ Jour et nuit, environ 2,9 kWh par jour. Rivières seulement (le moteur ne sait p
 - Surplus × 0,90 (rendement de charge).
 - Autodécharge : 0,2 % par jour.
 - Batterie pleine : la production en trop est perdue (affichée « Production perdue »).
+- Réseau public (option `GridCharging`, activée par défaut) : tant qu'il fonctionne, un onduleur installé dans une pièce d'un bâtiment tire du secteur jusqu'à un cinquième de sa puissance nominale (300 W pour un onduleur, 900 W pour une armoire). Ce courant couvre d'abord ce que les sources ne fournissent pas, puis recharge les batteries ; il n'est tiré que si besoin, donc rien n'est perdu. Un onduleur cassé ne recharge pas ; un onduleur éteint, si.
 - La consommation des appareils dépend de l'option `ConsumptionProfile` (ci-dessous).
 
 ## Ordre d'alimentation de l'onduleur
 
-L'onduleur couvre d'abord la demande avec la production du moment (× rendement), puis avec les batteries. Il ne peut redémarrer que si la production couvre la demande ou si les batteries contiennent plus de 2 % de leur capacité. La limite de 1 500 W s'applique à la demande de la maison, pas à la production.
+L'onduleur couvre d'abord la demande avec la production du moment (× rendement), puis avec le réseau public tant qu'il fonctionne (option `GridCharging`), puis avec les batteries. Il ne peut redémarrer que si la production (réseau compris) couvre la demande ou si les batteries contiennent plus de 2 % de leur capacité. La limite de 1 500 W s'applique à la demande de la maison, pas à la production.
 
 ## Consommation des appareils
 

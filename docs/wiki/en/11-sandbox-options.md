@@ -25,6 +25,7 @@ Server and game settings are on the **LiveWire** page of the sandbox options.
 | `XPMultiplier` | 1.0 | 0-10 | Experience given by the mod |
 | `SkillGates` | true | - | false = no level required |
 | `SimulateUnloaded` | true | - | Keeps running with nobody nearby |
+| `GridCharging` | true | - | While the public grid works, an inverter inside a building powers itself and charges its batteries from it |
 | `BackupStartPercent` / `BackupStopPercent` | 20 / 90 | 0-90 / 10-100 | Backup generator thresholds |
 
 ## Player option

@@ -138,6 +138,9 @@ Defs.CHARGE_EFFICIENCY = 0.90
 Defs.SELF_DISCHARGE_PER_DAY = 0.002
 Defs.DEEP_DISCHARGE_THRESHOLD = 0.20
 Defs.RESTART_STOCK_RATIO = 0.02
+-- Public grid charging (option GridCharging): the inverter draws at most this
+-- share of its continuous rating from the grid (1500 W inverter: 300 W).
+Defs.GRID_CHARGE_RATIO = 0.2
 Defs.SMOOTHING_TAU_HOURS = 0.5
 Defs.TRIP_CONDITION_LOSS = 3
 Defs.HEAVY_LOAD_RATIO = 0.80

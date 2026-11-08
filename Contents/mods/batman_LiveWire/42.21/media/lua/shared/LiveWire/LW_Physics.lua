@@ -145,13 +145,15 @@ end
 -- p = {
 --   productionW, demandW (appliances), idleW, maxW, eff, dt (hours, 0 re-evaluates the state),
 --   wasOn (bool), state ("on"|"off"|"tripped"|"broken"),
+--   gridW (public grid power the inverter may draw, W; covers the demand, then charges),
 --   batteries = { { charge = kWh, capacity = kWh } ... }  (mutated in place)
 -- }
 -- on is the END state; onHours is the served duration from the start of the step.
 -- servedW and usefulW are averages over the entire step, including the off fraction.
 function Physics.stepGrid(p)
     local r = { on = false, tripped = false, servedW = 0, drawnKWh = 0,
-                chargedKWh = 0, lostKWh = 0, stockKWh = 0, capacityKWh = 0, onHours = 0 }
+                chargedKWh = 0, lostKWh = 0, gridKWh = 0, stockKWh = 0, capacityKWh = 0,
+                onHours = 0 }
     local dt = p.dt
     local eff = clamp(p.eff or 0.85, 0.05, 1)
     local batteries = p.batteries or {}
@@ -181,21 +183,27 @@ function Physics.stepGrid(p)
         r.lostKWh = production * LiveWire.Defs.CHARGE_EFFICIENCY * dt / 1000
         production = 0
     end
+    -- A broken inverter cannot take power from the public grid either.
+    local gridW = 0
+    if p.state ~= "broken" then gridW = math.max(0, p.gridW or 0) end
     local on = false
     local usefulW = 0
+    local gridUsedW = 0
     if running then
         local fromProd = math.min(production * eff, demand)
-        local missingW = demand - fromProd
+        local fromGrid = math.min(gridW * eff, demand - fromProd)
+        local missingW = demand - fromProd - fromGrid
         local needKWh = missingW / eff * dt / 1000
         local canStart = p.wasOn
             or (capacity > 0 and stock > capacity * LiveWire.Defs.RESTART_STOCK_RATIO)
-            or (production * eff >= demand)
+            or ((production + gridW) * eff >= demand)
         if canStart then
             local fraction = 1
             if needKWh > stock then fraction = stock / needKWh end
             fraction = clamp(fraction, 0, 1)
             r.onHours = dt * fraction
             usefulW = fromProd * fraction
+            gridUsedW = fromGrid * fraction
             -- Test the missing power, not the energy: a zero-length step (state
             -- re-evaluation) needs no energy but still cannot serve from an empty stock.
             on = fraction >= 1 and (missingW <= 0 or stock - needKWh > 1e-9)
@@ -225,6 +233,22 @@ function Physics.stepGrid(p)
         r.chargedKWh = placed
         r.lostKWh = chargeKWh - placed
     end
+
+    -- The public grid tops up what the sources left: it is only drawn as needed,
+    -- so a full bank loses nothing.
+    local gridLeftW = gridW - gridUsedW / eff
+    if gridLeftW > 0 then
+        local chargeKWh = gridLeftW * LiveWire.Defs.CHARGE_EFFICIENCY * dt / 1000
+        for i = 1, #batteries do
+            local b = batteries[i]
+            b._lim = math.max(0, b.capacity - b.charge)
+            b._w = b._lim
+        end
+        local placed = distribute(batteries, chargeKWh, "_w", "_lim", 1)
+        r.chargedKWh = r.chargedKWh + placed
+        r.gridKWh = placed / LiveWire.Defs.CHARGE_EFFICIENCY
+    end
+    r.gridKWh = r.gridKWh + gridUsedW / eff * dt / 1000
 
     for i = 1, #batteries do
         local b = batteries[i]

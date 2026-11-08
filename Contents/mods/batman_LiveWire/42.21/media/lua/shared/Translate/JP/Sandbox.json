@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "無効にすると、電気工学のレベルは不要になります。",
     "Sandbox_LiveWire_SimulateUnloaded": "プレイヤー不在時も稼働",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "近くにプレイヤーがいなくても、発電、消費、劣化が進みます。",
+    "Sandbox_LiveWire_GridCharging": "公共電力網から充電",
+    "Sandbox_LiveWire_GridCharging_tooltip": "公共電力網が稼働している間、建物内のインバーターは電力網から給電し、バッテリーを充電します（定格出力の5分の1まで）。",
     "Sandbox_LiveWire_BackupStartPercent": "予備発電機の始動(パーセント)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "バッテリーがこの割合を下回ると予備発電機が始動します。",
     "Sandbox_LiveWire_BackupStopPercent": "予備発電機の停止(パーセント)",

@@ -98,6 +98,8 @@
     "IGUI_LW_LCD_Brand": "LIVE WIRE - インバーター 1500 W",
     "IGUI_LW_LCD_Page_Balance": "発電 / 負荷",
     "IGUI_LW_LCD_Prod": "発電   %1 W",
+    "IGUI_LW_LCD_Mains": "系統   %1 W",
+    "IGUI_LW_LCD_Grid": "公共電力網: %1 W",
     "IGUI_LW_LCD_Load": "負荷   %1 W / %2 W",
     "IGUI_LW_LCD_BarProd": "発電",
     "IGUI_LW_LCD_BarLoad": "負荷",

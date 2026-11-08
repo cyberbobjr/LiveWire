@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "Если выключено, уровень навыка «Электрика» не требуется.",
     "Sandbox_LiveWire_SimulateUnloaded": "Работать без игроков рядом",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Выработка, потребление и износ продолжаются, когда игроков рядом нет.",
+    "Sandbox_LiveWire_GridCharging": "Зарядка от городской сети",
+    "Sandbox_LiveWire_GridCharging_tooltip": "Пока городская электросеть работает, инвертор внутри здания питается от неё и заряжает свои аккумуляторы (до пятой части номинальной мощности).",
     "Sandbox_LiveWire_BackupStartPercent": "Запуск резерва (процент)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Резервный генератор запускается, когда заряд аккумуляторов падает ниже этого процента.",
     "Sandbox_LiveWire_BackupStopPercent": "Остановка резерва (процент)",

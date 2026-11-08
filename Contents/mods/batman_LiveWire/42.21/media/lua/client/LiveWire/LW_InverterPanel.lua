@@ -133,6 +133,8 @@ function Panel:pageContent(snap)
         for i = 1, #snap.sources do nominal = nominal + (snap.sources[i].nominal or 0) end
         local scale = math.max(inv.maxW or 0, nominal, snap.production or 0, snap.demand or 0, 1)
         L(T("IGUI_LW_LCD_Prod", snap.production))
+        -- Public grid draw, only while the inverter takes some (option GridCharging).
+        if (snap.gridW or 0) > 0 then L(T("IGUI_LW_LCD_Mains", snap.gridW)) end
         L(T("IGUI_LW_LCD_Load", snap.demand, inv.maxW))
         bars[1] = { label = T("IGUI_LW_LCD_BarProd"), value = snap.production, max = scale }
         bars[2] = { label = T("IGUI_LW_LCD_BarLoad"), value = snap.demand, max = scale }
@@ -157,6 +159,8 @@ function Panel:pageContent(snap)
             end
             L(T("IGUI_LW_LCD_Family", T(fam[2]), n, w))
         end
+        -- nil when the inverter cannot use the public grid (option off, outside).
+        if snap.gridW then L(T("IGUI_LW_LCD_Grid", snap.gridW)) end
     elseif self.page == 4 then
         L(T("IGUI_LW_LCD_Page_House"))
         local ap = snap.appliances or {}

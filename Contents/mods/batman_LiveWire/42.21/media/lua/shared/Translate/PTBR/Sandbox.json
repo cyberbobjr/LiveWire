@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "Quando desativado, nenhum nível de Elétrica é exigido.",
     "Sandbox_LiveWire_SimulateUnloaded": "Funcionar sem jogadores por perto",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Produção, consumo e desgaste continuam quando nenhum jogador está por perto.",
+    "Sandbox_LiveWire_GridCharging": "Carregar pela rede pública",
+    "Sandbox_LiveWire_GridCharging_tooltip": "Enquanto a rede elétrica pública funcionar, um inversor dentro de um prédio se alimenta dela e carrega suas baterias (até um quinto da sua potência nominal).",
     "Sandbox_LiveWire_BackupStartPercent": "Início da reserva (porcentagem)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Um gerador de reserva liga quando as baterias caem abaixo desta porcentagem.",
     "Sandbox_LiveWire_BackupStopPercent": "Parada da reserva (porcentagem)",

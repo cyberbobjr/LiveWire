@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "Wenn deaktiviert, ist keine Elektrotechnik-Stufe nötig.",
     "Sandbox_LiveWire_SimulateUnloaded": "Ohne Spieler in der Nähe weiterlaufen",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Erzeugung, Verbrauch und Verschleiß laufen weiter, wenn kein Spieler in der Nähe ist.",
+    "Sandbox_LiveWire_GridCharging": "Aus dem öffentlichen Netz laden",
+    "Sandbox_LiveWire_GridCharging_tooltip": "Solange das öffentliche Stromnetz funktioniert, versorgt sich ein Wechselrichter in einem Gebäude daraus und lädt seine Batterien (bis zu einem Fünftel seiner Nennleistung).",
     "Sandbox_LiveWire_BackupStartPercent": "Notstart (Prozent)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Ein Notstromgenerator startet, wenn die Batterien unter diesen Prozentsatz fallen.",
     "Sandbox_LiveWire_BackupStopPercent": "Notstopp (Prozent)",

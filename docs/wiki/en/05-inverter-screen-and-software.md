@@ -10,9 +10,9 @@ Right-click the inverter, then **Open the inverter screen**. It is a backlit scr
 
 | Page | Content |
 |---|---|
-| 1 | Production / Load |
+| 1 | Production / Load; a MAINS line while the inverter draws from the public grid |
 | 2 | Batteries |
-| 3 | Sources |
+| 3 | Sources; a "Public grid" line when the inverter can use it (sandbox `GridCharging`, inside a building) |
 | 4 | House |
 | 5 | Status |
 

@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "When disabled, no Electrical level is required.",
     "Sandbox_LiveWire_SimulateUnloaded": "Run without players nearby",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Production, consumption and wear go on when no player is nearby.",
+    "Sandbox_LiveWire_GridCharging": "Charge from the public grid",
+    "Sandbox_LiveWire_GridCharging_tooltip": "While the public grid still works, an inverter inside a building powers itself and charges its batteries from it (up to a fifth of its rated power).",
     "Sandbox_LiveWire_BackupStartPercent": "Backup start (percent)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "A backup generator starts when the batteries fall below this percentage.",
     "Sandbox_LiveWire_BackupStopPercent": "Backup stop (percent)",

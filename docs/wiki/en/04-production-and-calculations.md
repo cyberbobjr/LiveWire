@@ -81,11 +81,12 @@ Produces day and night, about 2.9 kWh per day (120 W x 24 h). Rivers only: the e
 - Charging: surplus x 0.90 (charge efficiency).
 - Self-discharge: 0.2 % per day.
 - When full, extra production is lost (shown as "production lost").
+- Public grid (sandbox `GridCharging`, on by default): while it works, an inverter standing in a room of a building draws up to a fifth of its rated power from the mains (300 W for an inverter, 900 W for a cabinet). That power first covers what the sources do not supply, then charges the batteries; it is only drawn when needed, so nothing is lost. A broken inverter does not charge; a switched-off one does.
 - Effective capacity = nominal x (0.4 + 0.6 x condition / 100) x `BatteryCapacityMultiplier`.
 
 ## Inverter supply order
 
-The inverter supplies the demand from the **current production first** (x efficiency), then from the **batteries**. It can only restart when production covers the demand or the batteries hold more than 2 % of their capacity. Appliance consumption depends on the sandbox `ConsumptionProfile` (below).
+The inverter supplies the demand from the **current production first** (x efficiency), then from the **public grid** while it works (sandbox `GridCharging`), then from the **batteries**. It can only restart when production (grid included) covers the demand or the batteries hold more than 2 % of their capacity. Appliance consumption depends on the sandbox `ConsumptionProfile` (below).
 
 ## Appliance consumption
 

@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "Désactivé : aucun niveau d'Électricité n'est requis.",
     "Sandbox_LiveWire_SimulateUnloaded": "Fonctionnement sans joueur",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "Production, consommation et usure continuent quand aucun joueur n'est à proximité.",
+    "Sandbox_LiveWire_GridCharging": "Recharge sur le réseau public",
+    "Sandbox_LiveWire_GridCharging_tooltip": "Tant que le réseau public fonctionne, un onduleur installé dans un bâtiment s'alimente et recharge ses batteries sur le secteur (jusqu'à un cinquième de sa puissance nominale).",
     "Sandbox_LiveWire_BackupStartPercent": "Démarrage du secours (pourcentage)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "Un générateur de secours démarre quand les batteries passent sous ce pourcentage.",
     "Sandbox_LiveWire_BackupStopPercent": "Arrêt du secours (pourcentage)",

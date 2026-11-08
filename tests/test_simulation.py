@@ -187,6 +187,49 @@ def scenario_base():
     return rec
 
 
+def scenario_grid_charging():
+    """Public grid: an inverter in a served building charges until the shutoff."""
+    lua = make()
+    lua.execute("NPANELS = 0; NBATS = 2; DEMAND = 150; BREAKER = false")
+    lua.execute(SETUP)
+    lua.execute("""
+        INV.gridSite = true
+        function getSandboxOptions() return {
+            getOptionByName = function() return nil end,
+            getElecShutModifier = function() return 1 end } end
+    """)
+    rec = []
+    run(lua, 12, record=rec)
+    check(all(r[2] for r in rec), "grid on: the house stays powered without sources")
+    check(rec[-1][1] > rec[0][1], "grid on: the batteries charge (%.3f -> %.3f)" % (rec[0][1], rec[-1][1]))
+    check(lua.eval("LiveWire.Sim.snapshot(GRID).gridW") > 0, "grid on: the LCD shows the mains draw")
+    run(lua, 6)  # past hour 24: the grid is off
+    before = lua.globals().GRID.stock
+    run(lua, 2)
+    check(lua.globals().GRID.stock < before, "grid off: the batteries drain again")
+    check(lua.eval("LiveWire.Sim.snapshot(GRID).gridW") == 0, "grid off: the LCD shows 0 W")
+    lua.execute("getSandboxOptions = function() return nil end")
+
+
+def scenario_grid_charging_off():
+    """Option off, or an inverter outside a building: no grid power."""
+    for setup in ("SandboxVars = { LiveWire = { GridCharging = false } }; INV.gridSite = true",
+                  "INV.gridSite = nil"):
+        lua = make()
+        lua.execute("NPANELS = 0; NBATS = 2; DEMAND = 150; BREAKER = false")
+        lua.execute(SETUP)
+        lua.execute(setup + """
+            function getSandboxOptions() return {
+                getOptionByName = function() return nil end,
+                getElecShutModifier = function() return 30 end } end
+        """)
+        rec = []
+        run(lua, 4, record=rec)
+        check(rec[-1][1] < rec[0][1], "no grid charging (%s): the batteries drain" % setup)
+        check(lua.eval("LiveWire.Sim.snapshot(GRID).gridW") is None, "no grid line (%s)" % setup)
+        lua.execute("SandboxVars = nil")
+
+
 def scenario_no_battery():
     lua = make()
     lua.execute("NPANELS = 3; NBATS = 0; DEMAND = 130; BREAKER = false")
@@ -630,6 +673,8 @@ def main():
     scenario_loaded_bank()
     scenario_base()
     scenario_no_battery()
+    scenario_grid_charging()
+    scenario_grid_charging_off()
     scenario_overload(False)
     scenario_overload(True)
     scenario_catch_up()

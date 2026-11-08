@@ -21,6 +21,7 @@ Page « LiveWire » des options sandbox.
 | XPMultiplier | 1,0 | 0 à 10 | Expérience donnée par le mod |
 | SkillGates | vrai | | Faux = aucun niveau requis |
 | SimulateUnloaded | vrai | | Continue de simuler sans personne à proximité |
+| GridCharging | vrai | | Tant que le réseau public fonctionne, un onduleur dans un bâtiment s'alimente et recharge ses batteries sur le secteur |
 | BackupStartPercent / BackupStopPercent | 20 / 90 | 0 à 90 / 10 à 100 | Seuils du générateur de secours |
 
 ## Option joueur

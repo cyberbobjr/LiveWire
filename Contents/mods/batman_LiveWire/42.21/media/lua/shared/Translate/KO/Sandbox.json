@@ -34,6 +34,8 @@
     "Sandbox_LiveWire_SkillGates_tooltip": "끄면 전기공학 레벨이 필요하지 않습니다.",
     "Sandbox_LiveWire_SimulateUnloaded": "플레이어 주변이 아니어도 가동",
     "Sandbox_LiveWire_SimulateUnloaded_tooltip": "플레이어가 근처에 없어도 발전, 소비, 마모가 계속됩니다.",
+    "Sandbox_LiveWire_GridCharging": "공공 전력망으로 충전",
+    "Sandbox_LiveWire_GridCharging_tooltip": "공공 전력망이 작동하는 동안 건물 안의 인버터는 전력망에서 전원을 받아 배터리를 충전합니다 (정격 출력의 최대 5분의 1).",
     "Sandbox_LiveWire_BackupStartPercent": "예비 발전기 시작 (퍼센트)",
     "Sandbox_LiveWire_BackupStartPercent_tooltip": "배터리가 이 퍼센트 아래로 떨어지면 예비 발전기가 시작합니다.",
     "Sandbox_LiveWire_BackupStopPercent": "예비 발전기 정지 (퍼센트)",

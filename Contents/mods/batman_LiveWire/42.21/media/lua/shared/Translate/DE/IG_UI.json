@@ -98,6 +98,8 @@
     "IGUI_LW_LCD_Brand": "LIVE WIRE - WECHSELRICHTER 1500 W",
     "IGUI_LW_LCD_Page_Balance": "ERZEUGUNG / VERBRAUCH",
     "IGUI_LW_LCD_Prod": "ERZ.   %1 W",
+    "IGUI_LW_LCD_Mains": "NETZ   %1 W",
+    "IGUI_LW_LCD_Grid": "Öffentliches Netz: %1 W",
     "IGUI_LW_LCD_Load": "VERBR.  %1 W / %2 W",
     "IGUI_LW_LCD_BarProd": "ERZ.",
     "IGUI_LW_LCD_BarLoad": "VERBR.",

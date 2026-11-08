@@ -100,6 +100,8 @@
     "IGUI_LW_LCD_Brand": "LIVE WIRE - INVERTER 1500 W",
     "IGUI_LW_LCD_Page_Balance": "PRODUCTION / LOAD",
     "IGUI_LW_LCD_Prod": "PROD   %1 W",
+    "IGUI_LW_LCD_Mains": "MAINS  %1 W",
+    "IGUI_LW_LCD_Grid": "Public grid: %1 W",
     "IGUI_LW_LCD_Load": "LOAD   %1 W / %2 W",
     "IGUI_LW_LCD_BarProd": "PROD",
     "IGUI_LW_LCD_BarLoad": "LOAD",

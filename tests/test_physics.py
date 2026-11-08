@@ -83,8 +83,8 @@ def main():
         t = lua.table_from({k: v for k, v in kw.items()})
         t.batteries = lua.table_from([lua.table_from(b) for b in bats])
         r = P.stepGrid(t)
-        out = {k: r[k] for k in ("on", "tripped", "servedW", "drawnKWh",
-                                 "chargedKWh", "lostKWh", "stockKWh", "capacityKWh")}
+        out = {k: r[k] for k in ("on", "tripped", "servedW", "drawnKWh", "chargedKWh",
+                                 "lostKWh", "gridKWh", "stockKWh", "capacityKWh")}
         out["charges"] = [t.batteries[i + 1].charge for i in range(len(bats))]
         return out
 
@@ -151,6 +151,32 @@ def main():
     r = step(productionW=400, demandW=100, wasOn=True,
              batteries=[{"charge": 0.2, "capacity": 0.6}], **broken)
     check(not r["on"] and r["chargedKWh"] == 0 and r["lostKWh"] > 0, "broken inverter")
+
+    # Public grid: covers the demand first, then charges with what is left.
+    dt = 1 / 6
+    r = step(productionW=0, demandW=150, gridW=300, wasOn=False,
+             batteries=[{"charge": 0.1, "capacity": 0.6}], **base)
+    charge = (300 - 170 / 0.9) * 0.9 * dt / 1000
+    check(r["on"] and r["drawnKWh"] == 0, "grid powers the house without the batteries")
+    check(approx(r["charges"][0], 0.1 + charge), "grid charges with what is left")
+    check(r["lostKWh"] == 0 and approx(r["gridKWh"], 300 * dt / 1000), "grid draw, nothing lost")
+    r = step(productionW=0, demandW=150, gridW=300, wasOn=True,
+             batteries=[{"charge": 0.6, "capacity": 0.6}], **base)
+    check(r["lostKWh"] == 0 and approx(r["gridKWh"], 170 / 0.9 * dt / 1000),
+          "full bank: the grid only gives the demand")
+    r = step(productionW=0, demandW=0, gridW=300, wasOn=False,
+             batteries=[{"charge": 0.1, "capacity": 0.6}], **dict(base, state="off"))
+    check(approx(r["charges"][0], 0.1 + 300 * 0.9 * dt / 1000), "inverter switched off still charges")
+    r = step(productionW=0, demandW=0, gridW=300, wasOn=False,
+             batteries=[{"charge": 0.1, "capacity": 0.6}], **dict(base, state="broken"))
+    check(r["charges"][0] == 0.1 and r["gridKWh"] == 0, "broken inverter takes nothing from the grid")
+    r = step(productionW=500, demandW=150, gridW=300, wasOn=True,
+             batteries=[{"charge": 0.58, "capacity": 0.6}], **base)
+    check(approx(r["charges"][0], 0.6) and r["gridKWh"] == 0, "sources first: the grid is not drawn")
+    r = step(productionW=100, demandW=150, gridW=300, wasOn=True,
+             batteries=[{"charge": 0.6, "capacity": 0.6}], **base)
+    check(r["drawnKWh"] == 0 and approx(r["gridKWh"], (170 - 90) / 0.9 * dt / 1000),
+          "the grid makes up what the sources miss")
 
     print("OK" if not FAILS else "%d failure(s)" % len(FAILS))
     return 1 if FAILS else 0

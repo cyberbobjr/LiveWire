@@ -261,6 +261,7 @@ sont retirés ; la table d'ancres continue de passer par `ModData.request/transm
 | `LiveWire.XPMultiplier` | double | 1,0 | 0-10 | Expérience donnée par les actions Live Wire |
 | `LiveWire.SkillGates` | boolean | true | — | Désactivée : aucun niveau d'Électricité exigé pour brancher ni mettre en service |
 | `LiveWire.SimulateUnloaded` | boolean | true | — | Production, consommation et usure continuent sans joueur proche |
+| `LiveWire.GridCharging` | boolean | true | — | Entrée `gridW` de `Physics.stepGrid` : 20 % (`Defs.GRID_CHARGE_RATIO`) de la puissance continue du réseau, tant que `getElecShutModifier() × 24` n'est pas dépassé et que la case de l'onduleur est dans une pièce sans `isNoPower` (mémorisé dans `inv.gridSite` pour les pas hors chargement) |
 | `LiveWire.BackupStartPercent` | integer | 20 | 0-90 | Démarrage du générateur de secours sous ce pourcentage de batterie |
 | `LiveWire.BackupStopPercent` | integer | 90 | 10-100 | Arrêt du générateur ; seuil effectif relevé si nécessaire à démarrage + 5 points |
 

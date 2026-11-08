@@ -689,6 +689,7 @@ Page **LiveWire**.
 | `XPMultiplier` | 1.0 | 0-10 | Experience given by the mod |
 | `SkillGates` | true | n/a | false = no level required |
 | `SimulateUnloaded` | true | n/a | Keeps running with nobody nearby |
+| `GridCharging` | true | n/a | While the public grid works, an inverter inside a building powers itself and charges its batteries from it |
 | `BackupStartPercent` / `BackupStopPercent` | 20 / 90 | 0-90 / 10-100 | Backup generator thresholds |
 
 **Player option** (Options > Mods > Live Wire): inverter hum volume, 0-100 (0 = off).

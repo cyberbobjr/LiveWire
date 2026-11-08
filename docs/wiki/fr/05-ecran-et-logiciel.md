@@ -10,9 +10,9 @@ Clic droit sur l'onduleur, « Ouvrir l'écran de l'onduleur ». Écran rétroéc
 
 | Page | Contenu |
 |---|---|
-| 1 | Production / charge |
+| 1 | Production / charge ; ligne SECTEUR quand l'onduleur tire du réseau public |
 | 2 | Batteries |
-| 3 | Sources |
+| 3 | Sources ; ligne « Réseau public » si l'onduleur peut s'en servir (option `GridCharging`, dans un bâtiment) |
 | 4 | Maison |
 | 5 | État |
 

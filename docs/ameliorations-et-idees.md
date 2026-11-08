@@ -31,7 +31,7 @@ validation hors jeu et contrôles manuels restants dans le
 
 **Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé · ⏸ différé après décision utilisateur. « Publié » = présent dans une version du Workshop ; « non publié » = réalisé localement sur main. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Les autres correctifs CXX autorisés sont publiés en 1.5.0 ; C25 est un outil de test hors mod, versionné dans le dépôt. C11 reste différé, C20 est exclu de la dernière campagne. Preuves : [bilan de validation SP/MP](annexes/tests/validation.md).
 
-**Bilan** : améliorations de code **24 faites, 0 en partie, 1 à faire, 1 différée** (sur 26) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 6 hors périmètre** (sur 21).
+**Bilan** : améliorations de code **24 faites, 0 en partie, 3 à faire, 1 différée** (sur 28) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 8 hors périmètre** (sur 23). C27, C28, I22 et I23 viennent des commentaires Steam du 2026-11-07.
 
 ### Améliorations de code
 
@@ -63,6 +63,8 @@ validation hors jeu et contrôles manuels restants dans le
 | C24 | Adoption de tuiles et réconciliation des marques | ✅ Corrigé | SP/MP ; deux clients ordinaires de niveaux différents (2026-10-24) | 1.5.0 | `baea924` | — |
 | C25 | Tests pompe, relais, couplage et MP | ✅ Terminé | SP 3/3 phases ; MP 3/3 phases, 2 clients ; droits ordinaires couverts séparément | Outil hors mod | `b242a36` | — |
 | C26 | README : limite des frigos dépassée par la 1.0.1 | ✅ Corrigé | README EN et FR relus | 1.5.0 | `21cc584` | — |
+| C27 | Fenêtres trop petites en 4K | ⬜ À faire | — | — | — | Prioritaire (2026-11-08) : échelle selon la police du jeu |
+| C28 | Mode manuel du secours invisible | ⬜ À faire | — | — | — | Prioritaire (2026-11-08) : message en jeu, LCD, wiki |
 
 ### Idées de fonctionnalités
 
@@ -89,6 +91,8 @@ validation hors jeu et contrôles manuels restants dans le
 | I19 | Bascule avec un générateur vanilla | ⬜ Proposée |  |
 | I20 | Couper l'alarme au tableau électrique | ⬜ Proposée |  |
 | I21 | Disjoncteur : circuits lumières et équipements | ✅ Publié en 1.6.0 | GUI à leviers, quatre combinaisons, services natifs arrêtés, choix persistants ; validation détaillée dans le bilan |
+| I22 | Câbler les appareils consommateurs | ⬜ Proposée | Sous-mod dédié, mécaniques de LG Extended Electricity réalisées sans code repris |
+| I23 | Compatibilité caméra de surveillance | ⬜ À creuser | Sous-mod de compatibilité avec le mod Workshop 3825788212 |
 
 ---
 
@@ -363,6 +367,29 @@ validation hors jeu et contrôles manuels restants dans le
 - **Statut.** Confirmé statiquement. **Priorité basse, effort S.**
 - **Avancement :** ✅ corrigé (`21cc584`), publié en 1.5.0. Les README EN/FR ont ensuite été actualisés avec C12 : historique serveur de 60 jours, approximation au-delà et événements anciens non récupérables lors d’une mise à jour.
 
+### C27 — Fenêtres trop petites en 4K
+- **Origine.** Commentaire Steam du 2026-11-07 (Juxtor) : les interfaces sont trop petites en 4K.
+- **Problème.** L'écran de l'onduleur a une taille fixe en pixels (`client/LiveWire/LW_InverterPanel.lua:17-18` : 440 × 300, zone LCD 404 × 138), et l'afficheur dessine en `UIFont.Code`. Le réglage de taille de police du jeu agrandit une partie du texte, mais pas la fenêtre ni ses zones. Les autres panneaux (`LW_BankPanel`, `LW_BreakerPanel`, `LW_DevicePanel`, `LW_ConnectionPanel`, `LW_SoftwareScreen`…) sont probablement construits de la même façon (hypothèse, à inventorier).
+- **Risque.** Ergonomie : textes illisibles et boutons minuscules sur grand écran.
+- **Correction proposée.**
+  - Inventorier toutes les fenêtres du mod et leurs dimensions en dur.
+  - Calculer un facteur d'échelle unique à partir de la hauteur de la police choisie dans les options du jeu (`getTextManager():getFontHeight(UIFont.Small)` comparée à la hauteur de référence), comme le font les fenêtres vanilla. L'appliquer aux tailles, marges, boutons et zones LCD.
+  - Vérifier que le texte ne déborde pas dans les dix langues, CN/JP/KO compris (C10), et que la fenêtre tient dans l'écran.
+- **Statut.** Confirmé statiquement pour l'écran de l'onduleur ; à vérifier en jeu en 1080p et en 4K. **Priorité haute (demandée le 2026-11-08), effort M.**
+- **Avancement : ⬜ à faire, autorisé par l'utilisateur le 2026-11-08 pour réalisation immédiate.**
+
+### C28 — Mode manuel du générateur de secours invisible pour le joueur
+- **Origine.** Commentaires Steam du 2026-11-07 (Juxtor, VII) : le secours « ne marche pas de façon intuitive » et « s'embrouille parfois ».
+- **Problème.** Depuis C09, allumer ou éteindre le générateur à la main le fait passer en mode manuel (`server/LiveWire/LW_Backup.lua:110-118`). Le mod ne le pilote plus jusqu'à « Reprendre le secours automatique » (`client/LiveWire/LW_ContextMenu.lua:496`). Aucun code client n'affiche ce mode : la ligne « l'afficher sur l'écran LCD et dans le logiciel » prévue par C09 n'a pas été réalisée (aucune occurrence de `manual` dans `client/`). Le wiki n'en parle pas non plus.
+- **Risque.** Le joueur croit à une panne : il teste le générateur une fois, et ensuite celui-ci ne redémarre plus jamais seul.
+- **Correction proposée.**
+  - Message en jeu au moment du passage en mode manuel, près du générateur (même mécanisme que `IGUI_LW_BackupCannotStart`) : « Secours en mode manuel : pilotage automatique suspendu. Clic droit > Live Wire > Reprendre le secours automatique. »
+  - Mode manuel affiché sur l'écran de l'onduleur et dans le logiciel (la marque porte déjà `manual`, `publishMode`).
+  - Paragraphe dans la FAQ et les équipements optionnels du wiki (EN, FR).
+  - Traductions dans les dix langues.
+- **Statut.** Confirmé statiquement. **Priorité haute (demandée le 2026-11-08), effort S.**
+- **Avancement : ⬜ à faire, autorisé par l'utilisateur le 2026-11-08 pour réalisation immédiate.**
+
 ---
 
 ## Partie 2 — Idées de fonctionnalités
@@ -622,6 +649,22 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
   indicateur de mesure en attente au retour dans une zone ; pas de cumul d'énergie.
   Choix et types d'origine conservés ; historique alimentaire étendu. Voir le
   [contrat de portée](annexes/recherches/circuits-42-21.md) et les essais du bilan.
+
+### I22 — Câbler les appareils consommateurs (sous-mod inspiré de LG Extended Electricity)
+- **Origine.** Commentaire Steam du 2026-11-07 (troubletrainer) : il cherchait à raccorder des appareils consommateurs à l'armoire onduleur. Aujourd'hui, tout appareil à portée de l'onduleur est alimenté sans câble (`docs/wiki/en/03-wiring.md:5`). L'utilisateur juge l'idée bonne et envisage de reprendre dans Live Wire, sous forme d'un **sous-mod dédié**, les fonctionnalités du mod « LG Extended Electricity ».
+- **Description.** Sous-mod facultatif (`require=batman_LiveWire`), sur le modèle de `batman_LiveWireViewpoint`, qui permet de câbler les consommateurs à un onduleur plutôt que de les alimenter par simple portée.
+- **Contrainte de création.** `docs/developpement.md` interdit de reprendre code, assets, textes ou noms d'un autre mod. Seules les **mécaniques** de LG Extended Electricity peuvent être reprises, avec une réalisation originale. Avant de commencer : inventorier ses fonctionnalités (version B42 réellement chargée), lire sa licence, puis faire valider la liste des fonctionnalités retenues.
+- **Faisabilité moteur à étudier.** Articulation avec le mécanisme d'alimentation par ancres (`architecture.md`), avec la demande (`LW_Demand`), avec les circuits du disjoncteur (I21) et avec l'affichage des consommateurs (I01). Décider si le câblage remplace la portée ou s'ajoute à elle.
+- **Impact MP.** Raccordement validé par le serveur, comme les autres équipements.
+- **Effort.** L, à préciser après l'inventaire.
+- **Avancement : ⬜ proposée par l'utilisateur le 2026-11-08 ; inventaire et décision à faire.**
+
+### I23 — Compatibilité caméra de surveillance (sous-mod)
+- **Origine.** Commentaire Steam du 2026-11-07 (66辉.生存狂) : intégrer le mod Workshop 3825788212, qui permet de regarder les environs à travers une caméra.
+- **Description.** Sous-mod de compatibilité facultatif : les caméras de ce mod ne fonctionneraient que sur un réseau Live Wire alimenté, et compteraient dans sa consommation.
+- **À étudier.** Mod non installé localement et pas encore examiné : variante B42, API, façon dont il teste l'électricité (courant de la case, générateur, réseau public), licence. Aucun code repris.
+- **Effort.** À estimer après examen.
+- **Avancement : ⬜ idée à creuser (décision de l'utilisateur du 2026-11-08).**
 
 ### Remarques sur les idées déjà retenues
 - **Chargeur de piles (idée 1).** Le moteur a déjà une classe `IsoCarBatteryCharger` (`java/zombie/iso/objects/IsoCarBatteryCharger.java`), que `Demand.category` range en `charger`. Vérifier son comportement avec l'ancre : il pourrait recharger les batteries de voiture vanilla sans aucun code. Le chargeur de piles du mod peut en reprendre le principe (consommation lue par `getGeneratorPowerConsumption`) plutôt que d'ajouter une demande à part.
