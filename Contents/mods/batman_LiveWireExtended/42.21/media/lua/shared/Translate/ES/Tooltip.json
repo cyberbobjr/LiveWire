@@ -1,0 +1,11 @@
+{
+    "Tooltip_LWX_NeedLevel": "Requiere nivel %1 de Electrónica.",
+    "Tooltip_LWX_NoBuilding": "No hay ningún edificio al alcance del inversor.",
+    "Tooltip_LWX_AlreadyConnected": "Este edificio ya está conectado a un inversor.",
+    "Tooltip_LWX_ConnectBuilding": "Alimenta todas las plantas del edificio en %1, %2, su sótano y una franja alrededor. El juego alimenta bloques enteros de 8 x 8: las casillas cercanas de esos bloques también reciben corriente.",
+    "Tooltip_LWX_NoInverter": "No hay ningún inversor al alcance del cable.",
+    "Tooltip_LWX_TerminalLinked": "Este poste ya está conectado.",
+    "Tooltip_LWX_TerminalWires": "Usa %1 cable(s) eléctrico(s). El poste alimenta entonces su bloque de 8 x 8; ajusta su zona después.",
+    "Tooltip_LWX_TerminalNotLinked": "Conecta primero el poste a un inversor.",
+    "Tooltip_LWX_NoBuildingNearTerminal": "Coloca el poste dentro de un edificio o pegado a él."
+}

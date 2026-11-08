@@ -1,0 +1,10 @@
+{
+    "ContextMenu_LWX_Root": "LiveWire Extended",
+    "ContextMenu_LWX_ConnectBuilding": "Gebäude anschließen",
+    "ContextMenu_LWX_DisconnectBuilding": "Gebäude bei %1, %2 trennen",
+    "ContextMenu_LWX_DisconnectZone": "Zone bei %1, %2 trennen",
+    "ContextMenu_LWX_LinkTerminal": "Mit einem Wechselrichter verbinden",
+    "ContextMenu_LWX_UnlinkTerminal": "Anschlusssäule trennen",
+    "ContextMenu_LWX_InverterAt": "Wechselrichter, %1 Felder entfernt",
+    "ContextMenu_LWX_SetZone": "Zone festlegen"
+}

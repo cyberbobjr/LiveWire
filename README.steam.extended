@@ -1,0 +1,25 @@
+[h1]LiveWire Extended - Whole Buildings and Outdoor Power[/h1]
+
+[b]Build 42.21 · Singleplayer & Multiplayer (server-authoritative) · Requires Live Wire[/b]
+
+An optional add-on for [b]Live Wire[/b]. The inverter powers the appliances in a circle around it; LiveWire Extended carries that power further, without touching the game's generator settings. Remove it at any time: Live Wire goes back to its circle, with no leftover power.
+
+[h2]Connect a whole building[/h2]
+
+Right-click an inverter > LiveWire Extended > [b]Connect the building[/b] (Electrical 3). Every floor, the basement and a strip around the ground floor get power, even beyond the inverter's circle. Appliances are billed by the inverter as usual: consumption, breaker and battery still apply. One inverter per building.
+
+[h2]Outdoor power terminal[/h2]
+
+Craft a [b]power terminal[/b] (Electrical 3) or find one with electricians' gear. Place it anywhere, link it to an inverter with electric wire (same cable rules as Live Wire), then [b]draw its zone[/b] on the ground: up to 16 x 16 squares, rounded to the 8 x 8 blocks the game really powers. Perfect for a vegetable garden, a workshop or a house you built. Placed against a distant building, a linked terminal can connect that building too.
+
+[h2]See it[/h2]
+
+"Show range" on the inverter outlines every extra powered block; the inverter screen lists the connected buildings and terminals. Translated in 10 languages.
+
+[h2]Compatibility[/h2]
+
+Needs Live Wire. Not compatible with LG Extended Electricity, which changes the generator range Live Wire relies on. Outdoor squares follow the game's "generator outdoors" option.
+
+[h2]Credits[/h2]
+
+Created by batmanfr. Original code and placeholder tiles; no content taken from other mods.

@@ -1,0 +1,5 @@
+{
+    "Sandbox_LiveWireExtended": "LiveWire Extended",
+    "Sandbox_LiveWireExtended_BuildingBand": "Außenstreifen um ein Gebäude",
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Breite in Feldern des Streifens um ein angeschlossenes Gebäude, der ebenfalls Strom bekommt (Veranda, Gartenweg). Das Spiel versorgt ganze Blöcke von 8 x 8 Feldern, daher wird die Fläche auf sie aufgerundet."
+}

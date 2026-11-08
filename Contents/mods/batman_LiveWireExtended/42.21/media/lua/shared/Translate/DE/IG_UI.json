@@ -1,0 +1,16 @@
+{
+    "IGUI_LWX_BuildingConnected": "Gebäude angeschlossen: %1 Blöcke mit Strom.",
+    "IGUI_LWX_AreaDisconnected": "Getrennt.",
+    "IGUI_LWX_TerminalLinked": "Anschlusssäule verbunden: ihr Block hat Strom.",
+    "IGUI_LWX_TerminalUnlinked": "Anschlusssäule getrennt.",
+    "IGUI_LWX_ZoneTooBig": "Die Zone ist auf 2 x 2 Blöcke (16 x 16 Felder) begrenzt.",
+    "IGUI_LWX_ZoneTooFar": "Die Zone muss bei der Säule bleiben: höchstens einen Block von ihrem entfernt.",
+    "IGUI_LWX_ZoneSet": "Zone festgelegt: %1 Blöcke mit Strom.",
+    "IGUI_LWX_ZoneToolTitle": "Zone der Anschlusssäule",
+    "IGUI_LWX_ZoneToolHelp": "Auf dem Boden klicken und ziehen, um die Zone zu zeichnen.",
+    "IGUI_LWX_ZoneToolSize": "Mit Strom: %1 x %2 Felder (ganze Blöcke von 8 x 8).",
+    "IGUI_LWX_ZoneApply": "Anwenden",
+    "IGUI_LWX_LCD_Building": "+ Gebäude %1,%2",
+    "IGUI_LWX_LCD_Zone": "+ Säule %1,%2",
+    "IGUI_LWX_LCD_More": "+ %1 weitere Zonen"
+}

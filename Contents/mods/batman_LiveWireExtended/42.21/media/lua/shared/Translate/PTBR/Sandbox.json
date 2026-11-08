@@ -1,0 +1,5 @@
+{
+    "Sandbox_LiveWireExtended": "LiveWire Extended",
+    "Sandbox_LiveWireExtended_BuildingBand": "Faixa externa em volta de um prédio",
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Largura em quadrados da faixa em volta de um prédio conectado que também recebe energia (varanda, caminho do jardim). O jogo alimenta blocos inteiros de 8 x 8, então a área é arredondada para eles."
+}

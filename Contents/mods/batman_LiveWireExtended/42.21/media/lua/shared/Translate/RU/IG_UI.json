@@ -1,0 +1,16 @@
+{
+    "IGUI_LWX_BuildingConnected": "Здание подключено: блоков с питанием: %1.",
+    "IGUI_LWX_AreaDisconnected": "Отключено.",
+    "IGUI_LWX_TerminalLinked": "Колонка подключена: её блок под питанием.",
+    "IGUI_LWX_TerminalUnlinked": "Колонка отключена.",
+    "IGUI_LWX_ZoneTooBig": "Зона ограничена 2 x 2 блоками (16 x 16 клеток).",
+    "IGUI_LWX_ZoneTooFar": "Зона должна быть рядом с колонкой: не дальше одного блока от её блока.",
+    "IGUI_LWX_ZoneSet": "Зона задана: блоков с питанием: %1.",
+    "IGUI_LWX_ZoneToolTitle": "Зона колонки",
+    "IGUI_LWX_ZoneToolHelp": "Нажмите и протяните по земле, чтобы нарисовать зону.",
+    "IGUI_LWX_ZoneToolSize": "Под питанием: %1 x %2 клеток (целые блоки 8 x 8).",
+    "IGUI_LWX_ZoneApply": "Применить",
+    "IGUI_LWX_LCD_Building": "+ здание %1,%2",
+    "IGUI_LWX_LCD_Zone": "+ колонка %1,%2",
+    "IGUI_LWX_LCD_More": "+ ещё зон: %1"
+}

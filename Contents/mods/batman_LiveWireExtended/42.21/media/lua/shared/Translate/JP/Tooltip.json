@@ -1,0 +1,11 @@
+{
+    "Tooltip_LWX_NeedLevel": "電気工学レベル%1が必要です。",
+    "Tooltip_LWX_NoBuilding": "インバーターの範囲内に建物がありません。",
+    "Tooltip_LWX_AlreadyConnected": "この建物はすでにインバーターに接続されています。",
+    "Tooltip_LWX_ConnectBuilding": "%1, %2 の建物の全階、地下室、周囲の帯に給電します。ゲームは 8 x 8 のブロック単位で給電するため、同じブロックの近くのマスにも給電されます。",
+    "Tooltip_LWX_NoInverter": "ケーブルの届く範囲にインバーターがありません。",
+    "Tooltip_LWX_TerminalLinked": "この給電ポールはすでに接続されています。",
+    "Tooltip_LWX_TerminalWires": "電線を%1本使います。ポールはそのブロック (8 x 8) に給電します。あとでゾーンを設定してください。",
+    "Tooltip_LWX_TerminalNotLinked": "まず給電ポールをインバーターに接続してください。",
+    "Tooltip_LWX_NoBuildingNearTerminal": "給電ポールを建物の中か、建物のすぐそばに置いてください。"
+}

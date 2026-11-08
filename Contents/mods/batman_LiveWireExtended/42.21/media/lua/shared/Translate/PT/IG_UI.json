@@ -1,0 +1,16 @@
+{
+    "IGUI_LWX_BuildingConnected": "Edifício ligado: %1 blocos com energia.",
+    "IGUI_LWX_AreaDisconnected": "Desligado.",
+    "IGUI_LWX_TerminalLinked": "Poste ligado: o seu bloco tem energia.",
+    "IGUI_LWX_TerminalUnlinked": "Poste desligado.",
+    "IGUI_LWX_ZoneTooBig": "A zona está limitada a 2 x 2 blocos (16 x 16 quadrados).",
+    "IGUI_LWX_ZoneTooFar": "A zona tem de ficar junto ao poste: no máximo a um bloco do seu.",
+    "IGUI_LWX_ZoneSet": "Zona definida: %1 blocos com energia.",
+    "IGUI_LWX_ZoneToolTitle": "Zona do poste",
+    "IGUI_LWX_ZoneToolHelp": "Clique e arraste no chão para desenhar a zona.",
+    "IGUI_LWX_ZoneToolSize": "Com energia: %1 x %2 quadrados (blocos inteiros de 8 x 8).",
+    "IGUI_LWX_ZoneApply": "Aplicar",
+    "IGUI_LWX_LCD_Building": "+ edifício %1,%2",
+    "IGUI_LWX_LCD_Zone": "+ poste %1,%2",
+    "IGUI_LWX_LCD_More": "+ %1 outras zonas"
+}

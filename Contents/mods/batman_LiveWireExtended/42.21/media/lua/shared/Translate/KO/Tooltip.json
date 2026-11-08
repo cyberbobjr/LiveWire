@@ -1,0 +1,11 @@
+{
+    "Tooltip_LWX_NeedLevel": "전기공학 %1 레벨이 필요합니다.",
+    "Tooltip_LWX_NoBuilding": "인버터 범위 안에 건물이 없습니다.",
+    "Tooltip_LWX_AlreadyConnected": "이 건물은 이미 인버터에 연결되어 있습니다.",
+    "Tooltip_LWX_ConnectBuilding": "%1, %2 건물의 모든 층, 지하실, 주변 띠에 전력을 공급합니다. 게임은 8 x 8 블록 단위로 전력을 공급하므로 같은 블록의 근처 칸에도 전력이 들어갑니다.",
+    "Tooltip_LWX_NoInverter": "케이블 범위 안에 인버터가 없습니다.",
+    "Tooltip_LWX_TerminalLinked": "이 전력 기둥은 이미 연결되어 있습니다.",
+    "Tooltip_LWX_TerminalWires": "전선 %1개를 사용합니다. 그러면 기둥이 자신의 8 x 8 블록에 전력을 공급합니다. 이후 구역을 설정하세요.",
+    "Tooltip_LWX_TerminalNotLinked": "먼저 전력 기둥을 인버터에 연결하세요.",
+    "Tooltip_LWX_NoBuildingNearTerminal": "전력 기둥을 건물 안이나 건물에 바로 붙여 두세요."
+}

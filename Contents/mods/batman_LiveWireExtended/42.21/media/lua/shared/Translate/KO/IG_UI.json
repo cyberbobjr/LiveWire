@@ -1,0 +1,16 @@
+{
+    "IGUI_LWX_BuildingConnected": "건물 연결됨: 블록 %1개에 전력 공급.",
+    "IGUI_LWX_AreaDisconnected": "연결 해제됨.",
+    "IGUI_LWX_TerminalLinked": "전력 기둥 연결됨: 해당 블록에 전력이 들어옵니다.",
+    "IGUI_LWX_TerminalUnlinked": "전력 기둥 연결 해제됨.",
+    "IGUI_LWX_ZoneTooBig": "구역은 최대 2 x 2 블록 (16 x 16칸)입니다.",
+    "IGUI_LWX_ZoneTooFar": "구역은 기둥 근처여야 합니다: 기둥의 블록에서 한 블록 이내.",
+    "IGUI_LWX_ZoneSet": "구역 설정됨: 블록 %1개에 전력 공급.",
+    "IGUI_LWX_ZoneToolTitle": "전력 기둥 구역",
+    "IGUI_LWX_ZoneToolHelp": "바닥을 클릭하고 끌어서 구역을 그리세요.",
+    "IGUI_LWX_ZoneToolSize": "전력 공급: %1 x %2칸 (8 x 8 블록 단위).",
+    "IGUI_LWX_ZoneApply": "적용",
+    "IGUI_LWX_LCD_Building": "+ 건물 %1,%2",
+    "IGUI_LWX_LCD_Zone": "+ 기둥 %1,%2",
+    "IGUI_LWX_LCD_More": "+ 구역 %1개 더"
+}

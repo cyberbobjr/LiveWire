@@ -36,6 +36,7 @@ Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétenc
 | Options | [Sandbox options](wiki/en/11-sandbox-options.md) | [Options sandbox](wiki/fr/11-options-sandbox.md) |
 | Multijoueur | [Multiplayer](wiki/en/12-multiplayer.md) | [Multijoueur](wiki/fr/12-multijoueur.md) |
 | FAQ | [FAQ](wiki/en/13-faq.md) | [FAQ](wiki/fr/13-faq.md) |
+| LiveWire Extended | [LiveWire Extended](wiki/en/14-livewire-extended.md) | [LiveWire Extended](wiki/fr/14-livewire-extended.md) |
 
 `_Sidebar.md` et `_Footer.md` sont les barres latérale et de pied du wiki GitHub. `_tables.md` (par langue) est généré par `tools/make_doc_tables.py` : tableaux de recettes et de butin à recopier dans le README et les pages 08 et 09.
 

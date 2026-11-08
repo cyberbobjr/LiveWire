@@ -1,0 +1,10 @@
+{
+    "ContextMenu_LWX_Root": "LiveWire Extended",
+    "ContextMenu_LWX_ConnectBuilding": "接入建筑",
+    "ContextMenu_LWX_DisconnectBuilding": "断开位于 %1, %2 的建筑",
+    "ContextMenu_LWX_DisconnectZone": "断开位于 %1, %2 的区域",
+    "ContextMenu_LWX_LinkTerminal": "连接到逆变器",
+    "ContextMenu_LWX_UnlinkTerminal": "断开电桩",
+    "ContextMenu_LWX_InverterAt": "逆变器, 距离 %1 格",
+    "ContextMenu_LWX_SetZone": "设置区域"
+}

@@ -895,3 +895,23 @@ Le voyant rouge existant reste prioritaire en cas de disjonction. Un voyant
 Le libellé français du débit utilise « d'eau » avec apostrophe simple, compatible
 avec la police LCD. Aucun nouveau éclairage du sol, bruit, consommation ou
 traitement par image n'est ajouté.
+
+## 16. LiveWire Extended, module facultatif (F33, D-31 à D-34)
+
+Mod `batman_LiveWireExtended`, livré avec Live Wire, qui le requiert. Sans lui, la couverture d'un onduleur reste le
+disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
+
+- **Bâtiment entier** : sur l'onduleur, « Raccorder le bâtiment » (Électricité 3, ni outil ni fil) alimente tous les
+  étages, le sous-sol et une bande extérieure (`LiveWireExtended.BuildingBand`, 0 à 8, défaut 1) du bâtiment où se
+  trouve l'onduleur, sinon du plus proche que son disque atteint. Arrondi aux blocs de 8 × 8 cases du moteur. Un
+  bâtiment par onduleur au plus ; facture, disjoncteur, délestage et attribution à l'onduleur allumé le plus proche
+  inchangés. Sur serveur dédié, les constructions des joueurs n'ont pas de `BuildingDef` : la borne les couvre.
+- **Borne extérieure** : objet posable (pose libre, ramassage au tournevis), recette niveau 3, butin. Raccordée à un
+  onduleur par les règles de câble de Live Wire (portée, étages, fils, niveau 3), elle alimente son bloc, puis la zone
+  tracée par le joueur : 2 × 2 blocs au plus, chacun à un bloc au plus de celui de la borne, à l'étage de la borne
+  ±`GeneratorVerticalPowerRange`. Aperçu des blocs réellement alimentés.
+- **Relais** : une borne raccordée posée dans un bâtiment ou contre lui (2 cases) le raccorde, alimenté par son onduleur.
+- **Affichage** : contour des blocs ajoutés dans « Afficher la portée », lignes des zones sur la page 4 de l'écran.
+- **Retrait** : décocher le sous-mod ramène au disque au chargement suivant de la zone, sans courant résiduel ; les
+  données de Live Wire ne changent pas. Incompatible avec LG Extended Electricity.
+- **Lampadaires** : reportés (décision du 2026-11-08).

@@ -1,0 +1,16 @@
+{
+    "IGUI_LWX_BuildingConnected": "建筑已接入: %1 个区块通电.",
+    "IGUI_LWX_AreaDisconnected": "已断开.",
+    "IGUI_LWX_TerminalLinked": "电桩已连接: 其区块已通电.",
+    "IGUI_LWX_TerminalUnlinked": "电桩已断开.",
+    "IGUI_LWX_ZoneTooBig": "区域最多 2 x 2 个区块 (16 x 16 格).",
+    "IGUI_LWX_ZoneTooFar": "区域必须靠近电桩: 距其所在区块最多一个区块.",
+    "IGUI_LWX_ZoneSet": "区域已设置: %1 个区块通电.",
+    "IGUI_LWX_ZoneToolTitle": "电桩区域",
+    "IGUI_LWX_ZoneToolHelp": "在地面上点击并拖动以绘制区域.",
+    "IGUI_LWX_ZoneToolSize": "通电: %1 x %2 格 (完整的 8 x 8 区块).",
+    "IGUI_LWX_ZoneApply": "应用",
+    "IGUI_LWX_LCD_Building": "+ 建筑 %1,%2",
+    "IGUI_LWX_LCD_Zone": "+ 电桩 %1,%2",
+    "IGUI_LWX_LCD_More": "+ 另外 %1 个区域"
+}

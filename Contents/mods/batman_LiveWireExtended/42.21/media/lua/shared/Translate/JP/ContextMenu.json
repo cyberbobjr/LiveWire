@@ -1,0 +1,10 @@
+{
+    "ContextMenu_LWX_Root": "LiveWire Extended",
+    "ContextMenu_LWX_ConnectBuilding": "建物を接続",
+    "ContextMenu_LWX_DisconnectBuilding": "%1, %2 の建物を切断",
+    "ContextMenu_LWX_DisconnectZone": "%1, %2 のゾーンを切断",
+    "ContextMenu_LWX_LinkTerminal": "インバーターに接続",
+    "ContextMenu_LWX_UnlinkTerminal": "給電ポールを切断",
+    "ContextMenu_LWX_InverterAt": "インバーター (%1 マス先)",
+    "ContextMenu_LWX_SetZone": "ゾーンを設定"
+}

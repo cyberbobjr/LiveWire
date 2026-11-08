@@ -26,6 +26,11 @@ from lupa import lua51
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media")
 LUA = os.path.join(MEDIA, "lua")
+# Optional sub-mod LiveWire Extended (D-32): loaded after Live Wire, never without it.
+X_MOD = os.path.join(ROOT, "Contents", "mods", "batman_LiveWireExtended")
+X_MEDIA = os.path.join(X_MOD, "42.21", "media")
+X_LUA = os.path.join(X_MEDIA, "lua")
+LUAS = [LUA]  # roots of the current load check (main adds X_LUA)
 FAILS = []
 
 
@@ -34,32 +39,41 @@ def fail(msg):
     print("FAIL:", msg)
 
 
-def lua_files():
+def lua_files(roots=(LUA,)):
     files = []
-    for side in ("shared", "client", "server"):
-        for p in glob.glob(os.path.join(LUA, side, "**", "*.lua"), recursive=True):
-            files.append(p)
+    for root in roots:
+        for side in ("shared", "client", "server"):
+            for p in glob.glob(os.path.join(root, side, "**", "*.lua"), recursive=True):
+                files.append(p)
     return files
 
 
+def side_rel(path):
+    for root in (LUA, X_LUA):
+        for side in ("shared", "client", "server"):
+            base = os.path.join(root, side)
+            if path.startswith(base + os.sep):
+                return side, os.path.relpath(path, base)
+    raise AssertionError("outside media/lua: %s" % path)
+
+
 def load_order():
-    # Game order: shared, client, server; inside each, lower-case relative path.
+    # Game order: shared, client, server; inside each, lower-case relative path,
+    # files of every active mod merged (LuaManager sorts the whole list).
     out = []
     for side in ("shared", "client", "server"):
-        part = glob.glob(os.path.join(LUA, side, "**", "*.lua"), recursive=True)
-        part.sort(key=lambda p: os.path.relpath(p, os.path.join(LUA, side)).lower())
+        part = []
+        for root in LUAS:
+            part += glob.glob(os.path.join(root, side, "**", "*.lua"), recursive=True)
+        part.sort(key=lambda p: side_rel(p)[1].lower())
         out += part
     return out
 
 
 def require_path(path):
     """What a file is reached by: its path under media/lua/<side>, no extension."""
-    for side in ("shared", "client", "server"):
-        base = os.path.join(LUA, side)
-        if path.startswith(base + os.sep):
-            rel = os.path.relpath(path, base)
-            return os.path.splitext(rel)[0].replace(os.sep, "/")
-    raise AssertionError("outside media/lua: %s" % path)
+    rel = side_rel(path)[1]
+    return os.path.splitext(rel)[0].replace(os.sep, "/")
 
 
 STUBS = r"""
@@ -133,7 +147,7 @@ end })
 
 
 def check_lua():
-    for p in lua_files():
+    for p in lua_files((LUA, X_LUA)):
         rel = os.path.relpath(p, ROOT)
         raw = open(p, "rb").read()
         try:
@@ -308,7 +322,7 @@ def check_events(pz):
         print("skip: event check (reference sources not found)")
         return
     known = set(re.findall(r'"(\w+)"', open(path, encoding="utf-8", errors="replace").read()))
-    for p in lua_files():
+    for p in lua_files((LUA, X_LUA)):
         for ev in re.findall(r"Events\.(\w+)\.Add", open(p, encoding="ascii").read()):
             if ev not in known:
                 fail("%s: unknown event %s" % (os.path.relpath(p, ROOT), ev))
@@ -331,12 +345,114 @@ def check_versions():
             fail("%s: modversion must match LiveWire.VERSION (%s)" % (os.path.relpath(path, ROOT), version))
 
 
+def check_extended_info():
+    """batman_LiveWireExtended: mod.info contract of D-32 (knowledge: mod-loading.md)."""
+    path = os.path.join(X_MOD, "42.21", "mod.info")
+    if not os.path.exists(path):
+        fail("batman_LiveWireExtended: 42.21/mod.info missing")
+        return
+    info = dict(re.findall(r"^(\w+)=(.*)$", open(path, encoding="utf-8-sig").read(), re.M))
+    expected = {"id": "batman_LiveWireExtended", "name": "LiveWire Extended",
+                "require": "\\batman_LiveWire", "incompatible": "\\LGExtendedElectricity"}
+    for key, value in expected.items():
+        if info.get(key) != value:
+            fail("batman_LiveWireExtended: mod.info %s must be %s" % (key, value))
+    for key in ("poster", "versionMin", "modversion", "description"):
+        if not info.get(key):
+            fail("batman_LiveWireExtended: mod.info lacks %s" % key)
+    if info.get("poster") and not os.path.exists(os.path.join(X_MOD, "42.21", info["poster"])):
+        fail("batman_LiveWireExtended: poster file missing")
+    if not os.path.isdir(os.path.join(X_MOD, "common")):
+        fail("batman_LiveWireExtended: common/ missing")
+    # The sub-mod never changes the vanilla generator options Live Wire reads (D-32).
+    for p in lua_files((X_LUA,)):
+        src = open(p, encoding="ascii", errors="replace").read()
+        code = "\n".join(line.split("--")[0] for line in src.splitlines())
+        if re.search(r"Generator(Tile|VerticalPower)Range[\"']?\)?\s*:\s*setValue|SandboxVars\.Generator(Tile|VerticalPower)Range\s*=", code):
+            fail("%s: must not change GeneratorTileRange / GeneratorVerticalPowerRange" % os.path.relpath(p, ROOT))
+
+
+def check_extended_translations():
+    """Keys *_LWX_* used by the sub-mod exist in its own EN and FR files; others like EN."""
+    used = set()
+    for p in lua_files((X_LUA,)):
+        used |= set(re.findall(r'"((?:IGUI|Tooltip|ContextMenu|Sandbox)_LWX_[A-Za-z_]*[A-Za-z])"',
+                               open(p, encoding="ascii").read()))
+    for p in glob.glob(os.path.join(X_MEDIA, "scripts", "*.txt")):
+        used |= set(re.findall(r"Tooltip\s*=\s*(Tooltip_LWX_\w+)", open(p).read()))
+    tr = {}
+    for lang in ("EN", "FR"):
+        keys = {}
+        for p in glob.glob(os.path.join(X_LUA, "shared", "Translate", lang, "*.json")):
+            for k, v in json.load(open(p, encoding="utf-8")).items():
+                keys[k] = v
+                if re.search(r"%(?![0-9%])", v.replace("%%", "")):
+                    fail("Extended %s %s: lone %% sign" % (lang, k))
+        tr[lang] = keys
+    if not tr["EN"]:
+        fail("Extended: no EN translation")
+    for k in sorted(used):
+        for lang in ("EN", "FR"):
+            if k not in tr[lang]:
+                fail("Extended: missing %s translation: %s" % (lang, k))
+    for k in sorted(set(tr["EN"]) ^ set(tr["FR"])):
+        fail("Extended: key only in one language: %s" % k)
+    for d in sorted(glob.glob(os.path.join(X_LUA, "shared", "Translate", "*"))):
+        lang = os.path.basename(d)
+        if lang in ("EN", "FR"):
+            continue
+        keys = {}
+        for p in glob.glob(os.path.join(d, "*.json")):
+            raw = open(p, "rb").read()
+            if raw.startswith(b"\xef\xbb\xbf"):
+                fail("Extended %s %s: UTF-8 BOM" % (lang, os.path.basename(p)))
+            keys.update(json.loads(raw.decode("utf-8-sig")))
+        for k in sorted(set(keys) ^ set(tr["EN"])):
+            fail("Extended %s: key %s %s" % (lang, k, "missing" if k in tr["EN"] else "unknown"))
+        for k, v in keys.items():
+            en = tr["EN"].get(k)
+            if en is not None and (sorted(re.findall(r"%[0-9]", v)) != sorted(re.findall(r"%[0-9]", en))
+                                   or v.count("%%") != en.count("%%")):
+                fail("Extended %s %s: arguments differ from EN" % (lang, k))
+    so_path = os.path.join(X_MEDIA, "sandbox-options.txt")
+    if os.path.exists(so_path):
+        for opt, tkey in re.findall(r"option LiveWireExtended\.(\w+).*?translation = (\w+)", open(so_path).read(), re.S):
+            for lang in ("EN", "FR"):
+                for k in ("Sandbox_" + tkey, "Sandbox_" + tkey + "_tooltip"):
+                    if k not in tr[lang]:
+                        fail("Extended: missing %s sandbox key %s" % (lang, k))
+    for p in glob.glob(os.path.join(X_MEDIA, "scripts", "*.txt")):
+        src = open(p).read()
+        module = (re.search(r"^\s*module (\w+)", src, re.M) or [None, "LiveWireExtended"])[1]
+        for it in re.findall(r"^\s*item (\w+)\s*$", src, re.M):
+            for lang in ("EN", "FR"):
+                if module + "." + it not in tr[lang]:
+                    fail("Extended: missing %s item name %s.%s" % (lang, module, it))
+        for spr in re.findall(r"WorldObjectSprite = (\w+)", src):
+            sheet = spr.rsplit("_", 1)[0]
+            if not os.path.exists(os.path.join(X_MOD, "common", "media", "texturepacks", sheet + ".pack")):
+                fail("Extended: sprite %s has no pack %s.pack" % (spr, sheet))
+        for icon in re.findall(r"Icon = (\w+)", src):
+            if not os.path.exists(os.path.join(X_MEDIA, "textures", "Item_" + icon + ".png")):
+                fail("Extended: icon Item_%s.png missing" % icon)
+        for r in re.findall(r"^\s*craftRecipe (\w+)\s*$", src, re.M):
+            for lang in ("EN", "FR"):
+                if r not in tr[lang]:
+                    fail("Extended: missing %s recipe name %s" % (lang, r))
+
+
 def main():
     pz = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(ROOT), "pz-source-42.21")
     check_lua()
-    check_load(False, False, "single player")
-    check_load(True, False, "MP client")
-    check_load(False, True, "dedicated server")
+    # Live Wire alone, then Live Wire with LiveWire Extended.
+    for roots, suffix in (([LUA], ""), ([LUA, X_LUA], " + Extended")):
+        LUAS[:] = roots
+        check_load(False, False, "single player" + suffix)
+        check_load(True, False, "MP client" + suffix)
+        check_load(False, True, "dedicated server" + suffix)
+    LUAS[:] = [LUA]
+    check_extended_info()
+    check_extended_translations()
     check_translations()
     check_models()
     check_sound_scripts()

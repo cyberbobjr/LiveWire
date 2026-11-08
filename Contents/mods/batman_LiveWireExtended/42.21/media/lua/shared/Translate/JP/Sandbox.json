@@ -1,0 +1,5 @@
+{
+    "Sandbox_LiveWireExtended": "LiveWire Extended",
+    "Sandbox_LiveWireExtended_BuildingBand": "建物周囲の屋外帯",
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "接続した建物の周りで同じく給電される帯の幅 (マス) (ポーチ、庭の小道)。ゲームは 8 x 8 のブロック単位で給電するため、範囲はブロック単位に切り上げられます。"
+}

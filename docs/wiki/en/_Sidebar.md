@@ -15,5 +15,6 @@
 - [Sandbox options](11-sandbox-options.md)
 - [Multiplayer](12-multiplayer.md)
 - [FAQ](13-faq.md)
+- [LiveWire Extended](14-livewire-extended.md)
 
 [Français](../fr/Home.md)

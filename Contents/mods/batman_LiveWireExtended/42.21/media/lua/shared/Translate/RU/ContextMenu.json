@@ -1,0 +1,10 @@
+{
+    "ContextMenu_LWX_Root": "LiveWire Extended",
+    "ContextMenu_LWX_ConnectBuilding": "Подключить здание",
+    "ContextMenu_LWX_DisconnectBuilding": "Отключить здание в %1, %2",
+    "ContextMenu_LWX_DisconnectZone": "Отключить зону в %1, %2",
+    "ContextMenu_LWX_LinkTerminal": "Подключить к инвертору",
+    "ContextMenu_LWX_UnlinkTerminal": "Отключить колонку",
+    "ContextMenu_LWX_InverterAt": "Инвертор, в %1 клетках",
+    "ContextMenu_LWX_SetZone": "Задать зону"
+}

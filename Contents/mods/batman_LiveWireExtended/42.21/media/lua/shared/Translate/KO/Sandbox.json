@@ -1,0 +1,5 @@
+{
+    "Sandbox_LiveWireExtended": "LiveWire Extended",
+    "Sandbox_LiveWireExtended_BuildingBand": "건물 주변 외부 띠",
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "연결된 건물 주변에서 함께 전력을 받는 띠의 너비 (칸) (현관, 정원 길). 게임은 8 x 8 블록 단위로 전력을 공급하므로 구역은 블록 단위로 올림됩니다."
+}

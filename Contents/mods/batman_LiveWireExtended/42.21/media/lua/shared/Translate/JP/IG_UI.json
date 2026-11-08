@@ -1,0 +1,16 @@
+{
+    "IGUI_LWX_BuildingConnected": "建物を接続しました: %1 ブロックに給電。",
+    "IGUI_LWX_AreaDisconnected": "切断しました。",
+    "IGUI_LWX_TerminalLinked": "給電ポールを接続しました: そのブロックに給電中。",
+    "IGUI_LWX_TerminalUnlinked": "給電ポールを切断しました。",
+    "IGUI_LWX_ZoneTooBig": "ゾーンは最大 2 x 2 ブロック (16 x 16 マス) です。",
+    "IGUI_LWX_ZoneTooFar": "ゾーンはポールの近くに置いてください: ポールのブロックから 1 ブロック以内。",
+    "IGUI_LWX_ZoneSet": "ゾーンを設定しました: %1 ブロックに給電。",
+    "IGUI_LWX_ZoneToolTitle": "給電ポールのゾーン",
+    "IGUI_LWX_ZoneToolHelp": "地面をクリックしてドラッグし、ゾーンを描きます。",
+    "IGUI_LWX_ZoneToolSize": "給電: %1 x %2 マス (8 x 8 のブロック単位)。",
+    "IGUI_LWX_ZoneApply": "適用",
+    "IGUI_LWX_LCD_Building": "+ 建物 %1,%2",
+    "IGUI_LWX_LCD_Zone": "+ ポール %1,%2",
+    "IGUI_LWX_LCD_More": "+ ほか %1 ゾーン"
+}

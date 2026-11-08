@@ -1,0 +1,16 @@
+{
+    "IGUI_LWX_BuildingConnected": "Edificio conectado: %1 bloques con corriente.",
+    "IGUI_LWX_AreaDisconnected": "Desconectado.",
+    "IGUI_LWX_TerminalLinked": "Poste conectado: su bloque tiene corriente.",
+    "IGUI_LWX_TerminalUnlinked": "Poste desconectado.",
+    "IGUI_LWX_ZoneTooBig": "La zona está limitada a 2 x 2 bloques (16 x 16 casillas).",
+    "IGUI_LWX_ZoneTooFar": "La zona debe quedar junto al poste: como mucho a un bloque del suyo.",
+    "IGUI_LWX_ZoneSet": "Zona ajustada: %1 bloques con corriente.",
+    "IGUI_LWX_ZoneToolTitle": "Zona del poste",
+    "IGUI_LWX_ZoneToolHelp": "Haz clic y arrastra en el suelo para trazar la zona.",
+    "IGUI_LWX_ZoneToolSize": "Con corriente: %1 x %2 casillas (bloques enteros de 8 x 8).",
+    "IGUI_LWX_ZoneApply": "Aplicar",
+    "IGUI_LWX_LCD_Building": "+ edificio %1,%2",
+    "IGUI_LWX_LCD_Zone": "+ poste %1,%2",
+    "IGUI_LWX_LCD_More": "+ %1 zonas más"
+}

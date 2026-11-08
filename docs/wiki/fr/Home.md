@@ -35,6 +35,7 @@ Orientation et saleté des panneaux, test et réparation des batteries, récupé
 - [Options sandbox](11-options-sandbox.md)
 - [Multijoueur](12-multijoueur.md)
 - [FAQ](13-faq.md)
+- [LiveWire Extended](14-livewire-extended.md) — module facultatif : bâtiments entiers et bornes extérieures
 
 ---
 

@@ -1,0 +1,5 @@
+{
+    "Sandbox_LiveWireExtended": "LiveWire Extended",
+    "Sandbox_LiveWireExtended_BuildingBand": "Полоса вокруг здания",
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Ширина в клетках полосы вокруг подключённого здания, которая тоже получает питание (крыльцо, садовая дорожка). Игра питает целые блоки 8 x 8, поэтому зона округляется до них."
+}

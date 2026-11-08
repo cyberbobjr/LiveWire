@@ -1,0 +1,5 @@
+{
+    "Sandbox_LiveWireExtended": "LiveWire Extended",
+    "Sandbox_LiveWireExtended_BuildingBand": "建筑周围的室外带",
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "已接入建筑周围也通电的带状区域宽度 (格) (门廊, 花园小路). 游戏按完整的 8 x 8 区块供电, 因此通电区域会向上取整到区块."
+}

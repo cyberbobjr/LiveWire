@@ -1,0 +1,10 @@
+{
+    "ContextMenu_LWX_Root": "LiveWire Extended",
+    "ContextMenu_LWX_ConnectBuilding": "건물 연결",
+    "ContextMenu_LWX_DisconnectBuilding": "%1, %2 건물 연결 해제",
+    "ContextMenu_LWX_DisconnectZone": "%1, %2 구역 연결 해제",
+    "ContextMenu_LWX_LinkTerminal": "인버터에 연결",
+    "ContextMenu_LWX_UnlinkTerminal": "전력 기둥 연결 해제",
+    "ContextMenu_LWX_InverterAt": "인버터, %1칸 거리",
+    "ContextMenu_LWX_SetZone": "구역 설정"
+}

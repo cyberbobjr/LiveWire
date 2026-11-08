@@ -1,0 +1,10 @@
+{
+    "ContextMenu_LWX_Root": "LiveWire Extended",
+    "ContextMenu_LWX_ConnectBuilding": "Ligar o edifício",
+    "ContextMenu_LWX_DisconnectBuilding": "Desligar o edifício em %1, %2",
+    "ContextMenu_LWX_DisconnectZone": "Desligar a zona em %1, %2",
+    "ContextMenu_LWX_LinkTerminal": "Ligar a um inversor",
+    "ContextMenu_LWX_UnlinkTerminal": "Desligar o poste",
+    "ContextMenu_LWX_InverterAt": "Inversor a %1 quadrados",
+    "ContextMenu_LWX_SetZone": "Definir a zona"
+}
