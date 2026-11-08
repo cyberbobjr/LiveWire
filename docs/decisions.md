@@ -213,8 +213,15 @@ couvre au plus 2 × 2 blocs (16 × 16 cases) et ±1 étage de sa position, se fa
 par les règles de câble existantes (`LinkRange`, `LinkVerticalRange`, `WirePerTiles`) ; une borne posée dans ou près
 d'un bâtiment éloigné peut aussi « raccorder le bâtiment » : c'est le relais de D-33, sans objet supplémentaire.
 
-**Arbitrage ouvert** : Q01 — façon de rendre un lampadaire raccordable (voir le plan, étape E9), à trancher après la
-mesure moteur E0.
+**Lampadaires reportés (2026-11-08, choix de l'utilisateur)** : les lampadaires de D-33 ne font pas partie de la
+première version. L'arbitrage Q01 (changer l'image du lampadaire raccordé, retirer la marque de toutes les images, ou
+poser une lumière invisible à son pied) est suspendu ; la piste privilégiée reste le changement d'image avec un
+débranchement de sortie. Le moteur interdit tout courant de générateur à un lampadaire de rue
+(`IsoLightSwitch.java:765`, `:813`, `LightingJNI.java:261`).
+
+**Production solaire et saisons (2026-11-08)** : la durée du jour suit déjà la date (aube et crépuscule du moteur,
+latitude 38°, `ErosionSeason.java:380-421`, lus par `LW_Simulation.lua:35-36`). L'ajout d'un facteur de hauteur du
+soleil à midi a été proposé puis **écarté par l'utilisateur** : modèle inchangé.
 
 ## Compatibilité Let Me Drive! — 2026-10-28
 
