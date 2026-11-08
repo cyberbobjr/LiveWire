@@ -4,5 +4,10 @@
     "IGUI_LWX_TerminalLinked": "Borne raccordée : son bloc est alimenté.",
     "IGUI_LWX_TerminalUnlinked": "Borne débranchée.",
     "IGUI_LWX_ZoneTooBig": "La zone est limitée à 2 x 2 blocs (16 x 16 cases).",
-    "IGUI_LWX_ZoneTooFar": "La zone doit rester près de la borne : à un bloc au plus du sien."
+    "IGUI_LWX_ZoneTooFar": "La zone doit rester près de la borne : à un bloc au plus du sien.",
+    "IGUI_LWX_ZoneSet": "Zone réglée : %1 blocs alimentés.",
+    "IGUI_LWX_ZoneToolTitle": "Zone de la borne",
+    "IGUI_LWX_ZoneToolHelp": "Cliquez et faites glisser au sol pour tracer la zone.",
+    "IGUI_LWX_ZoneToolSize": "Alimenté : %1 x %2 cases (blocs entiers de 8 x 8).",
+    "IGUI_LWX_ZoneApply": "Appliquer"
 }

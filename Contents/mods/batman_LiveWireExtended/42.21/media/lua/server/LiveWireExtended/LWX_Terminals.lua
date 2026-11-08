@@ -85,6 +85,33 @@ function S.unlink(character, obj)
     return true
 end
 
+-- Set the zone of terminal `obj` from a drawn rectangle (squares, any corners). The
+-- rectangle is rounded to whole chunks and must respect LWX_Zone.allowed.
+function S.setZone(character, obj, x0, y0, x1, y1)
+    local sq = obj and obj:getSquare()
+    local key = sq and T.key(sq:getX(), sq:getY(), sq:getZ())
+    local t = key and (D.table().terminals or {})[key]
+    if not t or not C.inverter(t.inv) then
+        LiveWire.notify(character, "Tooltip_LWX_TerminalNotLinked", {}, true)
+        return false
+    end
+    local rect = X.Zone.round(x0, y0, x1, y1)
+    local ok, why = X.Zone.allowed(rect, t.x, t.y)
+    if not ok then
+        LiveWire.notify(character, why, {}, true)
+        return false
+    end
+    local area = S.zoneArea(t, rect)
+    if not area then
+        LiveWire.notify(character, "IGUI_LWX_ZoneTooFar", {}, true)
+        return false
+    end
+    C.commit(t.inv, function(e) e.areas[S.zoneKey(key)] = area end)
+    LiveWire.notify(character, "IGUI_LWX_ZoneSet", { tostring(#area.positions) })
+    X.log("zone of terminal " .. key .. " set to chunks " .. rect.cx0 .. "," .. rect.cy0 .. ".." .. rect.cx1 .. "," .. rect.cy1)
+    return true
+end
+
 -- Picked up or destroyed: drop its record (authority).
 local function onRemoved(obj)
     if not obj or not T.isTerminal(obj) then return end

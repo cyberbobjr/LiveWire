@@ -4,6 +4,7 @@ if isServer() then return end
 require "LiveWireExtended/LWX_Data"
 require "LiveWireExtended/LWX_Buildings"
 require "LiveWireExtended/LWX_Terminal"
+require "LiveWireExtended/LWX_ZoneTool"
 
 local X = LiveWire.Extended
 local D = X.Data
@@ -92,11 +93,15 @@ function Menu.onTerminal(player, obj, inverter, unlink)
     queueNear(player, obj:getSquare(), LWXTerminalAction:new(player, obj, inverter, unlink))
 end
 
+function Menu.onZone(player, obj)
+    X.ZoneTool.open(player, obj)
+end
+
 function Menu.addTerminalOptions(sub, player, obj)
     local record = X.Terminal.recordAt(obj:getSquare())
     if record then
         sub:addOption(getText("ContextMenu_LWX_UnlinkTerminal"), player, Menu.onTerminal, obj, obj, true)
-        if Menu.terminalExtra then Menu.terminalExtra(sub, player, obj, record) end
+        sub:addOption(getText("ContextMenu_LWX_SetZone"), player, Menu.onZone, obj)
         return
     end
     local list = LiveWire.Install.invertersInRange(obj:getSquare())

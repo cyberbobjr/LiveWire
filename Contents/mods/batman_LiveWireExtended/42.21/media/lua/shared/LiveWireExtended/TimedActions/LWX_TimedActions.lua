@@ -119,3 +119,52 @@ function LWXTerminalAction:new(character, target, inverter, unlink)
     o.maxTime = o:getDuration()
     return o
 end
+
+--------------------------------------------------------------------------------
+-- Set the zone of a linked terminal (rectangle drawn with LWX_ZoneTool).
+--------------------------------------------------------------------------------
+LWXZoneAction = ISBaseTimedAction:derive("LWXZoneAction")
+
+function LWXZoneAction:isValid() return stillThere(self.target) end
+
+function LWXZoneAction:waitToStart()
+    self.character:faceThisObject(self.target)
+    return self.character:shouldBeTurning()
+end
+
+function LWXZoneAction:update()
+    self.character:setMetabolicTarget(Metabolics.LightWork)
+end
+
+function LWXZoneAction:start()
+    self:setActionAnim(CharacterActionAnims.Disassemble)
+    self:setOverrideHandModels("Screwdriver", nil)
+end
+
+function LWXZoneAction:stop() ISBaseTimedAction.stop(self) end
+function LWXZoneAction:perform() ISBaseTimedAction.perform(self) end
+
+function LWXZoneAction:complete()
+    local ch, obj = self.character, self.target
+    if not stillThere(obj) or not X.Terminals or not X.Terminal.isTerminal(obj) then return false end
+    local sq = obj:getSquare()
+    if not near(ch, sq, 2) or not allowed(ch, sq) then return false end
+    local n = { tonumber(self.x0), tonumber(self.y0), tonumber(self.x1), tonumber(self.y1) }
+    for i = 1, 4 do
+        if not n[i] or n[i] ~= n[i] or math.abs(n[i]) > 1000000 then return false end
+    end
+    return X.Terminals.setZone(ch, obj, n[1], n[2], n[3], n[4])
+end
+
+function LWXZoneAction:getDuration()
+    if self.character:isTimedActionInstant() then return 1 end
+    return 150
+end
+
+function LWXZoneAction:new(character, target, x0, y0, x1, y1)
+    local o = ISBaseTimedAction.new(self, character)
+    o.target = target
+    o.x0, o.y0, o.x1, o.y1 = x0, y0, x1, y1
+    o.maxTime = o:getDuration()
+    return o
+end

@@ -5,5 +5,6 @@
     "Tooltip_LWX_ConnectBuilding": "Alimente tous les étages du bâtiment en %1, %2, son sous-sol et une bande autour. Le jeu alimente des blocs entiers de 8 x 8 cases : les cases voisines de ces blocs reçoivent aussi le courant.",
     "Tooltip_LWX_NoInverter": "Aucun onduleur à portée de câble.",
     "Tooltip_LWX_TerminalLinked": "Cette borne est déjà raccordée.",
-    "Tooltip_LWX_TerminalWires": "Utilise %1 fil électrique. La borne alimente alors son bloc de 8 x 8 cases ; réglez sa zone ensuite."
+    "Tooltip_LWX_TerminalWires": "Utilise %1 fil électrique. La borne alimente alors son bloc de 8 x 8 cases ; réglez sa zone ensuite.",
+    "Tooltip_LWX_TerminalNotLinked": "Raccordez d'abord la borne à un onduleur."
 }
