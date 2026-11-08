@@ -2,21 +2,33 @@
 if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
+require "LiveWire/LW_UIScale"
 LiveWire = LiveWire or {}
 local Panel = ISPanel:derive("LiveWireBreakerPanel")
 LiveWire.BreakerPanel = Panel
+-- The enclosure is drawn in 1080p reference units: W x H and every coordinate
+-- below. The drawing helpers multiply them by the window factor `lwK`, set once
+-- when the window is created (LW_UIScale.lua); the buttons carry the same factor.
 local W,H=750,454
+Panel.BASE={w=W,h=H}
 local C={white={0.87,0.87,0.82},light={0.96,0.95,0.90},edge={0.48,0.51,0.50},
     shadow={0.26,0.29,0.29},ink={0.14,0.19,0.20},rail={0.49,0.54,0.54},
     handle={0.25,0.29,0.31},orange={0.93,0.51,0.13},green={0.29,0.59,0.36},
     red={0.74,0.25,0.20},glass={0.30,0.43,0.46},lcd={0.49,0.61,0.35},
     brandRed={0.94,0.20,0.25},brandBlack={0.03,0.03,0.03},brandWhite={1,1,1}}
-local function rect(ui,x,y,w,h,c,a) ui:drawRect(x,y,w,h,a or 1,c[1],c[2],c[3]) end
-local function border(ui,x,y,w,h,c) ui:drawRectBorder(x,y,w,h,1,c[1],c[2],c[3]) end
+local function rect(ui,x,y,w,h,c,a)
+    local k=ui.lwK or 1
+    ui:drawRect(x*k,y*k,w*k,h*k,a or 1,c[1],c[2],c[3])
+end
+local function border(ui,x,y,w,h,c)
+    local k=ui.lwK or 1
+    ui:drawRectBorder(x*k,y*k,w*k,h*k,1,c[1],c[2],c[3])
+end
 local function text(ui,s,x,y,w,c,font)
     font=font or UIFont.Small
-    ui:setStencilRect(x,y,w,getTextManager():getFontHeight(font)+3)
-    ui:drawText(s,x,y,c[1],c[2],c[3],1,font)
+    local k=ui.lwK or 1
+    ui:setStencilRect(x*k,y*k,w*k,getTextManager():getFontHeight(font)+3*k)
+    ui:drawText(s,x*k,y*k,c[1],c[2],c[3],1,font)
     ui:clearStencilRect()
 end
 local function screw(ui,x,y)
@@ -56,8 +68,12 @@ function Panel.open(player,obj)
     local m=LiveWire.Marks.get(obj)
     if not m then return end
     if Panel.instance then Panel.instance:close() end
-    local p=Panel:new(getPlayerScreenLeft(player:getPlayerNum())+100,
-        getPlayerScreenTop(player:getPlayerNum())+90,W,H)
+    local UI=LiveWire.UIScale
+    local k=UI.factor(W,H)
+    local x,y,w,h=UI.fit(getPlayerScreenLeft(player:getPlayerNum())+100,
+        getPlayerScreenTop(player:getPlayerNum())+90,UI.px(W,k),UI.px(H,k))
+    local p=Panel:new(x,y,w,h)
+    p.lwK=k
     p.player,p.obj,p.device,p.inverterId=player,obj,m.id,m.inv
     LiveWire.Client.discardSnapshot(m.inv)
     p.reading=Panel.readings(nil)
@@ -68,7 +84,7 @@ end
 -- Two tied pole handles belong to one circuit. Only this UI instance draws them.
 local function lever(button)
     local color=button.main and C.orange or C.handle
-    local width=button.width
+    local width=button.width/(button.lwK or 1)
     local thumbY=button.off and 45 or 17
     local poles=button.main and 1 or 2
     local poleWidth=width/poles
@@ -87,9 +103,11 @@ local function lever(button)
 end
 function Panel:createChildren()
     ISPanel.createChildren(self)
+    local k=self.lwK or 1
+    local function S(v) return LiveWire.UIScale.px(v,k) end
     local function control(x,w,action,main)
-        local b=ISButton:new(x,201,w,88,"",self,Panel.onButton)
-        b.internal,b.main,b.displayBackground=action,main,false
+        local b=ISButton:new(S(x),S(201),S(w),S(88),"",self,Panel.onButton)
+        b.internal,b.main,b.displayBackground,b.lwK=action,main,false,k
         b:initialise();b:instantiate();b.render=lever
         self:addChild(b)
         return b
@@ -100,9 +118,9 @@ function Panel:createChildren()
     self.equipmentButton.tooltip=getText("IGUI_LW_CircuitEquipment")
     self.mainButton=control(603,74,"main",true)
     self.mainButton.tooltip=getText("IGUI_LW_BoardMain")
-    local close=ISButton:new(W-36,12,22,22,"x",self,Panel.onButton)
+    local close=ISButton:new(S(W-36),S(12),S(22),S(22),"x",self,Panel.onButton)
     close.internal="close";close:initialise();close:instantiate();self:addChild(close)
-    local links=ISButton:new(49,H-50,W-98,28,getText("IGUI_LW_Connections"),self,Panel.onButton)
+    local links=ISButton:new(S(49),S(H-50),S(W-98),S(28),getText("IGUI_LW_Connections"),self,Panel.onButton)
     links.internal="links";links:initialise();links:instantiate();self:addChild(links)
 end
 function Panel:onButton(b)
@@ -199,15 +217,18 @@ function Panel:prerender()
     rect(self,67,192,216,80,C.lcd)
     rect(self,69,194,212,2,C.light,0.16)
     local r=self.reading
-    local fh=getTextManager():getFontHeight(UIFont.Small)
+    local k=self.lwK or 1
+    -- Real font height, expressed in reference units like the coordinates.
+    local fhPx=getTextManager():getFontHeight(UIFont.Small)
+    local fh=fhPx/k
     local lineH=math.floor(76/3)
     local function row(key,value,off,index)
         local y=194+(index-1)*lineH+math.max(0,math.floor((lineH-fh)/2))
         local s=value==nil and "-- W" or off and value==0 and getText("IGUI_LW_BoardCutWatts")
             or tostring(value).." W"
         text(self,getText(key),73,y,109,C.ink)
-        self:setStencilRect(183,y,95,fh+3)
-        self:drawTextRight(s,278,y,C.ink[1],C.ink[2],C.ink[3],1,UIFont.Small)
+        self:setStencilRect(183*k,y*k,95*k,fhPx+3*k)
+        self:drawTextRight(s,278*k,y*k,C.ink[1],C.ink[2],C.ink[3],1,UIFont.Small)
         self:clearStencilRect()
         if index==2 then rect(self,73,y+lineH-1,204,1,C.ink,0.25) end
     end

@@ -2,18 +2,30 @@
 if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
+require "LiveWire/LW_UIScale"
 LiveWire = LiveWire or {}
 local Panel = ISPanel:derive("LiveWireDevicePanel")
 LiveWire.DevicePanel = Panel
-local W = 500
+-- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
+local BASE = { w=500, h=330, fixedH=150, btnH=28, btnBottom=48, side=18, closeX=36, closeY=6, closeW=26,
+    brandY=10, titleX=190, titleClipY=10, titleRight=240, titleClipH=28, titleY=14,
+    lcdX=14, lcdY=42, lcdInner=5, lcdBottom=106, lcdInnerBottom=116,
+    textX=28, clipX=27, clipY=48, clipRight=54, clipBottom=118, lineY=56, linePad=4 }
+Panel.BASE = BASE
+-- Unscaled layout until a window is opened (instances made without open()).
+Panel.L = LiveWire.UIScale.layout(1, BASE)
 
 function Panel.open(player,obj)
     local mark = LiveWire.Marks.get(obj)
     if not mark then return end
     if Panel.instance then Panel.instance:close() end
-    local fh = getTextManager():getFontHeight(LiveWire.Client.lcdFont()) + 4
-    local p = Panel:new(getPlayerScreenLeft(player:getPlayerNum())+120,
-        getPlayerScreenTop(player:getPlayerNum())+90,W,math.max(330,150+8*fh))
+    local UI = LiveWire.UIScale
+    local L = UI.layout(UI.factor(BASE.w, BASE.h), BASE)
+    L.fh = getTextManager():getFontHeight(LiveWire.Client.lcdFont()) + L.linePad
+    local x,y,w,h = UI.fit(getPlayerScreenLeft(player:getPlayerNum())+120,
+        getPlayerScreenTop(player:getPlayerNum())+90,L.w,math.max(L.h,L.fixedH+8*L.fh))
+    local p = Panel:new(x,y,w,h)
+    p.L = L
     p.player,p.obj,p.device,p.linkedId = player,obj,mark.id,mark.inv
     p.lastRead,p.moveWithMouse = -2000,true
     p.backgroundColor = {r=0.20,g=0.21,b=0.22,a=0.98}
@@ -23,12 +35,13 @@ end
 
 function Panel:createChildren()
     ISPanel.createChildren(self)
+    local L,W=self.L,self.width
     local function button(x,y,w,key,action)
-        local b=ISButton:new(x,y,w,28,getText(key),self,Panel.onButton)
+        local b=ISButton:new(x,y,w,L.btnH,getText(key),self,Panel.onButton)
         b.internal=action;b:initialise();b:instantiate();self:addChild(b)
     end
-    button(18,self.height-48,W-36,"IGUI_LW_Connections","links")
-    button(W-36,6,26,"IGUI_LW_CloseShort","close")
+    button(L.side,self.height-L.btnBottom,W-2*L.side,"IGUI_LW_Connections","links")
+    button(W-L.closeX,L.closeY,L.closeW,"IGUI_LW_CloseShort","close")
 end
 
 function Panel:onButton(b)
@@ -94,22 +107,24 @@ end
 function Panel:render()
     if self.closed then return end
     ISPanel.render(self)
-    self:drawText("LIVE WIRE",18,10,0.85,0.87,0.9,1,UIFont.Medium)
+    local L,W=self.L,self.width
+    self:drawText("LIVE WIRE",L.side,L.brandY,0.85,0.87,0.9,1,UIFont.Medium)
     local m=LiveWire.Marks.get(self.obj)
-    self:setStencilRect(190,10,W-240,28)
-    self:drawText(getText("IGUI_LW_Model_"..(m and m.model or "")),190,14,0.85,0.87,0.9,1,UIFont.Small)
+    self:setStencilRect(L.titleX,L.titleClipY,W-L.titleRight,L.titleClipH)
+    self:drawText(getText("IGUI_LW_Model_"..(m and m.model or "")),L.titleX,L.titleY,0.85,0.87,0.9,1,UIFont.Small)
     self:clearStencilRect()
-    self:drawRect(14,42,W-28,self.height-106,1,0.06,0.07,0.06)
+    self:drawRect(L.lcdX,L.lcdY,W-2*L.lcdX,self.height-L.lcdBottom,1,0.06,0.07,0.06)
     local pump=m and m.model=="WaterPump"
-    if pump then self:drawRect(19,47,W-38,self.height-116,1,0.38,0.64,0.82)
-    else self:drawRect(19,47,W-38,self.height-116,1,0.62,0.74,0.40) end
+    local ix,iy,iw,ih=L.lcdX+L.lcdInner,L.lcdY+L.lcdInner,W-2*(L.lcdX+L.lcdInner),self.height-L.lcdInnerBottom
+    if pump then self:drawRect(ix,iy,iw,ih,1,0.38,0.64,0.82)
+    else self:drawRect(ix,iy,iw,ih,1,0.62,0.74,0.40) end
     local font=LiveWire.Client.lcdFont()
-    local fh=getTextManager():getFontHeight(font)+4
+    local fh=L.fh or getTextManager():getFontHeight(font)+L.linePad
     local r,g,b=0.08,0.13,0.05
     if pump then r,g,b=0.05,0.11,0.20 end
-    self:setStencilRect(27,48,W-54,self.height-118)
+    self:setStencilRect(L.clipX,L.clipY,W-L.clipRight,self.height-L.clipBottom)
     for i,line in ipairs(self:lines()) do
-        self:drawText(line,28,56+(i-1)*fh,r,g,b,1,font)
+        self:drawText(line,L.textX,L.lineY+(i-1)*fh,r,g,b,1,font)
     end
     self:clearStencilRect()
 end

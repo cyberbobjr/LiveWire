@@ -31,7 +31,7 @@ validation hors jeu et contrôles manuels restants dans le
 
 **Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé · ⏸ différé après décision utilisateur. « Publié » = présent dans une version du Workshop ; « non publié » = réalisé localement sur main. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Les autres correctifs CXX autorisés sont publiés en 1.5.0 ; C25 est un outil de test hors mod, versionné dans le dépôt. C11 reste différé, C20 est exclu de la dernière campagne. Preuves : [bilan de validation SP/MP](annexes/tests/validation.md).
 
-**Bilan** : améliorations de code **25 faites, 0 en partie, 2 à faire, 1 différée** (sur 28) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 8 hors périmètre** (sur 23). C27, C28, I22 et I23 viennent des commentaires Steam du 2026-11-07.
+**Bilan** : améliorations de code **26 faites, 0 en partie, 1 à faire, 1 différée** (sur 28) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 8 hors périmètre** (sur 23). C27, C28, I22 et I23 viennent des commentaires Steam du 2026-11-07.
 
 ### Améliorations de code
 
@@ -63,8 +63,8 @@ validation hors jeu et contrôles manuels restants dans le
 | C24 | Adoption de tuiles et réconciliation des marques | ✅ Corrigé | SP/MP ; deux clients ordinaires de niveaux différents (2026-10-24) | 1.5.0 | `baea924` | — |
 | C25 | Tests pompe, relais, couplage et MP | ✅ Terminé | SP 3/3 phases ; MP 3/3 phases, 2 clients ; droits ordinaires couverts séparément | Outil hors mod | `b242a36` | — |
 | C26 | README : limite des frigos dépassée par la 1.0.1 | ✅ Corrigé | README EN et FR relus | 1.5.0 | `21cc584` | — |
-| C27 | Fenêtres trop petites en 4K | ⬜ À faire | — | — | — | Prioritaire (2026-11-08) : échelle selon la police du jeu |
-| C28 | Mode manuel du secours invisible | ✅ Corrigé | Hors jeu (message unique, reprise) ; en jeu à faire | non publié | voir avancement | Vérifier en jeu le message et l'écran (SP, MP) |
+| C27 | Fenêtres trop petites en 4K | ✅ Corrigé | Hors jeu ; SP pz-autotest 16/16 (géométrie, police 1x et échelle forcée 2) | non publié | voir avancement | Vérifier à l'œil en 4K avec grande police, CN/JP/KO |
+| C28 | Mode manuel du secours invisible | ✅ Corrigé | Hors jeu (message unique, reprise) ; en jeu à faire | non publié | `6e57e9b` | Vérifier en jeu le message et l'écran (SP, MP) |
 
 ### Idées de fonctionnalités
 
@@ -376,7 +376,8 @@ validation hors jeu et contrôles manuels restants dans le
   - Calculer un facteur d'échelle unique à partir de la hauteur de la police choisie dans les options du jeu (`getTextManager():getFontHeight(UIFont.Small)` comparée à la hauteur de référence), comme le font les fenêtres vanilla. L'appliquer aux tailles, marges, boutons et zones LCD.
   - Vérifier que le texte ne déborde pas dans les dix langues, CN/JP/KO compris (C10), et que la fenêtre tient dans l'écran.
 - **Statut.** Confirmé statiquement pour l'écran de l'onduleur ; à vérifier en jeu en 1080p et en 4K. **Priorité haute (demandée le 2026-11-08), effort M.**
-- **Avancement : ⬜ à faire, autorisé par l'utilisateur le 2026-11-08 pour réalisation immédiate.**
+- **Inventaire (2026-11-08).** Tailles fixes : onduleur 440 × 300 (LCD 404 × 138), banque 500 × 350, appareil 500 × 330, raccordements 700 × 480, tableau électrique 750 × 454 (dessin entièrement en pixels), écran d'ordinateur 684 × 456. Le logiciel de gestion suit déjà la hauteur de police et la taille de son écran hôte ; les vues sur la carte (réseau, portée, pompe) ne sont pas des fenêtres ; `batman_LiveWireViewpoint` n'en a aucune.
+- **Avancement : ✅ corrigé le 2026-11-08, non publié.** `client/LiveWire/LW_UIScale.lua` : facteur `getFontHeight(UIFont.Small) / 19` (référence 1080p de `ISWidgetBuildControl.lua:7`), jamais sous 1, abaissé pour que la fenêtre tienne à l'écran, calculé à chaque ouverture ; position ramenée dans l'écran. Les six fenêtres reçoivent tailles, marges, boutons, barres et zones LCD mises à l'échelle ; hauteurs de ligne lues sur la police réellement dessinée (repli CN/JP/KO de C10 conservé). Le tableau électrique garde ses coordonnées de référence, multipliées dans ses fonctions de dessin. Tests hors jeu `test_ui_scale.py` ; passage SP `autotest/scale.json` : code 0, `summary=16/16 PASS`, `runs/20261108-120427-sp-b87ba6ac5d75` (42.21.0, écran 1280 × 720, police 19 px : facteur 1 et tailles d'origine ; échelle forcée à 2 : facteur plafonné à l'écran, aucune erreur Lua). Limite : l'outil ne règle pas la taille de police, l'échelle 2 n'agrandit que la géométrie. Reste : contrôle visuel en 4K avec grande police, et en CN/JP/KO.
 
 ### C28 — Mode manuel du générateur de secours invisible pour le joueur
 - **Origine.** Commentaires Steam du 2026-11-07 (Juxtor, VII) : le secours « ne marche pas de façon intuitive » et « s'embrouille parfois ».

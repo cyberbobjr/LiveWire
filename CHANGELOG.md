@@ -7,6 +7,7 @@
 
 ### Improvements
 - The backup generator now tells you when it switches to manual control. Switching it on or off yourself still hands it over to you, but a message now appears next to it, and the inverter screen and the management software show how to give control back: right-click the generator > Live Wire > Backup generator > Resume automatic backup. A confirmation appears when automatic control resumes.
+- Live Wire windows now follow the game's font size option: the inverter screen, power bank and device screens, breaker panel, connection list and computer screen grow with larger fonts (for example on 4K screens) instead of keeping their 1080p size. They always stay inside the screen.
 
 ## 1.7.2 — 2026-11-07
 

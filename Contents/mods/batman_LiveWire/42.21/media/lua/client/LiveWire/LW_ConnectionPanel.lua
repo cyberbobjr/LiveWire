@@ -5,10 +5,17 @@ require "ISUI/ISButton"
 require "ISUI/ISComboBox"
 require "ISUI/ISScrollingListBox"
 require "LiveWire/LW_Stack"
+require "LiveWire/LW_UIScale"
 LiveWire = LiveWire or {}
 local Panel=ISPanel:derive("LiveWireConnectionPanel")
 LiveWire.ConnectionPanel=Panel
-local W,H=700,480
+-- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
+local BASE={w=700,h=480,side=16,btnY=434,btnH=28,comboY=65,listY=125,listH=245,itemH=38,
+    connectW=150,disX=174,refreshX=332,refreshW=126,inspectX=466,inspectW=126,closeX=600,closeW=84,
+    titleY=12,originY=41,listTitleY=102,reasonY=380,reasonH=45,rowX=8,rowY=2,statusY=19}
+Panel.BASE=BASE
+-- Unscaled layout until a window is opened (instances made without open()).
+Panel.L=LiveWire.UIScale.layout(1,BASE)
 local function mark(obj)
     return LiveWire.Marks.get(obj) or LiveWire.Install.vanillaMark(obj)
 end
@@ -30,13 +37,17 @@ local function name(obj)
 end
 local function live(obj) return obj and obj:getSquare() and obj:getObjectIndex()~=-1 end
 local function button(self,x,w,key,action)
-    local b=ISButton:new(x,434,w,28,getText(key),self,Panel.onButton)
+    local b=ISButton:new(x,self.L.btnY,w,self.L.btnH,getText(key),self,Panel.onButton)
     b.internal=action;b:initialise();b:instantiate();self:addChild(b);return b
 end
 function Panel.open(player,obj)
     if Panel.instance then Panel.instance:close() end
-    local p=Panel:new(getPlayerScreenLeft(player:getPlayerNum())+90,
-        getPlayerScreenTop(player:getPlayerNum())+80,W,H)
+    local UI=LiveWire.UIScale
+    local L=UI.layout(UI.factor(BASE.w,BASE.h),BASE)
+    local x,y,w,h=UI.fit(getPlayerScreenLeft(player:getPlayerNum())+90,
+        getPlayerScreenTop(player:getPlayerNum())+80,L.w,L.h)
+    local p=Panel:new(x,y,w,h)
+    p.L=L
     p.player,p.obj,p.moveWithMouse=player,obj,true
     local own=LiveWire.Marks.get(obj)
     local def=own and LiveWire.Defs.devices[own.model]
@@ -46,17 +57,22 @@ function Panel.open(player,obj)
 end
 function Panel:createChildren()
     ISPanel.createChildren(self)
-    self.network=ISComboBox:new(16,65,W-32,28,self,Panel.onNetwork)
+    local L,W=self.L,self.width
+    self.network=ISComboBox:new(L.side,L.comboY,W-2*L.side,L.btnH,self,Panel.onNetwork)
     self.network:initialise();self:addChild(self.network)
-    self.list=ISScrollingListBox:new(16,125,W-32,245)
-    self.list:initialise();self.list:instantiate();self.list.itemheight=38
+    self.list=ISScrollingListBox:new(L.side,L.listY,W-2*L.side,L.listH)
+    self.list:initialise();self.list:instantiate()
+    -- Two text lines per row, at the real font height.
+    local fh=getTextManager():getFontHeight(UIFont.Small)
+    self.rowStatusY=math.max(L.statusY,fh)
+    self.list.itemheight=math.max(L.itemH,self.rowStatusY+fh)
     self.list.owner=self;self.list.doDrawItem=Panel.drawItem
     self:addChild(self.list)
-    self.connect=button(self,16,150,"IGUI_LW_Connect","connect")
-    self.disconnect=button(self,174,150,"IGUI_LW_Disconnect","disconnect")
-    button(self,332,126,"IGUI_LW_Refresh","refresh")
-    button(self,466,126,"ContextMenu_LW_Inspect","inspect")
-    button(self,600,84,"IGUI_LW_Close","close")
+    self.connect=button(self,L.side,L.connectW,"IGUI_LW_Connect","connect")
+    self.disconnect=button(self,L.disX,L.connectW,"IGUI_LW_Disconnect","disconnect")
+    button(self,L.refreshX,L.refreshW,"IGUI_LW_Refresh","refresh")
+    button(self,L.inspectX,L.inspectW,"ContextMenu_LW_Inspect","inspect")
+    button(self,L.closeX,L.closeW,"IGUI_LW_Close","close")
 end
 function Panel:refreshInverters()
     if self.closed then return end
@@ -171,24 +187,27 @@ function Panel:update()
     end
 end
 function Panel.drawItem(list,y,row,alt)
+    local self=list.owner
+    local L=self.L
     if list.selected==row.index then list:drawRect(0,y,list.width,row.height,0.85,0.24,0.38,0.42) end
-    list:drawText(row.text,8,y+2,0.9,0.93,0.93,1,UIFont.Small)
+    list:drawText(row.text,L.rowX,y+L.rowY,0.9,0.93,0.93,1,UIFont.Small)
     local e=row.item
     local distance=e.dist and "  -  "..getText("IGUI_LW_WireDistance",
         math.floor(e.dist+0.5),LiveWire.Install.wiresFor(e.dist)) or ""
-    list:drawText((row.status or "")..distance,8,y+19,0.65,0.76,0.76,1,UIFont.Small)
+    list:drawText((row.status or "")..distance,L.rowX,y+(self.rowStatusY or L.statusY),0.65,0.76,0.76,1,UIFont.Small)
     return y+row.height
 end
 function Panel:render()
     if self.closed then return end
     ISPanel.render(self)
-    self:drawText(getText("IGUI_LW_Connections"),16,12,0.85,0.92,0.90,1,UIFont.Medium)
+    local L=self.L
+    self:drawText(getText("IGUI_LW_Connections"),L.side,L.titleY,0.85,0.92,0.90,1,UIFont.Medium)
     self:drawText((self.originName or "")..(self.originCondition and "  -  "..self.originCondition or ""),
-        16,41,0.7,0.78,0.8,1,UIFont.Small)
+        L.side,L.originY,0.7,0.78,0.8,1,UIFont.Small)
     self:drawText(getText(self.deviceOnly and "IGUI_LW_DeviceWiring" or "IGUI_LW_WiringList"),
-        16,102,0.7,0.78,0.8,1,UIFont.Small)
-    self:setStencilRect(16,380,W-32,45)
-    self:drawText(self.reason or getText("IGUI_LW_WiringHint"),16,380,0.9,0.8,0.52,1,UIFont.Small)
+        L.side,L.listTitleY,0.7,0.78,0.8,1,UIFont.Small)
+    self:setStencilRect(L.side,L.reasonY,self.width-2*L.side,L.reasonH)
+    self:drawText(self.reason or getText("IGUI_LW_WiringHint"),L.side,L.reasonY,0.9,0.8,0.52,1,UIFont.Small)
     self:clearStencilRect()
 end
 function Panel:close()

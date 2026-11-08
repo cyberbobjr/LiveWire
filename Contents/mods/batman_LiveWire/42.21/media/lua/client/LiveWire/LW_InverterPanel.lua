@@ -7,6 +7,7 @@ if isServer() then return end
 
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
+require "LiveWire/LW_UIScale"
 
 LiveWire = LiveWire or {}
 
@@ -14,9 +15,19 @@ local Panel = ISPanel:derive("LiveWireInverterPanel")
 LiveWire.InverterPanel = Panel
 Panel.instance = nil
 
-local W, H = 440, 300
-local LCD_X, LCD_Y, LCD_W, LCD_H = 18, 40, 404, 138
-local SCROLL_PX_PER_S = 40   -- lines wider than the screen scroll back and forth
+-- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
+local BASE = {
+    w = 440, h = 300, lcdX = 18, lcdY = 40, lcdW = 404, lcdH = 138,
+    bezel = 4, pad = 8, top = 6, clip = 6, bottom = 6, sep = 4,
+    btnY = 16, btnH = 30, arrowW = 40, nextX = 46, resetX = 100, resetW = 70, powerW = 74, side = 18,
+    closeS = 18, closeX = 26, closeY = 6, linksY = 254, linksH = 28, brandX = 14, brandY = 10,
+    reserve = 44, pageX = 34, barX = 60, barRight = 72, barPad = 20, barInset = 3, barGap = 2,
+    led = 12, ledX = 18, ledY = 9,
+    scroll = 40,   -- px/s: lines wider than the screen scroll back and forth
+}
+Panel.BASE = BASE
+-- Unscaled layout until a window is opened (instances made without open()).
+Panel.L = LiveWire.UIScale.layout(1, BASE)
 local SCROLL_PAUSE_MS = 1200
 local RESUBSCRIBE_MS = 60 * 1000
 local CLOSE_RANGE = 30
@@ -30,9 +41,10 @@ end
 
 function Panel.open(player, inverterId, obj)
     if Panel.instance then Panel.instance:close() end
-    local x = getPlayerScreenLeft(player:getPlayerNum()) + 120
-    local y = getPlayerScreenTop(player:getPlayerNum()) + 100
-    local p = Panel:new(x, y, player, inverterId)
+    local L = LiveWire.UIScale.layout(LiveWire.UIScale.factor(BASE.w, BASE.h), BASE)
+    local x, y = LiveWire.UIScale.fit(getPlayerScreenLeft(player:getPlayerNum()) + 120,
+        getPlayerScreenTop(player:getPlayerNum()) + 100, L.w, L.h)
+    local p = Panel:new(x, y, player, inverterId, L)
     p.obj = obj
     p:initialise()
     p:addToUIManager()
@@ -40,10 +52,12 @@ function Panel.open(player, inverterId, obj)
     Panel.instance = p
 end
 
-function Panel:new(x, y, player, inverterId)
-    local o = ISPanel:new(x, y, W, H)
+function Panel:new(x, y, player, inverterId, L)
+    L = L or Panel.L
+    local o = ISPanel:new(x, y, L.w, L.h)
     setmetatable(o, self)
     self.__index = self
+    o.L = L
     o.player = player
     o.inverterId = inverterId
     o.page = 1
@@ -68,13 +82,14 @@ end
 
 function Panel:createChildren()
     ISPanel.createChildren(self)
-    local by = LCD_Y + LCD_H + 16
-    self.prevBtn = button(self, LCD_X, by, 40, 30, "<", "PREV")
-    self.nextBtn = button(self, LCD_X + 46, by, 40, 30, ">", "NEXT")
-    self.resetBtn = button(self, LCD_X + 100, by, 70, 30, "RESET", "RESET")
-    self.powerBtn = button(self, W - 18 - 74, by, 74, 30, "I / O", "POWER")
-    self.closeBtn = button(self, W - 26, 6, 18, 18, "x", "CLOSE")
-    button(self, LCD_X, 254, LCD_W, 28, T("IGUI_LW_Connections"), "LINKS")
+    local L = self.L
+    local by = L.lcdY + L.lcdH + L.btnY
+    self.prevBtn = button(self, L.lcdX, by, L.arrowW, L.btnH, "<", "PREV")
+    self.nextBtn = button(self, L.lcdX + L.nextX, by, L.arrowW, L.btnH, ">", "NEXT")
+    self.resetBtn = button(self, L.lcdX + L.resetX, by, L.resetW, L.btnH, "RESET", "RESET")
+    self.powerBtn = button(self, L.w - L.side - L.powerW, by, L.powerW, L.btnH, "I / O", "POWER")
+    self.closeBtn = button(self, L.w - L.closeX, L.closeY, L.closeS, L.closeS, "x", "CLOSE")
+    button(self, L.lcdX, L.linksY, L.lcdW, L.linksH, T("IGUI_LW_Connections"), "LINKS")
 end
 
 function Panel:snapshot()
@@ -196,12 +211,13 @@ end
 -- One LCD line, clipped to the screen; a line too wide for it scrolls back and
 -- forth with a pause at each end. `reserve`: width kept free on the right.
 function Panel:lcdLine(s, y, font, now, reserve)
-    local avail = LCD_W - 16 - reserve
+    local L = self.L
+    local avail = L.lcdW - 2 * L.pad - reserve
     local width = getTextManager():MeasureStringX(font, s)
     local offset = 0
     if width > avail then
         local travel = width - avail
-        local moveMs = travel / SCROLL_PX_PER_S * 1000
+        local moveMs = travel / L.scroll * 1000
         local cycle = 2 * (moveMs + SCROLL_PAUSE_MS)
         local t = now % cycle
         if t < SCROLL_PAUSE_MS then
@@ -214,8 +230,8 @@ function Panel:lcdLine(s, y, font, now, reserve)
             offset = travel - (t - 2 * SCROLL_PAUSE_MS - moveMs) / moveMs * travel
         end
     end
-    self:setStencilRect(LCD_X + 6, LCD_Y, avail + 4, LCD_H)
-    self:drawText(s, LCD_X + 8 - math.floor(offset), y, 0.08, 0.13, 0.05, 1, font)
+    self:setStencilRect(L.lcdX + L.clip, L.lcdY, avail + L.sep, L.lcdH)
+    self:drawText(s, L.lcdX + L.pad - math.floor(offset), y, 0.08, 0.13, 0.05, 1, font)
     self:clearStencilRect()
 end
 
@@ -236,58 +252,67 @@ function Panel:render()
     local snap = self:snapshot()
     local now = getTimestampMs()
     local blink = math.floor(now / 500) % 2 == 0
-    self:drawText(T(self:brandKey()), 14, 10, 0.85, 0.87, 0.9, 1, UIFont.Small)
+    local L = self.L
+    local LCD_X, LCD_Y, LCD_W, LCD_H = L.lcdX, L.lcdY, L.lcdW, L.lcdH
+    self:drawText(T(self:brandKey()), L.brandX, L.brandY, 0.85, 0.87, 0.9, 1, UIFont.Small)
 
     -- LCD: backlit when the inverter is on, dark otherwise.
     local st = snap and snap.inverter.state
     local lit = st == "on" or st == "tripped"
-    self:drawRect(LCD_X - 4, LCD_Y - 4, LCD_W + 8, LCD_H + 8, 1, 0.08, 0.08, 0.09)
+    self:drawRect(LCD_X - L.bezel, LCD_Y - L.bezel, LCD_W + 2 * L.bezel, LCD_H + 2 * L.bezel, 1, 0.08, 0.08, 0.09)
     if lit then
         self:drawRect(LCD_X, LCD_Y, LCD_W, LCD_H, 1, 0.62, 0.74, 0.40)
     else
         self:drawRect(LCD_X, LCD_Y, LCD_W, LCD_H, 1, 0.16, 0.19, 0.14)
     end
     local font = lcdFont()
-    local fh = getTextManager():getFontHeight(font)
+    -- Line height of the font really drawn (Code, or Small in CN/JP/KO/TH: C10),
+    -- measured once per window.
+    local fh = self.fontH
+    if not fh then
+        fh = getTextManager():getFontHeight(font)
+        self.fontH = fh
+    end
     local tr, tg, tb = 0.08, 0.13, 0.05
     if not snap then
-        self:drawText(T("IGUI_LW_Waiting"), LCD_X + 8, LCD_Y + 8, 0.6, 0.65, 0.55, 1, font)
+        self:drawText(T("IGUI_LW_Waiting"), LCD_X + L.pad, LCD_Y + L.pad, 0.6, 0.65, 0.55, 1, font)
     elseif lit then
         if st == "tripped" and blink then
-            self:drawText(T("IGUI_LW_LCD_Overload"), LCD_X + 8, LCD_Y + LCD_H - fh - 6, 0.55, 0.05, 0.02, 1, font)
+            self:drawText(T("IGUI_LW_LCD_Overload"), LCD_X + L.pad, LCD_Y + LCD_H - fh - L.bottom, 0.55, 0.05, 0.02, 1, font)
         end
         local lines, bars = self:pageContent(snap)
-        local y = LCD_Y + 6
+        local y = LCD_Y + L.top
         for i = 1, #lines do
-            self:lcdLine(lines[i], y, font, now, i == 1 and 44 or 0)
+            self:lcdLine(lines[i], y, font, now, i == 1 and L.reserve or 0)
             if i == 1 then
-                self:drawText(tostring(self.page) .. "/" .. tostring(PAGES), LCD_X + LCD_W - 34, y, tr, tg, tb, 1, font)
-                self:drawRect(LCD_X + 6, y + fh + 1, LCD_W - 12, 1, 1, tr, tg, tb)
-                y = y + 4
+                self:drawText(tostring(self.page) .. "/" .. tostring(PAGES), LCD_X + LCD_W - L.pageX, y, tr, tg, tb, 1, font)
+                self:drawRect(LCD_X + L.clip, y + fh + 1, LCD_W - 2 * L.clip, 1, 1, tr, tg, tb)
+                y = y + L.sep
             end
             y = y + fh
         end
         for i = 1, #bars do
             local b = bars[i]
-            local bx, bw = LCD_X + 60, LCD_W - 72
-            if b.label ~= "" then self:drawText(b.label, LCD_X + 8, y + 1, tr, tg, tb, 1, font) else bx = LCD_X + 8; bw = LCD_W - 20 end
-            self:drawRectBorder(bx, y + 3, bw, fh - 6, 1, tr, tg, tb)
+            local bx, bw = LCD_X + L.barX, LCD_W - L.barRight
+            if b.label ~= "" then self:drawText(b.label, LCD_X + L.pad, y + 1, tr, tg, tb, 1, font) else bx = LCD_X + L.pad; bw = LCD_W - L.barPad end
+            local inset, gap = L.barInset, L.barGap
+            self:drawRectBorder(bx, y + inset, bw, fh - 2 * inset, 1, tr, tg, tb)
             local f = LiveWire.clamp((b.value or 0) / math.max(1, b.max or 1), 0, 1)
-            self:drawRect(bx + 2, y + 5, (bw - 4) * f, fh - 10, 1, tr, tg, tb)
-            y = y + fh + 2
+            self:drawRect(bx + gap, y + inset + gap, (bw - 2 * gap) * f, fh - 2 * (inset + gap), 1, tr, tg, tb)
+            y = y + fh + gap
         end
     end
 
     -- Power indicator: green running, red off, blinking orange on a fault.
-    local lx, ly = self.powerBtn:getX() - 18, self.powerBtn:getY() + 9
+    local lx, ly = self.powerBtn:getX() - L.ledX, self.powerBtn:getY() + L.ledY
     local r, g, b = 0.75, 0.1, 0.08
     if st == "on" then
         r, g, b = 0.2, 0.95, 0.25
     elseif st == "tripped" or st == "broken" then
         if blink then r, g, b = 1.0, 0.6, 0.1 else r, g, b = 0.3, 0.2, 0.05 end
     end
-    self:drawRect(lx, ly, 12, 12, 1, r, g, b)
-    self:drawRectBorder(lx, ly, 12, 12, 1, 0.05, 0.05, 0.05)
+    self:drawRect(lx, ly, L.led, L.led, 1, r, g, b)
+    self:drawRectBorder(lx, ly, L.led, L.led, 1, 0.05, 0.05, 0.05)
 end
 
 function Panel:close(sessionEnded)
