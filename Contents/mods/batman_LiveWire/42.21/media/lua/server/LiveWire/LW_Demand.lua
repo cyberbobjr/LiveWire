@@ -293,6 +293,17 @@ function Demand.ready(inv)
         and getCell():getGridSquare(inv.x, inv.y, inv.z) ~= nil
 end
 
+-- Each appliance of the last measurement billed to this inverter, with its watts:
+-- fn(object, watts) for every owned reading above 0 (circuit loads, D-35). No copy.
+function Demand.each(inv, fn)
+    local entry = Demand.inventories[inv.id]
+    if not entry or not entry.measured or not entry.readings then return end
+    for i, o in ipairs(entry.objects) do
+        local w = entry.readings[i]
+        if w and w > 0 and entry.owners[i] and o:getObjectIndex() ~= -1 then fn(o, w) end
+    end
+end
+
 local function better(a, b)
     if a.w ~= b.w then return a.w > b.w end
     if a.z ~= b.z then return a.z < b.z end

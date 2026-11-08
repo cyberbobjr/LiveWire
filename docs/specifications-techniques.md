@@ -396,6 +396,18 @@ des blocs de 8 × 8 cases ajoutés, à l'étage du joueur) et `LW_InverterPanel`
 qu'après le test du disque : sans fournisseur, aucun appel de plus par case ni par image. `Anchor.reshape(id, fn)`
 retire les positions de l'onduleur de ce côté, vieillit la nourriture des deux zones, exécute `fn` (changement des
 données du fournisseur), puis déclare les nouvelles positions et rafraîchit les effets visuels.
+
+### Point d'extension « circuits » (D-35, D-37, 2026-11-08)
+
+`require "LiveWire/LW_CircuitProvider"` (Lua partagé, utilisé sur l'autorité seulement). Sans fournisseur, un appareil
+vanilla n'est coupé que par les circuits de son tableau (I21). Un seul fournisseur peut s'inscrire avant
+`OnInitGlobalModData` : `LiveWire.CircuitProvider.register(provider)` → `true`, ou `false` et `"invalid_provider"`,
+`"already_registered"`, `"registration_closed"`. Sa fonction `blocked(o, kind, grid)` rend `true` pour couper
+l'appareil `o` (famille I21 `kind`, tableau propriétaire `grid`, éventuellement `nil`). Elle ne peut que couper
+davantage : un circuit ouvert sur le tableau de la base (disjoncteur général) reste ouvert. `LW_Circuits` l'interroge
+dans `Circuits.blocked` et `Circuits.applyObject`, avec les mêmes adaptateurs de service, la même file et la même
+persistance qu'I21. `LiveWire.Demand.each(inv, fn)` appelle `fn(objet, watts)` pour chaque appareil facturé à
+l'onduleur par la dernière mesure, sans copie (charge par circuit, D-35).
   Ne renvoie jamais le registre, ses objets Java ou ses tables mutables.
 - Ces garanties portent sur les accès par l'API v1. Les modules internes de
   l'espace Lua partagé ne constituent pas une frontière de sécurité contre un

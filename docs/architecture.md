@@ -222,6 +222,8 @@ lua/shared/LiveWire/LW_Placement.lua       enveloppes du curseur de meubles vani
 lua/shared/LiveWire/LW_Anchor.lua          application des ancres (serveur ET clients), LoadChunk
 lua/shared/LiveWire/LW_Coverage.lua        couverture d'un onduleur : disque D-12 + cases d'un
                                            fournisseur facultatif (D-32)
+lua/shared/LiveWire/LW_CircuitProvider.lua coupures supplementaires d'un fournisseur facultatif
+                                           (disjoncteurs par appareil, D-35, D-37)
 lua/shared/LiveWire/LW_Install.lua         raccordement (portee, fils), recherche des onduleurs et
                                            equipements sur les cases chargees, outils d'inventaire
 lua/shared/LiveWire/LW_Notify.lua          messages au joueur (cles traduites cote client)

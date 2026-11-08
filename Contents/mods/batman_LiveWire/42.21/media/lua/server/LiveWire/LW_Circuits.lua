@@ -2,6 +2,7 @@
 if isClient() then return end
 require "LiveWire/LW_Appliances"
 require "LiveWire/LW_Anchor"
+require "LiveWire/LW_CircuitProvider"
 LiveWire = LiveWire or {}
 local Circuits = {}
 LiveWire.Circuits = Circuits
@@ -68,13 +69,18 @@ function Circuits.owner(o)
     end
     return best and R.grid(best.grid) or nil
 end
-local function blocked(g, kind)
-    if not kind then return false end
+local function panelOpen(g, kind)
     return g and (kind == "light" and g.lightsOff == true or kind ~= "light" and g.equipmentOff == true) or false
+end
+-- The panel circuits of I21, then a registered provider (LW_CircuitProvider), which can
+-- only cut more.
+local function blocked(o, g, kind)
+    if not kind then return false end
+    return panelOpen(g, kind) or LiveWire.CircuitProvider.blocked(o, kind, g)
 end
 function Circuits.blocked(o)
     local kind = LiveWire.Appliances.kind(o)
-    return kind and blocked(Circuits.owner(o), kind) or false
+    return kind and blocked(o, Circuits.owner(o), kind) or false
 end
 local function captureFor(o, g)
     local A = LiveWire.Appliances
@@ -104,7 +110,7 @@ function Circuits.applyObject(o)
         local s = A.capture(o, g)
         if s then s.on = old; g.lightChoices[key(o)] = nil end
     end
-    if blocked(g, A.kind(o)) then
+    if blocked(o, g, A.kind(o)) then
         captureFor(o, g)
         local s = A.saved(o)
         if s then A.apply(o, s, true) end
