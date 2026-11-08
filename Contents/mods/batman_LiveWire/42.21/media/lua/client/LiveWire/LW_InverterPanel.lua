@@ -185,6 +185,10 @@ function Panel:pageContent(snap)
         end
         L(T("IGUI_LW_LCD_Range", snap.coverage and snap.coverage.radius or 20,
             snap.coverage and snap.coverage.floors or 3))
+        -- Areas added by a coverage provider (D-32): none without one.
+        for _, d in ipairs(LiveWire.Coverage.describe(self.inverterId)) do
+            L(T(d.key, unpack(d.args or {})))
+        end
     else
         L(T("IGUI_LW_LCD_Page_Status"))
         local event = snap.events and snap.events[#snap.events]

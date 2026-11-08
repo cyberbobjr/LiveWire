@@ -14,6 +14,7 @@
 --   scan(id, a)              -> resumable job over the extra squares, or nil
 --   step(job, budget, visit) -> done, used (like LiveWire.SquareScan.step)
 --   idsAt(x, y, z)           -> array of inverter ids whose extra coverage holds the square
+--   describe(id)             -> optional: lines for the inverter screen, { { key, args } }
 -- Registration happens while Lua files load, before OnInitGlobalModData, like API v1.
 require "LiveWire/LW_SquareScan"
 LiveWire = LiveWire or {}
@@ -108,6 +109,13 @@ end
 function Coverage.extraIdsAt(x, y, z)
     if not provider then return EMPTY end
     return provider.idsAt(x, y, z) or EMPTY
+end
+
+-- Lines describing the extra coverage on the inverter screen (translation key and
+-- arguments); empty without provider or when it describes nothing.
+function Coverage.describe(id)
+    if not provider or type(provider.describe) ~= "function" then return EMPTY end
+    return provider.describe(id) or EMPTY
 end
 
 -- Resumable job over the extra squares only; nil without provider.

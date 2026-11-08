@@ -387,10 +387,12 @@ fournisseur peut s'inscrire, pendant le chargement des fichiers, avant `OnInitGl
 | `positions(id, a)` | Positions de générateur à déclarer : `{ cx, cy, x, y, z }` par bloc, chacune sur une case réelle (purgée par le moteur au retrait du mod) |
 | `scan(id, a)`, `step(job, budget, visit)` | Parcours borné et reprenable des cases ajoutées (`done, used`, comme `SquareScan.step`) |
 | `idsAt(x, y, z)` | Onduleurs dont la couverture ajoutée contient la case (attribution des circuits) |
+| `describe(id)` *(facultative)* | Lignes `{ key, args }` affichées sur la page « Maison » de l'écran de l'onduleur |
 
 Utilisateurs dans la base : `LW_Anchor` (pose et retrait des positions, réapplication après purge, effets visuels,
 vieillissement des frigos), `LW_Demand` (inventaire, onduleur le plus proche), `LW_Circuits.owner`,
-`LW_FridgeCatchup`, `LW_ChunkSync`, `LW_API.gridAt` et la mesure au testeur. Le cas « case ajoutée » ne s'évalue
+`LW_FridgeCatchup`, `LW_ChunkSync`, `LW_API.gridAt` et la mesure au testeur ; à l'affichage, `LW_RangeView` (contour
+des blocs de 8 × 8 cases ajoutés, à l'étage du joueur) et `LW_InverterPanel` (lignes de `describe`). Le cas « case ajoutée » ne s'évalue
 qu'après le test du disque : sans fournisseur, aucun appel de plus par case ni par image. `Anchor.reshape(id, fn)`
 retire les positions de l'onduleur de ce côté, vieillit la nourriture des deux zones, exécute `fn` (changement des
 données du fournisseur), puis déclare les nouvelles positions et rafraîchit les effets visuels.

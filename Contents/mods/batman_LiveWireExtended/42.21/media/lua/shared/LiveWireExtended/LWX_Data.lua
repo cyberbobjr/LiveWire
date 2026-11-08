@@ -168,6 +168,23 @@ function P.idsAt(x, y, z)
     table.sort(out)
     return out
 end
+-- Inverter screen (page "House"): one line per area, at most three lines.
+local LCD_LINES = 3
+function P.describe(id)
+    local list = D.areaList(id)
+    local out = {}
+    for i = 1, #list do
+        if #list > LCD_LINES and #out == LCD_LINES - 1 then
+            out[#out + 1] = { key = "IGUI_LWX_LCD_More", args = { tostring(#list - #out) } }
+            break
+        end
+        local a = list[i].area
+        local x, y = a.label and a.label.x or 0, a.label and a.label.y or 0
+        out[#out + 1] = { key = a.kind == "zone" and "IGUI_LWX_LCD_Zone" or "IGUI_LWX_LCD_Building",
+            args = { tostring(x), tostring(y) } }
+    end
+    return out
+end
 D.provider = P
 
 local ok, why = LiveWire.Coverage.register(P)

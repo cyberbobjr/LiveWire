@@ -9,5 +9,8 @@
     "IGUI_LWX_ZoneToolTitle": "Zone de la borne",
     "IGUI_LWX_ZoneToolHelp": "Cliquez et faites glisser au sol pour tracer la zone.",
     "IGUI_LWX_ZoneToolSize": "Alimenté : %1 x %2 cases (blocs entiers de 8 x 8).",
-    "IGUI_LWX_ZoneApply": "Appliquer"
+    "IGUI_LWX_ZoneApply": "Appliquer",
+    "IGUI_LWX_LCD_Building": "+ bâtiment %1,%2",
+    "IGUI_LWX_LCD_Zone": "+ borne %1,%2",
+    "IGUI_LWX_LCD_More": "+ %1 autres zones"
 }

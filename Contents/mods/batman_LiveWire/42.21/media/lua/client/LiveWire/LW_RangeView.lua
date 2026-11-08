@@ -5,6 +5,8 @@
 -- every frame. A 1 x 1 UI element hosts the drawing (it draws outside its own
 -- bounds and never takes the mouse). Floor highlights were tried first and could
 -- not be seen in game. Hidden when the player walks far away.
+-- With a coverage provider (LW_Coverage, D-32), the 8 x 8 blocks it adds on the
+-- player's floor are outlined too: the engine powers them whole.
 if isServer() then return end
 
 require "ISUI/ISUIElement"
@@ -57,10 +59,42 @@ function Overlay:render()
         if px then self:drawLine(nil, px, py, x, y, 3, col.a, col.r, col.g, col.b) end
         px, py = x, y
     end
+    -- Blocks added by a coverage provider, on the floor drawn (none without one).
+    if not RV.opts then
+        local rects = RV.extraOutlines(RV.inverterId, c, pz)
+        for i = 1, #rects do
+            local r = rects[i]
+            local x0, y0 = isoToScreenX(idx, r.x0, r.y0, pz), isoToScreenY(idx, r.x0, r.y0, pz)
+            local x1, y1 = isoToScreenX(idx, r.x1, r.y0, pz), isoToScreenY(idx, r.x1, r.y0, pz)
+            local x2, y2 = isoToScreenX(idx, r.x1, r.y1, pz), isoToScreenY(idx, r.x1, r.y1, pz)
+            local x3, y3 = isoToScreenX(idx, r.x0, r.y1, pz), isoToScreenY(idx, r.x0, r.y1, pz)
+            self:drawLine(nil, x0, y0, x1, y1, 2, col.a, col.r, col.g, col.b)
+            self:drawLine(nil, x1, y1, x2, y2, 2, col.a, col.r, col.g, col.b)
+            self:drawLine(nil, x2, y2, x3, y3, 2, col.a, col.r, col.g, col.b)
+            self:drawLine(nil, x3, y3, x0, y0, 2, col.a, col.r, col.g, col.b)
+        end
+    end
     -- The inverter itself: a small cross on its square.
     local ix, iy = isoToScreenX(idx, cx, cy, c.z), isoToScreenY(idx, cx, cy, c.z)
     self:drawLine(nil, ix - 8, iy, ix + 8, iy, 3, col.a, col.r, col.g, col.b)
     self:drawLine(nil, ix, iy - 8, ix, iy + 8, 3, col.a, col.r, col.g, col.b)
+end
+
+-- Chunk outlines { x0, y0, x1, y1 } (x1, y1 exclusive) of the provider positions whose
+-- vertical range reaches floor `pz`, one per chunk.
+function RV.extraOutlines(inverterId, a, pz)
+    local out, seen = {}, {}
+    local V = LiveWire.Config.verticalRange()
+    local list = LiveWire.Coverage.extraPositions(inverterId, a)
+    for i = 1, #list do
+        local p = list[i]
+        local key = p.cx .. "," .. p.cy
+        if not seen[key] and math.abs(pz - p.z) <= V then
+            seen[key] = true
+            out[#out + 1] = { x0 = p.cx * 8, y0 = p.cy * 8, x1 = p.cx * 8 + 8, y1 = p.cy * 8 + 8 }
+        end
+    end
+    return out
 end
 
 function RV.isShown(inverterId)
