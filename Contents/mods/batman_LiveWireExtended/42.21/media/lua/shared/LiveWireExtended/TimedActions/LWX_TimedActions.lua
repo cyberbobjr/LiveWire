@@ -5,6 +5,7 @@ require "TimedActions/ISBaseTimedAction"
 require "LiveWireExtended/LWX_Core"
 require "LiveWireExtended/LWX_Terminal"
 require "LiveWireExtended/LWX_Panel"
+require "LiveWireExtended/LWX_Breakers"
 
 local X = LiveWire.Extended
 
@@ -175,6 +176,57 @@ function LWXZoneAction:new(character, target, x0, y0, x1, y1)
     local o = ISBaseTimedAction.new(self, character)
     o.target = target
     o.x0, o.y0, o.x1, o.y1 = x0, y0, x1, y1
+    o.maxTime = o:getDuration()
+    return o
+end
+
+--------------------------------------------------------------------------------
+-- Install a breaker item in a linked board, or remove the breaker of a module.
+--------------------------------------------------------------------------------
+LWXBreakerAction = ISBaseTimedAction:derive("LWXBreakerAction")
+
+function LWXBreakerAction:isValid()
+    return stillThere(self.target) and LiveWire.Install.screwdriver(self.character) ~= nil
+end
+
+function LWXBreakerAction:waitToStart()
+    self.character:faceThisObject(self.target)
+    return self.character:shouldBeTurning()
+end
+
+function LWXBreakerAction:update()
+    self.character:setMetabolicTarget(Metabolics.LightWork)
+end
+
+function LWXBreakerAction:start()
+    self:setActionAnim(CharacterActionAnims.Disassemble)
+    LiveWire.Install.showScrewdriver(self)
+end
+
+function LWXBreakerAction:stop() ISBaseTimedAction.stop(self) end
+function LWXBreakerAction:perform() ISBaseTimedAction.perform(self) end
+
+function LWXBreakerAction:complete()
+    local ch, obj = self.character, self.target
+    if not stillThere(obj) or not X.Panels or not X.Panel.isPanel(obj) then return false end
+    local sq = obj:getSquare()
+    if not near(ch, sq, 2) or not allowed(ch, sq) then return false end
+    if self.remove then return X.Panels.removeBreaker(ch, obj, tonumber(self.pos)) end
+    if type(self.fullType) ~= "string" or not X.Breakers.TYPES[self.fullType] then return false end
+    return X.Panels.installBreaker(ch, obj, self.fullType)
+end
+
+function LWXBreakerAction:getDuration()
+    if self.character:isTimedActionInstant() then return 1 end
+    return 200
+end
+
+function LWXBreakerAction:new(character, target, fullType, pos, remove)
+    local o = ISBaseTimedAction.new(self, character)
+    o.target = target
+    o.fullType = fullType
+    o.pos = pos
+    o.remove = remove == true
     o.maxTime = o:getDuration()
     return o
 end

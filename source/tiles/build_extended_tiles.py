@@ -114,6 +114,20 @@ def board(modules: int, width: float, height: int, facing: int) -> Image.Image:
     return img
 
 
+def breaker_icon(text: str, double: bool) -> Image.Image:
+    """PLACEHOLDER inventory icon of a breaker: dark body, white lever, rating text."""
+    img = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    w = 22 if double else 13
+    x0 = (32 - w) // 2
+    d.rectangle([x0, 3, x0 + w - 1, 28], fill=(48, 50, 54, 255), outline=(20, 20, 22, 255))
+    for k in range(2 if double else 1):
+        lx = x0 + 3 + k * 10
+        d.rectangle([lx, 7, lx + 6, 15], fill=(235, 235, 228, 255))
+    d.text((x0 + 2, 18), text, fill=(240, 200, 60, 255))
+    return img
+
+
 def main() -> None:
     if len(sys.argv) != 2:
         raise SystemExit("usage: python build_extended_tiles.py <project-root>")
@@ -151,6 +165,8 @@ def main() -> None:
     framed = Image.new("RGBA", (side, side), (0, 0, 0, 0))
     framed.paste(icon, ((side - icon.width) // 2, (side - icon.height) // 2))
     framed.resize((32, 32)).save(icons / "Item_LWXPanel.png")
+    for name, text, double in (("15", "15", False), ("20", "20", False), ("30", "30", False), ("2P30", "2x30", True)):
+        breaker_icon(text, double).save(icons / f"Item_LWXBreaker{name}.png")
     sheet.image().save(project / "source" / "tiles" / f"{SHEET}_sheet.png")
     print(f"packed {len(images)} sprites into {media}")
 

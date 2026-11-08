@@ -14,5 +14,7 @@
     "IGUI_LWX_LCD_Zone": "+ terminal %1,%2",
     "IGUI_LWX_LCD_More": "+ %1 more areas",
     "IGUI_LWX_PanelLinked": "Breaker board linked. Install breakers to wire the appliances.",
-    "IGUI_LWX_PanelUnlinked": "Breaker board unlinked."
+    "IGUI_LWX_PanelUnlinked": "Breaker board unlinked.",
+    "IGUI_LWX_BreakerInstalled": "Breaker installed: %1 A, %2 V.",
+    "IGUI_LWX_BreakerRemoved": "Breaker removed."
 }

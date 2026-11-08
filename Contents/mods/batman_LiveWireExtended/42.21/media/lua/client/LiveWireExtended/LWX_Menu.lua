@@ -5,6 +5,7 @@ require "LiveWireExtended/LWX_Data"
 require "LiveWireExtended/LWX_Buildings"
 require "LiveWireExtended/LWX_Terminal"
 require "LiveWireExtended/LWX_Panel"
+require "LiveWireExtended/LWX_Breakers"
 require "LiveWireExtended/LWX_ZoneTool"
 
 local X = LiveWire.Extended
@@ -21,9 +22,9 @@ local function disable(option, key, arg)
     option.notAvailable = true
 end
 
-local function hint(option, key, arg1, arg2)
+local function hint(option, key, arg1, arg2, arg3)
     local t = ISWorldObjectContextMenu.addToolTip()
-    t.description = getText(key, arg1, arg2)
+    t.description = getText(key, arg1, arg2, arg3)
     option.toolTip = t
 end
 
@@ -175,6 +176,35 @@ function Menu.addPanelOptions(sub, player, obj)
         return
     end
     Menu.addLinkOptions(sub, player, obj, "ContextMenu_LWX_LinkPanel", "Tooltip_LWX_PanelWires")
+end
+
+-- Breakers of a linked board (E16): install one of the carried types, remove one.
+function Menu.onBreaker(player, obj, fullType, pos, remove)
+    queueNear(player, obj:getSquare(), LWXBreakerAction:new(player, obj, fullType, pos, remove))
+end
+
+local function itemName(fullType)
+    local it = getScriptManager():FindItem(fullType)
+    return it and it:getDisplayName() or fullType
+end
+
+function Menu.panelExtra(sub, player, obj)
+    local B = X.Breakers
+    local record = X.Panel.recordAt(obj:getSquare())
+    local io = sub:addOption(getText("ContextMenu_LWX_InstallBreaker"), nil, nil)
+    local isub = ISContextMenu:getNew(sub)
+    sub:addSubMenu(io, isub)
+    for _, fullType in ipairs(B.ORDER) do
+        local t = B.TYPES[fullType]
+        local o = isub:addOption(itemName(fullType), player, Menu.onBreaker, obj, fullType, nil, false)
+        local ok, why, arg = B.checkInstall(player, obj, fullType)
+        if not ok then disable(o, why, arg)
+        else hint(o, "Tooltip_LWX_BreakerRating", tostring(t.amps), tostring(t.volts), tostring(B.capacityW(t))) end
+    end
+    for _, slot in ipairs(record and record.slots or {}) do
+        sub:addOption(getText("ContextMenu_LWX_RemoveBreaker", tostring(slot.pos), itemName(slot.type)),
+            player, Menu.onBreaker, obj, nil, slot.pos, true)
+    end
 end
 
 local function onFillWorld(playerNum, context, worldobjects, test)

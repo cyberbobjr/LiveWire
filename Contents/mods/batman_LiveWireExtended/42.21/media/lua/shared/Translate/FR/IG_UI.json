@@ -14,5 +14,7 @@
     "IGUI_LWX_LCD_Zone": "+ borne %1,%2",
     "IGUI_LWX_LCD_More": "+ %1 autres zones",
     "IGUI_LWX_PanelLinked": "Tableau raccordé. Installez des disjoncteurs pour câbler les appareils.",
-    "IGUI_LWX_PanelUnlinked": "Tableau débranché."
+    "IGUI_LWX_PanelUnlinked": "Tableau débranché.",
+    "IGUI_LWX_BreakerInstalled": "Disjoncteur installé : %1 A, %2 V.",
+    "IGUI_LWX_BreakerRemoved": "Disjoncteur retiré."
 }

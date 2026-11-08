@@ -8,5 +8,7 @@
     "ContextMenu_LWX_InverterAt": "Onduleur à %1 cases",
     "ContextMenu_LWX_SetZone": "Régler la zone",
     "ContextMenu_LWX_LinkPanel": "Raccorder à un onduleur",
-    "ContextMenu_LWX_UnlinkPanel": "Débrancher le tableau"
+    "ContextMenu_LWX_UnlinkPanel": "Débrancher le tableau",
+    "ContextMenu_LWX_InstallBreaker": "Installer un disjoncteur",
+    "ContextMenu_LWX_RemoveBreaker": "Retirer le disjoncteur du module %1 (%2)"
 }

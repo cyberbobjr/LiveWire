@@ -9,5 +9,9 @@
     "Tooltip_LWX_TerminalNotLinked": "Raccordez d'abord la borne à un onduleur.",
     "Tooltip_LWX_NoBuildingNearTerminal": "Posez la borne dans un bâtiment ou tout contre lui.",
     "Tooltip_LWX_PanelLinked": "Ce tableau est déjà raccordé.",
-    "Tooltip_LWX_PanelWires": "Utilise %1 fil électrique."
+    "Tooltip_LWX_PanelWires": "Utilise %1 fil électrique.",
+    "Tooltip_LWX_NoBreakerItem": "Vous n'avez pas de disjoncteur de ce type.",
+    "Tooltip_LWX_BoardFull": "Plus de place sur le tableau pour ce disjoncteur.",
+    "Tooltip_LWX_PanelNotLinked": "Raccordez d'abord le tableau à un onduleur.",
+    "Tooltip_LWX_BreakerRating": "%1 A sous %2 V : jusqu'à %3 W sur son circuit."
 }

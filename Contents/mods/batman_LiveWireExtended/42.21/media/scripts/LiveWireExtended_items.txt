@@ -143,4 +143,132 @@ module Base
             item 1 Base.Mov_LWX_Panel24,
         }
     }
+
+    /* PLACEHOLDER icon. Breaker 15 A at 120 V, 1 module(s) of a breaker board (D-35).
+       Weight is above the recipe inputs. */
+    item LWXBreaker15
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.2,
+        Icon = LWXBreaker15,
+    }
+
+    craftRecipe LWXMakeBreaker15
+    {
+        timedAction = MakingElectrical,
+        time = 150,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:5,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 [Base.ElectronicsScrap],
+            item 1 [Base.ElectricWire],
+        }
+        outputs
+        {
+            item 1 Base.LWXBreaker15,
+        }
+    }
+
+    /* PLACEHOLDER icon. Breaker 20 A at 120 V, 1 module(s) of a breaker board (D-35).
+       Weight is above the recipe inputs. */
+    item LWXBreaker20
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.2,
+        Icon = LWXBreaker20,
+    }
+
+    craftRecipe LWXMakeBreaker20
+    {
+        timedAction = MakingElectrical,
+        time = 150,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:5,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 [Base.ElectronicsScrap],
+            item 1 [Base.ElectricWire],
+        }
+        outputs
+        {
+            item 1 Base.LWXBreaker20,
+        }
+    }
+
+    /* PLACEHOLDER icon. Breaker 30 A at 120 V, 1 module(s) of a breaker board (D-35).
+       Weight is above the recipe inputs. */
+    item LWXBreaker30
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.2,
+        Icon = LWXBreaker30,
+    }
+
+    craftRecipe LWXMakeBreaker30
+    {
+        timedAction = MakingElectrical,
+        time = 150,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:5,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 1 [Base.ElectronicsScrap],
+            item 1 [Base.ElectricWire],
+        }
+        outputs
+        {
+            item 1 Base.LWXBreaker30,
+        }
+    }
+
+    /* PLACEHOLDER icon. Breaker 30 A at 240 V, 2 module(s) of a breaker board (D-35).
+       Weight is above the recipe inputs. */
+    item LWXBreaker2P30
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.3,
+        Icon = LWXBreaker2P30,
+    }
+
+    craftRecipe LWXMakeBreaker2P30
+    {
+        timedAction = MakingElectrical,
+        time = 150,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:5,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 2 [Base.ElectronicsScrap],
+            item 1 [Base.ElectricWire],
+        }
+        outputs
+        {
+            item 1 Base.LWXBreaker2P30,
+        }
+    }
 }

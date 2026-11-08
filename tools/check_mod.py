@@ -381,6 +381,22 @@ X_PENDING_TRANSLATION = {
     "Base.Mov_LWX_Panel8", "Base.Mov_LWX_Panel16", "Base.Mov_LWX_Panel24",
     "LiveWire_Extended_Board8", "LiveWire_Extended_Board16", "LiveWire_Extended_Board24",
     "LWXMakePanel8", "LWXMakePanel16", "LWXMakePanel24",
+    "Base.LWXBreaker15",
+    "Base.LWXBreaker20",
+    "Base.LWXBreaker2P30",
+    "Base.LWXBreaker30",
+    "ContextMenu_LWX_InstallBreaker",
+    "ContextMenu_LWX_RemoveBreaker",
+    "IGUI_LWX_BreakerInstalled",
+    "IGUI_LWX_BreakerRemoved",
+    "LWXMakeBreaker15",
+    "LWXMakeBreaker20",
+    "LWXMakeBreaker2P30",
+    "LWXMakeBreaker30",
+    "Tooltip_LWX_BoardFull",
+    "Tooltip_LWX_BreakerRating",
+    "Tooltip_LWX_NoBreakerItem",
+    "Tooltip_LWX_PanelNotLinked",
 }
 
 
