@@ -163,6 +163,12 @@ end
 - **Positions transmises aux clients.** Elles sont relues depuis le tampon de chunk que le client télécharge (`IsoChunk.java:3318-3331`, via `LoadFromBuffer`, `java/zombie/iso/WorldStreamer.java:661`), mais elles sont purgées chez le client comme sur le serveur. D'où le gestionnaire `LoadChunk` partagé.
 - **Bonne nouvelle : pas de fuite à la désinstallation.** Si le mod est retiré, l'onduleur reste comme simple décor. Sa case existe toujours, et son ancre est donc purgée au chargement suivant : **aucun courant fantôme**, contrairement à une position posée sur une case vide (`knowledge/power-and-lights.md:18-24`).
 
+**Couverture.** Les cases qu'alimente une ancre sont définies par `LW_Coverage` (D-32) : le disque ci-dessus, plus,
+si un sous-mod facultatif a inscrit un fournisseur, des positions supplémentaires posées sur d'autres blocs
+(bâtiment, zone d'une borne). Une position déclarée sur un bloc n'alimente que les cases de **ce** bloc à moins de
+`GeneratorTileRange` d'elle, sur ±`GeneratorVerticalPowerRange` étages (`IsoGridSquare.java:8223-8228`,
+`IsoChunk.java:4773-4783`). Contrat : [`specifications-techniques.md`](specifications-techniques.md#point-dextension--couverture--d-32-2026-11-08).
+
 **Chez les clients MP.**
 - **Ce qui n'est pas synchronisé.** Un `addGeneratorPos` fait sur le serveur n'est **pas** transmis aux clients qui ont déjà le chunk : seul un vrai générateur fait recalculer ses positions au client, par `sync` (`IsoGenerator.java:550-568`).
 - **Comment les clients restent à jour.**
@@ -214,6 +220,8 @@ lua/shared/LiveWire/LW_Marks.lua           marque des equipements (modData.movab
 lua/shared/LiveWire/LW_Placement.lua       enveloppes du curseur de meubles vanilla : regles de
                                            pose (dehors, riviere), pose, ramassage, rotation
 lua/shared/LiveWire/LW_Anchor.lua          application des ancres (serveur ET clients), LoadChunk
+lua/shared/LiveWire/LW_Coverage.lua        couverture d'un onduleur : disque D-12 + cases d'un
+                                           fournisseur facultatif (D-32)
 lua/shared/LiveWire/LW_Install.lua         raccordement (portee, fils), recherche des onduleurs et
                                            equipements sur les cases chargees, outils d'inventaire
 lua/shared/LiveWire/LW_Notify.lua          messages au joueur (cles traduites cote client)

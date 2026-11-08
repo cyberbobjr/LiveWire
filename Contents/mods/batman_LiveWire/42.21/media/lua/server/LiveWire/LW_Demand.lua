@@ -68,7 +68,7 @@ function Demand.invalidate(inverterId)
     end
 end
 
--- Invalidate the inverters whose disc contains `sq`.
+-- Invalidate the inverters whose coverage (disc, plus a provider's extra) contains `sq`.
 function Demand.invalidateAt(sq)
     if not sq or not LiveWire.Registry or not LiveWire.Registry.ready then return end
     local R = LiveWire.Config.tileRange()
@@ -78,7 +78,10 @@ function Demand.invalidateAt(sq)
         local inv = LiveWire.Registry.device(ids[i])
         if inv then
             local dx, dy = sq:getX() - inv.x, sq:getY() - inv.y
-            if dx * dx + dy * dy <= R * R then Demand.invalidate(ids[i]) end
+            if dx * dx + dy * dy <= R * R
+                or LiveWire.Coverage.coversExtra(ids[i], inv, sq:getX(), sq:getY(), sq:getZ()) then
+                Demand.invalidate(ids[i])
+            end
         end
     end
 end
@@ -113,6 +116,19 @@ local function startJob()
     return false
 end
 
+-- Keep the objects of one square that can draw power.
+local function collect(job, cell, x, y, z)
+    local sq = cell:getGridSquare(x, y, z)
+    if not sq then return end
+    local objs = sq:getObjects()
+    for i = 0, objs:size() - 1 do
+        local o = objs:get(i)
+        if o:couldBePoweredByGenerator() or (LiveWire.Appliances and LiveWire.Appliances.saved(o)) then
+            job.list[#job.list + 1] = o
+        end
+    end
+end
+
 -- Scan up to SQUARES_PER_TICK squares of the disc (rows of the circle, then floors).
 local function stepJob()
     local job = Demand.job
@@ -121,18 +137,7 @@ local function stepJob()
     while budget > 0 and job.z <= job.zmax do
         local w = math.floor(math.sqrt(job.R2 - job.dy * job.dy) + 1e-9)
         local y = job.y + job.dy
-        for dx = -w, w do
-            local sq = cell:getGridSquare(job.x + dx, y, job.z)
-            if sq then
-                local objs = sq:getObjects()
-                for i = 0, objs:size() - 1 do
-                    local o = objs:get(i)
-                    if o:couldBePoweredByGenerator() or (LiveWire.Appliances and LiveWire.Appliances.saved(o)) then
-                        job.list[#job.list + 1] = o
-                    end
-                end
-            end
-        end
+        for dx = -w, w do collect(job, cell, job.x + dx, y, job.z) end
         budget = budget - (2 * w + 1)
         job.dy = job.dy + 1
         if job.dy > job.R then
@@ -140,23 +145,33 @@ local function stepJob()
             job.z = job.z + 1
         end
     end
-    if job.z > job.zmax then
-        Demand.job = nil
-        local entry = Demand.inventories[job.id]
-        if entry then
-            entry.objects = job.list
-            entry.report, entry.readings, entry.owners = nil, nil, nil
-            entry.measured = false -- the previous report belongs to the old list
-            entry.builtAt = getGameTime():getWorldAgeHours()
-            entry.queued = false
-            local inv = LiveWire.Registry.device(job.id)
-            local grid = inv and inv.grid and LiveWire.Registry.grid(inv.grid)
-            if grid and LiveWire.Circuits then LiveWire.Circuits.apply(grid) end
-            if (entry.gen or 0) == job.gen then
-                entry.dirty = false
-            else
-                enqueue(job.id, entry)  -- changed while scanning
-            end
+    if job.z <= job.zmax then return end
+    -- Then the extra squares of a coverage provider (none without one).
+    if job.extra == nil then
+        local inv = LiveWire.Registry.device(job.id)
+        job.extra = inv and LiveWire.Coverage.extraScan(job.id, inv) or false
+    end
+    if job.extra then
+        if budget <= 0 then return end
+        local done = LiveWire.Coverage.stepExtra(job.extra, budget, function(x, y, z) collect(job, cell, x, y, z) end)
+        if not done then return end
+        job.extra = false
+    end
+    Demand.job = nil
+    local entry = Demand.inventories[job.id]
+    if entry then
+        entry.objects = job.list
+        entry.report, entry.readings, entry.owners = nil, nil, nil
+        entry.measured = false -- the previous report belongs to the old list
+        entry.builtAt = getGameTime():getWorldAgeHours()
+        entry.queued = false
+        local inv = LiveWire.Registry.device(job.id)
+        local grid = inv and inv.grid and LiveWire.Registry.grid(inv.grid)
+        if grid and LiveWire.Circuits then LiveWire.Circuits.apply(grid) end
+        if (entry.gen or 0) == job.gen then
+            entry.dirty = false
+        else
+            enqueue(job.id, entry)  -- changed while scanning
         end
     end
 end
@@ -194,7 +209,7 @@ local function closerInverter(others, inv, sx, sy, sz, R2, V)
         local a = others[i]
         local dx, dy = sx - a.x, sy - a.y
         local d2 = dx * dx + dy * dy
-        if d2 <= R2 and math.abs(sz - a.z) <= V then
+        if d2 <= R2 and math.abs(sz - a.z) <= V or LiveWire.Coverage.coversExtra(a.id, a, sx, sy, sz) then
             if d2 < d2inv or (d2 == d2inv and tostring(a.id) < tostring(inv.id)) then
                 return true
             end

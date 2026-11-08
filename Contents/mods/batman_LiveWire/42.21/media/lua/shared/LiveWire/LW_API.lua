@@ -1,5 +1,6 @@
 -- Live Wire: versioned registration API. No registry tables cross this boundary.
 require "LiveWire/LW_Defs"
+require "LiveWire/LW_Coverage"
 LiveWire = LiveWire or {}
 local API = { version = 1 }
 LiveWire.API = API
@@ -67,7 +68,7 @@ function API.gridAt(x, y, z)
     local radius, floors = LiveWire.Config.tileRange(), LiveWire.Config.verticalRange()
     for id, a in pairs(R.anchors or {}) do
         local d = (x - a.x)^2 + (y - a.y)^2
-        if d <= radius^2 and math.abs(z - a.z) <= floors
+        if LiveWire.Coverage.covers(id, a, x, y, z, radius, floors)
             and (not best or d < dist or (d == dist and id < best)) then best, dist = id, d end
     end
     local inv = best and R.device(best)

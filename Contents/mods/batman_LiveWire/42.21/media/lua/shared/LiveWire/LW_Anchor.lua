@@ -8,6 +8,7 @@
 -- See docs/architecture.md section 1.4.
 
 require "LiveWire/LW_SquareScan"
+require "LiveWire/LW_Coverage"
 require "LiveWire/LW_Compat"
 
 LiveWire = LiveWire or {}
@@ -22,19 +23,22 @@ function Anchor.table()
     return ModData.getOrCreate(LiveWire.ANCHOR_KEY)
 end
 
--- Does the disc of radius R around the anchor touch chunk (cx, cy)?
+-- Does the disc of radius R around the anchor touch chunk (cx, cy)? (LW_Coverage)
 function Anchor.touches(cx, cy, a, R)
-    local px, py = a.x + 0.5, a.y + 0.5
-    local minX, minY = cx * CHUNK, cy * CHUNK
-    local maxX, maxY = minX + CHUNK, minY + CHUNK
-    local nx = math.max(minX, math.min(px, maxX))
-    local ny = math.max(minY, math.min(py, maxY))
-    local dx, dy = px - nx, py - ny
-    return dx * dx + dy * dy <= R * R
+    return LiveWire.Coverage.touchesDisc(cx, cy, a, R)
 end
 
--- Add or remove the anchor position on every loaded chunk of its disc.
-function Anchor.apply(a, on)
+local function setPos(chunk, x, y, z, on)
+    if on then
+        chunk:addGeneratorPos(x, y, z)
+    else
+        chunk:removeGeneratorPos(x, y, z)
+    end
+end
+
+-- Add or remove the anchor position on every loaded chunk of its disc, then the
+-- positions of the extra coverage of a registered provider (none by default).
+function Anchor.apply(a, on, id)
     local cell = getCell()
     if not cell then return end
     local R = LiveWire.Config.tileRange()
@@ -45,15 +49,15 @@ function Anchor.apply(a, on)
             if Anchor.touches(cx, cy, a, R) then
                 -- getChunkForGridSquare goes through ServerMap on a server (IsoCell.java:361-364).
                 local chunk = cell:getChunkForGridSquare(cx * CHUNK, cy * CHUNK, a.z)
-                if chunk then
-                    if on then
-                        chunk:addGeneratorPos(a.x, a.y, a.z)
-                    else
-                        chunk:removeGeneratorPos(a.x, a.y, a.z)
-                    end
-                end
+                if chunk then setPos(chunk, a.x, a.y, a.z, on) end
             end
         end
+    end
+    local extra = LiveWire.Coverage.extraPositions(id, a)
+    for i = 1, #extra do
+        local p = extra[i]
+        local chunk = cell:getChunkForGridSquare(p.cx * CHUNK, p.cy * CHUNK, p.z)
+        if chunk then setPos(chunk, p.x, p.y, p.z, on) end
     end
 end
 
@@ -64,13 +68,12 @@ Anchor.VISUAL_SQUARES_PER_TICK = 250
 local visualQueue = {}
 local visualJobs = {}
 
-function Anchor.refreshVisuals(a)
+function Anchor.refreshVisuals(a, id)
     if isServer() then return end
     local key = LiveWire.posKey(a.x, a.y, a.z)
     if not visualJobs[key] then visualQueue[#visualQueue + 1] = key end
     -- Coalesce repeated toggles: effects read the current world power state.
-    visualJobs[key] = LiveWire.SquareScan.new(a.x, a.y, a.z,
-        LiveWire.Config.tileRange(), LiveWire.Config.verticalRange())
+    visualJobs[key] = LiveWire.Coverage.scan(id, a)
 end
 
 function Anchor.tickVisuals()
@@ -79,7 +82,7 @@ function Anchor.tickVisuals()
     local budget = Anchor.VISUAL_SQUARES_PER_TICK
     while budget > 0 and #visualQueue > 0 do
         local key = visualQueue[1]
-        local done, used = LiveWire.SquareScan.step(visualJobs[key], budget, function(x, y, z)
+        local done, used = LiveWire.Coverage.step(visualJobs[key], budget, function(x, y, z)
             local sq = cell:getGridSquare(x, y, z)
             if not sq then return end
             local objs = sq:getObjects()
@@ -148,20 +151,21 @@ end
 -- in one go over the time elapsed since its last update, with the power state of
 -- the moment (Food.updateAge, Food.java:668-702): without this, a power cut would
 -- also apply to the hours spent cold before it, and the reverse.
-function Anchor.ageFridges(a)
+function Anchor.ageFridges(a, id)
     if isClient() then return end
     local cell = getCell()
     if not cell then return end
     local radius, vertical = LiveWire.Config.tileRange(), LiveWire.Config.verticalRange()
-    for cx = math.floor((a.x - radius) / CHUNK), math.floor((a.x + radius) / CHUNK) do
-        for cy = math.floor((a.y - radius) / CHUNK), math.floor((a.y + radius) / CHUNK) do
+    local Cov = LiveWire.Coverage
+    local cx0, cy0, cx1, cy1 = Cov.chunkRange(id, a, radius)
+    for cx = cx0, cx1 do
+        for cy = cy0, cy1 do
             local bucket = fridgeChunks[cx .. "," .. cy] or {}
             for o in pairs(bucket) do
                 local sq = o:getSquare()
                 if sq and o:getObjectIndex() ~= -1
                     and cell:getGridSquare(sq:getX(), sq:getY(), sq:getZ()) == sq then
-                    local dx, dy = sq:getX() - a.x, sq:getY() - a.y
-                    if dx * dx + dy * dy <= radius * radius and math.abs(sq:getZ() - a.z) <= vertical then
+                    if Cov.covers(id, a, sq:getX(), sq:getY(), sq:getZ(), radius, vertical) then
                         for c = 0, o:getContainerCount() - 1 do
                             local cont = o:getContainerByIndex(c)
                             local t = cont and cont:getType()
@@ -185,12 +189,27 @@ Anchor.appliedState = {}  -- id -> last state applied on this machine
 
 function Anchor.set(id, a, on)
     local changed = Anchor.appliedState[id] ~= nil and Anchor.appliedState[id] ~= on
-    if changed then Anchor.ageFridges(a) end
-    Anchor.apply(a, on)
+    if changed then Anchor.ageFridges(a, id) end
+    Anchor.apply(a, on, id)
     if Anchor.appliedState[id] ~= on then
         Anchor.appliedState[id] = on
-        Anchor.refreshVisuals(a)
+        Anchor.refreshVisuals(a, id)
     end
+end
+
+-- A provider changes the extra coverage of inverter `id` on this side: withdraw the
+-- old positions, age the food of both areas with the power state of the moment,
+-- run `mutate`, then declare the new positions and refresh the visuals.
+function Anchor.reshape(id, mutate)
+    local a = Anchor.table()[id]
+    if not a then mutate(); return end
+    local on = a.on == true
+    if on then Anchor.ageFridges(a, id) end
+    Anchor.apply(a, false, id)
+    mutate()
+    if on then Anchor.ageFridges(a, id) end
+    Anchor.apply(a, on, id)
+    Anchor.refreshVisuals(a, id)
 end
 
 function Anchor.applyAll()
@@ -223,10 +242,10 @@ end
 -- Can loading chunk (cx, cy) purge the anchor from one of the chunks of its disc?
 -- Square (Chebyshev) test on chunk coordinates, like the engine: a circle around
 -- the anchor misses the diagonal neighbours of the disc.
-function Anchor.purgedBy(a, cx, cy, R)
+function Anchor.purgedBy(a, cx, cy, R, id)
     local g = Anchor.purgeChunkRange(R)
-    return cx >= math.floor((a.x - R) / CHUNK) - g and cx <= math.floor((a.x + R) / CHUNK) + g
-        and cy >= math.floor((a.y - R) / CHUNK) - g and cy <= math.floor((a.y + R) / CHUNK) + g
+    local cx0, cy0, cx1, cy1 = LiveWire.Coverage.chunkRange(id, a, R)
+    return cx >= cx0 - g and cx <= cx1 + g and cy >= cy0 - g and cy <= cy1 + g
 end
 
 -- Re-apply every anchor the loaded chunk may have purged, on its whole disc.
@@ -237,9 +256,9 @@ local function onLoadChunk(chunk)
     local cx, cy = Anchor.chunkCoords(chunk)
     if not cx then return end
     local R = LiveWire.Config.tileRange()
-    for _, a in pairs(Anchor.table()) do
-        if Anchor.purgedBy(a, cx, cy, R) then
-            Anchor.apply(a, a.on == true)
+    for id, a in pairs(Anchor.table()) do
+        if Anchor.purgedBy(a, cx, cy, R, id) then
+            Anchor.apply(a, a.on == true, id)
             Anchor.pendingPasses = 2
         end
     end
@@ -254,8 +273,8 @@ local function onTick()
     if tickCounter < 30 then return end
     tickCounter = 0
     Anchor.pendingPasses = Anchor.pendingPasses - 1
-    for _, a in pairs(Anchor.table()) do
-        Anchor.apply(a, a.on == true)
+    for id, a in pairs(Anchor.table()) do
+        Anchor.apply(a, a.on == true, id)
     end
 end
 

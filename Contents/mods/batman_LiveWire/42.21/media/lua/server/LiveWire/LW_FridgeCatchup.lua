@@ -163,11 +163,14 @@ function FC.onLoadChunk(chunk)
     local list = {}
     local registry = LiveWire.Registry
     local history = registry and registry.data and registry.data.powerHistory or LiveWire.Anchor.table()
-    for _, a in pairs(history) do
+    local Cov = LiveWire.Coverage
+    local ids = {}
+    for k, a in pairs(history) do
         -- An empty, never-powered master still owns its physical circuit. Keep
         -- its constant history so a farther panel cannot override its choice.
-        if type(a.log) == "table" and LiveWire.Anchor.touches(cx, cy, a, R) then
+        if type(a.log) == "table" and Cov.touchesChunk(a.id or k, a, cx, cy, R) then
             list[#list + 1] = a
+            ids[#list] = a.id or k
         end
     end
     if #list == 0 then return 0 end
@@ -189,7 +192,8 @@ function FC.onLoadChunk(chunk)
                 for k = 1, #list do
                     local a = list[k]
                     local dx, dy = sq:getX() - a.x, sq:getY() - a.y
-                    if dx * dx + dy * dy <= R2 and math.abs(z - a.z) <= V then
+                    if dx * dx + dy * dy <= R2 and math.abs(z - a.z) <= V
+                        or Cov.coversExtra(ids[k], a, sq:getX(), sq:getY(), z, R, V) then
                         cover = cover or {}
                         cover[#cover + 1] = { log = a.log, log0 = a.log0, since = a.since, retired = a.retired,
                             panelLog = a.panelLog, panel0 = a.panel0, distance = dx * dx + dy * dy,

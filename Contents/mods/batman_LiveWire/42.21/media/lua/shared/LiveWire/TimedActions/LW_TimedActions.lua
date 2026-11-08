@@ -686,8 +686,7 @@ local function powerSource(sq)
         local V = LiveWire.Config.verticalRange()
         for id, a in pairs(Rg.anchors or {}) do
             if a.on then
-                local dx, dy = sq:getX() - a.x, sq:getY() - a.y
-                if dx * dx + dy * dy <= range * range and math.abs(sq:getZ() - a.z) <= V then
+                if LiveWire.Coverage.covers(id, a, sq:getX(), sq:getY(), sq:getZ(), range, V) then
                     return "IGUI_LW_Measure_Source_LiveWire"
                 end
             end

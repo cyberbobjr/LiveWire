@@ -13,8 +13,10 @@ import unittest
 from lupa import lua51
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ANCHOR = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media", "lua",
-                      "shared", "LiveWire", "LW_Anchor.lua")
+SHARED = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media", "lua",
+                      "shared", "LiveWire")
+ANCHOR = os.path.join(SHARED, "LW_Anchor.lua")
+COVERAGE = os.path.join(SHARED, "LW_Coverage.lua")  # the disc lives there (D-32)
 
 STUBS = r"""
 function require() end
@@ -114,8 +116,9 @@ end
 def load():
     lua = lua51.LuaRuntime(unpack_returned_tuples=True)
     lua.execute(STUBS)
-    with open(ANCHOR, encoding="utf-8") as f:
-        lua.execute(f.read())
+    for path in (COVERAGE, ANCHOR):
+        with open(path, encoding="utf-8") as f:
+            lua.execute(f.read())
     return lua
 
 

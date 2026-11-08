@@ -370,6 +370,30 @@ le registre des définitions. Extension identique sur serveur et clients.
 - `gridAt(x,y,z)` : autorité seulement, avant initialisation → `nil,"not_ready"` ;
   position invalide → `nil,"invalid_position"`. Réseau dont le maître est le plus
   proche dans sa portée (égalité par id), instantané détaché ou `nil` sans réseau.
+  La portée est la couverture de `LW_Coverage` : le disque, plus les cases d'un fournisseur.
+
+### Point d'extension « couverture » (D-32, 2026-11-08)
+
+`require "LiveWire/LW_Coverage"` (Lua partagé). Sans fournisseur, la couverture d'un onduleur est **exactement** le
+disque de D-12 : `GeneratorTileRange` autour de la case de l'onduleur, ±`GeneratorVerticalPowerRange` étages. Un seul
+fournisseur peut s'inscrire, pendant le chargement des fichiers, avant `OnInitGlobalModData` :
+`LiveWire.Coverage.register(provider)` → `true`, ou `false` et `"invalid_provider"`, `"already_registered"`,
+`"registration_closed"`. Il **ajoute** des cases au disque, sans jamais en retirer (D-33).
+
+| Fonction du fournisseur | Rôle |
+|---|---|
+| `covers(id, a, x, y, z)` | La case est-elle dans la couverture ajoutée de l'onduleur `id` (ancre publique `a` = `{x, y, z, on}`) ? |
+| `bounds(id, a)` | Rectangle `minX, minY, maxX, maxY` de la couverture ajoutée, ou `nil` |
+| `positions(id, a)` | Positions de générateur à déclarer : `{ cx, cy, x, y, z }` par bloc, chacune sur une case réelle (purgée par le moteur au retrait du mod) |
+| `scan(id, a)`, `step(job, budget, visit)` | Parcours borné et reprenable des cases ajoutées (`done, used`, comme `SquareScan.step`) |
+| `idsAt(x, y, z)` | Onduleurs dont la couverture ajoutée contient la case (attribution des circuits) |
+
+Utilisateurs dans la base : `LW_Anchor` (pose et retrait des positions, réapplication après purge, effets visuels,
+vieillissement des frigos), `LW_Demand` (inventaire, onduleur le plus proche), `LW_Circuits.owner`,
+`LW_FridgeCatchup`, `LW_ChunkSync`, `LW_API.gridAt` et la mesure au testeur. Le cas « case ajoutée » ne s'évalue
+qu'après le test du disque : sans fournisseur, aucun appel de plus par case ni par image. `Anchor.reshape(id, fn)`
+retire les positions de l'onduleur de ce côté, vieillit la nourriture des deux zones, exécute `fn` (changement des
+données du fournisseur), puis déclare les nouvelles positions et rafraîchit les effets visuels.
   Ne renvoie jamais le registre, ses objets Java ou ses tables mutables.
 - Ces garanties portent sur les accès par l'API v1. Les modules internes de
   l'espace Lua partagé ne constituent pas une frontière de sécurité contre un

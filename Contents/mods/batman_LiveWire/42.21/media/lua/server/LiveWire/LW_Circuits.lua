@@ -51,12 +51,20 @@ function Circuits.owner(o)
     end
     local R, best, distance = LiveWire.Registry
     local radius, floors = LiveWire.Config.tileRange(), LiveWire.Config.verticalRange()
-    for _, inv in ipairs(R.invertersNear(x, y, radius)) do
+    local function consider(inv)
         local d = (x - inv.x)^2 + (y - inv.y)^2
-        if math.abs(z - inv.z) <= floors
-            and (not best or d < distance or (d == distance and inv.id < best.id)) then
+        if not best or d < distance or (d == distance and inv.id < best.id) then
             best, distance = inv, d
         end
+    end
+    for _, inv in ipairs(R.invertersNear(x, y, radius)) do
+        if math.abs(z - inv.z) <= floors then consider(inv) end
+    end
+    -- Inverters whose provider coverage (D-32) reaches this square.
+    local extra = LiveWire.Coverage.extraIdsAt(x, y, z)
+    for i = 1, #extra do
+        local inv = R.device(extra[i])
+        if inv and inv.role == "inverter" and not inv.coupled then consider(inv) end
     end
     return best and R.grid(best.grid) or nil
 end

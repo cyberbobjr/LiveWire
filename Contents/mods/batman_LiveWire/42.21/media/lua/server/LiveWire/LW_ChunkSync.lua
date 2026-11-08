@@ -48,7 +48,9 @@ local function onLoadChunk(chunk)
     for id in pairs(R.inverters) do
         local dev = R.device(id)
         local dx, dy = dev.x - (x0 + 4), dev.y - (y0 + 4)
-        if dx * dx + dy * dy <= R2 then LiveWire.Demand.invalidate(id) end
+        if dx * dx + dy * dy <= R2 or LiveWire.Coverage.extraTouchesChunk(id, dev, cx, cy) then
+            LiveWire.Demand.invalidate(id)
+        end
     end
     if LiveWire.Pump then
         local ok, err = pcall(LiveWire.Pump.onLoadChunk, chunk)
