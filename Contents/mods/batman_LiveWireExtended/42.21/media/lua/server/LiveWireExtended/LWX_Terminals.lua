@@ -112,6 +112,21 @@ function S.setZone(character, obj, x0, y0, x1, y1)
     return true
 end
 
+-- Relay (D-33): a linked terminal connects the building it stands in or touches,
+-- fed by the terminal's inverter. The area remembers the terminal (via).
+S.RELAY_REACH = 2
+function S.connectBuilding(character, obj)
+    local sq = obj and obj:getSquare()
+    local key = sq and T.key(sq:getX(), sq:getY(), sq:getZ())
+    local t = key and (D.table().terminals or {})[key]
+    local dev = t and C.inverter(t.inv)
+    if not dev then
+        LiveWire.notify(character, "Tooltip_LWX_TerminalNotLinked", {}, true)
+        return false
+    end
+    return C.connectBuilding(character, dev, t.x, t.y, t.z, S.RELAY_REACH, key)
+end
+
 -- Picked up or destroyed: drop its record (authority).
 local function onRemoved(obj)
     if not obj or not T.isTerminal(obj) then return end

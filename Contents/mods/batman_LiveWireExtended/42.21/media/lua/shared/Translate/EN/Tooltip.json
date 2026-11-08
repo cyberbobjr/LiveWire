@@ -6,5 +6,6 @@
     "Tooltip_LWX_NoInverter": "No inverter within cable range.",
     "Tooltip_LWX_TerminalLinked": "This terminal is already linked.",
     "Tooltip_LWX_TerminalWires": "Uses %1 electric wire. The terminal then powers its 8 x 8 block; set its zone afterwards.",
-    "Tooltip_LWX_TerminalNotLinked": "Link the terminal to an inverter first."
+    "Tooltip_LWX_TerminalNotLinked": "Link the terminal to an inverter first.",
+    "Tooltip_LWX_NoBuildingNearTerminal": "Place the terminal inside a building or right against it."
 }

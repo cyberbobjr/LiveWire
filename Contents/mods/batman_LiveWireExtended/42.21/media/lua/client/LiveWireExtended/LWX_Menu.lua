@@ -93,6 +93,28 @@ function Menu.onTerminal(player, obj, inverter, unlink)
     queueNear(player, obj:getSquare(), LWXTerminalAction:new(player, obj, inverter, unlink))
 end
 
+-- Relay (E8): the building the linked terminal stands in or touches.
+Menu.RELAY_REACH = 2
+function Menu.addRelayOptions(sub, player, obj, record)
+    local key = X.Terminal.key(record.x, record.y, record.z)
+    local o = sub:addOption(getText("ContextMenu_LWX_ConnectBuilding"), player, Menu.onBuilding, obj, false, nil)
+    local def = X.Buildings.find(record.x, record.y, record.z, Menu.RELAY_REACH, LiveWire.Config.verticalRange())
+    if not LiveWire.Install.hasLevel(player, Menu.LEVEL) then
+        disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(Menu.LEVEL)))
+    elseif not def then
+        disable(o, "Tooltip_LWX_NoBuildingNearTerminal")
+    elseif D.ownerOf(X.Buildings.key(def)) then
+        disable(o, "Tooltip_LWX_AlreadyConnected")
+    else
+        hint(o, "Tooltip_LWX_ConnectBuilding", tostring(def:getX()), tostring(def:getY()))
+    end
+    for _, entry in ipairs(D.areaList(record.inv)) do
+        if entry.area.via == key then
+            sub:addOption(Menu.areaLabel(entry), player, Menu.onBuilding, obj, true, entry.key)
+        end
+    end
+end
+
 function Menu.onZone(player, obj)
     X.ZoneTool.open(player, obj)
 end
@@ -102,6 +124,7 @@ function Menu.addTerminalOptions(sub, player, obj)
     if record then
         sub:addOption(getText("ContextMenu_LWX_UnlinkTerminal"), player, Menu.onTerminal, obj, obj, true)
         sub:addOption(getText("ContextMenu_LWX_SetZone"), player, Menu.onZone, obj)
+        Menu.addRelayOptions(sub, player, obj, record)
         return
     end
     local list = LiveWire.Install.invertersInRange(obj:getSquare())

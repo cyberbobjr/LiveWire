@@ -50,6 +50,14 @@ function LWXBuildingAction:complete()
     if not stillThere(obj) or not X.Connect then return false end
     local sq = obj:getSquare()
     if not near(ch, sq, 2) or not allowed(ch, sq) then return false end
+    if X.Terminal.isTerminal(obj) then
+        -- Relay: the building the terminal touches, fed by the terminal's inverter (E8).
+        if not X.Terminals then return false end
+        local t = X.Terminal.recordAt(sq)
+        local dev = t and X.Connect.inverter(t.inv)
+        if self.disconnect then return dev ~= nil and X.Connect.disconnect(ch, dev, self.areaKey) end
+        return X.Terminals.connectBuilding(ch, obj)
+    end
     local dev = X.inverterOf(obj)
     if not dev then return false end
     if self.disconnect then return X.Connect.disconnect(ch, dev, self.areaKey) end
