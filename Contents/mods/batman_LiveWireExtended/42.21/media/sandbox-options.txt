@@ -1,0 +1,7 @@
+VERSION = 1,
+
+option LiveWireExtended.BuildingBand
+{
+    type = integer, min = 0, max = 8, default = 1,
+    page = LiveWireExtended, translation = LiveWireExtended_BuildingBand,
+}

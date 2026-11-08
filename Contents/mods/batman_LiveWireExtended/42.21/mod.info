@@ -1,0 +1,8 @@
+name=LiveWire Extended
+id=batman_LiveWireExtended
+description=Optional add-on for Live Wire: connect a whole building (every floor, basement and a strip outside) to an inverter, and power an outdoor area from a terminal you place and wire to it. Remove it at any time: Live Wire goes back to its normal range.
+require=\batman_LiveWire
+incompatible=\LGExtendedElectricity
+poster=poster.png
+versionMin=42.21
+modversion=1.7.2

@@ -1,0 +1,5 @@
+{
+    "Sandbox_LiveWireExtended": "LiveWire Extended",
+    "Sandbox_LiveWireExtended_BuildingBand": "Bande extérieure autour d'un bâtiment",
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Largeur en cases de la bande autour d'un bâtiment raccordé qui reçoit aussi le courant (porche, allée). Le jeu alimente des blocs entiers de 8 x 8 cases : la zone alimentée est arrondie à ces blocs."
+}

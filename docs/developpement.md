@@ -6,8 +6,13 @@ automatisés) vivent dans le fichier d'instructions unique du dossier de dévelo
 
 ## Périmètre du projet
 
-- Deux mods frères sous `Contents/mods` : **`batman_LiveWire`** (le mod) et **`batman_LiveWireViewpoint`**, qui déclare
-  `require=batman_LiveWire`. Toute modification de structure, de version ou de publication concerne les deux.
+- Trois mods frères sous `Contents/mods` : **`batman_LiveWire`** (le mod), **`batman_LiveWireViewpoint`** et
+  **`batman_LiveWireExtended`** (« LiveWire Extended », D-32), qui déclarent tous deux `require=\batman_LiveWire`. Toute
+  modification de structure, de version ou de publication concerne les trois.
+- LiveWire Extended est facultatif : il ne parle à la base que par le point d'extension `LW_Coverage` et la table
+  publique des ancres, ne modifie ni `GeneratorTileRange` ni `GeneratorVerticalPowerRange`, range ses données sous sa
+  propre clé ModData `LiveWireExtended` et se déclare `incompatible=\LGExtendedElectricity`. Lua sous
+  `LiveWireExtended/LWX_*.lua`, sous-table `LiveWire.Extended`, clés de traduction `*_LWX_*`.
 - Chaque mod a un dossier `common/` et la variante `42.21/` portant `mod.info` (`versionMin=42.21`, `modversion=` à
   jour) et `media/`. Noms de fichiers et espaces de noms Lua propres au mod (`LiveWire/…`, table globale `LiveWire`).
 - `preview.png` existe en 512 × 512.
