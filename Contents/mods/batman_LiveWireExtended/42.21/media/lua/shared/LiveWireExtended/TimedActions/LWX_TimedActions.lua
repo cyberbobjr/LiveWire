@@ -4,6 +4,7 @@
 require "TimedActions/ISBaseTimedAction"
 require "LiveWireExtended/LWX_Core"
 require "LiveWireExtended/LWX_Terminal"
+require "LiveWireExtended/LWX_Panel"
 
 local X = LiveWire.Extended
 
@@ -79,7 +80,8 @@ function LWXBuildingAction:new(character, target, disconnect, areaKey)
 end
 
 --------------------------------------------------------------------------------
--- Link a power terminal to an inverter with electric wire, or unlink it.
+-- Link a power terminal or a breaker board to an inverter with electric wire, or
+-- unlink it (LWX_Link kinds).
 --------------------------------------------------------------------------------
 LWXTerminalAction = ISBaseTimedAction:derive("LWXTerminalAction")
 
@@ -106,12 +108,12 @@ function LWXTerminalAction:perform() ISBaseTimedAction.perform(self) end
 
 function LWXTerminalAction:complete()
     local ch, obj = self.character, self.target
-    if not stillThere(obj) or not X.Terminals or not X.Terminal.isTerminal(obj) then return false end
+    if not stillThere(obj) or not X.Linked or not X.Link.kindOf(obj) then return false end
     local sq = obj:getSquare()
     if not near(ch, sq, 2) or not allowed(ch, sq) then return false end
-    if self.unlink then return X.Terminals.unlink(ch, obj) end
+    if self.unlink then return X.Linked.unlink(ch, obj) end
     if not stillThere(self.inverter) then return false end
-    return X.Terminals.link(ch, obj, self.inverter)
+    return X.Linked.link(ch, obj, self.inverter)
 end
 
 function LWXTerminalAction:getDuration()

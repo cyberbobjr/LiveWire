@@ -6,6 +6,7 @@ if isClient() then return end
 --   terminals["x,y,z"] = { x, y, z, inv = inverterId }
 --   its zone: inverters[inv].areas["t:x,y,z"] = LWX_Zone area
 require "LiveWireExtended/LWX_Connect"
+require "LiveWireExtended/LWX_Linked"
 require "LiveWireExtended/LWX_Zone"
 require "LiveWireExtended/LWX_Terminal"
 
@@ -32,38 +33,13 @@ function S.zoneArea(t, rect)
     return area
 end
 
--- Link terminal object `obj` to the inverter object `invObj`. Returns true when linked.
-function S.link(character, obj, invObj)
-    local ok, why, arg1, arg2 = T.checkLink(character, obj, invObj)
-    if not ok then
-        LiveWire.notify(character, why, { arg1, arg2 }, true)
-        return false
-    end
-    local dev = X.inverterOf(invObj)
-    if not dev then
-        LiveWire.notify(character, "Tooltip_LWX_NoInverter", {}, true)
-        return false
-    end
-    local wires = arg1 or 0
-    if wires > 0 and not LiveWire.Install.consume(character, "Base.ElectricWire", wires) then return false end
-    local sq = obj:getSquare()
-    local key = T.key(sq:getX(), sq:getY(), sq:getZ())
-    local t = { x = sq:getX(), y = sq:getY(), z = sq:getZ(), inv = dev.id }
-    D.table().terminals = D.table().terminals or {}
-    D.table().terminals[key] = t
+-- Linking and forgetting go through LWX_Linked; a terminal adds its default zone when
+-- linked and drops every area it carries (its zone, a relayed building) when forgotten.
+T.kind.onLink = function(t, dev, key)
     local area = S.zoneArea(t, X.Zone.default(t.x, t.y))
     C.commit(dev.id, function(e) if area then e.areas[S.zoneKey(key)] = area end end)
-    LiveWire.notify(character, "IGUI_LWX_TerminalLinked", {})
-    X.log("terminal " .. key .. " linked to " .. tostring(dev.id) .. " with " .. wires .. " wires")
-    return true
 end
-
--- Forget terminal `key` and every area it carries (its zone, a relayed building).
-function S.forget(key)
-    local terminals = D.table().terminals or {}
-    local t = terminals[key]
-    if not t then return false end
-    terminals[key] = nil
+T.kind.onForget = function(t, key)
     local e = D.entry(t.inv)
     if e and e.areas then
         C.commit(t.inv, function(entry)
@@ -71,18 +47,17 @@ function S.forget(key)
                 if a.terminal == key or a.via == key then entry.areas[k] = nil end
             end
         end)
-    elseif isServer() then
-        ModData.transmit(X.DATA_KEY)
     end
-    X.log("terminal " .. key .. " unlinked")
-    return true
 end
 
+function S.link(character, obj, invObj)
+    if not T.isTerminal(obj) then return false end
+    return X.Linked.link(character, obj, invObj)
+end
+function S.forget(key) return X.Linked.forget(T.kind, key) end
 function S.unlink(character, obj)
-    local sq = obj:getSquare()
-    if not sq or not S.forget(T.key(sq:getX(), sq:getY(), sq:getZ())) then return false end
-    LiveWire.notify(character, "IGUI_LWX_TerminalUnlinked", {})
-    return true
+    if not T.isTerminal(obj) then return false end
+    return X.Linked.unlink(character, obj)
 end
 
 -- Set the zone of terminal `obj` from a drawn rectangle (squares, any corners). The
@@ -127,28 +102,5 @@ function S.connectBuilding(character, obj)
     return C.connectBuilding(character, dev, t.x, t.y, t.z, S.RELAY_REACH, key)
 end
 
--- Picked up or destroyed: drop its record (authority).
-local function onRemoved(obj)
-    if not obj or not T.isTerminal(obj) then return end
-    local sq = obj:getSquare()
-    if sq then S.forget(T.key(sq:getX(), sq:getY(), sq:getZ())) end
-end
-
--- Terminals of removed inverters, and terminals whose square is loaded without them.
-function S.prune()
-    local terminals = D.table().terminals or {}
-    local stale = {}
-    for key, t in pairs(terminals) do
-        if not C.inverter(t.inv) then
-            stale[#stale + 1] = key
-        else
-            local sq = getCell():getGridSquare(t.x, t.y, t.z)
-            if sq and not T.onSquare(sq) then stale[#stale + 1] = key end
-        end
-    end
-    for i = 1, #stale do S.forget(stale[i]) end
-    return #stale > 0
-end
-
-Events.OnObjectAboutToBeRemoved.Add(onRemoved)
-Events.EveryHours.Add(S.prune)
+-- Pick-up, destruction and the hourly prune: LWX_Linked.
+S.prune = function() return X.Linked.prune() end

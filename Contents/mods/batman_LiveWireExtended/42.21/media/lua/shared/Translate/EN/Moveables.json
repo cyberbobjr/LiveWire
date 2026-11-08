@@ -1,3 +1,6 @@
 {
-    "LiveWire_Extended_Terminal": "Power Terminal"
+    "LiveWire_Extended_Terminal": "Power Terminal",
+    "LiveWire_Extended_Board8": "Breaker Board (8 modules)",
+    "LiveWire_Extended_Board16": "Breaker Board (16 modules)",
+    "LiveWire_Extended_Board24": "Breaker Board (24 modules)"
 }

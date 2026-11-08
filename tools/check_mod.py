@@ -372,6 +372,18 @@ def check_extended_info():
             fail("%s: must not change GeneratorTileRange / GeneratorVerticalPowerRange" % os.path.relpath(p, ROOT))
 
 
+# Keys added during the breaker-board steps (E15-E22), in EN and FR only: the eight other
+# languages get them at E23, which empties this set. Until then the game shows English.
+X_PENDING_TRANSLATION = {
+    "ContextMenu_LWX_LinkPanel", "ContextMenu_LWX_UnlinkPanel",
+    "IGUI_LWX_PanelLinked", "IGUI_LWX_PanelUnlinked",
+    "Tooltip_LWX_PanelLinked", "Tooltip_LWX_PanelWires",
+    "Base.Mov_LWX_Panel8", "Base.Mov_LWX_Panel16", "Base.Mov_LWX_Panel24",
+    "LiveWire_Extended_Board8", "LiveWire_Extended_Board16", "LiveWire_Extended_Board24",
+    "LWXMakePanel8", "LWXMakePanel16", "LWXMakePanel24",
+}
+
+
 def check_extended_translations():
     """Keys *_LWX_* used by the sub-mod exist in its own EN and FR files; others like EN."""
     used = set()
@@ -408,6 +420,8 @@ def check_extended_translations():
                 fail("Extended %s %s: UTF-8 BOM" % (lang, os.path.basename(p)))
             keys.update(json.loads(raw.decode("utf-8-sig")))
         for k in sorted(set(keys) ^ set(tr["EN"])):
+            if k not in keys and k in X_PENDING_TRANSLATION:
+                continue  # English fallback until the ten-language pass (plan step E23)
             fail("Extended %s: key %s %s" % (lang, k, "missing" if k in tr["EN"] else "unknown"))
         for k, v in keys.items():
             en = tr["EN"].get(k)

@@ -4,6 +4,7 @@ if isServer() then return end
 require "LiveWireExtended/LWX_Data"
 require "LiveWireExtended/LWX_Buildings"
 require "LiveWireExtended/LWX_Terminal"
+require "LiveWireExtended/LWX_Panel"
 require "LiveWireExtended/LWX_ZoneTool"
 
 local X = LiveWire.Extended
@@ -119,6 +120,33 @@ function Menu.onZone(player, obj)
     X.ZoneTool.open(player, obj)
 end
 
+-- "Link to an inverter" submenu of a terminal or a board (one option per inverter in range).
+function Menu.addLinkOptions(sub, player, obj, labelKey, wiresKey)
+    local list = LiveWire.Install.invertersInRange(obj:getSquare())
+    if #list == 0 then
+        local o = sub:addOption(getText(labelKey), nil, nil)
+        disable(o, "Tooltip_LWX_NoInverter")
+        return
+    end
+    local lo = sub:addOption(getText(labelKey), nil, nil)
+    local lsub = ISContextMenu:getNew(sub)
+    sub:addSubMenu(lo, lsub)
+    for i = 1, #list do
+        local inv = list[i].obj
+        local o = lsub:addOption(getText("ContextMenu_LWX_InverterAt", tostring(math.floor(list[i].dist + 0.5))),
+            player, Menu.onTerminal, obj, inv, false)
+        local ok, why, a1, a2 = X.Link.check(player, obj, inv)
+        if not ok then
+            local t = ISWorldObjectContextMenu.addToolTip()
+            t.description = getText(why, a1, a2)
+            o.toolTip = t
+            o.notAvailable = true
+        else
+            hint(o, wiresKey, tostring(a1))
+        end
+    end
+end
+
 function Menu.addTerminalOptions(sub, player, obj)
     local record = X.Terminal.recordAt(obj:getSquare())
     if record then
@@ -127,29 +155,26 @@ function Menu.addTerminalOptions(sub, player, obj)
         Menu.addRelayOptions(sub, player, obj, record)
         return
     end
-    local list = LiveWire.Install.invertersInRange(obj:getSquare())
-    if #list == 0 then
-        local o = sub:addOption(getText("ContextMenu_LWX_LinkTerminal"), nil, nil)
-        disable(o, "Tooltip_LWX_NoInverter")
+    Menu.addLinkOptions(sub, player, obj, "ContextMenu_LWX_LinkTerminal", "Tooltip_LWX_TerminalWires")
+end
+
+-- Breaker board among the clicked objects.
+function Menu.panelIn(worldobjects)
+    for _, o in ipairs(worldobjects) do
+        local sq = o and o.getSquare and o:getSquare()
+        local p = sq and X.Panel.onSquare(sq)
+        if p then return p end
+    end
+    return nil
+end
+
+function Menu.addPanelOptions(sub, player, obj)
+    if X.Panel.recordAt(obj:getSquare()) then
+        sub:addOption(getText("ContextMenu_LWX_UnlinkPanel"), player, Menu.onTerminal, obj, obj, true)
+        if Menu.panelExtra then Menu.panelExtra(sub, player, obj) end
         return
     end
-    local lo = sub:addOption(getText("ContextMenu_LWX_LinkTerminal"), nil, nil)
-    local lsub = ISContextMenu:getNew(sub)
-    sub:addSubMenu(lo, lsub)
-    for i = 1, #list do
-        local inv = list[i].obj
-        local o = lsub:addOption(getText("ContextMenu_LWX_InverterAt", tostring(math.floor(list[i].dist + 0.5))),
-            player, Menu.onTerminal, obj, inv, false)
-        local ok, why, a1, a2 = X.Terminal.checkLink(player, obj, inv)
-        if not ok then
-            local t = ISWorldObjectContextMenu.addToolTip()
-            t.description = getText(why, a1, a2)
-            o.toolTip = t
-            o.notAvailable = true
-        else
-            hint(o, "Tooltip_LWX_TerminalWires", tostring(a1))
-        end
-    end
+    Menu.addLinkOptions(sub, player, obj, "ContextMenu_LWX_LinkPanel", "Tooltip_LWX_PanelWires")
 end
 
 local function onFillWorld(playerNum, context, worldobjects, test)
@@ -157,7 +182,8 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     if not player then return end
     local obj, mark = Menu.inverterIn(worldobjects)
     local terminal = Menu.terminalIn(worldobjects)
-    if not obj and not terminal then return end
+    local panel = Menu.panelIn(worldobjects)
+    if not obj and not terminal and not panel then return end
     if test then return ISWorldObjectContextMenu.setTest() end
     local root = context:addOption(getText("ContextMenu_LWX_Root"), worldobjects, nil)
     local sub = ISContextMenu:getNew(context)
@@ -167,6 +193,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
         if Menu.extra then Menu.extra(sub, player, obj, mark) end
     end
     if terminal then Menu.addTerminalOptions(sub, player, terminal) end
+    if panel then Menu.addPanelOptions(sub, player, panel) end
 end
 
 Events.OnFillWorldObjectContextMenu.Add(onFillWorld)

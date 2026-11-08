@@ -38,4 +38,109 @@ module Base
             item 1 Base.Mov_LWX_Terminal,
         }
     }
+
+    /* PLACEHOLDER tile. Breaker board of 8 modules (D-35), a wall object placed with
+       the vanilla furniture cursor; linking it to an inverter needs Electrical 3.
+       Weight mirrors the tile (PickUpWeight 20) and is above the recipe inputs. */
+    item Mov_LWX_Panel8
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LWXPanel,
+        Weight = 2.0,
+        WorldObjectSprite = batman_livewireext_01_8,
+    }
+
+    craftRecipe LWXMakePanel8
+    {
+        timedAction = MakingElectrical,
+        time = 280,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:9,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 2 [Base.SmallSheetMetal],
+            item 2 [Base.ElectricWire],
+            item 4 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 Base.Mov_LWX_Panel8,
+        }
+    }
+
+    /* PLACEHOLDER tile. Breaker board of 16 modules (D-35), a wall object placed with
+       the vanilla furniture cursor; linking it to an inverter needs Electrical 3.
+       Weight mirrors the tile (PickUpWeight 30) and is above the recipe inputs. */
+    item Mov_LWX_Panel16
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LWXPanel,
+        Weight = 3.0,
+        WorldObjectSprite = batman_livewireext_01_10,
+    }
+
+    craftRecipe LWXMakePanel16
+    {
+        timedAction = MakingElectrical,
+        time = 360,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:13,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 3 [Base.SmallSheetMetal],
+            item 2 [Base.ElectricWire],
+            item 4 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 Base.Mov_LWX_Panel16,
+        }
+    }
+
+    /* PLACEHOLDER tile. Breaker board of 24 modules (D-35), a wall object placed with
+       the vanilla furniture cursor; linking it to an inverter needs Electrical 3.
+       Weight mirrors the tile (PickUpWeight 40) and is above the recipe inputs. */
+    item Mov_LWX_Panel24
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LWXPanel,
+        Weight = 4.0,
+        WorldObjectSprite = batman_livewireext_01_12,
+    }
+
+    craftRecipe LWXMakePanel24
+    {
+        timedAction = MakingElectrical,
+        time = 440,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:17,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 4 [Base.SmallSheetMetal],
+            item 2 [Base.ElectricWire],
+            item 4 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 Base.Mov_LWX_Panel24,
+        }
+    }
 }

@@ -1,3 +1,6 @@
 {
-    "LWXMakeTerminal": "Fabriquer une borne électrique"
+    "LWXMakeTerminal": "Fabriquer une borne électrique",
+    "LWXMakePanel8": "Fabriquer un tableau électrique (8 modules)",
+    "LWXMakePanel16": "Fabriquer un tableau électrique (16 modules)",
+    "LWXMakePanel24": "Fabriquer un tableau électrique (24 modules)"
 }

@@ -6,5 +6,7 @@
     "ContextMenu_LWX_LinkTerminal": "Raccorder à un onduleur",
     "ContextMenu_LWX_UnlinkTerminal": "Débrancher la borne",
     "ContextMenu_LWX_InverterAt": "Onduleur à %1 cases",
-    "ContextMenu_LWX_SetZone": "Régler la zone"
+    "ContextMenu_LWX_SetZone": "Régler la zone",
+    "ContextMenu_LWX_LinkPanel": "Raccorder à un onduleur",
+    "ContextMenu_LWX_UnlinkPanel": "Débrancher le tableau"
 }

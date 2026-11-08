@@ -6,5 +6,7 @@
     "ContextMenu_LWX_LinkTerminal": "Link to an inverter",
     "ContextMenu_LWX_UnlinkTerminal": "Unlink the terminal",
     "ContextMenu_LWX_InverterAt": "Inverter, %1 squares away",
-    "ContextMenu_LWX_SetZone": "Set the zone"
+    "ContextMenu_LWX_SetZone": "Set the zone",
+    "ContextMenu_LWX_LinkPanel": "Link to an inverter",
+    "ContextMenu_LWX_UnlinkPanel": "Unlink the breaker board"
 }

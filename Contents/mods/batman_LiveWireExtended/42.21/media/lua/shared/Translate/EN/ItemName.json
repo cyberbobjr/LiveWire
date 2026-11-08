@@ -1,3 +1,6 @@
 {
-    "Base.Mov_LWX_Terminal": "Power Terminal"
+    "Base.Mov_LWX_Terminal": "Power Terminal",
+    "Base.Mov_LWX_Panel8": "Breaker Board (8 modules)",
+    "Base.Mov_LWX_Panel16": "Breaker Board (16 modules)",
+    "Base.Mov_LWX_Panel24": "Breaker Board (24 modules)"
 }

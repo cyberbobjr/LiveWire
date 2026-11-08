@@ -1,3 +1,6 @@
 {
-    "LiveWire_Extended_Terminal": "Borne électrique"
+    "LiveWire_Extended_Terminal": "Borne électrique",
+    "LiveWire_Extended_Board8": "Tableau électrique (8 modules)",
+    "LiveWire_Extended_Board16": "Tableau électrique (16 modules)",
+    "LiveWire_Extended_Board24": "Tableau électrique (24 modules)"
 }

@@ -1,12 +1,17 @@
 """LiveWire Extended tiles (batman_livewireext_01, tiledef 7175) for Build 42.21.
 
 PLACEHOLDER: an outdoor power terminal drawn from simple shapes (concrete base,
-grey post, cabinet with a yellow band), final model later (Blender). Original
-work: nothing taken from another mod.
+grey post, cabinet with a yellow band) and three wall breaker boards (grey box,
+rows of dark breakers), final models later (Blender). Original work: nothing
+taken from another mod.
 
 Contract with the Lua code (LWX_Terminal.lua): never renumber these indices.
   0-3   power terminal   S E N W
   4-7   reserved (blank)
+  8-9   breaker board,  8 modules   S E (wall object: north wall, west wall)
+  10-11 breaker board, 16 modules   S E
+  12-13 breaker board, 24 modules   S E
+  14-15 reserved (blank)
 
 Needs Pillow and pz-sprite-forge (MIT, https://github.com/Leeheejin/pz-sprite-forge):
     set PZ_FORGE=<path to your pz-sprite-forge clone>
@@ -29,7 +34,7 @@ SHEET = "batman_livewireext_01"
 TILEDEF_ID = 7175
 MOD_ID = "batman_LiveWireExtended"
 CELL_W, CELL_H = 128, 256
-TOTAL = 8
+TOTAL = 16
 FACING_NAMES = ["S", "E", "N", "W"]
 PROPS = {"GroupName": "LiveWire Extended", "CustomName": "Terminal", "IsMoveAble": "",
          "solidtrans": "", "BlocksPlacement": "", "Material": "MetalPlates",
@@ -71,6 +76,44 @@ def terminal(facing: int) -> Image.Image:
     return img
 
 
+BOARDS = {8: (8, 0.36, 46), 10: (16, 0.56, 62), 12: (24, 0.76, 80)}  # index: modules, width, height px
+BOARD_PROPS = {"GroupName": "LiveWire Extended", "MoveType": "WallObject", "Material": "MetalPlates",
+               "PickUpTool": "Electrician"}
+
+
+def board(modules: int, width: float, height: int, facing: int) -> Image.Image:
+    """Grey wall box with rows of breakers; facing 0 on the north wall, 1 on the west wall."""
+    img = Image.new("RGBA", (CELL_W, CELL_H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    z0, z1, depth, half = 96, 96 + height, 0.07, width / 2
+    body = ((200, 202, 204, 255), (165, 168, 172, 255), (140, 143, 148, 255))
+    dark, lever = (55, 58, 62, 255), (225, 225, 220, 255)
+    rows = modules // 8
+    if facing == 0:  # against the north wall: front face looks south
+        y0 = -0.5
+        box(d, -half, y0, half, y0 + depth, z0, z1, *body)
+        for r in range(rows):
+            zt = z1 - 10 - r * (height - 14) / rows
+            for m in range(8):
+                xa = -half + 0.04 + m * (width - 0.08) / 8
+                xb = xa + (width - 0.08) / 8 - 0.012
+                d.polygon([iso(xa, y0 + depth, zt - 12), iso(xb, y0 + depth, zt - 12),
+                           iso(xb, y0 + depth, zt), iso(xa, y0 + depth, zt)], fill=dark)
+                d.line([iso((xa + xb) / 2, y0 + depth, zt - 9), iso((xa + xb) / 2, y0 + depth, zt - 3)], fill=lever)
+    else:  # against the west wall: front face looks east
+        x0 = -0.5
+        box(d, x0, -half, x0 + depth, half, z0, z1, *body)
+        for r in range(rows):
+            zt = z1 - 10 - r * (height - 14) / rows
+            for m in range(8):
+                ya = -half + 0.04 + m * (width - 0.08) / 8
+                yb = ya + (width - 0.08) / 8 - 0.012
+                d.polygon([iso(x0 + depth, ya, zt - 12), iso(x0 + depth, yb, zt - 12),
+                           iso(x0 + depth, yb, zt), iso(x0 + depth, ya, zt)], fill=dark)
+                d.line([iso(x0 + depth, (ya + yb) / 2, zt - 9), iso(x0 + depth, (ya + yb) / 2, zt - 3)], fill=lever)
+    return img
+
+
 def main() -> None:
     if len(sys.argv) != 2:
         raise SystemExit("usage: python build_extended_tiles.py <project-root>")
@@ -86,9 +129,15 @@ def main() -> None:
         raise SystemExit(f"tiledef {TILEDEF_ID} already used by {owners}")
     blank = Image.new("RGBA", (CELL_W, CELL_H), (0, 0, 0, 0))
     images = {i: terminal(i) for i in range(4)}
+    props = {i: {**PROPS, "Facing": FACING_NAMES[i]} for i in range(4)}
+    for first, (modules, width, height) in BOARDS.items():
+        for facing in range(2):
+            images[first + facing] = board(modules, width, height, facing)
+            props[first + facing] = {**BOARD_PROPS, "CustomName": f"Board{modules}",
+                                     "PickUpWeight": str(10 + modules // 8 * 10), "Facing": FACING_NAMES[facing]}
     cells = [Cell(images.get(i, blank), index=i) for i in range(TOTAL)]
     sheet = Sheet(SHEET, CELL_W, CELL_H, 8, cells)
-    tiles = [Tile({**PROPS, "Facing": FACING_NAMES[i]} if i < 4 else {}) for i in range(TOTAL)]
+    tiles = [Tile(props.get(i, {})) for i in range(TOTAL)]
     tdefs = TileDefinitions([Tileset(SHEET, f"{SHEET}.png", 8, TOTAL // 8, 1, tiles)])
     media = project / "Contents" / "mods" / MOD_ID / "common" / "media"
     (media / "texturepacks").mkdir(parents=True, exist_ok=True)
@@ -97,6 +146,11 @@ def main() -> None:
     icons = project / "Contents" / "mods" / MOD_ID / "42.21" / "media" / "textures"
     icons.mkdir(parents=True, exist_ok=True)
     images[0].crop((24, 120, 104, 240)).resize((32, 48)).crop((0, 8, 32, 40)).save(icons / "Item_LWXTerminal.png")
+    icon = images[10].crop(images[10].getbbox())
+    side = max(icon.size)
+    framed = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    framed.paste(icon, ((side - icon.width) // 2, (side - icon.height) // 2))
+    framed.resize((32, 32)).save(icons / "Item_LWXPanel.png")
     sheet.image().save(project / "source" / "tiles" / f"{SHEET}_sheet.png")
     print(f"packed {len(images)} sprites into {media}")
 

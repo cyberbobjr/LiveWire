@@ -1,3 +1,6 @@
 {
-    "LWXMakeTerminal": "Make Power Terminal"
+    "LWXMakeTerminal": "Make Power Terminal",
+    "LWXMakePanel8": "Make Breaker Board (8 modules)",
+    "LWXMakePanel16": "Make Breaker Board (16 modules)",
+    "LWXMakePanel24": "Make Breaker Board (24 modules)"
 }
