@@ -86,7 +86,8 @@ end
 
 -- Arguments that are translation keys are translated here, on the client.
 local function translateArg(a)
-    if type(a) == "string" and (string.find(a, "^IGUI_") or string.find(a, "^Tooltip_")) then
+    if type(a) == "string" and (string.find(a, "^IGUI_") or string.find(a, "^Tooltip_")
+        or string.find(a, "^ContextMenu_")) then
         return getText(a)
     end
     return tostring(a)

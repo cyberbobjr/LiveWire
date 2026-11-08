@@ -183,7 +183,10 @@ function Panel:pageContent(snap)
         if snap.alarm then
             L(T(snap.alarm.on and "IGUI_LW_Alarm_On" or "IGUI_LW_Alarm_Armed"))
         end
-        if snap.backup then
+        if snap.backup and snap.backup.state == "manual" then
+            -- Manual control (C09): say how to give control back to the mod.
+            L(T("IGUI_LW_LCD_BackupManual", snap.backup.w, T("ContextMenu_LW_ResumeBackup")))
+        elseif snap.backup then
             L(T("IGUI_LW_Backup_Line", T("IGUI_LW_Backup_" .. tostring(snap.backup.state)), snap.backup.w))
         end
     end

@@ -66,6 +66,9 @@ Below 20 % stock it sends a message to players within 30 tiles and beeps every 1
 **How does the backup generator work?**
 A vanilla generator linked to the inverter is started by the mod under 20 % battery and stopped at 90 % (sandbox `BackupStartPercent` and `BackupStopPercent`). It supplies 1,200 W and burns 1 L of fuel per 3 kWh on top of its vanilla consumption. It stays noisy and toxic indoors, must be plugged and fuelled the vanilla way, and never starts without batteries. See [Optional equipment](06-optional-equipment.md).
 
+**Why does the backup generator no longer start or stop on its own?**
+If you switch the generator on or off yourself (vanilla menu), the mod respects your choice: it goes into **manual control** and stops driving it. A message near the generator says so, and the inverter screen and the management software show "manual control". To hand control back to the mod: right-click the generator > **Live Wire** > **Backup generator** > **Resume automatic backup**. Linking a generator that is already running also puts it in manual control.
+
 ## Software and computer
 
 **Do I need a computer or the Computer Mod?**

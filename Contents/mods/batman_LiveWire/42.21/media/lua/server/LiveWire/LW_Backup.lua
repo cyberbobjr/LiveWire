@@ -88,6 +88,7 @@ function Backup.register(gen, grid)
     if not gen:isConnected() then why = "unplugged"
     elseif gen:getFuel() <= 0 then why = "nofuel"
     elseif gen:getCondition() <= 0 then why = "broken" end
+    if dev.manual then reportManual(dev) end
     if why then
         dev.failShown = why
         local sq2 = gen:getSquare()
@@ -95,6 +96,14 @@ function Backup.register(gen, grid)
             { "IGUI_LW_Backup_" .. why }, true)
     end
     return dev
+end
+
+-- Tell the players nearby, once per switch, that the mod stopped driving the
+-- generator and how to give control back (menu labels translated on the client).
+Backup.MANUAL_ARGS = { "ContextMenu_LW_Root", "IGUI_LW_Model_BackupGenerator", "ContextMenu_LW_ResumeBackup" }
+local function reportManual(dev)
+    LiveWire.notifyNear(dev.x, dev.y, dev.z, Backup.NOTIFY_RANGE, "IGUI_LW_BackupManual", Backup.MANUAL_ARGS, true)
+    LiveWire.log("backup generator " .. tostring(dev.id) .. " switched to manual control")
 end
 
 local function publishMode(dev, gen)
@@ -112,8 +121,10 @@ local function observeManual(dev, gen)
     local active = gen:isActivated()
     if dev.lastSet ~= nil and active ~= dev.lastSet and gen:isConnected()
         and gen:getFuel() > 0 and gen:getCondition() > 0 then
+        local wasManual = dev.manual == true
         dev.manual = true
         publishMode(dev, gen)
+        if not wasManual then reportManual(dev) end
     end
     dev.lastSet = active
 end
@@ -125,6 +136,7 @@ function Backup.resume(dev)
     dev.lastSet = gen:isActivated()
     dev.state = gen:isActivated() and "running" or "standby"
     publishMode(dev, gen)
+    LiveWire.notifyNear(dev.x, dev.y, dev.z, Backup.NOTIFY_RANGE, "IGUI_LW_BackupAuto", nil, false)
     return true
 end
 

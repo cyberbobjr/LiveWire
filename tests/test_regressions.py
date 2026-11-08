@@ -101,6 +101,43 @@ class Regressions(unittest.TestCase):
         assert(active)
         ''')
 
+    def test_manual_backup_message_once_and_resume_confirmation(self):
+        """C28: one message when manual control starts, none while it lasts,
+        a confirmation on resume, a new message after the next manual switch."""
+        self.run_lua('''
+        local B=LiveWire.Backup
+        local active, fuel = true, 10
+        local md={}
+        local gen={isActivated=function() return active end,setActivated=function(_,v) active=v end,
+          getFuel=function() return fuel end,setFuel=function(_,v) fuel=v end,
+          isConnected=function() return true end,getCondition=function() return 100 end,
+          getModData=function() return md end,getTotalPowerUsing=function() return 0 end}
+        B.find=function() return gen,true end
+        local sent={}
+        LiveWire.notifyNear=function(x,y,z,r,key,args,bad) sent[#sent+1]={key=key,args=args,bad=bad} end
+        local function count(k) local n=0 for i=1,#sent do if sent[i].key==k then n=n+1 end end return n end
+        local dev={id="d98",x=3,y=4,z=0,state="running",lastSet=true,fuel=10,fuelSeen=10}
+        md[B.KEY]={id=dev.id}
+        active=false
+        B.step(dev,0.5,1/60)
+        assert(dev.manual and count("IGUI_LW_BackupManual")==1)
+        local m=sent[1]
+        assert(m.bad==true and m.args[1]=="ContextMenu_LW_Root"
+          and m.args[2]=="IGUI_LW_Model_BackupGenerator" and m.args[3]=="ContextMenu_LW_ResumeBackup")
+        for i=1,5 do B.step(dev,0.5,1/60) end
+        active=true
+        B.step(dev,0.5,1/60)
+        B.restore(dev)
+        assert(dev.state=="manual" or dev.manual)
+        assert(count("IGUI_LW_BackupManual")==1) -- toggles while manual: no repeat
+        assert(B.resume(dev) and not dev.manual and count("IGUI_LW_BackupAuto")==1)
+        B.step(dev,0.95,1/60)
+        assert(not active and count("IGUI_LW_BackupManual")==1) -- automation stopped it: not manual
+        active=true
+        B.step(dev,0.95,1/60)
+        assert(dev.manual and count("IGUI_LW_BackupManual")==2)
+        ''')
+
     def test_scan_budget_and_complete_area(self):
         self.run_lua('''
         local S=LiveWire.SquareScan

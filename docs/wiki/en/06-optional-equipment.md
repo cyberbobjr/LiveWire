@@ -13,6 +13,8 @@ These four add-ons are not required to run a network, but they make it safer and
 
 The management computer and the backup generator are not crafted: they are vanilla objects found in the world. Link them from their own right-click menu (see [Wiring](03-wiring.md)).
 
+**Manual control.** Switching the backup generator on or off yourself (vanilla menu) puts it in manual control: the mod no longer starts or stops it, and the inverter screen and the software show "manual control". Right-click the generator > Live Wire > Backup generator > Resume automatic backup to return to automatic control.
+
 ## Parallel inverters (coupling)
 
 Real off-grid systems get more power by adding identical inverters in parallel, not by pushing one beyond its rating. Live Wire does the same:

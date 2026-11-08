@@ -475,7 +475,12 @@ function App:drawEquipment(ui, x, y, w, h, snap)
         cy = cy + fh(UIFont.Small) + 2
         bar(ui, x + 26, cy, w - 36, 8, fuel, C.amber)
         cy = cy + 14
-        text(ui, T("IGUI_LW_Backup_Thresholds", bk.start, bk.stop), x + 26, cy, C.dim)
+        if bk.state == "manual" then
+            -- Manual control (C09): thresholds are not applied until resumed.
+            text(ui, T("IGUI_LW_Backup_ManualHint", T("ContextMenu_LW_ResumeBackup")), x + 26, cy, C.amber)
+        else
+            text(ui, T("IGUI_LW_Backup_Thresholds", bk.start, bk.stop), x + 26, cy, C.dim)
+        end
         cy = cy + fh(UIFont.Small) + 4
     end
     if snap.computer then

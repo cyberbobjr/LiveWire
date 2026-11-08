@@ -5,6 +5,9 @@
 ### Fixes
 - Fixed fridges, freezers and other appliances losing power at random while the inverter still had plenty of power, until the inverter or the breaker panel was switched off and on again. It happened when the game loaded part of the map diagonally near the base, more often with a vanilla generator nearby (for example a backup generator).
 
+### Improvements
+- The backup generator now tells you when it switches to manual control. Switching it on or off yourself still hands it over to you, but a message now appears next to it, and the inverter screen and the management software show how to give control back: right-click the generator > Live Wire > Backup generator > Resume automatic backup. A confirmation appears when automatic control resumes.
+
 ## 1.7.2 — 2026-11-07
 
 ### Improvements

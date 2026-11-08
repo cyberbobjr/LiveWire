@@ -31,7 +31,7 @@ validation hors jeu et contrôles manuels restants dans le
 
 **Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé · ⏸ différé après décision utilisateur. « Publié » = présent dans une version du Workshop ; « non publié » = réalisé localement sur main. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Les autres correctifs CXX autorisés sont publiés en 1.5.0 ; C25 est un outil de test hors mod, versionné dans le dépôt. C11 reste différé, C20 est exclu de la dernière campagne. Preuves : [bilan de validation SP/MP](annexes/tests/validation.md).
 
-**Bilan** : améliorations de code **24 faites, 0 en partie, 3 à faire, 1 différée** (sur 28) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 8 hors périmètre** (sur 23). C27, C28, I22 et I23 viennent des commentaires Steam du 2026-11-07.
+**Bilan** : améliorations de code **25 faites, 0 en partie, 2 à faire, 1 différée** (sur 28) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 8 hors périmètre** (sur 23). C27, C28, I22 et I23 viennent des commentaires Steam du 2026-11-07.
 
 ### Améliorations de code
 
@@ -64,7 +64,7 @@ validation hors jeu et contrôles manuels restants dans le
 | C25 | Tests pompe, relais, couplage et MP | ✅ Terminé | SP 3/3 phases ; MP 3/3 phases, 2 clients ; droits ordinaires couverts séparément | Outil hors mod | `b242a36` | — |
 | C26 | README : limite des frigos dépassée par la 1.0.1 | ✅ Corrigé | README EN et FR relus | 1.5.0 | `21cc584` | — |
 | C27 | Fenêtres trop petites en 4K | ⬜ À faire | — | — | — | Prioritaire (2026-11-08) : échelle selon la police du jeu |
-| C28 | Mode manuel du secours invisible | ⬜ À faire | — | — | — | Prioritaire (2026-11-08) : message en jeu, LCD, wiki |
+| C28 | Mode manuel du secours invisible | ✅ Corrigé | Hors jeu (message unique, reprise) ; en jeu à faire | non publié | voir avancement | Vérifier en jeu le message et l'écran (SP, MP) |
 
 ### Idées de fonctionnalités
 
@@ -388,7 +388,8 @@ validation hors jeu et contrôles manuels restants dans le
   - Paragraphe dans la FAQ et les équipements optionnels du wiki (EN, FR).
   - Traductions dans les dix langues.
 - **Statut.** Confirmé statiquement. **Priorité haute (demandée le 2026-11-08), effort S.**
-- **Avancement : ⬜ à faire, autorisé par l'utilisateur le 2026-11-08 pour réalisation immédiate.**
+- **Correction du constat (2026-11-08).** L'état `manual` arrivait déjà au client (`snap.backup.state`, traduit par `IGUI_LW_Backup_manual`) : l'écran et le logiciel affichaient « commande manuelle », sans dire comment en sortir. Le message en jeu et l'explication manquaient.
+- **Avancement : ✅ corrigé le 2026-11-08, non publié.** Message `IGUI_LW_BackupManual` envoyé une seule fois au passage en manuel (bascule observée ou raccordement d'un générateur déjà en marche), avec les libellés de menu de la langue du joueur ; confirmation `IGUI_LW_BackupAuto` à la reprise. Écran (page État) et logiciel indiquent l'action « Reprendre le secours automatique ». Wiki EN/FR (FAQ, équipements optionnels), dix langues, test hors jeu `test_manual_backup_message_once_and_resume_confirmation`. Reste : vérification en jeu (SP et MP).
 
 ---
 

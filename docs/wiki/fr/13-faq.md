@@ -66,6 +66,9 @@ Sous 20 % de stock, elle envoie un message aux joueurs à moins de 30 cases et b
 **Comment fonctionne le groupe électrogène de secours ?**
 Un générateur vanilla raccordé à l'onduleur est démarré par le mod sous 20 % de batterie et arrêté à 90 % (options `BackupStartPercent` et `BackupStopPercent`). Il fournit 1 200 W et brûle 1 L de carburant pour 3 kWh en plus de sa consommation vanilla. Il reste bruyant et toxique en intérieur, doit être branché et rempli comme en vanilla, et ne démarre jamais sans batterie. Voir [Équipements optionnels](06-equipements-optionnels.md).
 
+**Pourquoi le groupe électrogène de secours ne démarre-t-il plus ou ne s'arrête-t-il plus seul ?**
+Si vous allumez ou éteignez le générateur vous-même (menu vanilla), le mod respecte votre choix : il passe en **commande manuelle** et ne le pilote plus. Un message près du générateur l'indique, et l'écran de l'onduleur comme le logiciel de gestion affichent « commande manuelle ». Pour rendre la main au mod : clic droit sur le générateur > **Live Wire** > **Générateur de secours** > **Reprendre le secours automatique**. Raccorder un générateur déjà en marche le met aussi en commande manuelle.
+
 ## Logiciel et ordinateur
 
 **Faut-il un ordinateur ou le Computer Mod ?**

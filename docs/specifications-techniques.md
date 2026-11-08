@@ -168,6 +168,12 @@ Champs principaux : `grid`, `rev` (révision croissante : la livraison n'est pas
   observée qui diffère de `lastSet` met le secours en mode manuel (`state = "manual"`).
   L'automatisation ne réécrit plus son activation jusqu'à `resumeBackup`. Le carburant
   simulé hors zone est rapproché au chargement en conservant ce choix.
+  Au passage en manuel (bascule observée ou raccordement d'un générateur déjà en marche),
+  les joueurs à moins de 30 cases reçoivent une seule fois `IGUI_LW_BackupManual` (arguments
+  `ContextMenu_LW_Root`, `IGUI_LW_Model_BackupGenerator`, `ContextMenu_LW_ResumeBackup`,
+  traduits par le client) ; `resumeBackup` envoie `IGUI_LW_BackupAuto`. L'instantané garde
+  `backup.state = "manual"` : l'écran (`IGUI_LW_LCD_BackupManual`) et le logiciel
+  (`IGUI_LW_Backup_ManualHint`) y ajoutent l'action de reprise (C28).
 - **Historique électrique privé** : `powerHistory[id] = { x, y, z, on, log0,
   since, retired?, log[] { t, on } }`. `LW_PowerHistory` conserve 60 jours de jeu,
   purge les anciennes transitions chaque heure et garde l'état à la borne de
