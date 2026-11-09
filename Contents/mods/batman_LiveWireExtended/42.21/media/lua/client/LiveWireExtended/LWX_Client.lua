@@ -25,7 +25,10 @@ local function flatten(e)
     for k in pairs(e.areas) do keys[#keys + 1] = k end
     table.sort(keys)
     for _, k in ipairs(keys) do
-        for _, p in ipairs(e.areas[k].positions or {}) do out[#out + 1] = p end
+        local a = e.areas[k]
+        if not a.off then   -- switched off by its breaker: no position (D-36)
+            for _, p in ipairs(a.positions or {}) do out[#out + 1] = p end
+        end
     end
     return out
 end

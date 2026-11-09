@@ -59,7 +59,9 @@ local function build(id)
     local seen = {}
     for i = 1, #list do
         local a = list[i].area
-        for _, p in ipairs(a.positions or {}) do
+        -- An area switched off by its breaker (a terminal wired as a point, D-36) powers nothing.
+        local positions = a.off and {} or a.positions or {}
+        for _, p in ipairs(positions) do
             c.positions[#c.positions + 1] = p
             local key = p.cx .. "," .. p.cy
             local ch = seen[key]
@@ -70,7 +72,7 @@ local function build(id)
             end
             ch.zmin, ch.zmax = math.min(ch.zmin, p.z), math.max(ch.zmax, p.z)
         end
-        local b = a.bounds
+        local b = not a.off and a.bounds
         if b then
             if c.bounds then
                 c.bounds.x0, c.bounds.y0 = math.min(c.bounds.x0, b.x0), math.min(c.bounds.y0, b.y0)

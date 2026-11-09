@@ -428,6 +428,7 @@ X_PENDING_TRANSLATION = {
     "LiveWire_Extended_Board8",
     "Tooltip_LWX_BoardFull",
     "Tooltip_LWX_BreakerRating",
+    "Tooltip_LWX_MachineCut",
     "Tooltip_LWX_NeedPen",
     "Tooltip_LWX_NoBoardNear",
     "Tooltip_LWX_NoBreakerItem",

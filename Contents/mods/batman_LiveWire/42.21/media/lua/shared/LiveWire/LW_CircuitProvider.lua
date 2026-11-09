@@ -8,6 +8,8 @@
 --   blocked(o, kind, grid) -> true to cut the appliance `o` (I21 family `kind`, owned by
 --                             the panel `grid`, which may be nil); false or nil otherwise.
 --                             Called on the authority by LiveWire.Circuits only.
+--   deviceBlocked(dev)     -> optional: true to cut a Live Wire pump or management
+--                             computer (registry device), on the authority.
 -- Registration happens while Lua files load, before OnInitGlobalModData, like API v1.
 LiveWire = LiveWire or {}
 
@@ -28,6 +30,10 @@ function CP.active() return provider ~= nil end
 
 function CP.blocked(o, kind, grid)
     return provider ~= nil and provider.blocked(o, kind, grid) == true
+end
+
+function CP.deviceBlocked(dev)
+    return provider ~= nil and provider.deviceBlocked ~= nil and provider.deviceBlocked(dev) == true
 end
 
 Events.OnInitGlobalModData.Add(function() sealed = true end)

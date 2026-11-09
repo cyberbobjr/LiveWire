@@ -7,6 +7,7 @@
 -- The link is kept in the computer ModData under its own key, so the vanilla
 -- object stays untouched otherwise.
 if isClient() then return end
+require "LiveWire/LW_CircuitProvider"
 
 LiveWire = LiveWire or {}
 
@@ -65,6 +66,7 @@ end
 -- Is the computer running? It needs power on its square (from our anchor or any
 -- other source). When not loaded, it runs if the network is powered.
 function Computer.powered(dev, grid)
+    if LiveWire.CircuitProvider.deviceBlocked(dev) then return false end  -- a sub-mod breaker (D-38)
     local obj, loaded = Computer.find(dev)
     if loaded and not obj then return false end  -- gone: Sim drops it after two checks
     if not obj then return grid.powered == true end

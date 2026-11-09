@@ -82,15 +82,19 @@ function PT.slotOf(p)
     return board and X.Breakers.slotAt(board, p.pos) or nil
 end
 
--- Has object `o` no current because of a breaker or of D-37?
-function PT.blocked(o)
-    local key = X.Adapters.identity(o)
-    if not key then return false end
+-- Has point `key` (standing at x, y, z) no current because of a breaker or of D-37?
+function PT.blockedKey(key, x, y, z)
     local p = PT.point(key)
     local slot = p and PT.slotOf(p)
     if slot then return slot.off == true or slot.tripped == true end
-    local sq = o:getSquare()
-    return sq ~= nil and PT.servedAt(sq:getX(), sq:getY(), sq:getZ())
+    return PT.servedAt(x, y, z)
+end
+
+function PT.blocked(o)
+    local key = X.Adapters.identity(o)
+    local sq = key and o:getSquare()
+    if not sq then return false end
+    return PT.blockedKey(key, sq:getX(), sq:getY(), sq:getZ())
 end
 
 -- Can `character` wire object `o` to the breaker of module `pos` of board `boardObj`?
