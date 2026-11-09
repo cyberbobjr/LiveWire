@@ -362,10 +362,20 @@ function E.hintScrews(ui, L)
     screw(ui, L.encX + L.encW - 22, L.hintY)
 end
 
--- Button of cell `index` of the layout's button grid (L.cells); the reference coordinates are
--- scaled by the window factor through LW_UIKit.button.
+-- Button of cell `index` of the layout's grid (L.cells: x absolute, y from L.btnY), styled as the
+-- mockup's buttons (black fill, light border, white title). Scaled through LW_UIKit.button.
 function E.cellButton(ui, L, index, title, onclick, internal)
     local cell = L.cells[index]
-    return LiveWire.UIKit.button(ui, L.inX + cell.x, L.btnY + cell.y, cell.w, cell.h, title, onclick, internal,
-        ui.lwK)
+    local b = LiveWire.UIKit.button(ui, cell.x, L.btnY + cell.y, cell.w, cell.h, title, onclick, internal, ui.lwK)
+    b.displayBackground = true
+    b.backgroundColor = { r = 0, g = 0, b = 0, a = 0.85 }
+    b.borderColor = { r = 0.7, g = 0.7, b = 0.7, a = 1 }
+    b.textColor = { r = 1, g = 1, b = 1, a = 1 }
+    return b
+end
+
+-- Enabled or greyed button (the mockup's dim state: a fainter border, the title greyed).
+function E.setLook(b, enabled)
+    b:setEnable(enabled)
+    b.borderColor.a = enabled and 1 or 0.4
 end
