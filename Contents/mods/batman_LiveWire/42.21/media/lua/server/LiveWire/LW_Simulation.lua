@@ -139,7 +139,6 @@ local function stockFraction(entries)
     if capacity <= 0 then return nil end
     return stock / capacity
 end
-Sim.stockFraction = stockFraction
 
 -- Inverters of a grid that are in service (switched on and not broken): the master
 -- when its state is "on" or "tripped" (it is the one that trips), plus every slave whose
@@ -277,8 +276,7 @@ function Sim.snapshot(grid)
     local c = computers[1]
     if c then
         local on = grid.computerOn == true
-        snap.computer = { id = c.id, powered = on,
-                          shed = true }
+        snap.computer = { id = c.id, powered = on }
         if on then
             snap.history = {}
             for i, hs in ipairs(grid.history or {}) do snap.history[i] = { p = hs.p, d = hs.d, s = hs.s } end
@@ -670,7 +668,6 @@ function Sim.stepGrid(grid, now, w, evaluate)
     Sim.updateAnchor(inv, on)
     -- Coupled inverters that keep their own zone (D-45) follow the master's power.
     if LiveWire.Coupling.slaveKeepsZone() then
-        local slaves = LiveWire.Registry.slaves(grid)
         for i = 1, #slaves do
             local sl = slaves[i]
             Sim.updateAnchor(sl, on and sl.state == "on" and (sl.cond or 0) > 0)

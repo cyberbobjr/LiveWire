@@ -266,3 +266,19 @@ ce mod et seulement s'il est installé. Les autres abonnés `LoadChunk` de Live 
 restent lissés par lui. **Pas de sonde périodique ni d'abonné `OnTick`** : le
 renfort qui réarmait les passes d'ancre depuis `OnTick` est explicitement écarté
 pour son coût. Aucune migration de pattern, de registre ni de sauvegarde.
+
+## Correction de la dette technique — 2026-11-09
+
+Audit du 2026-11-09 (`annexes/audit/2026-11-09-dette-technique.md`), plan validé par l'utilisateur le même jour
+(« implémente tous les lots »), suivi dans `annexes/plans/dette-technique.md`. Aucun format de sauvegarde ni réglage
+sandbox ne change ; aucune migration de pattern (serveur autoritaire, modules `LiveWire.*`).
+
+| ID | Sujet | Décision |
+|---|---|---|
+| D-46 | Campagne de correction (2026-11-09, choix de l'utilisateur) | Neuf lots, de la sûreté au découpage, sans changement de jeu sauf : « RESET » traduit, voyants des sources ajoutées par l'API, moins d'abonnés `OnTick`. Les `pcall` locaux, journalisés et commentés (une pompe, un appareil de chunk, une commande) restent une exception admise ; aucun `pcall` englobant de plus |
+| D-47 | API des sous-mods (2026-11-09, choix de l'utilisateur : « élargir l'API ») | LiveWire Extended n'appelle de la base que `LiveWire.API`, les points d'extension (`Coverage`, `CircuitProvider`, `Coupling`), la lecture de `LiveWire.Config`, `LiveWire.UIScale`, `LiveWire.notify`/`notifyNear` et `LiveWire.Anchor.reshape`. Tout autre besoin devient une fonction de `LiveWire.API`, qui délègue aux modules internes et ne rend que des copies détachées. La base ne connaît toujours pas Extended |
+| D-48 | Membres d'un réseau et onduleurs (2026-11-09) | `Registry.members(grid)` rend une table indexée par rôle ; un module serveur `LW_Inverters` porte les règles de parc (`inService`, `capacityW`, `idleW`, esclave en service) ; aucun module ne lit le cache d'un autre (`Demand.eachObject`) ; les champs persistés du registre ont des accesseurs du registre |
+| D-49 | Actions chronométrées (2026-11-09) | Toute action de Live Wire et d'Extended dérive de `LWBaseAction` (orientation, portée, durée, garde d'autorité complète dont `readOnly`). Les noms globaux des classes restent (NetTimedAction) |
+| D-50 | Appareils décrits par des données (2026-11-09) | Voyants (`def.overlays`), production et météo (`Sim.sourceKinds`), menu (`Menu.providers`) et familles d'appareils vanilla (`Appliances.FAMILIES`) se déclarent dans des tables ; aucune nouvelle branche `if model == …` |
+| D-51 | Abonnés à chaque image (2026-11-09) | Les vues (portée, pompe, réseau) ne s'abonnent à `OnTick` que tant qu'elles sont ouvertes ; l'affichage de l'ancre ne tourne que côté joueur et le vieillissement des frigos que côté serveur ; les pompes se trouvent par un index de rôle. La découverte des appareils reste inchangée tant qu'aucune mesure ne justifie un passage à `EveryOneMinute` |
+| D-52 | Événements internes (2026-11-09) | Un bus local `LiveWire.Events` (`on`, `emit`) remplace les appels du registre et des wrappers de placement vers les autres modules (`topologyChanged`, `squareChanged`, …) ; un module absent ne s'abonne simplement pas |

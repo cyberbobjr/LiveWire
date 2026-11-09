@@ -231,6 +231,7 @@
     "IGUI_LW_Event_EquipmentOn": "機器回路復帰",
     "IGUI_ContainerTitle_none": "容器",
     "IGUI_LW_Connections": "接続",
+    "IGUI_LW_Reset": "リセット",
     "IGUI_LW_OpenEquipment": "機器パネルを開く",
     "IGUI_LW_BankTitle": "バッテリーモニター",
     "IGUI_LW_BankPrev": "前へ",

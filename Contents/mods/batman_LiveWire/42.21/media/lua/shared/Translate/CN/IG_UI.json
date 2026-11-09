@@ -231,6 +231,7 @@
     "IGUI_LW_Event_EquipmentOn": "设备电路已恢复",
     "IGUI_ContainerTitle_none": "容器",
     "IGUI_LW_Connections": "连接",
+    "IGUI_LW_Reset": "复位",
     "IGUI_LW_OpenEquipment": "打开设备面板",
     "IGUI_LW_BankTitle": "电池监视器",
     "IGUI_LW_BankPrev": "上一项",

@@ -99,8 +99,14 @@ local function inService(dev)
     return nil
 end
 
-local function markFromDevice(obj, dev)
-    placementFacts(obj, dev)
+-- Fields of the mark: written by markFromDevice and compared by Devices.find, from
+-- this one list, so a field that is written is always a field that is compared.
+local MARK_FIELDS = { "id", "model", "cond", "eff", "level", "inv", "st", "pw", "muf",
+                      "x", "y", "z", "nb", "nr", "cpl", "br", "nm", "dirt", "snow",
+                      "facing", "svc", "xpd" }
+
+-- Mark content of a device (placementFacts must have run: the facing comes from it).
+local function buildMark(dev)
     local st, pw = stateOf(dev)
     local g = dev.grid and R().grid(dev.grid)
     -- Pumps: number of linked barrels (connect menu limit) and of relay tanks (shown
@@ -111,14 +117,30 @@ local function markFromDevice(obj, dev)
         for _ in pairs(dev.barrels or {}) do nb = nb + 1 end
         for _ in pairs(dev.relays or {}) do nr = nr + 1 end
     end
-    LiveWire.Marks.set(obj, { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
-                              level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
-                              muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z,
-                              nb = nb, nr = nr, cpl = dev.coupled, br = dev.brake == true,
-                              nm = g and g.name or nil, dirt = dev.dirt, snow = dev.snow,
-                              facing = dev.facing, svc = inService(dev),
-                              xpd = dev.xpd == true or nil })
-    dev.shownSt, dev.shownPw, dev.shownInv = st, pw, inverterOf(dev)
+    return { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
+             level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
+             muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z,
+             nb = nb, nr = nr, cpl = dev.coupled, br = dev.brake == true,
+             nm = g and g.name or nil, dirt = dev.dirt, snow = dev.snow,
+             facing = dev.facing, svc = inService(dev),
+             xpd = dev.xpd == true or nil }
+end
+
+-- Does the mark `m` (nil: none) differ from the fresh content `fresh` on any field?
+local function markDiffers(m, fresh)
+    if not m then return true end
+    for i = 1, #MARK_FIELDS do
+        local name = MARK_FIELDS[i]
+        if m[name] ~= fresh[name] then return true end
+    end
+    return false
+end
+
+local function markFromDevice(obj, dev)
+    placementFacts(obj, dev)
+    local fresh = buildMark(dev)
+    LiveWire.Marks.set(obj, fresh)
+    dev.shownSt, dev.shownPw, dev.shownInv = fresh.st, fresh.pw, fresh.inv
     if isServer() then obj:transmitModData() end
 end
 
@@ -145,13 +167,7 @@ function Devices.find(dev)
         -- Old saves have no facing field. Read the physical tile even when wear
         -- is disabled and no other mark field changes; never assume south.
         placementFacts(obj, dev)
-        local m = LiveWire.Marks.get(obj)
-        local st, pw = stateOf(dev)
-        if not m or m.id ~= dev.id or m.model ~= dev.model or m.cond ~= dev.cond
-            or m.eff ~= dev.eff or m.level ~= dev.level or m.inv ~= inverterOf(dev)
-            or m.st ~= st or m.pw ~= pw or m.x ~= dev.x or m.y ~= dev.y or m.z ~= dev.z
-            or m.facing ~= dev.facing or (m.br == true) ~= (dev.brake == true)
-            or m.svc ~= inService(dev) then
+        if markDiffers(LiveWire.Marks.get(obj), buildMark(dev)) then
             markFromDevice(obj, dev)
         end
     end

@@ -86,7 +86,7 @@ function Panel:createChildren()
     local by = L.lcdY + L.lcdH + L.btnY
     self.prevBtn = button(self, L.lcdX, by, L.arrowW, L.btnH, "<", "PREV")
     self.nextBtn = button(self, L.lcdX + L.nextX, by, L.arrowW, L.btnH, ">", "NEXT")
-    self.resetBtn = button(self, L.lcdX + L.resetX, by, L.resetW, L.btnH, "RESET", "RESET")
+    self.resetBtn = button(self, L.lcdX + L.resetX, by, L.resetW, L.btnH, T("IGUI_LW_Reset"), "RESET")
     self.powerBtn = button(self, L.w - L.side - L.powerW, by, L.powerW, L.btnH, "I / O", "POWER")
     self.closeBtn = button(self, L.w - L.closeX, L.closeY, L.closeS, L.closeS, "x", "CLOSE")
     button(self, L.lcdX, L.linksY, L.lcdW, L.linksH, T("IGUI_LW_Connections"), "LINKS")

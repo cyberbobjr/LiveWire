@@ -212,12 +212,6 @@ function Anchor.reshape(id, mutate)
     Anchor.refreshVisuals(a, id)
 end
 
-function Anchor.applyAll()
-    for id, a in pairs(Anchor.table()) do
-        Anchor.set(id, a, a.on == true)
-    end
-end
-
 -- World chunk coordinates of an IsoChunk (its wx/wy fields are not readable from Lua).
 function Anchor.chunkCoords(chunk)
     for z = chunk:getMinLevel(), chunk:getMaxLevel() do

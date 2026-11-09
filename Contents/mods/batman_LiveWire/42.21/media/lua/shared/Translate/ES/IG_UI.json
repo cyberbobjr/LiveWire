@@ -231,6 +231,7 @@
     "IGUI_LW_Event_EquipmentOn": "Circuito de equipos restablecido",
     "IGUI_ContainerTitle_none": "Contenedor",
     "IGUI_LW_Connections": "Conexiones",
+    "IGUI_LW_Reset": "REARME",
     "IGUI_LW_OpenEquipment": "Abrir panel",
     "IGUI_LW_BankTitle": "MONITOR DE BATERÍAS",
     "IGUI_LW_BankPrev": "Anterior",

@@ -167,12 +167,6 @@ function Registry.addDevice(dev)
     return dev
 end
 
-function Registry.moveDevice(dev, x, y, z)
-    indexRemove(dev)
-    dev.x, dev.y, dev.z = x, y, z
-    indexAdd(dev)
-end
-
 -- Creates the network owned by a new inverter.
 function Registry.createGrid(inverter)
     local g = {

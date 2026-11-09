@@ -29,8 +29,6 @@ function CP.register(p)
     return true
 end
 
-function CP.active() return provider ~= nil end
-
 function CP.blocked(o, kind, grid)
     return provider ~= nil and provider.blocked(o, kind, grid) == true
 end

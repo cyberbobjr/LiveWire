@@ -262,16 +262,6 @@ function V.inverters()
     return out
 end
 
--- Water pumps seen by this client (for the pump hum). No overlay for the pump.
-function V.pumps()
-    local out = {}
-    for i = 1, #V.tracked do
-        local o = V.tracked[i]
-        if LiveWire.Defs.modelOfObject(o) == "WaterPump" then out[#out + 1] = o end
-    end
-    return out
-end
-
 local function onTick()
     local player = getPlayer()
     if not player then return end

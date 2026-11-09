@@ -69,15 +69,6 @@ function Install.consume(character, fullType, n)
     return true
 end
 
-function Install.removeItem(character, item)
-    local container = item:getContainer()
-    if not container then return false end
-    character:removeFromHands(item)
-    container:DoRemoveItem(item)
-    sendRemoveItemFromContainer(container, item)
-    return true
-end
-
 function Install.giveItem(character, fullType)
     local item = character:getInventory():AddItem(fullType)
     if item then sendAddItemToContainer(character:getInventory(), item) end

@@ -231,6 +231,7 @@
     "IGUI_LW_Event_EquipmentOn": "Контур оборудования восстановлен",
     "IGUI_ContainerTitle_none": "Контейнер",
     "IGUI_LW_Connections": "Подключения",
+    "IGUI_LW_Reset": "СБРОС",
     "IGUI_LW_OpenEquipment": "Открыть панель",
     "IGUI_LW_BankTitle": "МОНИТОР БАТАРЕЙ",
     "IGUI_LW_BankPrev": "Назад",

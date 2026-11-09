@@ -231,6 +231,7 @@
     "IGUI_LW_Event_EquipmentOn": "Gerätestromkreis wieder ein",
     "IGUI_ContainerTitle_none": "Behälter",
     "IGUI_LW_Connections": "Verbindungen",
+    "IGUI_LW_Reset": "RESET",
     "IGUI_LW_OpenEquipment": "Gerätefenster öffnen",
     "IGUI_LW_BankTitle": "BATTERIEMONITOR",
     "IGUI_LW_BankPrev": "Zurück",

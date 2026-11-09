@@ -43,7 +43,6 @@ function Protocol.isId(v, prefix)
 end
 
 function Protocol.isDeviceId(v) return Protocol.isId(v, "d") end
-function Protocol.isGridId(v) return Protocol.isId(v, "g") end
 
 function Protocol.isBool(v) return v == true or v == false end
 

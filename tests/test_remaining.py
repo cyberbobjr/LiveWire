@@ -176,9 +176,50 @@ class Remaining(unittest.TestCase):
     def test_equal_distance_uses_stable_identity(self):
         self.pump_scene()
         self.run_lua('''
-        LiveWire.Registry.moveDevice(FAR,-1,0,0)
+        local R=LiveWire.Registry
+        R.removeDevice(FAR.id)
+        FAR.x,FAR.y,FAR.z=-1,0,0
+        R.addDevice(FAR);R.link(FAR,G)
         LiveWire.Pump.maintain(NEAR)
         assert(RELAY:getModData()[LiveWire.Defs.RELAY_KEY].pump==FAR.id)
+        ''')
+
+    def test_a_relay_synced_again_after_its_entry_is_removed(self):
+        self.pump_scene()
+        self.run_lua('''
+        local P=LiveWire.Pump
+        P.SYNC_LITRES=100
+        RF.getFreeCapacity=function(s) return 200-s.amount end
+        SYNCS=0
+        RELAY.sync=function() SYNCS=SYNCS+1 end
+        P.step(FAR)
+        assert(SYNCS==1,'first transfer syncs')
+        P.step(FAR)
+        assert(SYNCS==1,'a small change does not sync')
+        P.removeRelay(FAR,KEY)
+        assert(FAR.relays[KEY]==nil)
+        P.findRelay=function() return RELAY end
+        FAR.relays[KEY]=POS
+        P.step(FAR)
+        assert(SYNCS==2,'a removed relay is forgotten: the next transfer syncs')
+        ''')
+
+    def test_a_barrel_synced_again_after_its_pump_is_forgotten(self):
+        self.pump_scene()
+        self.run_lua('''
+        local P=LiveWire.Pump
+        P.SYNC_LITRES=100
+        RF.getFreeCapacity=function(s) return 200-s.amount end
+        local sq=P.findBarrel():getSquare()
+        BSYNCS=0
+        local barrel={getModData=function() return {} end,getSquare=function() return sq end,
+            getFluidContainer=function() return BF end,sync=function() BSYNCS=BSYNCS+1 end}
+        P.findBarrel=function() return barrel,true end
+        P.step(FAR);P.step(FAR)
+        assert(BSYNCS==1,'a barrel syncs once per interval')
+        P.forget(FAR)
+        P.step(NEAR)
+        assert(BSYNCS==2,'a forgotten pump leaves no sync memory behind')
         ''')
 
     def test_registry_repairs_mark_instead_of_adopting_duplicate(self):

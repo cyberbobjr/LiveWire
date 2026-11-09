@@ -19,6 +19,12 @@ local Defs = LiveWire.Defs
 
 local function R() return LiveWire.Registry end
 
+-- Session memory of the last relay and barrel syncs (see "Relay and barrel
+-- synchronisation" below). An entry is dropped when its relay is removed and the
+-- barrel entries when a pump is forgotten.
+local relaySynced = {}    -- posKey -> litres at the last sync
+local barrelSyncedAt = {} -- posKey -> world age (minutes) of the last sync
+
 -- `next` does not exist in Kahlua 42.21 (knowledge/kahlua-lua.md).
 local function hasAny(t)
     if not t then return false end
@@ -94,6 +100,7 @@ function Pump.removeRelay(dev, key)
     local relay = Pump.findRelay(r.x, r.y, r.z)
     local m = relay and relay:getModData()[Defs.RELAY_KEY]
     if m and m.pump == dev.id then sq:transmitRemoveItemFromSquare(relay) end
+    relaySynced[key] = nil
     dev.relays[key] = nil
 end
 
@@ -463,9 +470,6 @@ end
 -- Session memory only: after a restart the first transfer syncs.
 Pump.SYNC_LITRES = 5
 Pump.BARREL_SYNC_MINUTES = 10
-local relaySynced = {}    -- posKey -> litres at the last sync
-local barrelSyncedAt = {} -- posKey -> world age (minutes) of the last sync
-
 local function syncRelay(rn)
     local amount = rn.fc:getAmount()
     local last = relaySynced[rn.key]
@@ -596,6 +600,7 @@ end
 -- A pump is removed: its relays go, and the barrel marks of loaded barrels are cleared.
 function Pump.forget(dev)
     Pump.inventories[dev.id] = nil
+    barrelSyncedAt = {}
     local nearby, remaining = candidates(dev), {}
     for i = 1, #nearby do
         if nearby[i].id ~= dev.id then remaining[#remaining + 1] = nearby[i] end
@@ -603,6 +608,7 @@ function Pump.forget(dev)
     local keys = {}
     for key in pairs(dev.relays or {}) do keys[#keys + 1] = key end
     for i = 1, #keys do
+        relaySynced[keys[i]] = nil
         local pos = dev.relays[keys[i]]
         local owner = closest(remaining, pos.x, pos.y, pos.z - 1)
         local relay = Pump.findRelay(pos.x, pos.y, pos.z)

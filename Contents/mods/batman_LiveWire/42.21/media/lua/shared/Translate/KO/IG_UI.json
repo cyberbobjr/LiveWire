@@ -231,6 +231,7 @@
     "IGUI_LW_Event_EquipmentOn": "장비 회로 복구",
     "IGUI_ContainerTitle_none": "보관함",
     "IGUI_LW_Connections": "연결",
+    "IGUI_LW_Reset": "리셋",
     "IGUI_LW_OpenEquipment": "장비 패널 열기",
     "IGUI_LW_BankTitle": "배터리 모니터",
     "IGUI_LW_BankPrev": "이전",
