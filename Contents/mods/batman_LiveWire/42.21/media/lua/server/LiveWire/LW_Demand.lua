@@ -241,8 +241,8 @@ local function addNetworkPeers(others, inv)
         local d = members[i]
         if d and d.id ~= inv.id and not seen[tostring(d.id)] then
             local inService
-            if d.coupled then inService = d.state == "on" and (d.cond or 0) > 0
-            else inService = d.state == "on" or d.state == "tripped" end
+            if d.coupled then inService = LiveWire.Inverters.slaveInService(d)
+            else inService = LiveWire.Inverters.masterInService(d) end
             if inService then
                 others[#others + 1] = { id = d.id, x = d.x, y = d.y, z = d.z }
                 seen[tostring(d.id)] = true
@@ -337,7 +337,7 @@ function Demand.measureGrid(grid, inv, allowDirty)
     local total, breakdown = Demand.measure(inv, allowDirty)
     if not total or not grid or not LiveWire.Coupling.slaveKeepsZone() then return total, breakdown end
     breakdown = breakdown or {}
-    local _, list = LiveWire.Sim.inService(grid)
+    local _, list = LiveWire.Inverters.inService(grid)
     for i = 1, #list do
         local sl = list[i]
         local d, b = Demand.measure(sl, allowDirty)
@@ -372,6 +372,27 @@ function Demand.each(inv, fn)
         local w = entry.readings[i]
         if w and w > 0 and entry.owners[i] and o:getObjectIndex() ~= -1 then fn(o, w) end
     end
+end
+
+-- Ids of the inverters that have an appliance list (a new array, D-48).
+function Demand.ids()
+    local out = {}
+    for id in pairs(Demand.inventories) do out[#out + 1] = id end
+    return out
+end
+
+-- The list record of inverter `id` (objects, readings, owners), or nil. Owned by Demand:
+-- callers read it and keep it only to notice a rebuilt list, never write it (D-48).
+function Demand.entry(id) return Demand.inventories[id] end
+
+-- Every object of the last list built for inverter `id`, in list order: fn(object). No
+-- filter and no copy. Returns false when this inverter has no list, true otherwise.
+function Demand.eachObject(id, fn)
+    local entry = Demand.inventories[id]
+    if not entry then return false end
+    local objs = entry.objects
+    for i = 1, #objs do fn(objs[i]) end
+    return true
 end
 
 local function better(a, b)

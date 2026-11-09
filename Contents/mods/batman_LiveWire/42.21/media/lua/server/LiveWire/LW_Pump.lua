@@ -298,8 +298,7 @@ end
 -- Pumps disabled by the debug tool "remove every water relay" (before removing the
 -- mod): no relay is placed and no water is moved until "enable the pumps again".
 function Pump.disabled()
-    local d = R() and R().data
-    return d ~= nil and d.pumpsDisabled == true
+    return R() ~= nil and R().pumpsDisabled()
 end
 
 -- Place the wanted relays, remove the loaded ones that are no longer wanted.
@@ -563,16 +562,12 @@ end
 function Pump.tickMinute()
     local Rg = R()
     if not Rg or not Rg.ready or Rg.readOnly then return end
-    local ids = {}
-    for id, dev in pairs(Rg.devices()) do
-        if dev.role == "pump" then ids[#ids + 1] = id end
-    end
-    table.sort(ids)
-    for i = 1, #ids do
-        local dev = Rg.device(ids[i])
+    local pumps = Rg.devicesByRole("pump")
+    for i = 1, #pumps do
+        local dev = Rg.device(pumps[i].id)
         if dev then
             local ok, err = pcall(Pump.step, dev)
-            if not ok then LiveWire.warn("pump " .. ids[i] .. " failed: " .. tostring(err)) end
+            if not ok then LiveWire.warn("pump " .. dev.id .. " failed: " .. tostring(err)) end
         end
     end
 end

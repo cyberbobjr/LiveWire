@@ -187,7 +187,8 @@ function Devices.refreshStates(grid)
     local list = { R().device(grid.inverter) }
     local slaves = R().slaves(grid)
     for i = 1, #slaves do list[#list + 1] = slaves[i] end
-    local _, _, options, _, _, pumps = R().members(grid)
+    local members = R().members(grid)
+    local options, pumps = members.option, members.pump
     for i = 1, #options do list[#list + 1] = options[i] end
     for i = 1, #pumps do list[#list + 1] = pumps[i] end
     for i = 1, #list do

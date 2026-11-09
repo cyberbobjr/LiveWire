@@ -237,10 +237,11 @@ lua/shared/LiveWire/TimedActions/LW_BaseAction.lua
 lua/shared/LiveWire/TimedActions/LW_TimedActions.lua
                                            raccorder, desserrer, coupler, relier un baril, reparer, inspecter,
                                            insonoriser, deneiger, mesurer, reconditionner, tester, nettoyer, recuperer
-lua/server/LiveWire/LW_Registry.lua        registre, index par position, table publique des ancres
+lua/server/LiveWire/LW_Registry.lua        registre, index par position et par role, membres par role, table publique des ancres
 lua/server/LiveWire/LW_Devices.lua         inscription a la pose, retrait au ramassage, rotation,
                                            equipements detruits (validate)
 lua/server/LiveWire/LW_Migration.lua       migrations de schema
+lua/server/LiveWire/LW_Inverters.lua       regles du parc d'onduleurs (en service, capacite, veille, esclave en service)
 lua/server/LiveWire/LW_Simulation.lua      pas de simulation (EveryTenMinutes), instantanes
 lua/server/LiveWire/LW_Demand.lua          inventaire des appareils et mesure de la demande
 lua/server/LiveWire/LW_Batteries.lua       batteries posees : lecture, ecriture, rapprochement

@@ -122,12 +122,8 @@ end
 
 -- Ids of the inverters that have an appliance inventory (a new array).
 function API.inventoryIds()
-    local out = {}
     local D = LiveWire.Demand
-    if D then
-        for id in pairs(D.inventories) do out[#out + 1] = id end
-    end
-    return out
+    return D and D.ids() or {}
 end
 
 -- fn(object, watts) for each appliance the last measurement billed to inverter `invId`

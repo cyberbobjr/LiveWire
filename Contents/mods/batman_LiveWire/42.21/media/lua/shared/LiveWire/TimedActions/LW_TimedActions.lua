@@ -142,9 +142,7 @@ function LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
         LiveWire.notify(ch, "Tooltip_LW_AlreadyLinked", {}, true)
         return false
     end
-    local _, _, _, backups, computers = R().members(grid)
-    local list = backups
-    if kind == "computer" then list = computers end
+    local list = R().membersByRole(grid, kind == "computer" and "computer" or "backup")
     if #list > 0 then
         LiveWire.notify(ch, "Tooltip_LW_OneOptionPerGrid", {}, true)
         return false
@@ -219,8 +217,9 @@ function LWCoupleAction:complete()
     -- visible here, not on the client).
     local sgrid = sdev.grid and R().grid(sdev.grid)
     if not sgrid then return false end
-    local s1, s2, s3, s4, s5, s6 = R().members(sgrid)
-    if #s1 + #s2 + #s3 + #s4 + #s5 + #s6 > 0 or #R().slaves(sgrid) > 0 then
+    local owned = 0
+    for _, list in pairs(R().members(sgrid)) do owned = owned + #list end
+    if owned > 0 or #R().slaves(sgrid) > 0 then
         LiveWire.notify(ch, "Tooltip_LW_CoupleHasEquipment", {}, true)
         return false
     end

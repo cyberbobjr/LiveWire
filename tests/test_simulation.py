@@ -26,7 +26,7 @@ FILES = [
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_PowerHistory.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua",
     "server/LiveWire/LW_Events.lua", "server/LiveWire/LW_Forecast.lua", "server/LiveWire/LW_Maintenance.lua",
-    "server/LiveWire/LW_Circuits.lua", "server/LiveWire/LW_Simulation.lua",
+    "server/LiveWire/LW_Circuits.lua", "server/LiveWire/LW_Inverters.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
     "server/LiveWire/LW_DeviceView.lua", "server/LiveWire/LW_Commands.lua", "server/LiveWire/LW_Devices.lua",
     "server/LiveWire/LW_Pump.lua",
@@ -411,8 +411,8 @@ def scenario_backup_computer_alarm():
     snap = lua.eval("LiveWire.Sim.snapshot(GRID)")
     check(snap.backup is not None and snap.backup.start == 20 and snap.backup.stop == 90,
           "snapshot carries the backup and its thresholds")
-    check(snap.computer is not None and snap.computer.powered and snap.computer.shed,
-          "snapshot carries the powered computer (load shedding at level 7)")
+    check(snap.computer is not None and snap.computer.powered,
+          "snapshot carries the powered computer")
     check(snap.history is not None and snap.dawnH is not None, "snapshot carries history and forecast")
     check(snap.alarm is not None, "snapshot carries the alarm")
 

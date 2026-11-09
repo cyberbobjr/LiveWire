@@ -28,6 +28,89 @@ class Regressions(unittest.TestCase):
         assert(#R.devicesInChunk(4,4)==0)
         ''')
 
+    def test_members_are_grouped_by_role_and_each_role_is_always_listed(self):
+        self.run_lua('''
+        local R=LiveWire.Registry
+        local inv=R.addDevice({role="inverter",model="Inverter",x=0,y=0,z=0,cond=100,state="on"})
+        local grid=R.createGrid(inv)
+        local s1=R.addDevice({role="source",model="SolarPanel",x=1,y=0,z=0})
+        local s2=R.addDevice({role="source",model="SolarPanel",x=2,y=0,z=0})
+        local p=R.addDevice({role="pump",model="WaterPump",x=3,y=0,z=0})
+        R.link(s2,grid);R.link(p,grid);R.link(s1,grid)
+        local m=R.members(grid)
+        for _,role in ipairs({"source","storage","option","backup","computer","pump"}) do
+            assert(type(m[role])=="table",role)
+        end
+        assert(#m.source==2 and m.source[1].id==s1.id and m.source[2].id==s2.id)
+        assert(#m.pump==1 and m.pump[1].id==p.id)
+        assert(#m.storage==0 and #m.option==0 and #m.backup==0 and #m.computer==0)
+        local n=0;for _,list in pairs(m) do n=n+#list end
+        assert(n==3,"the inverter is not a member")
+        local by=R.membersByRole(grid,"source")
+        assert(#by==2 and by[1].id==s1.id and by[2].id==s2.id)
+        assert(#R.membersByRole(grid,"pump")==1 and #R.membersByRole(grid,"storage")==0)
+        assert(#R.membersByRole(grid,"nothing")==0)
+        R.removeDevice(s1.id)
+        assert(#R.members(grid).source==1 and R.members(grid).source[1].id==s2.id)
+        ''')
+
+    def test_role_index_follows_add_remove_replace_and_rebuild(self):
+        self.run_lua('''
+        local R=LiveWire.Registry
+        assert(#R.devicesByRole("pump")==0)
+        local first=R.addDevice({role="pump",model="WaterPump",x=1,y=0,z=0})
+        local second=R.addDevice({role="pump",model="WaterPump",x=40,y=40,z=0})
+        R.addDevice({role="source",model="SolarPanel",x=2,y=0,z=0})
+        local list=R.devicesByRole("pump")
+        assert(#list==2 and list[1].id==first.id and list[2].id==second.id)
+        assert(#R.devicesByRole("source")==1 and #R.devicesByRole("storage")==0)
+        list[1]=nil
+        assert(#R.devicesByRole("pump")==2,"the list is detached from the index")
+        R.addDevice(second)
+        assert(#R.devicesByRole("pump")==2,"adding an existing id keeps one entry")
+        R.removeDevice(first.id)
+        list=R.devicesByRole("pump")
+        assert(#list==1 and list[1].id==second.id)
+        R.init()
+        list=R.devicesByRole("pump")
+        assert(#list==1 and list[1].id==second.id and #R.devicesByRole("source")==1)
+        R.removeDevice(second.id)
+        assert(#R.devicesByRole("pump")==0)
+        ''')
+
+    def test_pumps_disabled_flag_is_kept_in_the_registry_data(self):
+        self.run_lua('''
+        local R=LiveWire.Registry
+        assert(R.pumpsDisabled()==false)
+        R.setPumpsDisabled(true)
+        assert(R.pumpsDisabled()==true and R.data.pumpsDisabled==true and LiveWire.Pump.disabled()==true)
+        R.setPumpsDisabled(false)
+        assert(R.pumpsDisabled()==false and R.data.pumpsDisabled==nil and LiveWire.Pump.disabled()==false)
+        ''')
+
+    def test_pump_minute_tick_steps_only_pumps_in_id_order(self):
+        self.run_lua('''
+        local R=LiveWire.Registry
+        local first=R.addDevice({role="pump",model="WaterPump",x=1,y=0,z=0})
+        R.addDevice({role="source",model="SolarPanel",x=2,y=0,z=0})
+        local second=R.addDevice({role="pump",model="WaterPump",x=3,y=0,z=0})
+        local seen={}
+        LiveWire.Pump.step=function(dev) seen[#seen+1]=dev.id end
+        LiveWire.Pump.tickMinute()
+        assert(#seen==2 and seen[1]==first.id and seen[2]==second.id)
+        ''')
+
+    def test_demand_each_object_visits_the_list_in_order(self):
+        self.run_lua('''
+        local D=LiveWire.Demand
+        assert(D.eachObject("none",function() error("called") end)==false)
+        D.inventories["x"]={objects={"a","b","c"}}
+        local seen={}
+        assert(D.eachObject("x",function(o) seen[#seen+1]=o end)==true)
+        assert(table.concat(seen)=="abc")
+        D.reset()
+        ''')
+
     def test_pump_maintenance_error_is_logged_and_next_pump_is_served(self):
         self.run_lua('''
         local R=LiveWire.Registry

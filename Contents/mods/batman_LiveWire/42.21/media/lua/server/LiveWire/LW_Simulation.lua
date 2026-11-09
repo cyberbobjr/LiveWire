@@ -3,6 +3,7 @@
 if isClient() then return end
 require "LiveWire/LW_Events"
 require "LiveWire/LW_Forecast"
+require "LiveWire/LW_Inverters"
 
 LiveWire = LiveWire or {}
 
@@ -11,6 +12,7 @@ LiveWire.Sim = Sim
 
 local Defs = LiveWire.Defs
 local Physics = LiveWire.Physics
+local Inverters = LiveWire.Inverters
 
 Sim.MAX_CATCHUP_HOURS = 720
 Sim.SUBSTEP_HOURS = 1.0
@@ -129,80 +131,40 @@ local function batteryWear(entry, drawn, h, exhausted)
     if entry.charge > entry.capacity then entry.charge = entry.capacity end
 end
 
--- Battery stock as a fraction of the capacity, nil without any capacity.
-local function stockFraction(entries)
+-- Stock and capacity summed over battery entries.
+local function sumStock(entries)
     local stock, capacity = 0, 0
     for e = 1, #entries do
         stock = stock + entries[e].charge
         capacity = capacity + entries[e].capacity
     end
+    return stock, capacity
+end
+
+-- Battery stock as a fraction of the capacity, nil without any capacity.
+local function stockFraction(entries)
+    local stock, capacity = sumStock(entries)
     if capacity <= 0 then return nil end
     return stock / capacity
 end
 
--- Inverters of a grid that are in service (switched on and not broken): the master
--- when its state is "on" or "tripped" (it is the one that trips), plus every slave whose
--- state is "on" and cond > 0. Returns count, list of slave devices in service.
-function Sim.inService(grid)
-    local R = LiveWire.Registry
-    local inv = R.device(grid.inverter)
-    local n, list = 0, {}
-    if inv and (inv.state == "on" or inv.state == "tripped") then n = 1 end
-    local slaves = R.slaves(grid)
-    for i = 1, #slaves do
-        local sl = slaves[i]
-        if sl.state == "on" and (sl.cond or 0) > 0 then
-            n = n + 1
-            list[#list + 1] = sl
-        end
-    end
-    return n, list
-end
-
-local function deviceDef(dev)
-    return dev and Defs.devices[dev.model] or {}
-end
-
--- Capacity of a grid in W: sum of the maxW of each inverter in service, by its own
--- model (an inverter and an inverter cabinet can be coupled). At least the master's
--- maxW, so that a lone inverter behaves exactly as before.
-function Sim.capacityW(grid)
-    local R = LiveWire.Registry
-    local inv = R.device(grid.inverter)
-    local n, list = Sim.inService(grid)
-    local cap = 0
-    if n > #list then cap = deviceDef(inv).maxW or 0 end   -- the master is in service
-    for i = 1, #list do
-        cap = cap + (deviceDef(list[i]).maxW or 0)
-    end
-    if cap <= 0 then cap = deviceDef(inv).maxW or 0 end
-    return cap
-end
-
--- Idle consumption: sum of the idleW of each switched-on inverter, by its own model
--- (master counts when on).
-function Sim.idleW(grid)
-    local R = LiveWire.Registry
-    local inv = R.device(grid.inverter)
-    local w = 0
-    if inv and inv.state == "on" then w = deviceDef(inv).idleW or 0 end
-    local slaves = R.slaves(grid)
-    for i = 1, #slaves do
-        if slaves[i].state == "on" then w = w + (deviceDef(slaves[i]).idleW or 0) end
-    end
-    return w
-end
+-- The inverter fleet rules live in LW_Inverters.lua (D-48). LW_Commands and LW_Forecast
+-- still call these two through Sim.
+Sim.capacityW = Inverters.capacityW
+Sim.idleW = Inverters.idleW
 
 -- Public snapshot of a grid (primitive values only).
 function Sim.snapshot(grid)
     local R = LiveWire.Registry
     local inv = R.device(grid.inverter)
     if not inv then return nil end
-    local sources, batteries, options, backups, computers, pumps = R.members(grid)
+    local members = R.members(grid)
+    local sources, batteries, options = members.source, members.storage, members.option
+    local backups, computers, pumps = members.backup, members.computer, members.pump
     local snap = {
         grid = grid.id, rev = grid.rev or 0, name = grid.name or "",
         inverter = { id = inv.id, model = inv.model, state = inv.state,
-                     cond = math.floor((inv.cond or 0) + 0.5), maxW = Sim.capacityW(grid),
+                     cond = math.floor((inv.cond or 0) + 0.5), maxW = Inverters.capacityW(grid),
                      eff = inv.eff or 0, powered = grid.powered == true, muffled = inv.muffled == true },
         demand = math.floor((grid.demand or 0) + 0.5),
         demandReady = LiveWire.Demand.ready(inv),
@@ -259,10 +221,10 @@ function Sim.snapshot(grid)
     end
     local slaves = R.slaves(grid)
     if #slaves > 0 then
-        local inService = Sim.inService(grid)
+        local inService = Inverters.inService(grid)
         snap.coupled = { n = inService, total = 1 + #slaves }
     end
-    local need = (grid.demand or 0) + Sim.idleW(grid) - (grid.production or 0) * (inv.eff or 0.85)
+    local need = (grid.demand or 0) + Inverters.idleW(grid) - (grid.production or 0) * (inv.eff or 0.85)
     if need > 0 and snap.stock > 0 then
         snap.autonomyH = snap.stock * 1000 * (inv.eff or 0.85) / need
     end
@@ -403,6 +365,15 @@ local function breakSlave(sl)
     LiveWire.notifyNear(sl.x, sl.y, sl.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Broken", {}, true)
 end
 
+-- Wear multiplier of an inverter (master or slave) under the current load: doubled
+-- above the heavy-load ratio of the capacity, raised again by its own muffler.
+local function loadWearFactor(unit, demandW, capW)
+    local factor = 1
+    if demandW > capW * Defs.HEAVY_LOAD_RATIO then factor = 2 end
+    if unit.muffled then factor = factor * Defs.MUFFLED_WEAR end
+    return factor
+end
+
 -- evaluate: when no game time passed since the last step, still re-evaluate the
 -- state (trip, power, marks, publication) with a zero-length step. Time is never
 -- moved back: a command can no longer advance production, wear or fuel.
@@ -456,7 +427,8 @@ function Sim.stepGrid(grid, now, w, evaluate)
     -- Devices.validate (Sim.tick). Linked vanilla objects (generator, computer) are
     -- found by their own ModData: drop them after two consecutive checks.
     do
-        local _, _, _, bk0, pc0 = R.members(grid)
+        local vanillaMembers = R.members(grid)
+        local bk0, pc0 = vanillaMembers.backup, vanillaMembers.computer
         local vanilla = {}
         for i = 1, #bk0 do vanilla[#vanilla + 1] = { dev = bk0[i], mod = LiveWire.Backup } end
         for i = 1, #pc0 do vanilla[#vanilla + 1] = { dev = pc0[i], mod = LiveWire.Computer } end
@@ -475,7 +447,9 @@ function Sim.stepGrid(grid, now, w, evaluate)
         end
     end
 
-    local sources, banks, options, backups, computers, pumps = R.members(grid)
+    local members = R.members(grid)
+    local sources, banks, options = members.source, members.storage, members.option
+    local backups, computers, pumps = members.backup, members.computer, members.pump
     if w.storm and not grid.stormWarned then
         for _, src in ipairs(sources) do
             local sd = Defs.devices[src.model]
@@ -552,7 +526,7 @@ function Sim.stepGrid(grid, now, w, evaluate)
         for s = 1, #slaves do
             if slaves[s].state == "on" and (slaves[s].cond or 0) <= 0 then breakSlave(slaves[s]) end
         end
-        local capW, idleNow = Sim.capacityW(grid), Sim.idleW(grid)
+        local capW, idleNow = Inverters.capacityW(grid), Inverters.idleW(grid)
         local gridW = 0
         if now - dt + (i - 0.5) * h <= gridShutH then gridW = capW * Defs.GRID_CHARGE_RATIO end
         -- A tripped breaker cuts the house: the inverter stays on (it still charges).
@@ -607,19 +581,13 @@ function Sim.stepGrid(grid, now, w, evaluate)
         end
 
         if r.onHours > 0 then
-            local heavy = 1
-            if demandW > capW * Defs.HEAVY_LOAD_RATIO then heavy = 2 end
-            if inv.muffled then heavy = heavy * Defs.MUFFLED_WEAR end
-            wearDevice(inv, def, r.onHours, heavy)
+            wearDevice(inv, def, r.onHours, loadWearFactor(inv, demandW, capW))
             -- Slaves in service wear with the same load, their own muffler included.
             for s = 1, #slaves do
                 local sl = slaves[s]
-                if sl.state == "on" and (sl.cond or 0) > 0 then
-                    local sh = 1
-                    if demandW > capW * Defs.HEAVY_LOAD_RATIO then sh = 2 end
-                    if sl.muffled then sh = sh * Defs.MUFFLED_WEAR end
+                if Inverters.slaveInService(sl) then
                     -- Each slave wears by its own model (inverter and cabinet can be coupled).
-                    wearDevice(sl, deviceDef(sl), r.onHours, sh)
+                    wearDevice(sl, Inverters.def(sl), r.onHours, loadWearFactor(sl, demandW, capW))
                     if (sl.cond or 0) <= 0 then breakSlave(sl) end
                 end
             end
@@ -644,12 +612,8 @@ function Sim.stepGrid(grid, now, w, evaluate)
         end
     end
 
-    local stock, capacity = 0, 0
     for i = 1, #banks do LiveWire.Batteries.write(banks[i], bankEntries[i]) end
-    for e = 1, #entries do
-        stock = stock + entries[e].charge
-        capacity = capacity + entries[e].capacity
-    end
+    local stock, capacity = sumStock(entries)
     grid.production = prodW + backupW
     grid.backupW = backupW
     grid.stock = stock
@@ -670,7 +634,7 @@ function Sim.stepGrid(grid, now, w, evaluate)
     if LiveWire.Coupling.slaveKeepsZone() then
         for i = 1, #slaves do
             local sl = slaves[i]
-            Sim.updateAnchor(sl, on and sl.state == "on" and (sl.cond or 0) > 0)
+            Sim.updateAnchor(sl, on and Inverters.slaveInService(sl))
         end
     end
 
@@ -696,7 +660,7 @@ function Sim.stepGrid(grid, now, w, evaluate)
     if on and radius > 0 then
         for s = 1, #slaves do
             local sl = slaves[s]
-            if sl.state == "on" and (sl.cond or 0) > 0 and not sl.muffled
+            if Inverters.slaveInService(sl) and not sl.muffled
                 and getCell():getGridSquare(sl.x, sl.y, sl.z) then
                 addSound(nil, sl.x, sl.y, sl.z, radius, 1)
             end

@@ -24,7 +24,7 @@ end
 
 -- Every battery of the network at `frac` of its capacity.
 local function setBatteries(grid, frac)
-    local _, banks = R().members(grid)
+    local banks = R().membersByRole(grid, "storage")
     for i = 1, #banks do
         local entries = LiveWire.Batteries.read(banks[i])
         for j = 1, #entries do entries[j].charge = entries[j].capacity * frac end
@@ -101,7 +101,7 @@ actions.trip = function(player, dev, grid)
 end
 
 actions.refuel = function(player, dev, grid)
-    local _, _, _, backups = R().members(grid)
+    local backups = R().membersByRole(grid, "backup")
     for i = 1, #backups do
         local gen = LiveWire.Backup.find(backups[i])
         if gen then gen:setFuel(gen:getMaxFuel()) end
@@ -132,7 +132,7 @@ local function removeRelays(player)
     local Rg = R()
     local removed, remaining = 0, 0
     if not LiveWire.Pump then return end
-    Rg.data.pumpsDisabled = true
+    Rg.setPumpsDisabled(true)
     for _, dev in pairs(Rg.devices()) do
         if dev.role == "pump" and dev.relays then
             local keys = {}
@@ -154,7 +154,7 @@ end
 local function enablePumps(player)
     local Rg = R()
     if not LiveWire.Pump then return end
-    Rg.data.pumpsDisabled = nil
+    Rg.setPumpsDisabled(false)
     for _, dev in pairs(Rg.devices()) do
         if dev.role == "pump" then LiveWire.Pump.maintain(dev) end
     end

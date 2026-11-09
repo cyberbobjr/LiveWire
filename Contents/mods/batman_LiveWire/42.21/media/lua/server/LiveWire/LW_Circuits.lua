@@ -161,13 +161,13 @@ local function queueEntry(id, e)
     push(grids, jobKey, { objects = e.objects, entry = e, inverter = id })
 end
 function Circuits.apply(grid)
-    local e = LiveWire.Demand.inventories[grid.inverter]
+    local e = LiveWire.Demand.entry(grid.inverter)
     if e then queueEntry(grid.inverter, e) end
     -- Coupled inverters that keep their own zone (D-45) follow the same circuits.
     if not LiveWire.Coupling.slaveKeepsZone() then return end
     local slaves = LiveWire.Registry.slaves(grid)
     for i = 1, #slaves do
-        local se = LiveWire.Demand.inventories[slaves[i].id]
+        local se = LiveWire.Demand.entry(slaves[i].id)
         if se then queueEntry(slaves[i].id, se) end
     end
 end
@@ -197,7 +197,9 @@ function Circuits.topologyChanged()
     local R = LiveWire.Registry
     if not R or not R.ready or R.readOnly then return end
     local done = {}  -- a network with coupled zones has several lists (D-45)
-    for id in pairs(LiveWire.Demand.inventories) do
+    local ids = LiveWire.Demand.ids()
+    for k = 1, #ids do
+        local id = ids[k]
         local inv = R.device(id)
         local grid = inv and inv.grid and R.grid(inv.grid)
         if grid and not done[grid.id] then

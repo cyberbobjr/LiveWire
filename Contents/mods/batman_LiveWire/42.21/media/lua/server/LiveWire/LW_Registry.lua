@@ -69,6 +69,18 @@ function Registry.grids()
     return data().grids
 end
 
+-- Pumps disabled by the debug tool "remove every water relay". The flag is persisted
+-- in the registry data under `pumpsDisabled` (true or absent); only these two functions
+-- read or write it.
+function Registry.pumpsDisabled()
+    local d = Registry.data
+    return d ~= nil and d.pumpsDisabled == true
+end
+
+function Registry.setPumpsDisabled(disabled)
+    data().pumpsDisabled = disabled and true or nil
+end
+
 local function indexAdd(dev)
     local k = LiveWire.posKey(dev.x, dev.y, dev.z)
     local list = data().byPos[k] or {}
@@ -77,6 +89,10 @@ local function indexAdd(dev)
     local ck = math.floor(dev.x / 8) .. "," .. math.floor(dev.y / 8)
     Registry.byChunk[ck] = Registry.byChunk[ck] or {}
     Registry.byChunk[ck][dev.id] = true
+    if dev.role then
+        Registry.byRole[dev.role] = Registry.byRole[dev.role] or {}
+        Registry.byRole[dev.role][dev.id] = true
+    end
     if dev.role == "inverter" then
         Registry.inverters[dev.id] = true
         Registry.invertersByChunk[ck] = Registry.invertersByChunk[ck] or {}
@@ -94,6 +110,8 @@ local function indexRemove(dev)
         if not any then Registry.byChunk[ck] = nil end
     end
     Registry.inverters[dev.id] = nil
+    local roleSet = dev.role and Registry.byRole[dev.role]
+    if roleSet then roleSet[dev.id] = nil end
     local inverters = Registry.invertersByChunk[ck]
     if inverters then
         inverters[dev.id] = nil
@@ -113,6 +131,7 @@ end
 -- Derived session indexes, rebuilt for existing saves without a schema change.
 function Registry.rebuildIndexes()
     Registry.byChunk, Registry.inverters, Registry.invertersByChunk = {}, {}, {}
+    Registry.byRole = {}
     if Registry.readOnly then return end
     data().byPos = {}
     for _, dev in pairs(data().devices) do indexAdd(dev) end
@@ -123,6 +142,20 @@ function Registry.devicesInChunk(cx, cy)
     local out = {}
     for id in pairs(Registry.byChunk[cx .. "," .. cy] or {}) do
         local dev = Registry.device(id)
+        if dev then out[#out + 1] = dev end
+    end
+    return out
+end
+
+-- Devices of one role (in any grid or none), sorted by id for a stable order, from the
+-- session role index. A detached list: callers may remove a device while iterating.
+function Registry.devicesByRole(role)
+    local ids = {}
+    for id in pairs(Registry.byRole[role] or {}) do ids[#ids + 1] = id end
+    table.sort(ids)
+    local out = {}
+    for i = 1, #ids do
+        local dev = data().devices[ids[i]]
         if dev then out[#out + 1] = dev end
     end
     return out
@@ -246,27 +279,37 @@ function Registry.unlink(dev)
     dev.wires = nil
 end
 
--- Members of a grid by role: sources, power banks, options, backup generators,
--- management computers, water pumps (each a list, sorted by id for a stable order).
-function Registry.members(grid)
-    local sources, batteries, options, backups, computers, pumps = {}, {}, {}, {}, {}, {}
+-- Visits the members of a grid in id order (a stable order), dropping the ids whose
+-- device is gone.
+local function eachMember(grid, fn)
     local ids = {}
     for id in pairs(grid.members) do ids[#ids + 1] = id end
     table.sort(ids)
     for i = 1, #ids do
         local id = ids[i]
         local dev = data().devices[id]
-        if not dev then
-            grid.members[id] = nil
-        elseif dev.role == "source" then sources[#sources + 1] = dev
-        elseif dev.role == "storage" then batteries[#batteries + 1] = dev
-        elseif dev.role == "option" then options[#options + 1] = dev
-        elseif dev.role == "backup" then backups[#backups + 1] = dev
-        elseif dev.role == "computer" then computers[#computers + 1] = dev
-        elseif dev.role == "pump" then pumps[#pumps + 1] = dev
-        end
+        if dev then fn(dev) else grid.members[id] = nil end
     end
-    return sources, batteries, options, backups, computers, pumps
+end
+
+-- Members of a grid by role: { source, storage, option, backup, computer, pump }, each
+-- a list sorted by id (empty when the grid has none). Inverters are not members.
+function Registry.members(grid)
+    local out = { source = {}, storage = {}, option = {}, backup = {}, computer = {}, pump = {} }
+    eachMember(grid, function(dev)
+        local list = out[dev.role]
+        if list then list[#list + 1] = dev end
+    end)
+    return out
+end
+
+-- Members of one role, sorted by id (an empty list when the grid has none of it).
+function Registry.membersByRole(grid, role)
+    local out = {}
+    eachMember(grid, function(dev)
+        if dev.role == role then out[#out + 1] = dev end
+    end)
+    return out
 end
 
 -- Vanilla objects (generator, computer) only exist in the registry through their
@@ -283,7 +326,7 @@ function Registry.forgetVanilla(dev)
 end
 
 function Registry.hasOption(grid, kind)
-    local _, _, options = Registry.members(grid)
+    local options = Registry.membersByRole(grid, "option")
     for i = 1, #options do
         local def = LiveWire.Defs.devices[options[i].model]
         if def and def.kind == kind and (options[i].cond or 0) > 0 then return options[i] end
