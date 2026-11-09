@@ -21,5 +21,16 @@
     "IGUI_LWX_PointDisconnected": "Débranché de son disjoncteur.",
     "IGUI_LWX_BreakerOff": "Module %1 coupé.",
     "IGUI_LWX_BreakerOn": "Module %1 remis.",
-    "IGUI_LWX_BreakerTripped": "Un disjoncteur a sauté : le module %1 était surchargé."
+    "IGUI_LWX_BreakerTripped": "Un disjoncteur a sauté : le module %1 était surchargé.",
+    "IGUI_LWX_LabelPrompt": "Étiquette du module %1 :",
+    "IGUI_LWX_Rename": "Étiquette",
+    "IGUI_LWX_Locate": "Localiser",
+    "IGUI_LWX_LeverOn": "MARCHE",
+    "IGUI_LWX_LeverOff": "ARRÊT",
+    "IGUI_LWX_LeverReset": "RÉARMER",
+    "IGUI_LWX_BoardTitle": "Tableau électrique : %2 modules occupés sur %1",
+    "IGUI_LWX_BoardEmpty": "Aucun disjoncteur. Installez-en un au tournevis.",
+    "IGUI_LWX_ModuleName": "Module %1",
+    "IGUI_LWX_Load": "%1 W, %2 A sur %3, %4 point(s)",
+    "IGUI_LWX_LabelWritten": "Étiquette écrite."
 }

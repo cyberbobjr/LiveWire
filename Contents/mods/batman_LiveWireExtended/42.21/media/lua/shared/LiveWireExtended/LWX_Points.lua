@@ -119,3 +119,15 @@ function PT.checkConnect(character, o, boardObj, pos)
     if I.countType(character, "Base.ElectricWire") < wires then return false, "Tooltip_LW_NeedWire", wires end
     return true, wires
 end
+
+-- Loaded objects of point `key` recorded at p.x, p.y, p.z (both sides).
+function PT.objectsOf(key, p)
+    local out = {}
+    local sq = p and getCell():getGridSquare(p.x, p.y, p.z)
+    local objs = sq and sq:getObjects()
+    for i = 0, objs and objs:size() - 1 or -1 do
+        local o = objs:get(i)
+        if X.Adapters.find(o) and X.Adapters.identity(o) == key then out[#out + 1] = o end
+    end
+    return out
+end

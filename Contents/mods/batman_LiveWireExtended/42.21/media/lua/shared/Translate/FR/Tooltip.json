@@ -18,5 +18,8 @@
     "Tooltip_LWX_NoBreakerThere": "Aucun disjoncteur dans ce module.",
     "Tooltip_LWX_PointConnected": "Déjà raccordé à un disjoncteur.",
     "Tooltip_LWX_PointWires": "Utilise %1 fil électrique. Dès qu'un tableau dessert le bâtiment, un appareil non raccordé n'a plus de courant.",
-    "Tooltip_LWX_NoBoardNear": "Aucun tableau raccordé à portée de câble."
+    "Tooltip_LWX_NoBoardNear": "Aucun tableau raccordé à portée de câble.",
+    "Tooltip_LWX_NeedPen": "Nécessite un stylo ou un crayon.",
+    "Tooltip_LWX_WiredTo": "Circuit : %1 (%2 A), %3 W mesurés.",
+    "Tooltip_LWX_UnwiredServed": "Pas de courant : un tableau dessert ce bâtiment et cet appareil n'est raccordé à aucun disjoncteur."
 }

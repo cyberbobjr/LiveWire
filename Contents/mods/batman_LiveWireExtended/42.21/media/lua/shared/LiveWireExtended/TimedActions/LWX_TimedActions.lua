@@ -189,6 +189,7 @@ LWXBreakerAction = ISBaseTimedAction:derive("LWXBreakerAction")
 
 function LWXBreakerAction:isValid()
     if not stillThere(self.target) then return false end
+    if self.mode == "label" then return X.Breakers.hasPen(self.character) end
     return self.mode == "on" or self.mode == "off" or LiveWire.Install.screwdriver(self.character) ~= nil
 end
 
@@ -203,7 +204,7 @@ end
 
 function LWXBreakerAction:start()
     self:setActionAnim(CharacterActionAnims.Disassemble)
-    if self.mode ~= "on" and self.mode ~= "off" then LiveWire.Install.showScrewdriver(self) end
+    if self.mode ~= "on" and self.mode ~= "off" and self.mode ~= "label" then LiveWire.Install.showScrewdriver(self) end
 end
 
 function LWXBreakerAction:stop() ISBaseTimedAction.stop(self) end
@@ -218,6 +219,9 @@ function LWXBreakerAction:complete()
     if self.mode == "on" or self.mode == "off" then
         return X.Panels.setBreaker ~= nil and X.Panels.setBreaker(ch, obj, tonumber(self.pos), self.mode == "off")
     end
+    if self.mode == "label" then
+        return X.Panels.setLabel ~= nil and X.Panels.setLabel(ch, obj, tonumber(self.pos), self.text)
+    end
     if type(self.fullType) ~= "string" or not X.Breakers.TYPES[self.fullType] then return false end
     return X.Panels.installBreaker(ch, obj, self.fullType)
 end
@@ -225,15 +229,17 @@ end
 function LWXBreakerAction:getDuration()
     if self.character:isTimedActionInstant() then return 1 end
     if self.mode == "on" or self.mode == "off" then return 30 end
+    if self.mode == "label" then return 100 end
     return 200
 end
 
-function LWXBreakerAction:new(character, target, fullType, pos, mode)
+function LWXBreakerAction:new(character, target, fullType, pos, mode, text)
     local o = ISBaseTimedAction.new(self, character)
     o.target = target
     o.fullType = fullType
     o.pos = pos
     o.mode = mode
+    o.text = text
     o.maxTime = o:getDuration()
     return o
 end

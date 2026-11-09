@@ -19,5 +19,6 @@
     "ContextMenu_LWX_BoardAt": "Board %1 squares away",
     "ContextMenu_LWX_WireAppliance": "Wire an appliance",
     "ContextMenu_LWX_ApplianceAt": "%1, %2 squares away",
-    "ContextMenu_LWX_ResetBreaker": "Reset %1 (tripped)"
+    "ContextMenu_LWX_ResetBreaker": "Reset %1 (tripped)",
+    "ContextMenu_LWX_OpenBoard": "Open the breaker board"
 }

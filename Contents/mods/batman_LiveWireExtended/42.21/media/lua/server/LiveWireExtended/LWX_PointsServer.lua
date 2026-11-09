@@ -21,18 +21,6 @@ function PT.apply(o)
     if a then a.apply(o, PT.blocked(o)) end
 end
 
--- Loaded objects of point `key` recorded at p.x, p.y, p.z.
-function PT.objectsOf(key, p)
-    local out = {}
-    local sq = getCell():getGridSquare(p.x, p.y, p.z)
-    local objs = sq and sq:getObjects()
-    for i = 0, objs and objs:size() - 1 or -1 do
-        local o = objs:get(i)
-        if Ad.find(o) and Ad.identity(o) == key then out[#out + 1] = o end
-    end
-    return out
-end
-
 local function applyKeys(keys)
     for key, p in pairs(keys) do
         for _, o in ipairs(PT.objectsOf(key, p)) do PT.apply(o) end
@@ -141,4 +129,21 @@ P.kind.onForget = function(record, key)
     end
     PT.regionsChanged()
     applyKeys(dropped)
+end
+
+-- Write the label of the breaker of module `pos` with a pen or a pencil (E19).
+function PS.setLabel(character, boardObj, pos, text)
+    local record = P.isPanel(boardObj) and P.recordAt(boardObj:getSquare())
+    if not record then return false end
+    local slot = B.slotAt(record, tonumber(pos))
+    local label = B.cleanLabel(text)
+    if not slot or not label then return false end
+    if not B.hasPen(character) then
+        LiveWire.notify(character, "Tooltip_LWX_NeedPen", {}, true)
+        return false
+    end
+    slot.label = label
+    transmit()
+    LiveWire.notify(character, "IGUI_LWX_LabelWritten", {})
+    return true
 end

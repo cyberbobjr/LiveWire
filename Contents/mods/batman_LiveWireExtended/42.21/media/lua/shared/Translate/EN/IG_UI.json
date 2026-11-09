@@ -21,5 +21,16 @@
     "IGUI_LWX_PointDisconnected": "Unwired from its breaker.",
     "IGUI_LWX_BreakerOff": "Module %1 switched off.",
     "IGUI_LWX_BreakerOn": "Module %1 switched on.",
-    "IGUI_LWX_BreakerTripped": "A breaker tripped: module %1 was overloaded."
+    "IGUI_LWX_BreakerTripped": "A breaker tripped: module %1 was overloaded.",
+    "IGUI_LWX_LabelPrompt": "Label of module %1:",
+    "IGUI_LWX_Rename": "Label",
+    "IGUI_LWX_Locate": "Locate",
+    "IGUI_LWX_LeverOn": "ON",
+    "IGUI_LWX_LeverOff": "OFF",
+    "IGUI_LWX_LeverReset": "RESET",
+    "IGUI_LWX_BoardTitle": "Breaker board: %2 of %1 modules used",
+    "IGUI_LWX_BoardEmpty": "No breaker yet. Install one with a screwdriver.",
+    "IGUI_LWX_ModuleName": "Module %1",
+    "IGUI_LWX_Load": "%1 W, %2 A of %3, %4 point(s)",
+    "IGUI_LWX_LabelWritten": "Label written."
 }

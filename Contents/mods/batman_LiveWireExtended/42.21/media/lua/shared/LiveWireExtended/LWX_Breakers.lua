@@ -67,3 +67,40 @@ function B.checkInstall(character, obj, fullType)
     if not pos then return false, "Tooltip_LWX_BoardFull" end
     return true, pos
 end
+
+-- ---------------------------------------------------------------- window (E19)
+B.LABEL_MAX = 24  -- bytes
+B.PENS = { "Base.Pen", "Base.Pencil", "Base.RedPen", "Base.BluePen" }
+
+-- Label written by a player, cleaned: control characters become spaces, spaces are
+-- collapsed and trimmed, at most LABEL_MAX bytes without cutting a UTF-8 character.
+-- nil when `text` is not a string.
+function B.cleanLabel(text)
+    if type(text) ~= "string" then return nil end
+    text = text:gsub("[%z\1-\31\127]", " "):gsub("%s+", " "):gsub("^ ", ""):gsub(" $", "")
+    if #text <= B.LABEL_MAX then return text end
+    local cut = B.LABEL_MAX
+    -- Step back over continuation bytes (10xxxxxx) and the lead byte they belong to.
+    while cut > 0 and text:byte(cut + 1) and text:byte(cut + 1) >= 128 and text:byte(cut + 1) < 192 do
+        cut = cut - 1
+    end
+    return (text:sub(1, cut):gsub(" $", ""))
+end
+
+function B.hasPen(character)
+    for _, t in ipairs(B.PENS) do
+        if LiveWire.Install.countType(character, t) > 0 then return true end
+    end
+    return false
+end
+
+-- Current of a circuit from its published load (W / V).
+function B.amps(slot) return (slot.load or 0) / slot.volts end
+
+-- Point keys of a slot, sorted.
+function B.pointList(slot)
+    local out = {}
+    for key in pairs(slot.points or {}) do out[#out + 1] = key end
+    table.sort(out)
+    return out
+end

@@ -18,5 +18,8 @@
     "Tooltip_LWX_NoBreakerThere": "No breaker in this module.",
     "Tooltip_LWX_PointConnected": "Already wired to a breaker.",
     "Tooltip_LWX_PointWires": "Uses %1 electric wire. Once a board serves the building, unwired appliances have no current.",
-    "Tooltip_LWX_NoBoardNear": "No linked breaker board within cable reach."
+    "Tooltip_LWX_NoBoardNear": "No linked breaker board within cable reach.",
+    "Tooltip_LWX_NeedPen": "Requires a pen or a pencil.",
+    "Tooltip_LWX_WiredTo": "Circuit: %1 (%2 A), %3 W measured.",
+    "Tooltip_LWX_UnwiredServed": "No current: a breaker board serves this building and this appliance is wired to no breaker."
 }

@@ -44,9 +44,10 @@ function PR.check()
     local loads, any = PR.loads(), false
     for boardKey, r in pairs(boards) do
         for _, slot in ipairs(r.slots or {}) do
-            local load = loads[boardKey .. "#" .. slot.pos] or 0
+            local load = math.floor((loads[boardKey .. "#" .. slot.pos] or 0) + 0.5)
+            if slot.load ~= load then slot.load, any = load, true end  -- shown by the board window
             if not slot.off and not slot.tripped and load > B.capacityW(slot) then
-                slot.tripped, any = true, true
+                slot.tripped = true
                 PR.lastTrip = { board = boardKey, pos = slot.pos, load = load }
                 PT.applySlot(slot)
                 LiveWire.notifyNear(r.x, r.y, r.z, 20, "IGUI_LWX_BreakerTripped", { tostring(slot.pos) })

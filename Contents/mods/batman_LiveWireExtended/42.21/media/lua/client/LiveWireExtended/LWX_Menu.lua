@@ -7,6 +7,7 @@ require "LiveWireExtended/LWX_Terminal"
 require "LiveWireExtended/LWX_Panel"
 require "LiveWireExtended/LWX_Breakers"
 require "LiveWireExtended/LWX_Points"
+require "LiveWireExtended/LWX_BoardWindow"
 require "LiveWireExtended/LWX_ZoneTool"
 
 local X = LiveWire.Extended
@@ -192,6 +193,7 @@ end
 function Menu.panelExtra(sub, player, obj)
     local B = X.Breakers
     local record = X.Panel.recordAt(obj:getSquare())
+    sub:addOption(getText("ContextMenu_LWX_OpenBoard"), player, function(p) X.BoardWindow.open(p, obj) end)
     local io = sub:addOption(getText("ContextMenu_LWX_InstallBreaker"), nil, nil)
     local isub = ISContextMenu:getNew(sub)
     sub:addSubMenu(io, isub)
@@ -259,11 +261,19 @@ function Menu.addPointOptions(sub, player, o)
     local key = X.Adapters.identity(o)
     local p = X.Points.point(key)
     if p then
-        sub:addOption(getText("ContextMenu_LWX_DisconnectPoint", tostring(p.pos)), player, Menu.onPoint, o, nil, nil, true)
+        local opt = sub:addOption(getText("ContextMenu_LWX_DisconnectPoint", tostring(p.pos)), player, Menu.onPoint, o, nil, nil, true)
+        -- The circuit of the appliance, in the option's tooltip (D-36).
+        local slot = X.Points.slotOf(p)
+        if slot then
+            local name = slot.label ~= "" and slot.label or getText("IGUI_LWX_ModuleName", tostring(slot.pos))
+            hint(opt, "Tooltip_LWX_WiredTo", name, tostring(slot.amps), tostring(slot.load or 0))
+        end
         return
     end
     local list = boardsNear(o:getSquare())
     local root = sub:addOption(getText("ContextMenu_LWX_ConnectPoint"), nil, nil)
+    local sq = o:getSquare()
+    if X.Points.servedAt(sq:getX(), sq:getY(), sq:getZ()) then hint(root, "Tooltip_LWX_UnwiredServed") end
     if #list == 0 then
         disable(root, "Tooltip_LWX_NoBoardNear")
         return
