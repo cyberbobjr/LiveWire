@@ -207,7 +207,7 @@ function Window:refreshButtons(record)
         or "IGUI_LWX_LeverSwitchOff"))
     self.btn.locate:setTitle(getText(self.locating == slot.pos and "IGUI_LWX_LocateOff" or "IGUI_LWX_Locate"))
     self.btn.twilight:setTitle(getText(slot.twilight and "IGUI_LWX_TwilightRemoveBtn" or "IGUI_LWX_TwilightFitBtn"))
-    self.btn.twilight.enable = slot.twilight == true or LiveWire.Install.countType(self.player, B.TWILIGHT_ITEM) > 0
+    self.btn.twilight.enable = slot.twilight == true or LiveWire.API.countType(self.player, B.TWILIGHT_ITEM) > 0
 end
 
 function Window:selectedSlot()
@@ -288,7 +288,7 @@ function Window:installMenu(pos)
     for _, fullType in ipairs(B.ORDER) do
         local t = B.TYPES[fullType]
         local it = getScriptManager():FindItem(fullType)
-        local count = LiveWire.Install.countType(self.player, fullType)
+        local count = LiveWire.API.countType(self.player, fullType)
         local o = menu:addOption(string.format("%s (%d)", it and it:getDisplayName() or fullType, count), self,
             function(win) queue(win, LWXBreakerAction:new(win.player, win.board, fullType, pos, nil)) end)
         local ok, why, arg = B.checkInstall(self.player, self.board, fullType, pos)
@@ -424,6 +424,4 @@ local function softwareLines(inverterId)
     return out
 end
 
-Events.OnGameStart.Add(function()
-    if LiveWire.SoftwareApp then LiveWire.SoftwareApp.houseProvider = softwareLines end
-end)
+LiveWire.API.registerSoftwareLines(softwareLines)

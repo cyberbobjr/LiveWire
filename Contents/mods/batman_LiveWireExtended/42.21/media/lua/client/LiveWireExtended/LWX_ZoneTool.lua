@@ -14,7 +14,7 @@ local Z = X.Zone
 local Tool = ISPanel:derive("LWXZoneTool")
 X.ZoneTool = Tool
 
-local CHUNK = 8
+local CHUNK = X.CHUNK
 local MAX_OUTLINE = 600
 local FONT = getTextManager():getFontHeight(UIFont.Small)
 

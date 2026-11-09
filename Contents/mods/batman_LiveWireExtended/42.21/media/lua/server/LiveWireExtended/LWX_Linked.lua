@@ -8,10 +8,11 @@ if isClient() then return end
 -- that a link newer than the saved global ModData can be rebuilt (LWX_Recovery).
 require "Moveables/ISMoveableSpriteProps"
 require "LiveWireExtended/LWX_Connect"
+require "LiveWireExtended/LWX_Inverters"
 require "LiveWireExtended/LWX_Link"
 
 local X = LiveWire.Extended
-local D, C, L = X.Data, X.Connect, X.Link
+local D, L, Inv = X.Data, X.Link, X.Inverters
 local SL = {}
 X.Linked = SL
 
@@ -46,12 +47,12 @@ end
 -- cable rule on the distance to the inverter.
 function SL.wires(record)
     if type(record.wires) == "number" then return math.max(0, math.floor(record.wires)) end
-    local dev = C.inverter(record.inv)
+    local dev = Inv.get(record.inv)
     local ix, iy, iz = record.ix, record.iy, record.iz
     if not ix and dev then ix, iy, iz = dev.x, dev.y, dev.z end
     if not ix then return 0 end
-    local I = LiveWire.Install
-    return I.wiresFor((I.distance(record.x, record.y, record.z, ix, iy, iz)))
+    local API = LiveWire.API
+    return API.wiresFor((API.distance(record.x, record.y, record.z, ix, iy, iz)))
 end
 
 -- Store the record of `kind` object `obj` linked to inverter `dev`. Returns it.
@@ -72,13 +73,13 @@ function SL.link(character, obj, invObj)
         return false
     end
     local kind = L.kindOf(obj)
-    local dev = X.inverterOf(invObj)
+    local dev = Inv.ofObject(invObj)
     if not dev then
         LiveWire.notify(character, "Tooltip_LWX_NoInverter", {}, true)
         return false
     end
     local wires = arg1 or 0
-    if wires > 0 and not LiveWire.Install.consume(character, "Base.ElectricWire", wires) then return false end
+    if wires > 0 and not LiveWire.API.consume(character, X.WIRE, wires) then return false end
     local record, key = store(kind, obj, dev, wires)
     if kind.onLink then kind.onLink(record, dev, key, obj) end
     SL.markObject(obj, record)
@@ -128,7 +129,7 @@ function SL.unlink(character, obj)
     local wires = record and SL.wires(record) or 0
     if not record or not SL.forget(kind, L.key(sq:getX(), sq:getY(), sq:getZ())) then return false end
     LiveWire.notify(character, kind.unlinkedNote, {})
-    LiveWire.Devices.returnWires(character, wires)
+    LiveWire.API.returnWires(character, wires)
     return true
 end
 
@@ -151,7 +152,7 @@ if MP and MP.pickUpMoveableInternal then
         local record = sq and L.recordAt(kind, sq)
         if record then wires = SL.wires(record) end
         local r = origPickUp(self, _character, _square, _object, _sprInstance, ...)
-        if wires > 0 and _object:getObjectIndex() == -1 then LiveWire.Devices.returnWires(_character, wires) end
+        if wires > 0 and _object:getObjectIndex() == -1 then LiveWire.API.returnWires(_character, wires) end
         return r
     end
 end
@@ -160,13 +161,12 @@ end
 -- may only wait for its recovery (Live Wire, Devices.recover): the record stays while
 -- the inverter square is not loaded or still holds an inverter marked with its id.
 local function inverterGone(record)
-    if C.inverter(record.inv) then return false end
-    local R = LiveWire.Registry
-    if R and R.device(record.inv) then return true end  -- known, but no longer a master
+    if Inv.get(record.inv) then return false end
+    if LiveWire.API.deviceKnown(record.inv) then return true end  -- known, but no longer a master
     if not record.ix then return true end                -- records made before ix was kept
     local sq = getCell():getGridSquare(record.ix, record.iy, record.iz)
     if not sq then return false end
-    return LiveWire.Marks.findOnSquare(sq, record.inv) == nil
+    return LiveWire.API.markOnSquare(sq, record.inv) == nil
 end
 
 -- Records of removed inverters, and records whose square is loaded without the object.
@@ -176,7 +176,7 @@ function SL.prune()
     for _, kind in ipairs(L.kinds) do
         local stale = {}
         for key, r in pairs(L.records(kind)) do
-            local dev = C.inverter(r.inv)
+            local dev = Inv.get(r.inv)
             if dev and not r.ix then r.ix, r.iy, r.iz = dev.x, dev.y, dev.z end
             if inverterGone(r) then
                 stale[#stale + 1] = key

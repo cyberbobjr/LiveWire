@@ -5,12 +5,13 @@
 -- covers +/- GeneratorVerticalPowerRange floors). A position stands on a square that
 -- exists: the terminal's floor when `exists` says so, else the ground floor if it
 -- still reaches the terminal's floor.
+require "LiveWireExtended/LWX_Core"
 LiveWire = LiveWire or {}
 LiveWire.Extended = LiveWire.Extended or {}
 local Z = {}
 LiveWire.Extended.Zone = Z
 
-local CHUNK = 8
+local CHUNK = LiveWire.Extended.CHUNK
 Z.MAX_CHUNKS = 2
 local CENTRE = { { 3, 3 }, { 4, 3 }, { 3, 4 }, { 4, 4 } }
 

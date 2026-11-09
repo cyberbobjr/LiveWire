@@ -3,6 +3,7 @@
 -- complete() runs in single player and on the server only, and re-checks everything.
 require "TimedActions/ISBaseTimedAction"
 require "LiveWireExtended/LWX_Core"
+require "LiveWireExtended/LWX_Inverters"
 require "LiveWireExtended/LWX_Terminal"
 require "LiveWireExtended/LWX_Panel"
 require "LiveWireExtended/LWX_Breakers"
@@ -57,11 +58,11 @@ function LWXBuildingAction:complete()
         -- Relay: the building the terminal touches, fed by the terminal's inverter (E8).
         if not X.Terminals then return false end
         local t = X.Terminal.recordAt(sq)
-        local dev = t and X.Connect.inverter(t.inv)
+        local dev = t and X.Inverters.get(t.inv)
         if self.disconnect then return dev ~= nil and X.Connect.disconnect(ch, dev, self.areaKey) end
         return X.Terminals.connectBuilding(ch, obj)
     end
-    local dev = X.inverterOf(obj)
+    local dev = X.Inverters.ofObject(obj)
     if not dev then return false end
     if self.disconnect then return X.Connect.disconnect(ch, dev, self.areaKey) end
     return X.Connect.connectBuilding(ch, dev, dev.x, dev.y, dev.z, LiveWire.Config.tileRange(), nil)
@@ -190,7 +191,7 @@ LWXBreakerAction = ISBaseTimedAction:derive("LWXBreakerAction")
 function LWXBreakerAction:isValid()
     if not stillThere(self.target) then return false end
     if self.mode == "label" then return X.Breakers.hasPen(self.character) end
-    return self.mode == "on" or self.mode == "off" or LiveWire.Install.screwdriver(self.character) ~= nil
+    return self.mode == "on" or self.mode == "off" or LiveWire.API.screwdriver(self.character) ~= nil
 end
 
 function LWXBreakerAction:waitToStart()
@@ -204,7 +205,7 @@ end
 
 function LWXBreakerAction:start()
     self:setActionAnim(CharacterActionAnims.Disassemble)
-    if self.mode ~= "on" and self.mode ~= "off" and self.mode ~= "label" then LiveWire.Install.showScrewdriver(self) end
+    if self.mode ~= "on" and self.mode ~= "off" and self.mode ~= "label" then LiveWire.API.showScrewdriver(self) end
 end
 
 function LWXBreakerAction:stop() ISBaseTimedAction.stop(self) end
@@ -268,7 +269,7 @@ end
 
 function LWXPointAction:start()
     self:setActionAnim(CharacterActionAnims.Disassemble)
-    LiveWire.Install.showScrewdriver(self)
+    LiveWire.API.showScrewdriver(self)
 end
 
 function LWXPointAction:stop() ISBaseTimedAction.stop(self) end

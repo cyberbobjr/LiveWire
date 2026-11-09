@@ -16,7 +16,6 @@ local D = X.Data
 local PT = {}
 X.Points = PT
 
-PT.LEVEL = 3   -- D-41: every point
 PT.XP = 5      -- D-41: per connection (once per point and day)
 
 function PT.table()
@@ -106,24 +105,17 @@ function PT.checkConnect(character, o, boardObj, pos)
     if not record then return false, "Tooltip_LWX_PanelNotLinked" end
     if not X.Breakers.slotAt(record, tonumber(pos)) then return false, "Tooltip_LWX_NoBreakerThere" end
     if PT.point(X.Adapters.identity(o)) then return false, "Tooltip_LWX_PointConnected" end
-    local I = LiveWire.Install
-    if not I.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
+    local API = LiveWire.API
+    if not API.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
     -- the voltage tester checks the circuit is dead before wiring (kept, not used up)
-    if I.countType(character, "LiveWire.VoltageTester") < 1 then return false, "Tooltip_LWX_NeedTester" end
-    if not I.hasLevel(character, PT.LEVEL) then
-        return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(PT.LEVEL))
+    if API.countType(character, "LiveWire.VoltageTester") < 1 then return false, "Tooltip_LWX_NeedTester" end
+    if not API.hasLevel(character, X.LEVEL) then
+        return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL))
     end
-    local os_, bs = o:getSquare(), boardObj:getSquare()
-    local dist, dz = I.distance(os_:getX(), os_:getY(), os_:getZ(), bs:getX(), bs:getY(), bs:getZ())
-    local floors = LiveWire.Config.get("LinkVerticalRange")
-    if dz > floors then return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(floors) end
-    local range = LiveWire.Config.get("LinkRange")
-    if dist > range then
-        return false, "Tooltip_LW_TooFarForCable", tostring(math.ceil(dist - 1e-9)), tostring(range)
-    end
-    local wires = I.wiresFor(dist)
-    if I.countType(character, "Base.ElectricWire") < wires then return false, "Tooltip_LW_NeedWire", wires end
-    return true, wires
+    -- the level was checked above (before the distance, as always): no level asked here
+    local ok, why, arg1, arg2 = API.cableCheck(character, o:getSquare(), boardObj:getSquare())
+    if not ok then return false, why, arg1, arg2 end
+    return true, arg1
 end
 
 -- Loaded objects of point `key` recorded at p.x, p.y, p.z (both sides).

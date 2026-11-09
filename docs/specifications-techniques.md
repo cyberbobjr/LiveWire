@@ -406,7 +406,10 @@ le registre des définitions. Extension identique sur serveur et clients.
 disque de D-12 : `GeneratorTileRange` autour de la case de l'onduleur, ±`GeneratorVerticalPowerRange` étages. Un seul
 fournisseur peut s'inscrire, pendant le chargement des fichiers, avant `OnInitGlobalModData` :
 `LiveWire.Coverage.register(provider)` → `true`, ou `false` et `"invalid_provider"`, `"already_registered"`,
-`"registration_closed"`. Il **ajoute** des cases au disque, sans jamais en retirer (D-33).
+`"registration_closed"`. Il **ajoute** des cases au disque, sans jamais en retirer (D-33), sauf s'il porte le champ
+facultatif `replacesDisc = true` (D-44) : il **remplace** alors le disque. `Coverage.hasDisc()` rend `false`,
+`Coverage.inDisc` rend toujours `false`, aucun parcours ni position de disque n'existe : un onduleur n'alimente que
+les cases du fournisseur (`covers`, `positions`, `scan`, `idsAt`). Sans ce champ, rien ne change.
 
 | Fonction du fournisseur | Rôle |
 |---|---|
@@ -457,7 +460,44 @@ commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau
   autre mod qui remplacerait délibérément leurs fonctions ; ils ne font pas
   partie du contrat d'extension.
 - Raisons d'enregistrement stables : `registration_closed`, `invalid_definition`,
-  `duplicate_type`, `duplicate_model`, `duplicate_sprite`. `API.version=1`.
+  `duplicate_type`, `duplicate_model`, `duplicate_sprite`. `API.version=1` ; `API.revision=2`
+  (services pour sous-mods, ci-dessous). `registerBattery`, `registerSource`, `battery`, `source`,
+  `gridAt` sont inchangées.
+
+### API publique : services pour sous-mods (révision 2, D-47, 2026-11-09)
+
+Un add-on (LiveWire Extended) n'appelle de la base que `LiveWire.API.*`, les points d'extension (`Coverage`,
+`CircuitProvider`, `Coupling`), la lecture de `LiveWire.Config.*`, `LiveWire.UIScale`, `LiveWire.notify` /
+`notifyNear` et `LiveWire.Anchor.reshape`. Chaque fonction ci-dessous cherche son module interne **au moment de
+l'appel** (les modules serveur ne sont pas chargés partout), ne rend que des copies détachées des tables d'état,
+et rend `nil`, `false`, `0` ou une liste vide quand le registre n'existe pas (client, avant l'initialisation).
+Tests : `tests/test_api_submods.py`.
+
+| Fonction | Rôle |
+|---|---|
+| `API.inverter(id)` | `{ id, x, y, z, role, coupled (booléen), master (id ou nil) }` d'un onduleur du registre, ou `nil` (autorité) |
+| `API.inverterOfObject(obj)` | idem, pour l'objet posé qui porte la marque, s'il est sur sa case enregistrée ; `nil` sinon (autorité) |
+| `API.deviceKnown(id)` | l'id existe-t-il au registre (tout rôle) ? |
+| `API.writable()` | registre prêt et non en lecture seule |
+| `API.inventoryIds()` | ids des onduleurs ayant un inventaire d'appareils (nouveau tableau) |
+| `API.eachBilled(invId, fn)` | `fn(objet, watts)` pour chaque appareil facturé à l'onduleur par la dernière mesure |
+| `API.invalidateDemand(id)` | demande une nouvelle mesure (`nil` : tous les onduleurs) |
+| `API.applyCircuits(obj)` | applique la décision de circuit à un appareil |
+| `API.topologyChanged()` | revisite progressivement les appareils des inventaires |
+| `API.addChunkVisitor(fn)` | inscrit `fn` au parcours de chunks ; `false` si impossible |
+| `API.screwdriver(ch)`, `API.showScrewdriver(action)` | tournevis utilisable ; affichage de l'outil dans l'action |
+| `API.countType(ch, type)`, `API.hasLevel(ch, niveau)` | compte d'objets ; niveau d'Électricité (sandbox appliqué) |
+| `API.consume(ch, type, n)`, `API.giveItem(ch, type)`, `API.returnWires(ch, n)` | retirer, donner, rendre des fils (avec message) |
+| `API.distance(x1,y1,z1,x2,y2,z2)`, `API.wiresFor(dist)` | distance horizontale et étages ; fils pour une distance |
+| `API.invertersInRange(sq)` | onduleurs à portée de câble de la case, du plus proche : `{ obj, dist }` (nouveau tableau) |
+| `API.cableCheck(ch, caseA, caseB, niveau, cléNiveau)` | étages, portée, niveau (seulement si `niveau` est donné ; clé de refus `cléNiveau`, défaut `Tooltip_LW_NeedLevel`), fils : `true, nil, fils` ou `false, clé, arg1, arg2` ; passe par `API.distance/hasLevel/wiresFor/countType` |
+| `API.awardXp(ch, clé, xp, heures)` | XP d'Électricité limitée par (joueur, clé) |
+| `API.estimateWatts(w)` | consommation estimée d'une charge que le moteur ne compte pas, `PowerScale` et facteur du profil appliqués (`Consumption.estimate`) |
+| `API.watts(obj)`, `API.applianceKind(obj)`, `API.applianceCut(obj)` | consommation, famille et coupure d'un appareil posé |
+| `API.mark(obj)`, `API.markOnSquare(sq, id)`, `API.model(nom)` | marque (copie), objet marqué d'une case, définition d'un modèle (copie) |
+| `API.pumpId(obj)`, `API.computerId(obj)` | id de la pompe ou du lien d'ordinateur que porte l'objet |
+| `API.registerSoftwareLines(fn)` | **un seul** fournisseur (type fonction validé ; un second, différent, est refusé : `false, "already_registered"` ; `false, "invalid_provider"` si ce n'est pas une fonction) de lignes pour la page « Maison » du logiciel de l'onduleur (client). Remplace le champ `SoftwareApp.houseProvider` |
+| `API.softwareLines(id)` | lignes du fournisseur (nouveau tableau de chaînes ; vide sans fournisseur), lues par le logiciel |
 
 [Preuves et portée exactes des circuits](annexes/recherches/circuits-42-21.md) :
 adaptateurs natifs, reprise des choix, pièces, recouvrements et migration additive.

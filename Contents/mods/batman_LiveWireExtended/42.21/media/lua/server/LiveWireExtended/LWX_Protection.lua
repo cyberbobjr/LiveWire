@@ -17,15 +17,12 @@ local function slotKey(p) return p.board .. "#" .. p.pos end
 -- Circuit loads in W: { ["boardKey#pos"] = watts }.
 function PR.loads()
     local loads = {}
-    local R, D = LiveWire.Registry, LiveWire.Demand
-    for id in pairs(D.inventories) do
-        local inv = R.device(id)
-        if inv then
-            D.each(inv, function(o, w)
-                local p = PT.point(Ad.identity(o))
-                if p and p.adapter == "vanilla" then loads[slotKey(p)] = (loads[slotKey(p)] or 0) + w end
-            end)
-        end
+    local API = LiveWire.API
+    for _, id in ipairs(API.inventoryIds()) do
+        API.eachBilled(id, function(o, w)
+            local p = PT.point(Ad.identity(o))
+            if p and p.adapter == "vanilla" then loads[slotKey(p)] = (loads[slotKey(p)] or 0) + w end
+        end)
     end
     -- Points of mod adapters are not in Live Wire's inventories: ask their adapter.
     for key, p in pairs(PT.table()) do

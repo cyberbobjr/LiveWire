@@ -9,12 +9,13 @@
 -- A position must stand on a square that exists: the engine then purges it at the next
 -- load once the sub-mod is gone (IsoChunk.java:4785-4797). Ground squares always exist;
 -- above or below ground, a room square of that floor is used.
+require "LiveWireExtended/LWX_Core"
 LiveWire = LiveWire or {}
 LiveWire.Extended = LiveWire.Extended or {}
 local F = {}
 LiveWire.Extended.Footprint = F
 
-local CHUNK = 8
+local CHUNK = LiveWire.Extended.CHUNK
 local GROUND = 0
 
 local function chunkKey(cx, cy) return cx .. "," .. cy end

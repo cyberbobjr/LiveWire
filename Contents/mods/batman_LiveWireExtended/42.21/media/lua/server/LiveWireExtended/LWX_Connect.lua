@@ -4,23 +4,12 @@ if isClient() then return end
 -- Live Wire to rebuild the appliance list and sends the public table to the clients.
 require "LiveWireExtended/LWX_Data"
 require "LiveWireExtended/LWX_Buildings"
+require "LiveWireExtended/LWX_Inverters"
 
 local X = LiveWire.Extended
 local D = X.Data
 local C = {}
 X.Connect = C
-
-C.LEVEL = 3 -- Electrical level of the inverter commissioning (D-29), default of D-33
-
-local function registry() return LiveWire.Registry end
-
--- A live, independent inverter of the registry (coupled slaves have no anchor).
-function C.inverter(id)
-    local R = registry()
-    local dev = R and R.ready and R.device(id)
-    if not dev or dev.role ~= "inverter" or dev.coupled then return nil end
-    return dev
-end
 
 -- Change the areas of inverter `id` (mutate receives its entry), then publish.
 function C.commit(id, mutate)
@@ -35,7 +24,7 @@ function C.commit(id, mutate)
         t.inverters[key] = any and e or nil
         D.invalidate(key)
     end)
-    if LiveWire.Demand then LiveWire.Demand.invalidate(id) end
+    LiveWire.API.invalidateDemand(id)
     if isServer() then ModData.transmit(X.DATA_KEY) end
 end
 
@@ -47,8 +36,8 @@ end
 -- Can `character` connect the building near (x, y, z) to inverter `dev`?
 -- Returns ok, translation key, argument, building.
 function C.canConnect(character, dev, x, y, z, reach)
-    if not LiveWire.Install.hasLevel(character, C.LEVEL) then
-        return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(C.LEVEL))
+    if not LiveWire.API.hasLevel(character, X.LEVEL) then
+        return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL))
     end
     local def = C.buildingFor(x, y, z, reach)
     if not def then return false, "Tooltip_LWX_NoBuilding" end
@@ -113,12 +102,11 @@ end
 -- Forget areas of inverters that no longer exist (picked up, destroyed, coupled).
 -- Their positions were already withdrawn with their anchor (LW_Devices).
 function C.prune()
-    local R = registry()
-    if not R or not R.ready or R.readOnly then return end
+    if not LiveWire.API.writable() then return end
     local t, changed = D.table(), false
     local stale = {}
     for id in pairs(t.inverters) do
-        if not C.inverter(id) then stale[#stale + 1] = id end
+        if not X.Inverters.get(id) then stale[#stale + 1] = id end
     end
     for i = 1, #stale do
         t.inverters[stale[i]] = nil

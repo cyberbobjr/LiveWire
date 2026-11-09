@@ -66,10 +66,10 @@ function B.checkInstall(character, obj, fullType, at)
     if not t then return false, "Tooltip_LWX_NoBreakerItem" end
     local record = X.Panel.isPanel(obj) and X.Panel.recordAt(obj:getSquare())
     if not record then return false, "Tooltip_LWX_PanelNotLinked" end
-    local I = LiveWire.Install
+    local I = LiveWire.API
     if not I.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
-    if not I.hasLevel(character, X.Panel.LEVEL) then
-        return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.Panel.LEVEL))
+    if not I.hasLevel(character, X.LEVEL) then
+        return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL))
     end
     if I.countType(character, fullType) < 1 then return false, "Tooltip_LWX_NoBreakerItem" end
     if at ~= nil then
@@ -102,7 +102,7 @@ end
 
 function B.hasPen(character)
     for _, t in ipairs(B.PENS) do
-        if LiveWire.Install.countType(character, t) > 0 then return true end
+        if LiveWire.API.countType(character, t) > 0 then return true end
     end
     return false
 end

@@ -2,7 +2,7 @@
 -- appliance is to a breaker: is it one, which objects form it, its draw, its state,
 -- and how to cut and restore it. Vanilla families reuse Live Wire's I21 service
 -- adapters through the circuit extension point (LW_CircuitProvider): their cut is
--- decided here and carried out by LiveWire.Circuits, nothing is copied.
+-- decided here and carried out by Live Wire's circuits, nothing is copied.
 --
 -- Adapter contract (table):
 --   id                    unique name ("vanilla", a mod id...)
@@ -107,11 +107,10 @@ function Ad.set(o, off)
 end
 
 -- ---------------------------------------------------------------- vanilla families
-local A = function() return LiveWire.Appliances end
 local pieceList
 
 local V = { id = "vanilla" }
-function V.recognize(o) return A().kind(o) ~= nil end
+function V.recognize(o) return LiveWire.API.applianceKind(o) ~= nil end
 function V.identity(o)
     if roomSwitch(o) then return roomKey(o) end
     return gridKey(o)
@@ -132,7 +131,7 @@ function V.pieces(o)
         o:getSpriteGridObjectsIncludingSelf(pieceList)
         for i = 0, pieceList:size() - 1 do
             local p = pieceList:get(i)
-            if A().kind(p) then out[#out + 1] = p end
+            if LiveWire.API.applianceKind(p) then out[#out + 1] = p end
         end
         pieceList:clear()
         if #out > 0 then return out end
@@ -141,20 +140,18 @@ function V.pieces(o)
 end
 function V.watts(o)
     local w = 0
-    for _, p in ipairs(V.pieces(o)) do w = w + LiveWire.Consumption.watts(p) end
+    for _, p in ipairs(V.pieces(o)) do w = w + LiveWire.API.watts(p) end
     return w
 end
 function V.isOn(o)
     for _, p in ipairs(V.pieces(o)) do
-        local s = A().saved(p)
-        if not (s and s.cut) then return true end
+        if not LiveWire.API.applianceCut(p) then return true end
     end
     return false
 end
--- The decision is read back by LiveWire.Circuits through the provider below.
+-- The decision is read back by Live Wire's circuits through the provider below.
 function V.apply(o, off)
-    if not LiveWire.Circuits then return end
-    for _, p in ipairs(V.pieces(o)) do LiveWire.Circuits.applyObject(p) end
+    for _, p in ipairs(V.pieces(o)) do LiveWire.API.applyCircuits(p) end
 end
 Ad.register(V)
 Ad.vanilla = V

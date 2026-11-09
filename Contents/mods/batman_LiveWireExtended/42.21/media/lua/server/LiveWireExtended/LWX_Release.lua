@@ -19,13 +19,6 @@ PT.blockedKey = function(...)
     return previousBlockedKey(...)
 end
 
--- Admin on a server, anyone in single player.
-function RL.allowed(character)
-    if not isServer() and not isClient() then return true end
-    local level = character and character.getAccessLevel and character:getAccessLevel()
-    return level ~= nil and level ~= "" and level ~= "None" and level ~= "none"
-end
-
 local function applyAll()
     local n = 0
     for key, p in pairs(PT.table()) do
@@ -37,7 +30,7 @@ local function applyAll()
 end
 
 function RL.run(character)
-    if not RL.allowed(character) then return false end
+    if not X.isAdmin(character) then return false end
     D.table().released = true
     local n = applyAll()
     LiveWire.notify(character, "IGUI_LWX_Released", { tostring(n) })
@@ -46,7 +39,7 @@ function RL.run(character)
 end
 
 function RL.resume(character)
-    if not RL.allowed(character) then return false end
+    if not X.isAdmin(character) then return false end
     D.table().released = nil
     applyAll()
     LiveWire.notify(character, "IGUI_LWX_Resumed", {})

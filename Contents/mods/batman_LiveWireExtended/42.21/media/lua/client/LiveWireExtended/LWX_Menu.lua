@@ -15,8 +15,6 @@ local D = X.Data
 local Menu = {}
 X.Menu = Menu
 
-Menu.LEVEL = 3
-
 local function disable(option, key, arg)
     local t = ISWorldObjectContextMenu.addToolTip()
     t.description = getText(key, arg)
@@ -46,8 +44,8 @@ function Menu.inverterIn(worldobjects)
             local objs = sq:getObjects()
             for i = 0, objs:size() - 1 do
                 local cand = objs:get(i)
-                local m = LiveWire.Marks.get(cand)
-                local def = m and LiveWire.Defs.devices[m.model]
+                local m = LiveWire.API.mark(cand)
+                local def = m and LiveWire.API.model(m.model)
                 if def and def.role == "inverter" then return cand, m end
             end
         end
@@ -67,8 +65,8 @@ function Menu.addBuildingOptions(sub, player, obj, mark)
     local o = sub:addOption(getText("ContextMenu_LWX_ConnectBuilding"), player, Menu.onBuilding, obj, false, nil)
     local def = X.Buildings.find(sq:getX(), sq:getY(), sq:getZ(), LiveWire.Config.tileRange(),
         LiveWire.Config.verticalRange())
-    if not LiveWire.Install.hasLevel(player, Menu.LEVEL) then
-        disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(Menu.LEVEL)))
+    if not LiveWire.API.hasLevel(player, X.LEVEL) then
+        disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL)))
     elseif not def then
         disable(o, "Tooltip_LWX_NoBuilding")
     elseif D.ownerOf(X.Buildings.key(def)) then
@@ -103,8 +101,8 @@ function Menu.addRelayOptions(sub, player, obj, record)
     local key = X.Terminal.key(record.x, record.y, record.z)
     local o = sub:addOption(getText("ContextMenu_LWX_ConnectBuilding"), player, Menu.onBuilding, obj, false, nil)
     local def = X.Buildings.find(record.x, record.y, record.z, Menu.RELAY_REACH, LiveWire.Config.verticalRange())
-    if not LiveWire.Install.hasLevel(player, Menu.LEVEL) then
-        disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(Menu.LEVEL)))
+    if not LiveWire.API.hasLevel(player, X.LEVEL) then
+        disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL)))
     elseif not def then
         disable(o, "Tooltip_LWX_NoBuildingNearTerminal")
     elseif D.ownerOf(X.Buildings.key(def)) then
@@ -125,7 +123,7 @@ end
 
 -- "Link to an inverter" submenu of a terminal or a board (one option per inverter in range).
 function Menu.addLinkOptions(sub, player, obj, labelKey, wiresKey)
-    local list = LiveWire.Install.invertersInRange(obj:getSquare())
+    local list = LiveWire.API.invertersInRange(obj:getSquare())
     if #list == 0 then
         local o = sub:addOption(getText(labelKey), nil, nil)
         disable(o, "Tooltip_LWX_NoInverter")
@@ -174,7 +172,7 @@ end
 function Menu.addPanelOptions(sub, player, obj)
     if X.Panel.recordAt(obj:getSquare()) then
         sub:addOption(getText("ContextMenu_LWX_UnlinkPanel"), player, Menu.onTerminal, obj, obj, true)
-        if Menu.panelExtra then Menu.panelExtra(sub, player, obj) end
+        Menu.panelExtra(sub, player, obj)
         return
     end
     Menu.addLinkOptions(sub, player, obj, "ContextMenu_LWX_LinkPanel", "Tooltip_LWX_PanelWires")
@@ -195,8 +193,7 @@ function Menu.panelExtra(sub, player, obj)
     local record = X.Panel.recordAt(obj:getSquare())
     sub:addOption(getText("ContextMenu_LWX_OpenBoard"), player, function(p) X.BoardWindow.open(p, obj) end)
     -- Admin, before removing the sub-mod: switch every breaker back on (E23).
-    local admin = not isClient() or (player:getAccessLevel() ~= nil and player:getAccessLevel() ~= "None")
-    if admin then
+    if X.isAdmin(player) then
         local released = X.Data.table().released == true
         sub:addOption(getText(released and "ContextMenu_LWX_ResumeAll" or "ContextMenu_LWX_ReleaseAll"), player,
             function(p)
@@ -225,8 +222,8 @@ function Menu.panelExtra(sub, player, obj)
         local o = sub:addOption(getText(slot.twilight and "ContextMenu_LWX_TwilightRemove" or "ContextMenu_LWX_TwilightFit",
             Menu.slotLabel(slot)), player, Menu.onBreaker, obj, nil, slot.pos, slot.twilight and "twilightOff" or "twilightOn")
         if not slot.twilight then
-            if not LiveWire.Install.screwdriver(player) then disable(o, "Tooltip_LW_NeedScrewdriver")
-            elseif LiveWire.Install.countType(player, B.TWILIGHT_ITEM) < 1 then disable(o, "Tooltip_LWX_NoTwilightItem")
+            if not LiveWire.API.screwdriver(player) then disable(o, "Tooltip_LW_NeedScrewdriver")
+            elseif LiveWire.API.countType(player, B.TWILIGHT_ITEM) < 1 then disable(o, "Tooltip_LWX_NoTwilightItem")
             else hint(o, "Tooltip_LWX_Twilight") end
         end
     end
@@ -263,7 +260,7 @@ end
 
 -- Linked boards within cable reach of square `sq` (object, record, distance).
 local function boardsNear(sq)
-    local out, I = {}, LiveWire.Install
+    local out, I = {}, LiveWire.API
     local range, floors = LiveWire.Config.get("LinkRange"), LiveWire.Config.get("LinkVerticalRange")
     for _, r in pairs(D.table().panels or {}) do
         local dist, dz = I.distance(sq:getX(), sq:getY(), sq:getZ(), r.x, r.y, r.z)
@@ -404,7 +401,6 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     context:addSubMenu(root, sub)
     if obj then
         Menu.addBuildingOptions(sub, player, obj, mark)
-        if Menu.extra then Menu.extra(sub, player, obj, mark) end
     end
     if terminal then Menu.addTerminalOptions(sub, player, terminal) end
     if panel then Menu.addPanelOptions(sub, player, panel) end

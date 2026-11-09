@@ -62,7 +62,7 @@ function PS.installBreaker(character, obj, fullType, at)
         LiveWire.notify(character, why, { arg }, true)
         return false
     end
-    if not LiveWire.Install.consume(character, fullType, 1) then return false end
+    if not LiveWire.API.consume(character, fullType, 1) then return false end
     local t, pos = B.TYPES[fullType], why
     local record = P.recordAt(obj:getSquare())
     local slot = { type = fullType, pos = pos, poles = t.poles, amps = t.amps, volts = t.volts,
@@ -84,13 +84,13 @@ function PS.removeBreaker(character, obj, pos)
     if not record then return false end
     local slot, i = X.Breakers.slotAt(record, tonumber(pos))
     if not slot then return false end
-    if not LiveWire.Install.screwdriver(character) then
+    if not LiveWire.API.screwdriver(character) then
         LiveWire.notify(character, "Tooltip_LW_NeedScrewdriver", {}, true)
         return false
     end
     table.remove(record.slots, i)
     if PS.onBreakerRemoved then PS.onBreakerRemoved(record, slot, character) end
-    LiveWire.Install.giveItem(character, slot.type)
+    LiveWire.API.giveItem(character, slot.type)
     transmit()
     LiveWire.notify(character, "IGUI_LWX_BreakerRemoved", {})
     X.log("breaker removed from module " .. slot.pos .. " of board " .. record.x .. "," .. record.y .. "," .. record.z)

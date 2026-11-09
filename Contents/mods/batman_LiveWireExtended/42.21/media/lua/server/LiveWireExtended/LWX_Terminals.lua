@@ -6,6 +6,7 @@ if isClient() then return end
 --   terminals["x,y,z"] = { x, y, z, inv = inverterId }
 --   its zone: inverters[inv].areas["t:x,y,z"] = LWX_Zone area
 require "LiveWireExtended/LWX_Connect"
+require "LiveWireExtended/LWX_Inverters"
 require "LiveWireExtended/LWX_Linked"
 require "LiveWireExtended/LWX_Zone"
 require "LiveWireExtended/LWX_Terminal"
@@ -66,7 +67,7 @@ function S.setZone(character, obj, x0, y0, x1, y1)
     local sq = obj and obj:getSquare()
     local key = sq and T.key(sq:getX(), sq:getY(), sq:getZ())
     local t = key and (D.table().terminals or {})[key]
-    if not t or not C.inverter(t.inv) then
+    if not t or not X.Inverters.get(t.inv) then
         LiveWire.notify(character, "Tooltip_LWX_TerminalNotLinked", {}, true)
         return false
     end
@@ -94,7 +95,7 @@ function S.connectBuilding(character, obj)
     local sq = obj and obj:getSquare()
     local key = sq and T.key(sq:getX(), sq:getY(), sq:getZ())
     local t = key and (D.table().terminals or {})[key]
-    local dev = t and C.inverter(t.inv)
+    local dev = t and X.Inverters.get(t.inv)
     if not dev then
         LiveWire.notify(character, "Tooltip_LWX_TerminalNotLinked", {}, true)
         return false

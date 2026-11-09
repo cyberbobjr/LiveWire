@@ -48,43 +48,18 @@ function L.recordAt(kind, sq)
     return list and list[L.key(sq:getX(), sq:getY(), sq:getZ())] or nil
 end
 
--- Registry inverter behind a placed Live Wire object (authority only).
-function X.inverterOf(obj)
-    local m = LiveWire.Marks.get(obj)
-    local R = LiveWire.Registry
-    if not m or not R or not R.ready or isClient() then return nil end
-    local dev = R.device(m.id)
-    local sq = obj:getSquare()
-    if not dev or dev.role ~= "inverter" or dev.coupled or not sq
-        or dev.x ~= sq:getX() or dev.y ~= sq:getY() or dev.z ~= sq:getZ() then return nil end
-    return dev
-end
-
 -- Can `character` link object `obj` to inverter object `invObj`? Returns true, wires;
 -- or false, key, arg1, arg2.
 function L.check(character, obj, invObj)
-    local I = LiveWire.Install
+    local API = LiveWire.API
     local kind = L.kindOf(obj)
     if not kind or not invObj then return false, "Tooltip_LWX_NoInverter" end
-    local im = LiveWire.Marks.get(invObj)
-    local def = im and LiveWire.Defs.devices[im.model]
+    local im = API.mark(invObj)
+    local def = im and API.model(im.model)
     if not def or def.role ~= "inverter" or im.cpl then return false, "Tooltip_LWX_NoInverter" end
     local ts, is = obj:getSquare(), invObj:getSquare()
     if not ts or not is then return false, "Tooltip_LWX_NoInverter" end
     if L.recordAt(kind, ts) then return false, kind.linkedKey end
-    local dist, dz = I.distance(ts:getX(), ts:getY(), ts:getZ(), is:getX(), is:getY(), is:getZ())
-    local floors = LiveWire.Config.get("LinkVerticalRange")
-    if dz > floors then return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(floors) end
-    local range = LiveWire.Config.get("LinkRange")
-    if dist > range then
-        return false, "Tooltip_LW_TooFarForCable", tostring(math.ceil(dist - 1e-9)), tostring(range)
-    end
-    if not I.hasLevel(character, kind.level) then
-        return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(kind.level))
-    end
-    local wires = I.wiresFor(dist)
-    if I.countType(character, "Base.ElectricWire") < wires then
-        return false, "Tooltip_LW_NeedWire", wires
-    end
-    return true, nil, wires
+    -- floors, reach, level, wire: Live Wire's cable rules, with this sub-mod's own level key
+    return API.cableCheck(character, ts, is, kind.level, "Tooltip_LWX_NeedLevel")
 end

@@ -15,7 +15,7 @@ local function transmit()
     if isServer() then ModData.transmit(X.DATA_KEY) end
 end
 
--- Apply the current decision to point `o` (vanilla: through LiveWire.Circuits).
+-- Apply the current decision to point `o` (vanilla: through Live Wire's circuits).
 function PT.apply(o)
     local a = Ad.find(o)
     if a then a.apply(o, PT.blocked(o)) end
@@ -28,10 +28,10 @@ local function applyKeys(keys)
 end
 
 -- Served regions changed (a board linked or forgotten): revisit every appliance of
--- Live Wire's inventories, progressively (LiveWire.Circuits queue).
+-- Live Wire's inventories, progressively (its circuit queue).
 function PT.regionsChanged()
     PT.changed()
-    if LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
+    LiveWire.API.topologyChanged()
 end
 
 -- Drop the points of a breaker slot of board `boardKey`; returns them (key -> point).
@@ -52,7 +52,7 @@ function PT.connect(character, o, boardObj, pos)
         return false
     end
     local wires = why or 0
-    if wires > 0 and not LiveWire.Install.consume(character, "Base.ElectricWire", wires) then return false end
+    if wires > 0 and not LiveWire.API.consume(character, X.WIRE, wires) then return false end
     local bsq, sq = boardObj:getSquare(), o:getSquare()
     local boardKey = X.Link.key(bsq:getX(), bsq:getY(), bsq:getZ())
     local record = P.recordAt(bsq)
@@ -62,7 +62,7 @@ function PT.connect(character, o, boardObj, pos)
         adapter = Ad.find(o).id }
     slot.points = slot.points or {}
     slot.points[key] = true
-    LiveWire.Xp.awardLimited(character, "lwx:" .. key, PT.XP, 24)
+    LiveWire.API.awardXp(character, "lwx:" .. key, PT.XP, 24)
     transmit()
     PT.apply(o)
     LiveWire.notify(character, "IGUI_LWX_PointConnected", { tostring(slot.pos) })

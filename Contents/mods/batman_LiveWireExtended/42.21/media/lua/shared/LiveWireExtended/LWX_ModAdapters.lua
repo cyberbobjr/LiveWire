@@ -25,9 +25,7 @@ local function blocked(o) return PT.blocked(o) end
 -- Estimated draws (these mods draw nothing in the engine) follow the Live Wire sandbox
 -- like every appliance: PowerScale and the factor of the consumption profile.
 local function sandbox(w)
-    local C = LiveWire.Consumption
-    local t = C and C.PROFILES and C.PROFILES[C.profile()]
-    return w * (LiveWire.Config.get("PowerScale") or 1) * (t and t.otherFactor or 1)
+    return LiveWire.API.estimateWatts(w)
 end
 
 -- ---------------------------------------------------------------- My Tailor Is Rich
@@ -116,12 +114,7 @@ end
 
 -- ---------------------------------------------------------------- Live Wire devices
 local function deviceId(o)
-    local m = LiveWire.Marks and LiveWire.Marks.get(o)
-    local def = m and LiveWire.Defs.devices[m.model]
-    if def and def.role == "pump" then return m.id end
-    local key = LiveWire.Defs.COMPUTER_KEY
-    local c = o.hasModData and o:hasModData() and o:getModData()[key]
-    return c and c.id or nil
+    return LiveWire.API.pumpId(o) or LiveWire.API.computerId(o)
 end
 
 Ad.register({

@@ -62,7 +62,6 @@ function X.receive(data)
     end
     if X.Points then X.Points.changed() end
     D.invalidate()
-    if X.onChanged then X.onChanged() end
 end
 
 Events.OnReceiveGlobalModData.Add(function(key, data)

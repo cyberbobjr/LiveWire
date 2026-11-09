@@ -110,3 +110,11 @@ function Consumption.watts(o, profile, beforeCircuit)
     if profile == Consumption.ENGINE then return p * 1000 * scale end
     return profileWatts(o, p, Consumption.PROFILES[profile]) * scale
 end
+
+-- Draw in W of a load the engine reports as 0 and that a sub-mod estimates (`w` W at the
+-- engine value): follows the sandbox like every appliance, PowerScale and the factor
+-- of the consumption profile.
+function Consumption.estimate(w)
+    local t = Consumption.PROFILES[Consumption.profile()]
+    return w * (LiveWire.Config.get("PowerScale") or 1) * (t and t.otherFactor or 1)
+end

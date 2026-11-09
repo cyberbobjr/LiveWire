@@ -6,9 +6,10 @@ if isClient() then return end
 -- refreshed every ten minutes so that later breakers are kept too.
 require "LiveWire/LW_Circuits"
 require "LiveWireExtended/LWX_Linked"
+require "LiveWireExtended/LWX_Inverters"
 
 local X = LiveWire.Extended
-local C, L, SL = X.Connect, X.Link, X.Linked
+local L, SL, Inv = X.Link, X.Linked, X.Inverters
 local RC = {}
 X.Recovery = RC
 
@@ -32,11 +33,10 @@ function RC.visit(obj)
     end
     RC.pending[key] = nil
     if L.records(kind)[key] then return nil end
-    local dev = C.inverter(m.inv)
+    local dev = Inv.get(m.inv)
     if not dev then
-        local R = LiveWire.Registry
         -- Still unknown: Live Wire may recover it when its chunk loads.
-        if not (R and R.device(m.inv)) then RC.pending[key] = kind end
+        if not LiveWire.API.deviceKnown(m.inv) then RC.pending[key] = kind end
         return nil
     end
     -- The same inverter, on the square the link was made to.
@@ -47,8 +47,7 @@ end
 -- Every ten minutes: retry the objects whose inverter was missing, and refresh the
 -- copy of every loaded linked object.
 function RC.tick()
-    local R = LiveWire.Registry
-    if not R or not R.ready or R.readOnly then return end
+    if not LiveWire.API.writable() then return end
     local cell = getCell()
     local retry = RC.pending
     RC.pending = {}
@@ -67,5 +66,5 @@ function RC.tick()
     end
 end
 
-LiveWire.Circuits.addChunkVisitor(RC.visit)
+if not LiveWire.API.addChunkVisitor(RC.visit) then X.warn("chunk visitor not registered: Live Wire circuits are not loaded") end
 Events.EveryTenMinutes.Add(RC.tick)

@@ -2,7 +2,7 @@
 require "LiveWire/LW_Defs"
 require "LiveWire/LW_Coverage"
 LiveWire = LiveWire or {}
-local API = { version = 1 }
+local API = { version = 1, revision = 2 }
 LiveWire.API = API
 local sealed = false
 local function copy(value)
@@ -75,4 +75,210 @@ function API.gridAt(x, y, z)
     local grid = inv and R.grid(inv.grid)
     return grid and copy(LiveWire.Sim.snapshot(grid)) or nil
 end
+-- ---------------------------------------------------------------- services for sub-mods (revision 2, D-47)
+-- Add-ons never reach the internal modules. Each function below looks its module up when
+-- it is called (server modules are not loaded everywhere) and hands out detached copies of
+-- anything that comes from the saved state. Where the registry does not exist (client,
+-- before initialisation) they answer nil, false, 0 or an empty list.
+local WIRE = "Base.ElectricWire"
+
+local function inverterCopy(dev)
+    return { id = dev.id, x = dev.x, y = dev.y, z = dev.z, role = dev.role,
+        coupled = dev.coupled and true or false, master = dev.coupled or nil }
+end
+
+-- Registry (authority): is it ready, and may it be written?
+function API.writable()
+    local R = LiveWire.Registry
+    return R ~= nil and R.ready == true and not R.readOnly
+end
+
+-- Inverter `id` as { id, x, y, z, role, coupled (boolean), master (id or nil) }, or nil.
+function API.inverter(id)
+    local R = LiveWire.Registry
+    local dev = R and R.ready and R.device(id)
+    if not dev or dev.role ~= "inverter" then return nil end
+    return inverterCopy(dev)
+end
+
+-- Is `id` a device of the registry (any role), whatever its state?
+function API.deviceKnown(id)
+    local R = LiveWire.Registry
+    return R ~= nil and R.device(id) ~= nil
+end
+
+-- Inverter behind the placed object `obj`, standing on the square it is registered on
+-- (same shape as API.inverter), or nil. Authority only.
+function API.inverterOfObject(obj)
+    local R = LiveWire.Registry
+    local m = LiveWire.Marks.get(obj)
+    if not m or not R or not R.ready or isClient() then return nil end
+    local dev = R.device(m.id)
+    local sq = obj:getSquare()
+    if not dev or dev.role ~= "inverter" or not sq
+        or dev.x ~= sq:getX() or dev.y ~= sq:getY() or dev.z ~= sq:getZ() then return nil end
+    return inverterCopy(dev)
+end
+
+-- Ids of the inverters that have an appliance inventory (a new array).
+function API.inventoryIds()
+    local out = {}
+    local D = LiveWire.Demand
+    if D then
+        for id in pairs(D.inventories) do out[#out + 1] = id end
+    end
+    return out
+end
+
+-- fn(object, watts) for each appliance the last measurement billed to inverter `invId`
+-- (watts above 0, circuit loads). The objects are live game objects, not state tables.
+function API.eachBilled(invId, fn)
+    local D, R = LiveWire.Demand, LiveWire.Registry
+    local inv = D and R and type(fn) == "function" and R.device(invId)
+    if inv then D.each(inv, fn) end
+end
+
+-- Ask for a new measurement of the inverter's appliances (nil: every inverter).
+function API.invalidateDemand(id)
+    local D = LiveWire.Demand
+    if D then D.invalidate(id) end
+end
+
+-- Apply the circuit decision to one appliance object.
+function API.applyCircuits(obj)
+    local C = LiveWire.Circuits
+    if C then C.applyObject(obj) end
+end
+
+-- Revisit every appliance of the inventories, progressively.
+function API.topologyChanged()
+    local C = LiveWire.Circuits
+    if C then C.topologyChanged() end
+end
+
+-- fn(chunk-object) is called by the chunk discovery walk. False when it cannot be registered.
+function API.addChunkVisitor(fn)
+    local C = LiveWire.Circuits
+    if type(fn) ~= "function" or not C then return false end
+    C.addChunkVisitor(fn)
+    return true
+end
+
+-- Placement helpers (character side).
+function API.screwdriver(character) return LiveWire.Install.screwdriver(character) end
+function API.showScrewdriver(action) LiveWire.Install.showScrewdriver(action) end
+function API.countType(character, fullType) return LiveWire.Install.countType(character, fullType) end
+function API.hasLevel(character, level) return LiveWire.Install.hasLevel(character, level) end
+function API.consume(character, fullType, n) return LiveWire.Install.consume(character, fullType, n) end
+function API.giveItem(character, fullType) return LiveWire.Install.giveItem(character, fullType) end
+function API.distance(x1, y1, z1, x2, y2, z2) return LiveWire.Install.distance(x1, y1, z1, x2, y2, z2) end
+function API.wiresFor(dist) return LiveWire.Install.wiresFor(dist) end
+
+-- Inverter objects within link range of square `sq`, nearest first: a new array of { obj, dist }.
+function API.invertersInRange(sq)
+    local out = {}
+    local list = LiveWire.Install.invertersInRange(sq)
+    for i = 1, #list do out[i] = { obj = list[i].obj, dist = list[i].dist } end
+    return out
+end
+
+-- Can `character` run an electric cable between squares `a` and `b`? Same rules, keys and
+-- order as Live Wire's own link: floors (LinkVerticalRange), reach (LinkRange), Electrical
+-- level (only when `level` is given; `levelKey` is the refusal key, default
+-- "Tooltip_LW_NeedLevel"), wire in the inventory. Returns true, nil, wires; or
+-- false, key, arg1, arg2. It goes through API.distance/hasLevel/wiresFor/countType.
+function API.cableCheck(character, a, b, level, levelKey)
+    if not a or not b then return false, "Tooltip_LW_Invalid" end
+    local dist, dz = API.distance(a:getX(), a:getY(), a:getZ(), b:getX(), b:getY(), b:getZ())
+    local floors = LiveWire.Config.get("LinkVerticalRange")
+    if dz > floors then return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(floors) end
+    local range = LiveWire.Config.get("LinkRange")
+    if dist > range then
+        return false, "Tooltip_LW_TooFarForCable", tostring(math.ceil(dist - 1e-9)), tostring(range)
+    end
+    if level ~= nil and not API.hasLevel(character, level) then
+        return false, levelKey or "Tooltip_LW_NeedLevel", tostring(LiveWire.Config.requiredLevel(level))
+    end
+    local wires = API.wiresFor(dist)
+    if API.countType(character, WIRE) < wires then return false, "Tooltip_LW_NeedWire", wires end
+    return true, nil, wires
+end
+
+-- Give `n` electric wires back to `character` (with Live Wire's message); returns the number given.
+function API.returnWires(character, n)
+    local D = LiveWire.Devices
+    if not D then return 0 end
+    return D.returnWires(character, n)
+end
+
+-- Electrical XP once per `periodHours` for (character, key); false when refused or unavailable.
+function API.awardXp(character, key, amount, periodHours)
+    local Xp = LiveWire.Xp
+    if not Xp then return false end
+    return Xp.awardLimited(character, key, amount, periodHours)
+end
+
+-- Draw in W of a load the engine reports as 0, estimated at `w` W (sandbox applied).
+function API.estimateWatts(w) return LiveWire.Consumption.estimate(w) end
+
+-- Draw in W of a placed appliance, 0 when it is off.
+function API.watts(obj) return LiveWire.Consumption.watts(obj) end
+
+-- Appliance family of a placed object ("light", "fridge"...), or nil.
+function API.applianceKind(obj) return LiveWire.Appliances.kind(obj) end
+
+-- Is the appliance cut by a circuit decision?
+function API.applianceCut(obj)
+    local saved = LiveWire.Appliances.saved(obj)
+    return (saved and saved.cut) and true or false
+end
+
+-- Mark of a placed Live Wire object (a copy: id, model, ...), or nil.
+function API.mark(obj)
+    local m = LiveWire.Marks.get(obj)
+    return m and copy(m) or nil
+end
+
+-- Placed Live Wire object `id` on square `sq` (a live game object), or nil.
+function API.markOnSquare(sq, id) return LiveWire.Marks.findOnSquare(sq, id) end
+
+-- Definition of device model `name` (a copy), or nil.
+function API.model(name) return copy(LiveWire.Defs.devices[name]) end
+
+-- Id of the water pump a placed object is, or nil.
+function API.pumpId(obj)
+    local m = LiveWire.Marks.get(obj)
+    local def = m and LiveWire.Defs.devices[m.model]
+    if def and def.role == "pump" then return m.id end
+    return nil
+end
+
+-- Id of the management computer link a vanilla computer object carries, or nil.
+function API.computerId(obj)
+    local c = obj.hasModData and obj:hasModData() and obj:getModData()[LiveWire.Defs.COMPUTER_KEY]
+    return c and c.id or nil
+end
+
+-- One provider of extra lines for the House tab of the inverter software (client).
+-- fn(inverterId) -> array of translated strings. A second, different function is refused.
+local softwareProvider
+function API.registerSoftwareLines(fn)
+    if type(fn) ~= "function" then return false, "invalid_provider" end
+    if softwareProvider and softwareProvider ~= fn then return false, "already_registered" end
+    softwareProvider = fn
+    return true
+end
+
+-- Lines of the registered provider for `inverterId`: a new array of strings, empty when
+-- there is no provider. Read by the inverter software.
+function API.softwareLines(inverterId)
+    local out = {}
+    local lines = softwareProvider and softwareProvider(inverterId)
+    if type(lines) ~= "table" then return out end
+    for i = 1, #lines do
+        if type(lines[i]) == "string" then out[#out + 1] = lines[i] end
+    end
+    return out
+end
+
 Events.OnInitGlobalModData.Add(function() sealed = true end)

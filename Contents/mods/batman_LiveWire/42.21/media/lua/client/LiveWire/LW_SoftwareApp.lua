@@ -7,6 +7,7 @@
 -- server.
 if isServer() then return end
 require "LiveWire/LW_NetworkName"
+require "LiveWire/LW_API"
 
 LiveWire = LiveWire or {}
 
@@ -103,8 +104,6 @@ local function fit(s, font, maxW)
     while n > 0 and tw(font, string.sub(s, 1, n) .. dots) > maxW do n = n - 1 end
     return string.sub(s, 1, n) .. dots
 end
-App.fit = fit
-
 local function text(ui, s, x, y, c, font, maxW)
     font = font or UIFont.Small
     ui:drawText(fit(s, font, maxW), x, y, c[1], c[2], c[3], 1, font)
@@ -332,11 +331,10 @@ function App:drawSources(ui, x, y, w, h, snap)
     end
 end
 
--- Optional lines of a sub-mod under the appliances of the House tab:
--- App.houseProvider(inverterId) -> array of translated strings. None by default.
+-- Optional lines of a sub-mod under the appliances of the House tab: the provider is
+-- registered with LiveWire.API.registerSoftwareLines (none by default).
 function App:houseExtra()
-    local provider = App.houseProvider
-    return provider and self.inverterId and provider(self.inverterId) or {}
+    return self.inverterId and LiveWire.API.softwareLines(self.inverterId) or {}
 end
 
 function App:drawHouse(ui, x, y, w, h, snap)

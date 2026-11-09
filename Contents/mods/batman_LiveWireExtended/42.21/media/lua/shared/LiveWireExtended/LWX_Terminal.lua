@@ -7,10 +7,9 @@ local T = {}
 X.Terminal = T
 
 T.SHEET = "batman_livewireext_01"   -- tiles 0..3 (source/tiles/build_extended_tiles.py)
-T.LEVEL = 3                          -- make and link a terminal (D-34 defaults)
 local SPRITES = {}
 for i = 0, 3 do SPRITES[T.SHEET .. "_" .. i] = true end
-T.kind = L.register({ name = "terminal", field = "terminals", sprites = SPRITES, level = T.LEVEL,
+T.kind = L.register({ name = "terminal", field = "terminals", sprites = SPRITES, level = X.LEVEL,
     linkedKey = "Tooltip_LWX_TerminalLinked", linkedNote = "IGUI_LWX_TerminalLinked",
     unlinkedNote = "IGUI_LWX_TerminalUnlinked" })
 

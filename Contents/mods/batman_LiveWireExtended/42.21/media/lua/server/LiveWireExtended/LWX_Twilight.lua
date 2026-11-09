@@ -21,7 +21,7 @@ function PS.setTwilight(character, boardObj, pos, on)
     if not record then return false end
     local slot = B.slotAt(record, tonumber(pos))
     if not slot or type(on) ~= "boolean" or (slot.twilight == true) == on then return false end
-    local I = LiveWire.Install
+    local I = LiveWire.API
     if not I.screwdriver(character) then
         LiveWire.notify(character, "Tooltip_LW_NeedScrewdriver", {}, true)
         return false
@@ -62,7 +62,7 @@ end
 local previousRemoved = PS.onBreakerRemoved
 PS.onBreakerRemoved = function(record, slot, character)
     if previousRemoved then previousRemoved(record, slot, character) end
-    if slot.twilight and character then LiveWire.Install.giveItem(character, B.TWILIGHT_ITEM) end
+    if slot.twilight and character then LiveWire.API.giveItem(character, B.TWILIGHT_ITEM) end
 end
 
 Events.EveryTenMinutes.Add(TW.tick)

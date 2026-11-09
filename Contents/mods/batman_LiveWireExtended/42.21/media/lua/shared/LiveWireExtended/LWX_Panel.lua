@@ -9,7 +9,6 @@ local L = X.Link
 local P = {}
 X.Panel = P
 
-P.LEVEL = 3   -- make and link a board, as the terminal (D-34 defaults)
 -- Tiles of batman_livewireext_01 (source/tiles/build_extended_tiles.py): 8-9 board of 8
 -- modules, 10-11 of 16, 12-13 of 24; facings S, E (north wall, west wall).
 P.SIZES = { [8] = 8, [9] = 8, [10] = 16, [11] = 16, [12] = 24, [13] = 24 }
@@ -22,7 +21,7 @@ end
 -- 8 modules too: D-40 reuses them in the map's houses.
 P.VANILLA = { "industry_02_212", "industry_02_213", "industry_02_214", "industry_02_215" }
 for _, name in ipairs(P.VANILLA) do SPRITES[name], SIZE_OF[name] = true, 8 end
-P.kind = L.register({ name = "panel", field = "panels", sprites = SPRITES, level = P.LEVEL,
+P.kind = L.register({ name = "panel", field = "panels", sprites = SPRITES, level = X.LEVEL,
     linkedKey = "Tooltip_LWX_PanelLinked", linkedNote = "IGUI_LWX_PanelLinked",
     unlinkedNote = "IGUI_LWX_PanelUnlinked" })
 

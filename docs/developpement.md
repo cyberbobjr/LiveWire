@@ -9,8 +9,12 @@ automatisés) vivent dans le fichier d'instructions unique du dossier de dévelo
 - Trois mods frères sous `Contents/mods` : **`batman_LiveWire`** (le mod), **`batman_LiveWireViewpoint`** et
   **`batman_LiveWireExtended`** (« LiveWire Extended », D-32), qui déclarent tous deux `require=\batman_LiveWire`. Toute
   modification de structure, de version ou de publication concerne les trois.
-- LiveWire Extended est facultatif : il ne parle à la base que par le point d'extension `LW_Coverage` et la table
-  publique des ancres, ne modifie ni `GeneratorTileRange` ni `GeneratorVerticalPowerRange`, range ses données sous sa
+- LiveWire Extended est facultatif : il ne parle à la base que par `LiveWire.API.*` (D-47), les points d'extension
+  (`LiveWire.Coverage.register`, `LiveWire.CircuitProvider.register`, `LiveWire.Coupling.*`), la lecture de
+  `LiveWire.Config.*`, `LiveWire.UIScale`, `LiveWire.notify`/`LiveWire.notifyNear` et `LiveWire.Anchor.reshape`
+  (et les `require` de ces modules). Tout autre besoin devient une fonction de `LiveWire.API`, qui délègue aux
+  modules internes et ne rend que des copies détachées ; la base ne connaît pas Extended. Il ne modifie ni
+  `GeneratorTileRange` ni `GeneratorVerticalPowerRange`, range ses données sous sa
   propre clé ModData `LiveWireExtended` et se déclare `incompatible=\LGExtendedElectricity`. Lua sous
   `LiveWireExtended/LWX_*.lua`, sous-table `LiveWire.Extended`, clés de traduction `*_LWX_*`.
 - Chaque mod a un dossier `common/` et la variante `42.21/` portant `mod.info` (`versionMin=42.21`, `modversion=` à
