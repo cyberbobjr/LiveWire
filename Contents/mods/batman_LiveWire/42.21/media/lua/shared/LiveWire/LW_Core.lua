@@ -24,6 +24,11 @@ function LiveWire.isAuthority()
     return not isClient()
 end
 
+-- May `player` act on square `sq`? False inside a safehouse that does not allow them.
+function LiveWire.canTouch(player, sq)
+    return not SafeHouse or SafeHouse.isSafehouseAllowInteract(sq, player)
+end
+
 function LiveWire.clamp(v, lo, hi)
     if v < lo then return lo end
     if v > hi then return hi end

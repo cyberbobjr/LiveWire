@@ -42,11 +42,6 @@ function LWBaseAction.near(character, sq, range)
         and math.abs(character:getY() - (sq:getY() + 0.5)) <= range + 0.5
 end
 
-function LWBaseAction.allowed(character, sq)
-    if not SafeHouse then return true end
-    return SafeHouse.isSafehouseAllowInteract(sq, character)
-end
-
 -- Sets the fields of the action (the parameters of the derived new()), then its length.
 function LWBaseAction.new(class, character, fields)
     local o = ISBaseTimedAction.new(class, character)
@@ -90,5 +85,5 @@ function LWBaseAction:guard()
             if not LWBaseAction.objectStillThere(self[name]) then return false end
         end
     end
-    return LWBaseAction.near(ch, sq, self.range) and LWBaseAction.allowed(ch, sq)
+    return LWBaseAction.near(ch, sq, self.range) and LiveWire.canTouch(ch, sq)
 end

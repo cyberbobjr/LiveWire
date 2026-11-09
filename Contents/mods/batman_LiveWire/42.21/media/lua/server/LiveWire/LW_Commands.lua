@@ -28,9 +28,7 @@ Commands.ERR = {
 local ERR = Commands.ERR
 
 -- May `player` act on square `sq`? False inside a safehouse that does not allow them.
-function Commands.canTouch(player, sq)
-    return not SafeHouse or SafeHouse.isSafehouseAllowInteract(sq, player)
-end
+Commands.canTouch = LiveWire.canTouch
 
 local rate = {}  -- username -> { windowStart = ms, count = n, warned = bool }
 

@@ -138,8 +138,8 @@ function Panel:checkSelection()
     local current=valid and linked(e.obj)
     local ok,why,a,b=false,nil,nil,nil
     if valid and not current then ok,why,a,b=LiveWire.Install.checkLink(self.player,e.obj,self.inverter) end
-    if valid and SafeHouse and (not SafeHouse.isSafehouseAllowInteract(e.obj:getSquare(),self.player)
-        or not SafeHouse.isSafehouseAllowInteract(self.inverter:getSquare(),self.player)) then
+    if valid and (not LiveWire.canTouch(self.player,e.obj:getSquare())
+        or not LiveWire.canTouch(self.player,self.inverter:getSquare())) then
         valid,ok,why=false,false,"Tooltip_LW_Safehouse"
     end
     self.connect:setEnable(valid and not current and ok or false)

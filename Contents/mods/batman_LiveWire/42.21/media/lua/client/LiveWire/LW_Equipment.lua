@@ -12,7 +12,7 @@ function Equipment.accessible(player,obj,range)
         and math.floor(player:getZ())==sq:getZ()
         and math.abs(player:getX()-(sq:getX()+0.5))<=range
         and math.abs(player:getY()-(sq:getY()+0.5))<=range
-        and (not SafeHouse or SafeHouse.isSafehouseAllowInteract(sq,player))
+        and LiveWire.canTouch(player,sq)
 end
 function Equipment.open(player,obj)
     local m=LiveWire.Marks.get(obj)
