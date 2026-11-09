@@ -22,12 +22,15 @@ Demand.SQUARES_PER_TICK = 500
 Demand.DIRTY_GRACE_HOURS = 1.0  -- keep the last measured value this long while rebuilding
 Demand.queue = {}
 Demand.job = nil
+Demand.zoneCache = {}  -- last measure of each coupled inverter's own zone (D-45)
 
 function Demand.reset()
     Demand.inventories, Demand.queue, Demand.job = {}, {}, nil
+    Demand.zoneCache = {}
 end
 function Demand.forget(id)
     Demand.inventories[id] = nil
+    Demand.zoneCache[id] = nil
     if Demand.job and Demand.job.id == id then Demand.job = nil end
     for i = #Demand.queue, 1, -1 do
         if Demand.queue[i] == id then table.remove(Demand.queue, i) end
@@ -39,7 +42,8 @@ function Demand.prune()
     local stale, cell = {}, getCell()
     for id in pairs(Demand.inventories) do
         local inv = R.device(id)
-        if not inv or inv.coupled or not cell:getGridSquare(inv.x, inv.y, inv.z) then
+        if not inv or (inv.coupled and not LiveWire.Coupling.slaveKeepsZone())
+            or not cell:getGridSquare(inv.x, inv.y, inv.z) then
             stale[#stale + 1] = id
         end
     end
@@ -203,7 +207,8 @@ function Demand.category(o)
 end
 
 -- Several independent inverters whose areas overlap: count each appliance once, on
--- the nearest switched-on one (equal distance: smallest id). Slaves have no anchor.
+-- the nearest switched-on one (equal distance: smallest id). Slaves have no anchor,
+-- unless an add-on lets them keep their zone (D-45).
 local function closerInverter(others, inv, sx, sy, sz, R2, V)
     local ix, iy = sx - inv.x, sy - inv.y
     local d2inv = ix * ix + iy * iy
@@ -218,6 +223,32 @@ local function closerInverter(others, inv, sx, sy, sz, R2, V)
         end
     end
     return false
+end
+
+-- Inverters of the same network in service (D-45): their zones split the appliances
+-- like independent anchors, even while the anchors are off, so that the network
+-- never bills an appliance twice.
+local function addNetworkPeers(others, inv)
+    local R = LiveWire.Registry
+    local grid = inv.grid and R.grid(inv.grid)
+    if not grid then return end
+    local seen = {}
+    for i = 1, #others do seen[tostring(others[i].id)] = true end
+    local members = { R.device(grid.inverter) }
+    local slaves = R.slaves(grid)
+    for i = 1, #slaves do members[#members + 1] = slaves[i] end
+    for i = 1, #members do
+        local d = members[i]
+        if d and d.id ~= inv.id and not seen[tostring(d.id)] then
+            local inService
+            if d.coupled then inService = d.state == "on" and (d.cond or 0) > 0
+            else inService = d.state == "on" or d.state == "tripped" end
+            if inService then
+                others[#others + 1] = { id = d.id, x = d.x, y = d.y, z = d.z }
+                seen[tostring(d.id)] = true
+            end
+        end
+    end
 end
 
 -- Demand in W for a loaded inverter device, and its breakdown by appliance family
@@ -262,6 +293,7 @@ function Demand.measure(inv, allowDirty)
             others[#others + 1] = { id = aid, x = a.x, y = a.y, z = a.z }
         end
     end
+    if LiveWire.Coupling.slaveKeepsZone() then addNetworkPeers(others, inv) end
     for i = 1, #entry.objects do
         local o = entry.objects[i]
         local sq = o:getSquare()
@@ -294,6 +326,32 @@ function Demand.measure(inv, allowDirty)
     -- Billing keeps only scalar readings; display rows are built on demand.
     entry.report, entry.readings, entry.owners = nil, readings, owners
     entry.measured = true
+    return total, breakdown
+end
+
+-- Demand of a whole network: the master's zone, plus the zone of each coupled
+-- inverter in service when an add-on lets them keep one (D-45). A coupled zone that
+-- cannot be measured right now counts with its last value. Without the add-on this
+-- is Demand.measure. Returns nil when the master cannot be measured.
+function Demand.measureGrid(grid, inv, allowDirty)
+    local total, breakdown = Demand.measure(inv, allowDirty)
+    if not total or not grid or not LiveWire.Coupling.slaveKeepsZone() then return total, breakdown end
+    breakdown = breakdown or {}
+    local _, list = LiveWire.Sim.inService(grid)
+    for i = 1, #list do
+        local sl = list[i]
+        local d, b = Demand.measure(sl, allowDirty)
+        if d then Demand.zoneCache[sl.id] = { d = d, b = b or {} } end
+        local c = Demand.zoneCache[sl.id]
+        if c then
+            total = total + c.d
+            for cat, v in pairs(c.b) do
+                local m = breakdown[cat] or { n = 0, w = 0 }
+                m.n, m.w = m.n + v.n, m.w + v.w
+                breakdown[cat] = m
+            end
+        end
+    end
     return total, breakdown
 end
 

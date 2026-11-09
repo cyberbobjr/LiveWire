@@ -6,6 +6,7 @@
 -- command.
 if isServer() then return end
 require "LiveWire/LW_NetworkName"
+require "LiveWire/LW_Coupling"
 
 LiveWire = LiveWire or {}
 
@@ -272,7 +273,7 @@ end
 -- reset, no range and no equipment lists, only the uncouple option.
 local function addSlaveOptions(menu, player, obj, mark)
     addSwitchOptions(menu, player, mark)
-    local invObj = I().inverterById(obj:getSquare(), mark.cpl)
+    local invObj = LiveWire.Coupling.inverterById(obj:getSquare(), mark.cpl)
     if invObj then
         local sq, is = obj:getSquare(), invObj:getSquare()
         local d = I().distance(sq:getX(), sq:getY(), sq:getZ(), is:getX(), is:getY(), is:getZ())
@@ -282,12 +283,20 @@ local function addSlaveOptions(menu, player, obj, mark)
     end
     menu:addOption(getText("ContextMenu_LW_Uncouple"), player, Menu.onUncouple, mark.id)
     addMuffleOption(menu, player, obj, mark)
+    -- A coupled inverter that keeps its own zone (D-45) shows its range.
+    if LiveWire.Coupling.slaveKeepsZone() then
+        local rangeKey = "ContextMenu_LW_ShowRange"
+        if LiveWire.RangeView.isShown(mark.id) then rangeKey = "ContextMenu_LW_HideRange" end
+        menu:addOption(getText(rangeKey), player, Menu.onShowRange, mark.id, obj:getSquare())
+    end
+    LiveWire.Coupling.addMenu(menu, player, obj, mark, true)
 end
 
--- Master or independent inverter: take a slave inverter in cable range (an inverter
--- already coupled cannot be a master, and a slave never takes another slave).
+-- Master or independent inverter: take a slave inverter in coupling range, the cable
+-- range unless an add-on sets another one (D-45). An inverter already coupled cannot
+-- be a master, and a slave never takes another slave.
 local function addCoupleOptions(menu, player, obj)
-    local inverters = I().invertersInRange(obj:getSquare())
+    local inverters = LiveWire.Coupling.inverters(obj:getSquare())
     local masters = {}
     for i = 1, #inverters do
         local m = LiveWire.Marks.get(inverters[i].obj)
@@ -297,7 +306,7 @@ local function addCoupleOptions(menu, player, obj)
     local csub = ISContextMenu:getNew(menu)
     menu:addSubMenu(co, csub)
     if #masters == 0 then
-        disabled(csub, getText("ContextMenu_LW_NoInverter", tostring(LiveWire.Config.get("LinkRange"))))
+        disabled(csub, getText("ContextMenu_LW_NoInverter", tostring(LiveWire.Coupling.range())))
         return
     end
     for i = 1, #masters do
@@ -323,6 +332,7 @@ local function addInverterOptions(menu, player, obj, mark)
     local rangeKey = "ContextMenu_LW_ShowRange"
     if LiveWire.RangeView.isShown(mark.id) then rangeKey = "ContextMenu_LW_HideRange" end
     menu:addOption(getText(rangeKey), player, Menu.onShowRange, mark.id, obj:getSquare())
+    LiveWire.Coupling.addMenu(menu, player, obj, mark, false)
     addCoupleOptions(menu, player, obj)
 
     local around = I().objectsInRange(obj:getSquare(), nil, true)

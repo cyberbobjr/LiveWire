@@ -148,18 +148,28 @@ local function pop(q)
     q.jobs[q.head], byKey[job.key] = nil, nil; q.head = q.head + 1
     if q.head > q.tail then q.jobs, q.head, q.tail = {}, 1, 0 end
 end
-function Circuits.apply(grid)
-    local e = LiveWire.Demand.inventories[grid.inverter]
-    if not e then return end
+-- Queue (or restart) the circuit job over the appliance list of inverter `id`.
+local function queueEntry(id, e)
     e.circuitBusy = true
-    local jobKey = "grid:" .. grid.inverter
+    local jobKey = "grid:" .. id
     local previous = byKey[jobKey]
     if previous then
         -- A new command must revisit the already processed prefix as well.
         previous.objects, previous.entry, previous.index = e.objects, e, 1
         return
     end
-    push(grids, jobKey, { objects = e.objects, entry = e, inverter = grid.inverter })
+    push(grids, jobKey, { objects = e.objects, entry = e, inverter = id })
+end
+function Circuits.apply(grid)
+    local e = LiveWire.Demand.inventories[grid.inverter]
+    if e then queueEntry(grid.inverter, e) end
+    -- Coupled inverters that keep their own zone (D-45) follow the same circuits.
+    if not LiveWire.Coupling.slaveKeepsZone() then return end
+    local slaves = LiveWire.Registry.slaves(grid)
+    for i = 1, #slaves do
+        local se = LiveWire.Demand.inventories[slaves[i].id]
+        if se then queueEntry(slaves[i].id, se) end
+    end
 end
 -- Chunk jobs are keyed by world position, never by the IsoChunk reference: the
 -- engine recycles unloaded chunks (WorldReuserThread) and hands the same Java
@@ -186,10 +196,14 @@ end
 function Circuits.topologyChanged()
     local R = LiveWire.Registry
     if not R or not R.ready or R.readOnly then return end
+    local done = {}  -- a network with coupled zones has several lists (D-45)
     for id in pairs(LiveWire.Demand.inventories) do
         local inv = R.device(id)
         local grid = inv and inv.grid and R.grid(inv.grid)
-        if grid then Circuits.apply(grid) end
+        if grid and not done[grid.id] then
+            done[grid.id] = true
+            Circuits.apply(grid)
+        end
     end
     nextSweepAt = 0
 end
@@ -218,7 +232,7 @@ function Circuits.set(player, args)
         LiveWire.PowerHistory.equipment(R.data, inv, args.off, getGameTime():getWorldAgeHours())
     end
     Circuits.apply(grid)
-    local demand, breakdown = LiveWire.Demand.measure(inv, true)
+    local demand, breakdown = LiveWire.Demand.measureGrid(grid, inv, true)
     if demand then grid.demand, grid.appliances = demand, breakdown end
     local names = { main = "Main", lights = "Lights", equipment = "Equipment" }
     LiveWire.Journal.add(grid, "IGUI_LW_Event_" .. names[args.circuit] .. (args.off and "Off" or "On"))

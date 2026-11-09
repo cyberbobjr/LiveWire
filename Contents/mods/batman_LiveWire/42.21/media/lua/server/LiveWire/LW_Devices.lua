@@ -490,8 +490,8 @@ function Devices.remove(id, character)
     local dev = R().device(id)
     if not dev then return end
     local wires = character and Devices.removalWires(dev) or 0
-    -- A slave has no anchor of its own: only a master's anchor is switched off.
-    if dev.role == "inverter" and not dev.coupled then
+    -- A slave has no anchor of its own unless an add-on keeps its zone (D-45).
+    if dev.role == "inverter" and (not dev.coupled or LiveWire.Coupling.slaveKeepsZone()) then
         LiveWire.Sim.updateAnchor(dev, false)
         LiveWire.Anchor.set(dev.id, R().anchors[dev.id] or dev, false)
     end

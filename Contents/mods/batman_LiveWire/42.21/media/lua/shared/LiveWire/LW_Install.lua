@@ -215,7 +215,7 @@ function Install.checkCouple(character, slaveObj, masterObj)
     if dz > floors then
         return false, "Tooltip_LW_TooManyFloors", tostring(dz), tostring(floors)
     end
-    local range = LiveWire.Config.get("LinkRange")
+    local range = LiveWire.Coupling.range()  -- the cable range unless an add-on sets one (D-45)
     if dist > range then
         return false, "Tooltip_LW_TooFarForCable", tostring(math.ceil(dist - 1e-9)), tostring(range)
     end

@@ -100,12 +100,24 @@ function Computer.shed(grid, inv, dev, stockFrac)
     if grid.shed or stockFrac >= Computer.SHED_BELOW then return end
     local entry = LiveWire.Demand.inventories[inv.id]
     if not entry then return end
+    -- The master's zone, then each coupled zone in service (D-45).
+    local entries = { entry }
+    if LiveWire.Coupling.slaveKeepsZone() then
+        local _, list = LiveWire.Sim.inService(grid)
+        for k = 1, #list do
+            local se = LiveWire.Demand.inventories[list[k].id]
+            if se then entries[#entries + 1] = se end
+        end
+    end
     local n = 0
-    for i = 1, #entry.objects do
-        local o = entry.objects[i]
-        if instanceof(o, "IsoLightSwitch") and o:getObjectIndex() ~= -1 and o:isActivated() then
-            o:setActive(false)  -- switches the whole room and syncs (IsoLightSwitch.java:457-476)
-            n = n + 1
+    for k = 1, #entries do
+        local objs = entries[k].objects
+        for i = 1, #objs do
+            local o = objs[i]
+            if instanceof(o, "IsoLightSwitch") and o:getObjectIndex() ~= -1 and o:isActivated() then
+                o:setActive(false)  -- switches the whole room and syncs (IsoLightSwitch.java:457-476)
+                n = n + 1
+            end
         end
     end
     grid.shed = true

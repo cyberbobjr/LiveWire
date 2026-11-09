@@ -101,12 +101,33 @@ end
 
 -- An inverter command (switch, reset): from the inverter itself, or from the
 -- management software on a computer of its network.
+-- The coupled inverters of master `inv`'s network, when a coupling add-on is
+-- registered (D-45): each opens the master's screen and may stand past the cable
+-- range, so standing at one counts as standing at the master for that screen.
+local function coupledOf(inv)
+    if not LiveWire.Coupling.active() or not inv or inv.coupled then return {} end
+    local grid = inv.grid and LiveWire.Registry.grid(inv.grid)
+    return grid and LiveWire.Registry.slaves(grid) or {}
+end
+
 local function checkInverterCommand(player, args)
     local dev, why = Commands.checkDevice(player, args.inverter)
     if dev then return dev end
     local inv = P.isDeviceId(args.inverter) and LiveWire.Registry.device(args.inverter)
     if inv and inv.role == "inverter" and Commands.checkVia(player, args.via, inv) then
         return inv
+    end
+    if inv and inv.role == "inverter" and why == "Tooltip_LW_TooFar" then
+        local slaves = coupledOf(inv)
+        if #slaves > 0 then
+            local msq = getCell():getGridSquare(inv.x, inv.y, inv.z)
+            if msq and SafeHouse and not SafeHouse.isSafehouseAllowInteract(msq, player) then
+                return nil, "Tooltip_LW_Safehouse"
+            end
+            for i = 1, #slaves do
+                if Commands.checkDevice(player, slaves[i].id) then return inv end
+            end
+        end
     end
     return nil, why
 end
@@ -175,9 +196,16 @@ end
 handlers[P.C_SUBSCRIBE] = function(player, args)
     local grid, inv = gridOfInverter(args.inverter)
     if not grid then return end
-    if not Commands.isNear(player, inv.x, inv.y, inv.z, LiveWire.Sim.SUBSCRIBE_RANGE,
-            LiveWire.Config.verticalRange())
-        and not Commands.checkVia(player, args.via, inv) then
+    local range, floors = LiveWire.Sim.SUBSCRIBE_RANGE, LiveWire.Config.verticalRange()
+    local near = Commands.isNear(player, inv.x, inv.y, inv.z, range, floors)
+    if not near then
+        local slaves = coupledOf(inv)
+        for i = 1, #slaves do
+            local d = slaves[i]
+            if Commands.isNear(player, d.x, d.y, d.z, range, floors) then near = true break end
+        end
+    end
+    if not near and not Commands.checkVia(player, args.via, inv) then
         return
     end
     LiveWire.Sim.subscribe(player, grid.id)
@@ -259,7 +287,7 @@ end
 -- demand plus the pumps against the capacity in service. Returns the notification
 -- arguments when the master would trip again at once, nil otherwise.
 local function overload(inv, grid)
-    local demand = LiveWire.Demand.measure(inv) or (grid and grid.demand) or 0
+    local demand = LiveWire.Demand.measureGrid(grid, inv) or (grid and grid.demand) or 0
     if grid then grid.demand = demand end
     local total = demand + (grid and grid.pumpW or 0)
     local def = LiveWire.Defs.devices[inv.model]

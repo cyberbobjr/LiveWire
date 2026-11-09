@@ -128,14 +128,16 @@ function Registry.devicesInChunk(cx, cy)
     return out
 end
 
--- Session index lookup only: never visit map squares or distant devices.
+-- Session index lookup only: never visit map squares or distant devices. Coupled
+-- inverters count only when an add-on lets them keep their zone (D-45).
 function Registry.invertersNear(x, y, radius)
+    local slaves = LiveWire.Coupling.slaveKeepsZone()
     local out, r2 = {}, radius * radius
     for cy = math.floor((y - radius) / 8), math.floor((y + radius) / 8) do
         for cx = math.floor((x - radius) / 8), math.floor((x + radius) / 8) do
             for id in pairs(Registry.invertersByChunk[cx .. "," .. cy] or {}) do
                 local d = Registry.device(id)
-                if d and d.role == "inverter" and not d.coupled
+                if d and d.role == "inverter" and (slaves or not d.coupled)
                     and (d.x - x)^2 + (d.y - y)^2 <= r2 then out[#out + 1] = d end
             end
         end
@@ -198,11 +200,12 @@ function Registry.slaves(grid)
 end
 
 -- Couple `slave` (an inverter with its own empty grid) to `masterGrid`: its own grid
--- and anchor are removed, it joins the master's grid as a slave.
+-- is removed, it joins the master's grid as a slave. Its anchor (zone) is removed
+-- too, unless an add-on lets coupled inverters keep their zone (D-45).
 function Registry.couple(slave, masterGrid)
     local own = slave.grid and data().grids[slave.grid]
     if own and own.id ~= masterGrid.id then data().grids[own.id] = nil end
-    Registry.setAnchor(slave, nil)
+    if not LiveWire.Coupling.slaveKeepsZone() then Registry.setAnchor(slave, nil) end
     slave.grid = masterGrid.id
     slave.coupled = masterGrid.inverter
     slave.relink = nil
@@ -320,9 +323,11 @@ function Registry.removeDevice(id)
     local dev = data().devices[id]
     if not dev then return end
     if dev.role == "inverter" and dev.coupled then
-        -- A slave owns no grid and no anchor: it only leaves its master's grid.
+        -- A slave owns no grid: it leaves its master's grid and drops the anchor it
+        -- may keep (D-45).
         local g = dev.grid and data().grids[dev.grid]
         if g and g.slaves then g.slaves[id] = nil end
+        Registry.setAnchor(dev, nil)
         indexRemove(dev)
         data().devices[id] = nil
         if LiveWire.Demand then LiveWire.Demand.forget(id) end

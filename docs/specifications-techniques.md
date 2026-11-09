@@ -436,6 +436,21 @@ davantage : un circuit ouvert sur le tableau de la base (disjoncteur général) 
 dans `Circuits.blocked` et `Circuits.applyObject`, avec les mêmes adaptateurs de service, la même file et la même
 persistance qu'I21. `LiveWire.Demand.each(inv, fn)` appelle `fn(objet, watts)` pour chaque appareil facturé à
 l'onduleur par la dernière mesure, sans copie (charge par circuit, D-35).
+
+### Point d'extension « couplage » (D-45, 2026-11-09)
+
+`require "LiveWire/LW_Coupling"` (Lua partagé). Un seul add-on peut s'inscrire avant `OnInitGlobalModData` :
+`LiveWire.Coupling.register(p)` → `true`, ou `false` et `"invalid_provider"`, `"already_registered"`,
+`"registration_closed"`. Champs, tous facultatifs (un champ inconnu ou mal typé est refusé) :
+`slaveKeepsZone` (booléen : un onduleur couplé garde son ancre et sa zone), `range()` (distance de couplage en cases,
+lue par `Install.checkCouple` et le menu ; valeur invalide → `LinkRange`), `inverters(sq)` (onduleurs atteignables pour
+un couplage, au format de `Install.invertersInRange`), `menu(menu, player, obj, mark, isSlave)` (client : options
+ajoutées au menu Live Wire d'un onduleur). Lecture : `Coupling.active()`, `slaveKeepsZone()`, `range()`,
+`inverters(sq)`, `inverterById(sq, id)`. Avec `slaveKeepsZone` : `Registry.couple` garde l'ancre, `invertersNear`
+inclut les couplés, `Demand.measureGrid(grid, inv)` additionne les zones des couplés en service (dernière valeur gardée
+si une zone n'est pas mesurable), `Circuits.apply` traite leurs listes, la simulation allume chaque couplé avec le
+maître, `Computer.shed` éteint aussi leurs lumières. Avec un inscrit quelconque, l'abonnement à l'écran et les
+commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau. Tests : `tests/test_coupling_api.py`.
   Ne renvoie jamais le registre, ses objets Java ou ses tables mutables.
 - Ces garanties portent sur les accès par l'API v1. Les modules internes de
   l'espace Lua partagé ne constituent pas une frontière de sécurité contre un

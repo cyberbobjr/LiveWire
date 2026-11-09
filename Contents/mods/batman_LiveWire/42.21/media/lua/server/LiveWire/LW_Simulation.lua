@@ -363,12 +363,20 @@ function Sim.publish(grid)
     local inv = LiveWire.Registry.device(grid.inverter)
     local snap = nil
     local nowMs = getTimestampMs()
+    local r2 = Sim.SUBSCRIBE_RANGE * Sim.SUBSCRIBE_RANGE
+    -- With a coupling add-on, a coupled inverter opens its master's screen and may
+    -- stand past the cable range (D-45): standing near it counts as near the master.
+    local near = LiveWire.Coupling.active() and LiveWire.Registry.slaves(grid) or {}
+    near[#near + 1] = inv
     for name, sub in pairs(list) do
         local p = sub.player
         local ok = p and not p:isDead() and sub.expires > nowMs and inv
         if ok then
-            local dx, dy = p:getX() - inv.x, p:getY() - inv.y
-            ok = dx * dx + dy * dy <= Sim.SUBSCRIBE_RANGE * Sim.SUBSCRIBE_RANGE
+            ok = false
+            for i = 1, #near do
+                local dx, dy = p:getX() - near[i].x, p:getY() - near[i].y
+                if dx * dx + dy * dy <= r2 then ok = true break end
+            end
         end
         if ok then
             snap = snap or Sim.snapshot(grid)
@@ -438,7 +446,7 @@ function Sim.stepGrid(grid, now, w, evaluate)
     if inv.gridSite and LiveWire.Config.get("GridCharging") then gridShutH = Sim.gridShutHour() end
 
     if loaded then
-        local d, breakdown = LiveWire.Demand.measure(inv)
+        local d, breakdown = LiveWire.Demand.measureGrid(grid, inv)
         if d then
             grid.demand = d
             grid.appliances = breakdown
@@ -660,6 +668,14 @@ function Sim.stepGrid(grid, now, w, evaluate)
 
     local on = grid.powered == true and inv.state == "on"
     Sim.updateAnchor(inv, on)
+    -- Coupled inverters that keep their own zone (D-45) follow the master's power.
+    if LiveWire.Coupling.slaveKeepsZone() then
+        local slaves = LiveWire.Registry.slaves(grid)
+        for i = 1, #slaves do
+            local sl = slaves[i]
+            Sim.updateAnchor(sl, on and sl.state == "on" and (sl.cond or 0) > 0)
+        end
+    end
 
     -- Management computer (history, forecast, load shedding) and low battery alarm.
     local frac = stockFraction(entries)
