@@ -29,7 +29,7 @@ FILES = [
     "server/LiveWire/LW_Circuits.lua", "server/LiveWire/LW_Inverters.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
     "server/LiveWire/LW_DeviceView.lua", "server/LiveWire/LW_Commands.lua", "server/LiveWire/LW_Devices.lua",
-    "server/LiveWire/LW_Pump.lua",
+    "server/LiveWire/LW_Pump.lua", "server/LiveWire/LW_PumpRelays.lua", "server/LiveWire/LW_PumpTransfer.lua",
 ]
 
 STUBS = r"""
@@ -504,6 +504,29 @@ def scenario_pump_demand():
     check(bool(g.PUMP_RESET), "pumped litres reset after the demand step")
 
 
+def scenario_pump_summary():
+    # Pumps in service, flow and power from the last measured flow (what the snapshot shows).
+    lua = make()
+    lua.execute("""
+        local P = LiveWire.Pump
+        local pumps = {
+            { model = "WaterPump", state = "running", flowLph = 150 },
+            { model = "WaterPump", state = "idle", flowLph = 0 },
+            { model = "WaterPump", state = "nopower", flowLph = 0 },
+        }
+        local s = P.summary(pumps)
+        SUM_N, SUM_FLOW, SUM_W = s.n, s.flow, s.w
+        pumps[1].pumped = 77
+        P.summary(pumps)
+        SUM_UNTOUCHED = (pumps[1].pumped == 77 and pumps[1].flowLph == 150)
+    """)
+    g = lua.globals()
+    check(g.SUM_N == 2, "pump summary counts the running and idle pumps (%s)" % g.SUM_N)
+    check(g.SUM_FLOW == 150, "pump summary adds the flows (%s)" % g.SUM_FLOW)
+    check(g.SUM_W == 125, "pump summary power 125 W for 150 L/h (%s)" % g.SUM_W)
+    check(bool(g.SUM_UNTOUCHED), "pump summary never consumes the litres counter")
+
+
 SLAVE_SETUP = r"""
 -- A slave inverter (own empty grid first, then coupled to the master's grid).
 local R = LiveWire.Registry
@@ -668,6 +691,7 @@ def main():
     scenario_slave_trip()
     scenario_slave_removal()
     scenario_pump_demand()
+    scenario_pump_summary()
     scenario_debug()
     scenario_backup_computer_alarm()
     scenario_backup_empty()

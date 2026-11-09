@@ -88,6 +88,23 @@ class Regressions(unittest.TestCase):
         assert(R.pumpsDisabled()==false and R.data.pumpsDisabled==nil and LiveWire.Pump.disabled()==false)
         ''')
 
+    def test_pump_invalidate_without_inventory_does_no_work(self):
+        self.run_lua('''
+        local R, P = LiveWire.Registry, LiveWire.Pump
+        local reads = 0
+        local get = LiveWire.Config.get
+        LiveWire.Config.get = function(...) reads = reads + 1; return get(...) end
+        local sq = {getX=function() return 0 end, getY=function() return 0 end}
+        P.inventories = {}
+        P.invalidateAt(sq, 16)
+        assert(reads == 0)
+        local dev = R.addDevice({role="pump",model="WaterPump",x=0,y=0,z=0,barrels={},relays={}})
+        P.inventories[dev.id] = {fixtures={}, dirty=false, builtAt=0}
+        P.invalidateAt(sq)
+        assert(reads > 0 and P.inventories[dev.id].dirty == true)
+        LiveWire.Config.get = get
+        ''')
+
     def test_pump_minute_tick_steps_only_pumps_in_id_order(self):
         self.run_lua('''
         local R=LiveWire.Registry

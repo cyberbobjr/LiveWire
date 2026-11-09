@@ -125,6 +125,7 @@ Defs.PUMP_MAX_BARRELS = 8
 Defs.PUMP_PIPE = "Base.MetalPipe"         -- one per linked barrel, given back on unlink
 Defs.PUMP_NOISE_RADIUS = 2                -- zombies hear a running pump this far
 Defs.MIN_BARREL_CAPACITY = 20             -- litres: smaller fluid objects are not barrels
+Defs.PUMP_FLUID_EPSILON = 0.001           -- litres: below this a container counts as empty / full
 
 -- Batteries stored in a power bank. Keyed by full type.
 Defs.batteries = {
@@ -146,6 +147,22 @@ Defs.TRIP_CONDITION_LOSS = 3
 Defs.HEAVY_LOAD_RATIO = 0.80
 Defs.SOUNDPROOF_KIT = "LiveWire.SoundproofKit"
 Defs.MUFFLED_WEAR = 1.25   -- a soundproofed inverter runs warmer
+
+-- Weather on the sources (Sim weatherOnSource). Months are 0-based: 8..10 = September..November.
+Defs.SNOW_ACCUMULATION_PER_HOUR = 0.1   -- times the snow intensity, while it snows
+Defs.SNOW_MELT_PER_HOUR = 0.05          -- above 0 degrees
+Defs.DIRT_PER_HOUR = 0.0005             -- dirt on a panel, per hour (SolarDirt option)
+Defs.DIRT_PER_HOUR_AUTUMN = 0.001       -- leaves: faster in autumn
+Defs.DIRT_AUTUMN_FIRST_MONTH = 8
+Defs.DIRT_AUTUMN_LAST_MONTH = 10
+Defs.DIRT_RAIN_WASH = 0.02              -- washed per hour and per unit of rain intensity
+Defs.DIRT_MAX = 0.5
+Defs.SOLAR_STORM_HOURS = 20             -- a panel is hit once per 20 storm hours on average
+Defs.SOLAR_STORM_LOSS = 5               -- condition points lost per hit
+Defs.WIND_STORM_HOURS = 6               -- a turbine over its cut-out speed is hit once per 6 hours on average
+Defs.WIND_STORM_LOSS_MIN = 5            -- condition points lost per hit: ZombRand(MIN, MAX), MAX excluded
+Defs.WIND_STORM_LOSS_MAX = 16
+Defs.BACKUP_MAX_FUEL = 10               -- litres: vanilla generator tank, shown by the LCD
 
 -- Parallel inverters (docs/annexes/conception/choix-et-extensions.md, section 5).
 Defs.MAX_SLAVES = 3                         -- 4 inverters per network

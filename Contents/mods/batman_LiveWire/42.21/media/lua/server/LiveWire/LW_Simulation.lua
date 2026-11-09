@@ -93,21 +93,23 @@ end
 local function weatherOnSource(src, def, w, h)
     if def.kind == "solar" then
         local snow = src.snow or 0
-        if w.snowing then snow = snow + 0.1 * w.snowIntensity * h end
-        if w.temperature > 0 then snow = snow - 0.05 * h end
+        if w.snowing then snow = snow + Defs.SNOW_ACCUMULATION_PER_HOUR * w.snowIntensity * h end
+        if w.temperature > 0 then snow = snow - Defs.SNOW_MELT_PER_HOUR * h end
         src.snow = LiveWire.clamp(snow, 0, 1)
         if LiveWire.Config.get("SolarDirt") then
-            local autumn = w.month >= 8 and w.month <= 10
-            src.dirt = LiveWire.clamp((src.dirt or 0) + h * (autumn and 0.001 or 0.0005)
-                - (w.rain or 0) * h * 0.02, 0, 0.5)
+            local autumn = w.month >= Defs.DIRT_AUTUMN_FIRST_MONTH and w.month <= Defs.DIRT_AUTUMN_LAST_MONTH
+            src.dirt = LiveWire.clamp((src.dirt or 0)
+                + h * (autumn and Defs.DIRT_PER_HOUR_AUTUMN or Defs.DIRT_PER_HOUR)
+                - (w.rain or 0) * h * Defs.DIRT_RAIN_WASH, 0, Defs.DIRT_MAX)
         end
     end
     if not LiveWire.Config.get("StormDamage") then return end
-    if def.kind == "solar" and w.storm and chance(h / 20) then
-        src.cond = math.max(0, (src.cond or 100) - 5)
+    if def.kind == "solar" and w.storm and chance(h / Defs.SOLAR_STORM_HOURS) then
+        src.cond = math.max(0, (src.cond or 100) - Defs.SOLAR_STORM_LOSS)
     elseif def.kind == "wind" and Physics.windAtHeight(w.windKph, src.z) > Physics.WIND_CUT_OUT
-        and not src.brake and chance(h / 6) then
-        src.cond = math.max(0, (src.cond or 100) - ZombRand(5, 16))
+        and not src.brake and chance(h / Defs.WIND_STORM_HOURS) then
+        src.cond = math.max(0, (src.cond or 100)
+            - ZombRand(Defs.WIND_STORM_LOSS_MIN, Defs.WIND_STORM_LOSS_MAX))
     end
 end
 
@@ -231,7 +233,7 @@ function Sim.snapshot(grid)
     local b = backups[1]
     if b then
         local start, stop = LiveWire.Backup.thresholds()
-        snap.backup = { id = b.id, state = b.state or "standby", fuel = b.fuel or 0, maxFuel = 10,
+        snap.backup = { id = b.id, state = b.state or "standby", fuel = b.fuel or 0, maxFuel = Defs.BACKUP_MAX_FUEL,
                         w = math.floor((grid.backupW or 0) + 0.5),
                         start = start * 100, stop = stop * 100 }
     end
@@ -259,18 +261,9 @@ function Sim.snapshot(grid)
         lightsOff = grid.lightsOff == true, equipmentOff = grid.equipmentOff == true,
         mainOff = grid.mainOff == true, equipmentControl = true } end
     if #pumps > 0 then
-        -- Pumps in service and their flow (the only pump figures the software shows).
-        local n, flow, watts = 0, 0, 0
-        for i = 1, #pumps do
-            if pumps[i].state == "running" or pumps[i].state == "idle" then n = n + 1 end
-            flow = flow + (pumps[i].flowLph or 0)
-            -- Reuse the last measured duty; never call demandW here (it consumes
-            -- the pump's litres counter). No scan, water transfer or new state.
-            local def = Defs.devices[pumps[i].model]
-            local duty = LiveWire.clamp((pumps[i].flowLph or 0) / (Defs.PUMP_LITRES_PER_MINUTE * 60), 0, 1)
-            watts = watts + (def and def.pumpW or 0) * duty
-        end
-        snap.pumps = { n = n, flow = math.floor(flow + 0.5), w = math.floor(watts + 0.5) }
+        -- Pumps in service and their flow (the only pump figures the software shows),
+        -- from the last measured flow; never demandW (it consumes the litres counter).
+        snap.pumps = LiveWire.Pump.summary(pumps)
     end
     return snap
 end
@@ -374,28 +367,38 @@ local function loadWearFactor(unit, demandW, capW)
     return factor
 end
 
--- evaluate: when no game time passed since the last step, still re-evaluate the
--- state (trip, power, marks, publication) with a zero-length step. Time is never
--- moved back: a command can no longer advance production, wear or fuel.
-function Sim.stepGrid(grid, now, w, evaluate)
+-- Step context: one table per Sim.stepGrid call. Fields set by the steps below:
+-- R, grid, now, w, inv, def, dt, loaded, gridShutH (resolveInverter); demandW (measureDemand,
+-- addPumpDemand); sources, banks, options, backups, computers, pumps (collectMembers);
+-- slaves, entries, bankEntries (readBatteries); breaker, tod, n, h (planSubsteps);
+-- prodW, backupW, totalLost, gridKWh (sub-steps); on (updateAnchors).
+
+-- A grid whose inverter record is gone is dropped with its members.
+local function dropLostGrid(R, grid)
+    LiveWire.warn("grid " .. tostring(grid.id) .. " lost its inverter, dropping it")
+    local left = {}
+    for id in pairs(grid.members) do left[#left + 1] = id end
+    for _, sl in ipairs(R.slaves(grid)) do left[#left + 1] = sl.id end
+    R.dropGrid(grid)
+    for i = 1, #left do LiveWire.Devices.syncMark(R.device(left[i])) end
+end
+
+-- The inverter, the time to simulate and the public grid state. Returns the step
+-- context, or nil when this step must not run.
+local function resolveInverter(grid, now, w, evaluate)
     local R = LiveWire.Registry
     local inv = R.device(grid.inverter)
     if not inv then
-        LiveWire.warn("grid " .. tostring(grid.id) .. " lost its inverter, dropping it")
-        local left = {}
-        for id in pairs(grid.members) do left[#left + 1] = id end
-        for _, sl in ipairs(R.slaves(grid)) do left[#left + 1] = sl.id end
-        R.dropGrid(grid)
-        for i = 1, #left do LiveWire.Devices.syncMark(R.device(left[i])) end
-        return
+        dropLostGrid(R, grid)
+        return nil
     end
     local def = Defs.devices[inv.model]
-    if not def then return end
+    if not def then return nil end
 
     local dt = now - (grid.lastTick or now)
     grid.lastTick = now
     if dt <= 0 then
-        if not evaluate then return end
+        if not evaluate then return nil end
         dt = 0
     end
     if dt > Sim.MAX_CATCHUP_HOURS then dt = Sim.MAX_CATCHUP_HOURS end
@@ -403,9 +406,9 @@ function Sim.stepGrid(grid, now, w, evaluate)
     -- A missing inverter is counted and removed by Devices.validate (Sim.tick).
     local invSq = getCell():getGridSquare(inv.x, inv.y, inv.z)
     local invObj = invSq and LiveWire.Devices.find(inv)
-    if invSq and not invObj then return end
+    if invSq and not invObj then return nil end
     local loaded = invObj ~= nil
-    if not loaded and not LiveWire.Config.get("SimulateUnloaded") then return end
+    if not loaded and not LiveWire.Config.get("SimulateUnloaded") then return nil end
 
     -- Public grid charging: the inverter must stand in a building the grid serves,
     -- as vanilla appliances (IsoObject.java:5716). The site is remembered for the
@@ -414,44 +417,58 @@ function Sim.stepGrid(grid, now, w, evaluate)
     local gridShutH = -math.huge
     if inv.gridSite and LiveWire.Config.get("GridCharging") then gridShutH = Sim.gridShutHour() end
 
-    if loaded then
-        local d, breakdown = LiveWire.Demand.measureGrid(grid, inv)
+    return { R = R, grid = grid, now = now, w = w, inv = inv, def = def, dt = dt, loaded = loaded,
+             gridShutH = gridShutH, demandW = 0, prodW = 0, backupW = 0, totalLost = 0, gridKWh = 0 }
+end
+
+local function measureDemand(ctx)
+    if ctx.loaded then
+        local d, breakdown = LiveWire.Demand.measureGrid(ctx.grid, ctx.inv)
         if d then
-            grid.demand = d
-            grid.appliances = breakdown
+            ctx.grid.demand = d
+            ctx.grid.appliances = breakdown
         end
     end
-    local demandW = grid.demand or 0
+    ctx.demandW = ctx.grid.demand or 0
+end
 
-    -- Live Wire devices removed by another path (admin, other mod) are dropped by
-    -- Devices.validate (Sim.tick). Linked vanilla objects (generator, computer) are
-    -- found by their own ModData: drop them after two consecutive checks.
-    do
-        local vanillaMembers = R.members(grid)
-        local bk0, pc0 = vanillaMembers.backup, vanillaMembers.computer
-        local vanilla = {}
-        for i = 1, #bk0 do vanilla[#vanilla + 1] = { dev = bk0[i], mod = LiveWire.Backup } end
-        for i = 1, #pc0 do vanilla[#vanilla + 1] = { dev = pc0[i], mod = LiveWire.Computer } end
-        for i = 1, #vanilla do
-            local dev = vanilla[i].dev
-            local obj, here = vanilla[i].mod.find(dev)
-            if here and not obj then
-                dev.missing = (dev.missing or 0) + 1
-                if dev.missing >= 2 then
-                    LiveWire.log("linked object " .. dev.id .. " is gone from its square, removing it")
-                    R.forgetVanilla(dev)
-                end
-            elseif here then
-                dev.missing = nil
+-- Live Wire devices removed by another path (admin, other mod) are dropped by
+-- Devices.validate (Sim.tick). Linked vanilla objects (generator, computer) are
+-- found by their own ModData: drop them after two consecutive checks.
+local function syncLinkedVanilla(ctx)
+    local R = ctx.R
+    local vanillaMembers = R.members(ctx.grid)
+    local bk0, pc0 = vanillaMembers.backup, vanillaMembers.computer
+    local vanilla = {}
+    for i = 1, #bk0 do vanilla[#vanilla + 1] = { dev = bk0[i], mod = LiveWire.Backup } end
+    for i = 1, #pc0 do vanilla[#vanilla + 1] = { dev = pc0[i], mod = LiveWire.Computer } end
+    for i = 1, #vanilla do
+        local dev = vanilla[i].dev
+        local obj, here = vanilla[i].mod.find(dev)
+        if here and not obj then
+            dev.missing = (dev.missing or 0) + 1
+            if dev.missing >= 2 then
+                LiveWire.log("linked object " .. dev.id .. " is gone from its square, removing it")
+                R.forgetVanilla(dev)
             end
+        elseif here then
+            dev.missing = nil
         end
     end
+end
 
-    local members = R.members(grid)
-    local sources, banks, options = members.source, members.storage, members.option
-    local backups, computers, pumps = members.backup, members.computer, members.pump
+-- Members of the grid by role, read again after syncLinkedVanilla (it can drop some).
+local function collectMembers(ctx)
+    local members = ctx.R.members(ctx.grid)
+    ctx.sources, ctx.banks, ctx.options = members.source, members.storage, members.option
+    ctx.backups, ctx.computers, ctx.pumps = members.backup, members.computer, members.pump
+end
+
+-- Once per storm: warn the players near a grid that has a wind turbine still unbraked.
+local function warnStorm(ctx)
+    local grid, inv, w = ctx.grid, ctx.inv, ctx.w
     if w.storm and not grid.stormWarned then
-        for _, src in ipairs(sources) do
+        for _, src in ipairs(ctx.sources) do
             local sd = Defs.devices[src.model]
             if sd and sd.kind == "wind" and not src.brake and (src.cond or 0) > 0 then
                 grid.stormWarned = true
@@ -462,223 +479,320 @@ function Sim.stepGrid(grid, now, w, evaluate)
             end
         end
     elseif not w.storm then grid.stormWarned = nil end
-    local slaves = R.slaves(grid)
-    local entries = {}
-    local bankEntries = {}
-    for i = 1, #banks do
-        local list = LiveWire.Batteries.read(banks[i])
+end
+
+-- The slave inverters and every battery entry of the banks (written back by settleGrid).
+local function readBatteries(ctx)
+    ctx.slaves = ctx.R.slaves(ctx.grid)
+    local entries, bankEntries = {}, {}
+    for i = 1, #ctx.banks do
+        local list = LiveWire.Batteries.read(ctx.banks[i])
         bankEntries[i] = list
         for j = 1, #list do entries[#entries + 1] = list[j] end
     end
-    -- Water pumps draw power while they move water (LW_Pump.lua); the breaker and
-    -- the heavy-load test count them with the house demand.
-    -- A zero-length step keeps the last measured pump power: demandW consumes the
-    -- litres counter and divides by the elapsed time.
+    ctx.entries, ctx.bankEntries = entries, bankEntries
+end
+
+-- Water pumps draw power while they move water (LW_Pump.lua); the breaker and
+-- the heavy-load test count them with the house demand.
+-- A zero-length step keeps the last measured pump power: demandW consumes the
+-- litres counter and divides by the elapsed time.
+local function addPumpDemand(ctx)
+    local grid = ctx.grid
     local pumpW = grid.pumpW or 0
-    if dt > 0 then
-        pumpW = LiveWire.Pump and LiveWire.Pump.demandW(pumps, dt) or 0
+    if ctx.dt > 0 then
+        pumpW = LiveWire.Pump and LiveWire.Pump.demandW(ctx.pumps, ctx.dt) or 0
         grid.pumpW = pumpW
     end
-    demandW = demandW + pumpW
+    ctx.demandW = ctx.demandW + pumpW
+end
 
-    local breaker = R.hasOption(grid, "breaker")
-    local tod = getGameTime():getTimeOfDay()
-    local n = math.max(1, math.ceil(dt / Sim.SUBSTEP_HOURS - 1e-9))
-    local h = dt / n
-    local totalLost = 0
-    local gridKWh = 0
+-- Number and length of the sub-steps.
+local function planSubsteps(ctx)
+    ctx.breaker = ctx.R.hasOption(ctx.grid, "breaker")
+    ctx.tod = getGameTime():getTimeOfDay()
+    ctx.n = math.max(1, math.ceil(ctx.dt / Sim.SUBSTEP_HOURS - 1e-9))
+    ctx.h = ctx.dt / ctx.n
+end
+
+-- Weather, raw and smoothed output and wear of every source for one sub-step.
+local function produce(ctx, t0)
+    local w, h = ctx.w, ctx.h
     local prodW = 0
-    local backupW = 0
-
-    for i = 1, n do
-        local t0 = (tod - dt + (i - 1) * h) % 24
-        if t0 < 0 then t0 = t0 + 24 end
-        prodW = 0
-        for s = 1, #sources do
-            local src = sources[s]
-            local sdef = Defs.devices[src.model]
-            if sdef then
-                weatherOnSource(src, sdef, w, h)
-                src.raw = sourceRaw(src, sdef, w, t0, h)
-                src.pOut = Physics.smooth(src.pOut, src.raw, h, Defs.SMOOTHING_TAU_HOURS)
-                if sdef.kind == "wind" and src.brake then src.pOut = 0 end
-                prodW = prodW + src.pOut
-                wearDevice(src, sdef, h)
-            end
-        end
-
-        -- Backup generator: started under BackupStartPercent, stopped at
-        -- BackupStopPercent; only through a working inverter.
-        backupW = 0
-        local frac = nil
-        if inv.state == "on" and (inv.cond or 0) > 0 then frac = stockFraction(entries) end
-        for b = 1, #backups do backupW = backupW + LiveWire.Backup.step(backups[b], frac, h) end
-
-        local before = {}
-        local beforeStock = 0
-        for e = 1, #entries do
-            before[e] = entries[e].charge
-            beforeStock = beforeStock + before[e]
-        end
-
-        if inv.state == "on" and (inv.cond or 0) <= 0 then inv.state = "broken" end
-        -- Capacity and idle use are taken again at each sub-step: slaves can break.
-        for s = 1, #slaves do
-            if slaves[s].state == "on" and (slaves[s].cond or 0) <= 0 then breakSlave(slaves[s]) end
-        end
-        local capW, idleNow = Inverters.capacityW(grid), Inverters.idleW(grid)
-        local gridW = 0
-        if now - dt + (i - 0.5) * h <= gridShutH then gridW = capW * Defs.GRID_CHARGE_RATIO end
-        -- A tripped breaker cuts the house: the inverter stays on (it still charges).
-        local physState = inv.state
-        -- Isolating a failed unit changes its switch, never repairs its converter.
-        if (inv.cond or 0) <= 0 then physState = "broken" end
-        if physState == "on" and (grid.mainOff or (breaker and breaker.state == "tripped")) then physState = "tripped" end
-        local r = Physics.stepGrid({
-            productionW = prodW + backupW, demandW = demandW, idleW = idleNow, maxW = capW,
-            eff = inv.eff, dt = h, wasOn = grid.powered == true, state = physState,
-            batteries = entries, gridW = gridW,
-        })
-        totalLost = totalLost + r.lostKWh
-        gridKWh = gridKWh + r.gridKWh
-
-        if r.tripped then
-            local args = { tostring(math.floor(demandW + 0.5)), tostring(capW) }
-            if breaker then
-                -- The breaker trips before the inverter, which is not damaged.
-                breaker.state = "tripped"
-                LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_BreakerTripped", args, true)
-            else
-                inv.state = "tripped"
-                inv.cond = math.max(0, (inv.cond or 100) - Defs.TRIP_CONDITION_LOSS)
-                LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Tripped", args, true)
-            end
-        end
-        local wasPowered = grid.powered == true
-        grid.powered = r.on
-        -- Intermediate catch-up transitions are private. Publish only the final
-        -- state below, avoiding a burst of global anchor packets after an absence.
-        local startHour = now - dt + (i - 1) * h
-        -- A zero-length step serves no hours: its end state is the served state.
-        local served = r.onHours > 0 or (h <= 0 and r.on)
-        if served and not wasPowered then
-            LiveWire.Journal.add(grid, "IGUI_LW_Event_PowerOn", {}, startHour)
-        end
-        if not r.on and (wasPowered or r.onHours > 0) then
-            LiveWire.Journal.add(grid, "IGUI_LW_Event_PowerOff", {}, startHour + r.onHours)
-        end
-        LiveWire.PowerHistory.record(R.data, inv, served, startHour)
-        if not r.on then
-            LiveWire.PowerHistory.record(R.data, inv, false, startHour + r.onHours)
-        end
-
-        for e = 1, #entries do
-            -- A partial step may discharge, then recharge from the unused
-            -- production. Wear counts the actual proportional discharge, not net
-            -- stock loss after that recharge.
-            local drawn = beforeStock > 0 and r.drawnKWh * before[e] / beforeStock or 0
-            batteryWear(entries[e], drawn, h, not r.on and r.onHours > 0)
-        end
-
-        if r.onHours > 0 then
-            wearDevice(inv, def, r.onHours, loadWearFactor(inv, demandW, capW))
-            -- Slaves in service wear with the same load, their own muffler included.
-            for s = 1, #slaves do
-                local sl = slaves[s]
-                if Inverters.slaveInService(sl) then
-                    -- Each slave wears by its own model (inverter and cabinet can be coupled).
-                    wearDevice(sl, Inverters.def(sl), r.onHours, loadWearFactor(sl, demandW, capW))
-                    if (sl.cond or 0) <= 0 then breakSlave(sl) end
-                end
-            end
-            if (inv.cond or 0) <= 0 then
-                inv.state = "broken"
-                grid.powered = false
-                LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Broken", {}, true)
-            end
-        end
-        if inv.state ~= "on" then
-            LiveWire.PowerHistory.record(R.data, inv, false, startHour + h)
-        end
-        for o = 1, #options do
-            local odef = Defs.devices[options[o].model]
-            if odef then wearDevice(options[o], odef, h) end
-        end
-        -- Pump wear is applied per step to the running pumps only (approximation:
-        -- the duty of this step is not known here).
-        for p = 1, #pumps do
-            local pdef = Defs.devices[pumps[p].model]
-            if pdef and pumps[p].state == "running" then wearDevice(pumps[p], pdef, h) end
+    for s = 1, #ctx.sources do
+        local src = ctx.sources[s]
+        local sdef = Defs.devices[src.model]
+        if sdef then
+            weatherOnSource(src, sdef, w, h)
+            src.raw = sourceRaw(src, sdef, w, t0, h)
+            src.pOut = Physics.smooth(src.pOut, src.raw, h, Defs.SMOOTHING_TAU_HOURS)
+            if sdef.kind == "wind" and src.brake then src.pOut = 0 end
+            prodW = prodW + src.pOut
+            wearDevice(src, sdef, h)
         end
     end
+    ctx.prodW = prodW
+end
 
-    for i = 1, #banks do LiveWire.Batteries.write(banks[i], bankEntries[i]) end
-    local stock, capacity = sumStock(entries)
-    grid.production = prodW + backupW
-    grid.backupW = backupW
+-- Backup generator: started under BackupStartPercent, stopped at
+-- BackupStopPercent; only through a working inverter.
+local function runBackup(ctx)
+    local backupW = 0
+    local frac = nil
+    if ctx.inv.state == "on" and (ctx.inv.cond or 0) > 0 then frac = stockFraction(ctx.entries) end
+    for b = 1, #ctx.backups do backupW = backupW + LiveWire.Backup.step(ctx.backups[b], frac, ctx.h) end
+    ctx.backupW = backupW
+end
+
+-- Charge of every battery entry before the physics step, and the total.
+local function chargesOf(entries)
+    local before = {}
+    local beforeStock = 0
+    for e = 1, #entries do
+        before[e] = entries[e].charge
+        beforeStock = beforeStock + before[e]
+    end
+    return before, beforeStock
+end
+
+-- Inverter state, capacity and idle use, then the physics step of one sub-step.
+-- Returns the physics result and the capacity used.
+local function runPhysics(ctx, i)
+    local grid, inv, breaker, h = ctx.grid, ctx.inv, ctx.breaker, ctx.h
+    if inv.state == "on" and (inv.cond or 0) <= 0 then inv.state = "broken" end
+    -- Capacity and idle use are taken again at each sub-step: slaves can break.
+    for s = 1, #ctx.slaves do
+        if ctx.slaves[s].state == "on" and (ctx.slaves[s].cond or 0) <= 0 then breakSlave(ctx.slaves[s]) end
+    end
+    local capW, idleNow = Inverters.capacityW(grid), Inverters.idleW(grid)
+    local gridW = 0
+    if ctx.now - ctx.dt + (i - 0.5) * h <= ctx.gridShutH then gridW = capW * Defs.GRID_CHARGE_RATIO end
+    -- A tripped breaker cuts the house: the inverter stays on (it still charges).
+    local physState = inv.state
+    -- Isolating a failed unit changes its switch, never repairs its converter.
+    if (inv.cond or 0) <= 0 then physState = "broken" end
+    if physState == "on" and (grid.mainOff or (breaker and breaker.state == "tripped")) then physState = "tripped" end
+    local r = Physics.stepGrid({
+        productionW = ctx.prodW + ctx.backupW, demandW = ctx.demandW, idleW = idleNow, maxW = capW,
+        eff = inv.eff, dt = h, wasOn = grid.powered == true, state = physState,
+        batteries = ctx.entries, gridW = gridW,
+    })
+    ctx.totalLost = ctx.totalLost + r.lostKWh
+    ctx.gridKWh = ctx.gridKWh + r.gridKWh
+    return r, capW
+end
+
+-- An overload trips the breaker when there is one (the inverter is not damaged),
+-- otherwise the inverter.
+local function tripOverload(ctx, r, capW)
+    if not r.tripped then return end
+    local inv, breaker = ctx.inv, ctx.breaker
+    local args = { tostring(math.floor(ctx.demandW + 0.5)), tostring(capW) }
+    if breaker then
+        -- The breaker trips before the inverter, which is not damaged.
+        breaker.state = "tripped"
+        LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_BreakerTripped", args, true)
+    else
+        inv.state = "tripped"
+        inv.cond = math.max(0, (inv.cond or 100) - Defs.TRIP_CONDITION_LOSS)
+        LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Tripped", args, true)
+    end
+end
+
+-- Power state, journal and power history of one sub-step. Returns the start hour.
+local function recordPower(ctx, r, i)
+    local grid, inv, R, h = ctx.grid, ctx.inv, ctx.R, ctx.h
+    local wasPowered = grid.powered == true
+    grid.powered = r.on
+    -- Intermediate catch-up transitions are private. Publish only the final
+    -- state below, avoiding a burst of global anchor packets after an absence.
+    local startHour = ctx.now - ctx.dt + (i - 1) * h
+    -- A zero-length step serves no hours: its end state is the served state.
+    local served = r.onHours > 0 or (h <= 0 and r.on)
+    if served and not wasPowered then
+        LiveWire.Journal.add(grid, "IGUI_LW_Event_PowerOn", {}, startHour)
+    end
+    if not r.on and (wasPowered or r.onHours > 0) then
+        LiveWire.Journal.add(grid, "IGUI_LW_Event_PowerOff", {}, startHour + r.onHours)
+    end
+    LiveWire.PowerHistory.record(R.data, inv, served, startHour)
+    if not r.on then
+        LiveWire.PowerHistory.record(R.data, inv, false, startHour + r.onHours)
+    end
+    return startHour
+end
+
+local function wearBatteries(ctx, r, before, beforeStock)
+    local entries = ctx.entries
+    for e = 1, #entries do
+        -- A partial step may discharge, then recharge from the unused
+        -- production. Wear counts the actual proportional discharge, not net
+        -- stock loss after that recharge.
+        local drawn = beforeStock > 0 and r.drawnKWh * before[e] / beforeStock or 0
+        batteryWear(entries[e], drawn, ctx.h, not r.on and r.onHours > 0)
+    end
+end
+
+-- Wear of the inverters, the options and the running pumps for one sub-step.
+local function wearInService(ctx, r, capW, startHour)
+    local grid, inv, h, demandW = ctx.grid, ctx.inv, ctx.h, ctx.demandW
+    if r.onHours > 0 then
+        wearDevice(inv, ctx.def, r.onHours, loadWearFactor(inv, demandW, capW))
+        -- Slaves in service wear with the same load, their own muffler included.
+        for s = 1, #ctx.slaves do
+            local sl = ctx.slaves[s]
+            if Inverters.slaveInService(sl) then
+                -- Each slave wears by its own model (inverter and cabinet can be coupled).
+                wearDevice(sl, Inverters.def(sl), r.onHours, loadWearFactor(sl, demandW, capW))
+                if (sl.cond or 0) <= 0 then breakSlave(sl) end
+            end
+        end
+        if (inv.cond or 0) <= 0 then
+            inv.state = "broken"
+            grid.powered = false
+            LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_Broken", {}, true)
+        end
+    end
+    if inv.state ~= "on" then
+        LiveWire.PowerHistory.record(ctx.R.data, inv, false, startHour + h)
+    end
+    for o = 1, #ctx.options do
+        local odef = Defs.devices[ctx.options[o].model]
+        if odef then wearDevice(ctx.options[o], odef, h) end
+    end
+    -- Pump wear is applied per step to the running pumps only (approximation:
+    -- the duty of this step is not known here).
+    for p = 1, #ctx.pumps do
+        local pdef = Defs.devices[ctx.pumps[p].model]
+        if pdef and ctx.pumps[p].state == "running" then wearDevice(ctx.pumps[p], pdef, h) end
+    end
+end
+
+-- One sub-step (i-th of ctx.n): production, backup, physics, journal, wear.
+local function stepSubstep(ctx, i)
+    local t0 = (ctx.tod - ctx.dt + (i - 1) * ctx.h) % 24
+    if t0 < 0 then t0 = t0 + 24 end
+    produce(ctx, t0)
+    runBackup(ctx)
+    local before, beforeStock = chargesOf(ctx.entries)
+    local r, capW = runPhysics(ctx, i)
+    tripOverload(ctx, r, capW)
+    local startHour = recordPower(ctx, r, i)
+    wearBatteries(ctx, r, before, beforeStock)
+    wearInService(ctx, r, capW, startHour)
+end
+
+-- Write the batteries back and store the totals of the step on the grid.
+local function settleGrid(ctx)
+    local grid = ctx.grid
+    for i = 1, #ctx.banks do LiveWire.Batteries.write(ctx.banks[i], ctx.bankEntries[i]) end
+    local stock, capacity = sumStock(ctx.entries)
+    grid.production = ctx.prodW + ctx.backupW
+    grid.backupW = ctx.backupW
     grid.stock = stock
     grid.capacity = capacity
-    grid.lost = totalLost
+    grid.lost = ctx.totalLost
     -- Mean public grid draw of the step (a zero-length step keeps the last value);
     -- nil when this inverter cannot use the grid (option off, outside a building).
-    if gridShutH == -math.huge then
+    if ctx.gridShutH == -math.huge then
         grid.gridW = nil
-    elseif dt > 0 then
-        grid.gridW = gridKWh * 1000 / dt
+    elseif ctx.dt > 0 then
+        grid.gridW = ctx.gridKWh * 1000 / ctx.dt
     end
     grid.rev = (grid.rev or 0) + 1
+end
 
-    local on = grid.powered == true and inv.state == "on"
+-- Anchor (powered zone) of the inverter and of the slaves that keep their own zone.
+local function updateAnchors(ctx)
+    local inv = ctx.inv
+    local on = ctx.grid.powered == true and inv.state == "on"
+    ctx.on = on
     Sim.updateAnchor(inv, on)
     -- Coupled inverters that keep their own zone (D-45) follow the master's power.
     if LiveWire.Coupling.slaveKeepsZone() then
-        for i = 1, #slaves do
-            local sl = slaves[i]
+        for i = 1, #ctx.slaves do
+            local sl = ctx.slaves[i]
             Sim.updateAnchor(sl, on and Inverters.slaveInService(sl))
         end
     end
+end
 
-    -- Management computer (history, forecast, load shedding) and low battery alarm.
-    local frac = stockFraction(entries)
+-- Management computer (history, forecast, load shedding) and low battery alarm.
+local function runManagement(ctx)
+    local grid, inv = ctx.grid, ctx.inv
+    local frac = stockFraction(ctx.entries)
     local pc = nil
-    for c = 1, #computers do
-        if LiveWire.Computer.powered(computers[c], grid) then pc = computers[c] break end
+    for c = 1, #ctx.computers do
+        if LiveWire.Computer.powered(ctx.computers[c], grid) then pc = ctx.computers[c] break end
     end
     grid.computerOn = pc ~= nil
     if pc then
-        LiveWire.Computer.record(grid, now, grid.production, demandW, frac)
-        LiveWire.Forecast.build(grid, sources, now)
-        if loaded then LiveWire.Computer.shed(grid, inv, pc, frac) end
+        LiveWire.Computer.record(grid, ctx.now, grid.production, ctx.demandW, frac)
+        LiveWire.Forecast.build(grid, ctx.sources, ctx.now)
+        if ctx.loaded then LiveWire.Computer.shed(grid, inv, pc, frac) end
     end
-    LiveWire.Alarm.check(grid, R.hasOption(grid, "alarm"), frac, now)
+    LiveWire.Alarm.check(grid, ctx.R.hasOption(grid, "alarm"), frac, ctx.now)
+end
 
+-- The running inverter, and each slave in service, are heard by zombies.
+local function makeNoise(ctx)
+    local inv = ctx.inv
     local radius = LiveWire.Config.get("InverterNoiseRadius")
-    if on and loaded and radius > 0 and not inv.muffled then
+    if ctx.on and ctx.loaded and radius > 0 and not inv.muffled then
         addSound(nil, inv.x, inv.y, inv.z, radius, 1)
     end
     -- Each slave in service hums at its own position (loaded squares only).
-    if on and radius > 0 then
-        for s = 1, #slaves do
-            local sl = slaves[s]
+    if ctx.on and radius > 0 then
+        for s = 1, #ctx.slaves do
+            local sl = ctx.slaves[s]
             if Inverters.slaveInService(sl) and not sl.muffled
                 and getCell():getGridSquare(sl.x, sl.y, sl.z) then
                 addSound(nil, sl.x, sl.y, sl.z, radius, 1)
             end
         end
     end
-    -- Relays of the pumps follow the linked barrels and fixtures (loaded squares only).
-    if LiveWire.Pump then
-        for p = 1, #pumps do
-            local ok, err = pcall(LiveWire.Pump.maintain, pumps[p])
-            if not ok then
-                LiveWire.warn("pump maintenance failed for " .. tostring(pumps[p].id) .. ": " .. tostring(err))
-            end
+end
+
+-- Relays of the pumps follow the linked barrels and fixtures (loaded squares only).
+local function maintainPumps(ctx)
+    if not LiveWire.Pump then return end
+    for p = 1, #ctx.pumps do
+        local ok, err = pcall(LiveWire.Pump.maintain, ctx.pumps[p])
+        if not ok then
+            LiveWire.warn("pump maintenance failed for " .. tostring(ctx.pumps[p].id) .. ": " .. tostring(err))
         end
     end
+end
+
+-- Everything the step shows to the world: anchors, computer, noise, pump relays, marks,
+-- journal and the snapshot sent to the subscribers.
+local function emitSideEffects(ctx)
+    updateAnchors(ctx)
+    runManagement(ctx)
+    makeNoise(ctx)
+    maintainPumps(ctx)
     -- State shown by the client (lights, menus): rewrite the marks that changed.
-    LiveWire.Devices.refreshStates(grid)
-    LiveWire.Journal.capture(grid)
-    Sim.publish(grid)
+    LiveWire.Devices.refreshStates(ctx.grid)
+    LiveWire.Journal.capture(ctx.grid)
+    Sim.publish(ctx.grid)
+end
+
+-- evaluate: when no game time passed since the last step, still re-evaluate the
+-- state (trip, power, marks, publication) with a zero-length step. Time is never
+-- moved back: a command can no longer advance production, wear or fuel.
+function Sim.stepGrid(grid, now, w, evaluate)
+    local ctx = resolveInverter(grid, now, w, evaluate)
+    if not ctx then return end
+    measureDemand(ctx)
+    syncLinkedVanilla(ctx)
+    collectMembers(ctx)
+    warnStorm(ctx)
+    readBatteries(ctx)
+    addPumpDemand(ctx)
+    planSubsteps(ctx)
+    for i = 1, ctx.n do stepSubstep(ctx, i) end
+    settleGrid(ctx)
+    emitSideEffects(ctx)
 end
 
 function Sim.tick()

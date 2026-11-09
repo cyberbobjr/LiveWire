@@ -744,7 +744,7 @@ class LotA(unittest.TestCase):
 
     def test_pump_keeps_the_barrel_proportion_of_tainted_water(self):
         # Static guard only: the transfer runs inside Pump.step with real fluids.
-        src = pathlib.Path(LUA, 'server/LiveWire/LW_Pump.lua').read_text(encoding='ascii')
+        src = pathlib.Path(LUA, 'server/LiveWire/LW_PumpTransfer.lua').read_text(encoding='ascii')
         self.assertIn('n * src.fc:getSpecificFluidAmount(Fluid.TaintedWater) / inBarrel', src)
         self.assertNotIn('tainted and Fluid.TaintedWater or Fluid.Water', src)
 
