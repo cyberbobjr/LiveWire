@@ -833,6 +833,14 @@ local function buildSteps()
             at(S.breaker:getSquare())
         end },
         { wait = 2000, fn = function() shot("lw_03_breaker_alarm") end },
+        { wait = 300, fn = function()
+            standNear(S.breaker:getSquare())
+            LiveWire.BreakerPanel.open(p, S.breaker)
+        end },
+        { wait = 1500, fn = function() shot("lw_03b_breaker_window") end },
+        { wait = 200, fn = function()
+            if LiveWire.BreakerPanel.instance then LiveWire.BreakerPanel.instance:close() end
+        end },
         { wait = 200, fn = function()
             standNear(S.breaker:getSquare())
             command(LiveWire.Protocol.C_RESET_BREAKER, { device = LiveWire.Marks.get(S.breaker).id })
