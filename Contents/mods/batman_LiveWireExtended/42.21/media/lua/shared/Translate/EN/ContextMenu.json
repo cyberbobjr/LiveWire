@@ -10,5 +10,13 @@
     "ContextMenu_LWX_LinkPanel": "Link to an inverter",
     "ContextMenu_LWX_UnlinkPanel": "Unlink the breaker board",
     "ContextMenu_LWX_InstallBreaker": "Install a breaker",
-    "ContextMenu_LWX_RemoveBreaker": "Remove the breaker of module %1 (%2)"
+    "ContextMenu_LWX_RemoveBreaker": "Remove the breaker of module %1 (%2)",
+    "ContextMenu_LWX_OpenBreaker": "Switch off %1",
+    "ContextMenu_LWX_CloseBreaker": "Switch on %1",
+    "ContextMenu_LWX_Module": "module %1 (%2)",
+    "ContextMenu_LWX_ConnectPoint": "Wire to a breaker board",
+    "ContextMenu_LWX_DisconnectPoint": "Unwire from module %1",
+    "ContextMenu_LWX_BoardAt": "Board %1 squares away",
+    "ContextMenu_LWX_WireAppliance": "Wire an appliance",
+    "ContextMenu_LWX_ApplianceAt": "%1, %2 squares away"
 }

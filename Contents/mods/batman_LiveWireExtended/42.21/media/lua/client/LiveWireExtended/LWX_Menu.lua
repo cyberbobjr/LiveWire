@@ -6,6 +6,7 @@ require "LiveWireExtended/LWX_Buildings"
 require "LiveWireExtended/LWX_Terminal"
 require "LiveWireExtended/LWX_Panel"
 require "LiveWireExtended/LWX_Breakers"
+require "LiveWireExtended/LWX_Points"
 require "LiveWireExtended/LWX_ZoneTool"
 
 local X = LiveWire.Extended
@@ -179,8 +180,8 @@ function Menu.addPanelOptions(sub, player, obj)
 end
 
 -- Breakers of a linked board (E16): install one of the carried types, remove one.
-function Menu.onBreaker(player, obj, fullType, pos, remove)
-    queueNear(player, obj:getSquare(), LWXBreakerAction:new(player, obj, fullType, pos, remove))
+function Menu.onBreaker(player, obj, fullType, pos, mode)
+    queueNear(player, obj:getSquare(), LWXBreakerAction:new(player, obj, fullType, pos, mode))
 end
 
 local function itemName(fullType)
@@ -196,15 +197,147 @@ function Menu.panelExtra(sub, player, obj)
     sub:addSubMenu(io, isub)
     for _, fullType in ipairs(B.ORDER) do
         local t = B.TYPES[fullType]
-        local o = isub:addOption(itemName(fullType), player, Menu.onBreaker, obj, fullType, nil, false)
+        local o = isub:addOption(itemName(fullType), player, Menu.onBreaker, obj, fullType, nil, nil)
         local ok, why, arg = B.checkInstall(player, obj, fullType)
         if not ok then disable(o, why, arg)
         else hint(o, "Tooltip_LWX_BreakerRating", tostring(t.amps), tostring(t.volts), tostring(B.capacityW(t))) end
     end
     for _, slot in ipairs(record and record.slots or {}) do
-        sub:addOption(getText("ContextMenu_LWX_RemoveBreaker", tostring(slot.pos), itemName(slot.type)),
-            player, Menu.onBreaker, obj, nil, slot.pos, true)
+        sub:addOption(getText(slot.off and "ContextMenu_LWX_CloseBreaker" or "ContextMenu_LWX_OpenBreaker",
+            Menu.slotLabel(slot)), player, Menu.onBreaker, obj, nil, slot.pos, slot.off and "on" or "off")
     end
+    Menu.addWireApplianceOptions(sub, player, obj, record)
+    for _, slot in ipairs(record and record.slots or {}) do
+        sub:addOption(getText("ContextMenu_LWX_RemoveBreaker", tostring(slot.pos), itemName(slot.type)),
+            player, Menu.onBreaker, obj, nil, slot.pos, "remove")
+    end
+end
+
+-- ---------------------------------------------------------------- points (E17)
+function Menu.slotLabel(slot)
+    if slot.label and slot.label ~= "" then return getText("ContextMenu_LWX_Module", tostring(slot.pos), slot.label) end
+    return getText("ContextMenu_LWX_Module", tostring(slot.pos), slot.amps .. " A")
+end
+
+function Menu.onPoint(player, appliance, board, pos, disconnect)
+    queueNear(player, appliance:getSquare(), LWXPointAction:new(player, appliance, board, pos, disconnect))
+end
+
+-- One option per breaker of `record` (board object `board`) for appliance `o`.
+local function addSlotOptions(menu, player, o, board, record)
+    for _, slot in ipairs(record.slots or {}) do
+        local opt = menu:addOption(Menu.slotLabel(slot), player, Menu.onPoint, o, board, slot.pos, false)
+        local ok, why, a1, a2 = X.Points.checkConnect(player, o, board, slot.pos)
+        if not ok then
+            disable(opt, why, a1)
+            if a2 then opt.toolTip.description = getText(why, a1, a2) end
+        else
+            hint(opt, "Tooltip_LWX_PointWires", tostring(why))
+        end
+    end
+end
+
+-- Linked boards within cable reach of square `sq` (object, record, distance).
+local function boardsNear(sq)
+    local out, I = {}, LiveWire.Install
+    local range, floors = LiveWire.Config.get("LinkRange"), LiveWire.Config.get("LinkVerticalRange")
+    for _, r in pairs(D.table().panels or {}) do
+        local dist, dz = I.distance(sq:getX(), sq:getY(), sq:getZ(), r.x, r.y, r.z)
+        local bsq = dist <= range and dz <= floors and getCell():getGridSquare(r.x, r.y, r.z)
+        local board = bsq and X.Panel.onSquare(bsq)
+        if board then out[#out + 1] = { obj = board, record = r, dist = dist } end
+    end
+    table.sort(out, function(a, b) return a.dist < b.dist end)
+    return out
+end
+
+-- On an appliance: "Wire to a breaker board" (boards in reach, then their breakers),
+-- or "Unwire from module N" when it is wired.
+function Menu.addPointOptions(sub, player, o)
+    local key = X.Adapters.identity(o)
+    local p = X.Points.point(key)
+    if p then
+        sub:addOption(getText("ContextMenu_LWX_DisconnectPoint", tostring(p.pos)), player, Menu.onPoint, o, nil, nil, true)
+        return
+    end
+    local list = boardsNear(o:getSquare())
+    local root = sub:addOption(getText("ContextMenu_LWX_ConnectPoint"), nil, nil)
+    if #list == 0 then
+        disable(root, "Tooltip_LWX_NoBoardNear")
+        return
+    end
+    local bsub = ISContextMenu:getNew(sub)
+    sub:addSubMenu(root, bsub)
+    for _, b in ipairs(list) do
+        local bo = bsub:addOption(getText("ContextMenu_LWX_BoardAt", tostring(math.floor(b.dist + 0.5))), nil, nil)
+        if #(b.record.slots or {}) == 0 then
+            disable(bo, "Tooltip_LWX_NoBreakerThere")
+        else
+            local ssub = ISContextMenu:getNew(bsub)
+            bsub:addSubMenu(bo, ssub)
+            addSlotOptions(ssub, player, o, b.obj, b.record)
+        end
+    end
+end
+
+-- On a board: "Wire an appliance": the nearest unwired points in cable reach, same floor.
+Menu.WIRE_LIST_MAX = 20
+function Menu.addWireApplianceOptions(sub, player, board, record)
+    if not record or #(record.slots or {}) == 0 then return end
+    local range, cell, seen, found = LiveWire.Config.get("LinkRange"), getCell(), {}, {}
+    for dy = -range, range do
+        for dx = -range, range do
+            local sq = cell:getGridSquare(record.x + dx, record.y + dy, record.z)
+            local objs = sq and sq:getObjects()
+            for i = 0, objs and objs:size() - 1 or -1 do
+                local o = objs:get(i)
+                local key = X.Adapters.find(o) and X.Adapters.identity(o)
+                if key and not seen[key] and not X.Points.point(key) then
+                    seen[key] = true
+                    found[#found + 1] = { o = o, d = dx * dx + dy * dy }
+                end
+            end
+        end
+    end
+    if #found == 0 then return end
+    table.sort(found, function(a, b) return a.d < b.d end)
+    local root = sub:addOption(getText("ContextMenu_LWX_WireAppliance"), nil, nil)
+    local asub = ISContextMenu:getNew(sub)
+    sub:addSubMenu(root, asub)
+    for i = 1, math.min(#found, Menu.WIRE_LIST_MAX) do
+        local o = found[i].o
+        local ao = asub:addOption(getText("ContextMenu_LWX_ApplianceAt", Menu.applianceName(o),
+            tostring(math.floor(math.sqrt(found[i].d) + 0.5))), nil, nil)
+        local ssub = ISContextMenu:getNew(asub)
+        asub:addSubMenu(ao, ssub)
+        addSlotOptions(ssub, player, o, board, record)
+    end
+end
+
+-- Player-facing name of a world appliance (translated moveable name when it has one).
+function Menu.applianceName(o)
+    local props = o:getSprite() and o:getSprite():getProperties()
+    local group, custom = props and props:get("GroupName"), props and props:get("CustomName")
+    if custom then
+        local key = ((group and group .. " " or "") .. custom):gsub(" ", "_")
+        local text = getText(key)
+        if text ~= key then return text end
+        return custom
+    end
+    return o:getObjectName() or "?"
+end
+
+-- Appliance (a point some adapter recognizes) among the clicked objects.
+function Menu.applianceIn(worldobjects)
+    for _, o in ipairs(worldobjects) do
+        if o and X.Adapters.find(o) then return o end
+        local sq = o and o.getSquare and o:getSquare()
+        local objs = sq and sq:getObjects()
+        for i = 0, objs and objs:size() - 1 or -1 do
+            if X.Adapters.find(objs:get(i)) then return objs:get(i) end
+        end
+    end
+    return nil
 end
 
 local function onFillWorld(playerNum, context, worldobjects, test)
@@ -213,7 +346,8 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     local obj, mark = Menu.inverterIn(worldobjects)
     local terminal = Menu.terminalIn(worldobjects)
     local panel = Menu.panelIn(worldobjects)
-    if not obj and not terminal and not panel then return end
+    local appliance = Menu.applianceIn(worldobjects)
+    if not obj and not terminal and not panel and not appliance then return end
     if test then return ISWorldObjectContextMenu.setTest() end
     local root = context:addOption(getText("ContextMenu_LWX_Root"), worldobjects, nil)
     local sub = ISContextMenu:getNew(context)
@@ -224,6 +358,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     end
     if terminal then Menu.addTerminalOptions(sub, player, terminal) end
     if panel then Menu.addPanelOptions(sub, player, panel) end
+    if appliance then Menu.addPointOptions(sub, player, appliance) end
 end
 
 Events.OnFillWorldObjectContextMenu.Add(onFillWorld)

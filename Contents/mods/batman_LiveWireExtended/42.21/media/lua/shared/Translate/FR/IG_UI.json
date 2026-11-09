@@ -16,5 +16,9 @@
     "IGUI_LWX_PanelLinked": "Tableau raccordé. Installez des disjoncteurs pour câbler les appareils.",
     "IGUI_LWX_PanelUnlinked": "Tableau débranché.",
     "IGUI_LWX_BreakerInstalled": "Disjoncteur installé : %1 A, %2 V.",
-    "IGUI_LWX_BreakerRemoved": "Disjoncteur retiré."
+    "IGUI_LWX_BreakerRemoved": "Disjoncteur retiré.",
+    "IGUI_LWX_PointConnected": "Raccordé au module %1.",
+    "IGUI_LWX_PointDisconnected": "Débranché de son disjoncteur.",
+    "IGUI_LWX_BreakerOff": "Module %1 coupé.",
+    "IGUI_LWX_BreakerOn": "Module %1 remis."
 }

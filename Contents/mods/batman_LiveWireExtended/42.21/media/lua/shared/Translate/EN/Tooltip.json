@@ -13,5 +13,10 @@
     "Tooltip_LWX_NoBreakerItem": "You have no breaker of this kind.",
     "Tooltip_LWX_BoardFull": "No free place on the board for this breaker.",
     "Tooltip_LWX_PanelNotLinked": "Link the breaker board to an inverter first.",
-    "Tooltip_LWX_BreakerRating": "%1 A at %2 V: up to %3 W on its circuit."
+    "Tooltip_LWX_BreakerRating": "%1 A at %2 V: up to %3 W on its circuit.",
+    "Tooltip_LWX_NotAnAppliance": "This object draws no current.",
+    "Tooltip_LWX_NoBreakerThere": "No breaker in this module.",
+    "Tooltip_LWX_PointConnected": "Already wired to a breaker.",
+    "Tooltip_LWX_PointWires": "Uses %1 electric wire. Once a board serves the building, unwired appliances have no current.",
+    "Tooltip_LWX_NoBoardNear": "No linked breaker board within cable reach."
 }

@@ -77,7 +77,7 @@ def terminal(facing: int) -> Image.Image:
 
 
 BOARDS = {8: (8, 0.36, 46), 10: (16, 0.56, 62), 12: (24, 0.76, 80)}  # index: modules, width, height px
-BOARD_PROPS = {"GroupName": "LiveWire Extended", "MoveType": "WallObject", "Material": "MetalPlates",
+BOARD_PROPS = {"GroupName": "LiveWire Extended", "IsMoveAble": "", "MoveType": "WallObject", "Material": "MetalPlates",
                "PickUpTool": "Electrician"}
 
 

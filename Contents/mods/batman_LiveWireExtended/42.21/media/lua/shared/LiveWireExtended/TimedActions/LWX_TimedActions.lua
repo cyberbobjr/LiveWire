@@ -6,6 +6,7 @@ require "LiveWireExtended/LWX_Core"
 require "LiveWireExtended/LWX_Terminal"
 require "LiveWireExtended/LWX_Panel"
 require "LiveWireExtended/LWX_Breakers"
+require "LiveWireExtended/LWX_Points"
 
 local X = LiveWire.Extended
 
@@ -181,12 +182,14 @@ function LWXZoneAction:new(character, target, x0, y0, x1, y1)
 end
 
 --------------------------------------------------------------------------------
--- Install a breaker item in a linked board, or remove the breaker of a module.
+-- Install a breaker item in a linked board, remove the breaker of a module, or switch
+-- it (mode nil = install, "remove", "on", "off").
 --------------------------------------------------------------------------------
 LWXBreakerAction = ISBaseTimedAction:derive("LWXBreakerAction")
 
 function LWXBreakerAction:isValid()
-    return stillThere(self.target) and LiveWire.Install.screwdriver(self.character) ~= nil
+    if not stillThere(self.target) then return false end
+    return self.mode == "on" or self.mode == "off" or LiveWire.Install.screwdriver(self.character) ~= nil
 end
 
 function LWXBreakerAction:waitToStart()
@@ -200,7 +203,7 @@ end
 
 function LWXBreakerAction:start()
     self:setActionAnim(CharacterActionAnims.Disassemble)
-    LiveWire.Install.showScrewdriver(self)
+    if self.mode ~= "on" and self.mode ~= "off" then LiveWire.Install.showScrewdriver(self) end
 end
 
 function LWXBreakerAction:stop() ISBaseTimedAction.stop(self) end
@@ -211,22 +214,78 @@ function LWXBreakerAction:complete()
     if not stillThere(obj) or not X.Panels or not X.Panel.isPanel(obj) then return false end
     local sq = obj:getSquare()
     if not near(ch, sq, 2) or not allowed(ch, sq) then return false end
-    if self.remove then return X.Panels.removeBreaker(ch, obj, tonumber(self.pos)) end
+    if self.mode == "remove" then return X.Panels.removeBreaker(ch, obj, tonumber(self.pos)) end
+    if self.mode == "on" or self.mode == "off" then
+        return X.Panels.setBreaker ~= nil and X.Panels.setBreaker(ch, obj, tonumber(self.pos), self.mode == "off")
+    end
     if type(self.fullType) ~= "string" or not X.Breakers.TYPES[self.fullType] then return false end
     return X.Panels.installBreaker(ch, obj, self.fullType)
 end
 
 function LWXBreakerAction:getDuration()
     if self.character:isTimedActionInstant() then return 1 end
+    if self.mode == "on" or self.mode == "off" then return 30 end
     return 200
 end
 
-function LWXBreakerAction:new(character, target, fullType, pos, remove)
+function LWXBreakerAction:new(character, target, fullType, pos, mode)
     local o = ISBaseTimedAction.new(self, character)
     o.target = target
     o.fullType = fullType
     o.pos = pos
-    o.remove = remove == true
+    o.mode = mode
+    o.maxTime = o:getDuration()
+    return o
+end
+
+--------------------------------------------------------------------------------
+-- Wire a point (appliance, multi-tile appliance, room) to a breaker, or unwire it.
+-- The action targets the appliance; the board is checked again on the authority.
+--------------------------------------------------------------------------------
+LWXPointAction = ISBaseTimedAction:derive("LWXPointAction")
+
+function LWXPointAction:isValid()
+    return stillThere(self.target) and (self.disconnect or stillThere(self.board))
+end
+
+function LWXPointAction:waitToStart()
+    self.character:faceThisObject(self.target)
+    return self.character:shouldBeTurning()
+end
+
+function LWXPointAction:update()
+    self.character:setMetabolicTarget(Metabolics.LightWork)
+end
+
+function LWXPointAction:start()
+    self:setActionAnim(CharacterActionAnims.Disassemble)
+    LiveWire.Install.showScrewdriver(self)
+end
+
+function LWXPointAction:stop() ISBaseTimedAction.stop(self) end
+function LWXPointAction:perform() ISBaseTimedAction.perform(self) end
+
+function LWXPointAction:complete()
+    local ch, obj = self.character, self.target
+    if not stillThere(obj) or not X.Points.connect or not X.Adapters.find(obj) then return false end
+    local sq = obj:getSquare()
+    if not near(ch, sq, 2) or not allowed(ch, sq) then return false end
+    if self.disconnect then return X.Points.disconnect(ch, obj) end
+    if not stillThere(self.board) or not X.Panel.isPanel(self.board) then return false end
+    return X.Points.connect(ch, obj, self.board, tonumber(self.pos))
+end
+
+function LWXPointAction:getDuration()
+    if self.character:isTimedActionInstant() then return 1 end
+    return 250
+end
+
+function LWXPointAction:new(character, target, board, pos, disconnect)
+    local o = ISBaseTimedAction.new(self, character)
+    o.target = target
+    o.board = board
+    o.pos = pos
+    o.disconnect = disconnect == true
     o.maxTime = o:getDuration()
     return o
 end
