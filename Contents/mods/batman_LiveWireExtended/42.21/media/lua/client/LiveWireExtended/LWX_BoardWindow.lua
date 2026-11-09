@@ -65,6 +65,9 @@ local function layoutAt(k, size, compact)
     local fr = tm:getFontHeight(UIFont.Small) / k
     local fmr = tm:getFontHeight(UIFont.Medium) / k
     local measure = K.measureAt(k, UIFont.Small)
+    -- The LCD rows are drawn in the screen font of the kit (D-56).
+    local fl = tm:getFontHeight(K.lcdFont()) / k
+    local screen = K.measureAt(k, K.lcdFont())
     local lsH = math.max(23, math.ceil(fr + 4))
     local rows = math.max(1, math.floor(size / 8))
     local gridW = 8 * MOD_W + 7 * GAP
@@ -72,12 +75,12 @@ local function layoutAt(k, size, compact)
     local lcdW = LCD_MIN_W
     for i = 1, #LCD_KEYS do
         local second = i == 1 and getText("IGUI_LW_BoardCutWatts") or i == 2 and "99.9 / 30 A" or "99.9 kWh"
-        lcdW = math.max(lcdW, math.ceil(measure(getText(LCD_KEYS[i])) + measure(second) + 52))
+        lcdW = math.max(lcdW, math.ceil(screen(getText(LCD_KEYS[i])) + screen(second) + 52))
     end
     lcdW = math.max(lcdW, math.ceil(measure(getText("IGUI_LWX_Rating", "30", "3600")) + 44))
     local widest = 0
     for _, key in ipairs(ALL_TITLES) do widest = math.max(widest, measure(getText(key))) end
-    local spec = { fr = fr, fmr = fmr, compact = compact, lcdW = lcdW, gridW = gridW, gridH = gridH,
+    local spec = { fr = fr, fmr = fmr, fl = fl, compact = compact, lcdW = lcdW, gridW = gridW, gridH = gridH,
         buttons = { count = #BUTTONS, widest = widest + 24 } }
     spec.hintLines = 0
     local base = K.layout(spec)

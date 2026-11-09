@@ -8,6 +8,7 @@
 -- window without lid, R7 calibre plate without its unit.
 if isServer() then return end
 require "LiveWire/LW_UIKit"
+require "LiveWire/LW_Lcd"
 
 LiveWire = LiveWire or {}
 local E = {}
@@ -19,7 +20,7 @@ local ELL = "\226\128\166"  -- the ellipsis, UTF-8
 E.C = { white = { 0.87, 0.87, 0.82 }, light = { 0.96, 0.95, 0.90 }, edge = { 0.48, 0.51, 0.50 },
     shadow = { 0.26, 0.29, 0.29 }, ink = { 0.14, 0.19, 0.20 }, rail = { 0.49, 0.54, 0.54 },
     handle = { 0.25, 0.29, 0.31 }, orange = { 0.93, 0.51, 0.13 }, green = { 0.29, 0.59, 0.36 },
-    red = { 0.74, 0.25, 0.20 }, glass = { 0.30, 0.43, 0.46 }, lcd = { 0.49, 0.61, 0.35 },
+    red = { 0.74, 0.25, 0.20 }, glass = { 0.30, 0.43, 0.46 },
     brandRed = { 0.94, 0.20, 0.25 }, brandBlack = { 0.03, 0.03, 0.03 }, brandWhite = { 1, 1, 1 },
     bg = { 0.11, 0.15, 0.17 }, plateText = { 0.10, 0.11, 0.12 } }
 
@@ -133,20 +134,23 @@ function E.grid(left, right, cols, gap, count, h, rowGap)
 end
 
 -- Height of the LCD block of Live Wire (the mockup's lcdBlock), its condition strip included.
--- fr: real font height / k.
-function E.lcdHeight(fr)
-    local lineH = math.max(25, math.ceil(fr + 6))
+-- fr: real height / k of the printed font (UIFont.Small); fl: the same for the screen font
+-- (E.lcdFont, D-56), fr when omitted.
+function E.lcdHeight(fr, fl)
+    fl = fl or fr
+    local lineH = math.max(25, math.ceil(fl + 6))
     local lcdTop = math.max(38, math.ceil(16 + fr + 3))
     local frameH = 3 * lineH + 11
     local ledY = lcdTop + frameH + 5
     local stY = ledY + math.max(21, math.ceil(fr + 2))
     local blockH = math.max(176, math.ceil(stY + fr + 7))
     local stripY = blockH + 11
-    return stripY + math.max(29, math.ceil(fr + 10))
+    return stripY + math.max(29, math.ceil(fl + 10))
 end
 
 -- Geometry of the enclosure (mockup propA), reference units. p = {
 --   fr, fmr        real font heights (regular, medium) / k,
+--   fl             real height / k of the screen font (E.lcdFont), fr when omitted,
 --   compact        no lid,
 --   lcdW, gridW, gridH   LCD width, breaker grid size,
 --   hintLines      lines of the help text (already wrapped),
@@ -161,7 +165,7 @@ function E.layout(p)
     local lid = p.compact and 0 or math.max(65, math.ceil(fmr + 42))
     local encX, encY = 14, headH + 6
     local recessY = encY + (lid > 0 and (11 + lid + 17) or 12)
-    local lcdH = E.lcdHeight(fr)
+    local lcdH = E.lcdHeight(fr, p.fl)
     local innerH = math.max(p.gridH, lcdH)
     local recessX = encX + 23
     local recessW = 14 + p.lcdW + 20 + p.gridW + 14
@@ -277,11 +281,22 @@ function E.tieBar(ui, x, y, n, state)
     rect(ui, x + 12, y + fy, n * MOD_W - 24, 4, E.C.ink)
 end
 
+-- Font of the text shown on a screen (D-56): the windows size their LCD with it.
+function E.lcdFont()
+    return LiveWire.Lcd.font()
+end
+
 -- LCD block at x, y, width w. d = { title, rows = { {label, value}, ... } (3 rows), led (colour),
--- line, status, statusC, strip }. Returns its height (E.lcdHeight of the font).
+-- line, status, statusC, strip }. Returns its height (E.lcdHeight of the fonts).
+-- The screen and the condition strip are LiveWire.Lcd screens (D-56); the title, the indicator
+-- line and the status are printed on the cream front in UIFont.Small.
 function E.lcd(ui, x, y, w, d, fr)
     local C = E.C
-    local lineH = math.max(25, math.ceil(fr + 6))
+    local Lcd = LiveWire.Lcd
+    local font = Lcd.font()
+    local ink = Lcd.PALETTE.green.ink
+    local fl = Lcd.fontHeight(ui, font)
+    local lineH = math.max(25, math.ceil(fl + 6))
     local titleY = 16
     local lcdTop = math.max(38, math.ceil(titleY + fr + 3))
     local frameH = 3 * lineH + 11
@@ -289,28 +304,25 @@ function E.lcd(ui, x, y, w, d, fr)
     local stY = ledY + math.max(21, math.ceil(fr + 2))
     local blockH = math.max(176, math.ceil(stY + fr + 7))
     local stripY = blockH + 11
-    local stripH = math.max(29, math.ceil(fr + 10))
+    local stripH = math.max(29, math.ceil(fl + 10))
     rect(ui, x, y, w, blockH, C.ink)
     rect(ui, x + 4, y + 4, w - 8, blockH - 8, C.white)
     border(ui, x + 7, y + 7, w - 14, blockH - 14, C.edge)
     E.text(ui, d.title, x + 17, y + titleY, w - 34, C.ink)
-    rect(ui, x + 13, y + lcdTop, w - 24, frameH, C.ink)
-    rect(ui, x + 16, y + lcdTop + 3, w - 30, frameH - 6, C.lcd)
-    rect(ui, x + 18, y + lcdTop + 5, w - 34, 2, C.light, 0.16)
+    Lcd.frame(ui, x + 13, y + lcdTop, w - 24, frameH, "green", 3)
+    local measure = E.measurer(ui, font)
     for i, row in ipairs(d.rows) do
-        local ry = y + lcdTop + 5 + (i - 1) * lineH + math.max(0, math.floor((lineH - fr) / 2))
-        local measure = E.measurer(ui, UIFont.Small)
+        local ry = y + lcdTop + 5 + (i - 1) * lineH + math.max(0, math.floor((lineH - fl) / 2))
         local vw = measure(row[2])
-        E.text(ui, row[1], x + 22, ry, w - 44 - vw - 8, C.ink)
-        E.textRight(ui, row[2], x + w - 19, ry, C.ink)
-        if i == 2 then rect(ui, x + 22, y + lcdTop + 5 + 2 * lineH - 1, w - 44, 1, C.ink, 0.25) end
+        E.text(ui, row[1], x + 22, ry, w - 44 - vw - 8, ink, font)
+        E.textRight(ui, row[2], x + w - 19, ry, ink, font)
+        if i == 2 then Lcd.rule(ui, x + 22, y + lcdTop + 5 + 2 * lineH - 1, w - 44, "green", 0.25) end
     end
     rect(ui, x + 21, y + ledY + 6, 9, 5, d.led)
     E.text(ui, d.line, x + 38, y + ledY, w - 55, C.ink)
     E.text(ui, d.status, x + 21, y + stY, w - 40, d.statusC or C.ink)
-    rect(ui, x + 4, y + stripY, w - 8, stripH, C.ink)
-    rect(ui, x + 7, y + stripY + 3, w - 14, stripH - 6, C.lcd)
-    E.text(ui, d.strip, x + 13, y + stripY + (stripH - fr) / 2, w - 26, C.ink)
+    Lcd.frame(ui, x + 4, y + stripY, w - 8, stripH, "green", 3)
+    E.text(ui, d.strip, x + 13, y + stripY + (stripH - fl) / 2, w - 26, ink, font)
     return blockH + 11 + stripH
 end
 

@@ -36,7 +36,8 @@ function Panel.layoutAt(k)
     local tm = getTextManager()
     local fr = tm:getFontHeight(UIFont.Small) / k
     local fmr = tm:getFontHeight(UIFont.Medium) / k
-    local spec = { fr = fr, fmr = fmr, compact = false, lcdW = LCD_W, gridW = GRID_W, gridH = 0,
+    local fl = tm:getFontHeight(E.lcdFont()) / k
+    local spec = { fr = fr, fmr = fmr, fl = fl, compact = false, lcdW = LCD_W, gridW = GRID_W, gridH = 0,
         buttons = { count = 1, widest = 0 } }
     spec.hintLines = 1
     local base = E.layout(spec)
