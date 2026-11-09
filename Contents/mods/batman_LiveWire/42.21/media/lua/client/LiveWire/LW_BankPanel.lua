@@ -4,9 +4,11 @@ require "ISUI/ISPanel"
 require "ISUI/ISButton"
 require "LiveWire/LW_Stack"
 require "LiveWire/LW_UIScale"
+require "LiveWire/LW_UIKit"
 LiveWire = LiveWire or {}
 local Panel = ISPanel:derive("LiveWireBankPanel")
 LiveWire.BankPanel = Panel
+LiveWire.UIKit.singleton("BankPanel", Panel)
 -- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
 local BASE = { w=500, h=350, fixedH=160, btnH=28, btnBottom=48, side=18,
     nextX=96, arrowW=70, stackX=174, stackW=140, linksX=322, linksW=160, closeX=36, closeY=6, closeW=26,
@@ -16,12 +18,12 @@ local BASE = { w=500, h=350, fixedH=160, btnH=28, btnBottom=48, side=18,
 Panel.BASE = BASE
 -- Unscaled layout until a window is opened (instances made without open()).
 Panel.L = LiveWire.UIScale.layout(1, BASE)
+local ACCESS_RANGE = 3.5 -- the window closes when the bank is farther than this
 local function button(self,x,y,w,key,action,label)
-    local b=ISButton:new(x,y,w,self.L.btnH,label or getText(key),self,Panel.onButton)
-    b.internal=action;b:initialise();b:instantiate();self:addChild(b);return b
+    return LiveWire.UIKit.button(self,x,y,w,self.L.btnH,label or getText(key),Panel.onButton,action)
 end
 function Panel.open(player,obj)
-    if Panel.instance then Panel.instance:close() end
+    Panel.closeInstance()
     local UI=LiveWire.UIScale
     local fh=getTextManager():getFontHeight(LiveWire.Client.lcdFont())
     local k=UI.factor(BASE.w,BASE.h)
@@ -71,7 +73,7 @@ end
 function Panel:update()
     if self.closed then return end
     ISPanel.update(self)
-    if not LiveWire.Equipment.accessible(self.player,self.obj,3.5) then self:close();return end
+    if not LiveWire.Equipment.accessible(self.player,self.obj,ACCESS_RANGE) then self:close();return end
     local now=getTimestampMs()
     if now-self.lastRead>=2000 then
         self.lastRead=now
@@ -132,5 +134,5 @@ function Panel:close()
     self:removeFromUIManager()
     self.obj,self.player,self.data=nil,nil,nil
     LiveWire.Client.bankView=nil
-    if Panel.instance==self then Panel.instance=nil end
+    Panel.releaseInstance(self)
 end

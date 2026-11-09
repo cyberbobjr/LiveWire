@@ -3,9 +3,11 @@ if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
 require "LiveWire/LW_UIScale"
+require "LiveWire/LW_UIKit"
 LiveWire = LiveWire or {}
 local Panel = ISPanel:derive("LiveWireDevicePanel")
 LiveWire.DevicePanel = Panel
+LiveWire.UIKit.singleton("DevicePanel", Panel)
 -- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
 local BASE = { w=500, h=330, fixedH=150, btnH=28, btnBottom=48, side=18, closeX=36, closeY=6, closeW=26,
     brandY=10, titleX=190, titleClipY=10, titleRight=240, titleClipH=28, titleY=14,
@@ -14,11 +16,12 @@ local BASE = { w=500, h=330, fixedH=150, btnH=28, btnBottom=48, side=18, closeX=
 Panel.BASE = BASE
 -- Unscaled layout until a window is opened (instances made without open()).
 Panel.L = LiveWire.UIScale.layout(1, BASE)
+local ACCESS_RANGE = 3.5 -- the window closes when the device is farther than this
 
 function Panel.open(player,obj)
     local mark = LiveWire.Marks.get(obj)
     if not mark then return end
-    if Panel.instance then Panel.instance:close() end
+    Panel.closeInstance()
     local UI = LiveWire.UIScale
     local L = UI.layout(UI.factor(BASE.w, BASE.h), BASE)
     L.fh = getTextManager():getFontHeight(LiveWire.Client.lcdFont()) + L.linePad
@@ -37,8 +40,7 @@ function Panel:createChildren()
     ISPanel.createChildren(self)
     local L,W=self.L,self.width
     local function button(x,y,w,key,action)
-        local b=ISButton:new(x,y,w,L.btnH,getText(key),self,Panel.onButton)
-        b.internal=action;b:initialise();b:instantiate();self:addChild(b)
+        LiveWire.UIKit.button(self,x,y,w,L.btnH,getText(key),Panel.onButton,action)
     end
     button(L.side,self.height-L.btnBottom,W-2*L.side,"IGUI_LW_Connections","links")
     button(W-L.closeX,L.closeY,L.closeW,"IGUI_LW_CloseShort","close")
@@ -47,7 +49,7 @@ end
 function Panel:onButton(b)
     if self.closed then return end
     if b.internal=="close" then self:close()
-    elseif b.internal=="links" and LiveWire.Equipment.accessible(self.player,self.obj,3.5) then
+    elseif b.internal=="links" and LiveWire.Equipment.accessible(self.player,self.obj,ACCESS_RANGE) then
         LiveWire.ConnectionPanel.open(self.player,self.obj)
     end
 end
@@ -55,7 +57,7 @@ end
 function Panel:update()
     if self.closed then return end
     ISPanel.update(self)
-    if not LiveWire.Equipment.accessible(self.player,self.obj,3.5) then self:close();return end
+    if not LiveWire.Equipment.accessible(self.player,self.obj,ACCESS_RANGE) then self:close();return end
     local m=LiveWire.Marks.get(self.obj)
     if not m or m.id~=self.device then self:close();return end
     if m.inv~=self.linkedId then
@@ -133,5 +135,5 @@ function Panel:close()
     if self.closed then return end
     self.closed=true;self:setVisible(false);self:removeFromUIManager()
     self.obj,self.player,self.data=nil,nil,nil
-    if Panel.instance==self then Panel.instance=nil;LiveWire.Client.deviceView=nil end
+    if Panel.releaseInstance(self) then LiveWire.Client.deviceView=nil end
 end

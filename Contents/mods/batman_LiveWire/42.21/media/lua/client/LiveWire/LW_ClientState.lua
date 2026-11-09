@@ -14,9 +14,8 @@ local accessed = {}
 Client.CACHE_LIMIT = 64
 Client.CACHE_TTL_MS = 5 * 60 * 1000
 Client.bankView = nil -- only the currently open bank, no world-sized battery cache
-local bankSeq = 0
 Client.deviceView = nil -- only one individual LCD; no cache of visited devices
-local deviceSeq = 0
+Client.panels = Client.panels or {} -- panel classes by name (LiveWire.UIKit.singleton)
 
 local function forget(id)
     Client.snapshots[id], soloCache[id], accessed[id] = nil, nil, nil
@@ -46,9 +45,8 @@ function Client.clearSession()
     Client.bankView = nil
     Client.deviceView = nil
     Client.snapshots, soloCache, accessed, soloRegistry = {}, {}, {}, nil
-    for _, name in ipairs({ "BreakerPanel", "InverterPanel", "BankPanel", "ConnectionPanel", "DevicePanel" }) do
-        local panel = LiveWire[name]
-        if panel and panel.instance then panel.instance:close(true) end
+    for _, panel in pairs(Client.panels) do
+        if panel.instance then panel.instance:close(true) end
     end
     if LiveWire.NetworkView then LiveWire.NetworkView.hide() end
 end
@@ -60,16 +58,40 @@ function Client.equipmentCondition(cond)
     return getText("IGUI_LW_EquipmentCondition", value)
 end
 
+-- Single-object read over the network (device LCD, bank LCD), kept in
+-- Client[viewField]. Each request carries a growing seq; a reply is kept only when it
+-- is for the open object, newer than the view and not newer than the last request, so
+-- an old, foreign or reopened-view reply is dropped. `seed(sent)` gives the seq of a
+-- fresh view from the seq of the request that creates it. Returns send, receive.
+local function makeSeqView(viewField, commandName, seed)
+    local sent = 0
+    local function request(id)
+        sent = sent % 1000000000 + 1
+        local view = Client[viewField]
+        if not view or view.device ~= id then
+            Client[viewField] = { device = id, seq = seed(sent) }
+        end
+        Client.send(LiveWire.Protocol[commandName], { device = id, seq = sent })
+    end
+    local function receive(args)
+        local view = Client[viewField]
+        if view and args.device == view.device and type(args.seq) == "number"
+            and args.seq > view.seq and args.seq <= sent then
+            view.seq, view.snapshot = args.seq, args
+        end
+    end
+    return request, receive
+end
+
+local requestDevice, receiveDevice = makeSeqView("deviceView", "C_READ_DEVICE", function(sent) return sent - 1 end)
+local requestBank, receiveBank = makeSeqView("bankView", "C_READ_BANK", function() return 0 end)
+
 function Client.readDevice(id)
     if not isClient() then
         local dev = LiveWire.Registry and LiveWire.Registry.device(id)
         return dev and LiveWire.DeviceView.snapshot(dev)
     end
-    deviceSeq = deviceSeq % 1000000000 + 1
-    if not Client.deviceView or Client.deviceView.device ~= id then
-        Client.deviceView = { device = id, seq = deviceSeq - 1 }
-    end
-    Client.send(LiveWire.Protocol.C_READ_DEVICE, { device = id, seq = deviceSeq })
+    requestDevice(id)
 end
 
 function Client.readBank(id)
@@ -77,11 +99,7 @@ function Client.readBank(id)
         local bank = LiveWire.Registry and LiveWire.Registry.device(id)
         return bank and LiveWire.Batteries.snapshot(bank)
     end
-    bankSeq = bankSeq % 1000000000 + 1
-    if not Client.bankView or Client.bankView.device ~= id then
-        Client.bankView = { device = id, seq = 0 }
-    end
-    Client.send(LiveWire.Protocol.C_READ_BANK, { device = id, seq = bankSeq })
+    requestBank(id)
 end
 
 -- Arguments that are translation keys are translated here, on the client.
@@ -173,17 +191,9 @@ local function onServerCommand(module, command, args)
             end
         end
     elseif command == P.S_DEVICE then
-        local view = Client.deviceView
-        if view and args.device == view.device and type(args.seq) == "number"
-            and args.seq > view.seq and args.seq <= deviceSeq then
-            view.seq, view.snapshot = args.seq, args
-        end
+        receiveDevice(args)
     elseif command == P.S_BANK then
-        local view = Client.bankView
-        if view and args.device == view.device and type(args.seq) == "number"
-            and args.seq > view.seq and args.seq <= bankSeq then
-            view.seq, view.snapshot = args.seq, args
-        end
+        receiveBank(args)
     elseif command == P.S_NOTIFY then
         local list = {}
         if type(args.args) == "table" then

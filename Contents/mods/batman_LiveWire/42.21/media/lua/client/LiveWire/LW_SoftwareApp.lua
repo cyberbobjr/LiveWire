@@ -8,6 +8,7 @@
 if isServer() then return end
 require "LiveWire/LW_NetworkName"
 require "LiveWire/LW_API"
+require "LiveWire/LW_UIKit"
 
 LiveWire = LiveWire or {}
 
@@ -15,7 +16,14 @@ local App = {}
 App.__index = App
 LiveWire.SoftwareApp = App
 
-local RESUBSCRIBE_MS = 60 * 1000
+local RESUBSCRIBE_MS = LiveWire.UIKit.RESUBSCRIBE_MS
+
+-- Colour and alert thresholds of the pages (presentation only, not game rules).
+local LOAD_RED = 0.9      -- load above this share of the inverter rating: red, overload alert
+local LOAD_AMBER = 0.7    -- above this share: amber
+local STOCK_RED = 0.2     -- stored energy under this share of the capacity: red
+local STOCK_AMBER = 0.5   -- under this share: amber
+local COND_LOW = 30       -- condition (percent) under which a gauge is red or amber
 
 -- Palette of the application (dark desktop software).
 local C = {
@@ -86,13 +94,7 @@ end
 -------------------------------------------------------------------------------
 -- Drawing helpers (ui = the host ISUIElement)
 -------------------------------------------------------------------------------
-local function rect(ui, x, y, w, h, c, a)
-    ui:drawRect(x, y, w, h, a or 1, c[1], c[2], c[3])
-end
-
-local function border(ui, x, y, w, h, c, a)
-    ui:drawRectBorder(x, y, w, h, a or 1, c[1], c[2], c[3])
-end
+local rect, border = LiveWire.UIKit.rect, LiveWire.UIKit.border
 
 -- Cut `s` with "..." so that it fits in maxW pixels (no stencil: it would clear
 -- the clipping of the host screen).
@@ -159,78 +161,93 @@ end
 -------------------------------------------------------------------------------
 -- Pages
 -------------------------------------------------------------------------------
-function App:drawOverview(ui, x, y, w, h, snap)
-    local inv = snap.inverter
-    local nominal = 0
-    for i = 1, #snap.sources do nominal = nominal + (snap.sources[i].nominal or 0) end
-    local scale = math.max(inv.maxW or 0, nominal, snap.production or 0, snap.demand or 0, 1)
-    local small = UIFont.Small
-    local sh = fh(small)
-    local gap = 6
-    local leftW = math.floor((w - gap) * 0.6)
-    local rightW = w - leftW - gap
+-- Overview: three cards (power, storage, inverter) laid out by overviewLayout.
+local function overviewLayout(snap, x, y, w, h)
+    local c = { x = x, y = y, w = w, h = h, snap = snap, inv = snap.inverter }
+    c.scale = LiveWire.SnapshotView.scale(snap)
+    c.small = UIFont.Small
+    c.sh = fh(c.small)
+    c.gap = 6
+    c.leftW = math.floor((w - c.gap) * 0.6)
+    c.rightW = w - c.leftW - c.gap
+    local sh, gap = c.sh, c.gap
     -- Large figures when there is room, medium ones on a small screen.
     local big = UIFont.Large
     local barH = 12
     local function powerH(f) return sh + 7 + 2 * (fh(f) + 2 + barH + 6) + sh + 6 end
     local function storeH(f) return sh + 7 + fh(f) + 2 + barH + 6 + sh + 6 end
     if powerH(big) + storeH(big) + gap > h then big = UIFont.Medium end
-    local compact = powerH(big) + storeH(big) + gap > h
-    if compact then barH = 8 end
-    local bh2 = fh(big)
+    c.compact = powerH(big) + storeH(big) + gap > h
+    if c.compact then barH = 8 end
+    c.big, c.barH, c.bh2 = big, barH, fh(big)
+    -- Height of the power card, measured with the final bar height.
+    c.ch = powerH(big)
+    if c.compact then c.ch = c.ch - sh end
+    -- Load as a share of the inverter rating.
+    c.loadFrac = (c.inv.maxW or 0) > 0 and snap.demand / c.inv.maxW or 0
+    return c
+end
 
-    -- Production / consumption on the same scale.
-    local ch = powerH(big)
-    if compact then ch = ch - sh end
-    local cy = card(ui, x, y, leftW, ch, T("IGUI_LW_App_Power"))
+-- Production and consumption on the same scale.
+local function drawPowerCard(ui, c)
+    local snap, inv, x, y, leftW = c.snap, c.inv, c.x, c.y, c.leftW
+    local small, sh, big, bh2, barH = c.small, c.sh, c.big, c.bh2, c.barH
+    local cy = card(ui, x, y, leftW, c.ch, T("IGUI_LW_App_Power"))
     local valueW = tw(big, "0000 W") + 4
     local labelW = leftW - 20 - valueW
     text(ui, T("IGUI_LW_App_Production"), x + 10, cy + (bh2 - sh) / 2, C.dim, small, labelW)
     textRight(ui, tostring(snap.production) .. " W", x + leftW - 10, cy, C.green, big)
     cy = cy + bh2 + 2
-    bar(ui, x + 10, cy, leftW - 20, barH, snap.production / scale, C.green)
+    bar(ui, x + 10, cy, leftW - 20, barH, snap.production / c.scale, C.green)
     cy = cy + barH + 6
     local loadC = C.blue
-    local f = (inv.maxW or 0) > 0 and snap.demand / inv.maxW or 0
-    if f > 0.9 then loadC = C.red elseif f > 0.7 then loadC = C.amber end
+    if c.loadFrac > LOAD_RED then loadC = C.red elseif c.loadFrac > LOAD_AMBER then loadC = C.amber end
     text(ui, T("IGUI_LW_App_Load"), x + 10, cy + (bh2 - sh) / 2, C.dim, small, labelW)
     textRight(ui, tostring(snap.demand) .. " W", x + leftW - 10, cy, loadC, big)
     cy = cy + bh2 + 2
-    bar(ui, x + 10, cy, leftW - 20, barH, snap.demand / scale, loadC)
+    bar(ui, x + 10, cy, leftW - 20, barH, snap.demand / c.scale, loadC)
     cy = cy + barH + 6
-    if not compact then text(ui, T("IGUI_LW_App_Scale", scale, inv.maxW), x + 10, cy, C.dim, small, leftW - 20) end
+    if not c.compact then text(ui, T("IGUI_LW_App_Scale", c.scale, inv.maxW), x + 10, cy, C.dim, small, leftW - 20) end
+end
 
-    -- Batteries: what is left of the height.
-    local by = y + ch + gap
-    local bh = y + h - by
-    local cy2 = card(ui, x, by, leftW, bh, T("IGUI_LW_App_Storage"))
+-- Batteries: what is left of the height.
+local function drawStorageCard(ui, c)
+    local snap, x, leftW = c.snap, c.x, c.leftW
+    local small, sh, big, bh2, barH = c.small, c.sh, c.big, c.bh2, c.barH
+    local by = c.y + c.ch + c.gap
+    local bh = c.y + c.h - by
+    local cy = card(ui, x, by, leftW, bh, T("IGUI_LW_App_Storage"))
     if snap.capacity and snap.capacity > 0 then
         local frac = snap.stock / snap.capacity
-        local c = frac < 0.2 and C.red or (frac < 0.5 and C.amber or C.green)
+        local col = frac < STOCK_RED and C.red or (frac < STOCK_AMBER and C.amber or C.green)
         local pct = tostring(math.floor(frac * 100 + 0.5)) .. " %"
-        textRight(ui, pct, x + leftW - 10, cy2, c, big)
-        text(ui, string.format("%.2f / %.2f kWh", snap.stock, snap.capacity), x + 10, cy2 + (bh2 - sh) / 2,
+        textRight(ui, pct, x + leftW - 10, cy, col, big)
+        text(ui, string.format("%.2f / %.2f kWh", snap.stock, snap.capacity), x + 10, cy + (bh2 - sh) / 2,
             C.text, small, leftW - 30 - tw(big, pct))
-        cy2 = cy2 + bh2 + 2
-        bar(ui, x + 10, cy2, leftW - 20, barH, frac, c)
-        cy2 = cy2 + barH + 5
-        if cy2 + sh <= by + bh - 3 then
+        cy = cy + bh2 + 2
+        bar(ui, x + 10, cy, leftW - 20, barH, frac, col)
+        cy = cy + barH + 5
+        if cy + sh <= by + bh - 3 then
             local line
             if snap.autonomyH then
                 line = T("IGUI_LW_Autonomy", math.floor(snap.autonomyH + 0.5))
             else
                 line = T("IGUI_LW_Forecast_Surplus")
             end
-            text(ui, line, x + 10, cy2, C.dim, small, leftW - 20)
+            text(ui, line, x + 10, cy, C.dim, small, leftW - 20)
         end
     else
-        text(ui, T("IGUI_LW_NoBattery"), x + 10, cy2, C.dim, small, leftW - 20)
+        text(ui, T("IGUI_LW_NoBattery"), x + 10, cy, C.dim, small, leftW - 20)
     end
+end
 
-    -- Inverter control.
-    local rx = x + leftW + gap
-    local ry = card(ui, rx, y, rightW, h, T("IGUI_LW_App_Inverter"))
-    local inner = rightW - 20
+-- Inverter control: state, condition, buttons, then as many alerts as fit.
+local function drawInverterCard(self, ui, c)
+    local snap, inv, y, h = c.snap, c.inv, c.y, c.h
+    local small, sh = c.small, c.sh
+    local rx = c.x + c.leftW + c.gap
+    local ry = card(ui, rx, y, c.rightW, h, T("IGUI_LW_App_Inverter"))
+    local inner = c.rightW - 20
     local st = inv.state
     led(ui, rx + 10, ry + (sh - 10) / 2, stateColour(st))
     local stKey = "IGUI_LW_State_" .. tostring(st)
@@ -239,7 +256,7 @@ function App:drawOverview(ui, x, y, w, h, snap)
     ry = ry + sh + 4
     text(ui, T("IGUI_LW_App_Condition", inv.cond), rx + 10, ry, C.dim, small, inner)
     ry = ry + sh + 2
-    bar(ui, rx + 10, ry, inner, 8, (inv.cond or 0) / 100, inv.cond < 30 and C.red or C.green)
+    bar(ui, rx + 10, ry, inner, 8, (inv.cond or 0) / 100, inv.cond < COND_LOW and C.red or C.green)
     ry = ry + 14
     -- Coupled inverters: one line, when the card keeps room for it and its button.
     if snap.coupled and ry + sh + 4 + sh + 10 <= y + h then
@@ -262,17 +279,24 @@ function App:drawOverview(ui, x, y, w, h, snap)
     ry = ry + 5
     local bottom = y + h - 4
     local alerts = 0
-    local function alert(s, c)
+    local function alert(s, col)
         if ry + sh > bottom then return end
-        text(ui, s, rx + 10, ry, c, small, inner)
+        text(ui, s, rx + 10, ry, col, small, inner)
         ry = ry + sh + 2
         alerts = alerts + 1
     end
     if snap.breaker and snap.breaker.state == "tripped" then alert(T("IGUI_LW_App_BreakerTripped"), C.red) end
     if snap.alarm and snap.alarm.on then alert(T("IGUI_LW_Alarm_On"), C.red) end
-    if f > 0.9 then alert(T("IGUI_LW_Alert_Overload"), C.amber) end
+    if c.loadFrac > LOAD_RED then alert(T("IGUI_LW_Alert_Overload"), C.amber) end
     if (snap.extra or 0) > 0 then alert(T("IGUI_LW_TooManyBatteries", snap.extra), C.amber) end
     if alerts == 0 then alert(T("IGUI_LW_App_NoAlert"), C.green) end
+end
+
+function App:drawOverview(ui, x, y, w, h, snap)
+    local c = overviewLayout(snap, x, y, w, h)
+    drawPowerCard(ui, c)
+    drawStorageCard(ui, c)
+    drawInverterCard(self, ui, c)
 end
 
 function App:drawBatteries(ui, x, y, w, h, snap)
@@ -289,7 +313,7 @@ function App:drawBatteries(ui, x, y, w, h, snap)
         textRight(ui, right, x + w - 10, cy, C.dim)
         text(ui, name, x + 10, cy, C.text, UIFont.Small, w - 30 - tw(UIFont.Small, right))
         cy = cy + fh(UIFont.Small) + 2
-        bar(ui, x + 10, cy, w - 20, 10, bt.charge, bt.cond < 30 and C.amber or C.green)
+        bar(ui, x + 10, cy, w - 20, 10, bt.charge, bt.cond < COND_LOW and C.amber or C.green)
         cy = cy + 16
         if cy > y + h - 20 then break end
     end
@@ -300,19 +324,13 @@ end
 
 function App:drawSources(ui, x, y, w, h, snap)
     local cy = card(ui, x, y, w, h, T("IGUI_LW_Sources"))
-    local fams = { { "solar", "IGUI_LW_Family_Solar" }, { "wind", "IGUI_LW_Family_Wind" },
-                   { "hydro", "IGUI_LW_Family_Hydro" } }
-    for _, fam in ipairs(fams) do
-        local n, wsum = 0, 0
-        for i = 1, #snap.sources do
-            if snap.sources[i].kind == fam[1] then n = n + 1; wsum = wsum + snap.sources[i].w end
-        end
-        text(ui, T(fam[2]), x + 10, cy, C.accent)
-        textRight(ui, T("IGUI_LW_App_FamilyTotal", n, wsum), x + w - 10, cy, C.text)
+    for _, fam in ipairs(LiveWire.SnapshotView.familyTotals(snap)) do
+        text(ui, T(fam.key), x + 10, cy, C.accent)
+        textRight(ui, T("IGUI_LW_App_FamilyTotal", fam.n, fam.w), x + w - 10, cy, C.text)
         cy = cy + fh(UIFont.Small) + 2
         for i = 1, #snap.sources do
             local s = snap.sources[i]
-            if s.kind == fam[1] and cy < y + h - 16 then
+            if s.kind == fam.kind and cy < y + h - 16 then
                 local line = T("IGUI_LW_Model_" .. s.model)
                 if s.kind == "solar" and (s.snow or 0) > 0.05 then
                     line = line .. " " .. T("IGUI_LW_Snow", math.floor(s.snow * 100 + 0.5))

@@ -8,11 +8,13 @@ if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
 require "LiveWire/LW_UIScale"
+require "LiveWire/LW_UIKit"
 
 LiveWire = LiveWire or {}
 
 local Panel = ISPanel:derive("LiveWireInverterPanel")
 LiveWire.InverterPanel = Panel
+LiveWire.UIKit.singleton("InverterPanel", Panel)
 Panel.instance = nil
 
 -- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
@@ -29,9 +31,11 @@ Panel.BASE = BASE
 -- Unscaled layout until a window is opened (instances made without open()).
 Panel.L = LiveWire.UIScale.layout(1, BASE)
 local SCROLL_PAUSE_MS = 1200
-local RESUBSCRIBE_MS = 60 * 1000
+local RESUBSCRIBE_MS = LiveWire.UIKit.RESUBSCRIBE_MS
+-- The window closes when the player is farther than CLOSE_RANGE tiles from the inverter.
 local CLOSE_RANGE = 30
-local PAGES = 5
+-- Ink of the LCD (dark green on the backlit screen).
+local INK = { 0.08, 0.13, 0.05 }
 
 local function T(key, ...) return getText(key, ...) end
 
@@ -39,8 +43,85 @@ local function lcdFont()
     return LiveWire.Client.lcdFont()
 end
 
+-- LCD pages, in display order. Each builder adds its lines with line(s) and its bars
+-- with bars[#bars + 1] = { label, value, max } (a label "" draws a full-width bar).
+local PAGE_BUILDERS = {}
+
+PAGE_BUILDERS[1] = function(self, snap, line, bars)
+    local inv = snap.inverter
+    line(snap.name ~= "" and snap.name or T("IGUI_LW_LCD_Page_Balance"))
+    local scale = LiveWire.SnapshotView.scale(snap)
+    line(T("IGUI_LW_LCD_Prod", snap.production))
+    -- Public grid draw, only while the inverter takes some (option GridCharging).
+    if (snap.gridW or 0) > 0 then line(T("IGUI_LW_LCD_Mains", snap.gridW)) end
+    line(T("IGUI_LW_LCD_Load", snap.demand, inv.maxW))
+    bars[1] = { label = T("IGUI_LW_LCD_BarProd"), value = snap.production, max = scale }
+    bars[2] = { label = T("IGUI_LW_LCD_BarLoad"), value = snap.demand, max = scale }
+end
+
+PAGE_BUILDERS[2] = function(self, snap, line, bars)
+    line(T("IGUI_LW_LCD_Page_Batteries"))
+    if snap.capacity and snap.capacity > 0 then
+        line(T("IGUI_LW_LCD_Stock", math.floor(snap.stock / snap.capacity * 100 + 0.5)))
+        line(T("IGUI_LW_LCD_Kwh", string.format("%.2f", snap.stock), string.format("%.2f", snap.capacity)))
+        if snap.autonomyH then line(T("IGUI_LW_LCD_Autonomy", math.floor(snap.autonomyH + 0.5))) end
+        line(T("IGUI_LW_LCD_Banks", #snap.batteries, snap.banks or 0))
+        bars[1] = { label = "", value = snap.stock, max = snap.capacity }
+    else
+        line(T("IGUI_LW_LCD_NoBattery"))
+    end
+end
+
+PAGE_BUILDERS[3] = function(self, snap, line, bars)
+    line(T("IGUI_LW_LCD_Page_Sources"))
+    for _, fam in ipairs(LiveWire.SnapshotView.familyTotals(snap)) do
+        line(T("IGUI_LW_LCD_Family", T(fam.key), fam.n, fam.w))
+    end
+    -- nil when the inverter cannot use the public grid (option off, outside).
+    if snap.gridW then line(T("IGUI_LW_LCD_Grid", snap.gridW)) end
+end
+
+PAGE_BUILDERS[4] = function(self, snap, line, bars)
+    line(T("IGUI_LW_LCD_Page_House"))
+    local ap = snap.appliances or {}
+    if #ap == 0 then line(T("IGUI_LW_NoAppliance")) end
+    for i = 1, math.min(3, #ap) do
+        line(T("IGUI_LW_Appliance_Line", T("IGUI_LW_Appliance_" .. ap[i].cat), ap[i].n, ap[i].w))
+    end
+    line(T("IGUI_LW_LCD_Range", snap.coverage and snap.coverage.radius or 20,
+        snap.coverage and snap.coverage.floors or 3))
+    -- Areas added by a coverage provider (D-32): none without one.
+    for _, d in ipairs(LiveWire.Coverage.describe(self.inverterId)) do
+        line(T(d.key, unpack(d.args or {})))
+    end
+end
+
+PAGE_BUILDERS[5] = function(self, snap, line, bars)
+    local inv = snap.inverter
+    line(T("IGUI_LW_LCD_Page_Status"))
+    local event = snap.events and snap.events[#snap.events]
+    if event then line(LiveWire.Client.text(event.key, event.args)) end
+    line(T("IGUI_LW_LCD_Inverter", T("IGUI_LW_State_" .. tostring(inv.state)), inv.cond))
+    if snap.coupled then line(T("IGUI_LW_LCD_Coupled", snap.coupled.n, snap.coupled.total)) end
+    if inv.muffled then line(T("IGUI_LW_LCD_Muffled")) end
+    if snap.breaker then
+        line(T("IGUI_LW_LCD_Breaker", T("IGUI_LW_State_" .. tostring(snap.breaker.state))))
+    end
+    if snap.alarm then
+        line(T(snap.alarm.on and "IGUI_LW_Alarm_On" or "IGUI_LW_Alarm_Armed"))
+    end
+    if snap.backup and snap.backup.state == "manual" then
+        -- Manual control (C09): say how to give control back to the mod.
+        line(T("IGUI_LW_LCD_BackupManual", snap.backup.w, T("ContextMenu_LW_ResumeBackup")))
+    elseif snap.backup then
+        line(T("IGUI_LW_Backup_Line", T("IGUI_LW_Backup_" .. tostring(snap.backup.state)), snap.backup.w))
+    end
+end
+
+local PAGES = #PAGE_BUILDERS
+
 function Panel.open(player, inverterId, obj)
-    if Panel.instance then Panel.instance:close() end
+    Panel.closeInstance()
     local L = LiveWire.UIScale.layout(LiveWire.UIScale.factor(BASE.w, BASE.h), BASE)
     local x, y = LiveWire.UIScale.fit(getPlayerScreenLeft(player:getPlayerNum()) + 120,
         getPlayerScreenTop(player:getPlayerNum()) + 100, L.w, L.h)
@@ -69,14 +150,10 @@ function Panel:new(x, y, player, inverterId, L)
 end
 
 local function button(self, x, y, w, h, label, internal)
-    local b = ISButton:new(x, y, w, h, label, self, Panel.onButton)
-    b.internal = internal
-    b:initialise()
-    b:instantiate()
+    local b = LiveWire.UIKit.button(self, x, y, w, h, label, Panel.onButton, internal)
     b.backgroundColor = { r = 0.12, g = 0.12, b = 0.13, a = 1 }
     b.backgroundColorMouseOver = { r = 0.25, g = 0.25, b = 0.27, a = 1 }
     b.borderColor = { r = 0.55, g = 0.57, b = 0.6, a = 1 }
-    self:addChild(b)
     return b
 end
 
@@ -140,75 +217,9 @@ end
 -- Lines of one page: list of strings, plus optional bars { label, value, max }.
 function Panel:pageContent(snap)
     local lines, bars = {}, {}
-    local inv = snap.inverter
-    local function L(s) lines[#lines + 1] = s end
-    if self.page == 1 then
-        L(snap.name ~= "" and snap.name or T("IGUI_LW_LCD_Page_Balance"))
-        local nominal = 0
-        for i = 1, #snap.sources do nominal = nominal + (snap.sources[i].nominal or 0) end
-        local scale = math.max(inv.maxW or 0, nominal, snap.production or 0, snap.demand or 0, 1)
-        L(T("IGUI_LW_LCD_Prod", snap.production))
-        -- Public grid draw, only while the inverter takes some (option GridCharging).
-        if (snap.gridW or 0) > 0 then L(T("IGUI_LW_LCD_Mains", snap.gridW)) end
-        L(T("IGUI_LW_LCD_Load", snap.demand, inv.maxW))
-        bars[1] = { label = T("IGUI_LW_LCD_BarProd"), value = snap.production, max = scale }
-        bars[2] = { label = T("IGUI_LW_LCD_BarLoad"), value = snap.demand, max = scale }
-    elseif self.page == 2 then
-        L(T("IGUI_LW_LCD_Page_Batteries"))
-        if snap.capacity and snap.capacity > 0 then
-            L(T("IGUI_LW_LCD_Stock", math.floor(snap.stock / snap.capacity * 100 + 0.5)))
-            L(T("IGUI_LW_LCD_Kwh", string.format("%.2f", snap.stock), string.format("%.2f", snap.capacity)))
-            if snap.autonomyH then L(T("IGUI_LW_LCD_Autonomy", math.floor(snap.autonomyH + 0.5))) end
-            L(T("IGUI_LW_LCD_Banks", #snap.batteries, snap.banks or 0))
-            bars[1] = { label = "", value = snap.stock, max = snap.capacity }
-        else
-            L(T("IGUI_LW_LCD_NoBattery"))
-        end
-    elseif self.page == 3 then
-        L(T("IGUI_LW_LCD_Page_Sources"))
-        for _, fam in ipairs({ { "solar", "IGUI_LW_Family_Solar" }, { "wind", "IGUI_LW_Family_Wind" },
-                               { "hydro", "IGUI_LW_Family_Hydro" } }) do
-            local n, w = 0, 0
-            for i = 1, #snap.sources do
-                if snap.sources[i].kind == fam[1] then n = n + 1; w = w + snap.sources[i].w end
-            end
-            L(T("IGUI_LW_LCD_Family", T(fam[2]), n, w))
-        end
-        -- nil when the inverter cannot use the public grid (option off, outside).
-        if snap.gridW then L(T("IGUI_LW_LCD_Grid", snap.gridW)) end
-    elseif self.page == 4 then
-        L(T("IGUI_LW_LCD_Page_House"))
-        local ap = snap.appliances or {}
-        if #ap == 0 then L(T("IGUI_LW_NoAppliance")) end
-        for i = 1, math.min(3, #ap) do
-            L(T("IGUI_LW_Appliance_Line", T("IGUI_LW_Appliance_" .. ap[i].cat), ap[i].n, ap[i].w))
-        end
-        L(T("IGUI_LW_LCD_Range", snap.coverage and snap.coverage.radius or 20,
-            snap.coverage and snap.coverage.floors or 3))
-        -- Areas added by a coverage provider (D-32): none without one.
-        for _, d in ipairs(LiveWire.Coverage.describe(self.inverterId)) do
-            L(T(d.key, unpack(d.args or {})))
-        end
-    else
-        L(T("IGUI_LW_LCD_Page_Status"))
-        local event = snap.events and snap.events[#snap.events]
-        if event then L(LiveWire.Client.text(event.key, event.args)) end
-        L(T("IGUI_LW_LCD_Inverter", T("IGUI_LW_State_" .. tostring(inv.state)), inv.cond))
-        if snap.coupled then L(T("IGUI_LW_LCD_Coupled", snap.coupled.n, snap.coupled.total)) end
-        if inv.muffled then L(T("IGUI_LW_LCD_Muffled")) end
-        if snap.breaker then
-            L(T("IGUI_LW_LCD_Breaker", T("IGUI_LW_State_" .. tostring(snap.breaker.state))))
-        end
-        if snap.alarm then
-            L(T(snap.alarm.on and "IGUI_LW_Alarm_On" or "IGUI_LW_Alarm_Armed"))
-        end
-        if snap.backup and snap.backup.state == "manual" then
-            -- Manual control (C09): say how to give control back to the mod.
-            L(T("IGUI_LW_LCD_BackupManual", snap.backup.w, T("ContextMenu_LW_ResumeBackup")))
-        elseif snap.backup then
-            L(T("IGUI_LW_Backup_Line", T("IGUI_LW_Backup_" .. tostring(snap.backup.state)), snap.backup.w))
-        end
-    end
+    local function line(s) lines[#lines + 1] = s end
+    local build = PAGE_BUILDERS[self.page] or PAGE_BUILDERS[PAGES]
+    build(self, snap, line, bars)
     return lines, bars
 end
 
@@ -235,7 +246,7 @@ function Panel:lcdLine(s, y, font, now, reserve)
         end
     end
     self:setStencilRect(L.lcdX + L.clip, L.lcdY, avail + L.sep, L.lcdH)
-    self:drawText(s, L.lcdX + L.pad - math.floor(offset), y, 0.08, 0.13, 0.05, 1, font)
+    self:drawText(s, L.lcdX + L.pad - math.floor(offset), y, INK[1], INK[2], INK[3], 1, font)
     self:clearStencilRect()
 end
 
@@ -277,7 +288,7 @@ function Panel:render()
         fh = getTextManager():getFontHeight(font)
         self.fontH = fh
     end
-    local tr, tg, tb = 0.08, 0.13, 0.05
+    local tr, tg, tb = INK[1], INK[2], INK[3]
     if not snap then
         self:drawText(T("IGUI_LW_Waiting"), LCD_X + L.pad, LCD_Y + L.pad, 0.6, 0.65, 0.55, 1, font)
     elseif lit then
@@ -325,5 +336,5 @@ function Panel:close(sessionEnded)
     end
     self:setVisible(false)
     self:removeFromUIManager()
-    if Panel.instance == self then Panel.instance = nil end
+    Panel.releaseInstance(self)
 end

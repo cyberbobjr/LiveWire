@@ -6,9 +6,11 @@ require "ISUI/ISComboBox"
 require "ISUI/ISScrollingListBox"
 require "LiveWire/LW_Stack"
 require "LiveWire/LW_UIScale"
+require "LiveWire/LW_UIKit"
 LiveWire = LiveWire or {}
 local Panel=ISPanel:derive("LiveWireConnectionPanel")
 LiveWire.ConnectionPanel=Panel
+LiveWire.UIKit.singleton("ConnectionPanel",Panel)
 -- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
 local BASE={w=700,h=480,side=16,btnY=434,btnH=28,comboY=65,listY=125,listH=245,itemH=38,
     connectW=150,disX=174,refreshX=332,refreshW=126,inspectX=466,inspectW=126,closeX=600,closeW=84,
@@ -16,6 +18,9 @@ local BASE={w=700,h=480,side=16,btnY=434,btnH=28,comboY=65,listY=125,listH=245,i
 Panel.BASE=BASE
 -- Unscaled layout until a window is opened (instances made without open()).
 Panel.L=LiveWire.UIScale.layout(1,BASE)
+-- The window closes when the player leaves the square of its object: 2 link ranges
+-- plus CLOSE_MARGIN horizontally, CLOSE_FLOORS floors vertically.
+local CLOSE_MARGIN,CLOSE_FLOORS=4,2
 local function mark(obj)
     return LiveWire.Marks.get(obj) or LiveWire.Install.vanillaMark(obj)
 end
@@ -37,11 +42,10 @@ local function name(obj)
 end
 local function live(obj) return obj and obj:getSquare() and obj:getObjectIndex()~=-1 end
 local function button(self,x,w,key,action)
-    local b=ISButton:new(x,self.L.btnY,w,self.L.btnH,getText(key),self,Panel.onButton)
-    b.internal=action;b:initialise();b:instantiate();self:addChild(b);return b
+    return LiveWire.UIKit.button(self,x,self.L.btnY,w,self.L.btnH,getText(key),Panel.onButton,action)
 end
 function Panel.open(player,obj)
-    if Panel.instance then Panel.instance:close() end
+    Panel.closeInstance()
     local UI=LiveWire.UIScale
     local L=UI.layout(UI.factor(BASE.w,BASE.h),BASE)
     local x,y,w,h=UI.fit(getPlayerScreenLeft(player:getPlayerNum())+90,
@@ -164,11 +168,11 @@ function Panel:update()
     if self.closed then return end
     ISPanel.update(self)
     local sq=self.obj and self.obj:getSquare()
-    local range=2*LiveWire.Config.get("LinkRange")+4
+    local range=2*LiveWire.Config.get("LinkRange")+CLOSE_MARGIN
     if not live(self.obj) or self.player:isDead()
         or math.abs(self.player:getX()-sq:getX())>range
         or math.abs(self.player:getY()-sq:getY())>range
-        or math.abs(math.floor(self.player:getZ())-sq:getZ())>2 then self:close();return end
+        or math.abs(math.floor(self.player:getZ())-sq:getZ())>CLOSE_FLOORS then self:close();return end
     local now=getTimestampMs()
     local selected=self.list.selected
     if not self.lastCheck or now-self.lastCheck>=1000 or selected~=self.lastSelected then
@@ -217,5 +221,5 @@ function Panel:close()
     self:setVisible(false)
     self:removeFromUIManager();self.list:clear();self.inverters={}
     self.inverter,self.obj,self.player=nil,nil,nil
-    if Panel.instance==self then Panel.instance=nil end
+    Panel.releaseInstance(self)
 end

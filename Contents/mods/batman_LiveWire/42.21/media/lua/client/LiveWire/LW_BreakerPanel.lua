@@ -3,9 +3,11 @@ if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
 require "LiveWire/LW_UIScale"
+require "LiveWire/LW_UIKit"
 LiveWire = LiveWire or {}
 local Panel = ISPanel:derive("LiveWireBreakerPanel")
 LiveWire.BreakerPanel = Panel
+LiveWire.UIKit.singleton("BreakerPanel", Panel)
 -- The enclosure is drawn in 1080p reference units: W x H and every coordinate
 -- below. The drawing helpers multiply them by the window factor `lwK`, set once
 -- when the window is created (LW_UIScale.lua); the buttons carry the same factor.
@@ -16,14 +18,8 @@ local C={white={0.87,0.87,0.82},light={0.96,0.95,0.90},edge={0.48,0.51,0.50},
     handle={0.25,0.29,0.31},orange={0.93,0.51,0.13},green={0.29,0.59,0.36},
     red={0.74,0.25,0.20},glass={0.30,0.43,0.46},lcd={0.49,0.61,0.35},
     brandRed={0.94,0.20,0.25},brandBlack={0.03,0.03,0.03},brandWhite={1,1,1}}
-local function rect(ui,x,y,w,h,c,a)
-    local k=ui.lwK or 1
-    ui:drawRect(x*k,y*k,w*k,h*k,a or 1,c[1],c[2],c[3])
-end
-local function border(ui,x,y,w,h,c)
-    local k=ui.lwK or 1
-    ui:drawRectBorder(x*k,y*k,w*k,h*k,1,c[1],c[2],c[3])
-end
+local rect,border=LiveWire.UIKit.rect,LiveWire.UIKit.border
+local CLOSE_RANGE=4 -- the window closes when the player is farther than this, in tiles
 local function text(ui,s,x,y,w,c,font)
     font=font or UIFont.Small
     local k=ui.lwK or 1
@@ -67,7 +63,7 @@ end
 function Panel.open(player,obj)
     local m=LiveWire.Marks.get(obj)
     if not m then return end
-    if Panel.instance then Panel.instance:close() end
+    Panel.closeInstance()
     local UI=LiveWire.UIScale
     local k=UI.factor(W,H)
     local x,y,w,h=UI.fit(getPlayerScreenLeft(player:getPlayerNum())+100,
@@ -118,10 +114,8 @@ function Panel:createChildren()
     self.equipmentButton.tooltip=getText("IGUI_LW_CircuitEquipment")
     self.mainButton=control(603,74,"main",true)
     self.mainButton.tooltip=getText("IGUI_LW_BoardMain")
-    local close=ISButton:new(S(W-36),S(12),S(22),S(22),"x",self,Panel.onButton)
-    close.internal="close";close:initialise();close:instantiate();self:addChild(close)
-    local links=ISButton:new(S(49),S(H-50),S(W-98),S(28),getText("IGUI_LW_Connections"),self,Panel.onButton)
-    links.internal="links";links:initialise();links:instantiate();self:addChild(links)
+    LiveWire.UIKit.button(self,W-36,12,22,22,"x",Panel.onButton,"close",k)
+    LiveWire.UIKit.button(self,49,H-50,W-98,28,getText("IGUI_LW_Connections"),Panel.onButton,"links",k)
 end
 function Panel:onButton(b)
     if self.closed then return end
@@ -153,7 +147,7 @@ function Panel:update()
     ISPanel.update(self)
     local sq=self.obj:getSquare()
     if not sq or self.obj:getObjectIndex()==-1 or self.player:isDead()
-        or math.abs(self.player:getX()-sq:getX())>4 or math.abs(self.player:getY()-sq:getY())>4
+        or math.abs(self.player:getX()-sq:getX())>CLOSE_RANGE or math.abs(self.player:getY()-sq:getY())>CLOSE_RANGE
         or math.floor(self.player:getZ())~=sq:getZ() then self:close();return end
     local now=getTimestampMs()
     local mark=LiveWire.Marks.get(self.obj)
@@ -162,7 +156,7 @@ function Panel:update()
         LiveWire.Client.discardSnapshot(inv)
         self.inverterId,self.lastSubscribe=inv,0
     end
-    if self.inverterId and (self.lastSubscribe==0 or now-self.lastSubscribe>60000) then
+    if self.inverterId and (self.lastSubscribe==0 or now-self.lastSubscribe>LiveWire.UIKit.RESUBSCRIBE_MS) then
         self.lastSubscribe=now
         LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE,{inverter=self.inverterId})
     end
@@ -292,5 +286,5 @@ function Panel:close()
     self:setVisible(false)
     self:removeFromUIManager()
     self.obj,self.player,self.viewSnapshot,self.reading=nil,nil,nil,nil
-    if Panel.instance==self then Panel.instance=nil end
+    Panel.releaseInstance(self)
 end
