@@ -94,7 +94,7 @@ Cette section prime sur le reste du document quand ils divergent.
 - **Interfaces** : `client/LW_InverterPanel.lua` (écran LCD), `client/LW_SoftwareApp.lua` (logiciel de gestion, dessiné dans un rectangle de n'importe quel élément d'interface : `draw(ui, x, y, w, h)`, `onMouseDown(x, y)`), `client/LW_SoftwareScreen.lua` (notre écran d'ordinateur), `client/LW_RangeView.lua` (cercle de la zone), `client/LW_ComputerMod.lua` (Computer Mod facultatif), `shared/LW_Compat.lua` (mods facultatifs).
 - **Computer Mod** : vue `LIVEWIRE` de `ComputerScreenUI`, sur le modèle de l'extension Musique de l'auteur. Enveloppes, qui rappellent toutes l'original : `getDesktopAppItems` (icône si le logiciel est installé), `activateDesktopItem` (ouvre la vue), `drawDesktop` (fenêtre `drawAppWindow` puis l'application dans `clientX/Y/W/H`), `onMouseDown`, `getWindowTitleForView`, `restoreMinimizedWindow`, `resumePoweredSession`, `shutdownComputer`, `hideComputerScreen`. Drapeau `ComputerModLiveWireInstalled` dans les données de l'ordinateur. Ouverture depuis notre menu : `ComputerContextMenu.openComputerUI`, puis la vue au premier affichage du bureau.
 - **Commandes** : `C_RESET_BREAKER`, `C_ACK_ALARM` ; `Commands.handle` exécute un gestionnaire tout de suite (tests).
-- **Frigos** : `Anchor.ageFridges` (autorité) avant chaque changement d'état d'une ancre.
+- **Frigos** : `server/LiveWire/LW_FridgeAging.lua` (autorité seulement) indexe les frigos et vieillit leur nourriture avant chaque changement d'état d'une ancre. `Anchor.ageFridges` lui délègue l'appel.
 - **Butin** : `server/Items/LiveWire_Distributions.lua`.
 
 ## 1. Mécanisme d'alimentation
@@ -220,6 +220,8 @@ lua/shared/LiveWire/LW_Marks.lua           marque des equipements (modData.movab
 lua/shared/LiveWire/LW_Placement.lua       enveloppes du curseur de meubles vanilla : regles de
                                            pose (dehors, riviere), pose, ramassage, rotation
 lua/shared/LiveWire/LW_Anchor.lua          application des ancres (serveur ET clients), LoadChunk
+lua/client/LiveWire/LW_AnchorVisuals.lua   réveil visuel des cases alimentées (client)
+lua/server/LiveWire/LW_FridgeAging.lua     index des frigos et vieillissement (autorité)
 lua/shared/LiveWire/LW_Coverage.lua        couverture d'un onduleur : disque D-12 + cases d'un
                                            fournisseur facultatif (D-32)
 lua/shared/LiveWire/LW_CircuitProvider.lua coupures supplementaires d'un fournisseur facultatif
@@ -365,7 +367,8 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
 | `OnServerStarted` (dédié) ; premier `EveryOneMinute` (solo) | autorité | Arme la simulation. `OnGameStart` ne part probablement pas sur un dédié (hypothèse) | `LuaEventManager.java:788`, `GameServer.java:1461` |
 | `EveryTenMinutes` | autorité | **Pas de simulation** | `LuaEventManager.java:746` ; au plus une fois par mise à jour, même après un saut (`java/zombie/GameTime.java:553-576`) |
 | `LoadChunk` | **les deux** | Réapplique les ancres ; côté autorité, rattache les objets marqués et écrit la charge des batteries | `IsoChunk.java:3613` |
-| `OnTick` (compteur) | les deux | Deuxième passage d'ancres après un chargement | `knowledge/power-and-lights.md:24` |
+| `OnTick` (passes) | les deux | Passes d'ancres après un chargement ; abonnement seulement tant qu'une passe est en attente | `knowledge/power-and-lights.md:24` |
+| `OnTick` (visuels) | client | Réveille bourdonnement et lumières des objets alimentés, 250 cases par tick ; abonnement seulement tant qu'il reste des cases (`client/LiveWire/LW_AnchorVisuals.lua`) | `IsoGenerator.java:279`, `IsoObject.java:4800-4812` |
 | `OnObjectAdded`, `OnObjectAboutToBeRemoved` | autorité | Invalide l'inventaire des appareils d'un onduleur | `LuaEventManager.java:778-779` |
 | `OnReceiveGlobalModData` | client | Reçoit la table des ancres | `GlobalModDataPacket.java:42-53` |
 | `OnClientCommand` | autorité | Commandes (§ 5) | `GameServer.java:2157` |
@@ -605,7 +608,7 @@ regroupe les scénarios, résultats et limites de cette campagne.
   règle d'attribution entre pompes n'est modifiée (C08 reste distinct).
 - `client/LW_PumpView.lua` : même curseur pour découvrir les meubles, puis contrôle
   des objets connus toutes les deux secondes ; fermeture = abandon du travail.
-- `shared/LW_Anchor.lua` : index des frigos chargés alimenté au chargement des chunks
+- `server/LW_FridgeAging.lua` : index des frigos chargés alimenté au chargement des chunks
   et à la pose de meubles. Les aliments vieillissent avant la bascule ; le
   rafraîchissement visuel est différé avec un budget global de 250 positions par tick.
   Les références aux frigos déchargés sont rejetées à l'usage et purgées chaque heure.

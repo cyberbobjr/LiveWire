@@ -61,127 +61,20 @@ function Anchor.apply(a, on, id)
     end
 end
 
--- Client side: wake fridge hum, ambient sounds and light sources of the powered
--- objects, as the engine does on generator activation (IsoGenerator.java:279,
--- IsoObject.java:4800-4812). checkHaveElectricity does nothing on a server.
-Anchor.VISUAL_SQUARES_PER_TICK = 250
-local visualQueue = {}
-local visualJobs = {}
-
+-- Client side: wake the fridge hum, ambient sounds and lights of the powered objects
+-- (client/LiveWire/LW_AnchorVisuals.lua, absent on a dedicated server).
 function Anchor.refreshVisuals(a, id)
-    if isServer() then return end
-    local key = LiveWire.posKey(a.x, a.y, a.z)
-    if not visualJobs[key] then visualQueue[#visualQueue + 1] = key end
-    -- Coalesce repeated toggles: effects read the current world power state.
-    visualJobs[key] = LiveWire.Coverage.scan(id, a)
+    if LiveWire.AnchorVisuals then LiveWire.AnchorVisuals.refresh(a, id) end
 end
 
-function Anchor.tickVisuals()
-    local cell = getCell()
-    if not cell then return end
-    local budget = Anchor.VISUAL_SQUARES_PER_TICK
-    while budget > 0 and #visualQueue > 0 do
-        local key = visualQueue[1]
-        local done, used = LiveWire.Coverage.step(visualJobs[key], budget, function(x, y, z)
-            local sq = cell:getGridSquare(x, y, z)
-            if not sq then return end
-            local objs = sq:getObjects()
-            for i = 0, objs:size() - 1 do
-                local o = objs:get(i)
-                if o:couldBePoweredByGenerator() then o:checkHaveElectricity() end
-            end
-        end)
-        budget = budget - used
-        if done then visualJobs[key] = nil; table.remove(visualQueue, 1) end
-    end
-end
-
--- Loaded fridge objects indexed at chunk load and furniture placement, independent
--- of the asynchronous demand inventory: even the first power toggle ages the food.
-local fridgeChunks = {}
+-- Authority: settle the food of the fridges of the area before the power changes
+-- (server/LiveWire/LW_FridgeAging.lua, absent on a client).
 function Anchor.rememberSquare(sq)
-    if isClient() or not sq then return end
-    local key = math.floor(sq:getX() / CHUNK) .. "," .. math.floor(sq:getY() / CHUNK)
-    local objs = sq:getObjects()
-    for i = 0, objs:size() - 1 do
-        local o = objs:get(i)
-        if o:getContainerByType("fridge") or o:getContainerByType("freezer") then
-            fridgeChunks[key] = fridgeChunks[key] or {}
-            fridgeChunks[key][o] = true
-        end
-    end
+    if LiveWire.FridgeAging then LiveWire.FridgeAging.rememberSquare(sq) end
 end
 
-local function indexFridges(chunk)
-    if isClient() then return end
-    local cx, cy = Anchor.chunkCoords(chunk)
-    if not cx then return end
-    fridgeChunks[cx .. "," .. cy] = {}
-    for z = chunk:getMinLevel(), chunk:getMaxLevel() do
-        for i = 0, CHUNK * CHUNK - 1 do
-            Anchor.rememberSquare(chunk:getGridSquare(i % CHUNK, math.floor(i / CHUNK), z))
-        end
-    end
-end
-
-function Anchor.purgeFridges()
-    local cell = getCell()
-    if not cell then return end
-    local empty = {}
-    for key, bucket in pairs(fridgeChunks) do
-        local stale = {}
-        for obj in pairs(bucket) do
-            local sq = obj:getSquare()
-            if not sq or obj:getObjectIndex() == -1
-                or cell:getGridSquare(sq:getX(), sq:getY(), sq:getZ()) ~= sq then
-                stale[#stale + 1] = obj
-            end
-        end
-        for i = 1, #stale do bucket[stale[i]] = nil end
-        local any = false
-        for _ in pairs(bucket) do any = true; break end
-        if not any then empty[#empty + 1] = key end
-    end
-    for i = 1, #empty do fridgeChunks[empty[i]] = nil end
-end
-
--- Authority: bring the food of the loaded fridges and freezers of the area up to
--- date BEFORE the power changes, as the engine does on generator activation
--- (IsoGenerator.updateFridgeFreezerItems, IsoGenerator.java:325-334). Food ages
--- in one go over the time elapsed since its last update, with the power state of
--- the moment (Food.updateAge, Food.java:668-702): without this, a power cut would
--- also apply to the hours spent cold before it, and the reverse.
 function Anchor.ageFridges(a, id)
-    if isClient() then return end
-    local cell = getCell()
-    if not cell then return end
-    local radius, vertical = LiveWire.Config.tileRange(), LiveWire.Config.verticalRange()
-    local Cov = LiveWire.Coverage
-    local cx0, cy0, cx1, cy1 = Cov.chunkRange(id, a, radius)
-    for cx = cx0, cx1 do
-        for cy = cy0, cy1 do
-            local bucket = fridgeChunks[cx .. "," .. cy] or {}
-            for o in pairs(bucket) do
-                local sq = o:getSquare()
-                if sq and o:getObjectIndex() ~= -1
-                    and cell:getGridSquare(sq:getX(), sq:getY(), sq:getZ()) == sq then
-                    if Cov.covers(id, a, sq:getX(), sq:getY(), sq:getZ(), radius, vertical) then
-                        for c = 0, o:getContainerCount() - 1 do
-                            local cont = o:getContainerByIndex(c)
-                            local t = cont and cont:getType()
-                            if t == "fridge" or t == "freezer" then
-                                local items = cont:getItems()
-                                for k = 0, items:size() - 1 do
-                                    local it = items:get(k)
-                                    if instanceof(it, "Food") then it:updateAge() end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
+    if LiveWire.FridgeAging then LiveWire.FridgeAging.age(a, id) end
 end
 
 -- Apply an anchor and refresh visuals when its state changed on this side.
@@ -242,33 +135,47 @@ function Anchor.purgedBy(a, cx, cy, R, id)
     return cx >= cx0 - g and cx <= cx1 + g and cy >= cy0 - g and cy <= cy1 + g
 end
 
--- Re-apply every anchor the loaded chunk may have purged, on its whole disc.
+-- Re-apply every anchor the loaded chunk may have purged, on its whole disc. A second
+-- and third pass a few ticks later cover neighbours loaded after us: the OnTick
+-- handler exists only while a pass is pending.
 Anchor.pendingPasses = 0
+local tickCounter = 0
+local watching = false
+local onTick
 
-local function onLoadChunk(chunk)
-    indexFridges(chunk)
-    local cx, cy = Anchor.chunkCoords(chunk)
-    if not cx then return end
-    local R = LiveWire.Config.tileRange()
-    for id, a in pairs(Anchor.table()) do
-        if Anchor.purgedBy(a, cx, cy, R, id) then
-            Anchor.apply(a, a.on == true, id)
-            Anchor.pendingPasses = 2
-        end
+local function armPasses()
+    Anchor.pendingPasses = 2
+    if not watching then
+        watching = true
+        tickCounter = 0
+        Events.OnTick.Add(onTick)
     end
 end
 
--- A second and third pass a few ticks later cover neighbours loaded after us.
-local tickCounter = 0
-local function onTick()
-    Anchor.tickVisuals()
-    if Anchor.pendingPasses <= 0 then return end
+onTick = function()
     tickCounter = tickCounter + 1
     if tickCounter < 30 then return end
     tickCounter = 0
     Anchor.pendingPasses = Anchor.pendingPasses - 1
     for id, a in pairs(Anchor.table()) do
         Anchor.apply(a, a.on == true, id)
+    end
+    if Anchor.pendingPasses <= 0 then
+        watching = false
+        Events.OnTick.Remove(onTick)
+    end
+end
+
+local function onLoadChunk(chunk)
+    if LiveWire.FridgeAging then LiveWire.FridgeAging.indexChunk(chunk) end
+    local cx, cy = Anchor.chunkCoords(chunk)
+    if not cx then return end
+    local R = LiveWire.Config.tileRange()
+    for id, a in pairs(Anchor.table()) do
+        if Anchor.purgedBy(a, cx, cy, R, id) then
+            Anchor.apply(a, a.on == true, id)
+            armPasses()
+        end
     end
 end
 
@@ -296,8 +203,5 @@ end
 -- positions purged by the engine must be back before the next frame reads them
 -- (LW_Compat.addLoadChunk).
 LiveWire.Compat.addLoadChunk(onLoadChunk)
-Events.OnTick.Add(onTick)
 Events.OnReceiveGlobalModData.Add(onReceiveGlobalModData)
 Events.OnGameStart.Add(onGameStart)
-
-Events.EveryHours.Add(Anchor.purgeFridges)

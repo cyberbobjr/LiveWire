@@ -25,6 +25,18 @@ PV.dirty = false
 PV.COLOR = { 0.30, 0.55, 1.0 }       -- pump, barrels, plumbed fixtures
 PV.UNPLUMBED = { 0.60, 0.60, 0.60 }  -- fixtures in range not plumbed yet
 
+-- The OnTick handler exists only while the view is open.
+local watching = false
+local onTick
+
+local function watch()
+    if not watching then watching = true; Events.OnTick.Add(onTick) end
+end
+
+local function unwatch()
+    if watching then watching = false; Events.OnTick.Remove(onTick) end
+end
+
 local function defs() return LiveWire.Defs end
 
 local function hasWaterPipe(o)
@@ -97,6 +109,7 @@ function PV.hide()
     if PV.id and LiveWire.RangeView.isShown(PV.id) then LiveWire.RangeView.hide() end
     PV.obj, PV.id = nil, nil
     PV.fixtures, PV.job, PV.found, PV.dirty = {}, nil, nil, false
+    unwatch()
 end
 
 -- Re-collect the supplied objects and update the highlights.
@@ -137,6 +150,7 @@ function PV.show(pumpObj)
     if not mark or not sq then return end
     PV.obj, PV.id = pumpObj, mark.id
     PV.dirty = true
+    watch()
     LiveWire.RangeView.show(mark.id, sq:getX(), sq:getY(), sq:getZ(), {
         radius = LiveWire.Config.get("PumpRange"),
         color = LiveWire.RangeView.PUMP_COLOR,
@@ -160,8 +174,6 @@ function PV.tickDiscovery()
     if not sq then return end
     if PV.dirty and not PV.job then
         PV.dirty = false
-PV.COLOR = { 0.30, 0.55, 1.0 }       -- pump, barrels, plumbed fixtures
-PV.UNPLUMBED = { 0.60, 0.60, 0.60 }  -- fixtures in range not plumbed yet
         PV.job = LiveWire.SquareScan.new(sq:getX(), sq:getY(), sq:getZ(),
             LiveWire.Config.get("PumpRange"), LiveWire.Config.verticalRange())
         PV.found = {}
@@ -184,7 +196,7 @@ PV.UNPLUMBED = { 0.60, 0.60, 0.60 }  -- fixtures in range not plumbed yet
     end
 end
 
-local function onTick()
+onTick = function()
     if not PV.id then return end
     local obj = PV.obj
     local sq = obj and obj:getSquare()
@@ -206,8 +218,6 @@ local function onTick()
         PV.refresh()
     end
 end
-
-Events.OnTick.Add(onTick)
 
 Events.LoadChunk.Add(function(chunk)
     if not PV.id then return end

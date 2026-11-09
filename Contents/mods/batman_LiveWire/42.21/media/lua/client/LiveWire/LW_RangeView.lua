@@ -26,6 +26,18 @@ RV.center = nil       -- { x, y, z }
 RV.element = nil
 RV.opts = nil         -- optional { radius, color, floors } of the current view (nil = inverter)
 
+-- The OnTick handler exists only while the view is open.
+local watching = false
+local onTick
+
+local function watch()
+    if not watching then watching = true; Events.OnTick.Add(onTick) end
+end
+
+local function unwatch()
+    if watching then watching = false; Events.OnTick.Remove(onTick) end
+end
+
 local Overlay = ISUIElement:derive("LiveWireRangeOverlay")
 
 function Overlay:new()
@@ -111,6 +123,7 @@ function RV.hide()
         RV.element = nil
     end
     RV.inverterId, RV.center, RV.opts = nil, nil, nil
+    unwatch()
 end
 
 -- `opts` (optional) changes the circle: radius in tiles, colour, vertical range.
@@ -125,14 +138,13 @@ function RV.show(inverterId, x, y, z, opts)
     el:addToUIManager()
     el:backMost()
     RV.element = el
+    watch()
 end
 
-local function onTick()
+onTick = function()
     if not RV.center then return end
     local player = getPlayer()
     if not player then return end
     local dx, dy = player:getX() - RV.center.x, player:getY() - RV.center.y
     if dx * dx + dy * dy > RV.HIDE_DISTANCE * RV.HIDE_DISTANCE then RV.hide() end
 end
-
-Events.OnTick.Add(onTick)

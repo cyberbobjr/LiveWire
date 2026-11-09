@@ -22,6 +22,7 @@ FILES = [
     # LW_Compat before LW_Anchor, which requires it to register its LoadChunk handler.
     "shared/LiveWire/LW_Compat.lua", "shared/LiveWire/LW_Anchor.lua", "shared/LiveWire/LW_Install.lua",
     "shared/LiveWire/LW_Stack.lua",
+    "server/LiveWire/LW_FridgeAging.lua", "client/LiveWire/LW_AnchorVisuals.lua",
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_PowerHistory.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",
     "server/LiveWire/LW_Demand.lua", "server/LiveWire/LW_Batteries.lua",
     "server/LiveWire/LW_Events.lua", "server/LiveWire/LW_Forecast.lua", "server/LiveWire/LW_Maintenance.lua",

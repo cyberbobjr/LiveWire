@@ -180,8 +180,8 @@ class Regressions(unittest.TestCase):
         queries=0
         for i=1,3 do A.refreshVisuals({x=i,y=0,z=0}) end
         assert(queries==0)
-        A.tickVisuals()
-        assert(queries<=A.VISUAL_SQUARES_PER_TICK)
+        LiveWire.AnchorVisuals.tick()
+        assert(queries<=LiveWire.AnchorVisuals.SQUARES_PER_TICK)
         ''')
 
     def test_snapshot_cache_revision_grid_and_registry_identity(self):

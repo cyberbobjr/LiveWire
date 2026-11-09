@@ -6,6 +6,17 @@ local View = {}
 LiveWire.NetworkView = View
 local Overlay = ISUIElement:derive("LiveWireNetworkOverlay")
 View.highlights = {}
+-- The OnTick handler exists only while the view is open.
+local watching = false
+local onTick
+
+local function watch()
+    if not watching then watching = true; Events.OnTick.Add(onTick) end
+end
+
+local function unwatch()
+    if watching then watching = false; Events.OnTick.Remove(onTick) end
+end
 local function sameColor(o,idx,c)
     local v=o:getHighlightColor(idx)
     -- ColorInfo is a Java object, not a Lua {r,g,b,a} table.
@@ -23,12 +34,14 @@ function View.hide()
     View.highlights = {}
     if View.element then View.element:removeFromUIManager() end
     View.element, View.inverter = nil, nil
+    unwatch()
 end
 function View.show(id, mode)
     if View.inverter == id and View.mode == mode then View.hide(); return end
     View.hide()
     View.inverter, View.mode, View.lastSubscribe = id, mode, 0
     View.lastHighlight = -1000
+    watch()
     if mode=="consumers" and LiveWire.PumpView then LiveWire.PumpView.hide() end
     local o = ISUIElement:new(0, 0, 1, 1)
     setmetatable(o, Overlay); Overlay.__index = Overlay
@@ -121,7 +134,7 @@ function Overlay:render()
         self:drawText(getText("IGUI_LW_ConsumerGhostLegend"),20,80,1,1,1,1,UIFont.Small)
     end
 end
-Events.OnTick.Add(function()
+onTick = function()
     if not View.inverter then return end
     local p = getPlayer()
     local a = LiveWire.Anchor.table()[View.inverter]
@@ -134,4 +147,4 @@ Events.OnTick.Add(function()
         View.lastSubscribe = now
         LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE, { inverter = View.inverter })
     end
-end)
+end
