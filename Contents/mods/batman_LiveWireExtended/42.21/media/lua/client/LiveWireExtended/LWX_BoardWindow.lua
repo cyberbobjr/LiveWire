@@ -183,6 +183,14 @@ function Window:drawBoard(record)
     K.hintScrews(self, L)
 end
 
+-- Name of the network the board feeds (the grid name, as on Live Wire's breaker LCD), else the
+-- generic network label. The name needs the inverter's snapshot: the window subscribes to it.
+function Window:networkName(record)
+    local name = record.inv and LiveWire.API.gridName(record.inv)
+    if name == nil or name == "" then return getText("IGUI_LW_Network") end
+    return name
+end
+
 -- Text and values of the LCD: the selected breaker, else the whole board.
 function Window:lcdContent(record)
     local K = kit()
@@ -204,7 +212,7 @@ function Window:lcdContent(record)
             rows = { { getText(LCD_KEYS[1]), tostring(load) .. " W" },
                 { getText(LCD_KEYS[2]), string.format("%.1f A", amps) },
                 { getText(LCD_KEYS[3]), kwh(today) } },
-            led = K.C.green, line = getText("IGUI_LW_Network"),
+            led = K.C.green, line = self:networkName(record),
             status = getText("IGUI_LWX_BoardTitle", tostring(record.size), tostring(B.usedModules(record))),
             strip = getText("IGUI_LWX_LcdHistory", string.format("%.1f", yesterday), string.format("%.1f", week)) }
     end
@@ -444,6 +452,7 @@ function Window.open(player, board)
         getPlayerScreenTop(player:getPlayerNum()) + 60, UI.px(L.W, k), UI.px(L.H, k))
     local win = Window:new(x, y, w, h)
     win.lwK, win.player, win.board, win.size, win.L = k, player, board, size, L
+    if record and record.inv then LiveWire.API.subscribeInverter(record.inv) end
     win:initialise()
     win:addToUIManager()
     Window.instance = win

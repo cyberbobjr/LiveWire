@@ -304,3 +304,28 @@ end
 -- Drawing kit of the enclosure windows (client, LiveWire.Enclosure, D-54): the module itself, not a
 -- copy, as it holds no game state. Read by LiveWire Extended when its window opens; nil on a server.
 function API.enclosure() return LiveWire.Enclosure end
+
+-- Name of the network an inverter feeds: a string ("" when the network is unnamed), or nil when
+-- the inverter is unknown. The authority reads the saved grid; a client reads the snapshot of
+-- the inverter it subscribed to (API.subscribeInverter). LiveWire Extended shows it on the LCD
+-- of its board window (D-47).
+function API.gridName(inverterId)
+    local R = LiveWire.Registry
+    if not isClient() then
+        local dev = R and R.ready and R.device(inverterId)
+        local grid = dev and dev.grid and R.grid(dev.grid)
+        return grid and grid.name or nil
+    end
+    local C = LiveWire.Client
+    local snap = C and C.snapshot and C.snapshot(inverterId)
+    return snap and snap.name or nil
+end
+
+-- Asks the server for the snapshots of an inverter, as Live Wire's own panels do (client).
+-- Returns false where there is no client.
+function API.subscribeInverter(inverterId)
+    local C, Protocol = LiveWire.Client, LiveWire.Protocol
+    if not isClient() or not C or not C.send or not Protocol then return false end
+    C.send(Protocol.C_SUBSCRIBE, { inverter = inverterId })
+    return true
+end
