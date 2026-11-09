@@ -1,5 +1,8 @@
 {
     "Tooltip_LWX_NeedLevel": "Requiere nivel %1 de Electrónica.",
+    "Tooltip_LWX_EnlargeCost": "Electricidad %1. Gasta 1 chapa y 4 tornillos. Los disyuntores, las etiquetas y los aparatos se conservan.",
+    "Tooltip_LWX_EnlargeNeedMaterials": "Necesitas 1 chapa y 4 tornillos en el inventario.",
+    "Tooltip_LWX_EnlargeNone": "Este cuadro no se puede ampliar.",
     "Tooltip_LWX_NoBuilding": "No hay ningún edificio al alcance del inversor.",
     "Tooltip_LWX_AlreadyConnected": "Este edificio ya está conectado a un inversor.",
     "Tooltip_LWX_ConnectBuilding": "Alimenta todas las plantas del edificio en %1, %2, su sótano y una franja alrededor. El juego alimenta bloques enteros de 8 x 8: las casillas cercanas de esos bloques también reciben corriente.",

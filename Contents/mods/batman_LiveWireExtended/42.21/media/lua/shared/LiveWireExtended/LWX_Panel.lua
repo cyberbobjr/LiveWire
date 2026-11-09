@@ -39,3 +39,42 @@ function P.checkLink(character, obj, invObj)
     if not P.isPanel(obj) then return false, "Tooltip_LWX_NoInverter" end
     return L.check(character, obj, invObj)
 end
+
+-- ---------------------------------------------------------------- enlargement (D-55)
+-- A board the player placed (batman_livewireext_01 tiles) grows in place: 8 -> 16 -> 24
+-- modules. The next size is the tile two indices on (same face: even indices south, odd east).
+-- The vanilla wall boxes (industry_02_212..215) are not placed by the player and never grow.
+P.MAX_SIZE = 24
+P.ENLARGE_COST = { items = { { "Base.SmallSheetMetal", 1 }, { "Base.Screws", 4 } } }
+
+-- Tile index of a placed board (batman_livewireext_01_<n>), or nil for anything else.
+function P.tileIndex(obj)
+    local sprite = obj and obj.getSprite and obj:getSprite()
+    local name = sprite and sprite:getName()
+    if type(name) ~= "string" then return nil end
+    local index = string.match(name, "^" .. X.Terminal.SHEET .. "_(%d+)$")
+    return index and tonumber(index) or nil
+end
+
+-- Tile index of the next size of a board tile index, or nil when it cannot grow.
+function P.enlargedIndex(index)
+    if index == nil or P.SIZES[index] == nil then return nil end
+    local nextIndex = index + 2
+    local nextSize = P.SIZES[nextIndex]
+    if nextSize == nil or nextSize <= P.SIZES[index] or nextSize > P.MAX_SIZE then return nil end
+    return nextIndex
+end
+
+-- May `character` enlarge board `obj` now? true, or false and a refusal key (and its argument).
+-- Shared by the menu and the authority, which checks it again.
+function P.enlargeCheck(character, obj)
+    if P.enlargedIndex(P.tileIndex(obj)) == nil then return false, "Tooltip_LWX_EnlargeNone" end
+    if not LiveWire.API.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
+    if not LiveWire.API.hasLevel(character, X.LEVEL) then
+        return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL))
+    end
+    for _, item in ipairs(P.ENLARGE_COST.items) do
+        if LiveWire.API.countType(character, item[1]) < item[2] then return false, "Tooltip_LWX_EnlargeNeedMaterials" end
+    end
+    return true
+end

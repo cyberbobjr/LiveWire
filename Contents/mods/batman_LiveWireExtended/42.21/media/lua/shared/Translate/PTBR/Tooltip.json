@@ -1,5 +1,8 @@
 {
     "Tooltip_LWX_NeedLevel": "Requer nível %1 de Elétrica.",
+    "Tooltip_LWX_EnlargeCost": "Eletricidade %1. Consome 1 chapa e 4 parafusos. Disjuntores, etiquetas e aparelhos são mantidos.",
+    "Tooltip_LWX_EnlargeNeedMaterials": "Precisa de 1 chapa e 4 parafusos no inventário.",
+    "Tooltip_LWX_EnlargeNone": "Este quadro não pode ser ampliado.",
     "Tooltip_LWX_NoBuilding": "Nenhum prédio ao alcance do inversor.",
     "Tooltip_LWX_AlreadyConnected": "Este prédio já está conectado a um inversor.",
     "Tooltip_LWX_ConnectBuilding": "Alimenta todos os andares do prédio em %1, %2, o porão e uma faixa em volta. O jogo alimenta blocos inteiros de 8 x 8: os quadrados próximos desses blocos também recebem energia.",

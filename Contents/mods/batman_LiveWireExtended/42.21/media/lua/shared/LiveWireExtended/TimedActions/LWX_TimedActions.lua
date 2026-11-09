@@ -210,3 +210,33 @@ end
 function LWXPointAction:new(character, target, board, pos, disconnect)
     return LWBaseAction.new(self, character, { target = target, board = board, pos = pos, disconnect = disconnect == true })
 end
+
+--------------------------------------------------------------------------------
+-- Enlarge a placed board one size on its spot (D-55): 8 -> 16, 16 -> 24.
+--------------------------------------------------------------------------------
+LWXEnlargeAction = LWBaseAction:derive("LWXEnlargeAction")
+LWXEnlargeAction.duration = 300
+LWXEnlargeAction.subject = "target"
+LWXEnlargeAction.facing = true
+
+function LWXEnlargeAction:isValid()
+    return stillThere(self.target) and LiveWire.API.screwdriver(self.character) ~= nil
+end
+
+function LWXEnlargeAction:update()
+    self.character:setMetabolicTarget(Metabolics.LightWork)
+end
+
+function LWXEnlargeAction:start()
+    self:setActionAnim(CharacterActionAnims.Disassemble)
+    self:setOverrideHandModels("Screwdriver", nil)
+end
+
+function LWXEnlargeAction:complete()
+    if not self:guard() or not X.Panels then return false end
+    return X.Panels.enlarge(self.character, self.target)
+end
+
+function LWXEnlargeAction:new(character, target)
+    return LWBaseAction.new(self, character, { target = target })
+end

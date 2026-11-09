@@ -1,5 +1,8 @@
 {
     "Tooltip_LWX_NeedLevel": "需要电工 %1 级.",
+    "Tooltip_LWX_EnlargeCost": "电气等级 %1。消耗 1 块金属板和 4 颗螺丝。断路器、标签和用电器保留。",
+    "Tooltip_LWX_EnlargeNeedMaterials": "物品栏中需要 1 块金属板和 4 颗螺丝。",
+    "Tooltip_LWX_EnlargeNone": "这个配电箱无法扩展。",
     "Tooltip_LWX_NoBuilding": "逆变器范围内没有建筑.",
     "Tooltip_LWX_AlreadyConnected": "该建筑已接入一台逆变器.",
     "Tooltip_LWX_ConnectBuilding": "为位于 %1, %2 的建筑的所有楼层, 地下室以及周围一圈供电. 游戏按完整的 8 x 8 区块供电: 同一区块中附近的格子也会通电.",

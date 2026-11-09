@@ -96,3 +96,27 @@ function PS.removeBreaker(character, obj, pos)
     X.log("breaker removed from module " .. slot.pos .. " of board " .. record.x .. "," .. record.y .. "," .. record.z)
     return true
 end
+
+-- Enlarge board `obj` one size on its spot (D-55). The authority checks the rules again,
+-- takes the materials, puts the tile of the next size on the same face and updates the
+-- record. Breakers, labels and wired appliances stay on the board.
+function PS.enlarge(character, obj)
+    local ok, why, arg = P.enlargeCheck(character, obj)
+    local record = ok and P.recordAt(obj:getSquare())
+    if ok and not record then ok, why = false, "Tooltip_LWX_PanelNotLinked" end
+    if not ok then
+        LiveWire.notify(character, why, { arg }, true)
+        return false
+    end
+    local nextIndex = P.enlargedIndex(P.tileIndex(obj))
+    for _, item in ipairs(P.ENLARGE_COST.items) do
+        if not LiveWire.API.consume(character, item[1], item[2]) then return false end
+    end
+    obj:setSpriteFromName(X.Terminal.SHEET .. "_" .. nextIndex)
+    if isServer() then obj:transmitUpdatedSpriteToClients() end
+    record.size = P.SIZES[nextIndex]
+    transmit()
+    LiveWire.notify(character, "IGUI_LWX_Enlarged", { tostring(record.size) })
+    X.log("board " .. record.x .. "," .. record.y .. "," .. record.z .. " enlarged to " .. record.size .. " modules")
+    return true
+end

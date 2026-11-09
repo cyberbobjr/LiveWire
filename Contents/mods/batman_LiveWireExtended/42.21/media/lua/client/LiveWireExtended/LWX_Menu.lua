@@ -184,6 +184,10 @@ function Menu.onBreaker(player, obj, fullType, pos, mode)
     queueNear(player, obj:getSquare(), LWXBreakerAction:new(player, obj, fullType, pos, mode))
 end
 
+function Menu.onEnlarge(player, obj)
+    queueNear(player, obj:getSquare(), LWXEnlargeAction:new(player, obj))
+end
+
 local function itemName(fullType)
     local it = getScriptManager():FindItem(fullType)
     return it and it:getDisplayName() or fullType
@@ -202,6 +206,14 @@ function Menu.panelExtra(sub, player, obj)
                 if isClient() then sendClientCommand(p, "LiveWireExtended", cmd, {})
                 elseif released then X.Release.resume(p) else X.Release.run(p) end
             end)
+    end
+    local index = X.Panel.tileIndex(obj)
+    local nextIndex = X.Panel.enlargedIndex(index)
+    if nextIndex then
+        local grow = sub:addOption(getText("IGUI_LWX_EnlargeTo", tostring(X.Panel.SIZES[index]),
+            tostring(X.Panel.SIZES[nextIndex])), player, Menu.onEnlarge, obj)
+        local ok, why, arg = X.Panel.enlargeCheck(player, obj)
+        if not ok then disable(grow, why, arg) else hint(grow, "Tooltip_LWX_EnlargeCost", tostring(X.LEVEL)) end
     end
     local io = sub:addOption(getText("ContextMenu_LWX_InstallBreaker"), nil, nil)
     local isub = ISContextMenu:getNew(sub)

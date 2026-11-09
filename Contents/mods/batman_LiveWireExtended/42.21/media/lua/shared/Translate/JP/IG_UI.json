@@ -43,6 +43,8 @@
     "IGUI_LWX_State_off": "切",
     "IGUI_LWX_State_tripped": "トリップ：過負荷",
     "IGUI_LWX_Rating": "%1 A・120 V：最大 %2 W",
+    "IGUI_LWX_EnlargeTo": "分電盤を拡張（%1 → %2 モジュール）",
+    "IGUI_LWX_Enlarged": "分電盤のモジュールは %1 個になりました。",
     "IGUI_LWX_LcdLoad": "負荷",
     "IGUI_LWX_LcdCurrent": "電流",
     "IGUI_LWX_LcdToday": "本日",
