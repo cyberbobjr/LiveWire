@@ -265,6 +265,7 @@ handlers[P.C_UNLINK] = guarded(checkUnlink, function(player, args, dev)
     -- A linked vanilla generator or computer leaves the registry entirely.
     if LiveWire.Maintenance.liveWork(player, grid) then return end
     local wires = LiveWire.Devices.linkWires(dev)
+    -- Direct call: the result tells whether the device was a vanilla one.
     if not LiveWire.Registry.forgetVanilla(dev) then
         LiveWire.Registry.unlink(dev)
         LiveWire.Devices.syncMark(dev)

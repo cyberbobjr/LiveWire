@@ -20,6 +20,11 @@
 --                                                      LW_FridgeAging)
 --   DEVICE_PLACED            (character, square, sprite)  one of our tiles was placed, authority
 --                                                      only (LW_Devices)
+--   DEVICE_PICKED_UP         (id, character)           one of our tiles was picked up, authority
+--                                                      only (LW_Devices)
+--   ROTATION_STARTED         ()                        one of our tiles starts being rotated, authority
+--                                                      only: a pickup now is a rotation (LW_Devices)
+--   ROTATION_ENDED           ()                        the rotation is over (LW_Devices)
 --   COVERAGE_CHANGED         (square)                  authority: invalidate the demand of the
 --                                                      inverters covering the square (LW_Demand)
 --   SQUARE_OBJECTS_CHANGED   (square)                  authority: re-apply the circuits to the
@@ -42,7 +47,8 @@ LiveWire.Events = Events
 
 local NAMES = {
     "REGISTRY_RESET", "TOPOLOGY_CHANGED", "GRID_RELEASED", "JOURNAL_ENTRY", "INVERTER_REMOVED",
-    "SQUARE_CHANGED", "DEVICE_PLACED", "COVERAGE_CHANGED", "SQUARE_OBJECTS_CHANGED",
+    "SQUARE_CHANGED", "DEVICE_PLACED", "DEVICE_PICKED_UP", "ROTATION_STARTED", "ROTATION_ENDED",
+    "COVERAGE_CHANGED", "SQUARE_OBJECTS_CHANGED",
     "ANCHOR_CHANGING", "ANCHOR_VISUALS", "CHUNK_LOADED",
 }
 local known = {}

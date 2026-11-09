@@ -134,11 +134,12 @@ function MP:pickUpMoveableInternal(_character, _square, _object, _sprInstance, _
     if _object and not _sprInstance and not LiveWire.Stack.canMove(_object) then return nil end
     local id = nil
     if _object and not _sprInstance and authority() and LiveWire.Defs.modelOfObject(_object) then
+        -- Called directly, not through the bus: the id it returns is used below.
         id = LiveWire.Devices.beforePickUp(_object)
     end
     local r = origPickUp(self, _character, _square, _object, _sprInstance, _spriteName, _createItem, _rotating, ...)
     if id and _object:getObjectIndex() == -1 then
-        LiveWire.Devices.onPickedUp(id, _character)
+        LiveWire.Events.emit(LiveWire.Events.DEVICE_PICKED_UP, id, _character)
     end
     return r
 end
@@ -150,8 +151,8 @@ function MP:rotateMoveable(_character, _square, _origSpriteName, ...)
         if not obj or not self:canRotateMoveableInternal(_square,obj) then return end
     end
     local ours = authority() and modelOfSprite(_origSpriteName) ~= nil
-    if ours then LiveWire.Devices.beginRotation() end
+    if ours then LiveWire.Events.emit(LiveWire.Events.ROTATION_STARTED) end
     local r = origRotate(self, _character, _square, _origSpriteName, ...)
-    if ours then LiveWire.Devices.endRotation() end
+    if ours then LiveWire.Events.emit(LiveWire.Events.ROTATION_ENDED) end
     return r
 end
