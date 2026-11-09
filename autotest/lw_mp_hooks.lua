@@ -11,6 +11,22 @@
 -- The server waits for the client commands (parameter client=0: no wait).
 local H = { server = {}, client = {} }
 
+-- Test worlds without zombies (user request, 2026-11-09): every zombie of the loaded cell is
+-- removed at each poll, and the player is invisible and invulnerable.
+local function clearZombies()
+    local cell = getCell()
+    local list = cell and cell:getZombieList()
+    if not list then return end
+    for i = list:size() - 1, 0, -1 do
+        local z = list:get(i)
+        z:removeFromWorld(); z:removeFromSquare()
+    end
+end
+local function untouchable(p)
+    if p then p:setGodMod(true); p:setInvisible(true) end
+end
+
+
 local SHEET = "batman_livewire_01_"
 local COMPUTER_SPRITE = "appliances_com_01_72"
 
@@ -242,6 +258,7 @@ end
 -- Polled every 250 ms: the commands need the computer square powered by our anchor;
 -- then wait for the client to switch inverter A off and on again.
 function H.server.done(ctx)
+    clearZombies()
     local rep = S.rep
     local now = getTimestampMs()
     if S.phase == "commands" then
@@ -342,6 +359,7 @@ local function via(f)
 end
 
 function H.client.start(ctx)
+    untouchable(getPlayer())
     C.t0 = getTimestampMs()
     C.phase = "scan"
     return true
@@ -403,9 +421,53 @@ function H.client.done(ctx)
         local st = LiveWire.Marks.get(C.A.inv).st
         if st ~= "on" and now - C.t1 < 20000 then return false end
         rep.rec(st == "on", "A: inverter switched on again from the computer", "st=" .. tostring(st))
+        -- D-56 (plan lcd-commun L6): the inverter screen on a networked client, then the bank screen.
+        LiveWire.InverterPanel.open(getPlayer(), C.A.invId, C.A.inv)
+        C.phase, C.t1 = "lcdInverter", now
+        return false
+    end
+    if C.phase == "lcdInverter" and now - C.t1 > 3000 then
+        local inst = LiveWire.InverterPanel.instance
+        local snap = LiveWire.Client.snapshot(C.A.invId)
+        rep.rec(inst ~= nil and snap ~= nil and snap.inverter.state == "on", "LCD: inverter screen open and lit on the MP client",
+            snap and snap.inverter.state)
+        pcall(takeScreenshot, "mp_lcd_inverter.png")
+        if inst then inst:close() end
+        -- The bank of network A, the player moved next to it (its window closes beyond 3.5 tiles).
+        -- The server put the bank next to the player's spawn: look around the player, by its mark.
+        local pl, bank = getPlayer(), nil
+        local px, py, pz = math.floor(pl:getX()), math.floor(pl:getY()), math.floor(pl:getZ())
+        for x = px - 8, px + 8 do
+            for y = py - 8, py + 8 do
+                local sq = not bank and getCell():getGridSquare(x, y, pz)
+                local objs = sq and sq:getObjects()
+                for i = 0, objs and objs:size() - 1 or -1 do
+                    local o = objs:get(i)
+                    local m = LiveWire.Marks.get(o)
+                    local def = m and m.model and LiveWire.Defs.devices[m.model]
+                    if def and def.role == "storage" then bank = o end
+                end
+            end
+        end
+        rep.rec(bank ~= nil, "LCD: power bank of network A found by the client")
+        if not bank then return true end
+        local p, bs = getPlayer(), bank:getSquare()
+        p:setX(bs:getX() + 1.5); p:setY(bs:getY() + 0.5); p:setLastX(p:getX()); p:setLastY(p:getY())
+        LiveWire.BankPanel.open(p, bank)
+        C.phase, C.t1 = "lcdBank", now
+        return false
+    end
+    if C.phase == "lcdBank" then
+        local v = LiveWire.Client.bankView
+        if not (v and v.snapshot) and now - C.t1 < 10000 then return false end
+        if now - C.t1 < 3000 then return false end
+        rep.rec(LiveWire.BankPanel.instance ~= nil and v ~= nil and v.snapshot ~= nil,
+            "LCD: bank screen open with the server's reply on the MP client")
+        pcall(takeScreenshot, "mp_lcd_bank.png")
+        if LiveWire.BankPanel.instance then LiveWire.BankPanel.instance:close() end
         return true
     end
-    return true
+    return false
 end
 
 function H.client.result(ctx)
