@@ -167,6 +167,9 @@ def main() -> None:
     framed.resize((32, 32)).save(icons / "Item_LWXPanel.png")
     for name, text, double in (("15", "15", False), ("20", "20", False), ("30", "30", False), ("2P30", "2x30", True)):
         breaker_icon(text, double).save(icons / f"Item_LWXBreaker{name}.png")
+    twilight = breaker_icon("", False)
+    ImageDraw.Draw(twilight).ellipse([12, 18, 20, 26], fill=(240, 200, 60, 255))
+    twilight.save(icons / "Item_LWXTwilightSwitch.png")
     sheet.image().save(project / "source" / "tiles" / f"{SHEET}_sheet.png")
     print(f"packed {len(images)} sprites into {media}")
 

@@ -65,7 +65,7 @@ function PS.removeBreaker(character, obj, pos)
         return false
     end
     table.remove(record.slots, i)
-    if PS.onBreakerRemoved then PS.onBreakerRemoved(record, slot) end
+    if PS.onBreakerRemoved then PS.onBreakerRemoved(record, slot, character) end
     LiveWire.Install.giveItem(character, slot.type)
     transmit()
     LiveWire.notify(character, "IGUI_LWX_BreakerRemoved", {})

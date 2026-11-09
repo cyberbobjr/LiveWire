@@ -222,6 +222,9 @@ function LWXBreakerAction:complete()
     if self.mode == "label" then
         return X.Panels.setLabel ~= nil and X.Panels.setLabel(ch, obj, tonumber(self.pos), self.text)
     end
+    if self.mode == "twilightOn" or self.mode == "twilightOff" then
+        return X.Panels.setTwilight ~= nil and X.Panels.setTwilight(ch, obj, tonumber(self.pos), self.mode == "twilightOn")
+    end
     if type(self.fullType) ~= "string" or not X.Breakers.TYPES[self.fullType] then return false end
     return X.Panels.installBreaker(ch, obj, self.fullType)
 end

@@ -86,7 +86,7 @@ end
 function PT.blockedKey(key, x, y, z)
     local p = PT.point(key)
     local slot = p and PT.slotOf(p)
-    if slot then return slot.off == true or slot.tripped == true end
+    if slot then return X.Breakers.isOpen(slot) end
     return PT.servedAt(x, y, z)
 end
 

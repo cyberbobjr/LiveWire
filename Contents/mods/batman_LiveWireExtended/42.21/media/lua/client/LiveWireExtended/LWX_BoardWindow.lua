@@ -133,6 +133,7 @@ function Window:render()
     for _, slot in ipairs(record.slots or {}) do
         local ty = y + ((ROW_H - 6) * k - FONT_H) / 2
         local name = slot.label ~= "" and slot.label or getText("IGUI_LWX_ModuleName", tostring(slot.pos))
+        if slot.twilight then name = getText("IGUI_LWX_TwilightTag", name) end
         self:setStencilRect((PAD + 80) * k, y, 165 * k, ROW_H * k)
         self:drawText(name, (PAD + 80) * k, ty, 1, 1, 1, 1, UIFont.Small)
         self:clearStencilRect()

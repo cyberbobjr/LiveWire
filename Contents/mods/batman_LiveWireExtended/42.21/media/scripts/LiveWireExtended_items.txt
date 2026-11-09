@@ -271,4 +271,36 @@ module Base
             item 1 Base.LWXBreaker2P30,
         }
     }
+
+    /* PLACEHOLDER icon. Twilight switch module fitted on a breaker (D-39): its circuit is
+       closed only between dusk and dawn. Weight is above the recipe inputs. */
+    item LWXTwilightSwitch
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.3,
+        Icon = LWXTwilightSwitch,
+    }
+
+    craftRecipe LWXMakeTwilightSwitch
+    {
+        timedAction = MakingElectrical,
+        time = 200,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:5,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 2 [Base.ElectronicsScrap],
+            item 1 [Base.ElectricWire],
+        }
+        outputs
+        {
+            item 1 Base.LWXTwilightSwitch,
+        }
+    }
 }

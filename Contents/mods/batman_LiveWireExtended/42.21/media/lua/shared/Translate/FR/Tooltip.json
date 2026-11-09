@@ -22,5 +22,7 @@
     "Tooltip_LWX_NeedPen": "Nécessite un stylo ou un crayon.",
     "Tooltip_LWX_WiredTo": "Circuit : %1 (%2 A), %3 W mesurés.",
     "Tooltip_LWX_UnwiredServed": "Pas de courant : un tableau dessert ce bâtiment et cet appareil n'est raccordé à aucun disjoncteur.",
-    "Tooltip_LWX_MachineCut": "Pas de courant : son disjoncteur est coupé, ou il n'est raccordé à aucun disjoncteur dans un bâtiment desservi par un tableau."
+    "Tooltip_LWX_MachineCut": "Pas de courant : son disjoncteur est coupé, ou il n'est raccordé à aucun disjoncteur dans un bâtiment desservi par un tableau.",
+    "Tooltip_LWX_Twilight": "Le circuit n'est alors fermé qu'entre le crépuscule et l'aube.",
+    "Tooltip_LWX_NoTwilightItem": "Vous n'avez pas d'interrupteur crépusculaire."
 }

@@ -6,5 +6,6 @@
     "Base.LWXBreaker15": "Disjoncteur 15 A",
     "Base.LWXBreaker20": "Disjoncteur 20 A",
     "Base.LWXBreaker30": "Disjoncteur 30 A",
-    "Base.LWXBreaker2P30": "Disjoncteur double 30 A (240 V)"
+    "Base.LWXBreaker2P30": "Disjoncteur double 30 A (240 V)",
+    "Base.LWXTwilightSwitch": "Interrupteur crépusculaire"
 }

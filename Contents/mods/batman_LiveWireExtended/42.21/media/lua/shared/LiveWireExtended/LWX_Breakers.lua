@@ -104,3 +104,18 @@ function B.pointList(slot)
     table.sort(out)
     return out
 end
+
+-- ---------------------------------------------------------------- twilight (E21)
+B.TWILIGHT_ITEM = "Base.LWXTwilightSwitch"
+
+-- Between the season's dusk and dawn (decimal hours, as the solar panels use).
+function B.isNight()
+    local season = getClimateManager():getSeason()
+    local hour = getGameTime():getTimeOfDay()
+    return hour >= season:getDusk() or hour < season:getDawn()
+end
+
+-- Is the breaker's circuit open (switched off, tripped, or a twilight switch by day)?
+function B.isOpen(slot)
+    return slot.off == true or slot.tripped == true or (slot.twilight == true and not B.isNight())
+end

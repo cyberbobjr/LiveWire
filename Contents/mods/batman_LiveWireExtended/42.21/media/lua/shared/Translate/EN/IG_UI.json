@@ -32,5 +32,8 @@
     "IGUI_LWX_BoardEmpty": "No breaker yet. Install one with a screwdriver.",
     "IGUI_LWX_ModuleName": "Module %1",
     "IGUI_LWX_Load": "%1 W, %2 A of %3, %4 point(s)",
-    "IGUI_LWX_LabelWritten": "Label written."
+    "IGUI_LWX_LabelWritten": "Label written.",
+    "IGUI_LWX_TwilightFitted": "Twilight switch fitted to module %1.",
+    "IGUI_LWX_TwilightRemoved": "Twilight switch removed from module %1.",
+    "IGUI_LWX_TwilightTag": "%1 (night only)"
 }

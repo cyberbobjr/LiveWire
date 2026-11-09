@@ -32,5 +32,8 @@
     "IGUI_LWX_BoardEmpty": "Aucun disjoncteur. Installez-en un au tournevis.",
     "IGUI_LWX_ModuleName": "Module %1",
     "IGUI_LWX_Load": "%1 W, %2 A sur %3, %4 point(s)",
-    "IGUI_LWX_LabelWritten": "Étiquette écrite."
+    "IGUI_LWX_LabelWritten": "Étiquette écrite.",
+    "IGUI_LWX_TwilightFitted": "Interrupteur crépusculaire posé sur le module %1.",
+    "IGUI_LWX_TwilightRemoved": "Interrupteur crépusculaire retiré du module %1.",
+    "IGUI_LWX_TwilightTag": "%1 (nuit seulement)"
 }

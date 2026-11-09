@@ -210,6 +210,15 @@ function Menu.panelExtra(sub, player, obj)
         sub:addOption(getText(key, Menu.slotLabel(slot)), player, Menu.onBreaker, obj, nil, slot.pos,
             (slot.off or slot.tripped) and "on" or "off")
     end
+    for _, slot in ipairs(record and record.slots or {}) do
+        local o = sub:addOption(getText(slot.twilight and "ContextMenu_LWX_TwilightRemove" or "ContextMenu_LWX_TwilightFit",
+            Menu.slotLabel(slot)), player, Menu.onBreaker, obj, nil, slot.pos, slot.twilight and "twilightOff" or "twilightOn")
+        if not slot.twilight then
+            if not LiveWire.Install.screwdriver(player) then disable(o, "Tooltip_LW_NeedScrewdriver")
+            elseif LiveWire.Install.countType(player, B.TWILIGHT_ITEM) < 1 then disable(o, "Tooltip_LWX_NoTwilightItem")
+            else hint(o, "Tooltip_LWX_Twilight") end
+        end
+    end
     Menu.addWireApplianceOptions(sub, player, obj, record)
     for _, slot in ipairs(record and record.slots or {}) do
         sub:addOption(getText("ContextMenu_LWX_RemoveBreaker", tostring(slot.pos), itemName(slot.type)),

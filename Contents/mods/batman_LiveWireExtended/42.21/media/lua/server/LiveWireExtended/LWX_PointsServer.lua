@@ -110,8 +110,8 @@ end
 
 -- A breaker leaves its board: its points are unwired.
 local previousRemoved = PS.onBreakerRemoved
-PS.onBreakerRemoved = function(record, slot)
-    if previousRemoved then previousRemoved(record, slot) end
+PS.onBreakerRemoved = function(record, slot, character)
+    if previousRemoved then previousRemoved(record, slot, character) end
     applyKeys(dropSlotPoints(slot))
 end
 
