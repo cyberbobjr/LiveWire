@@ -42,10 +42,13 @@ function PR.check()
     local boards = X.Data.table().panels
     if not boards then return end
     local loads, any = PR.loads(), false
+    local now = getGameTime():getWorldAgeHours()
     for boardKey, r in pairs(boards) do
         for _, slot in ipairs(r.slots or {}) do
             local load = math.floor((loads[boardKey .. "#" .. slot.pos] or 0) + 0.5)
             if slot.load ~= load then slot.load, any = load, true end  -- shown by the board window
+            B.meterAdd(slot, load, now)  -- energy of the interval, before a trip (E24)
+            any = true
             if not slot.off and not slot.tripped and load > B.capacityW(slot) then
                 slot.tripped = true
                 PR.lastTrip = { board = boardKey, pos = slot.pos, load = load }

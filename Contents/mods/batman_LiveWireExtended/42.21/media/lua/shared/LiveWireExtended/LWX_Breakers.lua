@@ -119,3 +119,38 @@ end
 function B.isOpen(slot)
     return slot.off == true or slot.tripped == true or (slot.twilight == true and not B.isNight())
 end
+
+-- ---------------------------------------------------------------- meter (E24)
+B.METER_DAYS = 60   -- as Live Wire's power history
+
+-- Add the energy of `loadW` since the last update to the breaker's meter; a new day
+-- closes the previous one (the interval counts on the day it ends on, as a meter read
+-- every ten minutes). slot.meter = { day, kwh, at, days = { { day, kwh } } }.
+function B.meterAdd(slot, loadW, nowH)
+    local day = math.floor(nowH / 24)
+    local m = slot.meter
+    if not m then
+        slot.meter = { day = day, kwh = 0, at = nowH, days = {} }
+        return
+    end
+    local dt = math.max(0, nowH - (m.at or nowH))
+    m.kwh = m.kwh + loadW * dt / 1000
+    m.at = nowH
+    if day ~= m.day then
+        m.days[#m.days + 1] = { day = m.day, kwh = m.kwh }
+        while #m.days > B.METER_DAYS do table.remove(m.days, 1) end
+        m.day, m.kwh = day, 0
+    end
+end
+
+-- { today, yesterday, week } in kWh (week = today and the six previous days).
+function B.meterSummary(slot)
+    local m = slot.meter
+    if not m then return { today = 0, yesterday = 0, week = 0 } end
+    local out = { today = m.kwh, yesterday = 0, week = m.kwh }
+    for _, d in ipairs(m.days) do
+        if d.day == m.day - 1 then out.yesterday = d.kwh end
+        if d.day >= m.day - 6 then out.week = out.week + d.kwh end
+    end
+    return out
+end

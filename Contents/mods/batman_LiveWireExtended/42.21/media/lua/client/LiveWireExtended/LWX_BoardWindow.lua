@@ -16,7 +16,7 @@ local B = X.Breakers
 local Window = ISPanel:derive("LWXBoardWindow")
 X.BoardWindow = Window
 
-local BASE_W, ROW_H, PAD = 780, 30, 10
+local BASE_W, ROW_H, PAD = 780, 44, 10
 local FONT_H = getTextManager():getFontHeight(UIFont.Small)
 
 function Window:record()
@@ -131,7 +131,7 @@ function Window:render()
         self:drawText(getText("IGUI_LWX_BoardEmpty"), PAD * k, y, 0.8, 0.8, 0.8, 1, UIFont.Small)
     end
     for _, slot in ipairs(record.slots or {}) do
-        local ty = y + ((ROW_H - 6) * k - FONT_H) / 2
+        local ty = y + 2 * k
         local name = slot.label ~= "" and slot.label or getText("IGUI_LWX_ModuleName", tostring(slot.pos))
         if slot.twilight then name = getText("IGUI_LWX_TwilightTag", name) end
         self:setStencilRect((PAD + 80) * k, y, 165 * k, ROW_H * k)
@@ -144,6 +144,10 @@ function Window:render()
         if slot.tripped then r, g, bl = 0.95, 0.35, 0.3 elseif slot.off then r, g, bl = 0.6, 0.6, 0.6 end
         self:setStencilRect((PAD + 250) * k, y, (BASE_W - 2 * PAD - 425) * k, ROW_H * k)
         self:drawText(load, (PAD + 250) * k, ty, r, g, bl, 1, UIFont.Small)
+        -- Energy meter of the circuit (E24).
+        local m = B.meterSummary(slot)
+        self:drawText(getText("IGUI_LWX_Meter", string.format("%.1f", m.today), string.format("%.1f", m.yesterday),
+            string.format("%.1f", m.week)), (PAD + 250) * k, ty + FONT_H, 0.6, 0.65, 0.6, 1, UIFont.Small)
         self:clearStencilRect()
         y = y + ROW_H * k
     end
@@ -188,3 +192,24 @@ function Window.open(player, board)
     Window.instance = win
     return win
 end
+
+-- Inverter software, House tab (Live Wire hook): energy of each breaker of the boards
+-- linked to this inverter.
+local function softwareLines(inverterId)
+    local out = {}
+    for _, r in pairs(X.Data.table().panels or {}) do
+        if tostring(r.inv) == tostring(inverterId) then
+            for _, slot in ipairs(r.slots or {}) do
+                local m = B.meterSummary(slot)
+                local name = slot.label ~= "" and slot.label or getText("IGUI_LWX_ModuleName", tostring(slot.pos))
+                out[#out + 1] = getText("IGUI_LWX_SoftwareMeter", name, string.format("%.1f", m.today),
+                    string.format("%.1f", m.yesterday))
+            end
+        end
+    end
+    return out
+end
+
+Events.OnGameStart.Add(function()
+    if LiveWire.SoftwareApp then LiveWire.SoftwareApp.houseProvider = softwareLines end
+end)

@@ -35,5 +35,7 @@
     "IGUI_LWX_LabelWritten": "Label written.",
     "IGUI_LWX_TwilightFitted": "Twilight switch fitted to module %1.",
     "IGUI_LWX_TwilightRemoved": "Twilight switch removed from module %1.",
-    "IGUI_LWX_TwilightTag": "%1 (night only)"
+    "IGUI_LWX_TwilightTag": "%1 (night only)",
+    "IGUI_LWX_Meter": "%1 kWh today, %2 kWh yesterday, %3 kWh in 7 days",
+    "IGUI_LWX_SoftwareMeter": "Breaker %1: %2 kWh today, %3 kWh yesterday"
 }

@@ -332,6 +332,13 @@ function App:drawSources(ui, x, y, w, h, snap)
     end
 end
 
+-- Optional lines of a sub-mod under the appliances of the House tab:
+-- App.houseProvider(inverterId) -> array of translated strings. None by default.
+function App:houseExtra()
+    local provider = App.houseProvider
+    return provider and self.inverterId and provider(self.inverterId) or {}
+end
+
 function App:drawHouse(ui, x, y, w, h, snap)
     local cy = card(ui, x, y, w, h, T("IGUI_LW_Section_House"))
     text(ui, T("IGUI_LW_LCD_Range", snap.coverage and snap.coverage.radius or 20,
@@ -349,6 +356,11 @@ function App:drawHouse(ui, x, y, w, h, snap)
         text(ui, T("IGUI_LW_Appliance_" .. ap[i].cat), x + 10, cy, C.text, UIFont.Small, w - 40 - barW - rightW)
         bar(ui, x + w - 20 - rightW - barW, cy + 3, barW, 8, ap[i].w / maxW, C.blue)
         textRight(ui, T("IGUI_LW_App_ApplianceState", ap[i].n, ap[i].w), x + w - 10, cy, C.dim)
+        cy = cy + fh(UIFont.Small) + 3
+    end
+    for _, line in ipairs(self:houseExtra()) do
+        if cy > y + h - 18 then break end
+        text(ui, line, x + 10, cy, C.dim, UIFont.Small, w - 20)
         cy = cy + fh(UIFont.Small) + 3
     end
 end
