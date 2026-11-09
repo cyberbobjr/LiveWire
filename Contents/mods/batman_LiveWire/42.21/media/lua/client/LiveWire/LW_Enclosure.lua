@@ -191,12 +191,17 @@ end
 -------------------------------------------------------------------------------
 
 local rect, border = LiveWire.UIKit.rect, LiveWire.UIKit.border
+E.rect, E.border = rect, border
 
 local function factorOf(ui) return ui.lwK or 1 end
 
 -- Measure of a text in reference units for a font.
 function E.measurer(ui, font)
-    local k = factorOf(ui)
+    return E.measureAt(factorOf(ui), font)
+end
+
+-- The same measure for a window factor k, without a window (sizes are computed at opening).
+function E.measureAt(k, font)
     local tm = getTextManager()
     return function(s) return tm:MeasureStringX(font, s) / k end
 end
@@ -357,10 +362,10 @@ function E.hintScrews(ui, L)
     screw(ui, L.encX + L.encW - 22, L.hintY)
 end
 
--- Button of the grid cell `cell` (from E.grid), with the layout's button height; the reference
--- coordinates are scaled by the window factor through LW_UIKit.button.
-function E.cellButton(ui, L, index, title, onclick, internal, cells)
-    local cell = cells[index]
+-- Button of cell `index` of the layout's button grid (L.cells); the reference coordinates are
+-- scaled by the window factor through LW_UIKit.button.
+function E.cellButton(ui, L, index, title, onclick, internal)
+    local cell = L.cells[index]
     return LiveWire.UIKit.button(ui, L.inX + cell.x, L.btnY + cell.y, cell.w, cell.h, title, onclick, internal,
         ui.lwK)
 end

@@ -12,6 +12,9 @@ class DevicePanels(unittest.TestCase):
         self.lua = self.helper.lua
 
     def load(self, name):
+        # require() is not run here: the enclosure kit that the breaker window needs loads first.
+        if name.endswith('LW_BreakerPanel.lua'):
+            self.lua.execute(Path(LUA, 'client/LiveWire/LW_Enclosure.lua').read_text(encoding='ascii'))
         self.lua.execute(Path(LUA, name).read_text(encoding='ascii'))
 
     def world(self):

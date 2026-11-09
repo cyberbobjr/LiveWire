@@ -11,7 +11,6 @@ Contract with the Lua code (LWX_Terminal.lua, LWX_Panel.lua): never renumber the
   10-11 breaker board, 16 modules        S E
   12-13 breaker board, 24 modules        S E
   14-15 reserved (blank)
-Board window art (media/textures): LWX_UI_module_on/off/tripped/empty.png (front of a module).
 Item icons (64 x 64, media/textures): Item_LWXTerminal, Item_LWXPanel, Item_LWXBreaker15/20/30,
 Item_LWXTwilightSwitch.
 
@@ -229,60 +228,6 @@ ICONS = [
 
 
 # --------------------------------------------------------------------------- #
-# Board window art (front views of one module, media/textures/LWX_UI_*.png)
-# --------------------------------------------------------------------------- #
-
-UI_STATES = ("on", "off", "tripped", "empty")
-
-
-def build_module_ui(state: str):
-    """One DIN module seen from the front (-Y), lever up (on), down (off), half (tripped)."""
-    def fn(k: Kit):
-        w, h = MODULE_W - 0.005, 0.13
-        if state == "empty":
-            k.box("u_cover", (0, 0, 0), (w, 0.02, h), "enclosure", bevel=0.08)
-            k.box("u_slot", (0, -0.011, 0), (w * 0.55, 0.004, 0.012), "frame")
-            return
-        k.box("u_body", (0, 0, 0), (w, 0.045, h), "module", bevel=0.10)
-        k.box("u_window", (0, -0.024, 0.040), (0.026, 0.004, 0.034), "darksteel")
-        z, tilt = {"on": (0.052, -0.45), "off": (0.028, 0.45), "tripped": (0.040, 0.0)}[state]
-        k.box("u_lever", (0, -0.034, z), (0.020, 0.024, 0.036), "red" if state == "tripped" else "black",
-              rot=(tilt, 0, 0))
-        if state == "tripped":
-            k.box("u_flag", (0, -0.0265, -0.012), (0.026, 0.003, 0.014), "redlit")
-        k.box("u_terminal_top", (0, -0.0235, 0.058), (0.030, 0.003, 0.008), "steel")
-        k.box("u_terminal_bottom", (0, -0.0235, -0.058), (0.030, 0.003, 0.008), "steel")
-    return fn
-
-
-def render_ui(scene, subject, mats, out: Path) -> None:
-    """Front orthographic renders, 96 x 224 px, transparent, Standard view transform."""
-    cam = bpy.data.objects.new("LWX_UICam", bpy.data.cameras.new("LWX_UICam"))
-    scene.collection.objects.link(cam)
-    cam.data.type = "ORTHO"
-    cam.data.ortho_scale = 0.140
-    cam.location = (0, -1.0, 0)
-    cam.rotation_euler = (math.pi / 2, 0, 0)
-    saved = (scene.camera, scene.render.resolution_x, scene.render.resolution_y, scene.render.filepath,
-             scene.render.film_transparent, scene.view_settings.view_transform, scene.view_settings.exposure)
-    try:
-        scene.camera = cam
-        scene.render.resolution_x, scene.render.resolution_y = 96, 224
-        scene.render.film_transparent = True
-        scene.view_settings.view_transform = "Standard"
-        scene.view_settings.exposure = 0.7
-        for state in UI_STATES:
-            clear_subject(subject)
-            build_module_ui(state)(Kit(subject, mats))
-            scene.render.filepath = str(out / f"LWX_UI_module_{state}.png")
-            bpy.ops.render.render(write_still=True)
-    finally:
-        (scene.camera, scene.render.resolution_x, scene.render.resolution_y, scene.render.filepath,
-         scene.render.film_transparent, scene.view_settings.view_transform, scene.view_settings.exposure) = saved
-        bpy.data.objects.remove(cam, do_unlink=True)
-
-
-# --------------------------------------------------------------------------- #
 # Groups (forge rendering, depth maps) and showcase
 # --------------------------------------------------------------------------- #
 
@@ -381,10 +326,6 @@ def main() -> None:
         props.output_dir = str(out / group["key"])
         manifest = F.render_cells(bpy.context)
         print(f"rendered {group['key']}: {len(manifest['cells'])} cells")
-    if not only or "ui" in only:
-        (out / "ui").mkdir(parents=True, exist_ok=True)
-        render_ui(scene, subject, mats, out / "ui")
-        print("rendered board window art")
     if not only or "icons" in only:
         (out / "icons").mkdir(parents=True, exist_ok=True)
         for name, fn, span in ICONS:
@@ -460,10 +401,7 @@ def package(cells_dir: Path, project: Path) -> None:
         square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
         square.paste(img, ((side - img.width) // 2, (side - img.height) // 2))
         square.resize((64, 64), Image.LANCZOS).save(icons / f"Item_{name}.png")
-    for state in UI_STATES:
-        Image.open(cells_dir / "ui" / f"LWX_UI_module_{state}.png").convert("RGBA").save(
-            icons / f"LWX_UI_module_{state}.png")
-    print(f"packed {len(images)} sprites, {len(ICONS)} icons and the board window art into {media} and {icons}")
+    print(f"packed {len(images)} sprites, {len(ICONS)} icons into {media} and {icons}")
 
 
 if __name__ == "__main__":
