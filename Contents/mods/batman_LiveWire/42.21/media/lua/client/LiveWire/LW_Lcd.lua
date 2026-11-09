@@ -29,6 +29,21 @@ Lcd.GLARE_ALPHA = 0.16
 Lcd.SCROLL = 40
 Lcd.SCROLL_PAUSE_MS = 1200
 
+-- Screen of the bank and device windows, 1080p reference pixels (scaled with LW_UIScale.layout):
+-- frame at lcdX, lcdY, `lcdInner` thick, lcdBottom above the window's bottom; lines from textX,
+-- lineY, clipped to clipX, clipY .. width - clipRight, height - clipBottom.
+Lcd.DEVICE_BASE = { lcdX = 14, lcdY = 42, lcdInner = 5, lcdBottom = 106,
+    textX = 28, clipX = 27, clipY = 48, clipRight = 54, clipBottom = 118, lineY = 56, linePad = 4,
+    scroll = Lcd.SCROLL }
+
+-- Copy of `base` with the screen sizes of DEVICE_BASE added.
+function Lcd.withDeviceScreen(base)
+    local t = {}
+    for name, v in pairs(Lcd.DEVICE_BASE) do t[name] = v end
+    for name, v in pairs(base) do t[name] = v end
+    return t
+end
+
 local function palette(variant)
     if type(variant) == "table" then return variant end
     return Lcd.PALETTE[variant or "green"] or Lcd.PALETTE.green
@@ -141,6 +156,16 @@ end
 -- "Waiting for data" text.
 function Lcd.waiting(ui, x, y, variant, font)
     Lcd.text(ui, getText("IGUI_LW_Waiting"), x, y, variant, font)
+end
+
+-- Screen of a bank or device window (layout L from DEVICE_BASE, window width W and height H).
+-- Returns a function line(s, y) drawing one clipped, scrolling line.
+function Lcd.deviceScreen(ui, L, W, H, variant, font, now)
+    Lcd.frame(ui, L.lcdX, L.lcdY, W - 2 * L.lcdX, H - L.lcdBottom, variant, L.lcdInner)
+    local clip = { L.clipX, L.clipY, W - L.clipRight, H - L.clipBottom }
+    local avail = L.clipX + clip[3] - L.textX
+    local opts = { font = font, now = now, speed = L.scroll, clip = clip }
+    return function(s, y) Lcd.line(ui, s, L.textX, y, avail, variant, opts) end
 end
 
 -- Page indicator "page/count" at x.

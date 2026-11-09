@@ -5,16 +5,16 @@ require "ISUI/ISButton"
 require "LiveWire/LW_Stack"
 require "LiveWire/LW_UIScale"
 require "LiveWire/LW_UIKit"
+require "LiveWire/LW_Lcd"
 LiveWire = LiveWire or {}
 local Panel = ISPanel:derive("LiveWireBankPanel")
 LiveWire.BankPanel = Panel
 LiveWire.UIKit.singleton("BankPanel", Panel)
 -- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
-local BASE = { w=500, h=350, fixedH=160, btnH=28, btnBottom=48, side=18,
+-- Screen sizes: LiveWire.Lcd.DEVICE_BASE.
+local BASE = LiveWire.Lcd.withDeviceScreen({ w=500, h=350, fixedH=160, btnH=28, btnBottom=48, side=18,
     nextX=96, arrowW=70, stackX=174, stackW=140, linksX=322, linksW=160, closeX=36, closeY=6, closeW=26,
-    brandY=10, titleX=190, titleY=14, lcdX=14, lcdY=42, lcdInner=5, lcdBottom=106, lcdInnerBottom=116,
-    textX=28, clipX=27, clipY=48, clipRight=54, clipBottom=118, lineY=56, barH=15, barIn=3, barFill=9,
-    barW=56, barFillW=62, after=24, gap=32, linePad=4 }
+    brandY=10, titleX=190, titleY=14, barH=15, barIn=3, barW=56, after=24, gap=32 })
 Panel.BASE = BASE
 -- Unscaled layout until a window is opened (instances made without open()).
 Panel.L = LiveWire.UIScale.layout(1, BASE)
@@ -92,16 +92,12 @@ end
 function Panel:render()
     if self.closed then return end
     ISPanel.render(self)
-    local font=LiveWire.Client.lcdFont()
+    local Lcd=LiveWire.Lcd
+    local font=Lcd.font()
     local L,W=self.L,self.width
     self:drawText("LIVE WIRE",L.side,L.brandY,0.85,0.87,0.9,1,UIFont.Medium)
     self:drawText(getText("IGUI_LW_BankTitle"),L.titleX,L.titleY,0.85,0.87,0.9,1,UIFont.Small)
-    self:drawRect(L.lcdX,L.lcdY,W-2*L.lcdX,self.height-L.lcdBottom,1,0.06,0.07,0.06)
-    self:drawRect(L.lcdX+L.lcdInner,L.lcdY+L.lcdInner,W-2*(L.lcdX+L.lcdInner),self.height-L.lcdInnerBottom,1,0.62,0.74,0.40)
-    local function line(s,y)
-        self:setStencilRect(L.clipX,L.clipY,W-L.clipRight,self.height-L.clipBottom)
-        self:drawText(s,L.textX,y,0.08,0.13,0.05,1,font);self:clearStencilRect()
-    end
+    local line=Lcd.deviceScreen(self,L,W,self.height,"green",font,getTimestampMs())
     local fh=L.fh or getTextManager():getFontHeight(font)+L.linePad
     local top=L.lineY
     local m=LiveWire.Marks.get(self.obj)
@@ -114,8 +110,7 @@ function Panel:render()
     line(getText("IGUI_LW_LCD_Stock",pct),top+2*fh)
     line(getText("IGUI_LW_LCD_Kwh",string.format("%.2f",s.stock),string.format("%.2f",s.capacity)),top+3*fh)
     local by=top+4*fh
-    self:drawRectBorder(L.textX,by,W-L.barW,L.barH,1,0.08,0.13,0.05)
-    self:drawRect(L.textX+L.barIn,by+L.barIn,(W-L.barFillW)*LiveWire.clamp(pct/100,0,1),L.barFill,1,0.08,0.13,0.05)
+    Lcd.bar(self,L.textX,by,W-L.barW,L.barH,pct/100,"green",L.barIn)
     line(getText("IGUI_LW_BankSlots",#s.batteries,s.slots,s.extra),by+L.after)
     line(getText("IGUI_LW_BankReserve",string.format("%.2f",s.reserve)),by+L.after+fh)
     local b=s.batteries[self.page]

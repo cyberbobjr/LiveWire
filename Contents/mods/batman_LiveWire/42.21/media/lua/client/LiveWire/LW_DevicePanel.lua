@@ -4,15 +4,16 @@ require "ISUI/ISPanel"
 require "ISUI/ISButton"
 require "LiveWire/LW_UIScale"
 require "LiveWire/LW_UIKit"
+require "LiveWire/LW_Lcd"
 LiveWire = LiveWire or {}
 local Panel = ISPanel:derive("LiveWireDevicePanel")
 LiveWire.DevicePanel = Panel
 LiveWire.UIKit.singleton("DevicePanel", Panel)
 -- Sizes at the 1080p reference font, scaled once per window (LW_UIScale.lua).
-local BASE = { w=500, h=330, fixedH=150, btnH=28, btnBottom=48, side=18, closeX=36, closeY=6, closeW=26,
-    brandY=10, titleX=190, titleClipY=10, titleRight=240, titleClipH=28, titleY=14,
-    lcdX=14, lcdY=42, lcdInner=5, lcdBottom=106, lcdInnerBottom=116,
-    textX=28, clipX=27, clipY=48, clipRight=54, clipBottom=118, lineY=56, linePad=4 }
+-- Screen sizes: LiveWire.Lcd.DEVICE_BASE.
+local BASE = LiveWire.Lcd.withDeviceScreen({ w=500, h=330, fixedH=150, btnH=28, btnBottom=48, side=18,
+    closeX=36, closeY=6, closeW=26,
+    brandY=10, titleX=190, titleClipY=10, titleRight=240, titleClipH=28, titleY=14 })
 Panel.BASE = BASE
 -- Unscaled layout until a window is opened (instances made without open()).
 Panel.L = LiveWire.UIScale.layout(1, BASE)
@@ -116,20 +117,12 @@ function Panel:render()
     self:setStencilRect(L.titleX,L.titleClipY,W-L.titleRight,L.titleClipH)
     self:drawText(getText("IGUI_LW_Model_"..(m and m.model or "")),L.titleX,L.titleY,0.85,0.87,0.9,1,UIFont.Small)
     self:clearStencilRect()
-    self:drawRect(L.lcdX,L.lcdY,W-2*L.lcdX,self.height-L.lcdBottom,1,0.06,0.07,0.06)
-    local pump=m and m.model=="WaterPump"
-    local ix,iy,iw,ih=L.lcdX+L.lcdInner,L.lcdY+L.lcdInner,W-2*(L.lcdX+L.lcdInner),self.height-L.lcdInnerBottom
-    if pump then self:drawRect(ix,iy,iw,ih,1,0.38,0.64,0.82)
-    else self:drawRect(ix,iy,iw,ih,1,0.62,0.74,0.40) end
-    local font=LiveWire.Client.lcdFont()
+    local Lcd=LiveWire.Lcd
+    local font=Lcd.font()
     local fh=L.fh or getTextManager():getFontHeight(font)+L.linePad
-    local r,g,b=0.08,0.13,0.05
-    if pump then r,g,b=0.05,0.11,0.20 end
-    self:setStencilRect(L.clipX,L.clipY,W-L.clipRight,self.height-L.clipBottom)
-    for i,line in ipairs(self:lines()) do
-        self:drawText(line,L.textX,L.lineY+(i-1)*fh,r,g,b,1,font)
-    end
-    self:clearStencilRect()
+    local variant=m and m.model=="WaterPump" and "pump" or "green"
+    local line=Lcd.deviceScreen(self,L,W,self.height,variant,font,getTimestampMs())
+    for i,s in ipairs(self:lines()) do line(s,L.lineY+(i-1)*fh) end
 end
 
 function Panel:close()
