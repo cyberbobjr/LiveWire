@@ -286,7 +286,8 @@ function H.server.done(ctx)
         if inv and inv.state == "off" then S.sawOff = true end
         if S.sawOff and inv and inv.state == "on" then
             rep.rec(true, "A: client switched the inverter off and on through the network")
-            return true
+            S.phase = "shock"
+            return false
         end
         if now - S.startedAt > S.waitMs then
             rep.rec(false, "A: client switched the inverter off and on through the network",
@@ -294,6 +295,32 @@ function H.server.done(ctx)
             return true
         end
         return false
+    end
+    if S.phase == "shock" then
+        -- 42.22: a live-work shock on the authority drops the held items (dropHeldItemsServer).
+        -- Fixtures: the shock roll is forced (ZombRand returns 0) and the skill set to 0 for this one call.
+        local players = getOnlinePlayers()
+        local p = players and players:size() > 0 and players:get(0)
+        local inv = devOf(S.A.inv)
+        if not p or not inv then rep.rec(false, "connected player for the shock test"); return true end
+        rep.rec(p.dropHeldItemsServer ~= nil, "42.22 API: dropHeldItemsServer reachable from Lua on the server",
+            type(p.dropHeldItemsServer))
+        local tool = p:getInventory():AddItem("Base.Screwdriver")
+        p:setPrimaryHandItem(tool)
+        -- The test account has Electricity 10 (no risk from 6): level 0 for this call only.
+        local level = p:getPerkLevel(Perks.Electricity)
+        p:setPerkLevelDebug(Perks.Electricity, 0)
+        local realRand = ZombRand
+        ZombRand = function() return 0 end
+        local ok, shocked = pcall(LiveWire.Maintenance.liveWork, p, LiveWire.Registry.grid(inv.grid))
+        ZombRand = realRand
+        p:setPerkLevelDebug(Perks.Electricity, level)
+        rep.rec(ok and shocked == true and p:getPrimaryHandItem() == nil,
+            "live-work shock on the server drops the held screwdriver",
+            "ok=" .. tostring(ok) .. " shocked=" .. tostring(shocked) .. " held=" .. tostring(p:getPrimaryHandItem())
+            .. " risk=" .. tostring(LiveWire.Config.get("LiveWorkRisk")) .. " level=" .. tostring(LiveWire.Install.level(p))
+            .. " inverter=" .. tostring(inv.state) .. " gridInverter=" .. tostring(LiveWire.Registry.grid(inv.grid).inverter))
+        return true
     end
     return true
 end
