@@ -96,11 +96,12 @@ function Panel:lines()
         rows[#rows+1]=getText("IGUI_LW_DeviceProduction",s.w)
         rows[#rows+1]=getText("IGUI_LW_DeviceNominal",s.nominal)
         rows[#rows+1]=getText("IGUI_LW_State_"..s.state)
-        if s.kind=="solar" then
-            rows[#rows+1]=getText("IGUI_LW_DeviceDirt",math.floor(s.dirt*100+0.5))
-            rows[#rows+1]=getText("IGUI_LW_DeviceSnow",math.floor(s.snow*100+0.5))
-        elseif s.kind=="wind" then
-            rows[#rows+1]=getText(s.brake and "IGUI_LW_DeviceBraked" or "IGUI_LW_DeviceReleased")
+        for _,f in ipairs(LiveWire.Defs.SOURCE_FIELDS[s.kind] or {}) do
+            if f.flag then
+                rows[#rows+1]=getText(s[f.field] and f.rowOn or f.rowOff)
+            elseif f.row then
+                rows[#rows+1]=getText(f.row,math.floor(s[f.field]*100+0.5))
+            end
         end
     end
     return rows

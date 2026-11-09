@@ -229,11 +229,14 @@ function Sim.snapshot(grid)
     for i = 1, #sources do
         local s = sources[i]
         local sdef = Defs.devices[s.model] or {}
-        snap.sources[i] = { id = s.id, model = s.model, kind = sdef.kind or "other",
-                            nominal = sdef.nominalW or 0, cond = math.floor((s.cond or 0) + 0.5),
-                            w = math.floor((s.pOut or 0) + 0.5),
-                            raw = math.floor((s.raw or 0) + 0.5), snow = s.snow or 0,
-                            dirt = s.dirt or 0, facing = s.facing or 0 }
+        local row = { id = s.id, model = s.model, kind = sdef.kind or "other",
+                      nominal = sdef.nominalW or 0, cond = math.floor((s.cond or 0) + 0.5),
+                      w = math.floor((s.pOut or 0) + 0.5),
+                      raw = math.floor((s.raw or 0) + 0.5), facing = s.facing or 0 }
+        for _, f in ipairs(Defs.SOURCE_FIELDS[sdef.kind] or {}) do
+            if not f.flag then row[f.field] = s[f.field] or f.default end
+        end
+        snap.sources[i] = row
     end
     snap.extra = 0
     for i = 1, #batteries do

@@ -109,12 +109,25 @@ Defs.devices = {
 -- Own fields of a source kind (D-50), kept on its registry entry and in its mark. `field` is
 -- the registry entry field, `mark` the key in the mark kept by a picked-up kit; a numeric
 -- field falls back to `default`, a `flag` field is only set when the mark holds true.
+-- Display data: `row` is the device panel line of a numeric field (a percentage),
+-- `rowOn`/`rowOff` those of a flag; `badge` the suffix the inverter software shows next
+-- to the source name once the value passes `badgeAbove`.
 Defs.SOURCE_FIELDS = {}
 Defs.SOURCE_FIELDS.solar = {
-    { field = "dirt", mark = "dirt", default = 0 },
-    { field = "snow", mark = "snow", default = 0 },
+    { field = "dirt", mark = "dirt", default = 0, row = "IGUI_LW_DeviceDirt" },
+    { field = "snow", mark = "snow", default = 0, row = "IGUI_LW_DeviceSnow",
+      badge = "IGUI_LW_Snow", badgeAbove = 0.05 },
 }
-Defs.SOURCE_FIELDS.wind = { { field = "brake", mark = "br", flag = true } }
+Defs.SOURCE_FIELDS.wind = { { field = "brake", mark = "br", flag = true,
+    rowOn = "IGUI_LW_DeviceBraked", rowOff = "IGUI_LW_DeviceReleased" } }
+
+-- Own field `name` of a source kind, or nil.
+function Defs.sourceField(kind, name)
+    for _, f in ipairs(Defs.SOURCE_FIELDS[kind] or {}) do
+        if f.field == name then return f end
+    end
+    return nil
+end
 
 -- Source kinds whose facing (sprite offset from the tile) matters: the cursor names it and
 -- the registry entry keeps it.

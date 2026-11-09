@@ -103,8 +103,9 @@ end
 -- Fields of the mark: written by markFromDevice and compared by Devices.find, from
 -- this one list, so a field that is written is always a field that is compared.
 local MARK_FIELDS = { "id", "model", "cond", "eff", "level", "inv", "st", "pw", "muf",
-                      "x", "y", "z", "nb", "nr", "cpl", "br", "nm", "dirt", "snow",
+                      "x", "y", "z", "nb", "nr", "cpl", "nm",
                       "facing", "svc", "xpd" }
+-- The fields of the mark that belong to a source kind come from Defs.SOURCE_FIELDS (D-50).
 
 -- Mark content of a device (placementFacts must have run: the facing comes from it).
 local function buildMark(dev)
@@ -118,13 +119,18 @@ local function buildMark(dev)
         for _ in pairs(dev.barrels or {}) do nb = nb + 1 end
         for _ in pairs(dev.relays or {}) do nr = nr + 1 end
     end
-    return { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
+    local m = { id = dev.id, model = dev.model, cond = dev.cond, eff = dev.eff,
              level = dev.level, inv = inverterOf(dev), st = st, pw = pw,
              muf = dev.muffled == true or nil, x = dev.x, y = dev.y, z = dev.z,
-             nb = nb, nr = nr, cpl = dev.coupled, br = dev.brake == true,
-             nm = g and g.name or nil, dirt = dev.dirt, snow = dev.snow,
+             nb = nb, nr = nr, cpl = dev.coupled,
+             nm = g and g.name or nil,
              facing = dev.facing, svc = inService(dev),
              xpd = dev.xpd == true or nil }
+    local def = LiveWire.Defs.devices[dev.model]
+    for _, f in ipairs(LiveWire.Defs.SOURCE_FIELDS[def and def.kind] or {}) do
+        if f.flag then m[f.mark] = dev[f.field] == true else m[f.mark] = dev[f.field] end
+    end
+    return m
 end
 
 -- Does the mark `m` (nil: none) differ from the fresh content `fresh` on any field?
@@ -133,6 +139,14 @@ local function markDiffers(m, fresh)
     for i = 1, #MARK_FIELDS do
         local name = MARK_FIELDS[i]
         if m[name] ~= fresh[name] then return true end
+    end
+    for _, fields in pairs(LiveWire.Defs.SOURCE_FIELDS) do
+        for _, f in ipairs(fields) do
+            -- A flag that is off is false or absent alike (marks written before D-50 carry false).
+            if m[f.mark] ~= fresh[f.mark] and not (f.flag and not m[f.mark] and not fresh[f.mark]) then
+                return true
+            end
+        end
     end
     return false
 end

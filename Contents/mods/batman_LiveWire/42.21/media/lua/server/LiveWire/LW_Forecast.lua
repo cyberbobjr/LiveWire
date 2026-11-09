@@ -37,6 +37,7 @@ function Forecast.build(grid, sources, now)
                 dawn = day:getDawn(), dusk = day:getDusk(),
                 month = getGameTime():getMonth() }
             local row = { offset = offset, solar = 0, wind = 0, hydro = 0 }
+            local total = 0
             local hourly = {}
             for hour = 0, 23 do hourly[hour] = 0 end
             for _, src in ipairs(sources) do
@@ -44,12 +45,13 @@ function Forecast.build(grid, sources, now)
                 if def then
                     for hour = 0, 23 do
                         local watts = LiveWire.Sim.sourceRaw(src, def, w, hour, 1)
-                        row[def.kind] = row[def.kind] + watts / 1000
+                        row[def.kind] = (row[def.kind] or 0) + watts / 1000
+                        total = total + watts / 1000
                         hourly[hour] = hourly[hour] + watts
                     end
                 end
             end
-            row.total = row.solar + row.wind + row.hydro
+            row.total = total
             row.demand = (mean + LiveWire.Sim.idleW(grid)) * 24 / 1000
             row.sufficient = true
             -- Today starts now. Daily production figures remain full-day comparisons.

@@ -332,8 +332,10 @@ function App:drawSources(ui, x, y, w, h, snap)
             local s = snap.sources[i]
             if s.kind == fam.kind and cy < y + h - 16 then
                 local line = T("IGUI_LW_Model_" .. s.model)
-                if s.kind == "solar" and (s.snow or 0) > 0.05 then
-                    line = line .. " " .. T("IGUI_LW_Snow", math.floor(s.snow * 100 + 0.5))
+                for _, f in ipairs(LiveWire.Defs.SOURCE_FIELDS[s.kind] or {}) do
+                    if f.badge and (s[f.field] or 0) > f.badgeAbove then
+                        line = line .. " " .. T(f.badge, math.floor(s[f.field] * 100 + 0.5))
+                    end
                 end
                 local barW = math.min(100, math.floor(w * 0.22))
                 local right = T("IGUI_LW_App_SourceState", s.w, s.cond)
