@@ -85,7 +85,7 @@ local function authorityStart(player)
     check("C06 index reflects placement and movement",function()
         local d=R.addDevice({role="source",model="SolarPanel",x=-1,y=8,z=0})
         local n=#R.devicesInChunk(-1,1)
-        R.moveDevice(d,-17,8,0)
+        R.removeDevice(d.id);d.x=-17;R.addDevice(d)
         local ok=n==1 and #R.devicesInChunk(-1,1)==0 and #R.devicesInChunk(-3,1)==1
         R.removeDevice(d.id)
         return ok and #R.devicesInChunk(-3,1)==0
@@ -174,7 +174,7 @@ local function authorityStart(player)
         if not fridge then return false,"no loaded fridge near the inverter" end
         local inv=device(S.inv)
         local a={x=inv.x,y=inv.y,z=inv.z}
-        LiveWire.Anchor.rememberSquare(fridge:getSquare())
+        LiveWire.FridgeAging.rememberSquare(fridge:getSquare())
         LiveWire.Anchor.set(inv.id,a,true)
         local food=cont:AddItem("Base.Apple")
         if not food then return false,"apple creation failed" end

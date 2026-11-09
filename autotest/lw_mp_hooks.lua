@@ -137,7 +137,8 @@ local function buildNetwork(tag, invSq)
     local okBank = LWLinkAction:new(S.player, net.bank, net.inv):complete() == true
     local okComp = LWLinkAction:new(S.player, net.comp, net.inv):complete() == true
     local grid = LiveWire.Registry.grid(inv.grid)
-    local _, banks, _, _, computers = LiveWire.Registry.members(grid)
+    local members = LiveWire.Registry.members(grid)
+    local banks, computers = members.storage, members.computer
     rep.rec(okBank and okComp and #banks == 1 and #computers == 1,
         tag .. ": power bank and computer linked by the real action on the server",
         "bank=" .. tostring(okBank) .. " computer=" .. tostring(okComp))
@@ -157,7 +158,7 @@ local function checkCommands(net)
     local inv = devOf(net.inv)
     local grid = LiveWire.Registry.grid(inv.grid)
     local Computer = LiveWire.Computer
-    local _, _, _, _, computers = LiveWire.Registry.members(grid)
+    local computers = LiveWire.Registry.members(grid).computer
     local cdev = computers[1]
     if not cdev or not Computer.powered(cdev, grid) then
         rep.rec(false, net.tag .. ": management computer powered", "grid powered=" .. tostring(grid.powered))
@@ -250,8 +251,7 @@ function H.server.done(ctx)
             local grid = inv and LiveWire.Registry.grid(inv.grid)
             local computers
             if grid then
-                local _, _, _, _, list = LiveWire.Registry.members(grid)
-                computers = list
+                computers = LiveWire.Registry.members(grid).computer
             end
             if computers and computers[1] and not LiveWire.Computer.powered(computers[1], grid) then ready = false end
         end
