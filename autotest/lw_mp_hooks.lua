@@ -261,6 +261,10 @@ function H.server.done(ctx)
     clearZombies()
     local rep = S.rep
     local now = getTimestampMs()
+    -- The client may switch inverter A off and on while the server still checks its commands:
+    -- watch for the off state from the first poll.
+    local invA = S.A and devOf(S.A.inv)
+    if invA and invA.state == "off" and S.commandsDone then S.sawOff = true end
     if S.phase == "commands" then
         local ready = true
         for _, net in ipairs({ S.A, S.B }) do
@@ -273,12 +277,15 @@ function H.server.done(ctx)
             if computers and computers[1] and not LiveWire.Computer.powered(computers[1], grid) then ready = false end
         end
         if not ready and now - S.startedAt < 20000 then return false end
-        for _, net in ipairs({ S.A, S.B }) do
-            if net then pcall(checkCommands, net) end
+        if not S.commandsDone then
+            for _, net in ipairs({ S.A, S.B }) do
+                if net then pcall(checkCommands, net) end
+            end
+            S.commandsDone = true
+            return false
         end
         if ctx.params.client == "0" or not S.A then return true end
         S.phase = "client"
-        S.sawOff = false
         return false
     end
     if S.phase == "client" then
@@ -315,6 +322,25 @@ function H.server.done(ctx)
         local ok, shocked = pcall(LiveWire.Maintenance.liveWork, p, LiveWire.Registry.grid(inv.grid))
         ZombRand = realRand
         p:setPerkLevelDebug(Perks.Electricity, level)
+        -- 42.22 toaster: placed by the authority on a square powered by Live Wire, near the player;
+        -- the client checks that it sees the power and may open it (client hook, phase toaster).
+        local cell, toasterSq = getCell(), nil
+        local px, py, pz = math.floor(p:getX()), math.floor(p:getY()), math.floor(p:getZ())
+        for dx = -6, 6 do
+            for dy = -6, 6 do
+                local c = not toasterSq and cell:getGridSquare(px + dx, py + dy, pz)
+                if c and c:getRoom() and c:isFree(false) and c:haveElectricity() and not c:hasGridPower()
+                    and c:getObjects():size() == 1 then toasterSq = c end
+            end
+        end
+        local toaster
+        if toasterSq then
+            local name = "appliances_cooking_01_32"
+            local props = ISMoveableSpriteProps.new(getSprite(name))
+            toaster = props:placeMoveableInternal(p, toasterSq, props:instanceItem(name), name)
+        end
+        rep.rec(toaster ~= nil, "42.22: toaster placed by the server on a square powered by Live Wire",
+            toasterSq and (toasterSq:getX() .. "," .. toasterSq:getY() .. " haveElectricity=" .. tostring(toasterSq:haveElectricity())))
         rep.rec(ok and shocked == true and p:getPrimaryHandItem() == nil,
             "live-work shock on the server drops the held screwdriver",
             "ok=" .. tostring(ok) .. " shocked=" .. tostring(shocked) .. " held=" .. tostring(p:getPrimaryHandItem())
@@ -387,6 +413,11 @@ end
 
 function H.client.start(ctx)
     untouchable(getPlayer())
+    -- No public grid in the test world (the toaster check needs power from Live Wire only): the
+    -- admin client changes ElecShutModifier like the admin sandbox panel (sendToServer).
+    local so = getSandboxOptions()
+    so:getOptionByName("ElecShutModifier"):setValue(0)
+    so:sendToServer()
     C.t0 = getTimestampMs()
     C.phase = "scan"
     return true
@@ -492,6 +523,34 @@ function H.client.done(ctx)
             "LCD: bank screen open with the server's reply on the MP client")
         pcall(takeScreenshot, "mp_lcd_bank.png")
         if LiveWire.BankPanel.instance then LiveWire.BankPanel.instance:close() end
+        C.phase, C.t1 = "toaster", now
+        return false
+    end
+    if C.phase == "toaster" then
+        -- The toaster placed by the server (after its shock check): the client must see the
+        -- Live Wire power on its square and the game must let it open the toaster (42.22 rule).
+        local pl, toaster = getPlayer(), nil
+        local px, py, pz = math.floor(pl:getX()), math.floor(pl:getY()), math.floor(pl:getZ())
+        for x = px - 10, px + 10 do
+            for y = py - 10, py + 10 do
+                local sq = not toaster and getCell():getGridSquare(x, y, pz)
+                local objs = sq and sq:getObjects()
+                for i = 0, objs and objs:size() - 1 or -1 do
+                    local o = objs:get(i)
+                    if o:getSprite() and o:getSprite():getName() == "appliances_cooking_01_32" then toaster = o end
+                end
+            end
+        end
+        if not toaster and now - C.t1 < 60000 then return false end
+        if not toaster then rep.rec(false, "42.22: client sees the toaster placed by the server"); return true end
+        local sq = toaster:getSquare()
+        local p2 = getPlayer()
+        p2:setX(sq:getX() + 1.5); p2:setY(sq:getY() + 0.5); p2:setLastX(p2:getX()); p2:setLastY(p2:getY())
+        local can = ISEntityUI.CanOpenWindowFor(p2, toaster) and true or false
+        rep.rec(sq:haveElectricity() and not sq:hasGridPower() and can,
+            "42.22: the MP client sees Live Wire power on the toaster's square and may open it",
+            "haveElectricity=" .. tostring(sq:haveElectricity()) .. " hasGridPower=" .. tostring(sq:hasGridPower())
+            .. " CanOpenWindowFor=" .. tostring(can))
         return true
     end
     return false
