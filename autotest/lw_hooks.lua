@@ -699,7 +699,7 @@ local function runPumpAndCoupling()
         local kits = count(LiveWire.Defs.COUPLING_KIT)
         local okC = couple(S.inv2, S.inv3)
         local mgrid = R.grid(m.grid)
-        local cap = mgrid and LiveWire.Sim.capacityW(mgrid)
+        local cap = mgrid and LiveWire.Inverters.capacityW(mgrid)
         local maxW = LiveWire.Defs.devices.Inverter.maxW
         return okC and s.coupled == m.id and s.grid == m.grid and #R.slaves(mgrid) == 1 and cap == 2 * maxW
             and LiveWire.Marks.get(S.inv2).cpl == m.id and count(LiveWire.Defs.COUPLING_KIT) == kits,
@@ -741,7 +741,7 @@ local function runPumpAndCoupling()
         S.cab = cab
         local dev = R.device(LiveWire.Marks.get(cab).id)
         local g = dev and dev.grid and R.grid(dev.grid)
-        local cap = g and LiveWire.Sim.capacityW(g)
+        local cap = g and LiveWire.Inverters.capacityW(g)
         if dev then
             dev.state = "on"
             LiveWire.Devices.syncMark(dev)
@@ -758,7 +758,7 @@ local function runPumpAndCoupling()
         if not S.inv2 then return false, "inverter not placed" end
         local m = R.device(LiveWire.Marks.get(S.cab).id)
         local okC = couple(S.inv2, S.cab)
-        local cap = m.grid and R.grid(m.grid) and LiveWire.Sim.capacityW(R.grid(m.grid))
+        local cap = m.grid and R.grid(m.grid) and LiveWire.Inverters.capacityW(R.grid(m.grid))
         local sq = S.inv2:getSquare()
         standNear(sq)
         ISMoveableSpriteProps.new(SHEET .. "12"):pickUpMoveable(p, sq, true)

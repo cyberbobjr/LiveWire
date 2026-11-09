@@ -182,10 +182,7 @@ local function stockFraction(entries)
     return stock / capacity
 end
 
--- The inverter fleet rules live in LW_Inverters.lua (D-48). LW_Commands and LW_Forecast
--- still call these two through Sim.
-Sim.capacityW = Inverters.capacityW
-Sim.idleW = Inverters.idleW
+-- The inverter fleet rules (capacity, idle use) live in LW_Inverters.lua (D-48).
 
 -- Public snapshot of a grid (primitive values only).
 function Sim.snapshot(grid)

@@ -546,11 +546,11 @@ def scenario_slave_capacity():
     lua.execute("NPANELS = 0; NBATS = 0; DEMAND = 0; BREAKER = false")
     lua.execute(SETUP)
     lua.execute(SLAVE_SETUP)
-    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 3000, "master + slave on: capacity 3000 W")
-    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 40, "master + slave on: idle 40 W")
+    check(lua.eval("LiveWire.Inverters.capacityW(GRID)") == 3000, "master + slave on: capacity 3000 W")
+    check(lua.eval("LiveWire.Inverters.idleW(GRID)") == 40, "master + slave on: idle 40 W")
     lua.execute("SLAVE.state = 'off'")
-    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 1500, "slave off: capacity 1500 W")
-    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 20, "slave off: idle 20 W")
+    check(lua.eval("LiveWire.Inverters.capacityW(GRID)") == 1500, "slave off: capacity 1500 W")
+    check(lua.eval("LiveWire.Inverters.idleW(GRID)") == 20, "slave off: idle 20 W")
 
 
 def scenario_cabinet_capacity():
@@ -561,16 +561,16 @@ def scenario_cabinet_capacity():
     lua.execute(SETUP)
     lua.execute(SLAVE_SETUP)
     lua.execute("SLAVE.model = 'InverterCabinet'")
-    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 6000, "inverter + cabinet slave: capacity 6000 W")
-    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 80, "inverter + cabinet slave: idle 80 W")
+    check(lua.eval("LiveWire.Inverters.capacityW(GRID)") == 6000, "inverter + cabinet slave: capacity 6000 W")
+    check(lua.eval("LiveWire.Inverters.idleW(GRID)") == 80, "inverter + cabinet slave: idle 80 W")
     lua.execute("SLAVE.model = 'Inverter'; INV.model = 'InverterCabinet'")
-    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 6000, "cabinet + inverter slave: capacity 6000 W")
+    check(lua.eval("LiveWire.Inverters.capacityW(GRID)") == 6000, "cabinet + inverter slave: capacity 6000 W")
     lua.execute("SLAVE.state = 'off'")
-    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 4500, "cabinet alone: capacity 4500 W")
-    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 60, "cabinet alone: idle 60 W")
+    check(lua.eval("LiveWire.Inverters.capacityW(GRID)") == 4500, "cabinet alone: capacity 4500 W")
+    check(lua.eval("LiveWire.Inverters.idleW(GRID)") == 60, "cabinet alone: idle 60 W")
     lua.execute("INV.state = 'off'")
-    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 4500, "cabinet switched off: still rated 4500 W")
-    check(lua.eval("LiveWire.Sim.idleW(GRID)") == 0, "cabinet switched off: no idle use")
+    check(lua.eval("LiveWire.Inverters.capacityW(GRID)") == 4500, "cabinet switched off: still rated 4500 W")
+    check(lua.eval("LiveWire.Inverters.idleW(GRID)") == 0, "cabinet switched off: no idle use")
 
 
 def scenario_slave_breaks():
@@ -583,7 +583,7 @@ def scenario_slave_breaks():
     lua.execute("LiveWire.Sim.stepGrid(GRID, WORLD.hours + 1 / 6, LiveWire.Sim.weather())")
     check(lua.globals().SLAVE.state == "broken", "slave with cond 0 is broken after one step (%s)"
           % lua.globals().SLAVE.state)
-    check(lua.eval("LiveWire.Sim.capacityW(GRID)") == 1500, "broken slave: capacity 1500 W")
+    check(lua.eval("LiveWire.Inverters.capacityW(GRID)") == 1500, "broken slave: capacity 1500 W")
 
 
 def scenario_slave_trip():

@@ -315,7 +315,7 @@ local function overload(inv, grid)
     if grid then grid.demand = demand end
     local total = demand + (grid and grid.pumpW or 0)
     local def = LiveWire.Defs.devices[inv.model]
-    local cap = grid and LiveWire.Sim.capacityW(grid) or (def and def.maxW)
+    local cap = grid and LiveWire.Inverters.capacityW(grid) or (def and def.maxW)
     if cap and total > cap then
         return { tostring(math.floor(total + 0.5)), tostring(cap) }
     end

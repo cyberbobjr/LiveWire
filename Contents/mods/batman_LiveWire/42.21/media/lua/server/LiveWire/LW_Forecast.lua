@@ -52,14 +52,14 @@ function Forecast.build(grid, sources, now)
                 end
             end
             row.total = total
-            row.demand = (mean + LiveWire.Sim.idleW(grid)) * 24 / 1000
+            row.demand = (mean + LiveWire.Inverters.idleW(grid)) * 24 / 1000
             row.sufficient = true
             -- Today starts now. Daily production figures remain full-day comparisons.
             -- The sufficiency check observes storage limits, conversion and night deficits.
             for hour = offset == 0 and math.floor(tod) or 0, 23 do
                 local duration = offset == 0 and hour == math.floor(tod) and (1 - tod % 1) or 1
                 local r = LiveWire.Physics.stepGrid({ productionW = hourly[hour], demandW = mean,
-                    idleW = LiveWire.Sim.idleW(grid), maxW = LiveWire.Sim.capacityW(grid),
+                    idleW = LiveWire.Inverters.idleW(grid), maxW = LiveWire.Inverters.capacityW(grid),
                     eff = eff, dt = duration, state = "on", wasOn = true, batteries = projected })
                 if r.onHours + 1e-8 < duration then row.sufficient = false end
             end

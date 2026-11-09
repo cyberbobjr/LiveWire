@@ -922,7 +922,7 @@ est perdu ; l'armoire est un appareil neuf.
 
 Tout ce qui vise un onduleur passe par `role == "inverter"` ; les deux seuls endroits
 liés au modèle sont devenus génériques :
-- `Sim.capacityW` et `Sim.idleW` additionnent les valeurs de chaque onduleur selon son
+- `Inverters.capacityW` et `Inverters.idleW` additionnent les valeurs de chaque onduleur selon son
   propre modèle (maître en service, esclaves en service ou allumés) ; un réseau d'un seul
   modèle garde exactement les anciens chiffres. Un onduleur et une armoire se couplent
   entre eux (`MAX_SLAVES` inchangé).
