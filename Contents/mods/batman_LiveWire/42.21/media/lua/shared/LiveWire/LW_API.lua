@@ -30,16 +30,39 @@ function API.registerBattery(fullType, kWh, lifeCycles)
     LiveWire.Defs.batteries[fullType] = { capacityKWh = kWh, lifeCycles = lifeCycles }
     return true
 end
+-- Lights of a registered source (optional `overlays`, see LW_Defs.lua): the first sprite
+-- of each light in the source's own sheet, light for facing f = value + f; `rotor` is the
+-- first of 4 blade frames of 4 sprites. No light sprite may fall on the device's 4 tiles.
+-- Returns a checked copy, false when invalid, nil when absent.
+local LIGHTS = { on = 4, fault = 4, muffle = 4, linked = 4, tripped = 4, powered = 4, ringing = 4, rotor = 16 }
+local function overlaysOf(o, tile)
+    if o == nil then return nil end
+    if type(o) ~= "table" then return false end
+    local out = {}
+    for k, v in pairs(o) do
+        if k == "blinkWhenBraked" then
+            if type(v) ~= "boolean" then return false end
+            out[k] = v
+        else
+            local span = LIGHTS[k]
+            if not span or not number(v, 0, 100000) or v % 1 ~= 0 then return false end
+            if v < tile + 4 and v + span > tile then return false end
+            out[k] = v
+        end
+    end
+    return out
+end
 function API.registerSource(model, definition)
     if LiveWire.Extension.isSealed() then return false, "registration_closed" end
     local d = definition
+    local overlays = type(d) == "table" and number(d.tile, 0, 100000) and overlaysOf(d.overlays, d.tile)
     if type(model) ~= "string" or #model > 64 or not string.match(model, "^[%a][%w_]+$")
         or type(d) ~= "table" or not identifier(d.item)
         or (d.kind ~= "solar" and d.kind ~= "wind" and d.kind ~= "hydro")
         or not number(d.nominalW, 1, 100000) or not number(d.tile, 0, 100000)
         or d.tile % 1 ~= 0 or d.facings ~= 4 or type(d.sheet) ~= "string"
         or not string.match(d.sheet, "^[%w_]+$") or not number(d.level, 0, 10)
-        or not number(d.wearDays, 1, 100000) then return false, "invalid_definition" end
+        or not number(d.wearDays, 1, 100000) or overlays == false then return false, "invalid_definition" end
     local defs = LiveWire.Defs
     if defs.devices[model] or defs.itemToModel[d.item] then return false, "duplicate_model" end
     for i = 0, 3 do
@@ -49,7 +72,7 @@ function API.registerSource(model, definition)
     defs.devices[model] = { role = "source", kind = d.kind, item = d.item,
         tile = d.tile, facings = 4, sheet = d.sheet, nominalW = d.nominalW,
         level = d.level, wearDays = d.wearDays, xp = 0, needsOutside = true,
-        needsRiver = d.kind == "hydro" }
+        needsRiver = d.kind == "hydro", overlays = overlays or nil }
     defs.itemToModel[d.item] = model
     for i = 0, 3 do defs.spriteToModel[d.sheet .. "_" .. (d.tile + i)] = model end
     return true

@@ -398,6 +398,13 @@ le registre des définitions. Extension identique sur serveur et clients.
   `kind` (`solar`, `wind`, `hydro`), `sheet`, `tile` entier, `facings=4`, `nominalW`
   1..100 000, `level` 0..10, `wearDays` 1..100 000. Sources extérieures, hydraulique
   sur berge. Fournir les traductions `IGUI_LW_Model_<model>` et les propriétés de tuiles.
+  Champ facultatif `overlays` (D-53) : voyants dessinés par-dessus la tuile, dans la **feuille de la source**.
+  Clés `linked`, `on`, `fault`, `muffle`, `tripped`, `powered`, `ringing` (premier sprite d'un voyant, le
+  sprite de l'orientation f est `valeur + f`), `rotor` (premier de 4 images de pales de 4 sprites) et
+  `blinkWhenBraked` (booléen). Valeurs entières 0..100 000, aucune ne doit tomber sur les 4 tuiles de
+  l'appareil ; toute autre clé ou valeur → `invalid_definition`. Règles d'allumage : commentaire de
+  `LW_Defs.lua`. Un sprite de voyant absent de la feuille (texture introuvable) n'est simplement pas dessiné ;
+  sans `overlays`, aucun voyant.
 - Les doublons de type, modèle, objet posable et sprite sont refusés. Les valeurs
   non finies sont refusées ; seuls les champs primitifs autorisés sont recopiés.
 - `battery(fullType)`, `source(model)` renvoient une copie détachée ou `nil`.

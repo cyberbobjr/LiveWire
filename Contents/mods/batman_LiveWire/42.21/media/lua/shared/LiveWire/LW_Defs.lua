@@ -27,8 +27,9 @@ LiveWire.Defs = Defs
 --   blinkWhenBraked = true: the `linked` light blinks (500 ms) while m.br
 --   tripped = m.st is "tripped"        powered = m.inv and m.pw and m.cond > 0, only when not tripped
 --   ringing = m.st is "ringing"        rotor = first of 4 blade frames (4 sprites per frame, + facing)
--- A device without `overlays` (every source registered by API.registerSource, whose sprites
--- live in another sheet) shows no light; letting the API pass `overlays` is a possible next step.
+-- A source registered by API.registerSource may pass `overlays` too (D-53): its values are
+-- then indices in the source's own sheet, and a light sprite missing from that sheet is
+-- skipped. A device without `overlays` shows no light.
 Defs.SHEET = "batman_livewire_01"
 
 Defs.devices = {

@@ -56,11 +56,41 @@ local lastState, lastFrame, lastNear, lastSweep = 0, 0, 0, 0
 local SPRITES = LiveWire.Defs.spriteToModel
 local sweep = nil      -- { x, x1, y0, y1, z0, z1 } while a sweep is running
 
-local function spriteIndex(obj)
+local function spriteIndex(obj, prefix)
     local spr = obj:getSprite()
     local name = spr and spr:getName()
-    if not name or string.sub(name, 1, #PREFIX) ~= PREFIX then return nil end
-    return tonumber(string.sub(name, #PREFIX + 1))
+    if not name or string.sub(name, 1, #prefix) ~= prefix then return nil end
+    return tonumber(string.sub(name, #prefix + 1))
+end
+
+-- Sheet prefix of a device: the base sheet, or the own sheet of a source registered
+-- through LiveWire.API (its lights live next to its tiles).
+local function prefixOf(def)
+    return def.sheet and (def.sheet .. "_") or PREFIX
+end
+
+-- Does light sprite `i` exist? Base sheet: the EXISTS list. Another sheet: its texture
+-- is looked up once (getSprite would create a missing sprite, getTexture returns nil).
+local foreign = {}
+local function exists(prefix, i)
+    if prefix == PREFIX then return EXISTS[i] == true end
+    local name = prefix .. tostring(i)
+    local known = foreign[name]
+    if known == nil then
+        known = getTexture(name) ~= nil
+        foreign[name] = known
+    end
+    return known
+end
+
+-- Is `n` one of the light sprites `def` can draw (other sheets have no fixed range)?
+local function ownLight(def, n)
+    local o = def.overlays
+    if not o then return false end
+    for k, v in pairs(o) do
+        if type(v) == "number" and n >= v and n < v + (k == "rotor" and 16 or 4) then return true end
+    end
+    return false
 end
 
 local function alive(obj)
@@ -167,10 +197,12 @@ end
 
 -- Overlays wanted on `obj`, as a sorted list of sprite indices.
 function V.wanted(obj, now)
-    local idx = spriteIndex(obj)
     local model = LiveWire.Defs.modelOfObject(obj)
     local def = model and LiveWire.Defs.devices[model]
-    if not idx or not def or isOverlay(idx) then return {} end
+    if not def then return {} end
+    local prefix = prefixOf(def)
+    local idx = spriteIndex(obj, prefix)
+    if not idx or (prefix == PREFIX and isOverlay(idx)) then return {} end
     -- The rules are data (D-50): def.overlays, documented in LW_Defs.lua. The sprite
     -- indices are absolute in the base sheet; a device without `overlays` has no light.
     local o = def.overlays
@@ -179,7 +211,7 @@ function V.wanted(obj, now)
     local m = LiveWire.Marks.get(obj)
     local out = {}
     local function add(i)
-        if EXISTS[i] then out[#out + 1] = i end
+        if exists(prefix, i) then out[#out + 1] = i end
     end
     if m then
         if o.on and m.st == "on" then add(o.on + f) end
@@ -198,7 +230,8 @@ function V.wanted(obj, now)
 end
 
 -- Our overlays currently on `obj` (sprite indices, sorted) and their list positions.
-local function current(obj)
+local function current(obj, def)
+    local prefix = prefixOf(def)
     local list = obj:getAttachedAnimSprite()
     local idx, pos = {}, {}
     if not list then return idx, pos end
@@ -206,9 +239,9 @@ local function current(obj)
         local inst = list:get(i)
         local spr = inst and inst:getParentSprite()
         local name = spr and spr:getName()
-        if name and string.sub(name, 1, #PREFIX) == PREFIX then
-            local n = tonumber(string.sub(name, #PREFIX + 1))
-            if n and isOverlay(n) then
+        if name and string.sub(name, 1, #prefix) == prefix then
+            local n = tonumber(string.sub(name, #prefix + 1))
+            if n and (prefix == PREFIX and isOverlay(n) or prefix ~= PREFIX and ownLight(def, n)) then
                 idx[#idx + 1] = n
                 pos[#pos + 1] = i
             end
@@ -233,14 +266,18 @@ end
 -- Without it, the turning blades vanished as soon as the wind made them turn.
 function V.apply(obj, now)
     if LiveWire.Hum then LiveWire.Hum.sync(obj) end
-    if LiveWire.Defs.modelOfObject(obj) == "WindTurbine" and not obj:isAnimating() then
+    local model = LiveWire.Defs.modelOfObject(obj)
+    local def = model and LiveWire.Defs.devices[model]
+    if not def then return end
+    if def.overlays and def.overlays.rotor and not obj:isAnimating() then
         obj:setAnimating(true)
     end
     local want = V.wanted(obj, now)
-    local have, pos = current(obj)
+    local have, pos = current(obj, def)
     if same(want, have) then return end
+    local prefix = prefixOf(def)
     for i = #pos, 1, -1 do obj:RemoveAttachedAnim(pos[i]) end
-    for i = 1, #want do obj:addAttachedAnimSpriteByName(PREFIX .. tostring(want[i])) end
+    for i = 1, #want do obj:addAttachedAnimSpriteByName(prefix .. tostring(want[i])) end
 end
 
 -- Inverters seen by this client (for the hum).
