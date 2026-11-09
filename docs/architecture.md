@@ -229,9 +229,12 @@ lua/shared/LiveWire/LW_Install.lua         raccordement (portee, fils), recherch
 lua/shared/LiveWire/LW_Notify.lua          messages au joueur (cles traduites cote client)
 lua/shared/LiveWire/LW_Recipes.lua         OnCreate de la batterie stationnaire
 lua/shared/LiveWire/LW_VanillaGuards.lua   enveloppes demonter (ferraille) / detruire (affichage et autorite)
+lua/shared/LiveWire/TimedActions/LW_BaseAction.lua
+                                           classe de base des actions chronometrees (LWBaseAction) :
+                                           orientation, portee, duree, garde d'autorite complete
 lua/shared/LiveWire/TimedActions/LW_TimedActions.lua
-                                           raccorder, reparer, inspecter,
-                                           deneiger, mesurer, reconditionner
+                                           raccorder, desserrer, coupler, relier un baril, reparer, inspecter,
+                                           insonoriser, deneiger, mesurer, reconditionner, tester, nettoyer, recuperer
 lua/server/LiveWire/LW_Registry.lua        registre, index par position, table publique des ancres
 lua/server/LiveWire/LW_Devices.lua         inscription a la pose, retrait au ramassage, rotation,
                                            equipements detruits (validate)
@@ -266,7 +269,7 @@ sandbox-options.txt
 ### 2.3 Espaces de noms et règles Kahlua
 
 - **Une seule globale : `LiveWire`.** Ses sous-tables : `Config`, `Defs`, `Physics`, `Protocol`, `Marks`, `Anchor`, `Registry`, `Sim`, `Demand`, `Batteries`, `Xp`, `Client`.
-- **Exception : les actions chronométrées.** Elles sont globales par nécessité, car `NetTimedAction` les retrouve par leur nom de classe (`java/zombie/core/NetTimedAction.java:145-172`) : `LWLinkAction`, `LWRepairAction`, `LWInspectAction`, `LWReconditionAction`, `LWClearSnowAction`, `LWMeasureAction`.
+- **Exception : les actions chronométrées.** Elles sont globales par nécessité, car `NetTimedAction` les retrouve par leur nom de classe (`java/zombie/core/NetTimedAction.java:145-172`) : les 13 classes `LWUnlinkAction`, `LWLinkAction`, `LWCoupleAction`, `LWLinkBarrelAction`, `LWRepairAction`, `LWInspectAction`, `LWMuffleAction`, `LWClearSnowAction`, `LWMeasureAction`, `LWReconditionAction`, `LWTestBatteryAction`, `LWCleanPanelAction`, `LWSalvageAction`, qui dérivent toutes de la classe de base globale `LWBaseAction` (`LW_BaseAction.lua`). Son `guard()` impose, au début de chaque `complete()`, l'autorité complète (pas client, registre prêt et non `readOnly`, personnage vivant), la présence des objets, la portée et la règle des maisons protégées. Une classe déclare `subject`, `range`, `duration`, `facing` et `partners` ; ses paramètres de `new()` restent les noms des champs (`NetTimedAction.java:47-55`).
 - **Préfixe `LW`** pour les recettes, les clés de traduction et les identifiants.
 - **Règles Kahlua** (`developpement.md`, base moteur `kahlua-lua.md`) :
   - aucun littéral non ASCII dans les `.lua` ;

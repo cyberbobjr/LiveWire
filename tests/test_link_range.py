@@ -3,6 +3,7 @@ from pathlib import Path
 import unittest
 
 from test_simulation import make, LUA
+from action_harness import load_actions
 
 
 class LinkRange(unittest.TestCase):
@@ -15,6 +16,7 @@ class LinkRange(unittest.TestCase):
         LiveWire.Marks.isOurs=function(o) return o.mark~=nil end
         Perks={Electricity=1}
         PLAYER={getPerkLevel=function() return 10 end,getUsername=function() return 'test' end,
+            isDead=function() return false end,
             getInventory=function() return {getCountTypeRecurse=function() return 100 end} end}
         SQUARES={}
         function object(x,y,z,model,id,class)
@@ -138,7 +140,6 @@ class LinkRange(unittest.TestCase):
 
     def test_action_rechecks_current_server_setting_before_consuming_wire(self):
         self.lua.execute('''
-        ISBaseTimedAction={derive=function() return {} end}
         SafeHouse={isSafehouseAllowInteract=function() return true end}
         PLAYER.getX=function() return 0 end;PLAYER.getY=function() return 0 end
         PLAYER.getZ=function() return 2 end
@@ -153,9 +154,9 @@ class LinkRange(unittest.TestCase):
         LiveWire.Devices.syncMark=function() end;LiveWire.Sim.refresh=function() end
         LiveWire.Xp.award=function() end;LiveWire.notify=function() end
         ''')
-        self.lua.execute(Path(LUA, 'shared/LiveWire/TimedActions/LW_TimedActions.lua').read_text(encoding='ascii'))
+        load_actions(self.lua)
         self.lua.execute('''
-        local action={character=PLAYER,target=SOLAR,inverter=INVERTER}
+        local action=ACT(LWLinkAction,{character=PLAYER,target=SOLAR,inverter=INVERTER})
         assert(LiveWire.Install.checkLink(PLAYER,SOLAR,INVERTER))
         SandboxVars={LiveWire={LinkVerticalRange=1}}
         assert(not LWLinkAction.complete(action) and CONSUMED==0 and DEVICE.grid==nil)

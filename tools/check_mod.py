@@ -136,8 +136,13 @@ function LW_RUN(path, src, name)
     LW_LOADED[path] = value
     return nil
 end
-ISBaseTimedAction = { derive = function(self, name) local c = { Type = name }; return c end,
-                      new = function(self, ch) return { character = ch } end }
+ISBaseTimedAction = { derive = function(self, name)
+                          local c = { Type = name }
+                          c.derive = self.derive
+                          c.new = self.new
+                          return setmetatable(c, { __index = self })
+                      end,
+                      new = function(self, ch) return setmetatable({ character = ch }, { __index = self }) end }
 ISCollapsableWindow = { derive = function(self, name) local c = { Type = name }; return c end }
 setmetatable(_G, { __index = function(t, k)
     if k == "LiveWire" or string.sub(k, 1, 2) == "LW" then return nil end

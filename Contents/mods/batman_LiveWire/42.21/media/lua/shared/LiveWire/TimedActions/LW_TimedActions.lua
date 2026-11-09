@@ -4,26 +4,20 @@
 -- everything (knowledge/multiplayer.md:43-49, 230). complete() runs in single player
 -- and on the server only (LuaTimedActionNew.java:158-163).
 
-require "TimedActions/ISBaseTimedAction"
+require "LiveWire/TimedActions/LW_BaseAction"
 
 LiveWire = LiveWire or {}
 
 local function I() return LiveWire.Install end
 local function R() return LiveWire.Registry end
 
-local function authorityReady(character)
-    local registry = R()
-    return not isClient() and registry and registry.ready and not registry.readOnly
-        and character and not character:isDead()
-end
+local instant = LWBaseAction.instant
+local objectStillThere = LWBaseAction.objectStillThere
 
-local function instant(character)
-    return character:isTimedActionInstant()
-end
-
-local function objectStillThere(obj)
-    return obj and obj:getSquare() and obj:getObjectIndex() ~= -1
-end
+-- Item types used by several actions.
+local ELECTRIC_WIRE = "Base.ElectricWire"
+local ELECTRONICS_SCRAP = "Base.ElectronicsScrap"
+local VOLTAGE_TESTER = "LiveWire.VoltageTester"
 
 -- Device record behind a placed object, checked against the registry.
 local function deviceOf(obj)
@@ -36,17 +30,6 @@ local function deviceOf(obj)
     return dev
 end
 
-local function near(character, sq, range)
-    if not sq then return false end
-    if math.floor(character:getZ()) ~= sq:getZ() then return false end
-    return math.abs(character:getX() - (sq:getX() + 0.5)) <= range + 0.5
-        and math.abs(character:getY() - (sq:getY() + 0.5)) <= range + 0.5
-end
-
-local function allowed(character, sq)
-    if not SafeHouse then return true end
-    return SafeHouse.isSafehouseAllowInteract(sq, character)
-end
 
 --------------------------------------------------------------------------------
 -- Link a source, a power bank, an optional device, a vanilla generator (backup)
@@ -54,40 +37,34 @@ end
 -- up the devices themselves is vanilla (furniture cursor, LW_Placement.lua).
 --------------------------------------------------------------------------------
 -- GUI disconnection can walk to the equipment before using the existing command.
-LWUnlinkAction = ISBaseTimedAction:derive("LWUnlinkAction")
+LWUnlinkAction = LWBaseAction:derive("LWUnlinkAction")
+LWUnlinkAction.duration = 1
+LWUnlinkAction.subject = "target"
 function LWUnlinkAction:isValid() return objectStillThere(self.target) end
 function LWUnlinkAction:start()
     self:setActionAnim(CharacterActionAnims.Disassemble)
     I().showScrewdriver(self)
 end
-function LWUnlinkAction:perform() ISBaseTimedAction.perform(self) end
-function LWUnlinkAction:getDuration() return 1 end
 function LWUnlinkAction:complete()
-    if not authorityReady(self.character) or not objectStillThere(self.target) then return false end
+    if not self:guard() then return false end
     local m=LiveWire.Marks.get(self.target) or I().vanillaMark(self.target)
-    if not m or m.id~=self.device or not near(self.character,self.target:getSquare(),2)
-        or not allowed(self.character,self.target:getSquare()) then return false end
+    if not m or m.id~=self.device then return false end
     LiveWire.Commands.handle(self.character,LiveWire.Protocol.C_UNLINK,{device=self.device})
     return true
 end
 function LWUnlinkAction:new(character,target,device)
-    local o=ISBaseTimedAction.new(self,character)
-    o.target,o.device=target,device
-    o.stopOnWalk,o.stopOnRun=true,true
-    o.maxTime=o:getDuration()
-    return o
+    return LWBaseAction.new(self,character,{target=target,device=device})
 end
 
-LWLinkAction = ISBaseTimedAction:derive("LWLinkAction")
+LWLinkAction = LWBaseAction:derive("LWLinkAction")
+LWLinkAction.duration = 150
+LWLinkAction.subject = "target"
+LWLinkAction.partners = { "inverter" }
+LWLinkAction.facing = true
 
 function LWLinkAction:isValid()
     return objectStillThere(self.target) and objectStillThere(self.inverter)
         and I().checkLink(self.character, self.target, self.inverter)
-end
-
-function LWLinkAction:waitToStart()
-    self.character:faceThisObject(self.target)
-    return self.character:shouldBeTurning()
 end
 
 function LWLinkAction:update()
@@ -100,14 +77,9 @@ function LWLinkAction:start()
     I().showScrewdriver(self)
 end
 
-function LWLinkAction:stop() ISBaseTimedAction.stop(self) end
-function LWLinkAction:perform() ISBaseTimedAction.perform(self) end
-
 function LWLinkAction:complete()
+    if not self:guard() then return false end
     local ch, target, invObj = self.character, self.target, self.inverter
-    if not objectStillThere(target) or not objectStillThere(invObj) then return false end
-    local tsq = target:getSquare()
-    if not near(ch, tsq, 2) or not allowed(ch, tsq) then return false end
     local ok, why, wires, extra = I().checkLink(ch, target, invObj)
     if not ok then
         -- On refusal the third and fourth results are the message arguments.
@@ -144,7 +116,7 @@ function LWLinkAction:complete()
             return false
         end
     end
-    if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
+    if not I().consume(ch, ELECTRIC_WIRE, wires or 0) then return false end
     -- Moved from another network: the old cable comes back.
     local oldWires = LiveWire.Devices.linkWires(tdev)
 
@@ -177,7 +149,7 @@ function LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
         LiveWire.notify(ch, "Tooltip_LW_OneOptionPerGrid", {}, true)
         return false
     end
-    if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
+    if not I().consume(ch, ELECTRIC_WIRE, wires or 0) then return false end
     -- Linked to another network before: move it, its old cable comes back.
     local oldWires = LiveWire.Devices.linkWires(old)
     if old then R().forgetVanilla(old) end
@@ -197,17 +169,8 @@ function LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
     return true
 end
 
-function LWLinkAction:getDuration()
-    if instant(self.character) then return 1 end
-    return 150
-end
-
 function LWLinkAction:new(character, target, inverter)
-    local o = ISBaseTimedAction.new(self, character)
-    o.target = target
-    o.inverter = inverter
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { target = target, inverter = inverter })
 end
 
 --------------------------------------------------------------------------------
@@ -215,16 +178,15 @@ end
 -- slave loses its own grid and anchor and joins the master's grid. complete() runs
 -- on the authority only.
 --------------------------------------------------------------------------------
-LWCoupleAction = ISBaseTimedAction:derive("LWCoupleAction")
+LWCoupleAction = LWBaseAction:derive("LWCoupleAction")
+LWCoupleAction.duration = 150
+LWCoupleAction.subject = "slave"
+LWCoupleAction.partners = { "master" }
+LWCoupleAction.facing = true
 
 function LWCoupleAction:isValid()
     return objectStillThere(self.slave) and objectStillThere(self.master)
         and I().checkCouple(self.character, self.slave, self.master)
-end
-
-function LWCoupleAction:waitToStart()
-    self.character:faceThisObject(self.slave)
-    return self.character:shouldBeTurning()
 end
 
 function LWCoupleAction:update()
@@ -236,14 +198,9 @@ function LWCoupleAction:start()
     self.character:SetVariable("LootPosition", "Low")
 end
 
-function LWCoupleAction:stop() ISBaseTimedAction.stop(self) end
-function LWCoupleAction:perform() ISBaseTimedAction.perform(self) end
-
 function LWCoupleAction:complete()
+    if not self:guard() then return false end
     local ch, slaveObj, masterObj = self.character, self.slave, self.master
-    if not objectStillThere(slaveObj) or not objectStillThere(masterObj) then return false end
-    local ssq = slaveObj:getSquare()
-    if not near(ch, ssq, 2) or not allowed(ch, ssq) then return false end
     local ok, why, wires, extra = I().checkCouple(ch, slaveObj, masterObj)
     if not ok then
         -- On refusal the third and fourth results are the message arguments.
@@ -274,7 +231,7 @@ function LWCoupleAction:complete()
         return false
     end
 
-    if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
+    if not I().consume(ch, ELECTRIC_WIRE, wires or 0) then return false end
     if not I().consume(ch, LiveWire.Defs.COUPLING_KIT, 1) then return false end
     -- The slave's anchor goes off, as when its device is removed (Devices.remove).
     LiveWire.Sim.updateAnchor(sdev, false)
@@ -291,33 +248,23 @@ function LWCoupleAction:complete()
     return true
 end
 
-function LWCoupleAction:getDuration()
-    if instant(self.character) then return 1 end
-    return 150
-end
-
 function LWCoupleAction:new(character, slave, master)
-    local o = ISBaseTimedAction.new(self, character)
-    o.slave = slave
-    o.master = master
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { slave = slave, master = master })
 end
 
 --------------------------------------------------------------------------------
 -- Connect a water barrel to a water pump (one metal pipe, LW_Pump.lua). The
 -- barrel must stand next to the pump. complete() runs on the authority only.
 --------------------------------------------------------------------------------
-LWLinkBarrelAction = ISBaseTimedAction:derive("LWLinkBarrelAction")
+LWLinkBarrelAction = LWBaseAction:derive("LWLinkBarrelAction")
+LWLinkBarrelAction.duration = 150
+LWLinkBarrelAction.subject = "barrel"
+LWLinkBarrelAction.partners = { "pump" }
+LWLinkBarrelAction.facing = true
 
 function LWLinkBarrelAction:isValid()
     return objectStillThere(self.barrel) and objectStillThere(self.pump)
         and I().checkBarrelLink(self.character, self.barrel, self.pump)
-end
-
-function LWLinkBarrelAction:waitToStart()
-    self.character:faceThisObject(self.barrel)
-    return self.character:shouldBeTurning()
 end
 
 function LWLinkBarrelAction:update()
@@ -329,15 +276,10 @@ function LWLinkBarrelAction:start()
     self.character:SetVariable("LootPosition", "Low")
 end
 
-function LWLinkBarrelAction:stop() ISBaseTimedAction.stop(self) end
-function LWLinkBarrelAction:perform() ISBaseTimedAction.perform(self) end
-
 function LWLinkBarrelAction:complete()
+    if not self:guard() then return false end
     local ch, barrel, pumpObj = self.character, self.barrel, self.pump
     if not LiveWire.Pump then return false end
-    if not objectStillThere(barrel) or not objectStillThere(pumpObj) then return false end
-    local bsq = barrel:getSquare()
-    if not near(ch, bsq, 2) or not allowed(ch, bsq) then return false end
     local ok, why = I().checkBarrelLink(ch, barrel, pumpObj)
     if not ok then
         LiveWire.notify(ch, why, {}, true)
@@ -354,25 +296,22 @@ function LWLinkBarrelAction:complete()
     return true
 end
 
-function LWLinkBarrelAction:getDuration()
-    if instant(self.character) then return 1 end
-    return 150
-end
-
 function LWLinkBarrelAction:new(character, barrel, pump)
-    local o = ISBaseTimedAction.new(self, character)
-    o.barrel = barrel
-    o.pump = pump
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { barrel = barrel, pump = pump })
 end
 
 --------------------------------------------------------------------------------
 -- Repair (overhaul = false) or overhaul (overhaul = true) a placed device.
 --------------------------------------------------------------------------------
-LWRepairAction = ISBaseTimedAction:derive("LWRepairAction")
+LWRepairAction = LWBaseAction:derive("LWRepairAction")
+LWRepairAction.subject = "target"
+LWRepairAction.facing = true
 
 LWRepairAction.OVERHAUL_LEVEL = 3
+LWRepairAction.TICKS = 250            -- repair, before the skill bonus
+LWRepairAction.OVERHAUL_TICKS = 400   -- overhaul, before the skill bonus
+LWRepairAction.MIN_TICKS = 100
+LWRepairAction.TICKS_PER_LEVEL = 5    -- ticks saved per Electrical level
 
 function LWRepairAction.parts(overhaul)
     if overhaul then return 4, 2 end
@@ -384,8 +323,8 @@ function LWRepairAction.canRepair(character, obj, overhaul)
     if not m then return false, "Tooltip_LW_Invalid" end
     if not I().screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
     local scrap, wire = LWRepairAction.parts(overhaul)
-    if I().countType(character, "Base.ElectronicsScrap") < scrap
-        or I().countType(character, "Base.ElectricWire") < wire then
+    if I().countType(character, ELECTRONICS_SCRAP) < scrap
+        or I().countType(character, ELECTRIC_WIRE) < wire then
         return false, "Tooltip_LW_NeedParts"
     end
     if overhaul and not I().hasLevel(character, LWRepairAction.OVERHAUL_LEVEL) then
@@ -398,11 +337,6 @@ function LWRepairAction:isValid()
     return objectStillThere(self.target) and LWRepairAction.canRepair(self.character, self.target, self.overhaul)
 end
 
-function LWRepairAction:waitToStart()
-    self.character:faceThisObject(self.target)
-    return self.character:shouldBeTurning()
-end
-
 function LWRepairAction:update()
     self.character:setMetabolicTarget(Metabolics.UsingTools)
 end
@@ -412,15 +346,11 @@ function LWRepairAction:start()
     I().showScrewdriver(self)
 end
 
-function LWRepairAction:stop() ISBaseTimedAction.stop(self) end
-function LWRepairAction:perform() ISBaseTimedAction.perform(self) end
-
 function LWRepairAction:complete()
+    if not self:guard() then return false end
     local ch, obj, overhaul = self.character, self.target, self.overhaul == true
-    if not objectStillThere(obj) then return false end
-    local sq = obj:getSquare()
     local dev = deviceOf(obj)
-    if not dev or not near(ch, sq, 2) or not allowed(ch, sq) then return false end
+    if not dev then return false end
     local ok, why = LWRepairAction.canRepair(ch, obj, overhaul)
     if not ok then
         LiveWire.notify(ch, why, {}, true)
@@ -438,8 +368,8 @@ function LWRepairAction:complete()
     local scrap, wire = LWRepairAction.parts(overhaul)
     local repairGrid = dev.grid and R().grid(dev.grid)
     if LiveWire.Maintenance.liveWork(ch, repairGrid) then return false end
-    I().consume(ch, "Base.ElectronicsScrap", scrap)
-    I().consume(ch, "Base.ElectricWire", wire)
+    I().consume(ch, ELECTRONICS_SCRAP, scrap)
+    I().consume(ch, ELECTRIC_WIRE, wire)
     local level = I().level(ch)
     if not overhaul and ZombRand(100) < LiveWire.Defs.repairFailChance(level) then
         LiveWire.notify(ch, "IGUI_LW_RepairFailed", {}, true)
@@ -459,32 +389,26 @@ end
 
 function LWRepairAction:getDuration()
     if instant(self.character) then return 1 end
-    local base = 250
-    if self.overhaul then base = 400 end
-    return math.max(100, base - I().level(self.character) * 5)
+    local base = LWRepairAction.TICKS
+    if self.overhaul then base = LWRepairAction.OVERHAUL_TICKS end
+    return math.max(LWRepairAction.MIN_TICKS, base - I().level(self.character) * LWRepairAction.TICKS_PER_LEVEL)
 end
 
 function LWRepairAction:new(character, target, overhaul)
-    local o = ISBaseTimedAction.new(self, character)
-    o.target = target
-    o.overhaul = overhaul == true
-    o.maxTime = o:getDuration()
-    o.caloriesModifier = 4
-    return o
+    return LWBaseAction.new(self, character, { target = target, overhaul = overhaul == true, caloriesModifier = 4 })
 end
 
 --------------------------------------------------------------------------------
 -- Inspect a placed device: report and small daily XP, without changing its controls.
 --------------------------------------------------------------------------------
-LWInspectAction = ISBaseTimedAction:derive("LWInspectAction")
+LWInspectAction = LWBaseAction:derive("LWInspectAction")
+LWInspectAction.duration = 100
+LWInspectAction.range = 3
+LWInspectAction.subject = "target"
+LWInspectAction.facing = true
 
 function LWInspectAction:isValid()
     return objectStillThere(self.target) and LiveWire.Marks.isOurs(self.target)
-end
-
-function LWInspectAction:waitToStart()
-    self.character:faceThisObject(self.target)
-    return self.character:shouldBeTurning()
 end
 
 function LWInspectAction:start()
@@ -492,14 +416,11 @@ function LWInspectAction:start()
     self.character:SetVariable("LootPosition", "Mid")
 end
 
-function LWInspectAction:stop() ISBaseTimedAction.stop(self) end
-function LWInspectAction:perform() ISBaseTimedAction.perform(self) end
-
 function LWInspectAction:complete()
+    if not self:guard() then return false end
     local ch, obj = self.character, self.target
-    if not objectStillThere(obj) then return false end
     local dev = deviceOf(obj)
-    if not dev or not near(ch, obj:getSquare(), 3) or not allowed(ch, obj:getSquare()) then return false end
+    if not dev then return false end
     local def = LiveWire.Defs.devices[dev.model] or {}
     LiveWire.Xp.awardLimited(ch, "inspect:" .. dev.id, 2, 24)
     local grid = dev.grid and R().grid(dev.grid)
@@ -523,24 +444,18 @@ function LWInspectAction:complete()
     return true
 end
 
-function LWInspectAction:getDuration()
-    if instant(self.character) then return 1 end
-    return 100
-end
-
 function LWInspectAction:new(character, target)
-    local o = ISBaseTimedAction.new(self, character)
-    o.target = target
-    o.maxTime = o:getDuration()
-    o.stopOnWalk = true
-    return o
+    return LWBaseAction.new(self, character, { target = target })
 end
 
 --------------------------------------------------------------------------------
 -- Fit (remove = false) or remove (remove = true) the soundproofing kit of an
 -- inverter: silent for players and zombies, 25 % more wear.
 --------------------------------------------------------------------------------
-LWMuffleAction = ISBaseTimedAction:derive("LWMuffleAction")
+LWMuffleAction = LWBaseAction:derive("LWMuffleAction")
+LWMuffleAction.duration = 200
+LWMuffleAction.subject = "target"
+LWMuffleAction.facing = true
 
 function LWMuffleAction.canDo(character, obj, remove)
     local m = LiveWire.Marks.get(obj)
@@ -558,11 +473,6 @@ function LWMuffleAction:isValid()
     return objectStillThere(self.target) and LWMuffleAction.canDo(self.character, self.target, self.remove)
 end
 
-function LWMuffleAction:waitToStart()
-    self.character:faceThisObject(self.target)
-    return self.character:shouldBeTurning()
-end
-
 function LWMuffleAction:update()
     self.character:setMetabolicTarget(Metabolics.LightWork)
 end
@@ -572,16 +482,11 @@ function LWMuffleAction:start()
     self:setOverrideHandModels("Screwdriver", nil)
 end
 
-function LWMuffleAction:stop() ISBaseTimedAction.stop(self) end
-function LWMuffleAction:perform() ISBaseTimedAction.perform(self) end
-
 function LWMuffleAction:complete()
+    if not self:guard() then return false end
     local ch, obj, remove = self.character, self.target, self.remove == true
-    if not objectStillThere(obj) then return false end
     local dev = deviceOf(obj)
-    if not dev or dev.role ~= "inverter" or not near(ch, obj:getSquare(), 2) or not allowed(ch, obj:getSquare()) then
-        return false
-    end
+    if not dev or dev.role ~= "inverter" then return false end
     local ok, why = LWMuffleAction.canDo(ch, obj, remove)
     if not ok then
         LiveWire.notify(ch, why, {}, true)
@@ -603,31 +508,20 @@ function LWMuffleAction:complete()
     return true
 end
 
-function LWMuffleAction:getDuration()
-    if instant(self.character) then return 1 end
-    return 200
-end
-
 function LWMuffleAction:new(character, target, remove)
-    local o = ISBaseTimedAction.new(self, character)
-    o.target = target
-    o.remove = remove == true
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { target = target, remove = remove == true })
 end
 
 --------------------------------------------------------------------------------
 -- Clear the snow from a solar panel.
 --------------------------------------------------------------------------------
-LWClearSnowAction = ISBaseTimedAction:derive("LWClearSnowAction")
+LWClearSnowAction = LWBaseAction:derive("LWClearSnowAction")
+LWClearSnowAction.duration = 120
+LWClearSnowAction.subject = "target"
+LWClearSnowAction.facing = true
 
 function LWClearSnowAction:isValid()
     return objectStillThere(self.target) and LiveWire.Marks.isOurs(self.target)
-end
-
-function LWClearSnowAction:waitToStart()
-    self.character:faceThisObject(self.target)
-    return self.character:shouldBeTurning()
 end
 
 function LWClearSnowAction:update()
@@ -639,51 +533,36 @@ function LWClearSnowAction:start()
     self.character:SetVariable("LootPosition", "Mid")
 end
 
-function LWClearSnowAction:stop() ISBaseTimedAction.stop(self) end
-function LWClearSnowAction:perform() ISBaseTimedAction.perform(self) end
-
 function LWClearSnowAction:complete()
-    local ch, obj = self.character, self.target
-    if not objectStillThere(obj) then return false end
-    local dev = deviceOf(obj)
-    if not dev or not near(ch, obj:getSquare(), 2) or not allowed(ch, obj:getSquare()) then return false end
+    if not self:guard() then return false end
+    local dev = deviceOf(self.target)
+    if not dev then return false end
     dev.snow = 0
+    LiveWire.Devices.syncMark(dev)
     return true
 end
 
-function LWClearSnowAction:getDuration()
-    if instant(self.character) then return 1 end
-    return 120
-end
-
 function LWClearSnowAction:new(character, target)
-    local o = ISBaseTimedAction.new(self, character)
-    o.target = target
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { target = target })
 end
 
 --------------------------------------------------------------------------------
 -- Measure a square with the voltage tester.
 --------------------------------------------------------------------------------
-LWMeasureAction = ISBaseTimedAction:derive("LWMeasureAction")
+LWMeasureAction = LWBaseAction:derive("LWMeasureAction")
+LWMeasureAction.duration = 60
+LWMeasureAction.subject = "square"
+LWMeasureAction.subjectIsSquare = true
+LWMeasureAction.facing = true
 
 function LWMeasureAction:isValid()
-    return self.square ~= nil and I().countType(self.character, "LiveWire.VoltageTester") > 0
-end
-
-function LWMeasureAction:waitToStart()
-    self.character:faceLocation(self.square:getX(), self.square:getY())
-    return self.character:shouldBeTurning()
+    return self.square ~= nil and I().countType(self.character, VOLTAGE_TESTER) > 0
 end
 
 function LWMeasureAction:start()
     self:setActionAnim("Loot")
     self.character:SetVariable("LootPosition", "Mid")
 end
-
-function LWMeasureAction:stop() ISBaseTimedAction.stop(self) end
-function LWMeasureAction:perform() ISBaseTimedAction.perform(self) end
 
 -- Which source powers a square (authority side, also correct in single player).
 local function powerSource(sq)
@@ -705,9 +584,9 @@ local function powerSource(sq)
 end
 
 function LWMeasureAction:complete()
+    if not self:guard() then return false end
     local ch, sq = self.character, self.square
-    if not sq or not near(ch, sq, 2) then return false end
-    if I().countType(ch, "LiveWire.VoltageTester") <= 0 then return false end
+    if I().countType(ch, VOLTAGE_TESTER) <= 0 then return false end
     local level = I().level(ch)
     local source = powerSource(sq)
     if not source then
@@ -750,24 +629,18 @@ function LWMeasureAction:complete()
     return true
 end
 
-function LWMeasureAction:getDuration()
-    if instant(self.character) then return 1 end
-    return 60
-end
-
 function LWMeasureAction:new(character, square)
-    local o = ISBaseTimedAction.new(self, character)
-    o.square = square
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { square = square })
 end
 
 --------------------------------------------------------------------------------
 -- Recondition a battery held in the inventory (level 4).
 --------------------------------------------------------------------------------
-LWReconditionAction = ISBaseTimedAction:derive("LWReconditionAction")
+LWReconditionAction = LWBaseAction:derive("LWReconditionAction")
+LWReconditionAction.duration = 300
 
 LWReconditionAction.LEVEL = 4
+LWReconditionAction.DEAD_LEVEL = 6  -- level needed to bring back a battery whose condition is 0
 LWReconditionAction.WATER_LITRES = 0.5
 LWReconditionAction.MAX_COND = 80
 LWReconditionAction.GAIN = 15
@@ -792,12 +665,12 @@ function LWReconditionAction.canRecondition(character, item)
     if not I().hasLevel(character, LWReconditionAction.LEVEL) then
         return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(LWReconditionAction.LEVEL)
     end
-    if item:getCondition() <= 0 and not I().hasLevel(character, 6) then
-        return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(6)
+    if item:getCondition() <= 0 and not I().hasLevel(character, LWReconditionAction.DEAD_LEVEL) then
+        return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(LWReconditionAction.DEAD_LEVEL)
     end
     if not I().screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
-    if I().countType(character, "Base.ElectricWire") < 1 then return false, "Tooltip_LW_NeedParts" end
-    if I().countType(character, "Base.ElectronicsScrap") < 1 then return false, "Tooltip_LW_NeedParts" end
+    if I().countType(character, ELECTRIC_WIRE) < 1 then return false, "Tooltip_LW_NeedParts" end
+    if I().countType(character, ELECTRONICS_SCRAP) < 1 then return false, "Tooltip_LW_NeedParts" end
     if not waterSource(character) then return false, "Tooltip_LW_NeedWater" end
     return true
 end
@@ -815,12 +688,9 @@ function LWReconditionAction:start()
     self:setActionAnim(CharacterActionAnims.Craft)
 end
 
-function LWReconditionAction:stop() ISBaseTimedAction.stop(self) end
-function LWReconditionAction:perform() ISBaseTimedAction.perform(self) end
-
 function LWReconditionAction:complete()
+    if not self:guard() then return false end
     local ch, item = self.character, self.item
-    if not authorityReady(ch) then return false end
     if not item or not ch:getInventory():containsRecursive(item) then return false end
     local ok, why = LWReconditionAction.canRecondition(ch, item)
     if not ok then
@@ -833,8 +703,8 @@ function LWReconditionAction:complete()
     fc:adjustSpecificFluidAmount(Fluid.Water,
         fc:getSpecificFluidAmount(Fluid.Water) - LWReconditionAction.WATER_LITRES)
     water:syncItemFields()
-    I().consume(ch, "Base.ElectronicsScrap", 1)
-    I().consume(ch, "Base.ElectricWire", 1)
+    I().consume(ch, ELECTRONICS_SCRAP, 1)
+    I().consume(ch, ELECTRIC_WIRE, 1)
     local oldCondition = LiveWire.Batteries.condition(item)
     local oldCap = LiveWire.Batteries.capacity(item:getFullType(), oldCondition)
     local energy = LiveWire.Batteries.energy(item, oldCap)
@@ -850,30 +720,23 @@ function LWReconditionAction:complete()
     return true
 end
 
-function LWReconditionAction:getDuration()
-    if instant(self.character) then return 1 end
-    return 300
-end
-
 function LWReconditionAction:new(character, item)
-    local o = ISBaseTimedAction.new(self, character)
-    o.item = item
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { item = item })
 end
 
 -- Inventory diagnostic: always read authoritative condition, charge and cycles.
-LWTestBatteryAction = ISBaseTimedAction:derive("LWTestBatteryAction")
+LWTestBatteryAction = LWBaseAction:derive("LWTestBatteryAction")
+LWTestBatteryAction.duration = 60
+LWTestBatteryAction.LEVEL = 1
 function LWTestBatteryAction:isValid()
     return self.item and self.character:getInventory():containsRecursive(self.item)
         and LiveWire.Defs.isBattery(self.item:getFullType())
-        and I().hasLevel(self.character, 1)
-        and I().countType(self.character, "LiveWire.VoltageTester") > 0
+        and I().hasLevel(self.character, LWTestBatteryAction.LEVEL)
+        and I().countType(self.character, VOLTAGE_TESTER) > 0
 end
 function LWTestBatteryAction:start() self:setActionAnim(CharacterActionAnims.Craft) end
-function LWTestBatteryAction:perform() ISBaseTimedAction.perform(self) end
 function LWTestBatteryAction:complete()
-    if not authorityReady(self.character) or not self:isValid() then return false end
+    if not self:guard() or not self:isValid() then return false end
     local ch, it = self.character, self.item
     local level = I().level(ch)
     local condition = LiveWire.Batteries.condition(it)
@@ -893,72 +756,58 @@ function LWTestBatteryAction:complete()
     end
     return true
 end
-function LWTestBatteryAction:getDuration() return instant(self.character) and 1 or 60 end
 function LWTestBatteryAction:new(character, item)
-    local o = ISBaseTimedAction.new(self, character)
-    o.item = item
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { item = item })
 end
 
 -- Snow-only legacy action remains usable; cleaning additionally removes dirt and costs water.
-LWCleanPanelAction = ISBaseTimedAction:derive("LWCleanPanelAction")
+LWCleanPanelAction = LWBaseAction:derive("LWCleanPanelAction")
+LWCleanPanelAction.duration = 180
+LWCleanPanelAction.subject = "target"
+LWCleanPanelAction.facing = true
 function LWCleanPanelAction:isValid()
     local m = LiveWire.Marks.get(self.target)
     local def = m and LiveWire.Defs.devices[m.model]
     return objectStillThere(self.target) and def and def.kind == "solar"
         and I().countType(self.character, "Base.RippedSheets") > 0 and waterSource(self.character) ~= nil
 end
-function LWCleanPanelAction:waitToStart()
-    self.character:faceThisObject(self.target)
-    return self.character:shouldBeTurning()
-end
 function LWCleanPanelAction:start() self:setActionAnim("Loot") end
-function LWCleanPanelAction:perform() ISBaseTimedAction.perform(self) end
 function LWCleanPanelAction:complete()
-    if not authorityReady(self.character) or not self:isValid() then return false end
+    if not self:guard() or not self:isValid() then return false end
     local ch, obj = self.character, self.target
     local dev = deviceOf(obj)
-    if not dev or not near(ch, obj:getSquare(), 2) or not allowed(ch, obj:getSquare()) then return false end
+    if not dev then return false end
     if (dev.dirt or 0) <= 0 and (dev.snow or 0) <= 0 then return false end
     local water = waterSource(ch)
     local fc = water:getFluidContainer()
-    fc:adjustSpecificFluidAmount(Fluid.Water, fc:getSpecificFluidAmount(Fluid.Water) - 0.5)
+    fc:adjustSpecificFluidAmount(Fluid.Water,
+        fc:getSpecificFluidAmount(Fluid.Water) - LWReconditionAction.WATER_LITRES)
     water:syncItemFields()
     dev.dirt, dev.snow = 0, 0
     LiveWire.Devices.syncMark(dev)
     LiveWire.Xp.awardLimited(ch, "clean:" .. dev.id, 2, 24)
     return true
 end
-function LWCleanPanelAction:getDuration() return instant(self.character) and 1 or 180 end
 function LWCleanPanelAction:new(character, target)
-    local o = ISBaseTimedAction.new(self, character)
-    o.target = target
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { target = target })
 end
 
-LWSalvageAction = ISBaseTimedAction:derive("LWSalvageAction")
+LWSalvageAction = LWBaseAction:derive("LWSalvageAction")
+LWSalvageAction.duration = 250
+LWSalvageAction.LEVEL = 3
+LWSalvageAction.subject = "target"
+LWSalvageAction.facing = true
 function LWSalvageAction:isValid()
     local m = LiveWire.Marks.get(self.target)
     return objectStillThere(self.target) and m and (m.cond or 100) <= 0
         and LiveWire.Stack.canMove(self.target)
-        and I().hasLevel(self.character, 3) and I().screwdriver(self.character)
-end
-function LWSalvageAction:waitToStart()
-    self.character:faceThisObject(self.target)
-    return self.character:shouldBeTurning()
+        and I().hasLevel(self.character, LWSalvageAction.LEVEL) and I().screwdriver(self.character)
 end
 function LWSalvageAction:start()
     self:setActionAnim(CharacterActionAnims.Disassemble)
     I().showScrewdriver(self)
 end
-function LWSalvageAction:perform() ISBaseTimedAction.perform(self) end
 function LWSalvageAction:complete() return LiveWire.Maintenance.salvage(self.character, self.target) end
-function LWSalvageAction:getDuration() return instant(self.character) and 1 or 250 end
 function LWSalvageAction:new(character, target)
-    local o = ISBaseTimedAction.new(self, character)
-    o.target = target
-    o.maxTime = o:getDuration()
-    return o
+    return LWBaseAction.new(self, character, { target = target })
 end

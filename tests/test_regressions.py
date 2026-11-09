@@ -3,6 +3,7 @@ import pathlib
 import unittest
 
 from test_simulation import make, LUA
+from action_harness import load_actions
 
 
 class Regressions(unittest.TestCase):
@@ -244,26 +245,88 @@ class Regressions(unittest.TestCase):
         ''')
 
     def test_safehouse_and_inspection_has_no_brake_side_effect(self):
-        self.lua.execute('''
-        ISBaseTimedAction={derive=function(self) return setmetatable({}, {__index=self}) end}
-        ''')
-        self.lua.execute(pathlib.Path(LUA, 'shared/LiveWire/TimedActions/LW_TimedActions.lua').read_text())
+        load_actions(self.lua)
         self.run_lua('''
         local R=LiveWire.Registry
         local dev=R.addDevice({role="source",model="WindTurbine",x=0,y=0,z=0,cond=100})
         local sq={getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end}
         local obj={getSquare=function() return sq end,getObjectIndex=function() return 0 end}
         LiveWire.Marks.get=function() return {id=dev.id} end
-        local ch={getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end}
-        local action={character=ch,target=obj}
+        local ch={getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end,
+            isDead=function() return false end}
         SafeHouse={isSafehouseAllowInteract=function() return false end}
-        assert(LWInspectAction.complete(action)==false)
+        assert(LWInspectAction.complete(ACT(LWInspectAction,{character=ch,target=obj}))==false)
         dev.snow=1
-        assert(LWClearSnowAction.complete(action)==false and dev.snow==1)
+        assert(LWClearSnowAction.complete(ACT(LWClearSnowAction,{character=ch,target=obj}))==false and dev.snow==1)
         SafeHouse.isSafehouseAllowInteract=function() return true end
         LiveWire.Xp.awardLimited=function() end; LiveWire.notify=function() end
-        assert(LWInspectAction.complete(action)==true and dev.brake==nil)
-        assert(LWClearSnowAction.complete(action)==true and dev.snow==0)
+        assert(LWInspectAction.complete(ACT(LWInspectAction,{character=ch,target=obj}))==true and dev.brake==nil)
+        assert(LWClearSnowAction.complete(ACT(LWClearSnowAction,{character=ch,target=obj}))==true and dev.snow==0)
+        ''')
+
+    def authority_fixture(self):
+        """Fresh runtime: one inverter, one object on its square, an alive character on it; side effects are counted."""
+        self.lua = make()
+        load_actions(self.lua)
+        self.run_lua('''
+        local R=LiveWire.Registry
+        DEV=R.addDevice({role="inverter",model="Inverter",x=0,y=0,z=0,cond=50,state="off",snow=1,dirt=1})
+        SQ={getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end,
+            hasGridPower=function() return false end,getRoom=function() return nil end,
+            haveElectricity=function() return false end}
+        OBJ={getSquare=function() return SQ end,getObjectIndex=function() return 0 end}
+        LiveWire.Marks.get=function() return {id=DEV.id} end
+        DEAD=false
+        CH={getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end,
+            isDead=function() return DEAD end,getUsername=function() return "tester" end}
+        TOUCH=0
+        local function touch() TOUCH=TOUCH+1; return true end
+        local I=LiveWire.Install
+        I.checkLink=touch; I.checkCouple=touch; I.checkBarrelLink=touch; I.screwdriver=touch; I.consume=touch
+        I.countType=function() TOUCH=TOUCH+1; return 10 end
+        I.level=function() return 0 end
+        LiveWire.notify=touch
+        LiveWire.Xp.award=touch; LiveWire.Xp.awardLimited=touch; LiveWire.Xp.awardMeasurement=touch
+        SYNC=0
+        LiveWire.Devices.syncMark=function() SYNC=SYNC+1 end
+        ''')
+
+    ACTIONS = [
+        ('LWLinkAction', 'target=OBJ,inverter=OBJ'),
+        ('LWCoupleAction', 'slave=OBJ,master=OBJ'),
+        ('LWLinkBarrelAction', 'barrel=OBJ,pump=OBJ'),
+        ('LWRepairAction', 'target=OBJ,overhaul=false'),
+        ('LWInspectAction', 'target=OBJ'),
+        ('LWMuffleAction', 'target=OBJ,remove=false'),
+        ('LWClearSnowAction', 'target=OBJ'),
+        ('LWMeasureAction', 'square=SQ'),
+    ]
+
+    def test_read_only_registry_or_dead_character_stops_every_action_before_any_effect(self):
+        for state in ('LiveWire.Registry.readOnly=true', 'DEAD=true'):
+            for name, fields in self.ACTIONS:
+                with self.subTest(action=name, state=state):
+                    self.authority_fixture()
+                    self.run_lua('''
+                    %s
+                    assert(%s.complete(ACT(%s,{character=CH,%s}))==false)
+                    assert(TOUCH==0 and DEV.cond==50 and DEV.muffled==nil and DEV.snow==1 and DEV.dirt==1)
+                    ''' % (state, name, name, fields))
+
+    def test_measure_respects_the_safehouse_rule(self):
+        self.authority_fixture()
+        self.run_lua('''
+        SafeHouse={isSafehouseAllowInteract=function() return false end}
+        assert(LWMeasureAction.complete(ACT(LWMeasureAction,{character=CH,square=SQ}))==false and TOUCH==0)
+        SafeHouse.isSafehouseAllowInteract=function() return true end
+        assert(LWMeasureAction.complete(ACT(LWMeasureAction,{character=CH,square=SQ}))==true and TOUCH>0)
+        ''')
+
+    def test_clear_snow_synchronises_the_device_mark(self):
+        self.authority_fixture()
+        self.run_lua('''
+        assert(LWClearSnowAction.complete(ACT(LWClearSnowAction,{character=CH,target=OBJ}))==true)
+        assert(DEV.snow==0 and SYNC==1)
         ''')
 
     def test_turbine_brake_needs_no_electrical_level(self):
