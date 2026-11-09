@@ -1,3 +1,6 @@
 {
-    "LiveWire_Extended_Terminal": "Poste eléctrico"
+    "LiveWire_Extended_Terminal": "Poste eléctrico",
+    "LiveWire_Extended_Board8": "Cuadro eléctrico (8 módulos)",
+    "LiveWire_Extended_Board16": "Cuadro eléctrico (16 módulos)",
+    "LiveWire_Extended_Board24": "Cuadro eléctrico (24 módulos)"
 }

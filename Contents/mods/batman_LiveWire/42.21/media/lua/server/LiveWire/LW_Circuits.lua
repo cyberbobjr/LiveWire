@@ -13,6 +13,17 @@ local function newQueue() return { jobs = {}, head = 1, tail = 0 } end
 local grids, chunks, byKey = newQueue(), newQueue(), {}
 local isolated, positions, isolatedCursor = {}, {}, 1
 local nextBatchAt, nextSweepAt, sweepLeft, lastClock, preferSaved = 0, 0, 0, nil, false
+-- The chunk discovery walk below visits every object of each loaded chunk once,
+-- spread over ticks. Services that need the same visit (orphan recovery, Live Wire
+-- and its sub-mods) register here instead of walking the chunk again. Kept across
+-- Circuits.reset.
+local chunkVisitors = {}
+function Circuits.addChunkVisitor(fn)
+    for i = 1, #chunkVisitors do
+        if chunkVisitors[i] == fn then return end
+    end
+    chunkVisitors[#chunkVisitors + 1] = fn
+end
 function Circuits.reset()
     grids, chunks, byKey = newQueue(), newQueue(), {}
     isolated, positions, isolatedCursor = {}, {}, 1
@@ -58,8 +69,10 @@ function Circuits.owner(o)
             best, distance = inv, d
         end
     end
-    for _, inv in ipairs(R.invertersNear(x, y, radius)) do
-        if math.abs(z - inv.z) <= floors then consider(inv) end
+    if LiveWire.Coverage.hasDisc() then  -- no disc when a provider replaces it (D-44)
+        for _, inv in ipairs(R.invertersNear(x, y, radius)) do
+            if math.abs(z - inv.z) <= floors then consider(inv) end
+        end
     end
     -- Inverters whose provider coverage (D-32) reaches this square.
     local extra = LiveWire.Coverage.extraIdsAt(x, y, z)
@@ -226,6 +239,7 @@ local function stepJob(job)
             if o then
                 job.object = job.object + 1
                 Circuits.applyObject(o)
+                for i = 1, #chunkVisitors do chunkVisitors[i](o) end
                 break
             else
                 job.object, job.square = 0, job.square + 1

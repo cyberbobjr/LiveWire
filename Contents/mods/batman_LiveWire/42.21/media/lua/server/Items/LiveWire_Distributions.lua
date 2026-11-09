@@ -31,10 +31,10 @@ local PANEL_LISTS = {
 -- Ready-made Live Wire equipment: electricians, electrical shelves, hardware stores, garages
 -- (tool, mechanics and metalwork shelves).
 local EQUIPMENT = {
+    -- Rare outside electricians (it was found far too often); it is also crafted (Electrical 1).
     ["LiveWire.VoltageTester"] = {
-        ElectricianTools = 3, ToolStoreTools = 1, GarageTools = 1, CrateTools = 1, WireFactoryElectric = 1,
-        ElectronicStoreMisc = 1, CrateElectronics = 1, MechanicShelfElectric = 1, MechanicShelfTools = 1,
-        GarageMechanics = 1, GarageMetalwork = 0.5,
+        ElectricianTools = 1, WireFactoryElectric = 0.5, ToolStoreTools = 0.3, ElectronicStoreMisc = 0.3,
+        CrateElectronics = 0.3, MechanicShelfElectric = 0.3, GarageTools = 0.2, CrateTools = 0.2,
     },
     ["LiveWire.DeepCycleBattery"] = {
         MechanicShelfElectric = 1, CarSupplyBatteries = 2, GarageMechanics = 0.3,
@@ -83,7 +83,7 @@ local EQUIPMENT = {
 -- Vehicle containers (VehicleDistributions tables shared by the electrician profile, including the
 -- electrical company vans, and by the metalworker profile).
 local VEHICLE = {
-    ["LiveWire.VoltageTester"] = { ElectricianTruckBed = 2, ElectricianGloveBox = 1, ElectricianSeat = 1 },
+    ["LiveWire.VoltageTester"] = { ElectricianTruckBed = 1, ElectricianGloveBox = 0.3 },
     ["LiveWire.SolarCell"] = { ElectricianTruckBed = 2 },
     ["Base.Mov_LiveWire_Breaker"] = { ElectricianTruckBed = 1 },
     ["Base.Mov_LiveWire_BatteryAlarm"] = { ElectricianTruckBed = 1 },

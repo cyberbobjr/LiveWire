@@ -51,6 +51,16 @@ function X.receive(data)
             end)
         end
     end
+    -- Every other section of the public table (terminals, boards, points, release state):
+    -- copied as received, sections the authority no longer sends are dropped.
+    local t = D.table()
+    for k in pairs(t) do
+        if k ~= "inverters" and data[k] == nil then t[k] = nil end
+    end
+    for k, v in pairs(data) do
+        if k ~= "inverters" then t[k] = v end
+    end
+    if X.Points then X.Points.changed() end
     D.invalidate()
     if X.onChanged then X.onChanged() end
 end

@@ -1,3 +1,6 @@
 {
-    "LiveWire_Extended_Terminal": "Электроколонка"
+    "LiveWire_Extended_Terminal": "Электроколонка",
+    "LiveWire_Extended_Board8": "Электрощиток (8 модулей)",
+    "LiveWire_Extended_Board16": "Электрощиток (16 модулей)",
+    "LiveWire_Extended_Board24": "Электрощиток (24 модуля)"
 }

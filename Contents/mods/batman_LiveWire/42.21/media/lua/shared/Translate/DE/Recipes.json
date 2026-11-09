@@ -16,5 +16,16 @@
     "LWMakeWindTurbineBlades": "Windrad-Rotor bauen",
     "LWMakeWindTurbineMast": "Windradmast bauen",
     "LWDismantleVoltageTester": "Spannungsprüfer zerlegen",
-    "LWMakeInverterCabinet": "Wechselrichterschrank bauen"
+    "LWMakeInverterCabinet": "Wechselrichterschrank bauen",
+    "LWDismantleSolarPanel": "Solarpanel zerlegen",
+    "LWDismantleWindTurbine": "Windturbine zerlegen",
+    "LWDismantleWaterWheel": "Wasserrad zerlegen",
+    "LWDismantleInverter": "Wechselrichter zerlegen",
+    "LWDismantleInverterCabinet": "Wechselrichterschrank zerlegen",
+    "LWDismantlePowerBank": "Batteriebank zerlegen",
+    "LWDismantleBreaker": "Schutzschaltertafel zerlegen",
+    "LWDismantleBatteryAlarm": "Batteriealarm zerlegen",
+    "LWDismantleWaterPump": "Wasserpumpe zerlegen",
+    "LWDismantleCouplingKit": "Kopplungsset für Wechselrichter zerlegen",
+    "LWDismantleSoundproofKit": "Schalldämmset für Wechselrichter zerlegen"
 }

@@ -17,12 +17,14 @@
     "Tooltip_LWX_NotAnAppliance": "Cet objet ne consomme pas de courant.",
     "Tooltip_LWX_NoBreakerThere": "Aucun disjoncteur dans ce module.",
     "Tooltip_LWX_PointConnected": "Déjà raccordé à un disjoncteur.",
-    "Tooltip_LWX_PointWires": "Utilise %1 fil électrique. Dès qu'un tableau dessert le bâtiment, un appareil non raccordé n'a plus de courant.",
+    "Tooltip_LWX_PointWires": "Utilise %1 fil électrique et un testeur de tension (conservé). Dès qu'un tableau dessert le bâtiment, un appareil non raccordé n'a plus de courant.",
     "Tooltip_LWX_NoBoardNear": "Aucun tableau raccordé à portée de câble.",
     "Tooltip_LWX_NeedPen": "Nécessite un stylo ou un crayon.",
     "Tooltip_LWX_WiredTo": "Circuit : %1 (%2 A), %3 W mesurés.",
     "Tooltip_LWX_UnwiredServed": "Pas de courant : un tableau dessert ce bâtiment et cet appareil n'est raccordé à aucun disjoncteur.",
     "Tooltip_LWX_MachineCut": "Pas de courant : son disjoncteur est coupé, ou il n'est raccordé à aucun disjoncteur dans un bâtiment desservi par un tableau.",
     "Tooltip_LWX_Twilight": "Le circuit n'est alors fermé qu'entre le crépuscule et l'aube.",
-    "Tooltip_LWX_NoTwilightItem": "Vous n'avez pas d'interrupteur crépusculaire."
+    "Tooltip_LWX_NoTwilightItem": "Vous n'avez pas d'interrupteur crépusculaire.",
+    "Tooltip_LWX_ModuleTaken": "Ce module n'est pas libre.",
+    "Tooltip_LWX_NeedTester": "Nécessite un testeur de tension (conservé)."
 }

@@ -16,5 +16,16 @@
     "LWDismantleVoltageTester": "Démonter un testeur de tension",
     "LWMakeWindTurbineBlades": "Fabriquer un jeu de pales d’éolienne",
     "LWMakeWindTurbineMast": "Fabriquer un mât d’éolienne",
-    "LWMakeInverterCabinet": "Fabriquer une armoire onduleur"
+    "LWMakeInverterCabinet": "Fabriquer une armoire onduleur",
+    "LWDismantleSolarPanel": "Démonter un panneau photovoltaïque",
+    "LWDismantleWindTurbine": "Démonter une éolienne",
+    "LWDismantleWaterWheel": "Démonter une roue à aubes",
+    "LWDismantleInverter": "Démonter un onduleur",
+    "LWDismantleInverterCabinet": "Démonter une armoire onduleur",
+    "LWDismantlePowerBank": "Démonter une powerbank",
+    "LWDismantleBreaker": "Démonter un disjoncteur",
+    "LWDismantleBatteryAlarm": "Démonter une alarme de batterie faible",
+    "LWDismantleWaterPump": "Démonter une pompe à eau",
+    "LWDismantleCouplingKit": "Démonter un kit de couplage d'onduleurs",
+    "LWDismantleSoundproofKit": "Démonter un kit d'insonorisation d'onduleur"
 }

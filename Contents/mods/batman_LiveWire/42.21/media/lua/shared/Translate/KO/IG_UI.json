@@ -51,6 +51,7 @@
     "IGUI_LW_Installed": "%1 설치 완료.",
     "IGUI_LW_Linked": "연결됨.",
     "IGUI_LW_Unlinked": "연결 해제됨.",
+    "IGUI_LW_WiresBack": "전선 %1개를 회수했습니다.",
     "IGUI_LW_Repaired": "수리 완료, 상태 %1.",
     "IGUI_LW_RepairFailed": "수리 실패, 부품이 사라졌습니다.",
     "IGUI_LW_Reconditioned": "배터리 재생 완료, 상태 %1.",

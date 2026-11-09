@@ -208,6 +208,7 @@ handlers[P.C_UNLINK] = function(player, args)
     local grid = LiveWire.Registry.grid(dev.grid)
     -- A linked vanilla generator or computer leaves the registry entirely.
     if LiveWire.Maintenance.liveWork(player, grid) then return end
+    local wires = LiveWire.Devices.linkWires(dev)
     if not LiveWire.Registry.forgetVanilla(dev) then
         LiveWire.Registry.unlink(dev)
         LiveWire.Devices.syncMark(dev)
@@ -215,10 +216,11 @@ handlers[P.C_UNLINK] = function(player, args)
     end
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(player, "IGUI_LW_Unlinked", {})
+    LiveWire.Devices.returnWires(player, wires)
 end
 
--- Make a slave independent again: it gets its own empty grid, the coupling kit goes
--- back to the player (the wire does not come back).
+-- Make a slave independent again: it gets its own empty grid, the coupling kit and
+-- the wire of the coupling go back to the player.
 handlers[P.C_UNCOUPLE] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.inverter)
     if not dev then return refuse(player, P.C_UNCOUPLE, why) end
@@ -226,6 +228,7 @@ handlers[P.C_UNCOUPLE] = function(player, args)
     local R = LiveWire.Registry
     local mgrid = R.grid(dev.grid)
     local master = mgrid and R.device(mgrid.inverter)
+    local wires = LiveWire.Devices.linkWires(dev)
     R.uncouple(dev)
     -- Anchor off until the first step of its new grid.
     LiveWire.Sim.updateAnchor(dev, false)
@@ -235,6 +238,7 @@ handlers[P.C_UNCOUPLE] = function(player, args)
     if master then LiveWire.Devices.syncMark(master) end
     LiveWire.Install.giveItem(player, LiveWire.Defs.COUPLING_KIT)
     LiveWire.notify(player, "IGUI_LW_Uncoupled", {})
+    LiveWire.Devices.returnWires(player, wires)
 end
 
 -- Disconnect one barrel from a pump: the pipe goes back to the player.

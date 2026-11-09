@@ -41,5 +41,6 @@
     "Tooltip_LW_RepairLimit": "이 배터리는 수리 횟수 한도에 도달했습니다.",
     "Tooltip_LW_BankStackFull": "배터리 뱅크는 두 개까지만 쌓을 수 있습니다.",
     "Tooltip_LW_BankStackBase": "바닥이나 다른 배터리 뱅크 위에 놓으세요.",
-    "Tooltip_LW_BankStackSupport": "먼저 위쪽 뱅크나 물건을 치우세요."
+    "Tooltip_LW_BankStackSupport": "먼저 위쪽 뱅크나 물건을 치우세요.",
+    "Tooltip_LW_Dismantle": "제작에 든 부품보다 적게 돌려받습니다. 전자 부품은 상태에 따라 다르며, 닳은 장비일수록 적게 나옵니다. 장착된 방음 키트나 연결 키트는 돌려받습니다."
 }

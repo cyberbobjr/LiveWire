@@ -52,20 +52,16 @@ Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox
 |  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 1,5 | 4 | 3,6 % |
 |  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
 |  | `MetalWelderTruckBed` | Véhicule de métallier, plateau ou coffre | 1,5 | 4 | 3,6 % |
-| <img src="../../images/icons/VoltageTester.png" width="24" height="24"> **Testeur de tension** | `ElectricianTools` | Outils d'électricien | 15 | 3 | 24,6 % |
-|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 10 | 4 | 21,9 % |
-|  | `ToolStoreTools` | Quincaillerie, outils | 5 | 4 | 11,5 % |
-|  | `GarageTools` | Rangement d'outils de garage | 5 | 4 | 11,5 % |
-|  | `CrateTools` | Caisses d'outils | 5 | 4 | 11,5 % |
-|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 5 | 4 | 11,5 % |
-|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 5 | 4 | 11,5 % |
-|  | `CrateElectronics` | Caisses d'électronique | 5 | 4 | 11,5 % |
-|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 5 | 4 | 11,5 % |
-|  | `MechanicShelfTools` | Garage automobile, outils | 5 | 4 | 11,5 % |
-|  | `GarageMechanics` | Garage, rangement mécanique | 5 | 4 | 11,5 % |
-|  | `ElectricianGloveBox` | Véhicule d'électricien, boîte à gants | 5 | 1 | 3,0 % |
-|  | `ElectricianSeat` | Véhicule d'électricien, siège passager | 5 | 1 | 3,0 % |
-|  | `GarageMetalwork` | Rangement de métallerie de garage | 2,5 | 4 | 5,9 % |
+| <img src="../../images/icons/VoltageTester.png" width="24" height="24"> **Testeur de tension** | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
+|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 5 | 4 | 11,5 % |
+|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
+|  | `ToolStoreTools` | Quincaillerie, outils | 1,5 | 4 | 3,6 % |
+|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 1,5 | 4 | 3,6 % |
+|  | `CrateElectronics` | Caisses d'électronique | 1,5 | 4 | 3,6 % |
+|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 1,5 | 4 | 3,6 % |
+|  | `ElectricianGloveBox` | Véhicule d'électricien, boîte à gants | 1,5 | 1 | 0,9 % |
+|  | `GarageTools` | Rangement d'outils de garage | 1 | 4 | 2,4 % |
+|  | `CrateTools` | Caisses d'outils | 1 | 4 | 2,4 % |
 | <img src="../../images/icons/DeepCycleBattery.png" width="24" height="24"> **Batterie stationnaire** | `CarSupplyBatteries` | Magasin de pièces auto, batteries | 10 | 4 | 21,9 % |
 |  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 5 | 4 | 11,5 % |
 |  | `CrateMechanics` | Caisses de mécanique | 3,5 | 4 | 8,1 % |

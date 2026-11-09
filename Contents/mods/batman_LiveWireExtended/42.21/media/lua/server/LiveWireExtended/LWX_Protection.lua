@@ -40,7 +40,7 @@ end
 
 function PR.check()
     local boards = X.Data.table().panels
-    if not boards then return end
+    if not boards or X.Data.table().released then return end  -- released before removal (E23)
     local loads, any = PR.loads(), false
     local now = getGameTime():getWorldAgeHours()
     for boardKey, r in pairs(boards) do

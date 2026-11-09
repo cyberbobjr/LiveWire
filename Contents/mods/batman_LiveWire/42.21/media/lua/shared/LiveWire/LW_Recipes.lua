@@ -33,3 +33,56 @@ function LiveWire.Recipes.onDeepCycleBattery(craftRecipeData, character)
         end
     end
 end
+
+-- Dismantling Live Wire equipment (LWDismantle* recipes). The script outputs are the
+-- parts that always survive (metal, screws, sub-assemblies); the electronic parts
+-- below come on top, in proportion to the condition carried by the picked-up item
+-- (its mark, LW_Marks.lua; an item without a mark is new: 100). Every total stays
+-- below the matching crafting recipe, so a craft/dismantle cycle loses materials,
+-- and a worn device gives fewer parts, so a dismantle/craft cycle is no cheaper than
+-- an overhaul. A fitted soundproofing kit or coupling kit is given back.
+LiveWire.Recipes.DISMANTLE = {
+    ["Base.Mov_LiveWire_SolarPanel"] = { { "LiveWire.SolarCell", 8 }, { "Base.ElectricWire", 1 } },
+    ["Base.Mov_LiveWire_WindTurbine"] = { { "Base.Amplifier", 2 }, { "Base.ElectricWire", 2 },
+                                          { "Base.ElectronicsScrap", 3 } },
+    ["Base.Mov_LiveWire_WaterWheel"] = { { "Base.Amplifier", 2 }, { "Base.ElectricWire", 2 },
+                                         { "Base.ElectronicsScrap", 3 } },
+    ["Base.Mov_LiveWire_Inverter"] = { { "Base.Amplifier", 2 }, { "Base.ElectricWire", 2 },
+                                       { "Base.ElectronicsScrap", 3 } },
+    ["Base.Mov_LiveWire_InverterCabinet"] = { { "Base.Amplifier", 4 }, { "Base.ElectricWire", 5 },
+                                              { "Base.ElectronicsScrap", 6 } },
+    ["Base.Mov_LiveWire_PowerBank"] = { { "Base.ElectricWire", 2 }, { "Base.ElectronicsScrap", 1 } },
+    ["Base.Mov_LiveWire_Breaker"] = { { "Base.ElectricWire", 1 }, { "Base.ElectronicsScrap", 1 } },
+    ["Base.Mov_LiveWire_BatteryAlarm"] = { { "Base.Amplifier", 1 } },
+    ["Base.Mov_LiveWire_WaterPump"] = { { "Base.ElectricWire", 1 }, { "Base.ElectronicsScrap", 2 } },
+}
+
+-- Number of bonus parts for a device at `cond` percent (rounded down).
+function LiveWire.Recipes.salvaged(count, cond)
+    cond = tonumber(cond) or 100
+    if cond < 0 then cond = 0 elseif cond > 100 then cond = 100 end
+    return math.floor(count * cond / 100)
+end
+
+local function dismantled(list)
+    if not list then return nil end
+    for i = 0, list:size() - 1 do
+        local it = list:get(i)
+        if it and LiveWire.Recipes.DISMANTLE[it:getFullType()] then return it end
+    end
+    return nil
+end
+
+function LiveWire.Recipes.onDismantle(craftRecipeData, character)
+    if not character then return end
+    local item = dismantled(craftRecipeData:getAllDestroyInputItems())
+        or dismantled(craftRecipeData:getAllConsumedItems())
+    if not item then return end
+    local m = LiveWire.Marks.raw(item) or {}
+    local give = LiveWire.Install.giveItem
+    for _, part in ipairs(LiveWire.Recipes.DISMANTLE[item:getFullType()]) do
+        for _ = 1, LiveWire.Recipes.salvaged(part[2], m.cond) do give(character, part[1]) end
+    end
+    if m.muf == true then give(character, LiveWire.Defs.SOUNDPROOF_KIT) end
+    if m.cpl then give(character, LiveWire.Defs.COUPLING_KIT) end
+end

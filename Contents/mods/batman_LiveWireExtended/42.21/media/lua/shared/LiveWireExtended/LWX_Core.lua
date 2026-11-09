@@ -19,7 +19,7 @@ function X.log(msg) print("[LiveWireExtended] " .. tostring(msg)) end
 function X.warn(msg) print("[LiveWireExtended] WARNING: " .. tostring(msg)) end
 
 -- Sandbox option of this sub-mod, or its default.
-local DEFAULTS = { BuildingBand = 1, HouseBoardPercent = 30 }
+local DEFAULTS = { BuildingBand = 0, HouseBoardPercent = 30 }
 function X.option(name)
     local opts = getSandboxOptions and getSandboxOptions()
     local opt = opts and opts:getOptionByName("LiveWireExtended." .. name)

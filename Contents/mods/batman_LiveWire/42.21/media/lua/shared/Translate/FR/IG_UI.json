@@ -53,6 +53,7 @@
     "IGUI_LW_NotRegistered": "Live Wire n'a pas pu enregistrer cet appareil (détails dans la console).",
     "IGUI_LW_Linked": "Raccordé.",
     "IGUI_LW_Unlinked": "Débranché.",
+    "IGUI_LW_WiresBack": "%1 fil(s) électrique(s) récupéré(s).",
     "IGUI_LW_Repaired": "Réparé, état %1.",
     "IGUI_LW_RepairFailed": "Réparation ratée, les pièces sont perdues.",
     "IGUI_LW_Reconditioned": "Batterie reconditionnée, état %1.",

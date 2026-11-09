@@ -11,7 +11,7 @@ module LiveWire
     craftRecipe LWMakeVoltageTester
     {
         timedAction = MakingElectrical,
-        time = 120,
+        time = 80,
         NeedToBeLearn = true,
         SkillRequired = Electricity:1,
         AutoLearnAny = Electricity:1,
@@ -76,7 +76,7 @@ module LiveWire
     craftRecipe LWMakeSolarCellFromScrap
     {
         timedAction = MakingElectrical,
-        time = 150,
+        time = 100,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -98,7 +98,7 @@ module LiveWire
     craftRecipe LWMakeSolarPanelKit
     {
         timedAction = MakingElectrical,
-        time = 400,
+        time = 270,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -124,7 +124,7 @@ module LiveWire
     craftRecipe LWMakeInverterKit
     {
         timedAction = MakingElectrical,
-        time = 500,
+        time = 340,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -151,7 +151,7 @@ module LiveWire
     craftRecipe LWMakeInverterCabinet
     {
         timedAction = MakingElectrical,
-        time = 700,
+        time = 470,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -179,7 +179,7 @@ module LiveWire
     craftRecipe LWMakeWindTurbineBlades
     {
         timedAction = Making,
-        time = 180,
+        time = 120,
         Tags = AnySurfaceCraft,
         category = Metalworking,
         xpAward = Electricity:2,
@@ -199,7 +199,7 @@ module LiveWire
     craftRecipe LWMakeWindTurbineMast
     {
         timedAction = Making,
-        time = 180,
+        time = 120,
         Tags = AnySurfaceCraft,
         category = Metalworking,
         xpAward = Electricity:2,
@@ -220,7 +220,7 @@ module LiveWire
     craftRecipe LWMakeWindTurbineKit
     {
         timedAction = MakingElectrical,
-        time = 240,
+        time = 160,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -247,7 +247,7 @@ module LiveWire
     craftRecipe LWMakeWaterWheel
     {
         timedAction = MakingElectrical,
-        time = 600,
+        time = 400,
         NeedToBeLearn = true,
         SkillRequired = Electricity:4,
         AutoLearnAny = Electricity:4,
@@ -274,7 +274,7 @@ module LiveWire
     craftRecipe LWMakePowerBankKit
     {
         timedAction = MakingElectrical,
-        time = 300,
+        time = 200,
         NeedToBeLearn = true,
         SkillRequired = Electricity:2,
         AutoLearnAny = Electricity:2,
@@ -299,7 +299,7 @@ module LiveWire
     craftRecipe LWMakeBreakerKit
     {
         timedAction = MakingElectrical,
-        time = 200,
+        time = 130,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -323,7 +323,7 @@ module LiveWire
     craftRecipe LWMakeWaterPump
     {
         timedAction = MakingElectrical,
-        time = 400,
+        time = 270,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -349,7 +349,7 @@ module LiveWire
     craftRecipe LWMakeCouplingKit
     {
         timedAction = MakingElectrical,
-        time = 200,
+        time = 130,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -372,7 +372,7 @@ module LiveWire
     craftRecipe LWMakeDeepCycleBattery
     {
         timedAction = MakingElectrical,
-        time = 400,
+        time = 270,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -396,7 +396,7 @@ module LiveWire
     craftRecipe LWMakeBatteryAlarmKit
     {
         timedAction = MakingElectrical,
-        time = 150,
+        time = 100,
         NeedToBeLearn = true,
         SkillRequired = Electricity:2,
         AutoLearnAny = Electricity:2,
@@ -419,7 +419,7 @@ module LiveWire
     craftRecipe LWMakeSoundproofKit
     {
         timedAction = Making,
-        time = 300,
+        time = 200,
         NeedToBeLearn = true,
         SkillRequired = Electricity:2,
         AutoLearnAny = Electricity:2,
@@ -436,6 +436,254 @@ module LiveWire
         outputs
         {
             item 1 LiveWire.SoundproofKit,
+        }
+    }
+
+    /* Dismantling equipment for parts, no Electrical level (like the vanilla
+       DismantleElectronics). Outputs: parts that always survive; the electronic
+       parts are added by LiveWire.Recipes.onDismantle in proportion to the
+       condition (LW_Recipes.lua). Every total stays below the crafting recipe. */
+
+    craftRecipe LWDismantleSolarPanel
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWireSolarPanel,
+        time = 200,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:5,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_SolarPanel] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.SheetMetal,
+            item 2 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantleWindTurbine
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWireWindTurbine,
+        time = 150,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:6,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_WindTurbine] mode:destroy,
+        }
+        outputs
+        {
+            item 1 LiveWire.WindTurbineBlades,
+            item 1 LiveWire.WindTurbineMast,
+            item 1 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantleWaterWheel
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWireWaterWheel,
+        time = 250,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:6,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
+            item 1 [Base.Mov_LiveWire_WaterWheel] mode:destroy,
+        }
+        outputs
+        {
+            item 6 Base.Plank,
+            item 10 Base.Nails,
+            item 1 Base.MetalBar,
+        }
+    }
+
+    craftRecipe LWDismantleInverter
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWireInverter,
+        time = 200,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:5,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_Inverter] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.SmallSheetMetal,
+            item 2 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantleInverterCabinet
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWireInverterCabinet,
+        time = 300,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:8,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_InverterCabinet] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.SheetMetal,
+            item 1 Base.SmallSheetMetal,
+            item 6 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantlePowerBank
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWirePowerBank,
+        time = 120,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:3,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_PowerBank] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.SheetMetal,
+            item 2 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantleBreaker
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWireBreaker,
+        time = 80,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_Breaker] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.SmallSheetMetal,
+            item 1 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantleBatteryAlarm
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWireBatteryAlarm,
+        time = 60,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_BatteryAlarm] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.ElectricWire,
+        }
+    }
+
+    craftRecipe LWDismantleWaterPump
+    {
+        timedAction = DismantleElectrical,
+        Icon = LiveWireWaterPump,
+        time = 200,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:5,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 tags[base:pipewrench] mode:keep flags[MayDegradeVeryLight],
+            item 1 [Base.Mov_LiveWire_WaterPump] mode:destroy,
+        }
+        outputs
+        {
+            item 2 Base.MetalPipe,
+            item 1 Base.SmallSheetMetal,
+            item 2 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantleCouplingKit
+    {
+        timedAction = DismantleElectrical,
+        time = 60,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:2,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [LiveWire.CouplingKit] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.Amplifier,
+            item 1 Base.ElectricWire,
+            item 1 Base.ElectronicsScrap,
+        }
+    }
+
+    craftRecipe LWDismantleSoundproofKit
+    {
+        timedAction = Making,
+        time = 150,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:1,
+        inputs
+        {
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
+            item 1 [LiveWire.SoundproofKit] mode:destroy,
+        }
+        outputs
+        {
+            item 3 Base.Plank,
+            item 5 Base.Nails,
+            item 2 Base.RippedSheets,
         }
     }
 }

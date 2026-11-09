@@ -2,7 +2,7 @@
 
 # Recipes
 
-The 18 Live Wire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
+The 29 Live Wire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
 
 ![Illustrated recipe board](../../images/diagrams/recipe_book_en.png)
 
@@ -64,6 +64,37 @@ and awards 2 Electrical XP. Wire, bulb and battery used in its construction are
 not recovered, so a craft/dismantle cycle cannot create materials.
 
 Every Live Wire recipe awards Electrical XP; blades and masts each award 2 XP.
+
+## Dismantle equipment
+
+Every Live Wire device and kit can be dismantled from the crafting menu
+(**Dismantle Inverter**, **Dismantle Solar Panel** and so on): pick the device up
+first, then dismantle it from your inventory. A working screwdriver is required and
+kept; no Electrical level is needed. You always get back fewer parts than the
+recipe cost, so building and dismantling again never creates materials.
+
+The metal parts always come back. The electronic parts depend on the device's
+condition: the table gives them at 100 %; a device at 60 % gives 60 % of them,
+rounded down, and a worn-out device gives none. A soundproofing kit fitted on an
+inverter, or the coupling kit of a coupled inverter, is given back whole.
+
+| Equipment | Always | Electronic parts at 100 % |
+|---|---|---|
+| Solar panel | 1 steel sheet, 2 screws | 8 solar cells, 1 electrical wire |
+| Wind turbine | blade set, mast, 1 screw | 2 amplifiers, 2 wires, 3 scrap electronics |
+| Water wheel (also a hammer) | 6 planks, 10 nails, 1 steel rod | 2 amplifiers, 2 wires, 3 scrap electronics |
+| Inverter | 1 small steel sheet, 2 screws | 2 amplifiers, 2 wires, 3 scrap electronics |
+| Inverter cabinet | 1 steel sheet, 1 small steel sheet, 6 screws | 4 amplifiers, 5 wires, 6 scrap electronics |
+| Power bank | 1 steel sheet, 2 screws | 2 wires, 1 scrap electronics |
+| Breaker panel | 1 small steel sheet, 1 screw | 1 wire, 1 scrap electronics |
+| Low battery alarm | 1 wire | 1 amplifier |
+| Water pump (also a pipe wrench) | 2 iron pipes, 1 small steel sheet, 2 screws | 1 wire, 2 scrap electronics |
+| Inverter coupling kit | 1 amplifier, 1 wire, 1 scrap electronics | — |
+| Soundproofing kit (hammer instead of screwdriver) | 3 planks, 5 nails, 2 rags | — |
+
+The deep-cycle battery, the blade set and the mast cannot be dismantled. A device
+that is still placed and at 0 % can also be taken apart on the spot with
+**Salvage for parts** ([Electrical skill and maintenance](10-electrical-skill-and-maintenance.md)).
 
 ## See also
 

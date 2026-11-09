@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWireExtended": "LiveWire Extended",
     "Sandbox_LiveWireExtended_BuildingBand": "建筑周围的室外带",
-    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "已接入建筑周围也通电的带状区域宽度 (格) (门廊, 花园小路). 游戏按完整的 8 x 8 区块供电, 因此通电区域会向上取整到区块."
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "已接入建筑周围也通电的带状区域宽度 (格) (门廊, 花园小路). 游戏按完整的 8 x 8 区块供电, 因此通电区域会向上取整到区块.",
+    "Sandbox_LiveWireExtended_HouseBoardPercent": "带配电箱的建筑 (%%)",
+    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip": "地图上已有配电箱的建筑所占比例 (若有电表箱则用其自带的). 接到逆变器后, 配电箱已按房间预先接好线, 没有标签: 请自行查明哪个断路器供哪里. 此时建筑中未接线的电器没有电."
 }

@@ -2,8 +2,9 @@
 -- Default: the disc of D-12, GeneratorTileRange around the inverter square and
 -- +/- GeneratorVerticalPowerRange floors (IsoGenerator.isPoweringSquare,
 -- IsoGenerator.java:637-644). An optional sub-mod may register ONE provider that
--- ADDS squares to that disc (D-33: the extra coverage adds to the radius, it never
--- replaces it). Without a provider every function below is the disc, nothing more.
+-- ADDS squares to that disc (D-33), or that REPLACES the disc with its own squares
+-- when it sets `replacesDisc = true` (D-44). Without a provider every function below
+-- is the disc, nothing more.
 --
 -- Provider contract (all functions receive the inverter id and its public anchor
 -- { x, y, z, on }; none may keep a reference to the anchor table):
@@ -15,6 +16,8 @@
 --   step(job, budget, visit) -> done, used (like LiveWire.SquareScan.step)
 --   idsAt(x, y, z)           -> array of inverter ids whose extra coverage holds the square
 --   describe(id)             -> optional: lines for the inverter screen, { { key, args } }
+--   replacesDisc             -> optional field: true when an inverter powers only the
+--                               provider's squares (no disc at all)
 -- Registration happens while Lua files load, before OnInitGlobalModData, like API v1.
 require "LiveWire/LW_SquareScan"
 LiveWire = LiveWire or {}
@@ -30,7 +33,11 @@ local function radius() return LiveWire.Config.tileRange() end
 local function floors() return LiveWire.Config.verticalRange() end
 
 -- ---------------------------------------------------------------- the disc (D-12)
+-- false when a registered provider replaces the disc (D-44).
+function Coverage.hasDisc() return not (provider and provider.replacesDisc == true) end
+
 function Coverage.inDisc(a, x, y, z, R, V)
+    if not Coverage.hasDisc() then return false end
     R, V = R or radius(), V or floors()
     local dx, dy = x - a.x, y - a.y
     return dx * dx + dy * dy <= R * R and math.abs(z - a.z) <= V
@@ -38,6 +45,7 @@ end
 
 -- Does the disc of radius R around the anchor touch chunk (cx, cy)?
 function Coverage.touchesDisc(cx, cy, a, R)
+    if not Coverage.hasDisc() then return false end
     local px, py = a.x + 0.5, a.y + 0.5
     local minX, minY = cx * CHUNK, cy * CHUNK
     local maxX, maxY = minX + CHUNK, minY + CHUNK
@@ -82,7 +90,10 @@ function Coverage.chunkRange(id, a, R)
     R = R or radius()
     local x0, y0, x1, y1 = a.x - R, a.y - R, a.x + R, a.y + R
     local bx0, by0, bx1, by1 = Coverage.extraBounds(id, a)
-    if bx0 then
+    if not Coverage.hasDisc() then
+        if not bx0 then return 0, 0, -1, -1 end  -- nothing covered: an empty range
+        x0, y0, x1, y1 = bx0, by0, bx1, by1
+    elseif bx0 then
         x0, y0 = math.min(x0, bx0), math.min(y0, by0)
         x1, y1 = math.max(x1, bx1), math.max(y1, by1)
     end
@@ -135,8 +146,8 @@ end
 
 -- Whole coverage: the disc scan of LiveWire.SquareScan, then the extra squares.
 function Coverage.scan(id, a, R, V)
-    return { disc = LiveWire.SquareScan.new(a.x, a.y, a.z, R or radius(), V or floors()),
-        extra = Coverage.extraScan(id, a) }
+    local disc = Coverage.hasDisc() and LiveWire.SquareScan.new(a.x, a.y, a.z, R or radius(), V or floors()) or nil
+    return { disc = disc, extra = Coverage.extraScan(id, a) }
 end
 function Coverage.step(job, budget, visit)
     local used = 0

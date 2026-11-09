@@ -41,5 +41,6 @@
     "Tooltip_LW_RepairLimit": "此电池已达到维修次数上限。",
     "Tooltip_LW_BankStackFull": "最多叠放两个电池组。",
     "Tooltip_LW_BankStackBase": "请放在地面或另一个电池组上。",
-    "Tooltip_LW_BankStackSupport": "请先移走上方电池组或物品。"
+    "Tooltip_LW_BankStackSupport": "请先移走上方电池组或物品。",
+    "Tooltip_LW_Dismantle": "返还的零件少于制作消耗。电子零件取决于耐久度：磨损的设备返还更少。已安装的隔音套件或并联套件会被返还。"
 }

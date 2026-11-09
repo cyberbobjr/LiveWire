@@ -51,6 +51,7 @@
     "IGUI_LW_Installed": "Установлено: %1.",
     "IGUI_LW_Linked": "Подключено.",
     "IGUI_LW_Unlinked": "Отключено.",
+    "IGUI_LW_WiresBack": "Возвращено электропроводов: %1.",
     "IGUI_LW_Repaired": "Отремонтировано, состояние %1.",
     "IGUI_LW_RepairFailed": "Ремонт не удался, детали потеряны.",
     "IGUI_LW_Reconditioned": "Батарея восстановлена, состояние %1.",

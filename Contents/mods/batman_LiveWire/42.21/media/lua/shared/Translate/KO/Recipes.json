@@ -16,5 +16,16 @@
     "LWMakeWindTurbineBlades": "풍력 터빈 날개 제작",
     "LWMakeWindTurbineMast": "풍력 터빈 기둥 제작",
     "LWDismantleVoltageTester": "전압 테스터 분해",
-    "LWMakeInverterCabinet": "인버터 캐비닛 만들기"
+    "LWMakeInverterCabinet": "인버터 캐비닛 만들기",
+    "LWDismantleSolarPanel": "태양광 패널 분해",
+    "LWDismantleWindTurbine": "풍력 터빈 분해",
+    "LWDismantleWaterWheel": "물레방아 분해",
+    "LWDismantleInverter": "인버터 분해",
+    "LWDismantleInverterCabinet": "인버터 캐비닛 분해",
+    "LWDismantlePowerBank": "배터리 뱅크 분해",
+    "LWDismantleBreaker": "차단기 패널 분해",
+    "LWDismantleBatteryAlarm": "배터리 부족 경보기 분해",
+    "LWDismantleWaterPump": "물 펌프 분해",
+    "LWDismantleCouplingKit": "인버터 병렬 연결 키트 분해",
+    "LWDismantleSoundproofKit": "인버터 방음 키트 분해"
 }

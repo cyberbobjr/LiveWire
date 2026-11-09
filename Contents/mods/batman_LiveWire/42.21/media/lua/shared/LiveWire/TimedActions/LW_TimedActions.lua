@@ -145,8 +145,11 @@ function LWLinkAction:complete()
         end
     end
     if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
+    -- Moved from another network: the old cable comes back.
+    local oldWires = LiveWire.Devices.linkWires(tdev)
 
     R().link(tdev, grid)
+    tdev.wires = wires or 0  -- given back when the link is undone (Devices.linkWires)
     local xp = LiveWire.Devices.wired(ch, tdev, inv)
     LiveWire.Devices.syncMark(tdev)
     LiveWire.Devices.syncMark(inv)
@@ -154,6 +157,7 @@ function LWLinkAction:complete()
     LiveWire.Xp.award(ch, xp)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(ch, "IGUI_LW_Linked", {})
+    LiveWire.Devices.returnWires(ch, oldWires)
     return true
 end
 
@@ -174,18 +178,22 @@ function LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
         return false
     end
     if not I().consume(ch, "Base.ElectricWire", wires or 0) then return false end
-    -- Linked to another network before: move it.
+    -- Linked to another network before: move it, its old cable comes back.
+    local oldWires = LiveWire.Devices.linkWires(old)
     if old then R().forgetVanilla(old) end
+    local dev
     if kind == "backup" then
-        LiveWire.Backup.register(target, grid)
+        dev = LiveWire.Backup.register(target, grid)
     else
-        LiveWire.Computer.register(target, grid, I().level(ch))
+        dev = LiveWire.Computer.register(target, grid, I().level(ch))
     end
+    if dev then dev.wires = wires or 0 end
     local xp = inv and LiveWire.Devices.wired(ch, nil, inv) or 0
     if inv then LiveWire.Devices.syncMark(inv) end
     LiveWire.Xp.award(ch, 3 + xp)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(ch, "IGUI_LW_Linked", {})
+    LiveWire.Devices.returnWires(ch, oldWires)
     return true
 end
 
@@ -273,6 +281,7 @@ function LWCoupleAction:complete()
     LiveWire.Anchor.set(sdev.id, R().anchors[sdev.id] or sdev, false)
     LiveWire.Demand.invalidate(sdev.id)
     R().couple(sdev, mgrid)
+    sdev.wires = wires or 0
     local xp = LiveWire.Devices.wired(ch, sdev, mdev)
     LiveWire.Devices.syncMark(sdev)
     LiveWire.Devices.syncMark(mdev)

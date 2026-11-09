@@ -84,6 +84,15 @@ function Install.giveItem(character, fullType)
     return item
 end
 
+-- Give `n` items of a type; returns the number given.
+function Install.giveItems(character, fullType, n)
+    local given = 0
+    for _ = 1, n or 0 do
+        if Install.giveItem(character, fullType) then given = given + 1 end
+    end
+    return given
+end
+
 -- Distance between two squares in tiles (horizontal) and floors.
 function Install.distance(x1, y1, z1, x2, y2, z2)
     local dx, dy = x1 - x2, y1 - y2

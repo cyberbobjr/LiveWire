@@ -5,6 +5,7 @@
 -- Devices destroyed by other means (zombies, sledgehammer) are dropped when their
 -- square is loaded and the object is gone (Devices.validate).
 if isClient() then return end
+require "LiveWire/LW_Circuits"
 
 LiveWire = LiveWire or {}
 
@@ -184,6 +185,32 @@ function Devices.refreshStates(grid)
     end
 end
 
+-- Registry entry for a device standing on `sq`, from the state its object carries
+-- (`raw`: the mark kept by a picked-up kit, or the mark of an orphan object).
+-- `level`: installer level; `id`: kept id or nil for a new one.
+local function newDevice(sq, model, def, raw, level, id)
+    local dev = R().addDevice({
+        id = id, role = def.role, model = model, x = sq:getX(), y = sq:getY(), z = sq:getZ(),
+        cond = tonumber(raw.cond) or 100,
+        eff = LiveWire.Defs.installEfficiency(level), level = level,
+        state = (def.role == "inverter") and "on" or "ok",
+        xpd = raw.xpd == true,
+    })
+    if def.role == "inverter" and raw.muf == true then dev.muffled = true end
+    if def.kind == "wind" and raw.br == true then dev.brake = true end
+    if def.kind == "solar" then dev.dirt, dev.snow = raw.dirt or 0, raw.snow or 0 end
+    if def.role == "storage" then
+        dev.wearFactor = LiveWire.Defs.batteryWearSkillFactor(level)
+        dev.slots = {}
+    end
+    if def.role == "pump" then
+        dev.barrels = {}
+        dev.relays = {}
+        dev.state = "idle"
+    end
+    return dev
+end
+
 -- Register the unbound object of sprite `spriteName` on `sq` (or keep the same
 -- device after a rotation). `adopted`: reported later by a client (C_ADOPT) instead
 -- of the placement wrapper, e.g. another mod replaced placeMoveableInternal: no
@@ -231,27 +258,7 @@ local function register(character, sq, spriteName, adopted)
     -- experience is still due; the mark keeps `xpd = true` once given, so a moved
     -- device does not give it again. Registry devices of older saves have no xpd
     -- field: their experience was given at placement.
-    local raw = LiveWire.Marks.raw(obj) or {}
-    local level = 0
-    local dev = R().addDevice({
-        role = def.role, model = model, x = sq:getX(), y = sq:getY(), z = sq:getZ(),
-        cond = tonumber(raw.cond) or 100,
-        eff = LiveWire.Defs.installEfficiency(level), level = level,
-        state = (def.role == "inverter") and "on" or "ok",
-        xpd = raw.xpd == true,
-    })
-    if def.role == "inverter" and raw.muf == true then dev.muffled = true end
-    if def.kind == "wind" and raw.br == true then dev.brake = true end
-    if def.kind == "solar" then dev.dirt, dev.snow = raw.dirt or 0, raw.snow or 0 end
-    if def.role == "storage" then
-        dev.wearFactor = LiveWire.Defs.batteryWearSkillFactor(level)
-        dev.slots = {}
-    end
-    if def.role == "pump" then
-        dev.barrels = {}
-        dev.relays = {}
-        dev.state = "idle"
-    end
+    local dev = newDevice(sq, model, def, LiveWire.Marks.raw(obj) or {}, 0, nil)
     markFromDevice(obj, dev)
     if def.role == "inverter" then
         local grid = R().createGrid(dev)
@@ -315,6 +322,158 @@ function Devices.adoptSquare(character, sq)
     return n
 end
 
+--------------------------------------------------------------------------------
+-- Orphan recovery. An object may carry a mark whose id the registry does not know:
+-- the map chunk was saved after the global ModData (crash, forced quit, restored
+-- backup). Every command on it is then refused and its screens wait forever, and
+-- the client never reports it (LW_Adopt only sees objects without a mark). The
+-- chunk discovery walk (LW_Circuits) shows each loaded object to Devices.recover,
+-- which registers it again from its mark: the same id when it is free, its state,
+-- and its link to the inverter named in the mark once that inverter is known
+-- (dev.relink, kept in the registry until then).
+--------------------------------------------------------------------------------
+local INVERTER_STATES = { on = true, off = true, tripped = true, broken = true }
+
+-- Inverter named by dev.relink and its grid, when it may take `dev` by the cable rules.
+local function relinkTarget(dev)
+    local inv = dev.relink and R().device(dev.relink)
+    if not inv or inv.role ~= "inverter" or inv.coupled or inv.id == dev.id then return nil end
+    local dist, dz = LiveWire.Install.distance(dev.x, dev.y, dev.z, inv.x, inv.y, inv.z)
+    if dist > LiveWire.Config.get("LinkRange") or dz > LiveWire.Config.get("LinkVerticalRange") then
+        return nil
+    end
+    local grid = inv.grid and R().grid(inv.grid)
+    if not grid then return nil end
+    return inv, grid
+end
+
+-- Restore the link a recovered device had. Returns true when linked or coupled.
+local function relink(dev)
+    local inv, grid = relinkTarget(dev)
+    if not inv then
+        -- Unknown yet: keep waiting. Known but unable to take it: give up.
+        if dev.relink and R().device(dev.relink) then dev.relink = nil end
+        return false
+    end
+    if dev.role == "inverter" then
+        local own = dev.grid and R().grid(dev.grid)
+        if (own and (next(own.members) ~= nil or next(own.slaves or {}) ~= nil))
+            or #R().slaves(grid) >= LiveWire.Defs.MAX_SLAVES then
+            dev.relink = nil
+            return false
+        end
+        LiveWire.Sim.updateAnchor(dev, false)
+        LiveWire.Anchor.set(dev.id, R().anchors[dev.id] or dev, false)
+        LiveWire.Demand.invalidate(dev.id)
+        R().couple(dev, grid)
+    else
+        local def = LiveWire.Defs.devices[dev.model]
+        local existing = def and def.role == "option" and def.kind and R().hasOption(grid, def.kind)
+        if existing and existing.id ~= dev.id then
+            dev.relink = nil
+            return false
+        end
+        R().link(dev, grid)
+        if dev.role == "pump" and LiveWire.Pump then LiveWire.Pump.maintain(dev) end
+    end
+    Devices.syncMark(dev)
+    Devices.syncMark(inv)
+    LiveWire.Sim.refresh(grid)
+    LiveWire.log("relinked " .. tostring(dev.model) .. " " .. dev.id .. " to " .. inv.id)
+    return true
+end
+
+-- Register again the object `obj` when its mark names a device the registry does
+-- not hold at its square. Returns the recovered device or nil.
+function Devices.recover(obj)
+    if not ready() or Devices.rotating then return nil end
+    local model = LiveWire.Defs.modelOfObject(obj)
+    local def = model and LiveWire.Defs.devices[model]
+    local m = def and LiveWire.Marks.get(obj)
+    local sq = m and obj:getSquare()
+    if not sq or m.model ~= model or Devices.pending[m.id] then return nil end
+    local x, y, z = sq:getX(), sq:getY(), sq:getZ()
+    -- A mark written for another square belongs to the client adoption (LW_Adopt).
+    if m.x ~= nil and (m.x ~= x or m.y ~= y or m.z ~= z) then return nil end
+    local bound = R().device(m.id)
+    if bound and bound.x == x and bound.y == y and bound.z == z and bound.model == model then return nil end
+    -- A registry device of this model on the square whose own mark was lost wins.
+    local here = R().devicesAt(x, y, z)
+    for i = 1, #here do
+        if here[i].model == model and not Devices.pending[here[i].id] and Devices.find(here[i]) == obj then
+            return nil
+        end
+    end
+    local level = math.max(0, math.floor(tonumber(m.level) or 0))
+    local dev = newDevice(sq, model, def, m, level, (not bound) and m.id or nil)
+    dev.eff = tonumber(m.eff) or dev.eff
+    local grid = nil
+    if def.role == "inverter" then
+        if INVERTER_STATES[m.st] then dev.state = m.st end
+        dev.svc = m.svc == true or nil
+        grid = R().createGrid(dev)
+        if type(m.nm) == "string" then grid.name = LiveWire.Protocol.cleanName(m.nm) end
+        dev.relink = m.cpl
+    else
+        if def.kind == "breaker" and m.st == "tripped" then dev.state = "tripped" end
+        dev.relink = m.inv
+    end
+    markFromDevice(obj, dev)
+    LiveWire.log("recovered " .. model .. " " .. dev.id .. " at " .. LiveWire.posKey(x, y, z)
+        .. (bound and (" (its id " .. m.id .. " is taken)") or ""))
+    if grid then LiveWire.Sim.updateAnchor(dev, false) end
+    local linked = relink(dev)
+    if grid and not linked then
+        LiveWire.Sim.refresh(grid)
+        -- An inverter brings back the equipment that waited for it.
+        local waiting = {}
+        for _, other in pairs(R().devices()) do
+            if other.relink == dev.id then waiting[#waiting + 1] = other end
+        end
+        for i = 1, #waiting do relink(waiting[i]) end
+    end
+    return dev
+end
+
+--------------------------------------------------------------------------------
+-- Electric wire of a link: spent when linking or coupling, given back when a
+-- player undoes the link (unlink, uncouple, pick-up), lost when it is destroyed.
+--------------------------------------------------------------------------------
+
+-- Wire spent on the link of `dev` (a member: its cable to the inverter; a slave:
+-- its coupling cable). Links made before the wire was recorded, or restored by
+-- Devices.recover, use the cable rule on the distance.
+function Devices.linkWires(dev)
+    if not dev or not dev.grid then return 0 end
+    if dev.role == "inverter" and not dev.coupled then return 0 end
+    if type(dev.wires) == "number" then return math.max(0, math.floor(dev.wires)) end
+    local g = R().grid(dev.grid)
+    local inv = g and R().device(g.inverter)
+    if not inv or inv.id == dev.id then return 0 end
+    return LiveWire.Install.wiresFor((LiveWire.Install.distance(dev.x, dev.y, dev.z, inv.x, inv.y, inv.z)))
+end
+
+-- Wire of every link that removing `dev` undoes (an inverter: its whole network).
+function Devices.removalWires(dev)
+    if not dev then return 0 end
+    if dev.role ~= "inverter" or dev.coupled then return Devices.linkWires(dev) end
+    local grid = dev.grid and R().grid(dev.grid)
+    if not grid then return 0 end
+    local n = 0
+    for mid in pairs(grid.members) do n = n + Devices.linkWires(R().device(mid)) end
+    local slaves = R().slaves(grid)
+    for i = 1, #slaves do n = n + Devices.linkWires(slaves[i]) end
+    return n
+end
+
+-- Give `n` electric wires back to `character`, with a message. Returns the number given.
+function Devices.returnWires(character, n)
+    if not character or not n or n <= 0 then return 0 end
+    local given = LiveWire.Install.giveItems(character, "Base.ElectricWire", n)
+    if given > 0 then LiveWire.notify(character, "IGUI_LW_WiresBack", { tostring(given) }) end
+    return given
+end
+
 -- Write the live state into the object's mark so that the picked-up item keeps it.
 function Devices.beforePickUp(obj)
     if not ready() then return nil end
@@ -325,10 +484,12 @@ function Devices.beforePickUp(obj)
     return dev.id
 end
 
--- Remove a device from the registry (picked up or destroyed).
-function Devices.remove(id)
+-- Remove a device from the registry (picked up or destroyed). `character`: the
+-- player who picked it up, who gets back the wire of the links it undoes.
+function Devices.remove(id, character)
     local dev = R().device(id)
     if not dev then return end
+    local wires = character and Devices.removalWires(dev) or 0
     -- A slave has no anchor of its own: only a master's anchor is switched off.
     if dev.role == "inverter" and not dev.coupled then
         LiveWire.Sim.updateAnchor(dev, false)
@@ -354,15 +515,16 @@ function Devices.remove(id)
     end
     if grid and R().grid(grid.id) then LiveWire.Sim.refresh(grid) end
     LiveWire.log("removed " .. tostring(dev.model) .. " " .. id)
+    Devices.returnWires(character, wires)
 end
 
-function Devices.onPickedUp(id)
+function Devices.onPickedUp(id, character)
     if not ready() then return end
     if Devices.rotating then
         Devices.pending[id] = true
         return
     end
-    Devices.remove(id)
+    Devices.remove(id, character)
 end
 
 function Devices.beginRotation()
@@ -396,3 +558,6 @@ function Devices.validate(dev)
     Devices.remove(dev.id)
     return false
 end
+
+-- Orphan objects are found by the chunk discovery walk (LW_Circuits.lua).
+LiveWire.Circuits.addChunkVisitor(Devices.recover)

@@ -5,15 +5,39 @@ if isClient() then return end
 require "LiveWireExtended/LWX_Linked"
 require "LiveWireExtended/LWX_Panel"
 require "LiveWireExtended/LWX_Breakers"
+require "LiveWireExtended/LWX_Connect"
 
 local X = LiveWire.Extended
 local P = X.Panel
 local PS = {}
 X.Panels = PS
 
+-- Building a board serves: the house it was drawn for (its key on the object, a box on
+-- the facade stands outside), else the building it hangs in or against.
+local function buildingOf(record, obj)
+    local house = obj and obj:hasModData() and obj:getModData().LWXHouse
+    local def = house and X.Buildings.byKey(house)
+    return def or X.Buildings.find(record.x, record.y, record.z, 1, LiveWire.Config.verticalRange())
+end
+
 P.kind.onLink = function(record, dev, key, obj)
     record.size = P.size(obj) or 8
     record.slots = {}
+    -- D-44: no radius anymore, the inverter powers the board's building
+    X.Connect.connectDef(dev, buildingOf(record, obj), key)
+end
+
+local previousForget = P.kind.onForget
+P.kind.onForget = function(record, key)
+    if previousForget then previousForget(record, key) end
+    local e = record.inv and X.Data.entry(record.inv)
+    if e and e.areas then
+        X.Connect.commit(record.inv, function(entry)
+            for k, a in pairs(entry.areas) do
+                if a.via == key then entry.areas[k] = nil end
+            end
+        end)
+    end
 end
 
 function PS.link(character, obj, invObj)
@@ -30,10 +54,10 @@ local function transmit()
     if isServer() then ModData.transmit(X.DATA_KEY) end
 end
 
--- Install a breaker item of `fullType` in board `obj` (first free place).
-function PS.installBreaker(character, obj, fullType)
+-- Install a breaker item of `fullType` in board `obj`, in module `at` or the first free one.
+function PS.installBreaker(character, obj, fullType, at)
     local B = X.Breakers
-    local ok, why, arg = B.checkInstall(character, obj, fullType)
+    local ok, why, arg = B.checkInstall(character, obj, fullType, at)
     if not ok then
         LiveWire.notify(character, why, { arg }, true)
         return false

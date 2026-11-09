@@ -353,7 +353,7 @@ def check_extended_info():
         return
     info = dict(re.findall(r"^(\w+)=(.*)$", open(path, encoding="utf-8-sig").read(), re.M))
     expected = {"id": "batman_LiveWireExtended", "name": "LiveWire Extended",
-                "require": "\\batman_LiveWire", "incompatible": "\\LGExtendedElectricity"}
+                "require": "\\batman_LiveWire", "incompatible": "\\LGExtendedElectricity,\\KnoxPower"}
     for key, value in expected.items():
         if info.get(key) != value:
             fail("batman_LiveWireExtended: mod.info %s must be %s" % (key, value))
@@ -372,91 +372,8 @@ def check_extended_info():
             fail("%s: must not change GeneratorTileRange / GeneratorVerticalPowerRange" % os.path.relpath(p, ROOT))
 
 
-# Keys added during the breaker-board steps (E15-E22), in EN and FR only: the eight other
-# languages get them at E23, which empties this set. Until then the game shows English.
-X_PENDING_TRANSLATION = {
-    "Base.LWXBreaker15",
-    "Base.LWXBreaker20",
-    "Base.LWXBreaker2P30",
-    "Base.LWXBreaker30",
-    "Base.LWXTwilightSwitch",
-    "Base.Mov_LWX_Panel16",
-    "Base.Mov_LWX_Panel24",
-    "Base.Mov_LWX_Panel8",
-    "ContextMenu_LWX_ApplianceAt",
-    "ContextMenu_LWX_BoardAt",
-    "ContextMenu_LWX_CloseBreaker",
-    "ContextMenu_LWX_ConnectPoint",
-    "ContextMenu_LWX_DisconnectPoint",
-    "ContextMenu_LWX_InstallBreaker",
-    "ContextMenu_LWX_LinkPanel",
-    "ContextMenu_LWX_Module",
-    "ContextMenu_LWX_OpenBoard",
-    "ContextMenu_LWX_OpenBreaker",
-    "ContextMenu_LWX_RemoveBreaker",
-    "ContextMenu_LWX_ResetBreaker",
-    "ContextMenu_LWX_TwilightFit",
-    "ContextMenu_LWX_TwilightRemove",
-    "ContextMenu_LWX_UnlinkPanel",
-    "ContextMenu_LWX_WireAppliance",
-    "IGUI_LWX_BoardEmpty",
-    "IGUI_LWX_BoardTitle",
-    "IGUI_LWX_BreakerInstalled",
-    "IGUI_LWX_BreakerOff",
-    "IGUI_LWX_BreakerOn",
-    "IGUI_LWX_BreakerRemoved",
-    "IGUI_LWX_BreakerTripped",
-    "IGUI_LWX_LabelPrompt",
-    "IGUI_LWX_LabelWritten",
-    "IGUI_LWX_LeverOff",
-    "IGUI_LWX_LeverOn",
-    "IGUI_LWX_LeverReset",
-    "IGUI_LWX_Load",
-    "IGUI_LWX_Locate",
-    "IGUI_LWX_Meter",
-    "IGUI_LWX_ModuleName",
-    "IGUI_LWX_PanelLinked",
-    "IGUI_LWX_PanelUnlinked",
-    "IGUI_LWX_PointConnected",
-    "IGUI_LWX_PointDisconnected",
-    "IGUI_LWX_Rename",
-    "IGUI_LWX_SoftwareMeter",
-    "IGUI_LWX_TwilightFitted",
-    "IGUI_LWX_TwilightRemoved",
-    "IGUI_LWX_TwilightTag",
-    "LWXMakeBreaker15",
-    "LWXMakeBreaker20",
-    "LWXMakeBreaker2P30",
-    "LWXMakeBreaker30",
-    "LWXMakePanel16",
-    "LWXMakePanel24",
-    "LWXMakePanel8",
-    "LWXMakeTwilightSwitch",
-    "LiveWire_Extended_Board16",
-    "LiveWire_Extended_Board24",
-    "LiveWire_Extended_Board8",
-    "Sandbox_LiveWireExtended_HouseBoardPercent",
-    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip",
-    "Tooltip_LWX_BoardFull",
-    "Tooltip_LWX_BreakerRating",
-    "Tooltip_LWX_MachineCut",
-    "Tooltip_LWX_NeedPen",
-    "Tooltip_LWX_NoBoardNear",
-    "Tooltip_LWX_NoBreakerItem",
-    "Tooltip_LWX_NoBreakerThere",
-    "Tooltip_LWX_NoTwilightItem",
-    "Tooltip_LWX_NotAnAppliance",
-    "Tooltip_LWX_PanelLinked",
-    "Tooltip_LWX_PanelNotLinked",
-    "Tooltip_LWX_PanelWires",
-    "Tooltip_LWX_PointConnected",
-    "Tooltip_LWX_PointWires",
-    "Tooltip_LWX_Twilight",
-    "Tooltip_LWX_UnwiredServed",
-    "Tooltip_LWX_WiredTo",
-}
-
-
+# Keys allowed in EN and FR only while a step is under way (English fallback in game).
+X_PENDING_TRANSLATION = set()  # emptied at E23: the ten languages are complete
 def check_extended_translations():
     """Keys *_LWX_* used by the sub-mod exist in its own EN and FR files; others like EN."""
     used = set()

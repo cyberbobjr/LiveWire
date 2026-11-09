@@ -1,3 +1,10 @@
 {
-    "LWXMakeTerminal": "制作电桩"
+    "LWXMakeTerminal": "制作电桩",
+    "LWXMakePanel8": "制作配电箱 (8 个模块)",
+    "LWXMakePanel16": "制作配电箱 (16 个模块)",
+    "LWXMakePanel24": "制作配电箱 (24 个模块)",
+    "LWXMakeBreaker15": "制作断路器 15 A",
+    "LWXMakeBreaker20": "制作断路器 20 A",
+    "LWXMakeBreaker30": "制作断路器 30 A",
+    "LWXMakeTwilightSwitch": "制作光控开关"
 }

@@ -1,3 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "Anschlusssäule"
+    "Base.Mov_LWX_Terminal": "Anschlusssäule",
+    "Base.Mov_LWX_Panel8": "Sicherungskasten (8 Module)",
+    "Base.Mov_LWX_Panel16": "Sicherungskasten (16 Module)",
+    "Base.Mov_LWX_Panel24": "Sicherungskasten (24 Module)",
+    "Base.LWXBreaker15": "Schutzschalter 15 A",
+    "Base.LWXBreaker20": "Schutzschalter 20 A",
+    "Base.LWXBreaker30": "Schutzschalter 30 A",
+    "Base.LWXTwilightSwitch": "Dämmerungsschalter"
 }

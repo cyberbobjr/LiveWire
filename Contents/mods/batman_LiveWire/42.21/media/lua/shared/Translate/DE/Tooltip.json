@@ -41,5 +41,6 @@
     "Tooltip_LW_RepairLimit": "Die Reparaturgrenze dieser Batterie ist erreicht.",
     "Tooltip_LW_BankStackFull": "Höchstens zwei Batteriebänke pro Stapel.",
     "Tooltip_LW_BankStackBase": "Auf den Boden oder eine andere Batteriebank stellen.",
-    "Tooltip_LW_BankStackSupport": "Zuerst die obere Bank oder darauf liegende Objekte entfernen."
+    "Tooltip_LW_BankStackSupport": "Zuerst die obere Bank oder darauf liegende Objekte entfernen.",
+    "Tooltip_LW_Dismantle": "Gibt weniger Teile zurück, als die Herstellung kostet. Die Elektronikteile hängen vom Zustand ab: Ein abgenutztes Gerät liefert weniger. Ein eingebautes Schalldämm- oder Kopplungsset wird zurückgegeben."
 }

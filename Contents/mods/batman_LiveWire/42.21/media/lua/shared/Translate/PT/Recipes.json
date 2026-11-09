@@ -16,5 +16,16 @@
     "LWMakeWindTurbineBlades": "Fabricar pás eólicas",
     "LWMakeWindTurbineMast": "Fabricar mastro eólico",
     "LWDismantleVoltageTester": "Desmontar testador de tensão",
-    "LWMakeInverterCabinet": "Fazer Armário Inversor"
+    "LWMakeInverterCabinet": "Fazer Armário Inversor",
+    "LWDismantleSolarPanel": "Desmontar Painel Solar",
+    "LWDismantleWindTurbine": "Desmontar Turbina Eólica",
+    "LWDismantleWaterWheel": "Desmontar Roda de Água",
+    "LWDismantleInverter": "Desmontar Inversor",
+    "LWDismantleInverterCabinet": "Desmontar Armário Inversor",
+    "LWDismantlePowerBank": "Desmontar Banco de Baterias",
+    "LWDismantleBreaker": "Desmontar Quadro Disjuntor",
+    "LWDismantleBatteryAlarm": "Desmontar Alarme de Bateria Fraca",
+    "LWDismantleWaterPump": "Desmontar Bomba de água",
+    "LWDismantleCouplingKit": "Desmontar Kit de acoplamento de inversores",
+    "LWDismantleSoundproofKit": "Desmontar Kit de Insonorização do Inversor"
 }

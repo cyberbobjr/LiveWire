@@ -1,3 +1,10 @@
 {
-    "LWXMakeTerminal": "給電ポールを作る"
+    "LWXMakeTerminal": "給電ポールを作る",
+    "LWXMakePanel8": "分電盤 (8 モジュール) を作る",
+    "LWXMakePanel16": "分電盤 (16 モジュール) を作る",
+    "LWXMakePanel24": "分電盤 (24 モジュール) を作る",
+    "LWXMakeBreaker15": "ブレーカー 15 A を作る",
+    "LWXMakeBreaker20": "ブレーカー 20 A を作る",
+    "LWXMakeBreaker30": "ブレーカー 30 A を作る",
+    "LWXMakeTwilightSwitch": "夕暮れスイッチを作る"
 }

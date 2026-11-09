@@ -1,3 +1,10 @@
 {
-    "LWXMakeTerminal": "Fabricar poste eléctrico"
+    "LWXMakeTerminal": "Fabricar poste eléctrico",
+    "LWXMakePanel8": "Fabricar cuadro eléctrico (8 módulos)",
+    "LWXMakePanel16": "Fabricar cuadro eléctrico (16 módulos)",
+    "LWXMakePanel24": "Fabricar cuadro eléctrico (24 módulos)",
+    "LWXMakeBreaker15": "Fabricar disyuntor de 15 A",
+    "LWXMakeBreaker20": "Fabricar disyuntor de 20 A",
+    "LWXMakeBreaker30": "Fabricar disyuntor de 30 A",
+    "LWXMakeTwilightSwitch": "Fabricar interruptor crepuscular"
 }

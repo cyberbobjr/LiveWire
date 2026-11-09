@@ -16,5 +16,16 @@
     "LWMakeWindTurbineBlades": "Сделать лопасти ветряка",
     "LWMakeWindTurbineMast": "Сделать мачту ветряка",
     "LWDismantleVoltageTester": "Разобрать тестер напряжения",
-    "LWMakeInverterCabinet": "Собрать инверторный шкаф"
+    "LWMakeInverterCabinet": "Собрать инверторный шкаф",
+    "LWDismantleSolarPanel": "Разобрать: Солнечная панель",
+    "LWDismantleWindTurbine": "Разобрать: Ветряная турбина",
+    "LWDismantleWaterWheel": "Разобрать: Водяное колесо",
+    "LWDismantleInverter": "Разобрать: Инвертор",
+    "LWDismantleInverterCabinet": "Разобрать: Инверторный шкаф",
+    "LWDismantlePowerBank": "Разобрать: Аккумуляторный блок",
+    "LWDismantleBreaker": "Разобрать: Щиток автоматов",
+    "LWDismantleBatteryAlarm": "Разобрать: Сигнализация низкого заряда",
+    "LWDismantleWaterPump": "Разобрать: Водяной насос",
+    "LWDismantleCouplingKit": "Разобрать: Комплект сцепки инверторов",
+    "LWDismantleSoundproofKit": "Разобрать: Комплект звукоизоляции инвертора"
 }

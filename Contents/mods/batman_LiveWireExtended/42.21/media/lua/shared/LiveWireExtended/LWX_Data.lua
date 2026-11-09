@@ -103,7 +103,9 @@ local function ranges()
 end
 
 -- ---------------------------------------------------------------- provider (LW_Coverage)
-local P = {}
+-- D-44: with this sub-mod an inverter has no radius anymore; it powers only its connected
+-- buildings (button, or the building of its linked breaker board) and terminal zones.
+local P = { replacesDisc = true }
 function P.covers(id, a, x, y, z)
     local c = get(id)
     if not c then return false end

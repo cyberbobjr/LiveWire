@@ -52,7 +52,10 @@ function Overlay:render()
     local cx, cy = c.x + 0.5, c.y + 0.5
     local col = opts.color or RV.COLOR
     local px, py = nil, nil
-    for i = 0, RV.SEGMENTS do
+    -- An inverter has no circle when a coverage provider replaces the disc (D-44);
+    -- other ranges (opts, e.g. a pump) keep theirs.
+    local segments = (RV.opts or LiveWire.Coverage.hasDisc()) and RV.SEGMENTS or -1
+    for i = 0, segments do
         local ang = 2 * math.pi * i / RV.SEGMENTS
         local x = isoToScreenX(idx, cx + R * math.cos(ang), cy + R * math.sin(ang), z)
         local y = isoToScreenY(idx, cx + R * math.cos(ang), cy + R * math.sin(ang), z)

@@ -16,5 +16,16 @@
     "LWMakeWindTurbineBlades": "風車ブレードを製作",
     "LWMakeWindTurbineMast": "風車マストを製作",
     "LWDismantleVoltageTester": "電圧テスターを分解",
-    "LWMakeInverterCabinet": "インバーター盤を作る"
+    "LWMakeInverterCabinet": "インバーター盤を作る",
+    "LWDismantleSolarPanel": "ソーラーパネルを分解",
+    "LWDismantleWindTurbine": "風力発電機を分解",
+    "LWDismantleWaterWheel": "水車を分解",
+    "LWDismantleInverter": "インバーターを分解",
+    "LWDismantleInverterCabinet": "インバーター盤を分解",
+    "LWDismantlePowerBank": "バッテリーバンクを分解",
+    "LWDismantleBreaker": "分電盤を分解",
+    "LWDismantleBatteryAlarm": "低バッテリー警報を分解",
+    "LWDismantleWaterPump": "水ポンプを分解",
+    "LWDismantleCouplingKit": "インバーター連結キットを分解",
+    "LWDismantleSoundproofKit": "インバーター防音キットを分解"
 }

@@ -29,6 +29,19 @@ function B.key(def)
     return "b:" .. def:getX() .. "," .. def:getY()
 end
 
+-- The building of key `key` (B.key), or nil.
+function B.byKey(key)
+    local x, y = tostring(key or ""):match("^b:(%-?%d+),(%-?%d+)$")
+    if not x then return nil end
+    x, y = tonumber(x), tonumber(y)
+    local list = getWorld():getMetaGrid():getBuildings()
+    for i = 0, list:size() - 1 do
+        local def = list:get(i)
+        if def:getX() == x and def:getY() == y then return def end
+    end
+    return nil
+end
+
 local function rectDistance2(px, py, x, y, w, h)
     local nx = math.max(x, math.min(px, x + w - 1))
     local ny = math.max(y, math.min(py, y + h - 1))

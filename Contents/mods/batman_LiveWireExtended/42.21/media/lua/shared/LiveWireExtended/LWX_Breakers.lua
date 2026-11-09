@@ -1,7 +1,7 @@
 -- LiveWire Extended: breakers of a breaker board (D-35), rules shared by client
 -- tooltips and the authority. A breaker is an inventory item installed in a linked
--- board with a screwdriver; it takes one module (15, 20, 30 A at 120 V) or two (double
--- 30 A at 240 V, oven and dryer). Its first module is its identity on the board.
+-- board with a screwdriver; it takes one module (15, 20 or 30 A at 120 V; no double breaker
+-- since D-43). Its module is its identity on the board.
 --   slot = { type, pos, poles, amps, volts, label = "", off = false, tripped = false,
 --            points = {} }
 require "LiveWireExtended/LWX_Panel"
@@ -14,9 +14,8 @@ B.TYPES = {
     ["Base.LWXBreaker15"] = { amps = 15, volts = 120, poles = 1 },
     ["Base.LWXBreaker20"] = { amps = 20, volts = 120, poles = 1 },
     ["Base.LWXBreaker30"] = { amps = 30, volts = 120, poles = 1 },
-    ["Base.LWXBreaker2P30"] = { amps = 30, volts = 240, poles = 2 },
 }
-B.ORDER = { "Base.LWXBreaker15", "Base.LWXBreaker20", "Base.LWXBreaker30", "Base.LWXBreaker2P30" }
+B.ORDER = { "Base.LWXBreaker15", "Base.LWXBreaker20", "Base.LWXBreaker30" }
 
 -- Rated power of a breaker type or slot: W = A x V.
 function B.capacityW(t) return t.amps * t.volts end
@@ -50,9 +49,19 @@ function B.slotAt(record, pos)
     return nil
 end
 
--- Can `character` install a breaker of `fullType` in the board `obj`? true, pos; or
--- false, key, arg.
-function B.checkInstall(character, obj, fullType)
+-- Is module `pos` of the board free (and on the board)?
+function B.moduleFree(record, pos)
+    pos = tonumber(pos)
+    if not pos or pos < 1 or pos > (record.size or 0) or pos ~= math.floor(pos) then return false end
+    for _, s in ipairs(record.slots or {}) do
+        if pos >= s.pos and pos < s.pos + s.poles then return false end
+    end
+    return true
+end
+
+-- Can `character` install a breaker of `fullType` in the board `obj` (module `at`, or
+-- the first free one)? true, pos; or false, key, arg.
+function B.checkInstall(character, obj, fullType, at)
     local t = B.TYPES[fullType]
     if not t then return false, "Tooltip_LWX_NoBreakerItem" end
     local record = X.Panel.isPanel(obj) and X.Panel.recordAt(obj:getSquare())
@@ -63,6 +72,10 @@ function B.checkInstall(character, obj, fullType)
         return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.Panel.LEVEL))
     end
     if I.countType(character, fullType) < 1 then return false, "Tooltip_LWX_NoBreakerItem" end
+    if at ~= nil then
+        if not B.moduleFree(record, at) then return false, "Tooltip_LWX_ModuleTaken" end
+        return true, tonumber(at)
+    end
     local pos = B.freePosition(record, t.poles)
     if not pos then return false, "Tooltip_LWX_BoardFull" end
     return true, pos

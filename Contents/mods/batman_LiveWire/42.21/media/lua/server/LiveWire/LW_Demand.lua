@@ -78,7 +78,7 @@ function Demand.invalidateAt(sq)
         local inv = LiveWire.Registry.device(ids[i])
         if inv then
             local dx, dy = sq:getX() - inv.x, sq:getY() - inv.y
-            if dx * dx + dy * dy <= R * R
+            if (LiveWire.Coverage.hasDisc() and dx * dx + dy * dy <= R * R)
                 or LiveWire.Coverage.coversExtra(ids[i], inv, sq:getX(), sq:getY(), sq:getZ()) then
                 Demand.invalidate(ids[i])
             end
@@ -109,6 +109,8 @@ local function startJob()
             Demand.job = { id = id, x = inv.x, y = inv.y, R = R, R2 = R * R,
                            z = math.max(-32, inv.z - V), zmax = math.min(31, inv.z + V),
                            dy = -R, list = {}, gen = entry.gen or 0 }
+            -- No disc (D-44): straight to the provider's squares.
+            if not LiveWire.Coverage.hasDisc() then Demand.job.z = Demand.job.zmax + 1 end
             return true
         end
         -- Unloaded inverter: stays dirty; LW_ChunkSync invalidates it again when loaded.
@@ -278,6 +280,16 @@ function Demand.measure(inv, allowDirty)
                 breakdown[cat] = b
             end
         end
+    end
+    -- Appliances of other mods (no engine draw), declared by the circuit provider.
+    local CP = LiveWire.CircuitProvider
+    local extra, extraN = 0, 0
+    if CP then extra, extraN = CP.extraWatts(inv) end
+    if extra > 0 then
+        total = total + extra
+        local b = breakdown.other or { n = 0, w = 0 }
+        b.n, b.w = b.n + extraN, b.w + extra
+        breakdown.other = b
     end
     -- Billing keeps only scalar readings; display rows are built on demand.
     entry.report, entry.readings, entry.owners = nil, readings, owners

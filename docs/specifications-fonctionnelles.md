@@ -143,6 +143,7 @@ Les règles « dehors » et « berge de rivière » s'ajoutent aux contrôles va
 - Chaque source, chaque powerbank et chaque équipement se raccorde à **un** onduleur par l'action « Raccorder ».
 - Conditions : au plus `LinkRange` cases horizontalement (12 par défaut) et un écart d'au plus `LinkVerticalRange` étages (3 par défaut, réglable de 0 à 10 ; 0 = même étage). Même portée pour le couplage d'onduleurs. Les raccordements existants sont conservés si la limite est réduite.
 - Coût : `Base.ElectricWire`, à raison de 1 fil pour 4 cases, arrondi au-dessus, au moins 1.
+- Le fil revient au joueur qui défait le lien : débrancher, découpler, ramasser un équipement raccordé (un onduleur rend le fil de tout son réseau) ou raccorder l'équipement à un autre onduleur. Un équipement détruit perd son fil. Vaut aussi pour la borne et le tableau de LiveWire Extended.
 - Pas de câble visible en v0.1.
 
 **Réseau** = un onduleur, plus les sources, les powerbanks et les équipements raccordés à lui.
@@ -902,7 +903,7 @@ Mod `batman_LiveWireExtended`, livré avec Live Wire, qui le requiert. Sans lui,
 disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
 
 - **Bâtiment entier** : sur l'onduleur, « Raccorder le bâtiment » (Électricité 3, ni outil ni fil) alimente tous les
-  étages, le sous-sol et une bande extérieure (`LiveWireExtended.BuildingBand`, 0 à 8, défaut 1) du bâtiment où se
+  étages, le sous-sol et une bande extérieure (`LiveWireExtended.BuildingBand`, 0 à 8, défaut 0 depuis le 2026-11-09) du bâtiment où se
   trouve l'onduleur, sinon du plus proche que son disque atteint. Arrondi aux blocs de 8 × 8 cases du moteur. Un
   bâtiment par onduleur au plus ; facture, disjoncteur, délestage et attribution à l'onduleur allumé le plus proche
   inchangés. Sur serveur dédié, les constructions des joueurs n'ont pas de `BuildingDef` : la borne les couvre.

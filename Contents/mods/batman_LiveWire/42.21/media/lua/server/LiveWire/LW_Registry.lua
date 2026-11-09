@@ -46,6 +46,13 @@ function Registry.newId(prefix)
     return id
 end
 
+-- An id restored from an object mark (Devices.recover) must never be handed out
+-- again: move the counter past it.
+function Registry.reserveId(id)
+    local n = tonumber(string.match(tostring(id), "^%a+(%d+)$"))
+    if n and n >= data().nextId then data().nextId = n + 1 end
+end
+
 function Registry.device(id)
     return data().devices[id]
 end
@@ -150,7 +157,7 @@ end
 
 -- Adds a device table (must have role, model, x, y, z). Returns it with an id.
 function Registry.addDevice(dev)
-    dev.id = dev.id or Registry.newId("d")
+    if dev.id then Registry.reserveId(dev.id) else dev.id = Registry.newId("d") end
     local previous = data().devices[dev.id]
     if previous then indexRemove(previous) end
     data().devices[dev.id] = dev
@@ -198,6 +205,7 @@ function Registry.couple(slave, masterGrid)
     Registry.setAnchor(slave, nil)
     slave.grid = masterGrid.id
     slave.coupled = masterGrid.inverter
+    slave.relink = nil
     masterGrid.slaves = masterGrid.slaves or {}
     masterGrid.slaves[slave.id] = true
     if LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
@@ -211,6 +219,7 @@ function Registry.uncouple(slave)
     if LiveWire.Journal and g then LiveWire.Journal.add(g, "IGUI_LW_Uncoupled") end
     slave.coupled = nil
     slave.grid = nil
+    slave.wires = nil
     Registry.createGrid(slave)
     if LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
 end
@@ -219,6 +228,7 @@ function Registry.link(dev, grid)
     local already = dev.grid == grid.id and grid.members[dev.id]
     if dev.grid and dev.grid ~= grid.id then Registry.unlink(dev) end
     dev.grid = grid.id
+    dev.relink = nil
     grid.members[dev.id] = true
     if not already and LiveWire.Journal then
         LiveWire.Journal.add(grid, "IGUI_LW_Event_State", { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Connected" })
@@ -236,6 +246,7 @@ function Registry.unlink(dev)
         LiveWire.Journal.add(g, "IGUI_LW_Event_State", { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Disconnected" })
     end
     dev.grid = nil
+    dev.wires = nil
 end
 
 -- Members of a grid by role: sources, power banks, options, backup generators,
@@ -295,7 +306,7 @@ function Registry.dropGrid(g)
     for mid in pairs(g.members) do
         local m = data().devices[mid]
         if m then
-            m.grid = nil
+            m.grid, m.wires = nil, nil
             if m.role == "backup" or m.role == "computer" then vanilla[#vanilla + 1] = m end
         end
     end

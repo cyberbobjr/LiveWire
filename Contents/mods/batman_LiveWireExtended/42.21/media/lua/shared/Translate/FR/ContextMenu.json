@@ -22,5 +22,7 @@
     "ContextMenu_LWX_ResetBreaker": "Réarmer le %1 (déclenché)",
     "ContextMenu_LWX_OpenBoard": "Ouvrir le tableau",
     "ContextMenu_LWX_TwilightFit": "Poser un interrupteur crépusculaire sur le %1",
-    "ContextMenu_LWX_TwilightRemove": "Retirer l'interrupteur crépusculaire du %1"
+    "ContextMenu_LWX_TwilightRemove": "Retirer l'interrupteur crépusculaire du %1",
+    "ContextMenu_LWX_ReleaseAll": "Admin : tout remettre en service (avant de retirer le mod)",
+    "ContextMenu_LWX_ResumeAll": "Admin : remettre les tableaux en fonction"
 }

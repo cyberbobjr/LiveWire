@@ -85,6 +85,22 @@ function C.connectBuilding(character, dev, x, y, z, reach, via)
     return true
 end
 
+-- Connect building `def` to inverter `dev` without a player check (a linked breaker
+-- board serves its building, D-44); `via` is the key of what brought it. False when
+-- another inverter already powers that building.
+function C.connectDef(dev, def, via)
+    local key = def and X.Buildings.key(def)
+    if not key then return false end
+    local owner = D.ownerOf(key)
+    if owner then return owner == tostring(dev.id) end
+    local area = X.Buildings.area(def, dev.id)
+    if not area then return false end
+    area.via = via
+    C.commit(dev.id, function(e) e.areas[key] = area end)
+    X.log("building " .. key .. " connected to " .. tostring(dev.id) .. " by its board " .. tostring(via))
+    return true
+end
+
 function C.disconnect(character, dev, key)
     local e = D.entry(dev.id)
     if not e or not e.areas or not e.areas[key] then return false end

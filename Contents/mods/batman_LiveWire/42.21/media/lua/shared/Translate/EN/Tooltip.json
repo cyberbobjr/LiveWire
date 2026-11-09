@@ -41,5 +41,6 @@
     "Tooltip_LW_BankStackFull": "Only two power banks can be stacked.",
     "Tooltip_LW_BankStackBase": "Place it on the ground or on another power bank.",
     "Tooltip_LW_BankStackSupport": "Remove the upper bank or the objects on top first.",
-    "Tooltip_LW_RepairLimit": "This battery has reached its repair limit."
+    "Tooltip_LW_RepairLimit": "This battery has reached its repair limit.",
+    "Tooltip_LW_Dismantle": "Gives back fewer parts than it cost. Electronic parts depend on the condition: a worn device gives fewer. A fitted soundproofing or coupling kit is returned."
 }

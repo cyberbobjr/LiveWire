@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWireExtended": "LiveWire Extended",
     "Sandbox_LiveWireExtended_BuildingBand": "건물 주변 외부 띠",
-    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "연결된 건물 주변에서 함께 전력을 받는 띠의 너비 (칸) (현관, 정원 길). 게임은 8 x 8 블록 단위로 전력을 공급하므로 구역은 블록 단위로 올림됩니다."
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "연결된 건물 주변에서 함께 전력을 받는 띠의 너비 (칸) (현관, 정원 길). 게임은 8 x 8 블록 단위로 전력을 공급하므로 구역은 블록 단위로 올림됩니다.",
+    "Sandbox_LiveWireExtended_HouseBoardPercent": "배전반이 있는 건물 (%%)",
+    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip": "지도의 건물 중 이미 배전반이 있는 건물의 비율 (전기 박스가 있으면 그것을 사용). 인버터에 연결하면 방마다 미리 배선되어 있고 라벨은 없습니다. 어떤 차단기가 무엇에 전력을 공급하는지 직접 알아내세요. 건물의 배선되지 않은 기기에는 전류가 흐르지 않습니다."
 }

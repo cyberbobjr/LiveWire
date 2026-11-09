@@ -22,6 +22,14 @@ end
 
 local function blocked(o) return PT.blocked(o) end
 
+-- Estimated draws (these mods draw nothing in the engine) follow the Live Wire sandbox
+-- like every appliance: PowerScale and the factor of the consumption profile.
+local function sandbox(w)
+    local C = LiveWire.Consumption
+    local t = C and C.PROFILES and C.PROFILES[C.profile()]
+    return w * (LiveWire.Config.get("PowerScale") or 1) * (t and t.otherFactor or 1)
+end
+
 -- ---------------------------------------------------------------- My Tailor Is Rich
 Ad.MTIR_WATTS = 100
 Ad.register({
@@ -31,7 +39,8 @@ Ad.register({
         return kind ~= nil and kind.needsPower == true
     end,
     pieces = function(o) return { o } end,
-    watts = function(o) return blocked(o) and 0 or Ad.MTIR_WATTS end,
+    watts = function(o) return blocked(o) and 0 or sandbox(Ad.MTIR_WATTS) end,
+    estimated = true,   -- no engine draw: billed to the inverter through extraWatts
     isOn = function(o) return not blocked(o) end,
     apply = function() end,
 })
@@ -48,6 +57,7 @@ end
 
 Ad.register({
     id = "fa2",
+    estimated = true,
     recognize = function(o)
         local t = faSetting(o)
         return t ~= nil and o:getContainer() ~= nil
@@ -55,7 +65,7 @@ Ad.register({
     pieces = function(o) return { o } end,
     watts = function(o)
         local md = o:getModData()
-        return Ad.FA_WATTS[md.CustomTemp] or 0
+        return sandbox(Ad.FA_WATTS[md.CustomTemp] or 0)
     end,
     isOn = function(o) return o:getModData().CustomTemp ~= "Off" end,
     -- Cut: keep the setting, room temperature and "Off" as the mod does without current.
@@ -126,6 +136,27 @@ Ad.register({
 
 X.circuitProvider.deviceBlocked = function(dev)
     return PT.blockedKey("dev:" .. tostring(dev.id), dev.x, dev.y, dev.z)
+end
+
+-- Inverter `inv` bills the estimated draws of the points wired to its boards: the breaker
+-- and the inverter count the same watts (one consistent bill). On the authority.
+X.circuitProvider.extraWatts = function(inv)
+    local boards = X.Data.table().panels or {}
+    local estimated = {}
+    for _, a in ipairs(Ad.list) do
+        if a.estimated then estimated[a.id] = a end
+    end
+    local w, n = 0, 0
+    for key, p in pairs(PT.table()) do
+        local a = estimated[p.adapter]
+        local r = a and boards[p.board]
+        if r and inv and r.inv == inv.id then
+            local o = PT.objectsOf(key, p)[1]
+            local d = o and a.watts(o) or 0
+            if d > 0 then w, n = w + d, n + 1 end
+        end
+    end
+    return w, n
 end
 
 -- ---------------------------------------------------------------- power terminal

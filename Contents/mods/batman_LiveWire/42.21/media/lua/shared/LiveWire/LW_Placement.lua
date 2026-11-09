@@ -141,7 +141,7 @@ function MP:pickUpMoveableInternal(_character, _square, _object, _sprInstance, _
     end
     local r = origPickUp(self, _character, _square, _object, _sprInstance, _spriteName, _createItem, _rotating, ...)
     if id and _object:getObjectIndex() == -1 then
-        LiveWire.Devices.onPickedUp(id)
+        LiveWire.Devices.onPickedUp(id, _character)
     end
     return r
 end

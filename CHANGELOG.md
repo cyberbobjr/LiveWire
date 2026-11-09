@@ -10,11 +10,14 @@
   - Not compatible with LG Extended Electricity.
 
 ### Fixes
+- Fixed devices that stayed stuck after the game crashed or was closed without saving: screens showing "Updating..." or "Waiting for data..." forever, and every action (switching the inverter on, linking, unlinking) refused with "Not possible". Live Wire now recognises these devices when you come near them and puts them back on their network. The same applies to LiveWire Extended terminals and breaker boards, which get their breakers back; their labels, wiring to appliances and drawn zone have to be set again.
+- Disconnecting a device now gives back the electric wire used to connect it. This also applies to uncoupling an inverter, picking up a connected device (an inverter gives back the wire of its whole network), moving a device to another inverter, and the LiveWire Extended terminal and breaker board. A destroyed device still loses its wire.
 - Fixed fridges, freezers and other appliances losing power at random while the inverter still had plenty of power, until the inverter or the breaker panel was switched off and on again. It happened when the game loaded part of the map diagonally near the base, more often with a vanilla generator nearby (for example a backup generator).
 
 ### Improvements
 - Appliances that span several tiles, such as large shop fridges, are now counted once instead of once per tile.
 - The backup generator now tells you when it switches to manual control. Switching it on or off yourself still hands it over to you, but a message now appears next to it, and the inverter screen and the management software show how to give control back: right-click the generator > Live Wire > Backup generator > Resume automatic backup. A confirmation appears when automatic control resumes.
+- Every Live Wire device and kit can now be dismantled from the crafting menu (Dismantle Inverter, Dismantle Solar Panel and so on), with a screwdriver and no Electrical level. You get back fewer parts than the recipe cost: the metal parts always come back, the electronic parts depend on the device's condition, and a fitted soundproofing kit or coupling kit is returned.
 - Live Wire windows now follow the game's font size option: the inverter screen, power bank and device screens, breaker panel, connection list and computer screen grow with larger fonts (for example on 4K screens) instead of keeping their 1080p size. They always stay inside the screen.
 
 ## 1.7.2 — 2026-11-07

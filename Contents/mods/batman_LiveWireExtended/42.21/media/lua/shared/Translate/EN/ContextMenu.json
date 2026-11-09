@@ -22,5 +22,7 @@
     "ContextMenu_LWX_ResetBreaker": "Reset %1 (tripped)",
     "ContextMenu_LWX_OpenBoard": "Open the breaker board",
     "ContextMenu_LWX_TwilightFit": "Fit a twilight switch to %1",
-    "ContextMenu_LWX_TwilightRemove": "Remove the twilight switch of %1"
+    "ContextMenu_LWX_TwilightRemove": "Remove the twilight switch of %1",
+    "ContextMenu_LWX_ReleaseAll": "Admin: switch every breaker back on (before removing the mod)",
+    "ContextMenu_LWX_ResumeAll": "Admin: breaker boards work again"
 }

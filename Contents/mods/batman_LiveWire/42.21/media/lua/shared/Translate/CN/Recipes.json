@@ -16,5 +16,16 @@
     "LWMakeWindTurbineBlades": "制作风力涡轮机叶片",
     "LWMakeWindTurbineMast": "制作风力涡轮机塔架",
     "LWDismantleVoltageTester": "拆解电压测试仪",
-    "LWMakeInverterCabinet": "制作逆变器柜"
+    "LWMakeInverterCabinet": "制作逆变器柜",
+    "LWDismantleSolarPanel": "拆解太阳能板",
+    "LWDismantleWindTurbine": "拆解风力涡轮机",
+    "LWDismantleWaterWheel": "拆解水轮机",
+    "LWDismantleInverter": "拆解逆变器",
+    "LWDismantleInverterCabinet": "拆解逆变器柜",
+    "LWDismantlePowerBank": "拆解电池组",
+    "LWDismantleBreaker": "拆解断路器面板",
+    "LWDismantleBatteryAlarm": "拆解低电量警报器",
+    "LWDismantleWaterPump": "拆解水泵",
+    "LWDismantleCouplingKit": "拆解逆变器并联套件",
+    "LWDismantleSoundproofKit": "拆解逆变器隔音套件"
 }

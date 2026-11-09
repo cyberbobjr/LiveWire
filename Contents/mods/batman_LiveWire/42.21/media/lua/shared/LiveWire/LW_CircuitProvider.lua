@@ -10,6 +10,9 @@
 --                             Called on the authority by LiveWire.Circuits only.
 --   deviceBlocked(dev)     -> optional: true to cut a Live Wire pump or management
 --                             computer (registry device), on the authority.
+--   extraWatts(inv)        -> optional: watts, count of appliances the engine does not
+--                             bill (appliances of other mods) served by inverter `inv`;
+--                             added to its demand as "other" (one consistent bill).
 -- Registration happens while Lua files load, before OnInitGlobalModData, like API v1.
 LiveWire = LiveWire or {}
 
@@ -34,6 +37,12 @@ end
 
 function CP.deviceBlocked(dev)
     return provider ~= nil and provider.deviceBlocked ~= nil and provider.deviceBlocked(dev) == true
+end
+
+function CP.extraWatts(inv)
+    if not provider or not provider.extraWatts then return 0, 0 end
+    local w, n = provider.extraWatts(inv)
+    return tonumber(w) or 0, tonumber(n) or 0
 end
 
 Events.OnInitGlobalModData.Add(function() sealed = true end)

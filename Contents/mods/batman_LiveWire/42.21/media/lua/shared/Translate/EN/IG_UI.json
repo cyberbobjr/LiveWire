@@ -53,6 +53,7 @@
     "IGUI_LW_NotRegistered": "Live Wire could not register this device (details in the console).",
     "IGUI_LW_Linked": "Connected.",
     "IGUI_LW_Unlinked": "Disconnected.",
+    "IGUI_LW_WiresBack": "%1 electric wire(s) recovered.",
     "IGUI_LW_Repaired": "Repaired, condition %1.",
     "IGUI_LW_RepairFailed": "Repair failed, the parts are lost.",
     "IGUI_LW_Reconditioned": "Battery reconditioned, condition %1.",

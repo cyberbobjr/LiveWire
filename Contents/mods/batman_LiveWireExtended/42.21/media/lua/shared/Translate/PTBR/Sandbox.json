@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWireExtended": "LiveWire Extended",
     "Sandbox_LiveWireExtended_BuildingBand": "Faixa externa em volta de um prédio",
-    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Largura em quadrados da faixa em volta de um prédio conectado que também recebe energia (varanda, caminho do jardim). O jogo alimenta blocos inteiros de 8 x 8, então a área é arredondada para eles."
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Largura em quadrados da faixa em volta de um prédio conectado que também recebe energia (varanda, caminho do jardim). O jogo alimenta blocos inteiros de 8 x 8, então a área é arredondada para eles.",
+    "Sandbox_LiveWireExtended_HouseBoardPercent": "Prédios com quadro elétrico (%%)",
+    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip": "Proporção dos prédios do mapa que já têm um quadro elétrico (a própria caixa elétrica, se tiverem). Conectado a um inversor, vem pré-cabeado cômodo por cômodo, sem etiquetas: descubra qual disjuntor alimenta o quê. Os aparelhos não cabeados do prédio ficam então sem corrente."
 }

@@ -1,3 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "Poste eléctrico"
+    "Base.Mov_LWX_Terminal": "Poste eléctrico",
+    "Base.Mov_LWX_Panel8": "Cuadro eléctrico (8 módulos)",
+    "Base.Mov_LWX_Panel16": "Cuadro eléctrico (16 módulos)",
+    "Base.Mov_LWX_Panel24": "Cuadro eléctrico (24 módulos)",
+    "Base.LWXBreaker15": "Disyuntor de 15 A",
+    "Base.LWXBreaker20": "Disyuntor de 20 A",
+    "Base.LWXBreaker30": "Disyuntor de 30 A",
+    "Base.LWXTwilightSwitch": "Interruptor crepuscular"
 }

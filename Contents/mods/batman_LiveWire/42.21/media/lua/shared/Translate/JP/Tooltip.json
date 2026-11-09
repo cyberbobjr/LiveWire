@@ -41,5 +41,6 @@
     "Tooltip_LW_RepairLimit": "このバッテリーは修理回数の上限です。",
     "Tooltip_LW_BankStackFull": "バッテリーバンクは2台まで積めます。",
     "Tooltip_LW_BankStackBase": "地面か別のバッテリーバンクの上に置いてください。",
-    "Tooltip_LW_BankStackSupport": "先に上のバンクや物を取り除いてください。"
+    "Tooltip_LW_BankStackSupport": "先に上のバンクや物を取り除いてください。",
+    "Tooltip_LW_Dismantle": "作るのに使った部品より少なく戻ります。電子部品の数は状態によります：消耗した機器ほど少なくなります。取り付けた防音キットや連結キットは戻ります。"
 }

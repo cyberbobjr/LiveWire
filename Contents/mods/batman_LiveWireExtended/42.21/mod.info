@@ -1,8 +1,8 @@
 name=LiveWire Extended
 id=batman_LiveWireExtended
-description=Optional add-on for Live Wire: connect a whole building (every floor, basement and a strip outside) to an inverter, and power an outdoor area from a terminal you place and wire to it. Remove it at any time: Live Wire goes back to its normal range.
+description=Optional add-on for Live Wire: connect a whole building (every floor, basement and a strip outside) to an inverter, power an outdoor area from a terminal, and wire every appliance to its own breaker on a breaker board. Before removing it, an admin switches every breaker back on (board menu).
 require=\batman_LiveWire
-incompatible=\LGExtendedElectricity
+incompatible=\LGExtendedElectricity,\KnoxPower
 poster=poster.png
 versionMin=42.21
 modversion=1.7.2

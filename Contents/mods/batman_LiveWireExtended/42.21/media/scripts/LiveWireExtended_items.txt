@@ -17,7 +17,7 @@ module Base
     craftRecipe LWXMakeTerminal
     {
         timedAction = MakingElectrical,
-        time = 400,
+        time = 270,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -54,7 +54,7 @@ module Base
     craftRecipe LWXMakePanel8
     {
         timedAction = MakingElectrical,
-        time = 280,
+        time = 190,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -89,7 +89,7 @@ module Base
     craftRecipe LWXMakePanel16
     {
         timedAction = MakingElectrical,
-        time = 360,
+        time = 240,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -124,7 +124,7 @@ module Base
     craftRecipe LWXMakePanel24
     {
         timedAction = MakingElectrical,
-        time = 440,
+        time = 290,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -144,20 +144,20 @@ module Base
         }
     }
 
-    /* Breaker 15 A at 120 V, 1 module(s) of a breaker board (D-35).
+    /* Breaker 15 A at 120 V, 1 module of a breaker board (D-35); recipe by rating (D-43).
        Weight is above the recipe inputs. */
     item LWXBreaker15
     {
         DisplayCategory = Electronics,
         ItemType = base:normal,
-        Weight = 0.2,
+        Weight = 0.3,
         Icon = LWXBreaker15,
     }
 
     craftRecipe LWXMakeBreaker15
     {
         timedAction = MakingElectrical,
-        time = 150,
+        time = 90,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -169,6 +169,7 @@ module Base
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 1 [Base.ElectronicsScrap],
             item 1 [Base.ElectricWire],
+            item 1 [Base.Screws],
         }
         outputs
         {
@@ -176,84 +177,20 @@ module Base
         }
     }
 
-    /* Breaker 20 A at 120 V, 1 module(s) of a breaker board (D-35).
+    /* Breaker 20 A at 120 V, 1 module of a breaker board (D-35); recipe by rating (D-43).
        Weight is above the recipe inputs. */
     item LWXBreaker20
     {
         DisplayCategory = Electronics,
         ItemType = base:normal,
-        Weight = 0.2,
+        Weight = 0.4,
         Icon = LWXBreaker20,
     }
 
     craftRecipe LWXMakeBreaker20
     {
         timedAction = MakingElectrical,
-        time = 150,
-        NeedToBeLearn = true,
-        SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
-        xpAward = Electricity:5,
-        Tags = AnySurfaceCraft,
-        category = Electrical,
-        inputs
-        {
-            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
-            item 1 [Base.ElectronicsScrap],
-            item 1 [Base.ElectricWire],
-        }
-        outputs
-        {
-            item 1 Base.LWXBreaker20,
-        }
-    }
-
-    /* Breaker 30 A at 120 V, 1 module(s) of a breaker board (D-35).
-       Weight is above the recipe inputs. */
-    item LWXBreaker30
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 0.2,
-        Icon = LWXBreaker30,
-    }
-
-    craftRecipe LWXMakeBreaker30
-    {
-        timedAction = MakingElectrical,
-        time = 150,
-        NeedToBeLearn = true,
-        SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
-        xpAward = Electricity:5,
-        Tags = AnySurfaceCraft,
-        category = Electrical,
-        inputs
-        {
-            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
-            item 1 [Base.ElectronicsScrap],
-            item 1 [Base.ElectricWire],
-        }
-        outputs
-        {
-            item 1 Base.LWXBreaker30,
-        }
-    }
-
-    /* Breaker 30 A at 240 V, 2 module(s) of a breaker board (D-35).
-       Weight is above the recipe inputs. */
-    item LWXBreaker2P30
-    {
-        DisplayCategory = Electronics,
-        ItemType = base:normal,
-        Weight = 0.3,
-        Icon = LWXBreaker2P30,
-    }
-
-    craftRecipe LWXMakeBreaker2P30
-    {
-        timedAction = MakingElectrical,
-        time = 150,
+        time = 100,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -265,10 +202,44 @@ module Base
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 2 [Base.ElectronicsScrap],
             item 1 [Base.ElectricWire],
+            item 2 [Base.Screws],
         }
         outputs
         {
-            item 1 Base.LWXBreaker2P30,
+            item 1 Base.LWXBreaker20,
+        }
+    }
+
+    /* Breaker 30 A at 120 V, 1 module of a breaker board (D-35); recipe by rating (D-43).
+       Weight is above the recipe inputs. */
+    item LWXBreaker30
+    {
+        DisplayCategory = Electronics,
+        ItemType = base:normal,
+        Weight = 0.7,
+        Icon = LWXBreaker30,
+    }
+
+    craftRecipe LWXMakeBreaker30
+    {
+        timedAction = MakingElectrical,
+        time = 120,
+        NeedToBeLearn = true,
+        SkillRequired = Electricity:3,
+        AutoLearnAny = Electricity:3,
+        xpAward = Electricity:5,
+        Tags = AnySurfaceCraft,
+        category = Electrical,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
+            item 3 [Base.ElectronicsScrap],
+            item 2 [Base.ElectricWire],
+            item 3 [Base.Screws],
+        }
+        outputs
+        {
+            item 1 Base.LWXBreaker30,
         }
     }
 
@@ -278,14 +249,14 @@ module Base
     {
         DisplayCategory = Electronics,
         ItemType = base:normal,
-        Weight = 0.3,
+        Weight = 0.4,
         Icon = LWXTwilightSwitch,
     }
 
     craftRecipe LWXMakeTwilightSwitch
     {
         timedAction = MakingElectrical,
-        time = 200,
+        time = 130,
         NeedToBeLearn = true,
         SkillRequired = Electricity:3,
         AutoLearnAny = Electricity:3,
@@ -297,6 +268,7 @@ module Base
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 2 [Base.ElectronicsScrap],
             item 1 [Base.ElectricWire],
+            item 1 [Base.Screws],
         }
         outputs
         {

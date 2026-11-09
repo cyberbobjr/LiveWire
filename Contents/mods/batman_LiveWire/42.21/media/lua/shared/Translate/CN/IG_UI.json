@@ -51,6 +51,7 @@
     "IGUI_LW_Installed": "%1 已安装.",
     "IGUI_LW_Linked": "已连接.",
     "IGUI_LW_Unlinked": "已断开连接.",
+    "IGUI_LW_WiresBack": "回收了 %1 根电线.",
     "IGUI_LW_Repaired": "已修理, 状况 %1.",
     "IGUI_LW_RepairFailed": "修理失败, 零件已损失.",
     "IGUI_LW_Reconditioned": "电池已翻新, 状况 %1.",

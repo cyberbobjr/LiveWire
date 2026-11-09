@@ -1,13 +1,22 @@
--- LiveWire Extended: window of a breaker board (D-36, E19). One row per breaker: its
--- lever (switch off, switch on, reset after a trip), its label (written with a pen or a
--- pencil), its load in W and A against its rating, its points, and "Locate", which
--- lights the floor under its appliances until pressed again or the window closes
--- (persistent highlights set once, no per-frame hook). Reads the public table only;
--- every change goes through a timed action checked on the authority.
+-- LiveWire Extended: window of a breaker board (D-36, E19, redrawn E23). The board is drawn
+-- as it stands on the wall: 8, 16 or 24 modules in rows of 8 on DIN rails, each module
+-- either an empty cover or the breaker installed there (front art rendered from the tile
+-- model, LWX_UI_module_*.png), with its lever, its rating plate (colour and amps) and a label strip. Click an
+-- empty module to install a breaker you carry there; click a lever to switch it (or reset
+-- it after a trip); click a breaker to see its circuit below: load in W and A against its
+-- rating, energy, wired appliances, and buttons Label, Locate, twilight switch, Remove.
+-- A breaker dragged from the inventory onto an empty module installs it there (the free
+-- modules light up while dragging); the click menu stays for gamepad players.
+-- Every size is in 1080p reference pixels times the window factor of LW_UIScale (4K
+-- screens, large font option), set once when the window opens.
+-- Reads the public table only; every change is a timed action checked on the authority.
+-- Locate lights the appliances once (persistent highlight), no per-frame hook.
 if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
 require "ISUI/ISTextBox"
+require "ISUI/ISContextMenu"
+require "ISUI/ISInventoryPane"
 require "LiveWire/LW_UIScale"
 require "LiveWireExtended/LWX_Points"
 
@@ -16,8 +25,26 @@ local B = X.Breakers
 local Window = ISPanel:derive("LWXBoardWindow")
 X.BoardWindow = Window
 
-local BASE_W, ROW_H, PAD = 780, 44, 10
-local FONT_H = getTextManager():getFontHeight(UIFont.Small)
+-- Layout in 1080p reference pixels (multiplied by lwK).
+local MOD_W, MOD_H, GAP = 48, 112, 4
+local LABEL_H, ROW_GAP, PAD, HEAD_H = 18, 12, 18, 34
+local DETAIL_H, BTN_H = 156, 26
+local ROW_W = 8 * MOD_W + 7 * GAP
+local WIN_W = ROW_W + 2 * PAD + 2 * 22
+local TEX = {}
+for _, state in ipairs({ "on", "off", "tripped", "empty" }) do
+    TEX[state] = getTexture("media/textures/LWX_UI_module_" .. state .. ".png")
+end
+-- Rating plate: colour of the rating, its amps printed on it (text colour readable on it).
+local RATING = { [15] = { 0.20, 0.45, 0.95 }, [20] = { 0.95, 0.80, 0.15 }, [30] = { 0.25, 0.75, 0.35 } }
+local RATING_TEXT = { [15] = { 1, 1, 1 } }
+local C = { bg = { 0.10, 0.11, 0.12 }, box = { 0.78, 0.79, 0.77 }, boxEdge = { 0.42, 0.44, 0.46 },
+    inner = { 0.62, 0.64, 0.63 }, rail = { 0.30, 0.31, 0.33 }, text = { 0.92, 0.92, 0.90 },
+    dim = { 0.65, 0.67, 0.66 }, ok = { 0.45, 0.85, 0.50 }, warn = { 0.95, 0.70, 0.25 },
+    bad = { 0.95, 0.35, 0.30 }, sel = { 1.0, 0.85, 0.25 }, hover = { 1, 1, 1 }, panel = { 0.16, 0.17, 0.18 },
+    plate = { 0.95, 0.95, 0.92 } }
+
+local function fontH() return getTextManager():getFontHeight(UIFont.Small) end
 
 function Window:record()
     local sq = self.board and self.board:getSquare()
@@ -28,14 +55,175 @@ local function queue(self, action)
     if luautils.walkAdj(self.player, self.board:getSquare()) then ISTimedActionQueue.add(action) end
 end
 
-function Window:onLever(button)
-    local slot = button.slot
-    local mode = (slot.off or slot.tripped) and "on" or "off"
-    queue(self, LWXBreakerAction:new(self.player, self.board, nil, slot.pos, mode))
+local function slotState(slot)
+    if slot.tripped then return "tripped" end
+    if B.isOpen(slot) then return "off" end
+    return "on"
 end
 
-function Window:onRename(button)
-    local slot, me = button.slot, self
+-- ---------------------------------------------------------------- geometry (reference units)
+function Window:rows() return math.max(1, math.floor((self.size or 8) / 8)) end
+
+function Window:moduleRect(pos)
+    local row, col = math.floor((pos - 1) / 8), (pos - 1) % 8
+    return PAD + 22 + col * (MOD_W + GAP), HEAD_H + PAD + 14 + row * (MOD_H + LABEL_H + ROW_GAP)
+end
+
+function Window:detailTop() return HEAD_H + 2 * PAD + 14 + self:rows() * (MOD_H + LABEL_H + ROW_GAP) end
+
+-- Module under the local point (mx, my) in pixels, and whether it is on its lever half.
+function Window:hit(mx, my)
+    local k = self.lwK
+    for pos = 1, self.size or 8 do
+        local x, y = self:moduleRect(pos)
+        if mx >= x * k and mx < (x + MOD_W) * k and my >= y * k and my < (y + MOD_H) * k then
+            return pos, (my - y * k) < MOD_H * k * 0.5
+        end
+    end
+end
+
+-- ---------------------------------------------------------------- drawing
+function Window:rect(x, y, w, h, c, a)
+    local k = self.lwK
+    self:drawRect(x * k, y * k, w * k, h * k, a or 1, c[1], c[2], c[3])
+end
+
+function Window:border(x, y, w, h, c, a)
+    local k = self.lwK
+    self:drawRectBorder(x * k, y * k, w * k, h * k, a or 1, c[1], c[2], c[3])
+end
+
+function Window:text(s, x, y, c, w)
+    local k = self.lwK
+    if w then self:setStencilRect(x * k, y * k, w * k, fontH() + 4) end
+    self:drawText(s, x * k, y * k, c[1], c[2], c[3], 1, UIFont.Small)
+    if w then self:clearStencilRect() end
+end
+
+function Window:prerender()
+    ISPanel.prerender(self)
+    local record = self:record()
+    if not record then self:close(); return end
+    self.size = record.size or 8
+    if self.selected and not B.slotAt(record, self.selected) then self.selected = nil end
+    self:refreshButtons(record)
+    self:drawBoard(record)
+end
+
+-- Drawn in prerender: the game renders the children (buttons) between prerender and
+-- render, so anything drawn in render would cover them.
+function Window:drawBoard(record)
+    local k = self.lwK
+    self:text(getText("IGUI_LWX_BoardTitle", tostring(record.size), tostring(B.usedModules(record))), PAD, 10, C.text)
+    local rows = self:rows()
+    local bx, by = PAD, HEAD_H + PAD
+    local bw, bh = ROW_W + 44, rows * (MOD_H + LABEL_H + ROW_GAP) + 14
+    self:rect(bx, by, bw, bh, C.box)
+    self:border(bx, by, bw, bh, C.boxEdge)
+    self:rect(bx + 8, by + 6, bw - 16, bh - 12, C.inner)
+    for r = 0, rows - 1 do
+        local _, ry = self:moduleRect(r * 8 + 1)
+        self:rect(bx + 14, ry + MOD_H / 2 - 9, bw - 28, 18, C.rail)
+    end
+    local hover = self:hit(self:getMouseX(), self:getMouseY())
+    local dragged = self:draggedBreaker()
+    local labelY = (LABEL_H - fontH() / k) / 2
+    for pos = 1, record.size do
+        local x, y = self:moduleRect(pos)
+        local slot = B.slotAt(record, pos)
+        local tex = TEX[slot and slotState(slot) or "empty"]
+        if tex then self:drawTextureScaled(tex, x * k, y * k, MOD_W * k, MOD_H * k, 1, 1, 1, 1) end
+        if slot then
+            -- rating printed on the breaker, as on a real one
+            local amps = slot.amps .. " A"
+            local th = fontH() / k
+            local tw = getTextManager():MeasureStringX(UIFont.Small, amps) / k
+            self:rect(x + 4, y + MOD_H - th - 10, MOD_W - 8, th + 2, RATING[slot.amps] or C.plate)
+            self:text(amps, x + (MOD_W - tw) / 2, y + MOD_H - th - 9, RATING_TEXT[slot.amps] or C.bg)
+            if slot.twilight then self:rect(x + MOD_W - 12, y + 6, 7, 7, C.warn) end
+            self:rect(x, y + MOD_H + 2, MOD_W, LABEL_H - 2, C.text)
+            self:text(slot.label ~= "" and slot.label or tostring(pos), x + 2, y + MOD_H + 2 + labelY, C.bg, MOD_W - 4)
+        else
+            self:text(tostring(pos), x + MOD_W / 2 - 4, y + MOD_H + 2 + labelY, C.dim)
+            if dragged then
+                self:rect(x, y, MOD_W, MOD_H, C.ok, hover == pos and 0.45 or 0.15)
+                self:border(x - 1, y - 1, MOD_W + 2, MOD_H + 2, C.ok, hover == pos and 1 or 0.6)
+            end
+        end
+        if self.selected == pos then
+            self:border(x - 2, y - 2, MOD_W + 4, MOD_H + 4, C.sel)
+            self:border(x - 3, y - 3, MOD_W + 6, MOD_H + 6, C.sel)
+        elseif hover == pos then
+            self:border(x - 1, y - 1, MOD_W + 2, MOD_H + 2, C.hover, 0.7)
+        end
+    end
+    self:renderDetails(record)
+end
+
+function Window:renderDetails(record)
+    local top = self:detailTop()
+    local x, w = PAD, WIN_W - 2 * PAD
+    self:rect(x, top, w, DETAIL_H - 10, C.panel)
+    local slot = self.selected and B.slotAt(record, self.selected)
+    local line = fontH() / self.lwK + 4
+    local y = top + 8
+    if not slot then
+        self:text(getText("IGUI_LWX_SelectHint"), x + 10, y, C.dim, w - 20)
+        self:text(getText("IGUI_LWX_EmptyHint"), x + 10, y + line, C.dim, w - 20)
+        return
+    end
+    local name = slot.label ~= "" and slot.label or getText("IGUI_LWX_ModuleName", tostring(slot.pos))
+    if slot.twilight then name = getText("IGUI_LWX_TwilightTag", name) end
+    self:text(name, x + 10, y, C.text, w / 2 - 10)
+    local state = slotState(slot)
+    local sc = state == "tripped" and C.bad or state == "off" and C.dim or C.ok
+    self:text(getText("IGUI_LWX_State_" .. state), x + w / 2, y, sc, w / 2 - 10)
+    y = y + line
+    local cap = B.capacityW(slot)
+    self:text(getText("IGUI_LWX_Rating", tostring(slot.amps), tostring(cap)), x + 10, y, C.dim, w - 20)
+    y = y + line
+    local load = slot.load or 0
+    local frac = math.min(1, load / cap)
+    self:rect(x + 10, y + 2, w - 20, 10, C.rail)
+    self:rect(x + 10, y + 2, (w - 20) * frac, 10, frac > 0.9 and C.bad or frac > 0.7 and C.warn or C.ok)
+    y = y + 16
+    self:text(getText("IGUI_LWX_LoadLine", tostring(load), string.format("%.1f", B.amps(slot)),
+        tostring(#B.pointList(slot))), x + 10, y, C.text, w - 20)
+    y = y + line
+    local m = B.meterSummary(slot)
+    self:text(getText("IGUI_LWX_Meter", string.format("%.1f", m.today), string.format("%.1f", m.yesterday),
+        string.format("%.1f", m.week)), x + 10, y, C.dim, w - 20)
+end
+
+-- ---------------------------------------------------------------- actions
+local BUTTONS = { "lever", "label", "locate", "twilight", "remove" }
+
+function Window:refreshButtons(record)
+    local slot = self.selected and B.slotAt(record, self.selected)
+    for _, key in ipairs(BUTTONS) do self.btn[key]:setVisible(slot ~= nil) end
+    if not slot then return end
+    local state = slotState(slot)
+    self.btn.lever:setTitle(getText(state == "tripped" and "IGUI_LWX_LeverReset" or slot.off and "IGUI_LWX_LeverSwitchOn"
+        or "IGUI_LWX_LeverSwitchOff"))
+    self.btn.locate:setTitle(getText(self.locating == slot.pos and "IGUI_LWX_LocateOff" or "IGUI_LWX_Locate"))
+    self.btn.twilight:setTitle(getText(slot.twilight and "IGUI_LWX_TwilightRemoveBtn" or "IGUI_LWX_TwilightFitBtn"))
+    self.btn.twilight.enable = slot.twilight == true or LiveWire.Install.countType(self.player, B.TWILIGHT_ITEM) > 0
+end
+
+function Window:selectedSlot()
+    local record = self:record()
+    return record and self.selected and B.slotAt(record, self.selected) or nil
+end
+
+function Window:onLever()
+    local slot = self:selectedSlot()
+    if not slot then return end
+    queue(self, LWXBreakerAction:new(self.player, self.board, nil, slot.pos, (slot.off or slot.tripped) and "on" or "off"))
+end
+
+function Window:onLabel()
+    local slot, me = self:selectedSlot(), self
+    if not slot then return end
     local box = ISTextBox:new(0, 0, 320, 140, getText("IGUI_LWX_LabelPrompt", tostring(slot.pos)), slot.label or "",
         nil, function(_, b)
             if b.internal == "OK" then
@@ -54,15 +242,17 @@ function Window:clearLocate()
     self.lit, self.locating = {}, nil
 end
 
-function Window:onLocate(button)
-    local pos = button.slot.pos
+-- Light every appliance of breaker `pos` (all pieces of a multi-tile one, a room's switches).
+function Window:locate(pos)
     local again = self.locating == pos
     self:clearLocate()
     if again then return end
+    local record = self:record()
+    local slot = record and B.slotAt(record, pos)
+    if not slot then return end
     self.locating = pos
-    for _, key in ipairs(B.pointList(button.slot)) do
+    for _, key in ipairs(B.pointList(slot)) do
         for _, found in ipairs(X.Points.objectsOf(key, X.Points.point(key))) do
-            -- every piece of a multi-tile appliance, every switch of a room
             for _, o in ipairs(X.Adapters.find(found).pieces(found)) do
                 if not o:isHighlighted() then
                     o:setHighlightColor(0.95, 0.75, 0.2, 1)
@@ -74,83 +264,89 @@ function Window:onLocate(button)
     end
 end
 
--- Rebuild the buttons when the breakers change (count, positions).
-function Window:layoutSignature(record)
-    local t = {}
-    for _, s in ipairs(record and record.slots or {}) do t[#t + 1] = s.pos .. ":" .. s.poles end
-    return table.concat(t, ",")
+function Window:onLocate()
+    if self.selected then self:locate(self.selected) end
 end
 
-function Window:rebuild(record)
-    for _, b in ipairs(self.buttons or {}) do self:removeChild(b) end
-    self.buttons = {}
-    local k = self.lwK
-    local y = (PAD + FONT_H + 14) * k
-    for _, slot in ipairs(record and record.slots or {}) do
-        local function add(x, w, title, fn)
-            local b = ISButton:new(x * k, y, w * k, (ROW_H - 6) * k, title, self, fn)
-            b:initialise()
-            b.slot = slot
-            self:addChild(b)
-            self.buttons[#self.buttons + 1] = b
-            return b
+function Window:onTwilight()
+    local slot = self:selectedSlot()
+    if not slot then return end
+    queue(self, LWXBreakerAction:new(self.player, self.board, nil, slot.pos, slot.twilight and "twilightOff" or "twilightOn"))
+end
+
+function Window:onRemove()
+    local slot = self:selectedSlot()
+    if not slot then return end
+    queue(self, LWXBreakerAction:new(self.player, self.board, nil, slot.pos, "remove"))
+    self.selected = nil
+end
+
+-- Empty module: the breakers the player carries, installed in that very module.
+function Window:installMenu(pos)
+    local menu = ISContextMenu.get(self.player:getPlayerNum(), getMouseX(), getMouseY())
+    menu:addOption(getText("IGUI_LWX_InstallHere", tostring(pos)), nil, nil).notAvailable = true
+    for _, fullType in ipairs(B.ORDER) do
+        local t = B.TYPES[fullType]
+        local it = getScriptManager():FindItem(fullType)
+        local count = LiveWire.Install.countType(self.player, fullType)
+        local o = menu:addOption(string.format("%s (%d)", it and it:getDisplayName() or fullType, count), self,
+            function(win) queue(win, LWXBreakerAction:new(win.player, win.board, fullType, pos, nil)) end)
+        local ok, why, arg = B.checkInstall(self.player, self.board, fullType, pos)
+        local tip = ISWorldObjectContextMenu.addToolTip()
+        if ok then
+            tip.description = getText("Tooltip_LWX_BreakerRating", tostring(t.amps), tostring(t.volts), tostring(B.capacityW(t)))
+        else
+            tip.description = getText(why, arg)
+            o.notAvailable = true
         end
-        add(PAD, 70, "", Window.onLever).lever = true
-        add(BASE_W - PAD - 170, 80, getText("IGUI_LWX_Rename"), Window.onRename)
-        add(BASE_W - PAD - 85, 85, getText("IGUI_LWX_Locate"), Window.onLocate)
-        y = y + ROW_H * k
+        o.toolTip = tip
     end
-    self.signature = self:layoutSignature(record)
-    self:setHeight(y + (PAD + 4) * k)
+    return menu
 end
 
-function Window:prerender()
-    ISPanel.prerender(self)
+-- The breaker item being dragged from an inventory window, or nil.
+function Window:draggedBreaker()
+    local dragging = ISMouseDrag and ISMouseDrag.dragging
+    if not dragging then return nil end
+    for _, it in ipairs(ISInventoryPane.getActualItems(dragging)) do
+        if B.TYPES[it:getFullType()] then return it end
+    end
+    return nil
+end
+
+-- Drop a dragged breaker on an empty module: install it there.
+function Window:onMouseUp(x, y)
+    local item = self:draggedBreaker()
+    if not item then return ISPanel.onMouseUp(self, x, y) end
+    local num = self.player:getPlayerNum()
+    getPlayerInventory(num).render3DItems = {}
+    getPlayerLoot(num).render3DItems = {}
+    local pos = self:hit(x, y)
     local record = self:record()
-    if not record then self:close(); return end
-    if self:layoutSignature(record) ~= self.signature then self:rebuild(record) end
-    -- Keep each button on the CURRENT slot table (the public table is replaced on receipt).
-    for _, b in ipairs(self.buttons) do
-        b.slot = B.slotAt(record, b.slot.pos) or b.slot
-        if b.lever then
-            b:setTitle(getText(b.slot.tripped and "IGUI_LWX_LeverReset" or b.slot.off and "IGUI_LWX_LeverOff"
-                or "IGUI_LWX_LeverOn"))
+    if pos and record and B.moduleFree(record, pos) then
+        local ok, why, arg = B.checkInstall(self.player, self.board, item:getFullType(), pos)
+        if ok then
+            queue(self, LWXBreakerAction:new(self.player, self.board, item:getFullType(), pos, nil))
+        else
+            self.player:Say(getText(why, arg))
         end
     end
+    return true
 end
 
-function Window:render()
-    ISPanel.render(self)
+function Window:onMouseDown(x, y)
+    local pos, onLever = self:hit(x, y)
+    if not pos then return ISPanel.onMouseDown(self, x, y) end
     local record = self:record()
-    if not record then return end
-    local k = self.lwK
-    self:drawText(getText("IGUI_LWX_BoardTitle", tostring(record.size), tostring(B.usedModules(record))),
-        PAD * k, PAD * k, 1, 1, 1, 1, UIFont.Small)
-    local y = (PAD + FONT_H + 14) * k
-    if #(record.slots or {}) == 0 then
-        self:drawText(getText("IGUI_LWX_BoardEmpty"), PAD * k, y, 0.8, 0.8, 0.8, 1, UIFont.Small)
+    local slot = record and B.slotAt(record, pos)
+    if not slot then
+        self.selected = nil
+        self:installMenu(pos)
+        return true
     end
-    for _, slot in ipairs(record.slots or {}) do
-        local ty = y + 2 * k
-        local name = slot.label ~= "" and slot.label or getText("IGUI_LWX_ModuleName", tostring(slot.pos))
-        if slot.twilight then name = getText("IGUI_LWX_TwilightTag", name) end
-        self:setStencilRect((PAD + 80) * k, y, 165 * k, ROW_H * k)
-        self:drawText(name, (PAD + 80) * k, ty, 1, 1, 1, 1, UIFont.Small)
-        self:clearStencilRect()
-        local rating = slot.amps .. " A " .. slot.volts .. " V"
-        local load = getText("IGUI_LWX_Load", tostring(slot.load or 0), string.format("%.1f", B.amps(slot)), rating,
-            tostring(#B.pointList(slot)))
-        local r, g, bl = 0.75, 0.85, 0.75
-        if slot.tripped then r, g, bl = 0.95, 0.35, 0.3 elseif slot.off then r, g, bl = 0.6, 0.6, 0.6 end
-        self:setStencilRect((PAD + 250) * k, y, (BASE_W - 2 * PAD - 425) * k, ROW_H * k)
-        self:drawText(load, (PAD + 250) * k, ty, r, g, bl, 1, UIFont.Small)
-        -- Energy meter of the circuit (E24).
-        local m = B.meterSummary(slot)
-        self:drawText(getText("IGUI_LWX_Meter", string.format("%.1f", m.today), string.format("%.1f", m.yesterday),
-            string.format("%.1f", m.week)), (PAD + 250) * k, ty + FONT_H, 0.6, 0.65, 0.6, 1, UIFont.Small)
-        self:clearStencilRect()
-        y = y + ROW_H * k
-    end
+    self.selected = slot.pos
+    if onLever then self:onLever() end
+    return true
 end
 
 function Window:close()
@@ -160,33 +356,51 @@ function Window:close()
     if Window.instance == self then Window.instance = nil end
 end
 
-function Window:onMouseDownOutside() end
-
 function Window:createChildren()
     ISPanel.createChildren(self)
     local k = self.lwK
-    local c = ISButton:new((BASE_W - PAD - 24) * k, PAD * k * 0.6, 24 * k, 20 * k, "X", self, Window.close)
+    local c = ISButton:new((WIN_W - PAD - 26) * k, 8 * k, 26 * k, 22 * k, "X", self, Window.close)
     c:initialise()
     self:addChild(c)
-    self:rebuild(self:record())
+    self.btn = {}
+    local top = self:detailTop() + DETAIL_H - 10 - BTN_H - 8
+    local fns = { lever = Window.onLever, label = Window.onLabel, locate = Window.onLocate,
+        twilight = Window.onTwilight, remove = Window.onRemove }
+    local titles = { lever = "IGUI_LWX_LeverSwitchOff", label = "IGUI_LWX_Rename", locate = "IGUI_LWX_Locate",
+        twilight = "IGUI_LWX_TwilightFitBtn", remove = "IGUI_LWX_Remove" }
+    local bw = (WIN_W - 2 * PAD - 20 - 4 * 6) / 5
+    for i, key in ipairs(BUTTONS) do
+        local b = ISButton:new((PAD + 10 + (i - 1) * (bw + 6)) * k, top * k, bw * k, BTN_H * k, getText(titles[key]),
+            self, fns[key])
+        b:initialise()
+        b:setVisible(false)
+        self:addChild(b)
+        self.btn[key] = b
+    end
 end
 
 function Window:new(x, y, w, h)
     local o = ISPanel.new(self, x, y, w, h)
-    o.backgroundColor = { r = 0.08, g = 0.09, b = 0.1, a = 0.92 }
+    o.backgroundColor = { r = C.bg[1], g = C.bg[2], b = C.bg[3], a = 0.96 }
+    o.borderColor = { r = 0.45, g = 0.47, b = 0.50, a = 1 }
     o.moveWithMouse = true
-    o.buttons, o.lit = {}, {}
+    o.lit = {}
     return o
 end
 
 function Window.open(player, board)
     if Window.instance then Window.instance:close() end
-    local k = LiveWire.UIScale.factor(BASE_W, 200)
-    local w = BASE_W * k
-    local x = getPlayerScreenLeft(player:getPlayerNum()) + 120
-    local y = getPlayerScreenTop(player:getPlayerNum()) + 100
-    local win = Window:new(x, y, w, 120 * k)
-    win.lwK, win.player, win.board = k, player, board
+    local sq = board:getSquare()
+    local record = sq and X.Panel.recordAt(sq)
+    local size = record and record.size or X.Panel.size(board) or 8
+    local rows = math.max(1, math.floor(size / 8))
+    local h = HEAD_H + 2 * PAD + 14 + rows * (MOD_H + LABEL_H + ROW_GAP) + DETAIL_H
+    local UI = LiveWire.UIScale
+    local k = UI.factor(WIN_W, h)
+    local x, y, w, hh = UI.fit(getPlayerScreenLeft(player:getPlayerNum()) + 120,
+        getPlayerScreenTop(player:getPlayerNum()) + 60, UI.px(WIN_W, k), UI.px(h, k))
+    local win = Window:new(x, y, w, hh)
+    win.lwK, win.player, win.board, win.size = k, player, board, size
     win:initialise()
     win:addToUIManager()
     Window.instance = win

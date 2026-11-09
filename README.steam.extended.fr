@@ -1,8 +1,8 @@
-[h1]LiveWire Extended - Bâtiments entiers et courant dehors[/h1]
+[h1]LiveWire Extended - Bâtiments entiers, courant dehors et tableaux électriques[/h1]
 
 [b]Build 42.21 · Solo et multijoueur (serveur autoritaire) · Nécessite Live Wire[/b]
 
-Un module facultatif pour [b]Live Wire[/b]. L'onduleur alimente les appareils dans un cercle autour de lui ; LiveWire Extended porte ce courant plus loin, sans toucher aux réglages de générateur du jeu. Retirez-le quand vous voulez : Live Wire revient à son cercle, sans courant résiduel.
+Un module facultatif pour [b]Live Wire[/b]. L'onduleur alimente les appareils dans un cercle autour de lui ; LiveWire Extended porte ce courant plus loin, sans toucher aux réglages de générateur du jeu. Retirez-le quand vous voulez (avec des tableaux, un admin remet d'abord tous les disjoncteurs depuis le menu d'un tableau) : Live Wire revient à son cercle, sans courant résiduel.
 
 [h2]Raccorder un bâtiment entier[/h2]
 
@@ -12,14 +12,18 @@ Clic droit sur un onduleur > LiveWire Extended > [b]Raccorder le bâtiment[/b] (
 
 Fabriquez une [b]borne électrique[/b] (Électricité 3) ou trouvez-en une avec le matériel d'électricien. Posez-la n'importe où, raccordez-la à un onduleur avec du fil électrique (mêmes règles de câble que Live Wire), puis [b]tracez sa zone[/b] au sol : jusqu'à 16 x 16 cases, arrondies aux blocs de 8 x 8 que le jeu alimente vraiment. Idéal pour un potager, un atelier ou une maison construite. Posée contre un bâtiment éloigné, une borne raccordée peut aussi raccorder ce bâtiment.
 
+[h2]Tableaux électriques[/h2]
+
+Fixez un [b]tableau électrique[/b] (8, 16 ou 24 modules) au mur, raccordez-le à un onduleur, installez des [b]disjoncteurs de 15, 20 ou 30 A[/b] (trouvés ou fabriqués) et [b]raccordez chaque appareil[/b] à son disjoncteur. Dès qu'un tableau dessert un bâtiment, les appareils non raccordés n'ont plus de courant. Les disjoncteurs sautent seuls en cas de surcharge ; étiquetez-les au stylo, voyez la charge en W et en A et l'énergie de chaque circuit, [b]localisez[/b] ce qu'un disjoncteur alimente. Un [b]interrupteur crépusculaire[/b] n'allume un circuit qu'entre le crépuscule et l'aube. Certaines maisons de la carte ont déjà un tableau précâblé, sans étiquette : à vous de découvrir quel disjoncteur alimente quoi. Compatible avec la machine à coudre de My Tailor Is Rich et Functional Appliances 2.
+
 [h2]Le voir[/h2]
 
 « Afficher la portée » sur l'onduleur dessine le contour de chaque bloc alimenté en plus ; l'écran de l'onduleur liste les bâtiments et bornes raccordés. Traduit en 10 langues.
 
 [h2]Compatibilité[/h2]
 
-Nécessite Live Wire. Incompatible avec LG Extended Electricity, qui modifie la portée des générateurs dont Live Wire se sert. Les cases extérieures suivent l'option du jeu « générateur en extérieur ».
+Nécessite Live Wire. Incompatible avec LG Extended Electricity, qui modifie la portée des générateurs dont Live Wire se sert, et avec Knox Power (son propre système de disjoncteurs dans les maisons). Les cases extérieures suivent l'option du jeu « générateur en extérieur ».
 
 [h2]Crédits[/h2]
 
-Créé par batmanfr. Code original et tuiles provisoires ; aucun contenu repris d'autres mods.
+Créé par batmanfr. Code et modèles originaux ; aucun contenu repris d'autres mods.

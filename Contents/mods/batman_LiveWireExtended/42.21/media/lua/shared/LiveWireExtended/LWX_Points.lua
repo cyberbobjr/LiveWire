@@ -108,6 +108,8 @@ function PT.checkConnect(character, o, boardObj, pos)
     if PT.point(X.Adapters.identity(o)) then return false, "Tooltip_LWX_PointConnected" end
     local I = LiveWire.Install
     if not I.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
+    -- the voltage tester checks the circuit is dead before wiring (kept, not used up)
+    if I.countType(character, "LiveWire.VoltageTester") < 1 then return false, "Tooltip_LWX_NeedTester" end
     if not I.hasLevel(character, PT.LEVEL) then
         return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(PT.LEVEL))
     end

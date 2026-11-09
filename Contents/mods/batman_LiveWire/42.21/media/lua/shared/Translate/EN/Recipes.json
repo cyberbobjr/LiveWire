@@ -16,5 +16,16 @@
     "LWDismantleVoltageTester": "Dismantle Voltage Tester",
     "LWMakeWindTurbineBlades": "Make Wind Turbine Blades",
     "LWMakeWindTurbineMast": "Make Wind Turbine Mast",
-    "LWMakeInverterCabinet": "Build Inverter Cabinet"
+    "LWMakeInverterCabinet": "Build Inverter Cabinet",
+    "LWDismantleSolarPanel": "Dismantle Solar Panel",
+    "LWDismantleWindTurbine": "Dismantle Wind Turbine",
+    "LWDismantleWaterWheel": "Dismantle Water Wheel",
+    "LWDismantleInverter": "Dismantle Inverter",
+    "LWDismantleInverterCabinet": "Dismantle Inverter Cabinet",
+    "LWDismantlePowerBank": "Dismantle Power Bank",
+    "LWDismantleBreaker": "Dismantle Breaker Panel",
+    "LWDismantleBatteryAlarm": "Dismantle Low Battery Alarm",
+    "LWDismantleWaterPump": "Dismantle Water Pump",
+    "LWDismantleCouplingKit": "Dismantle Inverter Coupling Kit",
+    "LWDismantleSoundproofKit": "Dismantle Inverter Soundproofing Kit"
 }

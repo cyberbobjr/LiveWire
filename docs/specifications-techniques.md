@@ -153,7 +153,13 @@ Champs principaux : `grid`, `rev` (révision croissante : la livraison n'est pas
 
 ### 4.2 Registre, schéma 2
 
-- **Identifiants** `d<n>` (appareil) et `g<n>` (réseau), tirés de `nextId`, jamais réutilisés.
+- **Identifiants** `d<n>` (appareil) et `g<n>` (réseau), tirés de `nextId`, jamais réutilisés. Un identifiant
+  repris d'une marque d'objet (`addDevice` avec `id`) fait passer `nextId` au-delà (`Registry.reserveId`).
+- **Raccordement** : `wires`, fil électrique dépensé par le raccordement d'un membre ou le couplage d'un esclave,
+  rendu au joueur qui défait le lien (débranchement, découplage, ramassage, déplacement vers un autre onduleur) ;
+  absent sur les liens plus anciens ou récupérés, il est alors recalculé par la règle de câble sur la distance
+  (`Devices.linkWires`). Un appareil détruit ne rend rien. `relink` : onduleur nommé par la marque d'un appareil
+  récupéré, en attente de sa propre récupération (§ 4.5).
 - **Appareil** (champs communs) : `id`, `role` (`source`, `inverter`, `storage`, `option`, `pump`, `backup`, `computer`), `model`, `x`, `y`, `z`, `grid`, `cond`, `eff`, `level` (meilleur niveau d'Électricité de ceux qui ont branché l'appareil, D-29), `state`.
   - `state` : onduleur `on` / `off` / `tripped` / `broken` ; source et équipement `ok` / `tripped` / `broken` ; pompe `idle` / `running` ; secours `standby`…
   - Source : `pOut` (W lissés), `raw`, `snow`. Onduleur : `muffled`, `coupled` (id du maître pour un esclave). Powerbank : `wearFactor`, `slots[] { id, model, charge, cond, cycles }` (instantané des batteries quand la case n'est pas chargée). Pompe : `barrels[posKey]`, `relays[posKey]`. Secours : `fuel`, `fuelSeen`, `connected`.
@@ -231,6 +237,7 @@ Exemple commenté (schéma 1) et explication des champs : [`architecture.md`](ar
 | Ordinateur vanilla de gestion | `LiveWireComputer` | `{ id, inverter }` |
 | Réservoir relais de la pompe | `LiveWireRelay` | `{ pump = idAppareil }` |
 | Baril raccordé | `LiveWireBarrel` | `{ pump = idAppareil, x, y, z }` ; anciennes marques sans position validées puis complétées sur l'autorité ; une position ou appartenance invalide libère le baril |
+| Borne ou tableau de LiveWire Extended raccordé | `LiveWireExtendedLink` (hors `movableData`) | `{ inv, x, y, z, ix, iy, iz, wires, slots, prewired }` : copie du raccordement (disjoncteurs sans étiquettes ni points), écrite au raccordement et toutes les dix minutes, effacée au débranchement (§ 4.5) |
 | Ordinateur du Computer Mod | `ComputerModLiveWireInstalled` (données de l'ordinateur via `ComputerModComputerTypes`, préfixe imposé par la synchronisation de ce mod) | Logiciel installé |
 
 ### 4.4 Migrations
@@ -242,6 +249,27 @@ inutilisées `C_REQUEST_ANCHORS`, `S_REFUSE`, `S_ANCHORS` et leur gestionnaire m
 sont retirés ; la table d'ancres continue de passer par `ModData.request/transmit`.
 
 `server/LiveWire/LW_Migration.lua`, lancé à `OnInitGlobalModData`. Étapes idempotentes et journalisées ; aucune suppression (les données inconnues vont dans `legacy`). Étape 1 → 2 (0.1.1) : les appareils en sprites vanilla passent dans `legacy.schema1`, leurs ancres sont retirées. Un schéma plus récent que le code met le registre en lecture seule (simulation suspendue).
+
+### 4.5 Récupération des appareils orphelins
+
+La carte est sauvegardée par chunk, la ModData globale à l'enregistrement : après un arrêt brutal ou une
+sauvegarde restaurée, un objet peut porter une marque dont le registre ignore l'identifiant (hypothèse de
+cause, non reproduite en jeu). Toute commande est alors refusée (`Tooltip_LW_Invalid`) et les écrans attendent
+leurs données sans fin ; l'adoption client (`LW_Adopt.lua`) ne voit que les objets sans marque.
+
+- Le parcours de découverte des chunks (`LW_Circuits.lua`) appelle les visiteurs inscrits par
+  `Circuits.addChunkVisitor(fn)` pour chaque objet chargé, réparti sur les ticks.
+- `Devices.recover(obj)` réinscrit un objet du mod dont la marque, écrite pour sa case, nomme un appareil absent
+  à cette case : même identifiant s'il est libre (sinon un nouveau), état, niveau, efficacité, nom du réseau.
+  Un appareil du registre de ce modèle sur la case passe d'abord (`Devices.find`). Le lien vers l'onduleur de la
+  marque (`inv`, ou `cpl` d'un esclave) est rétabli s'il respecte les règles de câble, sinon il attend dans
+  `relink` que cet onduleur soit récupéré ; un identifiant connu qui n'est pas un onduleur maître l'annule.
+  Ni fil ni expérience. Barils de pompe et choix des circuits ne sont pas rétablis.
+- LiveWire Extended : `X.Recovery.visit(obj)` (`LWX_Recovery.lua`) reconstruit l'enregistrement d'une borne ou
+  d'un tableau à partir de `LiveWireExtendedLink` si l'onduleur est connu à la case `ix, iy, iz`, sinon le
+  réessaie toutes les dix minutes. Zone dessinée, étiquettes et points câblés reviennent aux valeurs d'un
+  nouveau raccordement. L'élagage horaire garde un enregistrement dont l'onduleur manque au registre tant que
+  sa case n'est pas chargée ou porte encore un onduleur marqué de cet identifiant.
 
 ## 5. Options sandbox
 

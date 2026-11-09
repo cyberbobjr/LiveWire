@@ -1,3 +1,10 @@
 {
-    "LWXMakeTerminal": "Сделать электроколонку"
+    "LWXMakeTerminal": "Сделать электроколонку",
+    "LWXMakePanel8": "Сделать электрощиток (8 модулей)",
+    "LWXMakePanel16": "Сделать электрощиток (16 модулей)",
+    "LWXMakePanel24": "Сделать электрощиток (24 модуля)",
+    "LWXMakeBreaker15": "Сделать автомат 15 A",
+    "LWXMakeBreaker20": "Сделать автомат 20 A",
+    "LWXMakeBreaker30": "Сделать автомат 30 A",
+    "LWXMakeTwilightSwitch": "Сделать сумеречный выключатель"
 }

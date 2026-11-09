@@ -1,3 +1,10 @@
 {
-    "LWXMakeTerminal": "Anschlusssäule bauen"
+    "LWXMakeTerminal": "Anschlusssäule bauen",
+    "LWXMakePanel8": "Sicherungskasten (8 Module) bauen",
+    "LWXMakePanel16": "Sicherungskasten (16 Module) bauen",
+    "LWXMakePanel24": "Sicherungskasten (24 Module) bauen",
+    "LWXMakeBreaker15": "Schutzschalter 15 A herstellen",
+    "LWXMakeBreaker20": "Schutzschalter 20 A herstellen",
+    "LWXMakeBreaker30": "Schutzschalter 30 A herstellen",
+    "LWXMakeTwilightSwitch": "Dämmerungsschalter herstellen"
 }

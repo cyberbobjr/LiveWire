@@ -1,3 +1,6 @@
 {
-    "LiveWire_Extended_Terminal": "給電ポール"
+    "LiveWire_Extended_Terminal": "給電ポール",
+    "LiveWire_Extended_Board8": "分電盤 (8 モジュール)",
+    "LiveWire_Extended_Board16": "分電盤 (16 モジュール)",
+    "LiveWire_Extended_Board24": "分電盤 (24 モジュール)"
 }

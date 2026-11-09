@@ -41,5 +41,6 @@
     "Tooltip_LW_RepairLimit": "Esta batería ha alcanzado su límite de reparaciones.",
     "Tooltip_LW_BankStackFull": "Solo se pueden apilar dos bancos de baterías.",
     "Tooltip_LW_BankStackBase": "Colócalo en el suelo o sobre otro banco de baterías.",
-    "Tooltip_LW_BankStackSupport": "Retira primero el banco superior o los objetos de encima."
+    "Tooltip_LW_BankStackSupport": "Retira primero el banco superior o los objetos de encima.",
+    "Tooltip_LW_Dismantle": "Devuelve menos piezas de las que costó. Las piezas electrónicas dependen del estado: un aparato desgastado da menos. Se devuelve el kit de insonorización o de acoplamiento instalado."
 }

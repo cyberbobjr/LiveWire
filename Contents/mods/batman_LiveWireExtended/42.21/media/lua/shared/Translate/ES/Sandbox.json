@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWireExtended": "LiveWire Extended",
     "Sandbox_LiveWireExtended_BuildingBand": "Franja exterior alrededor de un edificio",
-    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Ancho en casillas de la franja alrededor de un edificio conectado que también recibe corriente (porche, camino del jardín). El juego alimenta bloques enteros de 8 x 8, así que la zona se redondea a ellos."
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Ancho en casillas de la franja alrededor de un edificio conectado que también recibe corriente (porche, camino del jardín). El juego alimenta bloques enteros de 8 x 8, así que la zona se redondea a ellos.",
+    "Sandbox_LiveWireExtended_HouseBoardPercent": "Edificios con cuadro eléctrico (%%)",
+    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip": "Proporción de edificios del mapa que ya tienen un cuadro eléctrico (su propia caja eléctrica si la tienen). Conectado a un inversor, viene precableado habitación por habitación, sin etiquetas: averigua qué disyuntor alimenta qué. Los aparatos sin cablear del edificio no tienen entonces corriente."
 }

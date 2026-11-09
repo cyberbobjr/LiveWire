@@ -1,3 +1,10 @@
 {
-    "LWXMakeTerminal": "전력 기둥 만들기"
+    "LWXMakeTerminal": "전력 기둥 만들기",
+    "LWXMakePanel8": "배전반 (8 모듈) 만들기",
+    "LWXMakePanel16": "배전반 (16 모듈) 만들기",
+    "LWXMakePanel24": "배전반 (24 모듈) 만들기",
+    "LWXMakeBreaker15": "차단기 15 A 만들기",
+    "LWXMakeBreaker20": "차단기 20 A 만들기",
+    "LWXMakeBreaker30": "차단기 30 A 만들기",
+    "LWXMakeTwilightSwitch": "조도 스위치 만들기"
 }

@@ -194,6 +194,17 @@ function Menu.panelExtra(sub, player, obj)
     local B = X.Breakers
     local record = X.Panel.recordAt(obj:getSquare())
     sub:addOption(getText("ContextMenu_LWX_OpenBoard"), player, function(p) X.BoardWindow.open(p, obj) end)
+    -- Admin, before removing the sub-mod: switch every breaker back on (E23).
+    local admin = not isClient() or (player:getAccessLevel() ~= nil and player:getAccessLevel() ~= "None")
+    if admin then
+        local released = X.Data.table().released == true
+        sub:addOption(getText(released and "ContextMenu_LWX_ResumeAll" or "ContextMenu_LWX_ReleaseAll"), player,
+            function(p)
+                local cmd = released and "resume" or "release"
+                if isClient() then sendClientCommand(p, "LiveWireExtended", cmd, {})
+                elseif released then X.Release.resume(p) else X.Release.run(p) end
+            end)
+    end
     local io = sub:addOption(getText("ContextMenu_LWX_InstallBreaker"), nil, nil)
     local isub = ISContextMenu:getNew(sub)
     sub:addSubMenu(io, isub)
@@ -361,6 +372,17 @@ function Menu.applianceIn(worldobjects)
     return nil
 end
 
+-- The game's own submenu of object `o` (B42 groups an object's actions under its name, as
+-- "Light Switch >" or "Dark Wall Lamp >"), or nil when the game made none.
+function Menu.objectSubMenu(context, o)
+    local name = o and o.getTileName and o:getTileName()
+    if not name then return nil end
+    for _, opt in ipairs(context.options or {}) do
+        if opt.name == name and opt.subOption then return context:getSubMenu(opt.subOption) end
+    end
+    return nil
+end
+
 local function onFillWorld(playerNum, context, worldobjects, test)
     local player = getSpecificPlayer(playerNum)
     if not player then return end
@@ -370,6 +392,13 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     local appliance = Menu.applianceIn(worldobjects)
     if not obj and not terminal and not panel and not appliance then return end
     if test then return ISWorldObjectContextMenu.setTest() end
+    -- wiring an appliance goes in the game's own submenu of that object when there is one
+    local own = appliance and Menu.objectSubMenu(context, appliance)
+    if own then
+        Menu.addPointOptions(own, player, appliance)
+        appliance = nil
+        if not obj and not terminal and not panel then return end
+    end
     local root = context:addOption(getText("ContextMenu_LWX_Root"), worldobjects, nil)
     local sub = ISContextMenu:getNew(context)
     context:addSubMenu(root, sub)

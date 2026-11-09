@@ -52,20 +52,16 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 |  | `ToolStoreMetalwork` | Hardware store, metalwork | 1.5 | 4 | 3.6 % |
 |  | `GarageMechanics` | Garage, mechanic storage | 1.5 | 4 | 3.6 % |
 |  | `MetalWelderTruckBed` | Metalworker vehicle, truck bed or trunk | 1.5 | 4 | 3.6 % |
-| <img src="../../images/icons/VoltageTester.png" width="24" height="24"> **Voltage Tester** | `ElectricianTools` | Electrician's tools | 15 | 3 | 24.6 % |
-|  | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 10 | 4 | 21.9 % |
-|  | `ToolStoreTools` | Hardware store, tools | 5 | 4 | 11.5 % |
-|  | `GarageTools` | Garage tool storage | 5 | 4 | 11.5 % |
-|  | `CrateTools` | Tool crates | 5 | 4 | 11.5 % |
-|  | `WireFactoryElectric` | Wire factory, electrical | 5 | 4 | 11.5 % |
-|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 5 | 4 | 11.5 % |
-|  | `CrateElectronics` | Electronics crates | 5 | 4 | 11.5 % |
-|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 5 | 4 | 11.5 % |
-|  | `MechanicShelfTools` | Mechanic shop, tools | 5 | 4 | 11.5 % |
-|  | `GarageMechanics` | Garage, mechanic storage | 5 | 4 | 11.5 % |
-|  | `ElectricianGloveBox` | Electrician vehicle, glove box | 5 | 1 | 3.0 % |
-|  | `ElectricianSeat` | Electrician vehicle, passenger seat | 5 | 1 | 3.0 % |
-|  | `GarageMetalwork` | Garage metalwork storage | 2.5 | 4 | 5.9 % |
+| <img src="../../images/icons/VoltageTester.png" width="24" height="24"> **Voltage Tester** | `ElectricianTools` | Electrician's tools | 5 | 3 | 8.7 % |
+|  | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 5 | 4 | 11.5 % |
+|  | `WireFactoryElectric` | Wire factory, electrical | 2.5 | 4 | 5.9 % |
+|  | `ToolStoreTools` | Hardware store, tools | 1.5 | 4 | 3.6 % |
+|  | `ElectronicStoreMisc` | Electronics store, miscellaneous | 1.5 | 4 | 3.6 % |
+|  | `CrateElectronics` | Electronics crates | 1.5 | 4 | 3.6 % |
+|  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 1.5 | 4 | 3.6 % |
+|  | `ElectricianGloveBox` | Electrician vehicle, glove box | 1.5 | 1 | 0.9 % |
+|  | `GarageTools` | Garage tool storage | 1 | 4 | 2.4 % |
+|  | `CrateTools` | Tool crates | 1 | 4 | 2.4 % |
 | <img src="../../images/icons/DeepCycleBattery.png" width="24" height="24"> **Deep-Cycle Battery** | `CarSupplyBatteries` | Car parts store, batteries | 10 | 4 | 21.9 % |
 |  | `MechanicShelfElectric` | Mechanic shop, electrical shelf | 5 | 4 | 11.5 % |
 |  | `CrateMechanics` | Mechanic supply crates | 3.5 | 4 | 8.1 % |

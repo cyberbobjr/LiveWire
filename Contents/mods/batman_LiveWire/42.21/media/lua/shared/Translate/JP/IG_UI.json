@@ -51,6 +51,7 @@
     "IGUI_LW_Installed": "%1を設置しました。",
     "IGUI_LW_Linked": "接続しました。",
     "IGUI_LW_Unlinked": "接続を解除しました。",
+    "IGUI_LW_WiresBack": "電線を %1 本回収しました。",
     "IGUI_LW_Repaired": "修理しました。状態%1。",
     "IGUI_LW_RepairFailed": "修理に失敗しました。部品は失われました。",
     "IGUI_LW_Reconditioned": "バッテリーを再生しました。状態%1。",

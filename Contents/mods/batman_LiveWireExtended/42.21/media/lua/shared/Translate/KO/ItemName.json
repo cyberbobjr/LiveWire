@@ -1,3 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "전력 기둥"
+    "Base.Mov_LWX_Terminal": "전력 기둥",
+    "Base.Mov_LWX_Panel8": "배전반 (8 모듈)",
+    "Base.Mov_LWX_Panel16": "배전반 (16 모듈)",
+    "Base.Mov_LWX_Panel24": "배전반 (24 모듈)",
+    "Base.LWXBreaker15": "차단기 15 A",
+    "Base.LWXBreaker20": "차단기 20 A",
+    "Base.LWXBreaker30": "차단기 30 A",
+    "Base.LWXTwilightSwitch": "조도 스위치"
 }

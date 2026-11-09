@@ -41,5 +41,6 @@
     "Tooltip_LW_BankStackFull": "Deux powerbanks au maximum par pile.",
     "Tooltip_LW_BankStackBase": "Posez-la au sol ou sur une autre powerbank.",
     "Tooltip_LW_BankStackSupport": "Retirez d’abord la banque supérieure ou les objets posés dessus.",
-    "Tooltip_LW_RepairLimit": "Cette batterie a atteint sa limite de réparations."
+    "Tooltip_LW_RepairLimit": "Cette batterie a atteint sa limite de réparations.",
+    "Tooltip_LW_Dismantle": "Rend moins de pièces que sa fabrication. Les pièces électroniques dépendent de l'état : un appareil usé en donne moins. Un kit d'insonorisation ou de couplage monté est rendu."
 }

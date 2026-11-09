@@ -1,3 +1,6 @@
 {
-    "LiveWire_Extended_Terminal": "Anschlusssäule"
+    "LiveWire_Extended_Terminal": "Anschlusssäule",
+    "LiveWire_Extended_Board8": "Sicherungskasten (8 Module)",
+    "LiveWire_Extended_Board16": "Sicherungskasten (16 Module)",
+    "LiveWire_Extended_Board24": "Sicherungskasten (24 Module)"
 }

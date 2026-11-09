@@ -124,19 +124,22 @@ P.kind.onLink = function(record, dev, key, obj)
     local house = obj and obj:hasModData() and obj:getModData()[HS.HOUSE_KEY]
     if not house then return end
     record.house = house
-    local def = getWorld():getMetaGrid():getBuildingAt(record.x, record.y, record.z)
+    -- by its key: a box on the facade stands outside the building
+    local def = X.Buildings.byKey(house)
     if not def or not HS.prewire(record, key, HS.collect(def)) then return end
     PT.regionsChanged()
     X.log("house board " .. key .. " of " .. tostring(house) .. " prewired: " .. #record.slots .. " breakers")
 end
 
--- North-wall free square of the lowest floor for an Extended board, or nil.
+-- Bare north-wall square (H.bareWall) for an Extended board, or nil: lowest floor first,
+-- then the room a real house would use (H.roomRank: garage, utility room, entrance).
 local function wallSquare(def)
-    local best, bestZ
+    local best, bestZ, bestRank
     eachSquare(def, function(sq, room)
-        local z = room:getZ()
-        if (not bestZ or z < bestZ) and sq:getWall(true) and sq:isFree(false) and not P.onSquare(sq) then
-            best, bestZ = sq, z
+        local z, rank = room:getZ(), H.roomRank(room:getName())
+        local better = not bestZ or z < bestZ or (z == bestZ and rank < bestRank)
+        if better and H.bareWall(sq) and not P.onSquare(sq) then
+            best, bestZ, bestRank = sq, z, rank
         end
     end)
     return best
@@ -147,10 +150,38 @@ local function sheetIndex(modules)
     return 8
 end
 
+-- Vanilla box of the map hanging on the facade: on a square just outside a room, against a
+-- wall whose other side is a room of this building (H.acrossWall).
+local function facadeBox(def)
+    local inside, cell, found = {}, getCell(), nil
+    roomRects(def, function(room, r)
+        local z = room:getZ()
+        for y = r:getY(), r:getY() + r:getH() - 1 do
+            for x = r:getX(), r:getX() + r:getW() - 1 do inside[x .. "," .. y .. "," .. z] = true end
+        end
+    end)
+    roomRects(def, function(room, r)
+        local z = room:getZ()
+        for y = r:getY() - 1, r:getY() + r:getH() do
+            for x = r:getX() - 1, r:getX() + r:getW() do
+                local sq = not found and not inside[x .. "," .. y .. "," .. z] and cell:getGridSquare(x, y, z)
+                local objs = sq and sq:getObjects()
+                for i = 0, objs and objs:size() - 1 or -1 do
+                    local o = objs:get(i)
+                    local spr = o:getSprite()
+                    local ax, ay = H.acrossWall(x, y, spr and spr:getName())
+                    if ax and inside[ax .. "," .. ay .. "," .. z] then found = o end
+                end
+            end
+        end
+    end)
+    return found
+end
+
 function HS.handle(def)
     local key = X.Buildings.key(def)
     if done[key] then return end
-    if not H.drawn(key) or size(def) > HS.MAX_SQUARES then done[key] = true; return end
+    if size(def) > HS.MAX_SQUARES then done[key] = true; return end
     if not loaded(def) then return end
     done[key] = true
     local existing, marked
@@ -160,6 +191,7 @@ function HS.handle(def)
         if o and not existing then existing = o end
     end)
     if marked then return end
+    existing = existing or facadeBox(def)
     if existing then
         existing:getModData()[HS.HOUSE_KEY] = key
         existing:transmitModData()
@@ -167,6 +199,9 @@ function HS.handle(def)
         X.log("house board: vanilla box of " .. key .. " reused")
         return
     end
+    -- a house with an electrical box of the map always has its board; the draw only decides
+    -- where an Extended board is added
+    if not H.drawn(key) then return end
     local sq = wallSquare(def)
     if not sq then return end
     local name = X.Terminal.SHEET .. "_" .. sheetIndex(H.modules(H.plan(HS.collect(def))))

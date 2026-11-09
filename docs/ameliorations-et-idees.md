@@ -31,7 +31,7 @@ validation hors jeu et contrôles manuels restants dans le
 
 **Légende** : ✅ fait · 🟡 fait en partie · ⬜ pas commencé · ⏸ différé après décision utilisateur. « Publié » = présent dans une version du Workshop ; « non publié » = réalisé localement sur main. Les corrections C01, C02, C03 et C10 restent publiées en 1.3.2. Les autres correctifs CXX autorisés sont publiés en 1.5.0 ; C25 est un outil de test hors mod, versionné dans le dépôt. C11 reste différé, C20 est exclu de la dernière campagne. Preuves : [bilan de validation SP/MP](annexes/tests/validation.md).
 
-**Bilan** : améliorations de code **26 faites, 0 en partie, 1 à faire, 1 différée** (sur 28) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 8 hors périmètre** (sur 23). C27, C28, I22 et I23 viennent des commentaires Steam du 2026-11-07.
+**Bilan** : améliorations de code **26 faites, 0 en partie, 1 à faire, 1 différée** (sur 28) ; idées de fonctionnalités **15 réalisées et publiées en 1.6.0, 1 réalisée non publiée (I24), 8 hors périmètre** (sur 24). C27, C28, I22 et I23 viennent des commentaires Steam du 2026-11-07.
 
 ### Améliorations de code
 
@@ -93,6 +93,7 @@ validation hors jeu et contrôles manuels restants dans le
 | I21 | Disjoncteur : circuits lumières et équipements | ✅ Publié en 1.6.0 | GUI à leviers, quatre combinaisons, services natifs arrêtés, choix persistants ; validation détaillée dans le bilan |
 | I22 | Câbler les appareils consommateurs | ⬜ Décidée (D-31 à D-34), pas commencée | Sous-mod LiveWire Extended : bâtiment entier, relais, borne et zone extérieure, lampadaires ; [plan](annexes/plans/livewire-extended.md) |
 | I23 | Compatibilité caméra de surveillance | ⬜ À creuser | Sous-mod de compatibilité avec le mod Workshop 3825788212 |
+| I24 | Démonter les équipements depuis l'inventaire | ✅ Réalisée, non publiée | 11 recettes, rendement inférieur au coût, pièces électroniques selon l'état, kits rendus ; voir avancement |
 
 ---
 
@@ -669,6 +670,13 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **À étudier.** Mod non installé localement et pas encore examiné : variante B42, API, façon dont il teste l'électricité (courant de la case, générateur, réseau public), licence. Aucun code repris.
 - **Effort.** À estimer après examen.
 - **Avancement : ⬜ idée à creuser (décision de l'utilisateur du 2026-11-08).**
+
+### I24 — Démonter les équipements depuis l'inventaire
+- **Origine.** Demande de l'utilisateur du 2026-11-08 : une recette de démontage pour chaque équipement Live Wire, qui rend des composants de recette en quantité légèrement moindre pour éviter toute boucle de ressources infinies.
+- **Description.** Onze recettes `LWDismantle*` (`LiveWire_recipes.txt`), sans niveau d'Électricité, tournevis conservé (plus marteau pour la roue à aubes, clé à tube pour la pompe, marteau seul pour le kit d'insonorisation). Les sorties du script sont les pièces qui reviennent toujours (métal, vis, pales et mât). `LiveWire.Recipes.onDismantle` (`LW_Recipes.lua`) ajoute les pièces électroniques de `Recipes.DISMANTLE` au prorata de l'état porté par la marque de l'objet ramassé, arrondi à l'unité inférieure (objet sans marque : 100). Un kit d'insonorisation monté (`muf`) ou le kit de couplage d'un esclave (`cpl`) est rendu. Infobulle `Tooltip_LW_Dismantle`.
+- **Anti-abus.** Chaque total rendu, état parfait compris, reste inférieur au coût de fabrication, armoire comprise (coût de l'onduleur ajouté), avec au moins une pièce perdue par type. Un appareil usé rend moins : démonter puis refabriquer un onduleur usé coûte au moins autant que la remise à neuf (4 déchets + 2 fils). Exclus : batterie stationnaire (recyclerait deux batteries de voiture neuves), pales et mât (pièces intermédiaires).
+- **Impact MP.** `OnCreate` s'exécute en solo ou sur le serveur, jamais sur un client MP ; ajout par `Install.giveItem` (`sendAddItemToContainer`).
+- **Avancement : ✅ réalisée le 2026-11-08, non publiée.** Hors jeu : 3 tests `test_crafting.py` (rendement inférieur au coût pour les 11 recettes, état et kits, comparaison à la remise à neuf) ; `check_mod.py` OK. En jeu (SP 42.21, `autotest/dismantle.json`, chemin de la fenêtre d'artisanat) : code 0, 4/4 PASS, `runs/20261108-234144-sp-b4fdd59aed0f` ; onduleur à 60 % avec kit d'insonorisation, panneau neuf et kit de couplage rendent exactement les pièces attendues. MP non testé.
 
 ### Remarques sur les idées déjà retenues
 - **Chargeur de piles (idée 1).** Le moteur a déjà une classe `IsoCarBatteryCharger` (`java/zombie/iso/objects/IsoCarBatteryCharger.java`), que `Demand.category` range en `charger`. Vérifier son comportement avec l'ancre : il pourrait recharger les batteries de voiture vanilla sans aucun code. Le chargeur de piles du mod peut en reprendre le principe (consommation lue par `getGeneratorPowerConsumption`) plutôt que d'ajouter une demande à part.

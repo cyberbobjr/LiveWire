@@ -51,6 +51,7 @@
     "IGUI_LW_Installed": "%1 instalado.",
     "IGUI_LW_Linked": "Conectado.",
     "IGUI_LW_Unlinked": "Desconectado.",
+    "IGUI_LW_WiresBack": "%1 cable(s) eléctrico(s) recuperado(s).",
     "IGUI_LW_Repaired": "Reparado, estado %1.",
     "IGUI_LW_RepairFailed": "Reparación fallida, las piezas se han perdido.",
     "IGUI_LW_Reconditioned": "Batería reacondicionada, estado %1.",
