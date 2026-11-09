@@ -79,7 +79,7 @@ end
 
 local function placementFacts(obj, dev)
     local def = LiveWire.Defs.devices[dev.model]
-    if def and def.kind == "solar" then
+    if def and LiveWire.Defs.ORIENTED_KINDS[def.kind] then
         local name = obj:getSprite():getName()
         dev.facing = (tonumber(string.match(name, "_(%d+)$")) - def.tile) % 4
     end
@@ -214,8 +214,13 @@ local function newDevice(sq, model, def, raw, level, id)
         xpd = raw.xpd == true,
     })
     if def.role == "inverter" and raw.muf == true then dev.muffled = true end
-    if def.kind == "wind" and raw.br == true then dev.brake = true end
-    if def.kind == "solar" then dev.dirt, dev.snow = raw.dirt or 0, raw.snow or 0 end
+    for _, f in ipairs(LiveWire.Defs.SOURCE_FIELDS[def.kind] or {}) do
+        if not f.flag then
+            dev[f.field] = raw[f.mark] or f.default
+        elseif raw[f.mark] == true then
+            dev[f.field] = true
+        end
+    end
     if def.role == "storage" then
         dev.wearFactor = LiveWire.Defs.batteryWearSkillFactor(level)
         dev.slots = {}

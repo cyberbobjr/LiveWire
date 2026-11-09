@@ -16,6 +16,19 @@ LiveWire.Defs = Defs
 -- needed to link the device to an inverter, or for an inverter to put it in
 -- service (first link). `xp` is awarded once, at the device's first link. `item` is
 -- the placeable inventory item made by the recipe.
+-- `overlays` (D-50) declares the state lights and moving parts drawn over the tile by
+-- client/LW_Visuals.lua. Every value is the ABSOLUTE index of the first sprite of a light
+-- in the sheet Defs.SHEET (the sprite drawn for facing f is value + f, like the tile), and
+-- only the sprites listed in LW_Visuals EXISTS are drawn. A light exists when its key is
+-- present; the condition comes from the device mark (m.st state, m.inv linked to an
+-- inverter, m.pw supplied, m.cond, m.muf soundproofed, m.br braked):
+--   on = m.st is "on"                  fault = m.st is "tripped" or "broken"
+--   muffle = m.muf                     linked = m.inv
+--   blinkWhenBraked = true: the `linked` light blinks (500 ms) while m.br
+--   tripped = m.st is "tripped"        powered = m.inv and m.pw and m.cond > 0, only when not tripped
+--   ringing = m.st is "ringing"        rotor = first of 4 blade frames (4 sprites per frame, + facing)
+-- A device without `overlays` (every source registered by API.registerSource, whose sprites
+-- live in another sheet) shows no light; letting the API pass `overlays` is a possible next step.
 Defs.SHEET = "batman_livewire_01"
 
 Defs.devices = {
@@ -24,18 +37,21 @@ Defs.devices = {
         item = "Base.Mov_LiveWire_SolarPanel", tile = 0, facings = 4,
         nominalW = 100, level = 3, xp = 10,
         wearDays = 10, needsOutside = true,
+        overlays = { linked = 36 },
     },
     WindTurbine = {
         role = "source", kind = "wind",
         item = "Base.Mov_LiveWire_WindTurbine", tile = 4, facings = 4,
         nominalW = 400, level = 2, xp = 20,
         wearDays = 4, needsOutside = true,
+        overlays = { linked = 40, blinkWhenBraked = true, rotor = 48 },
     },
     WaterWheel = {
         role = "source", kind = "hydro",
         item = "Base.Mov_LiveWire_WaterWheel", tile = 8, facings = 4,
         nominalW = 120, level = 2, xp = 20,
         wearDays = 6, needsOutside = true, needsRiver = true,
+        overlays = { linked = 44 },
     },
     Inverter = {
         role = "inverter",
@@ -63,26 +79,45 @@ Defs.devices = {
         slots = 4,
         level = 2, xp = 5,
         wearDays = 30,
+        overlays = { linked = 32 },
     },
     Breaker = {
         role = "option", kind = "breaker",
         item = "Base.Mov_LiveWire_Breaker", tile = 20, facings = 2,
         level = 3, xp = 5,
         wearDays = 15,
+        overlays = { tripped = 64, powered = 84 },
     },
     BatteryAlarm = {
         role = "option", kind = "alarm",
         item = "Base.Mov_LiveWire_BatteryAlarm", tile = 22, facings = 2,
         level = 2, xp = 5,
         wearDays = 30,
+        overlays = { ringing = 66 },
     },
     WaterPump = {
         role = "pump",
         item = "Base.Mov_LiveWire_WaterPump", tile = 72, facings = 4,
         pumpW = 250, level = 3, xp = 20,
         wearDays = 10,
+        -- LCD glow while supplied, including an idle pump with no linked fixture.
+        overlays = { powered = 80 },
     },
 }
+
+-- Own fields of a source kind (D-50), kept on its registry entry and in its mark. `field` is
+-- the registry entry field, `mark` the key in the mark kept by a picked-up kit; a numeric
+-- field falls back to `default`, a `flag` field is only set when the mark holds true.
+Defs.SOURCE_FIELDS = {}
+Defs.SOURCE_FIELDS.solar = {
+    { field = "dirt", mark = "dirt", default = 0 },
+    { field = "snow", mark = "snow", default = 0 },
+}
+Defs.SOURCE_FIELDS.wind = { { field = "brake", mark = "br", flag = true } }
+
+-- Source kinds whose facing (sprite offset from the tile) matters: the cursor names it and
+-- the registry entry keeps it.
+Defs.ORIENTED_KINDS = { solar = true }
 
 -- Sprite name -> model, and model of an inventory item.
 Defs.spriteToModel = {}

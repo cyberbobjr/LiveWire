@@ -96,7 +96,7 @@ function MP:getInfoPanelDescription(_square, _object, _player, _mode, ...)
                 info = MP.addLineToInfoTable(info, getText(why), 255, 60, 60)
             end
             local def = LiveWire.Defs.devices[model]
-            if def and def.kind == "solar" then
+            if def and LiveWire.Defs.ORIENTED_KINDS[def.kind] then
                 local facing = (tonumber(string.match(self.spriteName, "_(%d+)$")) - def.tile) % 4
                 info = MP.addLineToInfoTable(info, getText("IGUI_LW_Facing_" .. facing), 180, 220, 255)
             end

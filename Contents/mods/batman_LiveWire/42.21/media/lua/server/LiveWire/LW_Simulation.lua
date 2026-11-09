@@ -62,22 +62,70 @@ local function chance(probability)
     return ZombRandFloat(0, 1) < probability
 end
 
+-- Behaviour of each source kind (D-50); a new kind is one entry here and one in Defs.SOURCE_FIELDS.
+--   raw(src, def, w, t0, h)  production factor before nominal power, condition and efficiency
+--   weather(src, def, w, h)  ageing by the weather (snow, dirt), every step
+--   storm(src, def, w, h)    storm damage, only with the StormDamage option
+--   brakable                 the player can brake it: a braked source produces nothing
+Sim.sourceKinds = {
+    solar = {
+        raw = function(src, _def, w, t0, h)
+            local facing, shift = Physics.solarFacing(src.facing, LiveWire.Config.get("SolarOrientation"))
+            local sw = { dawn = w.dawn + shift, dusk = w.dusk + shift }
+            return Physics.solarFactor(solarMean(t0, h, sw), w.clouds, src.snow or 0)
+                * LiveWire.Config.get("SolarMultiplier") * facing
+                * (1 - (LiveWire.Config.get("SolarDirt") and (src.dirt or 0) or 0))
+        end,
+        weather = function(src, _def, w, h)
+            local snow = src.snow or 0
+            if w.snowing then snow = snow + Defs.SNOW_ACCUMULATION_PER_HOUR * w.snowIntensity * h end
+            if w.temperature > 0 then snow = snow - Defs.SNOW_MELT_PER_HOUR * h end
+            src.snow = LiveWire.clamp(snow, 0, 1)
+            if LiveWire.Config.get("SolarDirt") then
+                local autumn = w.month >= Defs.DIRT_AUTUMN_FIRST_MONTH and w.month <= Defs.DIRT_AUTUMN_LAST_MONTH
+                src.dirt = LiveWire.clamp((src.dirt or 0)
+                    + h * (autumn and Defs.DIRT_PER_HOUR_AUTUMN or Defs.DIRT_PER_HOUR)
+                    - (w.rain or 0) * h * Defs.DIRT_RAIN_WASH, 0, Defs.DIRT_MAX)
+            end
+        end,
+        storm = function(src, _def, w, h)
+            if w.storm and chance(h / Defs.SOLAR_STORM_HOURS) then
+                src.cond = math.max(0, (src.cond or 100) - Defs.SOLAR_STORM_LOSS)
+            end
+        end,
+    },
+    wind = {
+        brakable = true,
+        raw = function(src, _def, w)
+            return Physics.windFactor(Physics.windAtHeight(w.windKph, src.z))
+                * LiveWire.Config.get("WindMultiplier")
+        end,
+        storm = function(src, _def, w, h)
+            if Physics.windAtHeight(w.windKph, src.z) > Physics.WIND_CUT_OUT
+                and not src.brake and chance(h / Defs.WIND_STORM_HOURS) then
+                src.cond = math.max(0, (src.cond or 100)
+                    - ZombRand(Defs.WIND_STORM_LOSS_MIN, Defs.WIND_STORM_LOSS_MAX))
+            end
+        end,
+    },
+    hydro = {
+        raw = function(_src, _def, w)
+            return Physics.hydroFactor(w.month) * LiveWire.Config.get("HydroMultiplier")
+        end,
+    },
+}
+
+-- True when `src` is a brakable source whose brake is set.
+local function braked(src, def)
+    local kind = Sim.sourceKinds[def.kind]
+    return kind ~= nil and kind.brakable == true and src.brake == true
+end
+
 local function sourceRaw(src, def, w, t0, h)
     if (src.cond or 0) <= 0 then return 0 end
-    if def.kind == "wind" and src.brake then return 0 end
-    local factor = 0
-    if def.kind == "solar" then
-        local facing, shift = Physics.solarFacing(src.facing, LiveWire.Config.get("SolarOrientation"))
-        local sw = { dawn = w.dawn + shift, dusk = w.dusk + shift }
-        factor = Physics.solarFactor(solarMean(t0, h, sw), w.clouds, src.snow or 0)
-            * LiveWire.Config.get("SolarMultiplier") * facing
-            * (1 - (LiveWire.Config.get("SolarDirt") and (src.dirt or 0) or 0))
-    elseif def.kind == "wind" then
-        factor = Physics.windFactor(Physics.windAtHeight(w.windKph, src.z))
-            * LiveWire.Config.get("WindMultiplier")
-    elseif def.kind == "hydro" then
-        factor = Physics.hydroFactor(w.month) * LiveWire.Config.get("HydroMultiplier")
-    end
+    if braked(src, def) then return 0 end
+    local kind = Sim.sourceKinds[def.kind]
+    local factor = kind and kind.raw(src, def, w, t0, h) or 0
     return def.nominalW * factor * Physics.conditionFactor(src.cond) * (src.eff or 0.85)
 end
 Sim.sourceRaw = sourceRaw
@@ -91,26 +139,10 @@ local function wearDevice(dev, def, h, extra)
 end
 
 local function weatherOnSource(src, def, w, h)
-    if def.kind == "solar" then
-        local snow = src.snow or 0
-        if w.snowing then snow = snow + Defs.SNOW_ACCUMULATION_PER_HOUR * w.snowIntensity * h end
-        if w.temperature > 0 then snow = snow - Defs.SNOW_MELT_PER_HOUR * h end
-        src.snow = LiveWire.clamp(snow, 0, 1)
-        if LiveWire.Config.get("SolarDirt") then
-            local autumn = w.month >= Defs.DIRT_AUTUMN_FIRST_MONTH and w.month <= Defs.DIRT_AUTUMN_LAST_MONTH
-            src.dirt = LiveWire.clamp((src.dirt or 0)
-                + h * (autumn and Defs.DIRT_PER_HOUR_AUTUMN or Defs.DIRT_PER_HOUR)
-                - (w.rain or 0) * h * Defs.DIRT_RAIN_WASH, 0, Defs.DIRT_MAX)
-        end
-    end
-    if not LiveWire.Config.get("StormDamage") then return end
-    if def.kind == "solar" and w.storm and chance(h / Defs.SOLAR_STORM_HOURS) then
-        src.cond = math.max(0, (src.cond or 100) - Defs.SOLAR_STORM_LOSS)
-    elseif def.kind == "wind" and Physics.windAtHeight(w.windKph, src.z) > Physics.WIND_CUT_OUT
-        and not src.brake and chance(h / Defs.WIND_STORM_HOURS) then
-        src.cond = math.max(0, (src.cond or 100)
-            - ZombRand(Defs.WIND_STORM_LOSS_MIN, Defs.WIND_STORM_LOSS_MAX))
-    end
+    local kind = Sim.sourceKinds[def.kind]
+    if not kind then return end
+    if kind.weather then kind.weather(src, def, w, h) end
+    if kind.storm and LiveWire.Config.get("StormDamage") then kind.storm(src, def, w, h) end
 end
 
 local function batteryWear(entry, drawn, h, exhausted)
@@ -470,7 +502,8 @@ local function warnStorm(ctx)
     if w.storm and not grid.stormWarned then
         for _, src in ipairs(ctx.sources) do
             local sd = Defs.devices[src.model]
-            if sd and sd.kind == "wind" and not src.brake and (src.cond or 0) > 0 then
+            local brakable = sd and Sim.sourceKinds[sd.kind] and Sim.sourceKinds[sd.kind].brakable
+            if brakable and not src.brake and (src.cond or 0) > 0 then
                 grid.stormWarned = true
                 LiveWire.notifyNear(inv.x, inv.y, inv.z, Sim.SUBSCRIBE_RANGE, "IGUI_LW_StormBrake",
                     { grid.name ~= "" and grid.name or "IGUI_LW_Network" }, true)
@@ -526,7 +559,7 @@ local function produce(ctx, t0)
             weatherOnSource(src, sdef, w, h)
             src.raw = sourceRaw(src, sdef, w, t0, h)
             src.pOut = Physics.smooth(src.pOut, src.raw, h, Defs.SMOOTHING_TAU_HOURS)
-            if sdef.kind == "wind" and src.brake then src.pOut = 0 end
+            if braked(src, sdef) then src.pOut = 0 end
             prodW = prodW + src.pOut
             wearDevice(src, sdef, h)
         end

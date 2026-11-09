@@ -19,8 +19,8 @@ function View.snapshot(dev)
         s.brake = dev.brake == true
         s.w = grid and healthy and not s.brake and math.floor((dev.pOut or 0) + 0.5) or 0
         s.state = not healthy and "broken" or s.w > 0 and "on" or "idle"
-        if def.kind == "solar" then
-            s.dirt, s.snow = dev.dirt or 0, dev.snow or 0
+        for _, f in ipairs(LiveWire.Defs.SOURCE_FIELDS[def.kind] or {}) do
+            if not f.flag then s[f.field] = dev[f.field] or f.default end
         end
     elseif dev.role == "pump" then
         local inv = grid and R.device(grid.inverter)

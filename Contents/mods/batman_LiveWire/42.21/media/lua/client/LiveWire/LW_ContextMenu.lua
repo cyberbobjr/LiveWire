@@ -435,6 +435,54 @@ local function addBarrelOptions(menu, player, barrel)
     end
 end
 
+-- Menu of a device type, by data (D-50). A device type is described by its role or its kind
+-- (LW_Defs.lua); each table below is looked up with def.role first, then def.kind.
+-- Label of the first option, which opens the device display; the default is the equipment panel.
+Menu.openKeys = {
+    inverter = "ContextMenu_LW_Panel",
+    breaker = "ContextMenu_LW_OpenBoard",
+}
+-- Types that list their own wiring options instead of the usual link options.
+Menu.ownLinkOptions = { inverter = true }
+-- Type-specific options, as function(menu, player, obj, mark, def). They are added after the
+-- link options and before the common tail, in the order of Menu.providerOrder (the order the
+-- player sees); a new type is one entry in each of the two tables.
+Menu.providers = {
+    inverter = function(menu, player, obj, mark)
+        addInverterOptions(menu, player, obj, mark)
+        menu:addOption(getText("ContextMenu_LW_ShowConsumers"), nil, function()
+            LiveWire.NetworkView.show(mark.cpl or mark.id, "consumers")
+        end)
+        menu:addOption(getText("ContextMenu_LW_ShowConnections"), nil, function()
+            LiveWire.NetworkView.show(mark.cpl or mark.id, "links")
+        end)
+    end,
+    pump = function(menu, player, obj, mark)
+        addPumpOptions(menu, player, obj, mark)
+    end,
+    breaker = function(menu, player, _obj, mark)
+        if mark.st == "tripped" then
+            menu:addOption(getText("ContextMenu_LW_ResetBreaker"), player, Menu.onResetBreaker, mark.id)
+        end
+    end,
+    alarm = function(menu, player, _obj, mark)
+        if mark.st == "ringing" then
+            menu:addOption(getText("ContextMenu_LW_AckAlarm"), player, Menu.onAckAlarm, mark.id)
+        end
+    end,
+    solar = function(menu, player, obj)
+        menu:addOption(getText("ContextMenu_LW_ClearSnow"), player, Menu.onClearSnow, obj)
+        menu:addOption(getText("ContextMenu_LW_CleanPanel"), player, Menu.onCleanPanel, obj)
+    end,
+    wind = function(menu, _player, _obj, mark)
+        local key = mark.br and "ContextMenu_LW_ReleaseBrake" or "ContextMenu_LW_ApplyBrake"
+        menu:addOption(getText(key), nil, function()
+            LiveWire.Client.send(LiveWire.Protocol.C_SET_BRAKE, { device = mark.id, brake = not mark.br })
+        end)
+    end,
+}
+Menu.providerOrder = { "inverter", "pump", "breaker", "alarm", "solar", "wind" }
+
 -- Options for one of our placed devices.
 local function addDeviceOptions(root, player, obj)
     local mark = LiveWire.Marks.get(obj)
@@ -445,39 +493,15 @@ local function addDeviceOptions(root, player, obj)
     root:addSubMenu(opt, menu)
 
     -- Every device opens its own display; wiring is a separate destination.
-    local openKey = def.role == "inverter" and "ContextMenu_LW_Panel"
-        or def.kind == "breaker" and "ContextMenu_LW_OpenBoard"
-        or "IGUI_LW_OpenEquipment"
+    local openKey = Menu.openKeys[def.role] or Menu.openKeys[def.kind] or "IGUI_LW_OpenEquipment"
     menu:addOption(getText(openKey), player, Menu.onOpenEquipment, obj)
     menu:addOption(getText("IGUI_LW_Connections"), player, Menu.onConnections, obj)
 
-    if def.role == "inverter" then
-        addInverterOptions(menu, player, obj, mark)
-        menu:addOption(getText("ContextMenu_LW_ShowConsumers"), nil, function()
-            LiveWire.NetworkView.show(mark.cpl or mark.id, "consumers")
-        end)
-        menu:addOption(getText("ContextMenu_LW_ShowConnections"), nil, function()
-            LiveWire.NetworkView.show(mark.cpl or mark.id, "links")
-        end)
-    else
+    if not (Menu.ownLinkOptions[def.role] or Menu.ownLinkOptions[def.kind]) then
         addLinkOptions(menu, player, obj, "device", mark.id)
     end
-    if def.role == "pump" then addPumpOptions(menu, player, obj, mark) end
-    if def.kind == "breaker" and mark.st == "tripped" then
-        menu:addOption(getText("ContextMenu_LW_ResetBreaker"), player, Menu.onResetBreaker, mark.id)
-    end
-    if def.kind == "alarm" and mark.st == "ringing" then
-        menu:addOption(getText("ContextMenu_LW_AckAlarm"), player, Menu.onAckAlarm, mark.id)
-    end
-    if def.kind == "solar" then
-        menu:addOption(getText("ContextMenu_LW_ClearSnow"), player, Menu.onClearSnow, obj)
-        menu:addOption(getText("ContextMenu_LW_CleanPanel"), player, Menu.onCleanPanel, obj)
-    end
-    if def.kind == "wind" then
-        local key = mark.br and "ContextMenu_LW_ReleaseBrake" or "ContextMenu_LW_ApplyBrake"
-        menu:addOption(getText(key), nil, function()
-            LiveWire.Client.send(LiveWire.Protocol.C_SET_BRAKE, { device = mark.id, brake = not mark.br })
-        end)
+    for _, key in ipairs(Menu.providerOrder) do
+        if key == def.role or key == def.kind then Menu.providers[key](menu, player, obj, mark, def) end
     end
     menu:addOption(getText("ContextMenu_LW_Inspect"), player, Menu.onInspect, obj)
     if (mark.cond or 100) <= 0 then

@@ -171,35 +171,28 @@ function V.wanted(obj, now)
     local model = LiveWire.Defs.modelOfObject(obj)
     local def = model and LiveWire.Defs.devices[model]
     if not idx or not def or isOverlay(idx) then return {} end
+    -- The rules are data (D-50): def.overlays, documented in LW_Defs.lua. The sprite
+    -- indices are absolute in the base sheet; a device without `overlays` has no light.
+    local o = def.overlays
+    if not o then return {} end
     local f = idx - def.tile
     local m = LiveWire.Marks.get(obj)
     local out = {}
     local function add(i)
         if EXISTS[i] then out[#out + 1] = i end
     end
-    if def.role == "inverter" then
-        local o = def.overlays
-        if m and m.st == "on" then add(o.on + f) end
-        if m and (m.st == "tripped" or m.st == "broken") then add(o.fault + f) end
-        if m and m.muf then add(o.muffle + f) end
-    elseif model == "PowerBank" then
-        if m and m.inv then add(32 + f) end
-    elseif model == "SolarPanel" then
-        if m and m.inv then add(36 + f) end
-    elseif model == "WindTurbine" then
-        if m and m.inv and (not m.br or math.floor(now / 500) % 2 == 0) then add(40 + f) end
-        add(48 + 4 * rotorFrame(obj, m, now) + f)
-    elseif model == "WaterWheel" then
-        if m and m.inv then add(44 + f) end
-    elseif model == "Breaker" then
-        if m and m.st == "tripped" then add(64 + f)
-        elseif m and m.inv and m.pw and (m.cond or 0) > 0 then add(84 + f) end
-    elseif model == "BatteryAlarm" then
-        if m and m.st == "ringing" then add(66 + f) end
-    elseif model == "WaterPump" then
-        -- LCD glow while supplied, including an idle pump with no linked fixture.
-        if m and m.inv and m.pw and (m.cond or 0) > 0 then add(80 + f) end
+    if m then
+        if o.on and m.st == "on" then add(o.on + f) end
+        if o.fault and (m.st == "tripped" or m.st == "broken") then add(o.fault + f) end
+        if o.muffle and m.muf then add(o.muffle + f) end
+        if o.linked and m.inv and (not o.blinkWhenBraked or not m.br or math.floor(now / 500) % 2 == 0) then
+            add(o.linked + f)
+        end
+        if o.tripped and m.st == "tripped" then add(o.tripped + f)
+        elseif o.powered and m.inv and m.pw and (m.cond or 0) > 0 then add(o.powered + f) end
+        if o.ringing and m.st == "ringing" then add(o.ringing + f) end
     end
+    if o.rotor then add(o.rotor + 4 * rotorFrame(obj, m, now) + f) end
     table.sort(out)
     return out
 end
