@@ -22,7 +22,10 @@ function Maintenance.liveWork(player, grid)
     hand:setBurnTime(math.max(hand:getBurnTime(), 5))
     if isServer() then
         sendDamage(player)
-        player:dropHeldItems(math.floor(player:getX()), math.floor(player:getY()), math.floor(player:getZ()), false, false)
+        -- 42.22 replaced dropHeldItems(x, y, z, heavy, throw) with dropHeldItemsServer() (both held
+        -- items, on the player's square); 42.21 only has the former.
+        if player.dropHeldItemsServer then player:dropHeldItemsServer()
+        else player:dropHeldItems(math.floor(player:getX()), math.floor(player:getY()), math.floor(player:getZ()), false, false) end
     else player:dropHandItems() end
     -- Native item move, no replacement item: abort before consuming repair materials.
     LiveWire.notify(player, "IGUI_LW_Shock", {}, true)
