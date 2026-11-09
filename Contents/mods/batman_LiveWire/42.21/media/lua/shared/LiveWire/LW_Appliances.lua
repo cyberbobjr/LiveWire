@@ -1,9 +1,11 @@
 -- Live Wire: native appliance service adapters, shared with action validation.
 -- Authority owns choices. Client only mirrors container types, never inventory.
 require "LiveWire/LW_ServiceSync"
+require "LiveWire/LW_ApplianceFamilies"
 LiveWire = LiveWire or {}
 local A = {}
 LiveWire.Appliances = A
+A.FAMILIES = LiveWire.ApplianceFamilies.list -- the same table: extensions append to it
 local KEY = "LiveWireCircuit"
 function A.saved(o) return o and o:hasModData() and o:getModData()[KEY] or nil end
 function A.kind(o)
@@ -15,25 +17,18 @@ function A.kind(o)
     if instanceof(o, "IsoLightSwitch") and o:getCanBeModified() and o:getUseBattery() then return nil end
     local s = A.saved(o)
     if s then return s.kind end
-    if instanceof(o, "IsoLightSwitch") then
-        if not (o:getCanBeModified() and o:getUseBattery()) then return "light" end
-    elseif instanceof(o, "IsoTelevision") then return "media"
-    elseif instanceof(o, "IsoRadio") then
-        if not o:getDeviceData():getIsBatteryPowered() then return "media" end
-    elseif instanceof(o, "IsoStove") then return "stove"
-    elseif instanceof(o, "IsoStackedWasherDryer") then return "stacked"
-    elseif instanceof(o, "IsoCombinationWasherDryer") then return "combo"
-    elseif instanceof(o, "IsoClothingWasher") then return "washer"
-    elseif instanceof(o, "IsoClothingDryer") then return "dryer"
-    elseif instanceof(o, "IsoCarBatteryCharger") then return "charger"
-    elseif o:getContainerByType("fridge") or o:getContainerByType("freezer") then return "fridge"
-    elseif o:getSprite() and o:getSprite():getProperties():has(IsoPropertyType.FUEL_AMOUNT) then return "fuel" end
+    local family = LiveWire.ApplianceFamilies.of(o, "kind")
+    return family and family.kind or nil
 end
-function A.blocked(o)
-    if not A.kind(o) or not o:getSquare() then return false end
+-- Cut test of an object whose kind is already known (nil = not an appliance).
+function A.blockedAs(o, kind)
+    if not kind or not o:getSquare() then return false end
     if not isClient() and LiveWire.Circuits then return LiveWire.Circuits.blocked(o) end
     local s = A.saved(o)
     return s and s.cut == true or false
+end
+function A.blocked(o)
+    return A.blockedAs(o, A.kind(o))
 end
 local function age(cont)
     local items = cont:getItems()
@@ -75,6 +70,8 @@ local function activation(o, getter, setter, wanted, change)
     if change then o:sendObjectChange(change) end
     return true
 end
+-- Steps for a saved kind that no family declares: the generic on/off toggle.
+local GENERIC_STEPS = { { get = "isActivated", set = "setActivated", field = "on", change = "DRYER_STATE" } }
 -- Returns true after restoration succeeded. Native setter limitations are kept.
 function A.apply(o, s, off)
     local k, changed = s.kind, false
@@ -116,17 +113,17 @@ function A.apply(o, s, off)
         -- initial OFF choice too, even when no setter call was necessary.
         if changed or s.syncPending then syncService(o, s, off) end
         if not off and d:getIsTurnedOn() ~= s.on then return false end
-    elseif k == "stove" then
-        changed = activation(o, "Activated", "setActivated", not off and s.on)
-    elseif k == "stacked" then
-        changed = activation(o, "isWasherActivated", "setWasherActivated", not off and s.on, IsoObjectChange.WASHER_STATE)
-        changed = activation(o, "isDryerActivated", "setDryerActivated", not off and s.dry, IsoObjectChange.DRYER_STATE) or changed
     elseif k ~= "fuel" then
-        local change = k == "washer" and IsoObjectChange.WASHER_STATE or IsoObjectChange.DRYER_STATE
-        if k == "combo" then change = o:isModeWasher() and IsoObjectChange.WASHER_STATE or IsoObjectChange.DRYER_STATE end
-        if k == "charger" then change = nil end
-        changed = activation(o, "isActivated", "setActivated", not off and s.on, change)
-        if changed and k == "charger" then o:sync() end
+        local family = LiveWire.ApplianceFamilies.ofKind(k)
+        local steps = family and family.activation or GENERIC_STEPS
+        for i = 1, #steps do
+            local step = steps[i]
+            local name = step.change
+            if type(name) == "function" then name = name(o) end
+            local did = activation(o, step.get, step.set, not off and s[step.field], name and IsoObjectChange[name])
+            if did and step.sync then o:sync() end
+            changed = did or changed
+        end
     end
     if s.cut ~= off or changed or s.syncPending then
         s.syncPending = nil
@@ -164,14 +161,27 @@ if isClient() then
 end
 -- Block native interactions on both peers, and recheck at authoritative completion.
 -- These are action hooks, not frame/render hooks. Unrelated actions retain returns.
-local function guard(class, field, methods)
+-- The appliance family of the target never changes during an action: it is resolved on the
+-- first call and kept on the action instance (never in ModData). Whether the panel is cut
+-- can change at any time (trip, reset), so that test runs on every call.
+local function guard(className, class, field, methods)
     for _, name in ipairs(methods) do
         local previous = class[name]
         if previous then
             class[name] = function(self, ...)
-                if A.blocked(self[field]) then return false end
+                local target = self[field]
+                if target ~= nil then
+                    local kind = self.lwKind
+                    if kind == nil then
+                        kind = A.kind(target) or false
+                        self.lwKind = kind
+                    end
+                    if A.blockedAs(target, kind or nil) then return false end
+                end
                 return previous(self, ...)
             end
+        else
+            LiveWire.warn("guarded vanilla method missing: " .. className .. "." .. name)
         end
     end
 end
@@ -179,18 +189,19 @@ local specs = {
     { "ISToggleClothingWasher", "object" }, { "ISToggleClothingDryer", "object" },
     { "ISToggleComboWasherDryer", "object" }, { "ISSetComboWasherDryerMode", "object" },
     { "ISToggleStoveAction", "object" }, { "ISActivateCarBatteryChargerAction", "charger" },
-    { "ISTakeFuel", "fuelStation" },
 }
 for _, spec in ipairs(specs) do
     require("TimedActions/" .. spec[1])
-    guard(_G[spec[1]], spec[2], { "isValid", "complete", "updateUse" })
+    guard(spec[1], _G[spec[1]], spec[2], { "isValid", "complete" })
 end
+require "TimedActions/ISTakeFuel"
+guard("ISTakeFuel", ISTakeFuel, "fuelStation", { "isValid", "complete", "updateUse" })
 require "Vehicles/TimedActions/ISRefuelFromGasPump"
-guard(ISRefuelFromGasPump, "fuelStation", { "isValid", "update", "complete", "serverStop" })
+guard("ISRefuelFromGasPump", ISRefuelFromGasPump, "fuelStation", { "isValid", "update", "complete", "serverStop" })
 -- B42 fluid-component pumps also expose the general fluid transfer/fill menus.
 require "Fluids/ISFluidTransferAction"
-guard(ISFluidTransferAction, "sourceOwner", { "isValid", "update", "complete" })
+guard("ISFluidTransferAction", ISFluidTransferAction, "sourceOwner", { "isValid", "update", "complete" })
 require "TimedActions/ISTakeWaterAction"
-guard(ISTakeWaterAction, "waterObject", { "isValid", "updateUse", "transferFluid", "complete" })
+guard("ISTakeWaterAction", ISTakeWaterAction, "waterObject", { "isValid", "updateUse", "transferFluid", "complete" })
 require "RadioCom/ISRadioAction"
-guard(ISRadioAction, "device", { "isValidToggleOnOff", "performToggleOnOff" })
+guard("ISRadioAction", ISRadioAction, "device", { "isValidToggleOnOff", "performToggleOnOff" })

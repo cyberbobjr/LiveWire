@@ -5,6 +5,7 @@
 -- > 0, and not already powered by the public grid.
 if isClient() then return end
 
+require "LiveWire/LW_ApplianceFamilies"
 LiveWire = LiveWire or {}
 
 local Demand = {}
@@ -189,21 +190,12 @@ local function onTick()
     stepJob()
 end
 
--- Appliance family shown in the inverter interface (classes exposed to Lua).
-local LAUNDRY = { "IsoClothingWasher", "IsoClothingDryer", "IsoCombinationWasherDryer", "IsoStackedWasherDryer" }
+-- Appliance family shown in the inverter interface (Appliances.FAMILIES, shared).
 function Demand.category(o)
     local saved = LiveWire.Appliances and LiveWire.Appliances.saved(o)
     if saved and saved.category then return saved.category end
-    if instanceof(o, "IsoLightSwitch") then return "light" end
-    if instanceof(o, "IsoTelevision") then return "tv" end
-    if instanceof(o, "IsoRadio") then return "radio" end
-    if instanceof(o, "IsoStove") then return "stove" end
-    for i = 1, #LAUNDRY do
-        if instanceof(o, LAUNDRY[i]) then return "laundry" end
-    end
-    if instanceof(o, "IsoCarBatteryCharger") then return "charger" end
-    if o:getContainerByType("fridge") or o:getContainerByType("freezer") then return "fridge" end
-    return "other"
+    local family = LiveWire.ApplianceFamilies.of(o, "category")
+    return family and family.category or "other"
 end
 
 -- Several independent inverters whose areas overlap: count each appliance once, on

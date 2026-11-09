@@ -638,6 +638,99 @@ class ApplianceScope(unittest.TestCase):
         assert(container.kind=='fridge' and f.md.LiveWireCircuit==nil)
         ''')
 
+    def test_family_truth_table_kind_category_and_profile_watts(self):
+        self.load_appliances()
+        self.lua.execute("""
+        local A, D, C = LiveWire.Appliances, LiveWire.Demand, LiveWire.Consumption
+        local function build(class, x)
+            local o = object(class, true)
+            o.getGeneratorPowerConsumption = function() return 1 end
+            o.getSpriteGrid = function() return nil end
+            o.getPipedFuelAmount = function() return 0 end
+            o.getContainerByType = function(s, t)
+                if (t == 'fridge' and s.fridge) or (t == 'freezer' and s.freezer) then return {} end
+            end
+            o.getSprite = function(s)
+                return {getProperties = function() return {has = function() return s.fuel == true end} end}
+            end
+            o.getCanBeModified = function() return false end
+            o.getUseBattery = function() return false end
+            o.getDeviceData = function(s) return {getIsBatteryPowered = function() return s.battery == true end} end
+            o.isMicrowave = function(s) return s.micro == true end
+            o.isWasherActivated = function(s) return s.washerOn == true end
+            o.isDryerActivated = function(s) return s.dryerOn == true end
+            o.isModeDryer = function(s) return s.dryerMode == true end
+            for k, v in pairs(x or {}) do o[k] = v end
+            return o
+        end
+        -- {class, extra fields, kind, category, watts at profile 2 (engine value 1 kW)}
+        local ROWS = {
+            {'IsoLightSwitch', nil, 'light', 'light', 60},
+            {'IsoTelevision', nil, 'media', 'tv', 80},
+            {'IsoRadio', nil, 'media', 'radio', 20},
+            {'IsoRadio', {battery = true}, false, 'radio', 20},
+            {'IsoStove', nil, 'stove', 'stove', 2000},
+            {'IsoStove', {micro = true}, 'stove', 'stove', 1100},
+            {'IsoStackedWasherDryer', {washerOn = true, dryerOn = true}, 'stacked', 'laundry', 3500},
+            {'IsoStackedWasherDryer', {washerOn = true}, 'stacked', 'laundry', 500},
+            {'IsoStackedWasherDryer', nil, 'stacked', 'laundry', 0},
+            {'IsoCombinationWasherDryer', {dryerMode = true}, 'combo', 'laundry', 2000},
+            {'IsoCombinationWasherDryer', nil, 'combo', 'laundry', 500},
+            {'IsoClothingWasher', nil, 'washer', 'laundry', 500},
+            {'IsoClothingDryer', nil, 'dryer', 'laundry', 3000},
+            {'IsoCarBatteryCharger', nil, 'charger', 'charger', 150},
+            {'IsoObject', {fridge = true, freezer = true}, 'fridge', 'fridge', 130},
+            {'IsoObject', {fridge = true}, 'fridge', 'fridge', 90},
+            {'IsoObject', {freezer = true}, 'fridge', 'fridge', 90},
+            {'IsoObject', {fuel = true}, 'fuel', 'other', 1000},
+            {'IsoObject', nil, false, 'other', 1000},
+        }
+        for i, row in ipairs(ROWS) do
+            local o = build(row[1], row[2])
+            local label = i .. ' ' .. row[1]
+            local kind, category, watts = A.kind(o) or false, D.category(o), C.watts(o, 2, true)
+            assert(kind == row[3], label .. ' kind ' .. tostring(kind))
+            assert(category == row[4], label .. ' category ' .. tostring(category))
+            assert(math.abs(watts - row[5]) < 1e-6, label .. ' watts ' .. tostring(watts))
+        end
+        """)
+
+    def test_guard_caches_the_appliance_kind_per_action_but_rechecks_the_cut(self):
+        self.load_appliances()
+        self.lua.execute("""
+        KINDS = 0
+        local kind = LiveWire.Appliances.kind
+        LiveWire.Appliances.kind = function(o) KINDS = KINDS + 1; return kind(o) end
+        CUT = false
+        LiveWire.Circuits.blocked = function() return CUT end
+        local action = {sourceOwner = object('IsoStove', true), result = true}
+        for i = 1, 5 do ISFluidTransferAction.update(action) end
+        assert(action.updates == 5 and KINDS == 1, 'kind computed ' .. KINDS .. ' times')
+        CUT = true
+        assert(ISFluidTransferAction.update(action) == false and action.updates == 5)
+        CUT = false
+        ISFluidTransferAction.update(action)
+        assert(action.updates == 6 and KINDS == 1)
+        """)
+
+    def test_missing_vanilla_method_is_logged_once_at_load(self):
+        self.lua.execute("""
+        WARNS = {}
+        LiveWire.warn = function(m) WARNS[#WARNS + 1] = m end
+        """)
+        self.load_appliances()
+        self.lua.execute("""
+        local seen = {}
+        for _, m in ipairs(WARNS) do seen[m] = (seen[m] or 0) + 1 end
+        local P = 'guarded vanilla method missing: '
+        assert(seen[P .. 'ISTakeWaterAction.transferFluid'] == 1)
+        assert(seen[P .. 'ISTakeWaterAction.updateUse'] == 1)
+        assert(seen[P .. 'ISTakeFuel.updateUse'] == 1)
+        assert(seen[P .. 'ISRefuelFromGasPump.serverStop'] == 1)
+        assert(seen[P .. 'ISRadioAction.isValidToggleOnOff'] == 1)
+        for m in pairs(seen) do assert(not m:find('ISToggleStoveAction')) end
+        """)
+
 
 class PumpViewColours(unittest.TestCase):
     """Client highlight colours of "Show the supplied taps"; stubs only."""

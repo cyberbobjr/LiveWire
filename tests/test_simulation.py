@@ -16,6 +16,7 @@ LUA = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media"
 
 FILES = [
     "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua", "shared/LiveWire/LW_Coupling.lua",
+    "shared/LiveWire/LW_ApplianceFamilies.lua",
     "shared/LiveWire/LW_Consumption.lua", "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",
     "shared/LiveWire/LW_SquareScan.lua", "shared/LiveWire/LW_Coverage.lua", "shared/LiveWire/LW_CircuitProvider.lua",
     "shared/LiveWire/LW_Notify.lua",

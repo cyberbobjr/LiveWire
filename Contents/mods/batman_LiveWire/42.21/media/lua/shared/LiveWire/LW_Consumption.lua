@@ -5,6 +5,7 @@
 -- 1 = ultra-realistic 1993, 2 = realistic 1993, 3 = engine values (default), 4 = comfort.
 -- Sources and rationale: docs/specifications-fonctionnelles.md, section 5.3.
 
+require "LiveWire/LW_ApplianceFamilies"
 LiveWire = LiveWire or {}
 
 local Consumption = {}
@@ -41,32 +42,12 @@ local function profileWatts(o, p, t)
         return p * 1000 * t.otherFactor
     end
     local w
-    if instanceof(o, "IsoLightSwitch") then
-        w = t.light
-    elseif instanceof(o, "IsoRadio") then
-        w = t.radio
-    elseif instanceof(o, "IsoTelevision") then
-        w = t.tv
-    elseif instanceof(o, "IsoStove") then
-        if o:isMicrowave() then w = t.microwave else w = t.stove end
-    elseif instanceof(o, "IsoStackedWasherDryer") then
-        if t.washer then
-            w = 0
-            if o:isWasherActivated() then w = w + t.washer end
-            if o:isDryerActivated() then w = w + t.dryer end
-        end
-    elseif instanceof(o, "IsoCombinationWasherDryer") then
-        if o:isModeDryer() then w = t.comboDryer else w = t.washer end
-    elseif instanceof(o, "IsoClothingDryer") then
-        w = t.dryer
-    elseif instanceof(o, "IsoClothingWasher") then
-        w = t.washer
-    elseif instanceof(o, "IsoCarBatteryCharger") then
-        w = t.charger
-    elseif o:getContainerByType("fridge") and o:getContainerByType("freezer") then
-        w = t.fridgeFreezer
-    elseif o:getContainerByType("fridge") or o:getContainerByType("freezer") then
-        w = t.fridge
+    local family = LiveWire.ApplianceFamilies.of(o, "profile")
+    local profile = family and family.profile
+    if type(profile) == "function" then
+        w = profile(o, t)
+    elseif profile then
+        w = t[profile]
     end
     return w or p * 1000 * t.otherFactor
 end
