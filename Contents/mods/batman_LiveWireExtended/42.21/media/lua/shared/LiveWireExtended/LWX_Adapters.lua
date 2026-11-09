@@ -13,8 +13,7 @@
 --   isOn(o)      -> is the point's service running?
 --   apply(o, off)   cut (off = true) or restore (off = false) the point, authority only
 --   identity(o)  -> optional: stable key of the point; default: grid origin + sprite
--- Mod adapters are tried before the vanilla one, in registration order.
-require "LiveWire/LW_CircuitProvider"
+-- Mod adapters are tried before the vanilla one, in registration order (LWX_ModAdapters).
 require "LiveWireExtended/LWX_Core"
 
 local X = LiveWire.Extended
@@ -156,6 +155,5 @@ end
 Ad.register(V)
 Ad.vanilla = V
 
--- Live Wire asks, for each native appliance: is it cut by a breaker of Extended?
-X.circuitProvider = { blocked = function(o) return Ad.isCut(o) end }
-X.circuitProviderRegistered = LiveWire.CircuitProvider.register(X.circuitProvider) == true
+-- Live Wire reads these decisions through the circuit provider of this sub-mod, built
+-- complete and registered once in LWX_CircuitProvider.lua.

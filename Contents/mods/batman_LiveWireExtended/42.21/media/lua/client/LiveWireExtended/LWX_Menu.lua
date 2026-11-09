@@ -36,21 +36,31 @@ function Menu.onBuilding(player, obj, disconnect, key)
     queueNear(player, obj:getSquare(), LWXBuildingAction:new(player, obj, disconnect, key))
 end
 
--- Inverter among the clicked objects (a Live Wire mark whose model is an inverter).
-function Menu.inverterIn(worldobjects)
+-- First clicked object for which `probe(o, sq)` finds something: `sq` is the square of
+-- the clicked object `o` (nil when it has none). Returns what the probe returned, when
+-- its first value is not nil.
+local function findIn(worldobjects, probe)
     for _, o in ipairs(worldobjects) do
         local sq = o and o.getSquare and o:getSquare()
-        if sq then
-            local objs = sq:getObjects()
-            for i = 0, objs:size() - 1 do
-                local cand = objs:get(i)
-                local m = LiveWire.API.mark(cand)
-                local def = m and LiveWire.API.model(m.model)
-                if def and def.role == "inverter" then return cand, m end
-            end
-        end
+        local a, b = probe(o, sq)
+        if a then return a, b end
     end
     return nil
+end
+
+-- Inverter among the clicked objects (a Live Wire mark whose model is an inverter).
+function Menu.inverterIn(worldobjects)
+    return findIn(worldobjects, function(_, sq)
+        if not sq then return nil end
+        local objs = sq:getObjects()
+        for i = 0, objs:size() - 1 do
+            local cand = objs:get(i)
+            local m = LiveWire.API.mark(cand)
+            local def = m and LiveWire.API.model(m.model)
+            if def and def.role == "inverter" then return cand, m end
+        end
+        return nil
+    end)
 end
 
 function Menu.areaLabel(entry)
@@ -60,35 +70,43 @@ function Menu.areaLabel(entry)
     return getText("ContextMenu_LWX_DisconnectBuilding", tostring(x), tostring(y))
 end
 
-function Menu.addBuildingOptions(sub, player, obj, mark)
-    local sq = obj:getSquare()
+-- "Connect the building" option, enabled or explained by its tooltip. `findBuilding()`
+-- gives the building def to connect (nil: none in reach, `noBuildingKey` says so).
+local function connectOption(sub, player, obj, findBuilding, noBuildingKey)
     local o = sub:addOption(getText("ContextMenu_LWX_ConnectBuilding"), player, Menu.onBuilding, obj, false, nil)
-    local def = X.Buildings.find(sq:getX(), sq:getY(), sq:getZ(), LiveWire.Config.tileRange(),
-        LiveWire.Config.verticalRange())
+    local def = findBuilding()
     if not LiveWire.API.hasLevel(player, X.LEVEL) then
         disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL)))
     elseif not def then
-        disable(o, "Tooltip_LWX_NoBuilding")
+        disable(o, noBuildingKey)
     elseif D.ownerOf(X.Buildings.key(def)) then
         disable(o, "Tooltip_LWX_AlreadyConnected")
     else
         hint(o, "Tooltip_LWX_ConnectBuilding", tostring(def:getX()), tostring(def:getY()))
     end
-    for _, entry in ipairs(D.areaList(mark.id)) do
-        if entry.area.kind == "building" then
+end
+
+-- One "disconnect" option per area of inverter `inverterId` that `keep(area)` accepts.
+local function disconnectOptions(sub, player, obj, inverterId, keep)
+    for _, entry in ipairs(D.areaList(inverterId)) do
+        if keep(entry.area) then
             sub:addOption(Menu.areaLabel(entry), player, Menu.onBuilding, obj, true, entry.key)
         end
     end
 end
 
+function Menu.addBuildingOptions(sub, player, obj, mark)
+    local sq = obj:getSquare()
+    connectOption(sub, player, obj, function()
+        return X.Buildings.find(sq:getX(), sq:getY(), sq:getZ(), LiveWire.Config.tileRange(),
+            LiveWire.Config.verticalRange())
+    end, "Tooltip_LWX_NoBuilding")
+    disconnectOptions(sub, player, obj, mark.id, function(area) return area.kind == "building" end)
+end
+
 -- Power terminal among the clicked objects.
 function Menu.terminalIn(worldobjects)
-    for _, o in ipairs(worldobjects) do
-        local sq = o and o.getSquare and o:getSquare()
-        local t = sq and X.Terminal.onSquare(sq)
-        if t then return t end
-    end
-    return nil
+    return findIn(worldobjects, function(_, sq) return sq and X.Terminal.onSquare(sq) end)
 end
 
 function Menu.onTerminal(player, obj, inverter, unlink)
@@ -99,22 +117,10 @@ end
 Menu.RELAY_REACH = 2
 function Menu.addRelayOptions(sub, player, obj, record)
     local key = X.Terminal.key(record.x, record.y, record.z)
-    local o = sub:addOption(getText("ContextMenu_LWX_ConnectBuilding"), player, Menu.onBuilding, obj, false, nil)
-    local def = X.Buildings.find(record.x, record.y, record.z, Menu.RELAY_REACH, LiveWire.Config.verticalRange())
-    if not LiveWire.API.hasLevel(player, X.LEVEL) then
-        disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL)))
-    elseif not def then
-        disable(o, "Tooltip_LWX_NoBuildingNearTerminal")
-    elseif D.ownerOf(X.Buildings.key(def)) then
-        disable(o, "Tooltip_LWX_AlreadyConnected")
-    else
-        hint(o, "Tooltip_LWX_ConnectBuilding", tostring(def:getX()), tostring(def:getY()))
-    end
-    for _, entry in ipairs(D.areaList(record.inv)) do
-        if entry.area.via == key then
-            sub:addOption(Menu.areaLabel(entry), player, Menu.onBuilding, obj, true, entry.key)
-        end
-    end
+    connectOption(sub, player, obj, function()
+        return X.Buildings.find(record.x, record.y, record.z, Menu.RELAY_REACH, LiveWire.Config.verticalRange())
+    end, "Tooltip_LWX_NoBuildingNearTerminal")
+    disconnectOptions(sub, player, obj, record.inv, function(area) return area.via == key end)
 end
 
 function Menu.onZone(player, obj)
@@ -161,12 +167,7 @@ end
 
 -- Breaker board among the clicked objects.
 function Menu.panelIn(worldobjects)
-    for _, o in ipairs(worldobjects) do
-        local sq = o and o.getSquare and o:getSquare()
-        local p = sq and X.Panel.onSquare(sq)
-        if p then return p end
-    end
-    return nil
+    return findIn(worldobjects, function(_, sq) return sq and X.Panel.onSquare(sq) end)
 end
 
 function Menu.addPanelOptions(sub, player, obj)
@@ -358,15 +359,14 @@ end
 
 -- Appliance (a point some adapter recognizes) among the clicked objects.
 function Menu.applianceIn(worldobjects)
-    for _, o in ipairs(worldobjects) do
+    return findIn(worldobjects, function(o, sq)
         if o and X.Adapters.find(o) then return o end
-        local sq = o and o.getSquare and o:getSquare()
         local objs = sq and sq:getObjects()
         for i = 0, objs and objs:size() - 1 or -1 do
             if X.Adapters.find(objs:get(i)) then return objs:get(i) end
         end
-    end
-    return nil
+        return nil
+    end)
 end
 
 -- The game's own submenu of object `o` (B42 groups an object's actions under its name, as
@@ -380,31 +380,42 @@ function Menu.objectSubMenu(context, o)
     return nil
 end
 
+-- What the context menu offers, in the order of the submenu. `find(worldobjects)` gives
+-- the clicked target (and, for an inverter, its mark); `add(sub, player, target, extra)`
+-- fills the submenu. `ownMenu`: the options go in the game's own submenu of the object
+-- when it made one (B42 groups an object's actions under its name).
+local TARGETS = {
+    { find = Menu.inverterIn,
+      add = function(sub, player, obj, mark) Menu.addBuildingOptions(sub, player, obj, mark) end },
+    { find = Menu.terminalIn, add = Menu.addTerminalOptions },
+    { find = Menu.panelIn, add = Menu.addPanelOptions },
+    { find = Menu.applianceIn, add = Menu.addPointOptions, ownMenu = true },
+}
+
 local function onFillWorld(playerNum, context, worldobjects, test)
     local player = getSpecificPlayer(playerNum)
     if not player then return end
-    local obj, mark = Menu.inverterIn(worldobjects)
-    local terminal = Menu.terminalIn(worldobjects)
-    local panel = Menu.panelIn(worldobjects)
-    local appliance = Menu.applianceIn(worldobjects)
-    if not obj and not terminal and not panel and not appliance then return end
-    if test then return ISWorldObjectContextMenu.setTest() end
-    -- wiring an appliance goes in the game's own submenu of that object when there is one
-    local own = appliance and Menu.objectSubMenu(context, appliance)
-    if own then
-        Menu.addPointOptions(own, player, appliance)
-        appliance = nil
-        if not obj and not terminal and not panel then return end
+    local hits = {}
+    for _, target in ipairs(TARGETS) do
+        local found, extra = target.find(worldobjects)
+        if found then hits[#hits + 1] = { target = target, found = found, extra = extra } end
     end
+    if #hits == 0 then return end
+    if test then return ISWorldObjectContextMenu.setTest() end
+    local rest = {}
+    for _, hit in ipairs(hits) do
+        local own = hit.target.ownMenu and Menu.objectSubMenu(context, hit.found)
+        if own then
+            hit.target.add(own, player, hit.found, hit.extra)
+        else
+            rest[#rest + 1] = hit
+        end
+    end
+    if #rest == 0 then return end
     local root = context:addOption(getText("ContextMenu_LWX_Root"), worldobjects, nil)
     local sub = ISContextMenu:getNew(context)
     context:addSubMenu(root, sub)
-    if obj then
-        Menu.addBuildingOptions(sub, player, obj, mark)
-    end
-    if terminal then Menu.addTerminalOptions(sub, player, terminal) end
-    if panel then Menu.addPanelOptions(sub, player, panel) end
-    if appliance then Menu.addPointOptions(sub, player, appliance) end
+    for _, hit in ipairs(rest) do hit.target.add(sub, player, hit.found, hit.extra) end
 end
 
 Events.OnFillWorldObjectContextMenu.Add(onFillWorld)
