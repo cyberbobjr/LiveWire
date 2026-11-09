@@ -313,3 +313,18 @@ Mise à jour de D-52 (2026-11-09, commit `0d7bb72` d'une autre session de dette 
 `ROTATION_ENDED`. Ils remplacent les appels directs `Devices.onPickedUp`, `beginRotation` et `endRotation`. Deux appels
 restent directs parce que leur valeur de retour est utilisée : `Devices.beforePickUp` et `Registry.forgetVanilla`
 (dans `LW_Commands`).
+
+## Écrans LCD communs — 2026-11-09
+
+Plan `annexes/plans/lcd-commun.md`. Tous les écrans LCD d'appareil dessinés par Live Wire et LiveWire Extended
+(batterie, appareil, pompe, onduleur, tableau électrique de Live Wire et d'Extended) passent par un seul module.
+
+| ID | Sujet | Décision |
+|---|---|---|
+| D-56 | Module LCD commun et teinte unique (2026-11-09, teinte choisie par l'utilisateur) | Un seul module client `LiveWire/LW_Lcd.lua` (`LiveWire.Lcd`) porte la palette, le dessin du cadre et de l'écran, les lignes de texte, la jauge, le texte d'attente et l'indicateur de page. **Une seule teinte** : tous les écrans prennent le vert clair rétroéclairé des appareils (fond 0.62, 0.74, 0.40 ; encre 0.08, 0.13, 0.05), y compris l'afficheur et la bande d'état du tableau électrique (réponse de l'utilisateur : « Tout en vert clair »). Variantes de la palette : `green` (appareils et tableau), `pump` (bleu de la pompe), `off` (onduleur éteint). Un seul cadre (couleur 0.06, 0.07, 0.06 et reflet en haut de l'écran), une seule police (`LiveWire.Client.lcdFont()`) pour le texte affiché sur un écran. Les lignes trop longues des écrans d'appareil défilent (logique de l'onduleur, pause 1,2 s, 40 px/s de référence) ; les lignes du tableau électrique restent abrégées avec « … » (D-54). Seule la présentation change : ni données, ni réseau, ni serveur |
+
+Confirmé par défaut (brief du 2026-11-09, non soumis au choix de l'utilisateur) : défilement généralisé aux écrans
+d'appareil, jauge unique, cadre unique, police `lcdFont()` sur tous les écrans. Le texte imprimé sur la façade crème du
+tableau (titre, ligne du voyant, ligne d'état) n'est pas un écran : il garde `UIFont.Small`. L'écran de démarrage de
+l'ordinateur (`LW_SoftwareScreen.lua`) reste hors périmètre. Extended n'appelle pas `LW_Lcd` directement : il dessine
+son afficheur par le kit de coffret (`LiveWire.API.enclosure()`, D-47), qui délègue à `LW_Lcd`.
