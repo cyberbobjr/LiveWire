@@ -304,3 +304,12 @@ Mise à jour de D-54 (2026-11-09, réponse de l'utilisateur à la question Q0 de
 la maquette `propA` est la référence des deux fenêtres. Le disjoncteur de Live Wire devient un peu plus haut (477 px à
 taille de police normale au lieu de 454), sa bande d'état entre dans le renfoncement, ses leviers gardent leur forme ;
 le tableau d'Extended a le même aspect. Largeur de Live Wire inchangée (750 px).
+
+Mise à jour de D-55 (2026-11-09, réponse de l'utilisateur à la question Q1) : « Non, seulement les tableaux posés par
+le joueur. » Les coffrets muraux vanilla `industry_02_212` à `215` restent à 8 modules et ne peuvent pas être agrandis.
+
+Mise à jour de D-52 (2026-11-09, commit `0d7bb72` d'une autre session de dette technique) : le bus local publie trois
+événements de plus, déclarés dans `shared/LiveWire/LW_EventBus.lua` : `DEVICE_PICKED_UP`, `ROTATION_STARTED` et
+`ROTATION_ENDED`. Ils remplacent les appels directs `Devices.onPickedUp`, `beginRotation` et `endRotation`. Deux appels
+restent directs parce que leur valeur de retour est utilisée : `Devices.beforePickUp` et `Registry.forgetVanilla`
+(dans `LW_Commands`).
