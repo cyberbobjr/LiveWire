@@ -213,7 +213,7 @@ function Window:lcdContent(record)
                 { getText(LCD_KEYS[2]), string.format("%.1f A", amps) },
                 { getText(LCD_KEYS[3]), kwh(today) } },
             led = K.C.green, line = self:networkName(record),
-            status = getText("IGUI_LWX_BoardTitle", tostring(record.size), tostring(B.usedModules(record))),
+            status = getText("IGUI_LWX_LcdCount", tostring(record.size), tostring(#(record.slots or {}))),
             strip = getText("IGUI_LWX_LcdHistory", string.format("%.1f", yesterday), string.format("%.1f", week)) }
     end
     local state = slotState(slot)
@@ -259,10 +259,10 @@ function Window:refreshButtons(record)
         local shown = K.abbreviate(full, L.cells[i].w - 14, measure)
         b:setTitle(shown)
         b.tooltip = shown ~= full and full or nil
-        b:setEnable(slot ~= nil)
+        K.setLook(b, slot ~= nil)
     end
     if slot then
-        self.btn.twilight:setEnable(slot.twilight == true or LiveWire.API.countType(self.player, B.TWILIGHT_ITEM) > 0)
+        K.setLook(self.btn.twilight, slot.twilight == true or LiveWire.API.countType(self.player, B.TWILIGHT_ITEM) > 0)
     end
 end
 

@@ -49,6 +49,7 @@
     "IGUI_LWX_LcdCurrent": "電流",
     "IGUI_LWX_LcdToday": "本日",
     "IGUI_LWX_LcdHistory": "昨日 %1 kWh・7日間 %2 kWh",
+    "IGUI_LWX_LcdCount": "%1 モジュール、%2 個のブレーカー",
     "IGUI_LWX_LoadLine": "%1 W、%2 A、接続機器 %3 台",
     "IGUI_LWX_LeverSwitchOn": "入れる",
     "IGUI_LWX_LeverSwitchOff": "切る",

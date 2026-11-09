@@ -49,6 +49,7 @@
     "IGUI_LWX_LcdCurrent": "Stromstärke",
     "IGUI_LWX_LcdToday": "Heute",
     "IGUI_LWX_LcdHistory": "Gestern %1 kWh · 7 Tage %2 kWh",
+    "IGUI_LWX_LcdCount": "%1 Module, %2 Sicherungen",
     "IGUI_LWX_LoadLine": "%1 W, %2 A, %3 Gerät(e) angeschlossen",
     "IGUI_LWX_LeverSwitchOn": "Einschalten",
     "IGUI_LWX_LeverSwitchOff": "Ausschalten",

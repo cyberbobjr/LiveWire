@@ -49,6 +49,7 @@
     "IGUI_LWX_LcdCurrent": "Corrente",
     "IGUI_LWX_LcdToday": "Hoje",
     "IGUI_LWX_LcdHistory": "Ontem %1 kWh · 7 dias %2 kWh",
+    "IGUI_LWX_LcdCount": "%1 módulos, %2 disjuntores",
     "IGUI_LWX_LoadLine": "%1 W, %2 A, %3 aparelho(s) ligado(s)",
     "IGUI_LWX_LeverSwitchOn": "Ligar",
     "IGUI_LWX_LeverSwitchOff": "Desligar",

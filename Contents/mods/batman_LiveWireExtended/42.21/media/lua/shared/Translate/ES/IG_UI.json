@@ -49,6 +49,7 @@
     "IGUI_LWX_LcdCurrent": "Intensidad",
     "IGUI_LWX_LcdToday": "Hoy",
     "IGUI_LWX_LcdHistory": "Ayer %1 kWh · 7 días %2 kWh",
+    "IGUI_LWX_LcdCount": "%1 módulos, %2 disyuntores",
     "IGUI_LWX_LoadLine": "%1 W, %2 A, %3 aparato(s) cableado(s)",
     "IGUI_LWX_LeverSwitchOn": "Encender",
     "IGUI_LWX_LeverSwitchOff": "Apagar",

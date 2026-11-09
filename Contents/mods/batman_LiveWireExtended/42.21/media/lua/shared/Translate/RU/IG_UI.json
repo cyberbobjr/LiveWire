@@ -49,6 +49,7 @@
     "IGUI_LWX_LcdCurrent": "Ток",
     "IGUI_LWX_LcdToday": "Сегодня",
     "IGUI_LWX_LcdHistory": "Вчера %1 кВт·ч · 7 дней %2 кВт·ч",
+    "IGUI_LWX_LcdCount": "модулей: %1, автоматов: %2",
     "IGUI_LWX_LoadLine": "%1 Вт, %2 А, подключено приборов: %3",
     "IGUI_LWX_LeverSwitchOn": "Включить",
     "IGUI_LWX_LeverSwitchOff": "Выключить",
