@@ -19,33 +19,29 @@
 -- Returns true, or false and a reason: "registration_closed", "already_registered",
 -- "invalid_provider".
 require "LiveWire/LW_Config"
+require "LiveWire/LW_Extension"
 LiveWire = LiveWire or {}
 
 local Coupling = { version = 1 }
 LiveWire.Coupling = Coupling
 
-local provider, sealed = nil, false
-local FIELDS = { range = "function", inverters = "function", menu = "function", slaveKeepsZone = "boolean" }
-
-function Coupling.register(p)
-    if sealed then return false, "registration_closed" end
-    if provider then return false, "already_registered" end
-    if type(p) ~= "table" then return false, "invalid_provider" end
-    for k, v in pairs(p) do
-        if not FIELDS[k] or type(v) ~= FIELDS[k] then return false, "invalid_provider" end
-    end
-    provider = p
-    return true
-end
-
-function Coupling.active() return provider ~= nil end
+-- One registrant, closed field list (LiveWire.Extension.single).
+local extension = LiveWire.Extension.single("coupling", {
+    range = "function?", inverters = "function?", menu = "function?", slaveKeepsZone = "boolean?",
+}, { closed = true })
+Coupling.register = extension.register
+Coupling.active = extension.active
 
 -- Does a coupled inverter keep its own powered zone?
-function Coupling.slaveKeepsZone() return provider ~= nil and provider.slaveKeepsZone == true end
+function Coupling.slaveKeepsZone()
+    local provider = extension.get()
+    return provider ~= nil and provider.slaveKeepsZone == true
+end
 
 -- Coupling distance in tiles (the cable range unless an add-on sets another one).
 function Coupling.range()
     local base = LiveWire.Config.get("LinkRange")
+    local provider = extension.get()
     if not provider or not provider.range then return base end
     local r = provider.range()
     if type(r) ~= "number" or r ~= r or r <= 0 then return base end
@@ -54,6 +50,7 @@ end
 
 -- Inverters a coupling can reach from `sq`, nearest first ({ obj, dist, kind }).
 function Coupling.inverters(sq)
+    local provider = extension.get()
     if provider and provider.inverters then return provider.inverters(sq) or {} end
     return LiveWire.Install.invertersInRange(sq)
 end
@@ -71,7 +68,6 @@ end
 
 -- Client: let the add-on add its options to an inverter's menu.
 function Coupling.addMenu(menu, player, obj, mark, isSlave)
+    local provider = extension.get()
     if provider and provider.menu then provider.menu(menu, player, obj, mark, isSlave == true) end
 end
-
-Events.OnInitGlobalModData.Add(function() sealed = true end)

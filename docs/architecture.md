@@ -215,22 +215,30 @@ lua/shared/LiveWire/LW_Core.lua            table globale LiveWire, version, jour
 lua/shared/LiveWire/LW_Config.lua          lecture des options sandbox
 lua/shared/LiveWire/LW_Defs.lua            equipements (tuiles, roles), batteries (donnees)
 lua/shared/LiveWire/LW_Physics.lua         fonctions pures : solaire, eolien, lissage, batteries, pas de reseau
-lua/shared/LiveWire/LW_Protocol.lua        noms de commandes, validation des arguments
+lua/shared/LiveWire/LW_Protocol.lua        noms de commandes, validation des arguments (parsePos : x, y, z entiers)
 lua/shared/LiveWire/LW_Marks.lua           marque des equipements (modData.movableData.LiveWire)
 lua/shared/LiveWire/LW_Placement.lua       enveloppes du curseur de meubles vanilla : regles de
                                            pose (dehors, riviere), pose, ramassage, rotation
 lua/shared/LiveWire/LW_Anchor.lua          application des ancres (serveur ET clients), LoadChunk
 lua/client/LiveWire/LW_AnchorVisuals.lua   réveil visuel des cases alimentées (client)
 lua/server/LiveWire/LW_FridgeAging.lua     index des frigos et vieillissement (autorité)
+lua/shared/LiveWire/LW_Extension.lua       point d'extension a un seul inscrit (schema, scellement a
+                                           OnInitGlobalModData) : base de Coverage, CircuitProvider, Coupling
 lua/shared/LiveWire/LW_Coverage.lua        couverture d'un onduleur : disque D-12 + cases d'un
                                            fournisseur facultatif (D-32)
 lua/shared/LiveWire/LW_CircuitProvider.lua coupures supplementaires d'un fournisseur facultatif
                                            (disjoncteurs par appareil, D-35, D-37)
-lua/shared/LiveWire/LW_Install.lua         raccordement (portee, fils), recherche des onduleurs et
-                                           equipements sur les cases chargees, outils d'inventaire
+lua/shared/LiveWire/LW_Install.lua         facade : raccordement (portee, fils), recherche des onduleurs et
+                                           equipements sur les cases chargees ; garde les anciens noms
+                                           d'inventaire et de barils
+lua/shared/LiveWire/LW_Inventory.lua       inventaire du personnage (compter, retirer, donner) et tournevis
+lua/shared/LiveWire/LW_Barrels.lua         barils de la pompe : detection, etat, marque (mark en lecture
+                                           pure, repairMark pour l'autorite), proximite, regles de liaison
 lua/shared/LiveWire/LW_Notify.lua          messages au joueur (cles traduites cote client)
 lua/shared/LiveWire/LW_Recipes.lua         OnCreate de la batterie stationnaire
-lua/shared/LiveWire/LW_VanillaGuards.lua   enveloppes demonter (ferraille) / detruire (affichage et autorite)
+lua/shared/LiveWire/LW_VanillaGuards.lua   enveloppes demonter (ferraille) / detruire (affichage et autorite) :
+                                           require des classes vanilla shared et pose unique au chargement ;
+                                           le curseur de destruction (dossier server vanilla) a OnGameStart
 lua/shared/LiveWire/TimedActions/LW_BaseAction.lua
                                            classe de base des actions chronometrees (LWBaseAction) :
                                            orientation, portee, duree, garde d'autorite complete

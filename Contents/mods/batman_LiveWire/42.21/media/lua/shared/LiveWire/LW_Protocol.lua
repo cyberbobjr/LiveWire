@@ -36,6 +36,9 @@ Protocol.S_SERVICES = "circuitServices"
 
 Protocol.MAX_NAME = 24
 Protocol.MAX_STRING = 32
+Protocol.MAX_COORD = 1000000  -- |x|, |y| bound of a position argument
+Protocol.MIN_LEVEL = -32      -- floors of a position argument (the engine range)
+Protocol.MAX_LEVEL = 31
 
 function Protocol.isId(v, prefix)
     if type(v) ~= "string" or #v > Protocol.MAX_STRING then return false end
@@ -45,6 +48,21 @@ end
 function Protocol.isDeviceId(v) return Protocol.isId(v, "d") end
 
 function Protocol.isBool(v) return v == true or v == false end
+
+-- Position argument { x, y, z } of a command: whole numbers (numbers or numeric
+-- strings, rounded down), finite and inside the world bounds. Returns x, y, z, or nil
+-- when `args` is not a table or a coordinate is missing, not a number or out of range.
+function Protocol.parsePos(args)
+    if type(args) ~= "table" then return nil end
+    local x, y, z = tonumber(args.x), tonumber(args.y), tonumber(args.z)
+    if not x or not y or not z then return nil end
+    if x ~= x or y ~= y or z ~= z then return nil end
+    if math.abs(x) > Protocol.MAX_COORD or math.abs(y) > Protocol.MAX_COORD
+        or z < Protocol.MIN_LEVEL or z > Protocol.MAX_LEVEL then
+        return nil
+    end
+    return math.floor(x), math.floor(y), math.floor(z)
+end
 
 -- Keep printable characters only; cut to max length.
 function Protocol.cleanName(v)

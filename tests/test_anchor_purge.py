@@ -17,6 +17,7 @@ SHARED = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "med
                       "shared", "LiveWire")
 ANCHOR = os.path.join(SHARED, "LW_Anchor.lua")
 COVERAGE = os.path.join(SHARED, "LW_Coverage.lua")  # the disc lives there (D-32)
+EXTENSION = os.path.join(SHARED, "LW_Extension.lua")  # Coverage is built on it
 
 STUBS = r"""
 function require() end
@@ -116,7 +117,7 @@ end
 def load():
     lua = lua51.LuaRuntime(unpack_returned_tuples=True)
     lua.execute(STUBS)
-    for path in (COVERAGE, ANCHOR):
+    for path in (EXTENSION, COVERAGE, ANCHOR):
         with open(path, encoding="utf-8") as f:
             lua.execute(f.read())
     return lua

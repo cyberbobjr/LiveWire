@@ -18,6 +18,20 @@ Commands.ACT_RANGE = 3
 Commands.SOFTWARE_RANGE = 6
 Commands.RATE_PER_SECOND = 4
 
+-- Refusal codes. The value is the translation key sent to the client.
+Commands.ERR = {
+    INVALID = "Tooltip_LW_Invalid",
+    TOO_FAR = "Tooltip_LW_TooFar",
+    SAFEHOUSE = "Tooltip_LW_Safehouse",
+    NEED_SCREWDRIVER = "Tooltip_LW_NeedScrewdriver",
+}
+local ERR = Commands.ERR
+
+-- May `player` act on square `sq`? False inside a safehouse that does not allow them.
+function Commands.canTouch(player, sq)
+    return not SafeHouse or SafeHouse.isSafehouseAllowInteract(sq, player)
+end
+
 local rate = {}  -- username -> { windowStart = ms, count = n, warned = bool }
 
 function Commands.purgeRate()
@@ -48,7 +62,7 @@ local function allowRate(player)
     return true
 end
 
-local function refuse(player, cmd, key)
+local function refuse(player, key)
     LiveWire.notify(player, key, {}, true)
 end
 
@@ -61,16 +75,16 @@ end
 
 -- Common checks for a command that touches a device.
 function Commands.checkDevice(player, id, range)
-    if not P.isDeviceId(id) then return nil, "Tooltip_LW_Invalid" end
+    if not P.isDeviceId(id) then return nil, ERR.INVALID end
     local dev = LiveWire.Registry.device(id)
-    if not dev then return nil, "Tooltip_LW_Invalid" end
+    if not dev then return nil, ERR.INVALID end
     local sq = getCell():getGridSquare(dev.x, dev.y, dev.z)
-    if not sq then return nil, "Tooltip_LW_TooFar" end
+    if not sq then return nil, ERR.TOO_FAR end
     if not Commands.isNear(player, dev.x, dev.y, dev.z, range or Commands.ACT_RANGE) then
-        return nil, "Tooltip_LW_TooFar"
+        return nil, ERR.TOO_FAR
     end
-    if SafeHouse and not SafeHouse.isSafehouseAllowInteract(sq, player) then
-        return nil, "Tooltip_LW_Safehouse"
+    if not Commands.canTouch(player, sq) then
+        return nil, ERR.SAFEHOUSE
     end
     return dev, nil, sq
 end
@@ -80,15 +94,14 @@ end
 -- computer of the inverter's network is on that square.
 function Commands.checkVia(player, via, inv)
     if type(via) ~= "table" or not inv or not inv.grid then return false end
-    local x, y, z = tonumber(via.x), tonumber(via.y), tonumber(via.z)
-    if not x or not y or not z then return false end
-    x, y, z = math.floor(x), math.floor(y), math.floor(z)
+    local x, y, z = P.parsePos(via)
+    if not x then return false end
     local grid = LiveWire.Registry.grid(inv.grid)
     if not grid or not LiveWire.Computer then return false end
     if not Commands.isNear(player, x, y, z, Commands.SOFTWARE_RANGE) then return false end
     local sq = getCell():getGridSquare(x, y, z)
     if not sq then return false end
-    if SafeHouse and not SafeHouse.isSafehouseAllowInteract(sq, player) then return false end
+    if not Commands.canTouch(player, sq) then return false end
     local list = LiveWire.Registry.devicesAt(x, y, z)
     for i = 1, #list do
         local d = list[i]
@@ -117,12 +130,12 @@ local function checkInverterCommand(player, args)
     if inv and inv.role == "inverter" and Commands.checkVia(player, args.via, inv) then
         return inv
     end
-    if inv and inv.role == "inverter" and why == "Tooltip_LW_TooFar" then
+    if inv and inv.role == "inverter" and why == ERR.TOO_FAR then
         local slaves = coupledOf(inv)
         if #slaves > 0 then
             local msq = getCell():getGridSquare(inv.x, inv.y, inv.z)
-            if msq and SafeHouse and not SafeHouse.isSafehouseAllowInteract(msq, player) then
-                return nil, "Tooltip_LW_Safehouse"
+            if msq and not Commands.canTouch(player, msq) then
+                return nil, ERR.SAFEHOUSE
             end
             for i = 1, #slaves do
                 if Commands.checkDevice(player, slaves[i].id) then return inv end
@@ -158,14 +171,14 @@ handlers[P.C_SET_CIRCUIT] = function(player, args) LiveWire.Circuits.set(player,
 
 handlers[P.C_RESUME_BACKUP] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
-    if not dev then return refuse(player, P.C_RESUME_BACKUP, why) end
+    if not dev then return refuse(player, why) end
     if dev.role ~= "backup" or not LiveWire.Backup.resume(dev) then return end
     LiveWire.Sim.refresh(LiveWire.Registry.grid(dev.grid))
 end
 
 handlers[P.C_SET_BRAKE] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
-    if not dev then return refuse(player, P.C_SET_BRAKE, why) end
+    if not dev then return refuse(player, why) end
     local def = LiveWire.Defs.devices[dev.model]
     if not def or def.kind ~= "wind" or not P.isBool(args.brake) then return end
     dev.brake = args.brake
@@ -222,16 +235,16 @@ end
 
 handlers[P.C_UNLINK] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
-    if not dev and why == "Tooltip_LW_TooFar" then
+    if not dev and why == ERR.TOO_FAR then
         -- Also allowed from the inverter of its network (inverter menu).
         local d = P.isDeviceId(args.device) and LiveWire.Registry.device(args.device)
         local g = d and d.grid and LiveWire.Registry.grid(d.grid)
         if g and Commands.checkDevice(player, g.inverter) then dev = d end
     end
-    if not dev then return refuse(player, P.C_UNLINK, why) end
+    if not dev then return refuse(player, why) end
     if dev.role == "inverter" or not dev.grid then return end
     if not LiveWire.Install.screwdriver(player) then
-        return refuse(player, P.C_UNLINK, "Tooltip_LW_NeedScrewdriver")
+        return refuse(player, ERR.NEED_SCREWDRIVER)
     end
     local grid = LiveWire.Registry.grid(dev.grid)
     -- A linked vanilla generator or computer leaves the registry entirely.
@@ -251,7 +264,7 @@ end
 -- the wire of the coupling go back to the player.
 handlers[P.C_UNCOUPLE] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.inverter)
-    if not dev then return refuse(player, P.C_UNCOUPLE, why) end
+    if not dev then return refuse(player, why) end
     if dev.role ~= "inverter" or not dev.coupled then return end
     local R = LiveWire.Registry
     local mgrid = R.grid(dev.grid)
@@ -272,11 +285,11 @@ end
 -- Disconnect one barrel from a pump: the pipe goes back to the player.
 handlers[P.C_UNLINK_BARREL] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.pump)
-    if not dev then return refuse(player, P.C_UNLINK_BARREL, why) end
+    if not dev then return refuse(player, why) end
     if dev.role ~= "pump" or not LiveWire.Pump then return end
-    local x, y, z = tonumber(args.x), tonumber(args.y), tonumber(args.z)
-    if not x or not y or not z then return end
-    local key = LiveWire.posKey(math.floor(x), math.floor(y), math.floor(z))
+    local x, y, z = P.parsePos(args)
+    if not x then return end
+    local key = LiveWire.posKey(x, y, z)
     if not dev.barrels or not dev.barrels[key] then return end
     LiveWire.Pump.unlinkBarrel(dev, key)
     LiveWire.Install.giveItem(player, LiveWire.Defs.PUMP_PIPE)
@@ -299,7 +312,7 @@ end
 
 handlers[P.C_SET_INVERTER] = function(player, args)
     local dev, why = checkInverterCommand(player, args)
-    if not dev then return refuse(player, P.C_SET_INVERTER, why) end
+    if not dev then return refuse(player, why) end
     if dev.role ~= "inverter" or not P.isBool(args.on) then return end
     if args.on then
         if dev.state == "off" then
@@ -324,7 +337,7 @@ end
 
 handlers[P.C_RESET] = function(player, args)
     local dev, why = checkInverterCommand(player, args)
-    if not dev then return refuse(player, P.C_RESET, why) end
+    if not dev then return refuse(player, why) end
     -- A slave never trips: its master is the one to reset.
     if dev.coupled then dev = LiveWire.Registry.device(dev.coupled) or dev end
     if dev.role ~= "inverter" or dev.state ~= "tripped" then return end
@@ -339,7 +352,7 @@ end
 -- Reset a tripped wall breaker (from the breaker itself).
 handlers[P.C_RESET_BREAKER] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
-    if not dev then return refuse(player, P.C_RESET_BREAKER, why) end
+    if not dev then return refuse(player, why) end
     local bdef = LiveWire.Defs.devices[dev.model]
     if not bdef or bdef.kind ~= "breaker" or dev.state ~= "tripped" then return end
     local grid = dev.grid and LiveWire.Registry.grid(dev.grid)
@@ -357,7 +370,7 @@ end
 -- Silence a ringing low battery alarm (its beacon stays lit until the stock recovers).
 handlers[P.C_ACK_ALARM] = function(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
-    if not dev then return refuse(player, P.C_ACK_ALARM, why) end
+    if not dev then return refuse(player, why) end
     local adef = LiveWire.Defs.devices[dev.model]
     local grid = dev.grid and LiveWire.Registry.grid(dev.grid)
     if not adef or adef.kind ~= "alarm" or not grid or not grid.alarmOn then return end
@@ -369,7 +382,7 @@ handlers[P.C_RENAME] = function(player, args)
     local grid = gridOfInverter(args.inverter)
     if not grid then return end
     local dev, why = checkInverterCommand(player, args)
-    if not dev then return refuse(player, P.C_RENAME, why) end
+    if not dev then return refuse(player, why) end
     local name = P.cleanName(args.name)
     if name then
         grid.name = name
@@ -384,16 +397,15 @@ end
 -- path that skipped our placement wrapper): register it if it really is unbound.
 Commands.ADOPT_RANGE = 40
 handlers[P.C_ADOPT] = function(player, args)
-    local x, y, z = tonumber(args.x), tonumber(args.y), tonumber(args.z)
-    if not x or not y or not z then return end
-    x, y, z = math.floor(x), math.floor(y), math.floor(z)
+    local x, y, z = P.parsePos(args)
+    if not x then return end
     if math.abs(player:getX() - x) > Commands.ADOPT_RANGE or math.abs(player:getY() - y) > Commands.ADOPT_RANGE
         or math.abs(player:getZ() - z) > 3 then
         return
     end
     local sq = getCell():getGridSquare(x, y, z)
     if not sq then return end
-    if SafeHouse and not SafeHouse.isSafehouseAllowInteract(sq, player) then return end
+    if not Commands.canTouch(player, sq) then return end
     LiveWire.Devices.adoptSquare(player, sq)
 end
 

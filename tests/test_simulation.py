@@ -15,13 +15,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LUA = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media", "lua")
 
 FILES = [
-    "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua", "shared/LiveWire/LW_Coupling.lua",
+    "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua",
+    "shared/LiveWire/LW_Extension.lua", "shared/LiveWire/LW_Coupling.lua",
     "shared/LiveWire/LW_ApplianceFamilies.lua",
     "shared/LiveWire/LW_Consumption.lua", "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",
     "shared/LiveWire/LW_SquareScan.lua", "shared/LiveWire/LW_Coverage.lua", "shared/LiveWire/LW_CircuitProvider.lua",
     "shared/LiveWire/LW_Notify.lua",
     # LW_Compat before LW_Anchor, which requires it to register its LoadChunk handler.
-    "shared/LiveWire/LW_Compat.lua", "shared/LiveWire/LW_Anchor.lua", "shared/LiveWire/LW_Install.lua",
+    "shared/LiveWire/LW_Compat.lua", "shared/LiveWire/LW_Anchor.lua",
+    "shared/LiveWire/LW_Inventory.lua", "shared/LiveWire/LW_Barrels.lua", "shared/LiveWire/LW_Install.lua",
     "shared/LiveWire/LW_Stack.lua",
     "server/LiveWire/LW_FridgeAging.lua", "client/LiveWire/LW_AnchorVisuals.lua",
     "server/LiveWire/LW_Migration.lua", "server/LiveWire/LW_PowerHistory.lua", "server/LiveWire/LW_Registry.lua", "server/LiveWire/LW_Xp.lua",

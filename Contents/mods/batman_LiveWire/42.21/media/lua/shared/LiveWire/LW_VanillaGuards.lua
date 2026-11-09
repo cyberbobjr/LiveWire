@@ -3,14 +3,24 @@
 -- Display side: ISMoveableSpriteProps:canScrapObject and ISDestroyCursor:canDestroy.
 -- Authority side: ISMoveablesAction:complete and ISDestroyStuffAction:complete,
 -- because the server never calls isValid (knowledge/multiplayer.md:43-49, 230).
--- Wrappers keep vanilla arguments and returns. They are installed on the first
--- start-up event that finds each class.
+-- Wrappers keep vanilla arguments and returns. Three classes are shared vanilla files
+-- (media/lua/shared), required here and wrapped once while this file loads, like
+-- LW_Placement.lua. ISDestroyCursor lives in media/lua/server/BuildingObjects, which
+-- the game adds to the require path only when the world starts loading
+-- (GameLoadingState.enter), after this shared file ran: a require would find nothing.
+-- It is wrapped once at OnGameStart (and at load when the class is already there, as
+-- after a Lua reload); a client in multiplayer runs it too, so it cannot move into a
+-- server/ file that returns on a client.
+require "LiveWire/LW_Marks"
+require "LiveWire/LW_Defs"
+require "Moveables/ISMoveableSpriteProps"
+require "Moveables/ISMoveablesAction"
+require "TimedActions/ISDestroyStuffAction"
 
 LiveWire = LiveWire or {}
 
 local Guards = {}
 LiveWire.Guards = Guards
-Guards.done = {}
 
 local function isOurs(obj)
     return obj ~= nil and LiveWire.Marks.isOurs(obj)
@@ -45,8 +55,7 @@ local function carriesOurDevice(obj)
     return false
 end
 
-local function wrapScrap()
-    if Guards.done.scrap or not ISMoveableSpriteProps then return end
+do
     local originalScrap = ISMoveableSpriteProps.canScrapObject
     ISMoveableSpriteProps.canScrapObject = function(self, _character)
         if self.isFromObject and isOurs(self.object) then
@@ -54,21 +63,9 @@ local function wrapScrap()
         end
         return originalScrap(self, _character)
     end
-    Guards.done.scrap = true
 end
 
-local function wrapDestroyCursor()
-    if Guards.done.destroyCursor or not ISDestroyCursor then return end
-    local original = ISDestroyCursor.canDestroy
-    ISDestroyCursor.canDestroy = function(self, object)
-        if isOurs(object) or carriesOurDevice(object) then return false end
-        return original(self, object)
-    end
-    Guards.done.destroyCursor = true
-end
-
-local function wrapMoveablesAction()
-    if Guards.done.moveables or not ISMoveablesAction then return end
+do
     local original = ISMoveablesAction.complete
     ISMoveablesAction.complete = function(self)
         if self.mode == "scrap"
@@ -78,11 +75,9 @@ local function wrapMoveablesAction()
         end
         return original(self)
     end
-    Guards.done.moveables = true
 end
 
-local function wrapDestroyAction()
-    if Guards.done.destroy or not ISDestroyStuffAction then return end
+do
     local original = ISDestroyStuffAction.complete
     ISDestroyStuffAction.complete = function(self)
         if isOurs(self.item) or carriesOurDevice(self.item) then
@@ -91,17 +86,19 @@ local function wrapDestroyAction()
         end
         return original(self)
     end
-    Guards.done.destroy = true
 end
 
-function Guards.install()
-    wrapScrap()
-    wrapDestroyCursor()
-    wrapMoveablesAction()
-    wrapDestroyAction()
+-- Display side of the destroy tool. Idempotent: wraps ISDestroyCursor.canDestroy once.
+local cursorWrapped = false
+function Guards.installCursor()
+    if cursorWrapped or not ISDestroyCursor then return end
+    local original = ISDestroyCursor.canDestroy
+    ISDestroyCursor.canDestroy = function(self, object)
+        if isOurs(object) or carriesOurDevice(object) then return false end
+        return original(self, object)
+    end
+    cursorWrapped = true
 end
 
-Events.OnGameBoot.Add(Guards.install)
-Events.OnGameStart.Add(Guards.install)
-Events.OnInitGlobalModData.Add(Guards.install)
-if Events.OnServerStarted then Events.OnServerStarted.Add(Guards.install) end
+Guards.installCursor()
+Events.OnGameStart.Add(Guards.installCursor)

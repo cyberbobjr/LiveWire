@@ -164,6 +164,75 @@ class Regressions(unittest.TestCase):
         assert(I.barrelMark(obj)==nil) -- position matches, membership does not
         ''')
 
+    def test_barrel_mark_read_is_pure_and_repair_writes_on_the_authority_only(self):
+        self.run_lua('''
+        local R, B, I, D = LiveWire.Registry, LiveWire.Barrels, LiveWire.Install, LiveWire.Defs
+        local pump=R.addDevice({role="pump",model="WaterPump",x=0,y=0,z=0,barrels={}})
+        local x=1
+        local sq={getX=function() return x end,getY=function() return 0 end,getZ=function() return 0 end}
+        local md={[D.BARREL_KEY]={pump=pump.id}}
+        local obj={getSquare=function() return sq end,getModData=function() return md end}
+        pump.barrels[LiveWire.posKey(1,0,0)]={x=1,y=0,z=0}
+        -- Reading a legacy mark (no stored position) completes nothing.
+        local m=B.mark(obj)
+        assert(m and m.pump==pump.id and m.x==nil and md[D.BARREL_KEY].x==nil)
+        -- Reading a mark of a moved barrel answers nil and clears nothing.
+        x=2
+        md[D.BARREL_KEY]={pump=pump.id,x=1,y=0,z=0}
+        assert(B.mark(obj)==nil and md[D.BARREL_KEY]~=nil)
+        -- A pure client (isClient) repairs nothing either.
+        local real=isClient
+        isClient=function() return true end
+        assert(B.repairMark(obj)==nil and md[D.BARREL_KEY]~=nil)
+        isClient=real
+        -- The authority completes a valid legacy mark and clears an invalid one.
+        x=1
+        md[D.BARREL_KEY]={pump=pump.id}
+        assert(B.repairMark(obj).x==1 and md[D.BARREL_KEY].x==1)
+        x=2
+        assert(B.repairMark(obj)==nil and md[D.BARREL_KEY]==nil)
+        -- The Install name keeps the repairing behaviour for existing callers.
+        x=1
+        md[D.BARREL_KEY]={pump=pump.id}
+        assert(I.barrelMark(obj).x==1)
+        ''')
+
+    def test_parse_pos_returns_whole_numbers_or_nil(self):
+        self.run_lua('''
+        local P = LiveWire.Protocol
+        local x, y, z = P.parsePos({ x = 10.9, y = "20", z = 0 })
+        assert(x == 10 and y == 20 and z == 0, "numbers and numeric strings, rounded down")
+        x, y, z = P.parsePos({ x = -3.5, y = -1000000, z = -32 })
+        assert(x == -4 and y == -1000000 and z == -32, "bounds are inclusive and floor goes down")
+        x, y, z = P.parsePos({ x = 1000000, y = 5, z = 31 })
+        assert(x == 1000000 and z == 31)
+        assert(P.parsePos({ x = 1000001, y = 0, z = 0 }) == nil, "x too large")
+        assert(P.parsePos({ x = 0, y = -1000001, z = 0 }) == nil, "y too small")
+        assert(P.parsePos({ x = 0, y = 0, z = 32 }) == nil, "z above the top floor")
+        assert(P.parsePos({ x = 0, y = 0, z = -33 }) == nil, "z below the bottom floor")
+        assert(P.parsePos({ x = 0, y = 0 }) == nil, "missing z")
+        assert(P.parsePos({ x = "abc", y = 0, z = 0 }) == nil, "not a number")
+        assert(P.parsePos({ x = true, y = 0, z = 0 }) == nil, "boolean")
+        assert(P.parsePos({ x = {}, y = 0, z = 0 }) == nil, "table")
+        assert(P.parsePos({ x = 0 / 0, y = 0, z = 0 }) == nil, "NaN")
+        assert(P.parsePos({ x = math.huge, y = 0, z = 0 }) == nil, "infinity")
+        assert(P.parsePos(nil) == nil and P.parsePos("x") == nil and P.parsePos(7) == nil)
+        ''')
+
+    def test_can_touch_follows_the_safehouse_rule(self):
+        self.run_lua('''
+        local C = LiveWire.Commands
+        local player, sq = {}, {}
+        SafeHouse = nil
+        assert(C.canTouch(player, sq) == true, "no safehouse system: allowed")
+        local seen
+        SafeHouse = { isSafehouseAllowInteract = function(s, p) seen = { s, p }; return false end }
+        assert(C.canTouch(player, sq) == false and seen[1] == sq and seen[2] == player)
+        SafeHouse.isSafehouseAllowInteract = function() return true end
+        assert(C.canTouch(player, sq) == true)
+        SafeHouse = nil
+        ''')
+
     def test_future_schema_read_only_index_is_preserved(self):
         self.run_lua('''
         local R=LiveWire.Registry

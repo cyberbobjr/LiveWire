@@ -1,10 +1,10 @@
 -- Live Wire: versioned registration API. No registry tables cross this boundary.
 require "LiveWire/LW_Defs"
 require "LiveWire/LW_Coverage"
+require "LiveWire/LW_Extension"
 LiveWire = LiveWire or {}
 local API = { version = 1, revision = 2 }
 LiveWire.API = API
-local sealed = false
 local function copy(value)
     if type(value) ~= "table" then return value end
     local out = {}
@@ -18,7 +18,7 @@ local function identifier(v)
     return type(v) == "string" and #v <= 120 and string.match(v, "^[%w_]+%.[%w_]+$") ~= nil
 end
 function API.registerBattery(fullType, kWh, lifeCycles)
-    if sealed then return false, "registration_closed" end
+    if LiveWire.Extension.isSealed() then return false, "registration_closed" end
     if not identifier(fullType) or not number(kWh, 0.001, 1000)
         or not number(lifeCycles, 1, 1000000) then return false, "invalid_definition" end
     if LiveWire.Defs.batteries[fullType] then return false, "duplicate_type" end
@@ -31,7 +31,7 @@ function API.registerBattery(fullType, kWh, lifeCycles)
     return true
 end
 function API.registerSource(model, definition)
-    if sealed then return false, "registration_closed" end
+    if LiveWire.Extension.isSealed() then return false, "registration_closed" end
     local d = definition
     if type(model) ~= "string" or #model > 64 or not string.match(model, "^[%a][%w_]+$")
         or type(d) ~= "table" or not identifier(d.item)
@@ -277,4 +277,3 @@ function API.softwareLines(inverterId)
     return out
 end
 
-Events.OnInitGlobalModData.Add(function() sealed = true end)

@@ -80,6 +80,12 @@ Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de déc
 
 Module `"LiveWire"` (`LW_Protocol.lua`). Client → serveur par `sendClientCommand` (`LW_ClientState.lua`, `Client.send`), traitées par `OnClientCommand` dans `server/LiveWire/LW_Commands.lua`.
 
+Un argument de position `{ x, y, z }` se lit par `Protocol.parsePos(args)` : trois entiers (nombres ou chaînes numériques,
+arrondis vers le bas), `|x|` et `|y|` au plus 1 000 000, étage de -32 à 31 ; `nil` sinon (champ absent, non numérique,
+`NaN`, infini, hors bornes). La règle de refuge se lit par `Commands.canTouch(player, sq)`. Les codes de refus sont les
+valeurs de `Commands.ERR` (`INVALID`, `TOO_FAR`, `SAFEHOUSE`, `NEED_SCREWDRIVER`) : chacune est la clé de traduction
+envoyée au client.
+
 ### 3.1 Contrôles communs (serveur)
 
 1. Registre prêt et non en lecture seule ; joueur présent et vivant.
@@ -399,6 +405,16 @@ le registre des définitions. Extension identique sur serveur et clients.
   position invalide → `nil,"invalid_position"`. Réseau dont le maître est le plus
   proche dans sa portée (égalité par id), instantané détaché ou `nil` sans réseau.
   La portée est la couverture de `LW_Coverage` : le disque, plus les cases d'un fournisseur.
+
+### Points d'extension à un seul inscrit (`LW_Extension`)
+
+`LiveWire.Extension.single(name, schema [, { closed = true }])` rend `{ register(p), get(), active() }`. `register` rend
+`true`, ou `false` et `"registration_closed"` (après `OnInitGlobalModData`), `"already_registered"`, `"invalid_provider"`
+(non table, ou champ qui ne respecte pas le schéma), dans cet ordre. Le schéma associe un champ à son type Lua
+(`"function"`, `"boolean"`…) ; `?` à la fin le rend facultatif, `"any?"` accepte tout ; `closed` refuse aussi les champs
+inconnus. Le scellement est commun (`Extension.isSealed()`, aussi lu par `LiveWire.API.registerBattery/registerSource`).
+`Coverage`, `CircuitProvider` et `Coupling` en dépendent par un `require` explicite (leur nom de fichier trie avant
+`LW_Extension`).
 
 ### Point d'extension « couverture » (D-32, 2026-11-08)
 

@@ -18,8 +18,10 @@
 --   describe(id)             -> optional: lines for the inverter screen, { { key, args } }
 --   replacesDisc             -> optional field: true when an inverter powers only the
 --                               provider's squares (no disc at all)
--- Registration happens while Lua files load, before OnInitGlobalModData, like API v1.
+-- Registration happens while Lua files load, before OnInitGlobalModData, like API v1
+-- (LiveWire.Extension.single: one provider, sealed at OnInitGlobalModData).
 require "LiveWire/LW_SquareScan"
+require "LiveWire/LW_Extension"
 LiveWire = LiveWire or {}
 
 local Coverage = { version = 1 }
@@ -27,14 +29,21 @@ LiveWire.Coverage = Coverage
 
 local CHUNK = 8 -- IsoChunkMap.CHUNK_SIZE_IN_SQUARES (IsoChunkMap.java:61)
 local EMPTY = {}
-local provider, sealed = nil, false
+local extension = LiveWire.Extension.single("coverage", {
+    covers = "function", bounds = "function", positions = "function",
+    scan = "function", step = "function", idsAt = "function",
+    describe = "function?", replacesDisc = "boolean?",
+})
 
 local function radius() return LiveWire.Config.tileRange() end
 local function floors() return LiveWire.Config.verticalRange() end
 
 -- ---------------------------------------------------------------- the disc (D-12)
 -- false when a registered provider replaces the disc (D-44).
-function Coverage.hasDisc() return not (provider and provider.replacesDisc == true) end
+function Coverage.hasDisc()
+    local provider = extension.get()
+    return not (provider and provider.replacesDisc == true)
+end
 
 function Coverage.inDisc(a, x, y, z, R, V)
     if not Coverage.hasDisc() then return false end
@@ -56,31 +65,24 @@ function Coverage.touchesDisc(cx, cy, a, R)
 end
 
 -- ---------------------------------------------------------------- provider
-local REQUIRED = { "covers", "bounds", "positions", "scan", "step", "idsAt" }
-function Coverage.register(p)
-    if sealed then return false, "registration_closed" end
-    if provider then return false, "already_registered" end
-    if type(p) ~= "table" then return false, "invalid_provider" end
-    for i = 1, #REQUIRED do
-        if type(p[REQUIRED[i]]) ~= "function" then return false, "invalid_provider" end
-    end
-    provider = p
-    return true
-end
-function Coverage.active() return provider ~= nil end
+Coverage.register = extension.register
+Coverage.active = extension.active
 
 -- ---------------------------------------------------------------- disc + extra
 function Coverage.covers(id, a, x, y, z, R, V)
     if Coverage.inDisc(a, x, y, z, R, V) then return true end
+    local provider = extension.get()
     return provider ~= nil and provider.covers(id, a, x, y, z) == true
 end
 
 -- Square only in the provider's extra coverage (outside the disc).
 function Coverage.coversExtra(id, a, x, y, z, R, V)
+    local provider = extension.get()
     return provider ~= nil and not Coverage.inDisc(a, x, y, z, R, V) and provider.covers(id, a, x, y, z) == true
 end
 
 function Coverage.extraBounds(id, a)
+    local provider = extension.get()
     if not provider then return nil end
     return provider.bounds(id, a)
 end
@@ -113,11 +115,13 @@ function Coverage.touchesChunk(id, a, cx, cy, R)
 end
 
 function Coverage.extraPositions(id, a)
+    local provider = extension.get()
     if not provider then return EMPTY end
     return provider.positions(id, a) or EMPTY
 end
 
 function Coverage.extraIdsAt(x, y, z)
+    local provider = extension.get()
     if not provider then return EMPTY end
     return provider.idsAt(x, y, z) or EMPTY
 end
@@ -125,12 +129,14 @@ end
 -- Lines describing the extra coverage on the inverter screen (translation key and
 -- arguments); empty without provider or when it describes nothing.
 function Coverage.describe(id)
+    local provider = extension.get()
     if not provider or type(provider.describe) ~= "function" then return EMPTY end
     return provider.describe(id) or EMPTY
 end
 
 -- Resumable job over the extra squares only; nil without provider.
 function Coverage.extraScan(id, a)
+    local provider = extension.get()
     if not provider then return nil end
     local job = provider.scan(id, a)
     if not job then return nil end
@@ -139,7 +145,7 @@ end
 -- Visits extra squares outside the disc (the disc has its own scans).
 function Coverage.stepExtra(job, budget, visit)
     local a, R, V = job.a, job.R, job.V
-    return provider.step(job.inner, budget, function(x, y, z)
+    return extension.get().step(job.inner, budget, function(x, y, z)
         if not Coverage.inDisc(a, x, y, z, R, V) then visit(x, y, z) end
     end)
 end
@@ -157,10 +163,8 @@ function Coverage.step(job, budget, visit)
         if not done then return false, used end
         job.disc = nil
     end
-    if not job.extra or not provider then return true, used end
+    if not job.extra or not extension.active() then return true, used end
     if used >= budget then return false, used end
     local done, n = Coverage.stepExtra(job.extra, budget - used, visit)
     return done, used + n
 end
-
-Events.OnInitGlobalModData.Add(function() sealed = true end)
