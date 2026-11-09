@@ -1,290 +1,298 @@
 -- Live Wire: compact DIN enclosure, native switch handles and authoritative state.
+-- Drawn with the enclosure kit LW_Enclosure (D-54, mockup proposal A): the layout (sizes,
+-- help text, button grid) is computed once when the window opens, from the font size (R2);
+-- the drawing helpers multiply the 1080p reference coordinates below by the window factor
+-- `lwK`, set once when the window is created (LW_UIScale.lua).
 if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
 require "LiveWire/LW_UIScale"
 require "LiveWire/LW_UIKit"
+require "LiveWire/LW_Enclosure"
 LiveWire = LiveWire or {}
 local Panel = ISPanel:derive("LiveWireBreakerPanel")
 LiveWire.BreakerPanel = Panel
 LiveWire.UIKit.singleton("BreakerPanel", Panel)
--- The enclosure is drawn in 1080p reference units: W x H and every coordinate
--- below. The drawing helpers multiply them by the window factor `lwK`, set once
--- when the window is created (LW_UIScale.lua); the buttons carry the same factor.
-local W,H=750,454
-Panel.BASE={w=W,h=H}
-local C={white={0.87,0.87,0.82},light={0.96,0.95,0.90},edge={0.48,0.51,0.50},
-    shadow={0.26,0.29,0.29},ink={0.14,0.19,0.20},rail={0.49,0.54,0.54},
-    handle={0.25,0.29,0.31},orange={0.93,0.51,0.13},green={0.29,0.59,0.36},
-    red={0.74,0.25,0.20},glass={0.30,0.43,0.46},lcd={0.49,0.61,0.35},
-    brandRed={0.94,0.20,0.25},brandBlack={0.03,0.03,0.03},brandWhite={1,1,1}}
-local rect,border=LiveWire.UIKit.rect,LiveWire.UIKit.border
-local CLOSE_RANGE=4 -- the window closes when the player is farther than this, in tiles
-local function text(ui,s,x,y,w,c,font)
-    font=font or UIFont.Small
-    local k=ui.lwK or 1
-    ui:setStencilRect(x*k,y*k,w*k,getTextManager():getFontHeight(font)+3*k)
-    ui:drawText(s,x*k,y*k,c[1],c[2],c[3],1,font)
-    ui:clearStencilRect()
+local E = LiveWire.Enclosure
+local C = E.C
+local rect, border = LiveWire.UIKit.rect, LiveWire.UIKit.border
+local CLOSE_RANGE = 4 -- the window closes when the player is farther than this, in tiles
+-- Reference size at the 1080p font: 750 x 477 (the layout gives the size at any font).
+Panel.BASE = { w = 750, h = 477 }
+-- Fixed parts of the enclosure, reference units: the LCD block, the breaker grid beside it.
+local LCD_W, GRID_W = 246, 382
+local HINT_KEYS = { "IGUI_LW_BoardHint", "IGUI_LW_BoardResetHint" }
+local MODULE_TOP = 150 -- top of the module bodies and of the LCD block
+local text = E.text
+
+local function measureAt(k)
+    local tm = getTextManager()
+    return function(s) return tm:MeasureStringX(UIFont.Small, s) / k end
 end
-local function screw(ui,x,y)
-    rect(ui,x+2,y,8,12,C.edge);rect(ui,x,y+2,12,8,C.edge)
-    rect(ui,x+2,y+5,8,2,C.ink)
+
+-- Layout at window factor k: the help text takes as many lines as its longest version, so
+-- the window keeps its size when the breaker is tripped.
+function Panel.layoutAt(k)
+    local tm = getTextManager()
+    local fr = tm:getFontHeight(UIFont.Small) / k
+    local fmr = tm:getFontHeight(UIFont.Medium) / k
+    local spec = { fr = fr, fmr = fmr, compact = false, lcdW = LCD_W, gridW = GRID_W, gridH = 0,
+        buttons = { count = 1, widest = 0 } }
+    spec.hintLines = 1
+    local base = E.layout(spec)
+    local lines = 1
+    for _, key in ipairs(HINT_KEYS) do
+        lines = math.max(lines, #E.wrap(getText(key), base.inW, measureAt(k)))
+    end
+    spec.hintLines = lines
+    return E.layout(spec)
 end
+
+-- Two tied pole handles belong to one circuit. Only this UI instance draws them.
+local function lever(button)
+    local color = button.main and C.orange or C.handle
+    local width = button.width / (button.lwK or 1)
+    local thumbY = button.off and 45 or 17
+    local poles = button.main and 1 or 2
+    local poleWidth = width / poles
+    for i = 0, poles - 1 do
+        local x = i * poleWidth
+        rect(button, x + 15, 6, poleWidth - 30, 70, C.ink)
+        border(button, x + 15, 6, poleWidth - 30, 70, C.shadow)
+    end
+    rect(button, 5, thumbY + 4, width - 10, 31, C.shadow)
+    rect(button, 3, thumbY, width - 6, 29, color)
+    rect(button, 3, thumbY, width - 6, 3, button.main and C.orange or C.edge)
+    for i = 1, 3 do rect(button, 9, thumbY + 17 + i * 3, width - 18, 1, C.ink, 0.5) end
+    text(button, button.off and "O" or "I", width / 2 - 4, thumbY + 1, 16, C.light, UIFont.Small)
+    if not button.enable then rect(button, 3, thumbY, width - 6, 29, C.white, 0.25) end
+    if button:isMouseOver() and button.enable then border(button, 1, thumbY - 2, width - 2, 33, C.orange) end
+end
+
 -- Work only from the detached snapshot, once per received revision. Use the
 -- aggregate breakdown, never the consumer list (limited to 200 display rows).
 function Panel.readings(snap)
-    local r={pending=true}
-    local b=snap and snap.breaker
+    local r = { pending = true }
+    local b = snap and snap.breaker
     if not b then return r end
-    local mainOff=b.mainOff or b.state=="tripped"
-    r.lightsOff=mainOff or b.lightsOff
-    r.equipmentOff=mainOff or b.equipmentOff
-    local supplied=snap.inverter and snap.inverter.powered and not mainOff
-    if r.lightsOff or not supplied then r.lights=0 end
-    if r.equipmentOff or not supplied then r.equipment=0 end
-    if snap.demandReady==true and supplied then
-        local lights,equipment=0,0
-        for _,v in ipairs(snap.appliances or {}) do
-            if v.cat=="light" then lights=lights+v.w else equipment=equipment+v.w end
+    local mainOff = b.mainOff or b.state == "tripped"
+    r.lightsOff = mainOff or b.lightsOff
+    r.equipmentOff = mainOff or b.equipmentOff
+    local supplied = snap.inverter and snap.inverter.powered and not mainOff
+    if r.lightsOff or not supplied then r.lights = 0 end
+    if r.equipmentOff or not supplied then r.equipment = 0 end
+    if snap.demandReady == true and supplied then
+        local lights, equipment = 0, 0
+        for _, v in ipairs(snap.appliances or {}) do
+            if v.cat == "light" then lights = lights + v.w else equipment = equipment + v.w end
         end
-        equipment=equipment+(snap.pumps and snap.pumps.w or 0)
+        equipment = equipment + (snap.pumps and snap.pumps.w or 0)
         -- In overlapping networks this anchor can supply appliances assigned to
         -- another panel. Preserve its measured watts instead of hiding them.
-        r.lights=math.floor(lights+0.5)
-        r.equipment=math.floor(equipment+0.5)
+        r.lights = math.floor(lights + 0.5)
+        r.equipment = math.floor(equipment + 0.5)
     end
-    if r.lights~=nil and r.equipment~=nil then
-        r.total=r.lights+r.equipment
-        r.pending=false
+    if r.lights ~= nil and r.equipment ~= nil then
+        r.total = r.lights + r.equipment
+        r.pending = false
     end
     return r
 end
-function Panel.open(player,obj)
-    local m=LiveWire.Marks.get(obj)
+
+function Panel.open(player, obj)
+    local m = LiveWire.Marks.get(obj)
     if not m then return end
     Panel.closeInstance()
-    local UI=LiveWire.UIScale
-    local k=UI.factor(W,H)
-    local x,y,w,h=UI.fit(getPlayerScreenLeft(player:getPlayerNum())+100,
-        getPlayerScreenTop(player:getPlayerNum())+90,UI.px(W,k),UI.px(H,k))
-    local p=Panel:new(x,y,w,h)
-    p.lwK=k
-    p.player,p.obj,p.device,p.inverterId=player,obj,m.id,m.inv
+    local UI = LiveWire.UIScale
+    local k, w, h = E.twoPass(function(kk)
+        local L = Panel.layoutAt(kk)
+        return L.W, L.H
+    end, UI.factor, UI.fontScale())
+    local x, y, ww, hh = UI.fit(getPlayerScreenLeft(player:getPlayerNum()) + 100,
+        getPlayerScreenTop(player:getPlayerNum()) + 90, UI.px(w, k), UI.px(h, k))
+    local p = Panel:new(x, y, ww, hh)
+    p.lwK = k
+    p.L = Panel.layoutAt(k)
+    p.player, p.obj, p.device, p.inverterId = player, obj, m.id, m.inv
     LiveWire.Client.discardSnapshot(m.inv)
-    p.reading=Panel.readings(nil)
-    p.moveWithMouse,p.lastSubscribe=true,0
-    p.backgroundColor={r=0.11,g=0.15,b=0.17,a=0.99}
-    p:initialise();p:addToUIManager();Panel.instance=p
+    p.reading = Panel.readings(nil)
+    p.moveWithMouse, p.lastSubscribe = true, 0
+    p.backgroundColor = { r = 0.11, g = 0.15, b = 0.17, a = 0.99 }
+    p:initialise(); p:addToUIManager(); Panel.instance = p
 end
--- Two tied pole handles belong to one circuit. Only this UI instance draws them.
-local function lever(button)
-    local color=button.main and C.orange or C.handle
-    local width=button.width/(button.lwK or 1)
-    local thumbY=button.off and 45 or 17
-    local poles=button.main and 1 or 2
-    local poleWidth=width/poles
-    for i=0,poles-1 do
-        local x=i*poleWidth
-        rect(button,x+15,6,poleWidth-30,70,C.ink)
-        border(button,x+15,6,poleWidth-30,70,C.shadow)
-    end
-    rect(button,5,thumbY+4,width-10,31,C.shadow)
-    rect(button,3,thumbY,width-6,29,color)
-    rect(button,3,thumbY,width-6,3,button.main and C.orange or C.edge)
-    for i=1,3 do rect(button,9,thumbY+17+i*3,width-18,1,C.ink,0.5) end
-    text(button,button.off and "O" or "I",width/2-4,thumbY+1,16,C.light,UIFont.Small)
-    if not button.enable then rect(button,3,thumbY,width-6,29,C.white,0.25) end
-    if button:isMouseOver() and button.enable then border(button,1,thumbY-2,width-2,33,C.orange) end
-end
+
 function Panel:createChildren()
     ISPanel.createChildren(self)
-    local k=self.lwK or 1
-    local function S(v) return LiveWire.UIScale.px(v,k) end
-    local function control(x,w,action,main)
-        local b=ISButton:new(S(x),S(201),S(w),S(88),"",self,Panel.onButton)
-        b.internal,b.main,b.displayBackground,b.lwK=action,main,false,k
-        b:initialise();b:instantiate();b.render=lever
+    local k = self.lwK or 1
+    local L = self.L
+    local lcdX, mx = L.recessX + 14, L.recessX + 14 + LCD_W + 20
+    local function S(v) return LiveWire.UIScale.px(v, k) end
+    local function control(x, w, action, main)
+        local b = ISButton:new(S(x), S(MODULE_TOP + 51), S(w), S(88), "", self, Panel.onButton)
+        b.internal, b.main, b.displayBackground, b.lwK = action, main, false, k
+        b:initialise(); b:instantiate(); b.render = lever
         self:addChild(b)
         return b
     end
-    self.lightButton=control(320,108,"lights",false)
-    self.lightButton.tooltip=getText("IGUI_LW_CircuitLights")
-    self.equipmentButton=control(454,108,"equipment",false)
-    self.equipmentButton.tooltip=getText("IGUI_LW_CircuitEquipment")
-    self.mainButton=control(603,74,"main",true)
-    self.mainButton.tooltip=getText("IGUI_LW_BoardMain")
-    LiveWire.UIKit.button(self,W-36,12,22,22,"x",Panel.onButton,"close",k)
-    LiveWire.UIKit.button(self,49,H-50,W-98,28,getText("IGUI_LW_Connections"),Panel.onButton,"links",k)
+    self.lightButton = control(mx + 2, 108, "lights", false)
+    self.lightButton.tooltip = getText("IGUI_LW_CircuitLights")
+    self.equipmentButton = control(mx + 136, 108, "equipment", false)
+    self.equipmentButton.tooltip = getText("IGUI_LW_CircuitEquipment")
+    self.mainButton = control(mx + 285, 74, "main", true)
+    self.mainButton.tooltip = getText("IGUI_LW_BoardMain")
+    LiveWire.UIKit.button(self, L.W - 14 - L.closeS, (L.headH - L.closeS) / 2, L.closeS, L.closeS, "x",
+        Panel.onButton, "close", k)
+    E.cellButton(self, L, 1, getText("IGUI_LW_Connections"), Panel.onButton, "links")
+    self.hintLines, self.hintKey = nil, nil
 end
+
 function Panel:onButton(b)
     if self.closed then return end
-    if b.internal=="close" then self:close();return end
-    if b.internal=="links" then
-        if LiveWire.Equipment.accessible(self.player,self.obj,3.5) then
-            LiveWire.ConnectionPanel.open(self.player,self.obj)
+    if b.internal == "close" then self:close(); return end
+    if b.internal == "links" then
+        if LiveWire.Equipment.accessible(self.player, self.obj, 3.5) then
+            LiveWire.ConnectionPanel.open(self.player, self.obj)
         end
         return
     end
-    local snap=LiveWire.Client.snapshot(self.inverterId)
-    local breaker=snap and snap.breaker
+    local snap = LiveWire.Client.snapshot(self.inverterId)
+    local breaker = snap and snap.breaker
     if not breaker then return end
-    if b.internal=="main" then
-        if breaker.state=="tripped" then
-            LiveWire.Client.send(LiveWire.Protocol.C_RESET_BREAKER,{device=self.device})
+    if b.internal == "main" then
+        if breaker.state == "tripped" then
+            LiveWire.Client.send(LiveWire.Protocol.C_RESET_BREAKER, { device = self.device })
         else
             LiveWire.Client.send(LiveWire.Protocol.C_SET_CIRCUIT,
-                {device=self.device,circuit="main",off=not breaker.mainOff})
+                { device = self.device, circuit = "main", off = not breaker.mainOff })
         end
-    elseif b.internal=="lights" or b.internal=="equipment" then
+    elseif b.internal == "lights" or b.internal == "equipment" then
         LiveWire.Client.send(LiveWire.Protocol.C_SET_CIRCUIT,
-            {device=self.device,circuit=b.internal,
-                off=not (b.internal=="lights" and breaker.lightsOff or b.internal=="equipment" and breaker.equipmentOff)})
+            { device = self.device, circuit = b.internal,
+                off = not (b.internal == "lights" and breaker.lightsOff or b.internal == "equipment" and breaker.equipmentOff) })
     end
 end
+
 function Panel:update()
     if self.closed then return end
     ISPanel.update(self)
-    local sq=self.obj:getSquare()
-    if not sq or self.obj:getObjectIndex()==-1 or self.player:isDead()
-        or math.abs(self.player:getX()-sq:getX())>CLOSE_RANGE or math.abs(self.player:getY()-sq:getY())>CLOSE_RANGE
-        or math.floor(self.player:getZ())~=sq:getZ() then self:close();return end
-    local now=getTimestampMs()
-    local mark=LiveWire.Marks.get(self.obj)
-    local inv=mark and mark.inv
-    if self.inverterId~=inv then
+    local sq = self.obj:getSquare()
+    if not sq or self.obj:getObjectIndex() == -1 or self.player:isDead()
+        or math.abs(self.player:getX() - sq:getX()) > CLOSE_RANGE or math.abs(self.player:getY() - sq:getY()) > CLOSE_RANGE
+        or math.floor(self.player:getZ()) ~= sq:getZ() then self:close(); return end
+    local now = getTimestampMs()
+    local mark = LiveWire.Marks.get(self.obj)
+    local inv = mark and mark.inv
+    if self.inverterId ~= inv then
         LiveWire.Client.discardSnapshot(inv)
-        self.inverterId,self.lastSubscribe=inv,0
+        self.inverterId, self.lastSubscribe = inv, 0
     end
-    if self.inverterId and (self.lastSubscribe==0 or now-self.lastSubscribe>LiveWire.UIKit.RESUBSCRIBE_MS) then
-        self.lastSubscribe=now
-        LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE,{inverter=self.inverterId})
+    if self.inverterId and (self.lastSubscribe == 0 or now - self.lastSubscribe > LiveWire.UIKit.RESUBSCRIBE_MS) then
+        self.lastSubscribe = now
+        LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE, { inverter = self.inverterId })
     end
-    local snap=LiveWire.Client.snapshot(self.inverterId)
-    if snap~=self.viewSnapshot then
-        self.viewSnapshot,self.reading=snap,Panel.readings(snap)
+    local snap = LiveWire.Client.snapshot(self.inverterId)
+    if snap ~= self.viewSnapshot then
+        self.viewSnapshot, self.reading = snap, Panel.readings(snap)
     end
-    local b=snap and snap.breaker
-    self.lightButton:setEnable(b~=nil);self.mainButton:setEnable(b~=nil)
-    self.lightButton.off=b and b.lightsOff or false
-    self.equipmentButton:setEnable(b~=nil)
-    self.equipmentButton.off=b and b.equipmentOff or false
-    self.mainButton.off=b and (b.mainOff or b.state=="tripped") or false
+    local b = snap and snap.breaker
+    self.lightButton:setEnable(b ~= nil); self.mainButton:setEnable(b ~= nil)
+    self.lightButton.off = b and b.lightsOff or false
+    self.equipmentButton:setEnable(b ~= nil)
+    self.equipmentButton.off = b and b.equipmentOff or false
+    self.mainButton.off = b and (b.mainOff or b.state == "tripped") or false
 end
+
 function Panel:prerender()
     if self.closed then return end
     ISPanel.prerender(self)
-    border(self,1,1,W-2,H-2,C.edge)
-    text(self,"LIVE WIRE",19,11,150,C.white,UIFont.Medium)
-    text(self,getText("IGUI_LW_BoardTitle"),181,16,W-230,C.white)
-    -- Moulded enclosure with an open smoke-tinted lid, hinges and a latch.
-    rect(self,10,46,W-20,H-56,C.shadow)
-    rect(self,14,42,W-28,H-60,C.white)
-    border(self,14,42,W-28,H-60,C.edge)
-    rect(self,25,53,W-50,65,C.glass,0.82)
-    border(self,25,53,W-50,65,C.ink)
-    rect(self,31,57,W-62,7,C.light,0.25)
-    rect(self,36,66,W-72,2,C.light,0.15)
-    rect(self,W/2-34,48,68,13,C.edge)
-    rect(self,W/2-29,49,58,6,C.white)
-    for _,x in ipairs({31,W-43}) do
-        rect(self,x,94,12,36,C.ink);rect(self,x+3,96,6,29,C.edge)
+    local L, k = self.L, self.lwK or 1
+    local snap = self.viewSnapshot
+    local b = snap and snap.breaker
+    E.frame(self, L, getText("IGUI_LW_BoardTitle"), getText("IGUI_LW_BoardBrand"))
+    -- Three-line wattmeter LCD (the condition strip sits in the recess under it), then the
+    -- breaker modules on the rail, to its right.
+    local r = self.reading
+    local function row(key, value, off)
+        local s = value == nil and "-- W" or off and value == 0 and getText("IGUI_LW_BoardCutWatts")
+            or tostring(value) .. " W"
+        return { getText(key), s }
     end
-    -- Printed manufacturer plate: red lettering and black detail on white.
-    rect(self,W-204,76,166,30,C.brandWhite)
-    border(self,W-204,76,166,30,C.brandBlack)
-    rect(self,W-196,83,4,16,C.brandBlack)
-    text(self,getText("IGUI_LW_BoardBrand"),W-182,77,136,C.brandRed,UIFont.Medium)
-    -- Recess and galvanized rail; the components sit in front of it.
-    rect(self,37,135,W-74,202,C.shadow)
-    rect(self,42,140,W-84,191,C.edge)
-    rect(self,43,225,W-86,26,C.rail)
-    border(self,43,225,W-86,26,C.light)
-    local snap=self.viewSnapshot
-    local b=snap and snap.breaker
-    -- A three-line wattmeter LCD, not a mechanical cumulative kWh counter.
-    rect(self,51,151,246,176,C.ink)
-    rect(self,55,155,238,168,C.white)
-    border(self,58,158,232,162,C.edge)
-    text(self,getText("IGUI_LW_BoardPowerTitle"),68,167,210,C.ink)
-    rect(self,64,189,222,86,C.ink)
-    rect(self,67,192,216,80,C.lcd)
-    rect(self,69,194,212,2,C.light,0.16)
-    local r=self.reading
-    local k=self.lwK or 1
-    -- Real font height, expressed in reference units like the coordinates.
-    local fhPx=getTextManager():getFontHeight(UIFont.Small)
-    local fh=fhPx/k
-    local lineH=math.floor(76/3)
-    local function row(key,value,off,index)
-        local y=194+(index-1)*lineH+math.max(0,math.floor((lineH-fh)/2))
-        local s=value==nil and "-- W" or off and value==0 and getText("IGUI_LW_BoardCutWatts")
-            or tostring(value).." W"
-        text(self,getText(key),73,y,109,C.ink)
-        self:setStencilRect(183*k,y*k,95*k,fhPx+3*k)
-        self:drawTextRight(s,278*k,y*k,C.ink[1],C.ink[2],C.ink[3],1,UIFont.Small)
-        self:clearStencilRect()
-        if index==2 then rect(self,73,y+lineH-1,204,1,C.ink,0.25) end
+    local own = LiveWire.Marks.get(self.obj)
+    local led = snap and snap.inverter.powered and C.green or C.red
+    E.lcd(self, L.recessX + 14, MODULE_TOP, LCD_W, {
+        title = getText("IGUI_LW_BoardPowerTitle"),
+        rows = { row("IGUI_LW_CircuitLightsLabel", r.lights, r.lightsOff),
+            row("IGUI_LW_CircuitEquipment", r.equipment, r.equipmentOff),
+            row("IGUI_LW_BoardPowerTotal", r.total, false) },
+        led = led,
+        line = snap and snap.name ~= "" and snap.name or getText("IGUI_LW_Network"),
+        status = self:statusText(snap, b, r),
+        strip = LiveWire.Client.equipmentCondition(own and own.cond),
+    }, L.fr)
+    self:drawModules(L, b)
+    -- Help text, its screws and the connections button (drawn in the enclosure's lower part).
+    local hintKey = b and b.state == "tripped" and "IGUI_LW_BoardResetHint" or "IGUI_LW_BoardHint"
+    if self.hintKey ~= hintKey then
+        self.hintKey = hintKey
+        self.hintText = E.wrap(getText(hintKey), L.inW, measureAt(k))
     end
-    row("IGUI_LW_CircuitLightsLabel",r.lights,r.lightsOff,1)
-    row("IGUI_LW_CircuitEquipment",r.equipment,r.equipmentOff,2)
-    row("IGUI_LW_BoardPowerTotal",r.total,false,3)
-    rect(self,72,286,9,5,snap and snap.inverter.powered and C.green or C.red)
-    text(self,snap and snap.name~="" and snap.name or getText("IGUI_LW_Network"),89,280,188,C.ink)
-    local status=b and getText("IGUI_LW_State_"..b.state)
+    for i, line in ipairs(self.hintText) do text(self, line, L.inX, L.hintY + (i - 1) * L.lineH, L.inW, C.ink) end
+    E.hintScrews(self, L)
+end
+
+function Panel:statusText(snap, b, r)
+    local status = b and getText("IGUI_LW_State_" .. b.state)
         or getText(self.inverterId and "IGUI_LW_Waiting" or "IGUI_LW_BankIndependent")
-    if b and b.mainOff then status=getText("IGUI_LW_CircuitOff")
-    elseif b and b.state=="ok" and snap and not snap.inverter.powered then
-        status=getText("IGUI_LW_State_"..(snap.inverter.state=="off" and "off" or "idle"))
-    elseif b and r.pending then status=getText("IGUI_LW_BoardPowerUpdating")
+    if b and b.mainOff then status = getText("IGUI_LW_CircuitOff")
+    elseif b and b.state == "ok" and snap and not snap.inverter.powered then
+        status = getText("IGUI_LW_State_" .. (snap.inverter.state == "off" and "off" or "idle"))
+    elseif b and r.pending then status = getText("IGUI_LW_BoardPowerUpdating")
     end
-    text(self,status,72,301,206,C.ink)
-    -- Own physical mark remains available when unlinked or broken.
-    local own=LiveWire.Marks.get(self.obj)
-    rect(self,55,338,238,29,C.ink)
-    rect(self,58,341,232,23,C.lcd)
-    text(self,LiveWire.Client.equipmentCondition(own and own.cond),64,342,220,C.ink)
-    -- Standard narrow modular bodies, paired poles and exposed terminal screw heads.
-    local function module(x,width,number,main)
-        rect(self,x+2,154,width,163,C.shadow)
-        rect(self,x,150,width,163,C.light)
-        border(self,x,150,width,163,C.edge)
-        local count=main and 1 or 2
-        local unit=width/count
-        for pole=0,count-1 do
-            local px=x+pole*unit
-            if pole>0 then rect(self,px,151,1,161,C.edge) end
-            rect(self,px+9,157,unit-18,4,main and C.orange or C.glass)
-            text(self,number,px+8,170,unit-12,C.ink)
-            screw(self,px+unit/2-6,185)
-            screw(self,px+unit/2-6,295)
-            text(self,"I",px+7,207,16,C.ink)
-            text(self,"O",px+7,274,16,C.ink)
+    return status
+end
+
+-- The three modules (lights, equipment, main) with their levers, numbers and terminal
+-- screws, and the circuit strips under them.
+function Panel:drawModules(L, b)
+    local gx = L.recessX + 14 + LCD_W + 20
+    local function module(x, width, number, main)
+        rect(self, x + 2, MODULE_TOP + 4, width, 163, C.shadow)
+        rect(self, x, MODULE_TOP, width, 163, C.light)
+        border(self, x, MODULE_TOP, width, 163, C.edge)
+        local count = main and 1 or 2
+        local unit = width / count
+        for pole = 0, count - 1 do
+            local px = x + pole * unit
+            if pole > 0 then rect(self, px, MODULE_TOP + 1, 1, 161, C.edge) end
+            rect(self, px + 9, MODULE_TOP + 7, unit - 18, 4, main and C.orange or C.glass)
+            text(self, number, px + 8, 170, unit - 12, C.ink)
+            E.screw(self, px + unit / 2 - 6, 185)
+            E.screw(self, px + unit / 2 - 6, 295)
+            text(self, "I", px + 7, 207, 16, C.ink)
+            text(self, "O", px + 7, 274, 16, C.ink)
         end
     end
-    module(318,112,"01",false)
-    module(452,112,"02",false)
-    module(597,86,"03",true)
+    local m1, m2, m3 = gx, gx + 134, gx + 279
+    module(m1, 112, "01", false)
+    module(m2, 112, "02", false)
+    module(m3, 86, "03", true)
     -- Printed circuit strips under the rail, as on a domestic enclosure.
-    local function strip(x,w,key)
-        rect(self,x,338,w,23,C.light);border(self,x,338,w,23,C.edge)
-        text(self,getText(key),x+5,340,w-10,C.ink)
+    local function strip(x, w, key)
+        rect(self, x, 338, w, 23, C.light); border(self, x, 338, w, 23, C.edge)
+        text(self, getText(key), x + 5, 340, w - 10, C.ink)
     end
-    strip(318,112,"IGUI_LW_CircuitLightsLabel")
-    strip(452,112,"IGUI_LW_CircuitEquipment")
-    strip(590,100,"IGUI_LW_BoardMain")
-    text(self,getText(b and b.equipmentOff and "IGUI_LW_CircuitOff" or "IGUI_LW_CircuitOn"),452,365,124,C.shadow)
-    local hint=b and b.state=="tripped" and "IGUI_LW_BoardResetHint" or "IGUI_LW_BoardHint"
-    text(self,getText(hint),49,381,W-98,C.ink)
-    screw(self,24,350);screw(self,W-36,350)
-    rect(self,W/2-30,371,60,8,C.edge)
+    strip(m1, 112, "IGUI_LW_CircuitLightsLabel")
+    strip(m2, 112, "IGUI_LW_CircuitEquipment")
+    strip(m3 - 7, 100, "IGUI_LW_BoardMain")
+    text(self, getText(b and b.equipmentOff and "IGUI_LW_CircuitOff" or "IGUI_LW_CircuitOn"), m2, 365, 124, C.shadow)
 end
+
 function Panel:close()
     if self.closed then return end
     -- UIManager defers removal: stop callbacks and hide before releasing data.
-    self.closed=true
+    self.closed = true
     self:setVisible(false)
     self:removeFromUIManager()
-    self.obj,self.player,self.viewSnapshot,self.reading=nil,nil,nil,nil
+    self.obj, self.player, self.viewSnapshot, self.reading = nil, nil, nil, nil
     Panel.releaseInstance(self)
 end

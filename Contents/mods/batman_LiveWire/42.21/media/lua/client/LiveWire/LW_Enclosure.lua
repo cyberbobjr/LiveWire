@@ -99,8 +99,11 @@ end
 -- R2: sizeAt(k) gives w, h of the content drawn at scale k; factorFor(w, h) gives the window
 -- factor (LW_UIScale.factor). Content at scale 1, then its factor, then the content at that
 -- factor; if the window no longer fits at that factor, the factor is lowered once more.
-function E.twoPass(sizeAt, factorFor)
-    local k = factorFor(sizeAt(1))
+-- k0 (optional, 1 by default): the scale the content is first measured at, the font scale
+-- for a window whose text is drawn at the real font height; the text then keeps its
+-- reference height (font / k0) in the first pass.
+function E.twoPass(sizeAt, factorFor, k0)
+    local k = factorFor(sizeAt(k0 or 1))
     local w, h = sizeAt(k)
     local k2 = factorFor(w, h)
     if k2 < k then
@@ -179,6 +182,7 @@ function E.layout(p)
         recessX = recessX, recessY = recessY, recessW = recessW, recessH = recessH, innerH = innerH,
         lcdH = lcdH, inX = inX, inW = inW, hintY = hintY, btnY = btnY, btnCols = cols,
         btnRows = math.ceil(count / cols), cells = cells, lineH = lineH, btnH = btnH,
+        closeS = math.max(22, math.ceil(fr + 5)), fr = fr, fmr = fmr,
     }
 end
 
