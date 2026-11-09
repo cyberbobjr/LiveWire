@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWireExtended": "LiveWire Extended",
     "Sandbox_LiveWireExtended_BuildingBand": "Outdoor strip around a building",
-    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Width in squares of the strip around a connected building that also gets power (porch, garden path). The game powers whole 8 x 8 blocks, so the powered area is rounded up to them."
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Width in squares of the strip around a connected building that also gets power (porch, garden path). The game powers whole 8 x 8 blocks, so the powered area is rounded up to them.",
+    "Sandbox_LiveWireExtended_HouseBoardPercent": "Buildings with a breaker board (%%)",
+    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip": "Share of the map's buildings that already have a breaker board (their own electrical box when they have one). Linked to an inverter, it is prewired room by room, without labels: find out which breaker feeds what. Unwired appliances of the building then have no current."
 }

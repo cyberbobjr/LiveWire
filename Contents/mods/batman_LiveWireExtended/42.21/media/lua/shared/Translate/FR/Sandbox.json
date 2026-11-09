@@ -1,5 +1,7 @@
 {
     "Sandbox_LiveWireExtended": "LiveWire Extended",
     "Sandbox_LiveWireExtended_BuildingBand": "Bande extérieure autour d'un bâtiment",
-    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Largeur en cases de la bande autour d'un bâtiment raccordé qui reçoit aussi le courant (porche, allée). Le jeu alimente des blocs entiers de 8 x 8 cases : la zone alimentée est arrondie à ces blocs."
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Largeur en cases de la bande autour d'un bâtiment raccordé qui reçoit aussi le courant (porche, allée). Le jeu alimente des blocs entiers de 8 x 8 cases : la zone alimentée est arrondie à ces blocs.",
+    "Sandbox_LiveWireExtended_HouseBoardPercent": "Bâtiments avec un tableau électrique (%%)",
+    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip": "Part des bâtiments de la carte qui ont déjà un tableau électrique (leur coffret quand ils en ont un). Raccordé à un onduleur, il est précâblé pièce par pièce, sans étiquette : à vous de découvrir quel disjoncteur alimente quoi. Les appareils non raccordés du bâtiment n'ont alors plus de courant."
 }

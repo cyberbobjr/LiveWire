@@ -435,6 +435,8 @@ X_PENDING_TRANSLATION = {
     "LiveWire_Extended_Board16",
     "LiveWire_Extended_Board24",
     "LiveWire_Extended_Board8",
+    "Sandbox_LiveWireExtended_HouseBoardPercent",
+    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip",
     "Tooltip_LWX_BoardFull",
     "Tooltip_LWX_BreakerRating",
     "Tooltip_LWX_MachineCut",

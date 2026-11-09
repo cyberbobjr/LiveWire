@@ -18,6 +18,10 @@ for index, size in pairs(P.SIZES) do
     local name = X.Terminal.SHEET .. "_" .. index
     SPRITES[name], SIZE_OF[name] = true, size
 end
+-- The vanilla wall electrical boxes (industry_02_212..215, measured in E12) are boards of
+-- 8 modules too: D-40 reuses them in the map's houses.
+P.VANILLA = { "industry_02_212", "industry_02_213", "industry_02_214", "industry_02_215" }
+for _, name in ipairs(P.VANILLA) do SPRITES[name], SIZE_OF[name] = true, 8 end
 P.kind = L.register({ name = "panel", field = "panels", sprites = SPRITES, level = P.LEVEL,
     linkedKey = "Tooltip_LWX_PanelLinked", linkedNote = "IGUI_LWX_PanelLinked",
     unlinkedNote = "IGUI_LWX_PanelUnlinked" })
