@@ -328,3 +328,7 @@ d'appareil, jauge unique, cadre unique, police `lcdFont()` sur tous les écrans.
 tableau (titre, ligne du voyant, ligne d'état) n'est pas un écran : il garde `UIFont.Small`. L'écran de démarrage de
 l'ordinateur (`LW_SoftwareScreen.lua`) reste hors périmètre. Extended n'appelle pas `LW_Lcd` directement : il dessine
 son afficheur par le kit de coffret (`LiveWire.API.enclosure()`, D-47), qui délègue à `LW_Lcd`.
+
+Mise à jour de D-56 (2026-11-09, essai en jeu L6) : la police d'écran `UIFont.Code` n'a pas le caractère « … »
+(U+2026), dessiné « ? » sur la bande d'état du tableau. Le texte abrégé **sur un écran** finit donc par trois points
+ASCII « ... » (`LiveWire.Lcd.ELLIPSIS`) ; le texte imprimé sur la façade garde « … » (D-54).

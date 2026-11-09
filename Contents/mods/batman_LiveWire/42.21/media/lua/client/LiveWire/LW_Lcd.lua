@@ -28,6 +28,8 @@ Lcd.GLARE_ALPHA = 0.16
 -- factor 1, pause at each end.
 Lcd.SCROLL = 40
 Lcd.SCROLL_PAUSE_MS = 1200
+-- The LCD font (Code) has no ellipsis glyph: text abbreviated on a screen ends with three dots.
+Lcd.ELLIPSIS = "..."
 
 -- Screen of the bank and device windows, 1080p reference pixels (scaled with LW_UIScale.layout):
 -- frame at lcdX, lcdY, `lcdInner` thick, lcdBottom above the window's bottom; lines from textX,

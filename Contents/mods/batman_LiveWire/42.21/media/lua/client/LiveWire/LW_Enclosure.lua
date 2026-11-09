@@ -62,15 +62,16 @@ end
 
 -- R3: `s` unchanged when it fits in maxW, else its longest whole-character prefix (trailing
 -- spaces removed) followed by an ellipsis.
-function E.abbreviate(s, maxW, measure)
+function E.abbreviate(s, maxW, measure, ell)
+    ell = ell or ELL
     if measure(s) <= maxW then return s end
     local ends = charEnds(s)
     for i = #ends, 1, -1 do
         local head = (string.gsub(string.sub(s, 1, ends[i]), "%s+$", ""))
-        local candidate = head .. ELL
+        local candidate = head .. ell
         if measure(candidate) <= maxW then return candidate end
     end
-    return ELL
+    return ell
 end
 
 -- R4: words wrapped into lines of at most maxW; a line too long for one word is abbreviated (R3).
@@ -216,12 +217,13 @@ function E.fontHeight(ui, font)
 end
 
 -- Text drawn in the box x..x+w (w nil: no box). R3: abbreviated with an ellipsis when too long.
--- align: "left" (default), "center", "right". Returns the text drawn.
-function E.text(ui, s, x, y, w, c, font, align)
+-- align: "left" (default), "center", "right"; ell: abbreviation mark (the ellipsis by default).
+-- Returns the text drawn.
+function E.text(ui, s, x, y, w, c, font, align, ell)
     font = font or UIFont.Small
     local k = factorOf(ui)
     local shown = s
-    if w then shown = E.abbreviate(s, w, E.measurer(ui, font)) end
+    if w then shown = E.abbreviate(s, w, E.measurer(ui, font), ell) end
     local xx = x
     if w and align and align ~= "left" then
         local tw = E.measurer(ui, font)(shown)
@@ -314,7 +316,7 @@ function E.lcd(ui, x, y, w, d, fr)
     for i, row in ipairs(d.rows) do
         local ry = y + lcdTop + 5 + (i - 1) * lineH + math.max(0, math.floor((lineH - fl) / 2))
         local vw = measure(row[2])
-        E.text(ui, row[1], x + 22, ry, w - 44 - vw - 8, ink, font)
+        E.text(ui, row[1], x + 22, ry, w - 44 - vw - 8, ink, font, nil, Lcd.ELLIPSIS)
         E.textRight(ui, row[2], x + w - 19, ry, ink, font)
         if i == 2 then Lcd.rule(ui, x + 22, y + lcdTop + 5 + 2 * lineH - 1, w - 44, "green", 0.25) end
     end
@@ -322,7 +324,7 @@ function E.lcd(ui, x, y, w, d, fr)
     E.text(ui, d.line, x + 38, y + ledY, w - 55, C.ink)
     E.text(ui, d.status, x + 21, y + stY, w - 40, d.statusC or C.ink)
     Lcd.frame(ui, x + 4, y + stripY, w - 8, stripH, "green", 3)
-    E.text(ui, d.strip, x + 13, y + stripY + (stripH - fl) / 2, w - 26, ink, font)
+    E.text(ui, d.strip, x + 13, y + stripY + (stripH - fl) / 2, w - 26, ink, font, nil, Lcd.ELLIPSIS)
     return blockH + 11 + stripH
 end
 
