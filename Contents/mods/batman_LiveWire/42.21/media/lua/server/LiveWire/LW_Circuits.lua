@@ -92,9 +92,12 @@ local function blocked(o, g, kind)
     if not kind then return false end
     return panelOpen(g, kind) or LiveWire.CircuitProvider.blocked(o, kind, g)
 end
-function Circuits.blocked(o)
-    local kind = LiveWire.Appliances.kind(o)
+-- Same test for an object whose family `kind` is already known (nil: not an appliance).
+function Circuits.blockedAs(o, kind)
     return kind and blocked(o, Circuits.owner(o), kind) or false
+end
+function Circuits.blocked(o)
+    return Circuits.blockedAs(o, LiveWire.Appliances.kind(o))
 end
 local function captureFor(o, g)
     local A = LiveWire.Appliances
@@ -117,14 +120,15 @@ end
 function Circuits.applyObject(o)
     if not loaded(o) then track(o, false); return end
     local A = LiveWire.Appliances
-    if not A.kind(o) and not A.saved(o) then track(o, false); return end
+    local kind = A.kind(o)
+    if not kind and not A.saved(o) then track(o, false); return end
     local g = Circuits.owner(o)
     local old = g and g.lightChoices and g.lightChoices[key(o)]
     if old ~= nil and not A.saved(o) and instanceof(o, "IsoLightSwitch") then
         local s = A.capture(o, g)
         if s then s.on = old; g.lightChoices[key(o)] = nil end
     end
-    if blocked(o, g, A.kind(o)) then
+    if blocked(o, g, kind) then
         captureFor(o, g)
         local s = A.saved(o)
         if s then A.apply(o, s, true) end

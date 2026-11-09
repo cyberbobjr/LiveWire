@@ -702,7 +702,7 @@ class ApplianceScope(unittest.TestCase):
         local kind = LiveWire.Appliances.kind
         LiveWire.Appliances.kind = function(o) KINDS = KINDS + 1; return kind(o) end
         CUT = false
-        LiveWire.Circuits.blocked = function() return CUT end
+        LiveWire.Circuits.blockedAs = function() return CUT end
         local action = {sourceOwner = object('IsoStove', true), result = true}
         for i = 1, 5 do ISFluidTransferAction.update(action) end
         assert(action.updates == 5 and KINDS == 1, 'kind computed ' .. KINDS .. ' times')

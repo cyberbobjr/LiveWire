@@ -23,7 +23,7 @@ end
 -- Cut test of an object whose kind is already known (nil = not an appliance).
 function A.blockedAs(o, kind)
     if not kind or not o:getSquare() then return false end
-    if not isClient() and LiveWire.Circuits then return LiveWire.Circuits.blocked(o) end
+    if not isClient() and LiveWire.Circuits then return LiveWire.Circuits.blockedAs(o, kind) end
     local s = A.saved(o)
     return s and s.cut == true or false
 end
