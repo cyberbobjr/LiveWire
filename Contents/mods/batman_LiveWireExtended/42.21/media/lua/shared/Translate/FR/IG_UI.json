@@ -20,5 +20,6 @@
     "IGUI_LWX_PointConnected": "Raccordé au module %1.",
     "IGUI_LWX_PointDisconnected": "Débranché de son disjoncteur.",
     "IGUI_LWX_BreakerOff": "Module %1 coupé.",
-    "IGUI_LWX_BreakerOn": "Module %1 remis."
+    "IGUI_LWX_BreakerOn": "Module %1 remis.",
+    "IGUI_LWX_BreakerTripped": "Un disjoncteur a sauté : le module %1 était surchargé."
 }

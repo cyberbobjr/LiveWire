@@ -20,5 +20,6 @@
     "IGUI_LWX_PointConnected": "Wired to module %1.",
     "IGUI_LWX_PointDisconnected": "Unwired from its breaker.",
     "IGUI_LWX_BreakerOff": "Module %1 switched off.",
-    "IGUI_LWX_BreakerOn": "Module %1 switched on."
+    "IGUI_LWX_BreakerOn": "Module %1 switched on.",
+    "IGUI_LWX_BreakerTripped": "A breaker tripped: module %1 was overloaded."
 }

@@ -203,8 +203,10 @@ function Menu.panelExtra(sub, player, obj)
         else hint(o, "Tooltip_LWX_BreakerRating", tostring(t.amps), tostring(t.volts), tostring(B.capacityW(t))) end
     end
     for _, slot in ipairs(record and record.slots or {}) do
-        sub:addOption(getText(slot.off and "ContextMenu_LWX_CloseBreaker" or "ContextMenu_LWX_OpenBreaker",
-            Menu.slotLabel(slot)), player, Menu.onBreaker, obj, nil, slot.pos, slot.off and "on" or "off")
+        local key = slot.tripped and "ContextMenu_LWX_ResetBreaker"
+            or slot.off and "ContextMenu_LWX_CloseBreaker" or "ContextMenu_LWX_OpenBreaker"
+        sub:addOption(getText(key, Menu.slotLabel(slot)), player, Menu.onBreaker, obj, nil, slot.pos,
+            (slot.off or slot.tripped) and "on" or "off")
     end
     Menu.addWireApplianceOptions(sub, player, obj, record)
     for _, slot in ipairs(record and record.slots or {}) do

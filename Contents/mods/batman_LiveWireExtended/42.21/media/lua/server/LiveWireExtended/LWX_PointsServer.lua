@@ -96,18 +96,25 @@ function PT.disconnect(character, o)
     return true
 end
 
+-- Apply the decision to every point of a breaker slot.
+function PT.applySlot(slot)
+    local keys = {}
+    for key in pairs(slot.points or {}) do keys[key] = PT.point(key) end
+    applyKeys(keys)
+end
+
 -- Open (off = true) or close the breaker of module `pos`.
 function PS.setBreaker(character, boardObj, pos, off)
     local record = P.isPanel(boardObj) and P.recordAt(boardObj:getSquare())
     if not record then return false end
     local slot = B.slotAt(record, tonumber(pos))
     if not slot or type(off) ~= "boolean" then return false end
-    if slot.off ~= off then
+    -- Switching on also resets a tripped breaker (E18).
+    if slot.off ~= off or (not off and slot.tripped) then
         slot.off = off
+        if not off then slot.tripped = false end
         transmit()
-        local keys = {}
-        for key in pairs(slot.points or {}) do keys[key] = PT.point(key) end
-        applyKeys(keys)
+        PT.applySlot(slot)
     end
     LiveWire.notify(character, off and "IGUI_LWX_BreakerOff" or "IGUI_LWX_BreakerOn", { tostring(slot.pos) })
     return true

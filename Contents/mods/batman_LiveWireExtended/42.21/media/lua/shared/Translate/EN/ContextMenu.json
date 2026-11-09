@@ -18,5 +18,6 @@
     "ContextMenu_LWX_DisconnectPoint": "Unwire from module %1",
     "ContextMenu_LWX_BoardAt": "Board %1 squares away",
     "ContextMenu_LWX_WireAppliance": "Wire an appliance",
-    "ContextMenu_LWX_ApplianceAt": "%1, %2 squares away"
+    "ContextMenu_LWX_ApplianceAt": "%1, %2 squares away",
+    "ContextMenu_LWX_ResetBreaker": "Reset %1 (tripped)"
 }
