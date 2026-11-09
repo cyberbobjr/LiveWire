@@ -387,7 +387,7 @@ local function addPumpOptions(menu, player, obj, mark)
     local free, linked = {}, {}
     for i = 1, #around do
         local b = around[i]
-        local bm = I().barrelMark(b.obj)
+        local bm = LiveWire.Barrels.mark(b.obj)
         if bm == nil then
             free[#free + 1] = b
         elseif bm.pump == mark.id then
@@ -416,7 +416,7 @@ end
 
 -- Water barrel next to a pump: connect it to a pump in range, or disconnect it.
 local function addBarrelOptions(menu, player, barrel)
-    local bm = I().barrelMark(barrel)
+    local bm = LiveWire.Barrels.mark(barrel)
     if bm then
         disabled(menu, getText("ContextMenu_LW_BarrelLinked"))
         menu:addOption(getText("ContextMenu_LW_UnlinkBarrel"), player, Menu.onUnlinkBarrel, bm.pump,
@@ -564,7 +564,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
             seen[o] = true
             vanilla[#vanilla + 1] = { obj = o, kind = kind }
         elseif not kind and o:getSquare() and I().isBarrelObject(o)
-                and (I().barrelMark(o) ~= nil or #I().pumpsInRange(o:getSquare()) > 0) then
+                and (LiveWire.Barrels.mark(o) ~= nil or #I().pumpsInRange(o:getSquare()) > 0) then
             seen[o] = true
             barrels[#barrels + 1] = o
         end

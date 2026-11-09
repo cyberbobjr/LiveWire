@@ -93,12 +93,12 @@ local function authorityStart(player)
     check("C07 legacy barrel mark migrated; moved mark cleared",function()
         local D=LiveWire.Defs
         S.barrel:getModData()[D.BARREL_KEY]={pump=S.pdev.id}
-        local m=LiveWire.Install.barrelMark(S.barrel)
+        local m=LiveWire.Barrels.repairMark(S.barrel)
         local migrated=m and m.x==fs:getX()
         local sq=getCell():getGridSquare(fs:getX()+1,fs:getY(),fs:getZ())
         local moved=barrel(sq)
         moved:getModData()[D.BARREL_KEY]={pump=S.pdev.id,x=fs:getX(),y=fs:getY(),z=fs:getZ()}
-        local cleared=LiveWire.Install.barrelMark(moved)==nil and moved:getModData()[D.BARREL_KEY]==nil
+        local cleared=LiveWire.Barrels.repairMark(moved)==nil and moved:getModData()[D.BARREL_KEY]==nil
         sq:transmitRemoveItemFromSquare(moved)
         return migrated and cleared
     end)

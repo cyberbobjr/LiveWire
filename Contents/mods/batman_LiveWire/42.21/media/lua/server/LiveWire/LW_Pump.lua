@@ -163,7 +163,7 @@ local function sweepSquare(Rg, sq)
                 doomed[#doomed + 1] = o
             end
         elseif o.getModData and o:getModData()[Defs.BARREL_KEY] ~= nil then
-            if not LiveWire.Install.barrelMark(o) then clear[#clear + 1] = o end
+            if not LiveWire.Barrels.repairMark(o) then clear[#clear + 1] = o end
         end
     end
     for i = 1, #doomed do sq:transmitRemoveItemFromSquare(doomed[i]) end

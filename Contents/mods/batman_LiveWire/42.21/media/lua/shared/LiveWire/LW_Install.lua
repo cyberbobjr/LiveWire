@@ -239,6 +239,3 @@ Install.nearSquares = Barrels.nearSquares
 Install.barrelsInRange = Barrels.barrelsInRange
 Install.pumpsInRange = Barrels.pumpsInRange
 Install.checkBarrelLink = Barrels.checkBarrelLink
--- Same answer as Barrels.mark; on the authority it also completes or clears a mark
--- (Barrels.repairMark). Callers that only read should use Barrels.mark.
-Install.barrelMark = Barrels.repairMark

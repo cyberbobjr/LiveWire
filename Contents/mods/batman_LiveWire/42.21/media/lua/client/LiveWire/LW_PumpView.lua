@@ -72,7 +72,7 @@ local function collect(pumpSq, id)
 
     local barrels = LiveWire.Install.barrelsInRange(pumpSq)
     for i = 1, #barrels do
-        local m = LiveWire.Install.barrelMark(barrels[i].obj)
+        local m = LiveWire.Barrels.mark(barrels[i].obj)
         if m and m.pump == id then add(barrels[i].obj) end
     end
 

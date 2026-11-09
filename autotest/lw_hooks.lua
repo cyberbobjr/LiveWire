@@ -615,7 +615,7 @@ local function runPumpAndCoupling()
         local okLink = LWLinkBarrelAction:new(p, S.barrel, S.pump):complete() == true
         local key = LiveWire.posKey(bsq:getX(), bsq:getY(), bsq:getZ())
         return okLink and pdev.barrels[key] ~= nil and count(LiveWire.Defs.PUMP_PIPE) == pipes - 1
-            and LiveWire.Install.barrelMark(S.barrel) ~= nil,
+            and LiveWire.Barrels.mark(S.barrel) ~= nil,
             "link=" .. tostring(okLink) .. " grid=" .. tostring(pdev.grid)
     end)
     check("pump: relay above a plumbed fixture, filled from the barrel, removed on unlink", function()
@@ -657,7 +657,7 @@ local function runPumpAndCoupling()
             command(LiveWire.Protocol.C_UNLINK_BARREL, { pump = pdev.id, x = bsq:getX(), y = bsq:getY(), z = bsq:getZ() })
             local nAfter = relaysOf(pdev)
             local good = nRelay >= 1 and litres > 0.01 and math.abs(drawn - litres) < 0.01 and nAfter == 0
-                and count(LiveWire.Defs.PUMP_PIPE) == pipes + 1 and LiveWire.Install.barrelMark(S.barrel) == nil
+                and count(LiveWire.Defs.PUMP_PIPE) == pipes + 1 and LiveWire.Barrels.mark(S.barrel) == nil
             return good, string.format("relays=%d filled=%.2f L drawn=%.2f L state=%s after unlink=%d",
                 nRelay, litres, drawn, tostring(pdev.state), nAfter)
         end)

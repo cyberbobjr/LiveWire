@@ -23,7 +23,7 @@ function Pump.findBarrel(dev, key)
     local objs = sq:getObjects()
     for i = 0, objs:size() - 1 do
         local o = objs:get(i)
-        local m = LiveWire.Install.barrelMark(o)
+        local m = LiveWire.Barrels.repairMark(o)
         if m and m.pump == dev.id then return o, true end
     end
     return nil, true

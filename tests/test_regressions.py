@@ -150,23 +150,23 @@ class Regressions(unittest.TestCase):
 
     def test_barrel_position_membership_and_legacy_mark(self):
         self.run_lua('''
-        local R, I, D = LiveWire.Registry, LiveWire.Install, LiveWire.Defs
+        local R, B, D = LiveWire.Registry, LiveWire.Barrels, LiveWire.Defs
         local pump=R.addDevice({role="pump",model="WaterPump",x=0,y=0,z=0,barrels={}})
         local x=1
         local sq={getX=function() return x end,getY=function() return 0 end,getZ=function() return 0 end}
         local md={[D.BARREL_KEY]={pump=pump.id}}
         local obj={getSquare=function() return sq end,getModData=function() return md end}
         pump.barrels[LiveWire.posKey(1,0,0)]={x=1,y=0,z=0}
-        assert(I.barrelMark(obj).x==1) -- legacy mark upgraded
+        assert(B.repairMark(obj).x==1) -- legacy mark upgraded
         x=2
-        assert(I.barrelMark(obj)==nil and md[D.BARREL_KEY]==nil)
+        assert(B.repairMark(obj)==nil and md[D.BARREL_KEY]==nil)
         md[D.BARREL_KEY]={pump=pump.id,x=2,y=0,z=0}
-        assert(I.barrelMark(obj)==nil) -- position matches, membership does not
+        assert(B.repairMark(obj)==nil) -- position matches, membership does not
         ''')
 
     def test_barrel_mark_read_is_pure_and_repair_writes_on_the_authority_only(self):
         self.run_lua('''
-        local R, B, I, D = LiveWire.Registry, LiveWire.Barrels, LiveWire.Install, LiveWire.Defs
+        local R, B, D = LiveWire.Registry, LiveWire.Barrels, LiveWire.Defs
         local pump=R.addDevice({role="pump",model="WaterPump",x=0,y=0,z=0,barrels={}})
         local x=1
         local sq={getX=function() return x end,getY=function() return 0 end,getZ=function() return 0 end}
@@ -191,10 +191,6 @@ class Regressions(unittest.TestCase):
         assert(B.repairMark(obj).x==1 and md[D.BARREL_KEY].x==1)
         x=2
         assert(B.repairMark(obj)==nil and md[D.BARREL_KEY]==nil)
-        -- The Install name keeps the repairing behaviour for existing callers.
-        x=1
-        md[D.BARREL_KEY]={pump=pump.id}
-        assert(I.barrelMark(obj).x==1)
         ''')
 
     def test_parse_pos_returns_whole_numbers_or_nil(self):
