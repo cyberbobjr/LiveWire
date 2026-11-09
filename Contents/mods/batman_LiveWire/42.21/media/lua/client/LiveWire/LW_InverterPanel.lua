@@ -9,6 +9,7 @@ require "ISUI/ISPanel"
 require "ISUI/ISButton"
 require "LiveWire/LW_UIScale"
 require "LiveWire/LW_UIKit"
+require "LiveWire/LW_Lcd"
 
 LiveWire = LiveWire or {}
 
@@ -25,23 +26,16 @@ local BASE = {
     closeS = 18, closeX = 26, closeY = 6, linksY = 254, linksH = 28, brandX = 14, brandY = 10,
     reserve = 44, pageX = 34, barX = 60, barRight = 72, barPad = 20, barInset = 3, barGap = 2,
     led = 12, ledX = 18, ledY = 9,
-    scroll = 40,   -- px/s: lines wider than the screen scroll back and forth
+    scroll = LiveWire.Lcd.SCROLL,   -- lines wider than the screen scroll back and forth
 }
 Panel.BASE = BASE
 -- Unscaled layout until a window is opened (instances made without open()).
 Panel.L = LiveWire.UIScale.layout(1, BASE)
-local SCROLL_PAUSE_MS = 1200
 local RESUBSCRIBE_MS = LiveWire.UIKit.RESUBSCRIBE_MS
 -- The window closes when the player is farther than CLOSE_RANGE tiles from the inverter.
 local CLOSE_RANGE = 30
--- Ink of the LCD (dark green on the backlit screen).
-local INK = { 0.08, 0.13, 0.05 }
 
 local function T(key, ...) return getText(key, ...) end
-
-local function lcdFont()
-    return LiveWire.Client.lcdFont()
-end
 
 -- LCD pages, in display order. Each builder adds its lines with line(s) and its bars
 -- with bars[#bars + 1] = { label, value, max } (a label "" draws a full-width bar).
@@ -223,33 +217,6 @@ function Panel:pageContent(snap)
     return lines, bars
 end
 
--- One LCD line, clipped to the screen; a line too wide for it scrolls back and
--- forth with a pause at each end. `reserve`: width kept free on the right.
-function Panel:lcdLine(s, y, font, now, reserve)
-    local L = self.L
-    local avail = L.lcdW - 2 * L.pad - reserve
-    local width = getTextManager():MeasureStringX(font, s)
-    local offset = 0
-    if width > avail then
-        local travel = width - avail
-        local moveMs = travel / L.scroll * 1000
-        local cycle = 2 * (moveMs + SCROLL_PAUSE_MS)
-        local t = now % cycle
-        if t < SCROLL_PAUSE_MS then
-            offset = 0
-        elseif t < SCROLL_PAUSE_MS + moveMs then
-            offset = (t - SCROLL_PAUSE_MS) / moveMs * travel
-        elseif t < 2 * SCROLL_PAUSE_MS + moveMs then
-            offset = travel
-        else
-            offset = travel - (t - 2 * SCROLL_PAUSE_MS - moveMs) / moveMs * travel
-        end
-    end
-    self:setStencilRect(L.lcdX + L.clip, L.lcdY, avail + L.sep, L.lcdH)
-    self:drawText(s, L.lcdX + L.pad - math.floor(offset), y, INK[1], INK[2], INK[3], 1, font)
-    self:clearStencilRect()
-end
-
 -- Brand line of the model (inverter cabinet: its own rating), looked up once.
 function Panel:brandKey()
     if not self.brandChecked then
@@ -274,13 +241,10 @@ function Panel:render()
     -- LCD: backlit when the inverter is on, dark otherwise.
     local st = snap and snap.inverter.state
     local lit = st == "on" or st == "tripped"
-    self:drawRect(LCD_X - L.bezel, LCD_Y - L.bezel, LCD_W + 2 * L.bezel, LCD_H + 2 * L.bezel, 1, 0.08, 0.08, 0.09)
-    if lit then
-        self:drawRect(LCD_X, LCD_Y, LCD_W, LCD_H, 1, 0.62, 0.74, 0.40)
-    else
-        self:drawRect(LCD_X, LCD_Y, LCD_W, LCD_H, 1, 0.16, 0.19, 0.14)
-    end
-    local font = lcdFont()
+    local Lcd = LiveWire.Lcd
+    local variant = lit and "green" or "off"
+    Lcd.frame(self, LCD_X - L.bezel, LCD_Y - L.bezel, LCD_W + 2 * L.bezel, LCD_H + 2 * L.bezel, variant, L.bezel)
+    local font = Lcd.font()
     -- Line height of the font really drawn (Code, or Small in CN/JP/KO/TH: C10),
     -- measured once per window.
     local fh = self.fontH
@@ -288,20 +252,22 @@ function Panel:render()
         fh = getTextManager():getFontHeight(font)
         self.fontH = fh
     end
-    local tr, tg, tb = INK[1], INK[2], INK[3]
     if not snap then
-        self:drawText(T("IGUI_LW_Waiting"), LCD_X + L.pad, LCD_Y + L.pad, 0.6, 0.65, 0.55, 1, font)
+        Lcd.waiting(self, LCD_X + L.pad, LCD_Y + L.pad, "off", font)
     elseif lit then
         if st == "tripped" and blink then
-            self:drawText(T("IGUI_LW_LCD_Overload"), LCD_X + L.pad, LCD_Y + LCD_H - fh - L.bottom, 0.55, 0.05, 0.02, 1, font)
+            Lcd.text(self, T("IGUI_LW_LCD_Overload"), LCD_X + L.pad, LCD_Y + LCD_H - fh - L.bottom, variant, font, Lcd.ALERT)
         end
         local lines, bars = self:pageContent(snap)
         local y = LCD_Y + L.top
+        -- Lines clipped to the screen; the first keeps room for the page number on its right.
         for i = 1, #lines do
-            self:lcdLine(lines[i], y, font, now, i == 1 and L.reserve or 0)
+            local avail = LCD_W - 2 * L.pad - (i == 1 and L.reserve or 0)
+            Lcd.line(self, lines[i], LCD_X + L.pad, y, avail, variant,
+                { font = font, now = now, speed = L.scroll, clip = { LCD_X + L.clip, LCD_Y, avail + L.sep, LCD_H } })
             if i == 1 then
-                self:drawText(tostring(self.page) .. "/" .. tostring(PAGES), LCD_X + LCD_W - L.pageX, y, tr, tg, tb, 1, font)
-                self:drawRect(LCD_X + L.clip, y + fh + 1, LCD_W - 2 * L.clip, 1, 1, tr, tg, tb)
+                Lcd.page(self, self.page, PAGES, LCD_X + LCD_W - L.pageX, y, variant, font)
+                Lcd.rule(self, LCD_X + L.clip, y + fh + 1, LCD_W - 2 * L.clip, variant)
                 y = y + L.sep
             end
             y = y + fh
@@ -309,12 +275,10 @@ function Panel:render()
         for i = 1, #bars do
             local b = bars[i]
             local bx, bw = LCD_X + L.barX, LCD_W - L.barRight
-            if b.label ~= "" then self:drawText(b.label, LCD_X + L.pad, y + 1, tr, tg, tb, 1, font) else bx = LCD_X + L.pad; bw = LCD_W - L.barPad end
-            local inset, gap = L.barInset, L.barGap
-            self:drawRectBorder(bx, y + inset, bw, fh - 2 * inset, 1, tr, tg, tb)
-            local f = LiveWire.clamp((b.value or 0) / math.max(1, b.max or 1), 0, 1)
-            self:drawRect(bx + gap, y + inset + gap, (bw - 2 * gap) * f, fh - 2 * (inset + gap), 1, tr, tg, tb)
-            y = y + fh + gap
+            if b.label ~= "" then Lcd.text(self, b.label, LCD_X + L.pad, y + 1, variant, font) else bx = LCD_X + L.pad; bw = LCD_W - L.barPad end
+            local inset = L.barInset
+            Lcd.bar(self, bx, y + inset, bw, fh - 2 * inset, (b.value or 0) / math.max(1, b.max or 1), variant, L.barGap)
+            y = y + fh + L.barGap
         end
     end
 
