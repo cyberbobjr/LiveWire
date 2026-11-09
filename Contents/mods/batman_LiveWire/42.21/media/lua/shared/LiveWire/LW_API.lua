@@ -300,3 +300,7 @@ function API.softwareLines(inverterId)
     return out
 end
 
+
+-- Drawing kit of the enclosure windows (client, LiveWire.Enclosure, D-54): the module itself, not a
+-- copy, as it holds no game state. Read by LiveWire Extended when its window opens; nil on a server.
+function API.enclosure() return LiveWire.Enclosure end
