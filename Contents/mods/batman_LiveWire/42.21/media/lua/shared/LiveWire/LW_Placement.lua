@@ -13,6 +13,7 @@
 
 require "Moveables/ISMoveableSpriteProps"
 require "LiveWire/LW_Stack"
+require "LiveWire/LW_EventBus"
 
 LiveWire = LiveWire or {}
 
@@ -113,21 +114,17 @@ local origPlace = MP.placeMoveableInternal
 function MP:placeMoveableInternal(_character, _square, _item, _spriteName, ...)
     local r = origPlace(self, _character, _square, _item, _spriteName, ...)
     if _square then
-        if LiveWire.Pump then LiveWire.Pump.invalidateAt(_square) end
-        if LiveWire.PumpView then LiveWire.PumpView.invalidateAt(_square) end
-        if LiveWire.Anchor then LiveWire.Anchor.rememberSquare(_square) end
+        LiveWire.Events.emit(LiveWire.Events.SQUARE_CHANGED, _square)
     end
-    if _square and modelOfSprite(_spriteName) and authority() then
-        LiveWire.Devices.onPlaced(_character, _square, _spriteName)
+    if _square and modelOfSprite(_spriteName) and LiveWire.isAuthority() then
+        LiveWire.Events.emit(LiveWire.Events.DEVICE_PLACED, _character, _square, _spriteName)
     end
     -- Any furniture placed (a fridge moved, a lamp...): rebuild the appliance list of
-    -- the inverters in range (LW_Demand.lua).
-    if _square and LiveWire.isAuthority() and LiveWire.Demand and LiveWire.Demand.invalidateAt then
-        LiveWire.Demand.invalidateAt(_square)
-        if LiveWire.Circuits then
-            local objects = _square:getObjects()
-            for i = 0, objects:size() - 1 do LiveWire.Circuits.applyObject(objects:get(i)) end
-        end
+    -- the inverters in range (LW_Demand.lua), then re-apply the circuits to the objects
+    -- of the square (LW_Circuits.lua). Two events: the order is part of the contract.
+    if _square and LiveWire.isAuthority() then
+        LiveWire.Events.emit(LiveWire.Events.COVERAGE_CHANGED, _square)
+        LiveWire.Events.emit(LiveWire.Events.SQUARE_OBJECTS_CHANGED, _square)
     end
     return r
 end

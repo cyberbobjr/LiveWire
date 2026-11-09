@@ -6,6 +6,7 @@ if isClient() then return end
 require "LiveWire/LW_Pump"
 require "LiveWire/LW_SquareScan"
 require "LiveWire/LW_CircuitProvider"
+require "LiveWire/LW_EventBus"
 
 LiveWire = LiveWire or {}
 
@@ -338,3 +339,6 @@ function Pump.releaseRelays(dev)
 end
 
 Events.OnTick.Add(Pump.tickDiscovery)
+
+-- Told by the placement wrappers (LW_EventBus.lua).
+LiveWire.Events.on(LiveWire.Events.SQUARE_CHANGED, function(sq) return LiveWire.Pump.invalidateAt(sq) end)

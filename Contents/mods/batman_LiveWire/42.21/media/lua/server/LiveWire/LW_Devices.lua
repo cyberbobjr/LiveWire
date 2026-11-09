@@ -6,6 +6,7 @@
 -- square is loaded and the object is gone (Devices.validate).
 if isClient() then return end
 require "LiveWire/LW_Circuits"
+require "LiveWire/LW_EventBus"
 
 LiveWire = LiveWire or {}
 
@@ -583,3 +584,8 @@ end
 
 -- Orphan objects are found by the chunk discovery walk (LW_Circuits.lua).
 LiveWire.Circuits.addChunkVisitor(Devices.recover)
+
+-- Told by the placement wrappers, on the authority only (LW_EventBus.lua).
+LiveWire.Events.on(LiveWire.Events.DEVICE_PLACED, function(character, sq, spriteName)
+    return LiveWire.Devices.onPlaced(character, sq, spriteName)
+end)

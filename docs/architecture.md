@@ -212,6 +212,7 @@ Tout le mod vit sous `Contents/mods/batman_LiveWire/42.21/media/` (`developpemen
 
 ```
 lua/shared/LiveWire/LW_Core.lua            table globale LiveWire, version, journal, cles ModData
+lua/shared/LiveWire/LW_EventBus.lua        bus d'événements internes LiveWire.Events (on, off, emit), liste fermée de noms
 lua/shared/LiveWire/LW_Config.lua          lecture des options sandbox
 lua/shared/LiveWire/LW_Defs.lua            equipements (tuiles, roles), batteries (donnees)
 lua/shared/LiveWire/LW_Physics.lua         fonctions pures : solaire, eolien, lissage, batteries, pas de reseau
@@ -305,6 +306,33 @@ Preuves : `media/lua/shared/Moveables/ISMoveableSpriteProps.lua:1202-1255`, `med
 **Powerbank.** Elle est protégée comme les autres appareils. On n'y touche que par son conteneur, et elle ne se démonte que vide.
 
 ---
+
+### 2.5 Événements internes (D-52)
+
+Le registre, les enveloppes de pose et les ancres (couches basses) ne connaissent pas les modules qui réagissent : ils
+appellent `LiveWire.Events.emit(LiveWire.Events.NOM, ...)` (`shared/LW_EventBus.lua`) et chaque module s'abonne à son
+chargement par une fermeture qui résout le module au moment de l'événement. Les abonnés s'exécutent dans l'ordre
+d'inscription, sans `pcall` ; deux inscriptions de la même fonction au même nom n'en font qu'une. Le module s'appelle
+`LiveWire.Events` : jamais une globale `Events` (table du moteur). Noms fermés (un nom inconnu est une erreur) :
+
+| Événement | Arguments | Émetteur | Abonné |
+|---|---|---|---|
+| `REGISTRY_RESET` | | `Registry.init` | Circuits.reset, Demand.reset |
+| `TOPOLOGY_CHANGED` | | couple, uncouple, retrait d'onduleur | Circuits.topologyChanged |
+| `GRID_RELEASED` | grid, defer | unlink d'un disjoncteur (`def.kind == "breaker"`), dropGrid | Circuits.release |
+| `JOURNAL_ENTRY` | grid, key, args | registre | Journal.add |
+| `INVERTER_REMOVED` | id | removeDevice | Demand.forget |
+| `SQUARE_CHANGED` | square | pose de meuble (tout côté) | Pump.invalidateAt, PumpView.invalidateAt, FridgeAging.rememberSquare |
+| `DEVICE_PLACED` | character, square, sprite | pose d'une de nos tuiles (autorité) | Devices.onPlaced |
+| `COVERAGE_CHANGED` | square | pose de meuble (autorité) | Demand.invalidateAt |
+| `SQUARE_OBJECTS_CHANGED` | square | après COVERAGE_CHANGED | Circuits.applySquare |
+| `ANCHOR_CHANGING` | anchor, id | `Anchor.ageFridges` | FridgeAging.age |
+| `ANCHOR_VISUALS` | anchor, id | `Anchor.refreshVisuals` | AnchorVisuals.refresh (client) |
+| `CHUNK_LOADED` | chunk | LoadChunk d'`Anchor` | FridgeAging.indexChunk |
+
+Restent des appels directs : ceux qui attendent une valeur de retour (`Registry.forgetVanilla`, `Devices.beforePickUp`),
+les crochets en paire (`beginRotation`/`endRotation`) et les gardes de modules facultatifs entre services de même
+niveau (simulation vers pompe, client vers bourdonnement).
 
 ## 3. Modèle de données
 
@@ -662,7 +690,7 @@ Pattern validé conservé, sans migration d'architecture.
   possède orientation et facteur de froid purs.
 - `server/LW_Batteries` convertit énergie à chaud, fenêtre accessible et réserve.
   Les actions réutilisent ce modèle pour la réparation.
-- `server/LW_Events` possède le journal borné, sans émission réseau propre.
+- `server/LW_Events` possède le journal borné, sans émission réseau propre (le bus d'événements est `shared/LW_EventBus`).
   Registre, simulation, circuits et maintenance le renseignent.
 - `server/LW_Forecast` possède le cache horaire ; utilise météo native et règles
   de production/stockage partagées avec la simulation.

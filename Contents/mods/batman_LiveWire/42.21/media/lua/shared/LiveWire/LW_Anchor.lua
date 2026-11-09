@@ -10,6 +10,7 @@
 require "LiveWire/LW_SquareScan"
 require "LiveWire/LW_Coverage"
 require "LiveWire/LW_Compat"
+require "LiveWire/LW_EventBus"
 
 LiveWire = LiveWire or {}
 
@@ -62,19 +63,15 @@ function Anchor.apply(a, on, id)
 end
 
 -- Client side: wake the fridge hum, ambient sounds and lights of the powered objects
--- (client/LiveWire/LW_AnchorVisuals.lua, absent on a dedicated server).
+-- (client/LiveWire/LW_AnchorVisuals.lua subscribes; nobody on a dedicated server).
 function Anchor.refreshVisuals(a, id)
-    if LiveWire.AnchorVisuals then LiveWire.AnchorVisuals.refresh(a, id) end
+    LiveWire.Events.emit(LiveWire.Events.ANCHOR_VISUALS, a, id)
 end
 
 -- Authority: settle the food of the fridges of the area before the power changes
--- (server/LiveWire/LW_FridgeAging.lua, absent on a client).
-function Anchor.rememberSquare(sq)
-    if LiveWire.FridgeAging then LiveWire.FridgeAging.rememberSquare(sq) end
-end
-
+-- (server/LiveWire/LW_FridgeAging.lua subscribes; nobody on a client).
 function Anchor.ageFridges(a, id)
-    if LiveWire.FridgeAging then LiveWire.FridgeAging.age(a, id) end
+    LiveWire.Events.emit(LiveWire.Events.ANCHOR_CHANGING, a, id)
 end
 
 -- Apply an anchor and refresh visuals when its state changed on this side.
@@ -167,7 +164,7 @@ onTick = function()
 end
 
 local function onLoadChunk(chunk)
-    if LiveWire.FridgeAging then LiveWire.FridgeAging.indexChunk(chunk) end
+    LiveWire.Events.emit(LiveWire.Events.CHUNK_LOADED, chunk)
     local cx, cy = Anchor.chunkCoords(chunk)
     if not cx then return end
     local R = LiveWire.Config.tileRange()

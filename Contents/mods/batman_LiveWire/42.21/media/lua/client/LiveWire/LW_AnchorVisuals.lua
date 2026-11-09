@@ -6,6 +6,7 @@
 if isServer() then return end
 
 require "LiveWire/LW_Coverage"
+require "LiveWire/LW_EventBus"
 
 LiveWire = LiveWire or {}
 
@@ -45,3 +46,6 @@ function V.tick()
     end
     if #queue == 0 then watching = false; Events.OnTick.Remove(V.tick) end
 end
+
+-- Told by the anchors (LW_EventBus.lua); nobody calls it on a dedicated server (file not loaded).
+LiveWire.Events.on(LiveWire.Events.ANCHOR_VISUALS, function(a, id) return LiveWire.AnchorVisuals.refresh(a, id) end)

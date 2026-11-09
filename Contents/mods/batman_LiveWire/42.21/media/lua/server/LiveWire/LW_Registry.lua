@@ -3,6 +3,7 @@
 -- transmitted: clients receive snapshots and the public anchor table only.
 if isClient() then return end
 require "LiveWire/LW_PowerHistory"
+require "LiveWire/LW_EventBus"
 
 LiveWire = LiveWire or {}
 
@@ -17,8 +18,7 @@ local function data()
 end
 
 function Registry.init()
-    if LiveWire.Circuits then LiveWire.Circuits.reset() end
-    if LiveWire.Demand then LiveWire.Demand.reset() end
+    LiveWire.Events.emit(LiveWire.Events.REGISTRY_RESET)
     if LiveWire.Sim then LiveWire.Sim.subscribers = {} end
     local d = ModData.getOrCreate(LiveWire.DATA_KEY)
     d.devices = d.devices or {}
@@ -238,20 +238,20 @@ function Registry.couple(slave, masterGrid)
     slave.relink = nil
     masterGrid.slaves = masterGrid.slaves or {}
     masterGrid.slaves[slave.id] = true
-    if LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
-    if LiveWire.Journal then LiveWire.Journal.add(masterGrid, "IGUI_LW_Coupled") end
+    LiveWire.Events.emit(LiveWire.Events.TOPOLOGY_CHANGED)
+    LiveWire.Events.emit(LiveWire.Events.JOURNAL_ENTRY, masterGrid, "IGUI_LW_Coupled")
 end
 
 -- Make a slave independent again: it leaves the master's grid and gets a new empty grid.
 function Registry.uncouple(slave)
     local g = slave.grid and data().grids[slave.grid]
     if g and g.slaves then g.slaves[slave.id] = nil end
-    if LiveWire.Journal and g then LiveWire.Journal.add(g, "IGUI_LW_Uncoupled") end
+    if g then LiveWire.Events.emit(LiveWire.Events.JOURNAL_ENTRY, g, "IGUI_LW_Uncoupled") end
     slave.coupled = nil
     slave.grid = nil
     slave.wires = nil
     Registry.createGrid(slave)
-    if LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
+    LiveWire.Events.emit(LiveWire.Events.TOPOLOGY_CHANGED)
 end
 
 function Registry.link(dev, grid)
@@ -260,20 +260,23 @@ function Registry.link(dev, grid)
     dev.grid = grid.id
     dev.relink = nil
     grid.members[dev.id] = true
-    if not already and LiveWire.Journal then
-        LiveWire.Journal.add(grid, "IGUI_LW_Event_State", { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Connected" })
+    if not already then
+        LiveWire.Events.emit(LiveWire.Events.JOURNAL_ENTRY, grid, "IGUI_LW_Event_State",
+            { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Connected" })
     end
 end
 
 function Registry.unlink(dev)
     if dev.role == "inverter" then return end
     local g = dev.grid and data().grids[dev.grid]
-    if g and dev.model == "Breaker" and LiveWire.Circuits then
-        LiveWire.Circuits.release(g)
+    local def = LiveWire.Defs.devices[dev.model]
+    if g and def and def.kind == "breaker" then
+        LiveWire.Events.emit(LiveWire.Events.GRID_RELEASED, g)
     end
     if g then g.members[dev.id] = nil end
-    if g and LiveWire.Journal then
-        LiveWire.Journal.add(g, "IGUI_LW_Event_State", { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Disconnected" })
+    if g then
+        LiveWire.Events.emit(LiveWire.Events.JOURNAL_ENTRY, g, "IGUI_LW_Event_State",
+            { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Disconnected" })
     end
     dev.grid = nil
     dev.wires = nil
@@ -338,7 +341,7 @@ end
 -- unlinked and its linked vanilla objects are forgotten. Also used for a grid whose
 -- inverter vanished from the registry, whose public anchor is then removed too.
 function Registry.dropGrid(g)
-    if LiveWire.Circuits then LiveWire.Circuits.release(g, true) end
+    LiveWire.Events.emit(LiveWire.Events.GRID_RELEASED, g, true)
     -- The slaves lose their master: each becomes an independent inverter.
     local slaves = Registry.slaves(g)
     for i = 1, #slaves do Registry.uncouple(slaves[i]) end
@@ -367,7 +370,7 @@ function Registry.removeDevice(id)
         Registry.setAnchor(dev, nil)
         indexRemove(dev)
         data().devices[id] = nil
-        if LiveWire.Demand then LiveWire.Demand.forget(id) end
+        LiveWire.Events.emit(LiveWire.Events.INVERTER_REMOVED, id)
         return
     end
     if dev.role == "inverter" then
@@ -379,8 +382,10 @@ function Registry.removeDevice(id)
     end
     indexRemove(dev)
     data().devices[id] = nil
-    if dev.role == "inverter" and LiveWire.Circuits then LiveWire.Circuits.topologyChanged() end
-    if dev.role == "inverter" and LiveWire.Demand then LiveWire.Demand.forget(id) end
+    if dev.role == "inverter" then
+        LiveWire.Events.emit(LiveWire.Events.TOPOLOGY_CHANGED)
+        LiveWire.Events.emit(LiveWire.Events.INVERTER_REMOVED, id)
+    end
 end
 
 -- Public anchor table: anchors[inverterId] = { x, y, z, on, log, log0 } (nil removes it).

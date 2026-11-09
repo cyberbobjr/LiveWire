@@ -405,7 +405,7 @@ class Regressions(unittest.TestCase):
           getContainerCount=function() return 1 end,getContainerByIndex=function() return cont end}
         getCell=function() return {getGridSquare=function(_,x,y,z)
             queries=queries+1; if x==0 and y==0 and z==0 then return sq end end} end
-        A.rememberSquare(sq)
+        LiveWire.FridgeAging.rememberSquare(sq)
         A.apply=function(_,on) power=on end
         A.refreshVisuals=function() end
         A.appliedState.test=true

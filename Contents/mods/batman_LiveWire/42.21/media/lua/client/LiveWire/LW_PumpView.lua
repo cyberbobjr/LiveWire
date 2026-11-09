@@ -8,6 +8,7 @@
 -- The highlight is re-applied on every refresh: another code may clear it.
 if isServer() then return end
 require "LiveWire/LW_SquareScan"
+require "LiveWire/LW_EventBus"
 
 LiveWire = LiveWire or {}
 
@@ -238,3 +239,6 @@ end)
 Events.OnObjectAboutToBeRemoved.Add(function(obj)
     if obj and obj.getSquare then PV.invalidateAt(obj:getSquare()) end
 end)
+
+-- Told by the placement wrappers (LW_EventBus.lua).
+LiveWire.Events.on(LiveWire.Events.SQUARE_CHANGED, function(sq) return LiveWire.PumpView.invalidateAt(sq) end)

@@ -4,6 +4,7 @@
 -- independent of the asynchronous demand inventory: even the first power toggle
 -- ages the food.
 if isClient() then return end
+require "LiveWire/LW_EventBus"
 
 LiveWire = LiveWire or {}
 
@@ -98,3 +99,8 @@ function Fridge.age(a, id)
 end
 
 Events.EveryHours.Add(Fridge.purge)
+
+-- Told by the placement wrappers and the anchors (LW_EventBus.lua).
+LiveWire.Events.on(LiveWire.Events.SQUARE_CHANGED, function(sq) return LiveWire.FridgeAging.rememberSquare(sq) end)
+LiveWire.Events.on(LiveWire.Events.ANCHOR_CHANGING, function(a, id) return LiveWire.FridgeAging.age(a, id) end)
+LiveWire.Events.on(LiveWire.Events.CHUNK_LOADED, function(chunk) return LiveWire.FridgeAging.indexChunk(chunk) end)

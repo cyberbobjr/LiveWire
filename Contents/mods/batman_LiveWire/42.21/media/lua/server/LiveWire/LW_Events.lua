@@ -1,5 +1,6 @@
 -- Live Wire: bounded, translated network journal; no additional broadcasts.
 if isClient() then return end
+require "LiveWire/LW_EventBus"
 LiveWire = LiveWire or {}
 local Journal = {}
 LiveWire.Journal = Journal
@@ -44,3 +45,6 @@ function Journal.capture(grid)
     end
     grid.eventState = current
 end
+
+-- Told by the registry (LW_EventBus.lua).
+LiveWire.Events.on(LiveWire.Events.JOURNAL_ENTRY, function(...) return LiveWire.Journal.add(...) end)

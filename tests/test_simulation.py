@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LUA = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media", "lua")
 
 FILES = [
-    "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua",
+    "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_EventBus.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua",
     "shared/LiveWire/LW_Extension.lua", "shared/LiveWire/LW_Coupling.lua",
     "shared/LiveWire/LW_ApplianceFamilies.lua",
     "shared/LiveWire/LW_Consumption.lua", "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",

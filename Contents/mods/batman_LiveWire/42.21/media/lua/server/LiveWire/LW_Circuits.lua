@@ -3,6 +3,7 @@ if isClient() then return end
 require "LiveWire/LW_Appliances"
 require "LiveWire/LW_Anchor"
 require "LiveWire/LW_CircuitProvider"
+require "LiveWire/LW_EventBus"
 LiveWire = LiveWire or {}
 local Circuits = {}
 LiveWire.Circuits = Circuits
@@ -193,6 +194,11 @@ end
 local function current(job)
     return getCell():getChunkForGridSquare(job.wx * 8, job.wy * 8, job.z) == job.chunk
 end
+-- Furniture was placed on `sq`: re-apply the circuits to each object of the square.
+function Circuits.applySquare(sq)
+    local objects = sq:getObjects()
+    for i = 0, objects:size() - 1 do Circuits.applyObject(objects:get(i)) end
+end
 function Circuits.topologyChanged()
     local R = LiveWire.Registry
     if not R or not R.ready or R.readOnly then return end
@@ -311,3 +317,9 @@ function Circuits.tick()
     end
 end
 Events.OnTick.Add(Circuits.tick)
+
+-- Told by the registry and the placement wrappers (LW_EventBus.lua).
+LiveWire.Events.on(LiveWire.Events.REGISTRY_RESET, function() return LiveWire.Circuits.reset() end)
+LiveWire.Events.on(LiveWire.Events.TOPOLOGY_CHANGED, function() return LiveWire.Circuits.topologyChanged() end)
+LiveWire.Events.on(LiveWire.Events.GRID_RELEASED, function(grid, defer) return LiveWire.Circuits.release(grid, defer) end)
+LiveWire.Events.on(LiveWire.Events.SQUARE_OBJECTS_CHANGED, function(sq) return LiveWire.Circuits.applySquare(sq) end)

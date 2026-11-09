@@ -6,6 +6,7 @@
 if isClient() then return end
 
 require "LiveWire/LW_ApplianceFamilies"
+require "LiveWire/LW_EventBus"
 LiveWire = LiveWire or {}
 
 local Demand = {}
@@ -464,3 +465,8 @@ Events.OnObjectAboutToBeRemoved.Add(onObjectChanged)
 Events.OnTick.Add(onTick)
 -- Only one position per cached network, no appliance/map scan for this purge.
 Events.EveryTenMinutes.Add(Demand.prune)
+
+-- Told by the registry and the placement wrappers (LW_EventBus.lua).
+LiveWire.Events.on(LiveWire.Events.REGISTRY_RESET, function() return LiveWire.Demand.reset() end)
+LiveWire.Events.on(LiveWire.Events.INVERTER_REMOVED, function(id) return LiveWire.Demand.forget(id) end)
+LiveWire.Events.on(LiveWire.Events.COVERAGE_CHANGED, function(sq) return LiveWire.Demand.invalidateAt(sq) end)
