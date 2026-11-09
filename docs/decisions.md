@@ -299,3 +299,8 @@ Mise à jour de D-47 (2026-11-09, pour D-54) : le kit de dessin des fenêtres (`
 `client/LiveWire/LW_Enclosure.lua`) est exposé à Extended par `LiveWire.API.enclosure()`, qui rend la table du
 module (et non une copie) : c'est la seule exception à la règle « copies détachées », justifiée par le fait qu'il
 s'agit de code d'interface sans état de jeu. Extended ne l'appelle qu'à l'ouverture de sa fenêtre.
+
+Mise à jour de D-54 (2026-11-09, réponse de l'utilisateur à la question Q0 de la session d'harmonisation, option 1) :
+la maquette `propA` est la référence des deux fenêtres. Le disjoncteur de Live Wire devient un peu plus haut (477 px à
+taille de police normale au lieu de 454), sa bande d'état entre dans le renfoncement, ses leviers gardent leur forme ;
+le tableau d'Extended a le même aspect. Largeur de Live Wire inchangée (750 px).
