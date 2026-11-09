@@ -177,6 +177,32 @@ class DevicePanels(unittest.TestCase):
         assert(#SENT==before and P.instance==nil and p.obj==nil and LiveWire.Client.deviceView==nil)
         ''')
 
+    def test_long_bank_and_device_lines_scroll_inside_the_screen(self):
+        self.helper.lcd_fixture()
+        self.load('client/LiveWire/LW_DevicePanel.lua')
+        self.load('client/LiveWire/LW_BankPanel.lua')
+        self.lua.execute('''
+        getTextManager=function() return {getFontHeight=function() return 16 end,
+            MeasureStringX=function(_,f,s) return #s*8 end} end
+        local LONG=string.rep('x',200)
+        local function firstX(P,setup)
+            local xs={}
+            local p=ui(P,350);p.L=LiveWire.UIScale.layout(1,P.BASE);p.L.fh=20
+            setup(p)
+            p.drawText=function(_,s,x) if s==LONG then xs[#xs+1]=x end end
+            NOW=0;p:render();NOW=5000;p:render()
+            return xs
+        end
+        local d=firstX(LiveWire.DevicePanel,function(p)
+            p.obj={mark={id='d1',model='SolarPanel',cond=100}}
+            p.lines=function() return {LONG} end end)
+        assert(#d==2 and d[1]==28 and d[2]<28,'device line does not scroll')
+        LiveWire.Marks.get=function(o) return o.mark end
+        local b=firstX(LiveWire.BankPanel,function(p)
+            p.obj={mark={id='b1',cond=100}};LiveWire.Client.equipmentCondition=function() return LONG end end)
+        assert(#b==2 and b[1]==28 and b[2]<28,'bank line does not scroll')
+        ''')
+
     def test_lcd_content_sources_pump_alarm_waiting_and_font_geometry(self):
         self.helper.lcd_fixture()
         self.load('client/LiveWire/LW_DevicePanel.lua')
@@ -338,6 +364,30 @@ class DevicePanels(unittest.TestCase):
         assert(count==4)
         ''')
 
+
+    def test_inverter_screen_takes_the_shared_palette_lit_or_off(self):
+        self.helper.lcd_fixture()
+        self.load('client/LiveWire/LW_InverterPanel.lua')
+        self.lua.execute('''
+        local P,Pal=LiveWire.InverterPanel,LiveWire.Lcd.PALETTE
+        local p=ui(P,300);p.L=LiveWire.UIScale.layout(1,P.BASE);p.page=1
+        p.powerBtn={getX=function() return 200 end,getY=function() return 200 end}
+        p.brandKey=function() return 'IGUI_LW_LCD_Brand' end
+        local snap={name='Home',production=2,demand=150,sources={},inverter={maxW=1500,state='on'}}
+        p.snapshot=function() return snap end
+        local function colours()
+            local c={}
+            p.drawRect=function(_,x,y,w,h,a,r,g,b) c[x..','..y]={r,g,b} end
+            p:render();return c
+        end
+        local L=p.L
+        local function same(a,b) return a[1]==b[1] and a[2]==b[2] and a[3]==b[3] end
+        local c=colours()
+        assert(same(c[(L.lcdX-L.bezel)..','..(L.lcdY-L.bezel)],Pal.green.bezel),'bezel')
+        assert(same(c[L.lcdX..','..L.lcdY],Pal.green.screen),'lit screen')
+        snap.inverter.state='off';c=colours()
+        assert(same(c[L.lcdX..','..L.lcdY],Pal.off.screen),'dark screen')
+        ''')
 
     def test_inverter_lcd_shows_public_grid_only_when_usable(self):
         self.helper.lcd_fixture()
