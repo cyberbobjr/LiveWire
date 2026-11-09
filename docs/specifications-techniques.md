@@ -837,6 +837,16 @@ boutons sous l'écran. La liste de raccordements réutilise son actualisation à
 seconde pour préparer les libellés d'état de ses objets déjà découverts. Aucun
 parcours du monde, paquet, registre, schéma persistant ou cadence serveur ajouté.
 
+### Écrans LCD (D-56)
+
+Un seul vert rétroéclairé pour tous les écrans : fond 0.62/0.74/0.40, encre 0.08/0.13/0.05 (batterie, appareils,
+onduleur allumé, afficheur et bande d'état du tableau de Live Wire et d'Extended). Pompe : fond 0.38/0.64/0.82,
+encre 0.05/0.11/0.20. Onduleur éteint : fond 0.16/0.19/0.14, texte d'attente 0.6/0.65/0.55 ; surcharge en
+0.55/0.05/0.02. Cadre 0.06/0.07/0.06 et reflet blanc à 16 % sur 2 px en haut de chaque écran. Texte d'écran en
+`LiveWire.Client.lcdFont()` (`UIFont.Code`, `UIFont.Small` en CN, JP, KO, TH) ; le texte imprimé sur la façade du
+tableau reste en `UIFont.Small`. Lignes trop longues : défilement aller-retour à 40 px/s de référence avec une
+pause de 1,2 s à chaque bout (batterie, appareil, onduleur) ; abrégées avec « … » sur le tableau (D-54).
+
 ### Fermeture des panneaux et retrait différé
 
 Les panneaux tableau, powerbank et raccordements marquent leur instance `closed`,

@@ -91,7 +91,7 @@ Cette section prime sur le reste du document quand ils divergent.
 - **États transmis** : la marque porte aussi `st` (onduleur : on/off/tripped/broken ; disjoncteur : ok/tripped ; alarme : ok/ringing) et `pw` (maison alimentée). `Devices.refreshStates(grid)`, appelé à chaque pas, réécrit les marques qui ont changé.
 - **Visuels client** (`client/LW_Visuals.lua`) : repérage des équipements à 18 cases (toutes les 3 s), calques de tuile 24-67 posés et retirés localement, pales recalculées toutes les 100 ms selon `getClimateManager():getWindspeedKph()`.
 - **Son** : `client/LW_Hum.lua`, son `LiveWireInverterHum` (`scripts/LiveWire_sounds.txt`, `sound/LiveWireInverterHum.ogg`).
-- **Interfaces** : `client/LW_InverterPanel.lua` (écran LCD), `client/LW_SoftwareApp.lua` (logiciel de gestion, dessiné dans un rectangle de n'importe quel élément d'interface : `draw(ui, x, y, w, h)`, `onMouseDown(x, y)`), `client/LW_SoftwareScreen.lua` (notre écran d'ordinateur), `client/LW_RangeView.lua` (cercle de la zone), `client/LW_ComputerMod.lua` (Computer Mod facultatif), `shared/LW_Compat.lua` (mods facultatifs).
+- **Interfaces** : `client/LW_InverterPanel.lua` (écran LCD ; tous les écrans LCD sont dessinés par `client/LW_Lcd.lua`, D-56), `client/LW_SoftwareApp.lua` (logiciel de gestion, dessiné dans un rectangle de n'importe quel élément d'interface : `draw(ui, x, y, w, h)`, `onMouseDown(x, y)`), `client/LW_SoftwareScreen.lua` (notre écran d'ordinateur), `client/LW_RangeView.lua` (cercle de la zone), `client/LW_ComputerMod.lua` (Computer Mod facultatif), `shared/LW_Compat.lua` (mods facultatifs).
 - **Computer Mod** : vue `LIVEWIRE` de `ComputerScreenUI`, sur le modèle de l'extension Musique de l'auteur. Enveloppes, qui rappellent toutes l'original : `getDesktopAppItems` (icône si le logiciel est installé), `activateDesktopItem` (ouvre la vue), `drawDesktop` (fenêtre `drawAppWindow` puis l'application dans `clientX/Y/W/H`), `onMouseDown`, `getWindowTitleForView`, `restoreMinimizedWindow`, `resumePoweredSession`, `shutdownComputer`, `hideComputerScreen`. Drapeau `ComputerModLiveWireInstalled` dans les données de l'ordinateur. Ouverture depuis notre menu : `ComputerContextMenu.openComputerUI`, puis la vue au premier affichage du bureau.
 - **Commandes** : `C_RESET_BREAKER`, `C_ACK_ALARM` ; `Commands.handle` exécute un gestionnaire tout de suite (tests).
 - **Frigos** : `server/LiveWire/LW_FridgeAging.lua` (autorité seulement) indexe les frigos et vieillit leur nourriture avant chaque changement d'état d'une ancre. `Anchor.ageFridges` lui délègue l'appel.
@@ -817,3 +817,15 @@ en lisant l'état du réseau et ses coupures. Le client choisit les overlays dan
 `LW_Visuals` au rythme existant, sans décider du service. Le thème bleu du LCD
 pompe est purement visuel. Deux cases réservées du pack et leurs profondeurs
 portent le nouveau vert du tableau ; aucun identifiant ni schéma ne change.
+
+### Écrans LCD communs (D-56)
+
+`client/LiveWire/LW_Lcd.lua` (`LiveWire.Lcd`) est le seul module qui dessine un écran LCD d'appareil :
+palette (`PALETTE.green`, `pump`, `off`, un seul cadre et un seul reflet), `frame`, `line` (ligne découpée qui
+défile si elle est trop longue), `bar` (jauge), `rule`, `waiting`, `page`, et le gabarit `DEVICE_BASE` des fenêtres
+batterie et appareil (`withDeviceScreen`, `deviceScreen`). Fonctions pures testées hors jeu : `scrollOffset`,
+`fillWidth`. Les fenêtres batterie, appareil (pompe comprise) et onduleur l'appellent directement ; le kit de
+coffret `LW_Enclosure` l'appelle pour l'afficheur et la bande d'état du tableau, si bien qu'Extended n'y accède
+que par `LiveWire.API.enclosure()` (D-47) et `E.lcdFont()`. Coordonnées en unités de la fenêtre, multipliées par
+`ui.lwK` quand elle en a un (coffrets), telles quelles sinon (fenêtres en pixels mis à l'échelle). Purement
+client : ni état de jeu, ni réseau.

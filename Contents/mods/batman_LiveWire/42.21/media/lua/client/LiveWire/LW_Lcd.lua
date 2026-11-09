@@ -3,7 +3,7 @@
 -- its frame, its lines and its gauge from here.
 -- Coordinates are in window units: multiplied by `ui.lwK` when the window carries a factor
 -- (enclosure windows, reference units), used as given otherwise (windows laid out in pixels).
--- The pure functions (scroll offset, gauge fill, line height) carry no drawing and are tested offline.
+-- The pure functions (scroll offset, gauge fill) carry no drawing and are tested offline.
 if isServer() then return end
 require "LiveWire/LW_UIKit"
 
@@ -48,7 +48,6 @@ local function palette(variant)
     if type(variant) == "table" then return variant end
     return Lcd.PALETTE[variant or "green"] or Lcd.PALETTE.green
 end
-Lcd.palette = palette
 
 -------------------------------------------------------------------------------
 -- Pure functions
@@ -74,11 +73,6 @@ end
 function Lcd.fillWidth(fraction, w, gap)
     local f = math.max(0, math.min(1, fraction or 0))
     return (w - 2 * gap) * f
-end
-
--- Height of one LCD line: the font height in window units plus a padding.
-function Lcd.lineHeight(fontPx, k, pad)
-    return fontPx / (k or 1) + (pad or 0)
 end
 
 -------------------------------------------------------------------------------
