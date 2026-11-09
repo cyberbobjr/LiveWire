@@ -145,6 +145,24 @@ local function checkInverterCommand(player, args)
     return nil, why
 end
 
+-- A command handler behind a check: `check(player, args)` returns the device (or nil and the
+-- translation key of the refusal, then the player is told) and may return one more value.
+-- `fn(player, args, dev, extra)` runs only when the check passed.
+local function guarded(check, fn)
+    return function(player, args)
+        local dev, why, extra = check(player, args)
+        if not dev then
+            if why then refuse(player, why) end
+            return
+        end
+        return fn(player, args, dev, extra)
+    end
+end
+
+local function deviceIn(field)
+    return function(player, args) return Commands.checkDevice(player, args[field]) end
+end
+
 local handlers = {}
 handlers[P.C_READ_SERVICES] = function(player, args) LiveWire.ServiceSync.reply(player, args) end
 handlers[P.C_READ_DEVICE] = function(player, args)
@@ -169,22 +187,18 @@ handlers[P.C_READ_BANK] = function(player, args)
 end
 handlers[P.C_SET_CIRCUIT] = function(player, args) LiveWire.Circuits.set(player, args) end
 
-handlers[P.C_RESUME_BACKUP] = function(player, args)
-    local dev, why = Commands.checkDevice(player, args.device)
-    if not dev then return refuse(player, why) end
+handlers[P.C_RESUME_BACKUP] = guarded(deviceIn("device"), function(player, args, dev)
     if dev.role ~= "backup" or not LiveWire.Backup.resume(dev) then return end
     LiveWire.Sim.refresh(LiveWire.Registry.grid(dev.grid))
-end
+end)
 
-handlers[P.C_SET_BRAKE] = function(player, args)
-    local dev, why = Commands.checkDevice(player, args.device)
-    if not dev then return refuse(player, why) end
+handlers[P.C_SET_BRAKE] = guarded(deviceIn("device"), function(player, args, dev)
     local def = LiveWire.Defs.devices[dev.model]
     if not def or not LiveWire.Defs.sourceField(def.kind, "brake") or not P.isBool(args.brake) then return end
     dev.brake = args.brake
     LiveWire.Devices.syncMark(dev)
     LiveWire.Sim.refresh(dev.grid and LiveWire.Registry.grid(dev.grid))
-end
+end)
 
 -- Other server files add their commands here (LW_DebugCommands.lua).
 function Commands.register(command, fn)
@@ -233,7 +247,7 @@ handlers[P.C_UNSUBSCRIBE] = function(player, args)
     if grid then LiveWire.Sim.unsubscribe(player, grid.id) end
 end
 
-handlers[P.C_UNLINK] = function(player, args)
+local function checkUnlink(player, args)
     local dev, why = Commands.checkDevice(player, args.device)
     if not dev and why == ERR.TOO_FAR then
         -- Also allowed from the inverter of its network (inverter menu).
@@ -241,7 +255,10 @@ handlers[P.C_UNLINK] = function(player, args)
         local g = d and d.grid and LiveWire.Registry.grid(d.grid)
         if g and Commands.checkDevice(player, g.inverter) then dev = d end
     end
-    if not dev then return refuse(player, why) end
+    return dev, why
+end
+
+handlers[P.C_UNLINK] = guarded(checkUnlink, function(player, args, dev)
     if dev.role == "inverter" or not dev.grid then return end
     if not LiveWire.Install.screwdriver(player) then
         return refuse(player, ERR.NEED_SCREWDRIVER)
@@ -258,13 +275,11 @@ handlers[P.C_UNLINK] = function(player, args)
     LiveWire.Sim.refresh(grid)
     LiveWire.notify(player, "IGUI_LW_Unlinked", {})
     LiveWire.Devices.returnWires(player, wires)
-end
+end)
 
 -- Make a slave independent again: it gets its own empty grid, the coupling kit and
 -- the wire of the coupling go back to the player.
-handlers[P.C_UNCOUPLE] = function(player, args)
-    local dev, why = Commands.checkDevice(player, args.inverter)
-    if not dev then return refuse(player, why) end
+handlers[P.C_UNCOUPLE] = guarded(deviceIn("inverter"), function(player, args, dev)
     if dev.role ~= "inverter" or not dev.coupled then return end
     local R = LiveWire.Registry
     local mgrid = R.grid(dev.grid)
@@ -280,12 +295,10 @@ handlers[P.C_UNCOUPLE] = function(player, args)
     LiveWire.Install.giveItem(player, LiveWire.Defs.COUPLING_KIT)
     LiveWire.notify(player, "IGUI_LW_Uncoupled", {})
     LiveWire.Devices.returnWires(player, wires)
-end
+end)
 
 -- Disconnect one barrel from a pump: the pipe goes back to the player.
-handlers[P.C_UNLINK_BARREL] = function(player, args)
-    local dev, why = Commands.checkDevice(player, args.pump)
-    if not dev then return refuse(player, why) end
+handlers[P.C_UNLINK_BARREL] = guarded(deviceIn("pump"), function(player, args, dev)
     if dev.role ~= "pump" or not LiveWire.Pump then return end
     local x, y, z = P.parsePos(args)
     if not x then return end
@@ -294,7 +307,7 @@ handlers[P.C_UNLINK_BARREL] = function(player, args)
     LiveWire.Pump.unlinkBarrel(dev, key)
     LiveWire.Install.giveItem(player, LiveWire.Defs.PUMP_PIPE)
     LiveWire.notify(player, "IGUI_LW_BarrelUnlinked", {})
-end
+end)
 
 -- Same overload test as the simulation trip (LW_Simulation.lua stepGrid): house
 -- demand plus the pumps against the capacity in service. Returns the notification
@@ -310,9 +323,7 @@ local function overload(inv, grid)
     end
 end
 
-handlers[P.C_SET_INVERTER] = function(player, args)
-    local dev, why = checkInverterCommand(player, args)
-    if not dev then return refuse(player, why) end
+handlers[P.C_SET_INVERTER] = guarded(checkInverterCommand, function(player, args, dev)
     if dev.role ~= "inverter" or not P.isBool(args.on) then return end
     if args.on then
         if dev.state == "off" then
@@ -333,11 +344,9 @@ handlers[P.C_SET_INVERTER] = function(player, args)
         dev.state = "off"
     end
     LiveWire.Sim.refresh(LiveWire.Registry.grid(dev.grid))
-end
+end)
 
-handlers[P.C_RESET] = function(player, args)
-    local dev, why = checkInverterCommand(player, args)
-    if not dev then return refuse(player, why) end
+handlers[P.C_RESET] = guarded(checkInverterCommand, function(player, args, dev)
     -- A slave never trips: its master is the one to reset.
     if dev.coupled then dev = LiveWire.Registry.device(dev.coupled) or dev end
     if dev.role ~= "inverter" or dev.state ~= "tripped" then return end
@@ -347,12 +356,10 @@ handlers[P.C_RESET] = function(player, args)
     dev.state = "on"
     LiveWire.Xp.awardLimited(player, "reset:" .. dev.id, 5, 1)
     LiveWire.Sim.refresh(grid)
-end
+end)
 
 -- Reset a tripped wall breaker (from the breaker itself).
-handlers[P.C_RESET_BREAKER] = function(player, args)
-    local dev, why = Commands.checkDevice(player, args.device)
-    if not dev then return refuse(player, why) end
+handlers[P.C_RESET_BREAKER] = guarded(deviceIn("device"), function(player, args, dev)
     local bdef = LiveWire.Defs.devices[dev.model]
     if not bdef or bdef.kind ~= "breaker" or dev.state ~= "tripped" then return end
     local grid = dev.grid and LiveWire.Registry.grid(dev.grid)
@@ -365,24 +372,26 @@ handlers[P.C_RESET_BREAKER] = function(player, args)
     LiveWire.Xp.awardLimited(player, "reset:" .. dev.id, 5, 1)
     if grid then LiveWire.Sim.refresh(grid) else LiveWire.Devices.syncMark(dev) end
     LiveWire.notify(player, "IGUI_LW_BreakerReset", {})
-end
+end)
 
 -- Silence a ringing low battery alarm (its beacon stays lit until the stock recovers).
-handlers[P.C_ACK_ALARM] = function(player, args)
-    local dev, why = Commands.checkDevice(player, args.device)
-    if not dev then return refuse(player, why) end
+handlers[P.C_ACK_ALARM] = guarded(deviceIn("device"), function(player, args, dev)
     local adef = LiveWire.Defs.devices[dev.model]
     local grid = dev.grid and LiveWire.Registry.grid(dev.grid)
     if not adef or adef.kind ~= "alarm" or not grid or not grid.alarmOn then return end
     grid.alarmAck = true
     LiveWire.notify(player, "IGUI_LW_AlarmSilenced", {})
+end)
+
+-- An unknown inverter is ignored without a refusal.
+local function checkRename(player, args)
+    local grid = gridOfInverter(args.inverter)
+    if not grid then return nil, nil end
+    local dev, why = checkInverterCommand(player, args)
+    return dev, why, grid
 end
 
-handlers[P.C_RENAME] = function(player, args)
-    local grid = gridOfInverter(args.inverter)
-    if not grid then return end
-    local dev, why = checkInverterCommand(player, args)
-    if not dev then return refuse(player, why) end
+handlers[P.C_RENAME] = guarded(checkRename, function(player, args, _dev, grid)
     local name = P.cleanName(args.name)
     if name then
         grid.name = name
@@ -391,7 +400,7 @@ handlers[P.C_RENAME] = function(player, args)
         if master then LiveWire.Devices.syncMark(master) end
         LiveWire.Sim.publish(grid)
     end
-end
+end)
 
 -- A client sees a Live Wire tile without a valid mark for some seconds (placed by a
 -- path that skipped our placement wrapper): register it if it really is unbound.

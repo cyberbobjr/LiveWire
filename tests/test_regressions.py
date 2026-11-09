@@ -518,6 +518,36 @@ class Regressions(unittest.TestCase):
         assert(dev.brake==false)
         ''')
 
+    def test_device_commands_refuse_with_the_check_reason_and_stay_silent_on_unknown_grid(self):
+        self.run_lua('''
+        local R,C,P=LiveWire.Registry,LiveWire.Commands,LiveWire.Protocol
+        local inv=R.addDevice({role="inverter",model="Inverter",x=0,y=0,z=0,state="on",cond=100})
+        R.createGrid(inv)
+        local notices={}
+        LiveWire.notify=function(_,key,_,warn) notices[#notices+1]={key=key,warn=warn} end
+        local player={}
+        local function run(command,args) notices={};C.handle(player,command,args) return notices end
+        -- A check that fails tells the player why; a check that passes runs the handler.
+        C.checkDevice=function() return nil,"Tooltip_LW_TooFar" end
+        for _,command in ipairs({P.C_RESUME_BACKUP,P.C_SET_BRAKE,P.C_RESET_BREAKER,P.C_ACK_ALARM}) do
+            local n=run(command,{device=inv.id})
+            assert(#n==1 and n[1].key=="Tooltip_LW_TooFar" and n[1].warn==true,command)
+        end
+        assert(run(P.C_UNCOUPLE,{inverter=inv.id})[1].key=="Tooltip_LW_TooFar")
+        assert(run(P.C_UNLINK_BARREL,{pump=inv.id})[1].key=="Tooltip_LW_TooFar")
+        assert(run(P.C_SET_INVERTER,{inverter=inv.id,on=true})[1].key=="Tooltip_LW_TooFar")
+        assert(run(P.C_RESET,{inverter=inv.id})[1].key=="Tooltip_LW_TooFar")
+        assert(run(P.C_UNLINK,{device=inv.id})[1].key=="Tooltip_LW_TooFar")
+        assert(run(P.C_RENAME,{inverter=inv.id,name="x"})[1].key=="Tooltip_LW_TooFar")
+        -- An unknown inverter is ignored without a notice.
+        assert(#run(P.C_RENAME,{inverter="nope",name="x"})==0)
+        -- A passing check reaches the handler.
+        C.checkDevice=function() return inv end
+        inv.state="off"
+        run(P.C_SET_INVERTER,{inverter=inv.id,on=false})
+        assert(inv.state=="off")
+        ''')
+
 
 if __name__ == '__main__':
     unittest.main()
