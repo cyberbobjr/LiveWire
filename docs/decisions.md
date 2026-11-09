@@ -283,3 +283,19 @@ sandbox ne change ; aucune migration de pattern (serveur autoritaire, modules `L
 | D-51 | Abonnés à chaque image (2026-11-09) | Les vues (portée, pompe, réseau) ne s'abonnent à `OnTick` que tant qu'elles sont ouvertes ; l'affichage de l'ancre ne tourne que côté joueur et le vieillissement des frigos que côté serveur ; les pompes se trouvent par un index de rôle. La découverte des appareils reste inchangée tant qu'aucune mesure ne justifie un passage à `EveryOneMinute` |
 | D-52 | Événements internes (2026-11-09) | Un bus local `LiveWire.Events` (`on`, `emit`) remplace les appels du registre et des wrappers de placement vers les autres modules (`topologyChanged`, `squareChanged`, …) ; un module absent ne s'abonne simplement pas |
 | D-53 | Voyants des sources ajoutées par l'API (2026-11-09, demande de l'utilisateur) | `API.registerSource` accepte un champ facultatif `overlays` (mêmes clés que `Defs.devices`, valeurs dans la feuille de la source, jamais sur ses 4 tuiles, recopiées) ; `LW_Visuals` dessine les voyants depuis la feuille de l'appareil et ne pose que les sprites dont la texture existe. Aucun changement pour les appareils de la base |
+
+## Harmonisation des disjoncteurs — 2026-11-09
+
+Plan `annexes/plans/harmonisation-disjoncteurs.md`, maquette validée `annexes/maquettes/disjoncteurs-harmonises.html`
+(proposition A). Numérotation : D-53 est déjà prise (voyants des sources de l'API) ; les deux décisions de ce plan
+prennent D-54 (rendu) et D-55 (agrandissement).
+
+| ID | Sujet | Décision |
+|---|---|---|
+| D-54 | Rendu commun « coffret dessiné » (2026-11-09, choix de l'utilisateur) | La fenêtre du tableau d'Extended (8, 16, 24 modules) prend le rendu et la géométrie de la fenêtre du disjoncteur de Live Wire : en-tête « LIVE WIRE », coffret crème, capot fumé, plaque fabricant, renfoncement, rail galvanisé, afficheur LCD à gauche, modules à droite, texte d'aide et boutons dans le coffret. Les disjoncteurs sont dessinés (plus de textures `LWX_UI_module_*` dans la fenêtre), avec une bande et une plaque de calibre colorées (15 A bleu, 20 A jaune, 30 A vert). Les deux fenêtres utilisent un seul code de dessin, dans Live Wire ; Extended l'obtient par `LiveWire.API` (voir la mise à jour de D-47 ci-dessous). Les textes trop longs sont abrégés avec « … » (texte complet en infobulle), jamais découpés |
+| D-55 | Agrandissement sur place (2026-11-09, choix de l'utilisateur) | Un tableau posé s'agrandit de 8 à 16, puis de 16 à 24 modules, sans être démonté : action « Agrandir le tableau », Électricité 3, tournevis gardé, 1 `Base.SmallSheetMetal` et 4 `Base.Screws` consommés. L'autorité remplace la tuile par celle de la taille suivante, même orientation, et met à jour `record.size`. Les modules existants gardent disjoncteurs, étiquettes, compteurs et raccordement à l'onduleur ; les nouveaux modules sont vides. Pas d'agrandissement au-delà de 24 |
+
+Mise à jour de D-47 (2026-11-09, pour D-54) : le kit de dessin des fenêtres (`LiveWire.Enclosure`, fichier
+`client/LiveWire/LW_Enclosure.lua`) est exposé à Extended par `LiveWire.API.enclosure()`, qui rend la table du
+module (et non une copie) : c'est la seule exception à la règle « copies détachées », justifiée par le fait qu'il
+s'agit de code d'interface sans état de jeu. Extended ne l'appelle qu'à l'ouverture de sa fenêtre.
