@@ -1,4 +1,4 @@
-[h1]Live Wire - Überarbeitung der Elektrotechnik[/h1]
+[h1]LiveWire - Überarbeitung der Elektrotechnik[/h1]
 
 [b]Build 42.21 · Einzelspieler und Mehrspieler (serverautoritativ)[/b]
 
@@ -16,7 +16,7 @@ Der Sicherungskasten hat Hebel für Licht, Geräte und Hauptversorgung sowie akt
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_de.png[/img]
 
 Solar 100 W, Wind 400 W, Wasserrad 120 W. Ein Wechselrichter versorgt Geräte in 20 Feldern und ±3 Stockwerken mit bis zu 1.500 W. Keine Einzelkabel zu Haushaltsgeräten.
-[b]Mehr als 1.500 W nötig?[/b] Stelle einen zweiten Wechselrichter ohne Anschlüsse auf, Rechtsklick > Live Wire > „An einen Wechselrichter koppeln“ (1 Kopplungsset für Wechselrichter, Rezept Elektrik 3). Bis zu 4 gekoppelte Wechselrichter: 6.000 W. Neu: Baue einen Wechselrichter zum [b]Wechselrichterschrank[/b] mit 4.500 W um (Elektrik 3); auch er lässt sich koppeln.
+[b]Mehr als 1.500 W nötig?[/b] Stelle einen zweiten Wechselrichter ohne Anschlüsse auf, Rechtsklick > LiveWire > „An einen Wechselrichter koppeln“ (1 Kopplungsset für Wechselrichter, Rezept Elektrik 3). Bis zu 4 gekoppelte Wechselrichter: 6.000 W. Neu: Baue einen Wechselrichter zum [b]Wechselrichterschrank[/b] mit 4.500 W um (Elektrik 3); auch er lässt sich koppeln.
 Batteriebänke speichern Überschüsse (je 4 Batterien). Kabel: 1 Draht pro 4 Felder, Reichweite 12. Verbrauchsprofile: Spielwerte, Realistisch 1993, Ultrarealistisch 1993 oder Komfort.
 
 [h2]Ausrüstung[/h2]
@@ -44,7 +44,7 @@ Die Wasserpumpe (Elektrik 3) versorgt angeschlossene Sanitärgeräte in 15 Felde
 
 [h2]Verwaltungssoftware[/h2]
 
-Live Wire Monitor ergänzt Verbraucher (bis 200), farbige Gerätesilhouetten, Kabelansicht, 30 letzte Ereignisse und drei Tage Produktionsprognose mit versorgtem Verwaltungscomputer, neben 48 Stunden Verlauf. Netzwerknamen auf LCDs und Warnungen. Vanilla-PCs funktionieren; Computer Mod/Laptop Mod optional mit Beutediskette.
+LiveWire Monitor ergänzt Verbraucher (bis 200), farbige Gerätesilhouetten, Kabelansicht, 30 letzte Ereignisse und drei Tage Produktionsprognose mit versorgtem Verwaltungscomputer, neben 48 Stunden Verlauf. Netzwerknamen auf LCDs und Warnungen. Vanilla-PCs funktionieren; Computer Mod/Laptop Mod optional mit Beutediskette.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
@@ -58,9 +58,9 @@ Serverseitige Simulation und Aktionsprüfung, gespeicherte Stromkreise und synch
 
 [h2]Dokumentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire wiki (auf Englisch)[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki (auf Englisch)[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieses Item enthält auch die optionale Mod [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) mit 3D-Modellen aller Geräte. Nur aktivieren, wenn du Project Viewpoint nutzt.
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieses Item enthält auch die optionale Mod [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint) mit 3D-Modellen aller Geräte. Nur aktivieren, wenn du Project Viewpoint nutzt.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Kompatibel mit[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional): Die Verwaltungssoftware wird von einer Diskette aus Computer-Beute installiert und läuft als App auf deren Desktop.

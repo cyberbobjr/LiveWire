@@ -10,7 +10,7 @@ Barrels of water standing on the ground can run the taps of a whole house. An el
 
 | Item | Detail |
 |---|---|
-| Water pump | Recipe at Electrical 3 (see [Recipes](08-recipes.md)). Placed like any Live Wire device, indoors or outdoors, with no level. Linking the pump to the inverter needs Electrical 3; linking a barrel to the pump needs no level (a pipe). |
+| Water pump | Recipe at Electrical 3 (see [Recipes](08-recipes.md)). Placed like any LiveWire device, indoors or outdoors, with no level. Linking the pump to the inverter needs Electrical 3; linking a barrel to the pump needs no level (a pipe). |
 | Electric wire | To connect the pump to an inverter, like any device (1 wire per 4 tiles). |
 | Water barrels | Vanilla rain collectors, or the barrels of the optional mod **Useful Barrels**. Up to 8 per pump. |
 | Iron pipes | 1 per barrel, given back when the barrel is disconnected. |
@@ -19,7 +19,7 @@ Barrels of water standing on the ground can run the taps of a whole house. An el
 ## Setting it up
 
 1. Place the pump **next to the barrels**: a barrel must stand on one of the 8 squares around the pump, on the same floor (diagonals count). A pump surrounded by barrels takes up to 8.
-2. Connect the pump to an inverter: right-click the pump > **Live Wire** > **Water pump** > **Connect to an inverter**.
+2. Connect the pump to an inverter: right-click the pump > **LiveWire** > **Water pump** > **Connect to an inverter**.
 3. Connect each barrel: right-click the pump > **Connect a barrel**, or right-click the barrel > **Water barrel** > **Pump next to this barrel (1 pipe)**.
 4. Plumb the fixtures with a pipe wrench, the vanilla way (right-click the sink > **Plumb...**). The option appears once the pump supplies the fixture.
 
@@ -44,7 +44,7 @@ Barrels of water standing on the ground can run the taps of a whole house. An el
 
 ## Noise
 
-A light motor hum is heard around a running pump (same volume slider as the inverter hum, Options > Mods > Live Wire). Zombies hear it within 2 tiles.
+A light motor hum is heard around a running pump (same volume slider as the inverter hum, Options > Mods > LiveWire). Zombies hear it within 2 tiles.
 
 ## Wear
 
@@ -52,7 +52,7 @@ The pump wears only while it runs (1 condition point per 10 days of pumping) and
 
 ## Before removing the mod
 
-Run the debug or admin action **Remove every water relay** first (right-click > Live Wire, debug mode in single player, admin in multiplayer), then save. The action also stops every pump, so that no tank comes back. Tanks in areas that are not loaded are removed the next time their area loads, while the mod is still installed. To use the pumps again without removing the mod, run the debug action **Enable the water pumps again**.
+Run the debug or admin action **Remove every water relay** first (right-click > LiveWire, debug mode in single player, admin in multiplayer), then save. The action also stops every pump, so that no tank comes back. Tanks in areas that are not loaded are removed the next time their area loads, while the mod is still installed. To use the pumps again without removing the mod, run the debug action **Enable the water pumps again**.
 
 ## See also
 

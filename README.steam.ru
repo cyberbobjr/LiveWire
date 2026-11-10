@@ -1,4 +1,4 @@
-[h1]Live Wire - Electrical Skill Overhaul[/h1]
+[h1]LiveWire - Electrical Skill Overhaul[/h1]
 
 [b]Build 42.21 · Одиночная и сетевая игра[/b]
 
@@ -16,7 +16,7 @@
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ru.png[/img]
 
 Солнце 100 Вт, ветер 400 Вт, водяное колесо 120 Вт. Инвертор питает приборы в 20 клетках и ±3 этажах, до 1500 Вт. Без проводов к каждому прибору.
-[b]Нужно больше 1500 Вт?[/b] Второй инвертор без подключений: ПКМ > Live Wire > «Сцепить с инвертором» (комплект сцепки, Электрика 3). До 4 инверторов: 6000 Вт. Или [b]инверторный шкаф[/b] из инвертора: 4500 Вт, Электрика 3.
+[b]Нужно больше 1500 Вт?[/b] Второй инвертор без подключений: ПКМ > LiveWire > «Сцепить с инвертором» (комплект сцепки, Электрика 3). До 4 инверторов: 6000 Вт. Или [b]инверторный шкаф[/b] из инвертора: 4500 Вт, Электрика 3.
 Блок хранит 4 батареи. Кабель: 1 провод на 4 клетки, дальность 12. Профили расхода: игровые значения, Реалистичный 1993, Ультрареалистичный 1993, Комфорт.
 
 [h2]Оборудование[/h2]
@@ -44,7 +44,7 @@
 
 [h2]Управляющая программа[/h2]
 
-Live Wire Monitor: потребители (до 200), цветные силуэты, кабели, 30 событий, история 48 ч и прогноз выработки на три дня с работающим компьютером. Работает обычный ПК; Computer Mod/Laptop Mod — с диском из добычи.
+LiveWire Monitor: потребители (до 200), цветные силуэты, кабели, 30 событий, история 48 ч и прогноз выработки на три дня с работающим компьютером. Работает обычный ПК; Computer Mod/Laptop Mod — с диском из добычи.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
@@ -60,7 +60,7 @@ Live Wire Monitor: потребители (до 200), цветные силуэ�
 
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Вики (англ.)[/url] · Код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: необязательный мод [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) с 3D-моделями устройств — только для Project Viewpoint.
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: необязательный мод [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint) с 3D-моделями устройств — только для Project Viewpoint.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Совместим с[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url].

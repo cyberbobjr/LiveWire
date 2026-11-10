@@ -2,11 +2,11 @@
 
 <p align="center"><img src="../../../preview.png" width="256"></p>
 
-# Live Wire
+# LiveWire
 
-![Live Wire](../../images/screenshots/shot4.png)
+![LiveWire](../../images/screenshots/shot4.png)
 
-Live Wire est un mod pour Project Zomboid **Build 42.21** (ID du mod `batman_LiveWire`, [objet Workshop 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)). Il ajoute panneaux solaires, éoliennes et roues à aubes, batteries rangées dans une powerbank, un onduleur qui alimente la maison et une pompe à eau qui alimente les robinets depuis des barils. La compétence Électricité devient un métier.
+LiveWire est un mod pour Project Zomboid **Build 42.21** (ID du mod `batman_LiveWire`, [objet Workshop 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)). Il ajoute panneaux solaires, éoliennes et roues à aubes, batteries rangées dans une powerbank, un onduleur qui alimente la maison et une pompe à eau qui alimente les robinets depuis des barils. La compétence Électricité devient un métier.
 
 Pour commencer : [Premiers pas](01-premiers-pas.md).
 

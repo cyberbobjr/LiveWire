@@ -1,5 +1,5 @@
 {
-    "ContextMenu_LW_Root": "Live Wire",
+    "ContextMenu_LW_Root": "LiveWire",
     "ContextMenu_LW_Measure": "Messen",
     "ContextMenu_LW_Inspect": "Untersuchen",
     "ContextMenu_LW_Unlink": "Vom Wechselrichter trennen",
@@ -10,8 +10,8 @@
     "ContextMenu_LW_HideRange": "Versorgtes Gebiet ausblenden",
     "ContextMenu_LW_ResetBreaker": "Schutzschalter zurücksetzen",
     "ContextMenu_LW_AckAlarm": "Alarm stummschalten",
-    "ContextMenu_LW_Software": "Live-Wire-Verwaltungssoftware öffnen",
-    "ContextMenu_LW_InstallSoftware": "Live-Wire-Software installieren",
+    "ContextMenu_LW_Software": "LiveWire-Verwaltungssoftware öffnen",
+    "ContextMenu_LW_InstallSoftware": "LiveWire-Software installieren",
     "ContextMenu_LW_LinkTo": "Mit einem Wechselrichter verbinden",
     "ContextMenu_LW_InverterAt": "Wechselrichter %1 Felder entfernt (%2 Kabel)",
     "ContextMenu_LW_NoInverter": "Kein Wechselrichter innerhalb von %1 Feldern",

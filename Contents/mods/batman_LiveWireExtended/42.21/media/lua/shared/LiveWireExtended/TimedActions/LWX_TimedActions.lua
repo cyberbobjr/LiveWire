@@ -29,6 +29,7 @@ end
 
 function LWXBuildingAction:start()
     self:setActionAnim(CharacterActionAnims.Disassemble)
+    LiveWire.API.showScrewdriver(self)
 end
 
 function LWXBuildingAction:complete()

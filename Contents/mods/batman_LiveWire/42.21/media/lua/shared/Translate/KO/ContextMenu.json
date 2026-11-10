@@ -1,5 +1,5 @@
 {
-    "ContextMenu_LW_Root": "Live Wire",
+    "ContextMenu_LW_Root": "LiveWire",
     "ContextMenu_LW_Measure": "측정",
     "ContextMenu_LW_Inspect": "점검",
     "ContextMenu_LW_Unlink": "인버터 연결 해제",
@@ -10,8 +10,8 @@
     "ContextMenu_LW_HideRange": "전력 공급 범위 숨기기",
     "ContextMenu_LW_ResetBreaker": "차단기 복구",
     "ContextMenu_LW_AckAlarm": "경보 끄기",
-    "ContextMenu_LW_Software": "Live Wire 관리 소프트웨어 열기",
-    "ContextMenu_LW_InstallSoftware": "Live Wire 소프트웨어 설치",
+    "ContextMenu_LW_Software": "LiveWire 관리 소프트웨어 열기",
+    "ContextMenu_LW_InstallSoftware": "LiveWire 소프트웨어 설치",
     "ContextMenu_LW_LinkTo": "인버터에 연결",
     "ContextMenu_LW_InverterAt": "인버터 %1 타일 거리 (전선 %2개)",
     "ContextMenu_LW_NoInverter": "%1 타일 안에 인버터 없음",

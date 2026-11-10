@@ -24,7 +24,7 @@ Devices wear out over time, which lowers their output (see the condition factor 
 
 ## Voltage tester
 
-The Voltage Tester (`LiveWire.VoltageTester`): right-click a tile, then **Live Wire**, then **Measure**.
+The Voltage Tester (`LiveWire.VoltageTester`): right-click a tile, then **LiveWire**, then **Measure**.
 
 | Level | Reading |
 |---|---|
@@ -118,9 +118,9 @@ placing/moving equipment or coupling inverters do not invoke this shock check.
 Repairing a running inverter is refused before intervention. Existing distance,
 skill and safehouse rules still apply.
 
-**Every successful Live Wire equipment repair awards Electrical XP**: 5 XP plus
+**Every successful LiveWire equipment repair awards Electrical XP**: 5 XP plus
 one per condition point restored, capped at 15; overhauls use the same rule.
-Battery reconditioning awards 8 XP. **Every Live Wire crafting recipe awards
+Battery reconditioning awards 8 XP. **Every LiveWire crafting recipe awards
 Electrical XP**, including tester crafting/dismantling. Blades and masts each
 award 2 XP without requiring an Electrical level; final turbine assembly keeps
 its 30 XP. Refused or shock-interrupted work awards no repair XP.
@@ -128,7 +128,7 @@ its 30 XP. Refused or shock-interrupted work awards no repair XP.
 
 ## Testing wear in debug
 
-In solo `-debug`, or as an MP administrator: right-click a device → Live Wire →
+In solo `-debug`, or as an MP administrator: right-click a device → LiveWire →
 its name → **Debug: this device**. Remove 10 condition points, set 50% or 10%,
 disable it (0%) or restore 100%. Works without a cable. This affects the selected
 device, does not directly edit its stored batteries, and awards no XP. Restoring

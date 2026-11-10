@@ -2,7 +2,7 @@
 
 # Recipes
 
-The 29 Live Wire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
+The 29 LiveWire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
 
 ![Illustrated recipe board](../../images/diagrams/recipe_book_en.png)
 
@@ -56,17 +56,17 @@ It is not found as loot. Model contributed by PewPewCricket.
 
 ## Dismantle a voltage tester
 
-The crafting recipe **Dismantle Voltage Tester** consumes one Live Wire voltage
+The crafting recipe **Dismantle Voltage Tester** consumes one LiveWire voltage
 tester and gives one electronics scrap. A working screwdriver is required and
 kept. No Electrical level is required; the action takes 60 recipe-time units
 and awards 2 Electrical XP. Wire, bulb and battery used in its construction are
 not recovered, so a craft/dismantle cycle cannot create materials.
 
-Every Live Wire recipe awards Electrical XP; blades and masts each award 2 XP.
+Every LiveWire recipe awards Electrical XP; blades and masts each award 2 XP.
 
 ## Dismantle equipment
 
-Every Live Wire device and kit can be dismantled from the crafting menu
+Every LiveWire device and kit can be dismantled from the crafting menu
 (**Dismantle Inverter**, **Dismantle Solar Panel** and so on): pick the device up
 first, then dismantle it from your inventory. A working screwdriver is required and
 kept; no Electrical level is needed. You always get back fewer parts than the

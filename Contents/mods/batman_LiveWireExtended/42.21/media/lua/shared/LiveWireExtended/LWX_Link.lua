@@ -62,6 +62,7 @@ function L.check(character, obj, invObj)
     local ts, is = obj:getSquare(), invObj:getSquare()
     if not ts or not is then return false, "Tooltip_LWX_NoInverter" end
     if L.recordAt(kind, ts) then return false, kind.linkedKey end
+    if not API.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
     -- floors, reach, level, wire: Live Wire's cable rules, with this sub-mod's own level key
     return API.cableCheck(character, ts, is, kind.level, "Tooltip_LWX_NeedLevel")
 end

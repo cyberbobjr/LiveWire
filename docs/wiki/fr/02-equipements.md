@@ -2,7 +2,7 @@
 
 # Équipements
 
-![Tous les équipements Live Wire et leurs chiffres](../../images/diagrams/equipment_fr.png)
+![Tous les équipements LiveWire et leurs chiffres](../../images/diagrams/equipment_fr.png)
 
 Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meuble vanilla (fantôme, 4 orientations, 2 pour les objets muraux). Poser et tourner ne demandent ni outil ni niveau ; ramasser demande un tournevis, sans niveau. Le niveau d'Électricité du tableau est celui du **branchement** à un onduleur. Un appareil ramassé garde son état.
 

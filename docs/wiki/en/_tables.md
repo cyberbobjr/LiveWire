@@ -40,7 +40,7 @@
 | `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
 | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 10 | 4 | 21.9 % |
 
-## LOOT: Ready-made Live Wire equipment
+## LOOT: Ready-made LiveWire equipment
 
 Ready-made equipment, at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, a vanilla loot modifier of 0.6, no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.
 

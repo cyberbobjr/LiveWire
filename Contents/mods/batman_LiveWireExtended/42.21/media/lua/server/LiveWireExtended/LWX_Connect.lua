@@ -36,6 +36,7 @@ end
 -- Can `character` connect the building near (x, y, z) to inverter `dev`?
 -- Returns ok, translation key, argument, building.
 function C.canConnect(character, dev, x, y, z, reach)
+    if not LiveWire.API.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
     if not LiveWire.API.hasLevel(character, X.LEVEL) then
         return false, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL))
     end

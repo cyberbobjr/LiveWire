@@ -30,7 +30,7 @@ Poids à ×5 ; estimations si cette liste est sélectionnée, avec un modificate
 | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
 | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 10 | 4 | 21,9 % |
 
-## Équipements Live Wire tout faits
+## Équipements LiveWire tout faits
 
 Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
 

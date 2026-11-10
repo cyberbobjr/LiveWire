@@ -1,4 +1,4 @@
-[h1]Live Wire - Rediseño de la habilidad de Electricidad[/h1]
+[h1]LiveWire - Rediseño de la habilidad de Electricidad[/h1]
 
 [b]Build 42.21 · Un jugador y multijugador (con autoridad del servidor)[/b]
 
@@ -16,7 +16,7 @@ El cuadro incluye palancas de iluminación, equipos y general, con vatios actual
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_es.png[/img]
 
 Solar 100 W, eólica 400 W, rueda hidráulica 120 W. Un inversor alimenta aparatos a 20 casillas y ±3 plantas, hasta 1500 W. Sin cable por aparato doméstico.
-[b]¿Necesitas más de 1500 W?[/b] Coloca un segundo inversor sin nada conectado, clic derecho > Live Wire > «Acoplar a un inversor» (1 kit de acoplamiento de inversores, receta de Electricidad 3). Hasta 4 inversores acoplados: 6000 W. Nuevo: convierte un inversor en un [b]armario inversor[/b] de 4500 W (Electricidad 3), también acoplable.
+[b]¿Necesitas más de 1500 W?[/b] Coloca un segundo inversor sin nada conectado, clic derecho > LiveWire > «Acoplar a un inversor» (1 kit de acoplamiento de inversores, receta de Electricidad 3). Hasta 4 inversores acoplados: 6000 W. Nuevo: convierte un inversor en un [b]armario inversor[/b] de 4500 W (Electricidad 3), también acoplable.
 Bancos de 4 baterías para guardar el excedente. Cables: 1 alambre cada 4 casillas, alcance 12. Perfiles: valores del juego, Realista 1993, Ultrarealista 1993 o Confort.
 
 [h2]Equipo[/h2]
@@ -44,7 +44,7 @@ La bomba (Electricidad 3) abastece sanitarios conectados a 15 casillas desde has
 
 [h2]Software de gestión[/h2]
 
-Live Wire Monitor añade consumidores (hasta 200), siluetas de colores, cables, los últimos 30 eventos y previsión de producción de tres días con ordenador de gestión alimentado, además del historial de 48 h. Nombres de red en LCD y avisos. Ordenador vanilla compatible; Computer Mod/Laptop Mod opcionales mediante disco de botín.
+LiveWire Monitor añade consumidores (hasta 200), siluetas de colores, cables, los últimos 30 eventos y previsión de producción de tres días con ordenador de gestión alimentado, además del historial de 48 h. Nombres de red en LCD y avisos. Ordenador vanilla compatible; Computer Mod/Laptop Mod opcionales mediante disco de botín.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
@@ -58,9 +58,9 @@ Simulación y comprobaciones en el servidor, circuitos guardados y estados sincr
 
 [h2]Documentación[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Wiki de Live Wire (en inglés)[/url] · Código fuente: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Wiki de LiveWire (en inglés)[/url] · Código fuente: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este objeto también incluye el mod opcional [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) con modelos 3D de todos los equipos. Actívalo solo si usas Project Viewpoint.
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este objeto también incluye el mod opcional [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint) con modelos 3D de todos los equipos. Actívalo solo si usas Project Viewpoint.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Compatible con[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] y [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionales): el software de gestión se instala desde un disco encontrado en el botín de ordenadores y funciona como una aplicación en su escritorio.

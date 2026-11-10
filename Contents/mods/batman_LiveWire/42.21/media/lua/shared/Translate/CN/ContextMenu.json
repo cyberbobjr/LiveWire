@@ -1,5 +1,5 @@
 {
-    "ContextMenu_LW_Root": "Live Wire",
+    "ContextMenu_LW_Root": "LiveWire",
     "ContextMenu_LW_Measure": "测量",
     "ContextMenu_LW_Inspect": "检查",
     "ContextMenu_LW_Unlink": "与逆变器断开连接",
@@ -10,8 +10,8 @@
     "ContextMenu_LW_HideRange": "隐藏供电范围",
     "ContextMenu_LW_ResetBreaker": "复位断路器",
     "ContextMenu_LW_AckAlarm": "消除警报",
-    "ContextMenu_LW_Software": "打开 Live Wire 管理软件",
-    "ContextMenu_LW_InstallSoftware": "安装 Live Wire 软件",
+    "ContextMenu_LW_Software": "打开 LiveWire 管理软件",
+    "ContextMenu_LW_InstallSoftware": "安装 LiveWire 软件",
     "ContextMenu_LW_LinkTo": "连接到逆变器",
     "ContextMenu_LW_InverterAt": "逆变器距离 %1 格 (%2 根电线)",
     "ContextMenu_LW_NoInverter": "%1 格内没有逆变器",

@@ -2,7 +2,7 @@
 
 # LiveWire Extended (module facultatif)
 
-**LiveWire Extended** (`batman_LiveWireExtended`) est un mod facultatif livré avec Live Wire. Il a besoin de Live Wire. **Avec lui, un onduleur n'a plus de rayon** : il n'alimente que ce que vous lui raccordez, un bâtiment (par **Raccorder le bâtiment**, ou le bâtiment d'un tableau électrique que vous reliez) et les zones des bornes extérieures. Sans lui, Live Wire fonctionne exactement comme avant.
+**LiveWire Extended** (`batman_LiveWireExtended`) est un mod facultatif livré avec LiveWire. Il a besoin de LiveWire. **Avec lui, un onduleur n'a plus de rayon** : il n'alimente que ce que vous lui raccordez, un bâtiment (par **Raccorder le bâtiment**, ou le bâtiment d'un tableau électrique que vous reliez) et les zones des bornes extérieures. Sans lui, LiveWire fonctionne exactement comme avant.
 
 ## Raccorder un bâtiment entier
 
@@ -34,7 +34,7 @@ Un **tableau électrique** (8, 16 ou 24 modules) se fixe au mur. Fabriquez-en un
 - **Ouvrez le tableau** pour voir chaque disjoncteur : levier, étiquette, charge en W et en A, énergie du jour, de la veille et sur 7 jours, et **Localiser** pour allumer ses appareils. L'étiquette s'écrit au stylo ou au crayon. Le logiciel de l'onduleur liste l'énergie de chaque disjoncteur dans son onglet Maison.
 - Un **interrupteur crépusculaire** posé sur un disjoncteur ne laisse passer le courant qu'entre le crépuscule et l'aube : éclairage du jardin, lampes de porche.
 - **Maisons de la carte** : une maison qui a son propre coffret électrique (souvent sur sa façade) l'a toujours pour tableau ; les autres bâtiments reçoivent un tableau sur un pan de mur nu (garage d'abord, puis buanderie ou réserve, puis entrée) dans 30 % des cas par défaut (option sandbox). Il ne fait rien tant que vous ne le raccordez pas à un onduleur ; il est alors précâblé, un disjoncteur par pièce et un 30 A à part pour la cuisinière et le sèche-linge, sans étiquette : à vous de découvrir quel disjoncteur alimente quoi.
-- La machine à coudre électrique de My Tailor Is Rich et les machines de Functional Appliances 2 suivent aussi leur disjoncteur, de même que la pompe à eau et l'ordinateur de gestion de Live Wire.
+- La machine à coudre électrique de My Tailor Is Rich et les machines de Functional Appliances 2 suivent aussi leur disjoncteur, de même que la pompe à eau et l'ordinateur de gestion de LiveWire.
 
 ## Sur l'onduleur
 
@@ -42,6 +42,6 @@ Un **tableau électrique** (8, 16 ou 24 modules) se fixe au mur. Fabriquez-en un
 
 ## Retirer le module
 
-Si des tableaux sont en service, un admin ouvre d'abord le menu d'un tableau et choisit **Admin : tout remettre en service (avant de retirer le mod)** : plus aucun disjoncteur ne coupe et chaque appareil retrouve son état normal (les frigos refroidissent, les machines de Functional Appliances 2 retrouvent leur réglage). Décochez ensuite le module dans la liste des mods : Live Wire revient à son cercle au prochain chargement de la zone, sans courant résiduel. Rien n'est perdu dans les données de Live Wire. Le même menu remet les tableaux en fonction si vous changez d'avis.
+Si des tableaux sont en service, un admin ouvre d'abord le menu d'un tableau et choisit **Admin : tout remettre en service (avant de retirer le mod)** : plus aucun disjoncteur ne coupe et chaque appareil retrouve son état normal (les frigos refroidissent, les machines de Functional Appliances 2 retrouvent leur réglage). Décochez ensuite le module dans la liste des mods : LiveWire revient à son cercle au prochain chargement de la zone, sans courant résiduel. Rien n'est perdu dans les données de LiveWire. Le même menu remet les tableaux en fonction si vous changez d'avis.
 
-Incompatible avec LG Extended Electricity, qui modifie la portée des générateurs dont Live Wire se sert, et avec Knox Power, qui pose son propre système de disjoncteurs dans les maisons.
+Incompatible avec LG Extended Electricity, qui modifie la portée des générateurs dont LiveWire se sert, et avec Knox Power, qui pose son propre système de disjoncteurs dans les maisons.

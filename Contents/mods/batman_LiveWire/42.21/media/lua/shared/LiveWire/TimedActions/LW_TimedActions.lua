@@ -194,6 +194,7 @@ end
 function LWCoupleAction:start()
     self:setActionAnim("Loot")
     self.character:SetVariable("LootPosition", "Low")
+    I().showScrewdriver(self)
 end
 
 function LWCoupleAction:complete()

@@ -2,7 +2,7 @@
 
 # Inverter Screen and Software
 
-You can monitor the network from the inverter's own LCD panel, or from the **Live Wire Monitor** management software.
+You can monitor the network from the inverter's own LCD panel, or from the **LiveWire Monitor** management software.
 
 ## The LCD panel
 
@@ -24,7 +24,7 @@ Right-click the inverter, then **Open the inverter screen**. It is a backlit scr
 
 ![LCD page 1, production and load](../../images/screenshots/onduleur.png)
 
-## Management software "Live Wire Monitor"
+## Management software "LiveWire Monitor"
 
 | Tab | Content |
 |---|---|
@@ -42,7 +42,7 @@ The history and forecast need a linked management computer (see [Optional Equipm
 
 ### Without the Computer Mod
 
-A vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen: monitor, boot screen "Live Wire OS", status bar with game time.
+A vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen: monitor, boot screen "LiveWire OS", status bar with game time.
 
 ![Management software on a vanilla computer, without the Computer Mod or Laptop Mod](../../images/screenshots/livewire_monitor_without_compute.png)
 
@@ -50,15 +50,15 @@ A vanilla desktop computer linked to the inverter opens the software on the mod'
 
 ### With the Computer Mod or Laptop Mod
 
-With the optional **Computer Mod** (Workshop 3725497089) or **Laptop Mod** (3798992436), the software comes on a disk: **"Disk: Live Wire Management Software"** (`LiveWire.MonitorDisk`), found in computer loot (see [Loot Tables](09-loot-tables.md)).
+With the optional **Computer Mod** (Workshop 3725497089) or **Laptop Mod** (3798992436), the software comes on a disk: **"Disk: LiveWire Management Software"** (`LiveWire.MonitorDisk`), found in computer loot (see [Loot Tables](09-loot-tables.md)).
 
 1. Right-click the computer while holding the disk.
-2. Choose **Install the Live Wire software**.
-3. It appears as a "Live Wire" app on their desktop and runs inside their window (title bar, minimise, close, taskbar).
+2. Choose **Install the LiveWire software**.
+3. It appears as a "LiveWire" app on their desktop and runs inside their window (title bar, minimise, close, taskbar).
 
 It shows the inverter linked to that computer, or the nearest inverter in cable range.
 
-![Computer Mod desktop with the Live Wire icon](../../images/screenshots/computermod.png)
+![Computer Mod desktop with the LiveWire icon](../../images/screenshots/computermod.png)
 
 ![Overview tab inside the Computer Mod](../../images/screenshots/livewire_computermod.png)
 
@@ -70,7 +70,7 @@ It shows the inverter linked to that computer, or the nearest inverter in cable 
 
 The inverter makes a hum, a sound of the mod, heard only **one tile around** a switched-on inverter (same floor).
 
-- Each player sets its volume in **Options > Mods > Live Wire** (0 = off).
+- Each player sets its volume in **Options > Mods > LiveWire** (0 = off).
 - Zombies hear the inverter within 2 tiles (sandbox `InverterNoiseRadius`; 0 = silent).
 
 ## Soundproofing kit
@@ -114,7 +114,7 @@ inventory to move batteries. Press **Connections** to open the shared wiring win
 network. Hiding clears the colours. Exact watts remain in the software list.
 
 
-![Live Wire 1.6.0 — LCDs and electrical panel](../../images/screenshots/shot7.png)
+![LiveWire 1.6.0 — LCDs and electrical panel](../../images/screenshots/shot7.png)
 
 ## See also
 

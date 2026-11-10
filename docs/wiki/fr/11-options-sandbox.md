@@ -26,7 +26,7 @@ Page « LiveWire » des options sandbox.
 
 ## Option joueur
 
-Options, Mods, Live Wire : volume du bourdonnement de l'onduleur, de 0 à 100 (0 = coupé).
+Options, Mods, LiveWire : volume du bourdonnement de l'onduleur, de 0 à 100 (0 = coupé).
 
 ## Nouveaux réglages de la 1.6.0
 

@@ -1,4 +1,4 @@
--- Live Wire: drawing kit of the enclosure windows (D-54). The breaker window of Live Wire and
+-- LiveWire: drawing kit of the enclosure windows (D-54). The breaker window of LiveWire and
 -- the board window of LiveWire Extended both draw through it: cream enclosure with a smoked
 -- lid and a manufacturer plate, the LCD block, drawn breakers with calibre plates, the button
 -- grid. Sizes are in 1080p reference units; LW_UIKit draws them times the window factor `lwK`.
@@ -134,7 +134,7 @@ function E.grid(left, right, cols, gap, count, h, rowGap)
     return cells, rows * h + (rows - 1) * rowGap
 end
 
--- Height of the LCD block of Live Wire (the mockup's lcdBlock), its condition strip included.
+-- Height of the LCD block of LiveWire (the mockup's lcdBlock), its condition strip included.
 -- fr: real height / k of the printed font (UIFont.Small); fl: the same for the screen font
 -- (E.lcdFont, D-56), fr when omitted.
 function E.lcdHeight(fr, fl)
@@ -337,8 +337,8 @@ function E.frame(ui, L, title, brand)
     local fmr = E.fontHeight(ui, UIFont.Medium)
     rect(ui, 0, 0, L.W, L.H, C.bg, 0.99)
     border(ui, 1, 1, L.W - 2, L.H - 2, C.edge)
-    ui:drawText("LIVE WIRE", 19 * factorOf(ui), (L.headH - fmr) / 2 * factorOf(ui), C.white[1], C.white[2], C.white[3], 1, UIFont.Medium)
-    local tx = math.max(181, 19 + E.measurer(ui, UIFont.Medium)("LIVE WIRE") + 16)
+    ui:drawText("LIVEWIRE", 19 * factorOf(ui), (L.headH - fmr) / 2 * factorOf(ui), C.white[1], C.white[2], C.white[3], 1, UIFont.Medium)
+    local tx = math.max(181, 19 + E.measurer(ui, UIFont.Medium)("LIVEWIRE") + 16)
     E.text(ui, title, tx, (L.headH - fr) / 2 + 1, L.W - tx - 60, C.white)
     local encX, encY, encW, encH = L.encX, L.encY, L.encW, L.encH
     rect(ui, encX - 4, encY + 4, encW + 8, encH, C.shadow)
@@ -370,7 +370,7 @@ function E.frame(ui, L, title, brand)
     rect(ui, L.recessX + 5, L.recessY + 5, L.recessW - 10, L.recessH - 11, C.edge)
 end
 
--- Screws of the hint line, as in Live Wire's enclosure.
+-- Screws of the hint line, as in LiveWire's enclosure.
 function E.hintScrews(ui, L)
     screw(ui, L.encX + 10, L.hintY)
     screw(ui, L.encX + L.encW - 22, L.hintY)

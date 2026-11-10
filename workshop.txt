@@ -1,7 +1,7 @@
 version=1
 id=3821807453
-title=Live Wire - Electrical Skill Overhaul
-description=[h1]Live Wire - Electrical Skill Overhaul[/h1]
+title=LiveWire - Electrical Skill Overhaul
+description=[h1]LiveWire - Electrical Skill Overhaul[/h1]
 description=
 description=[b]Build 42.21 · Singleplayer & Multiplayer (server-authoritative)[/b]
 description=
@@ -19,7 +19,7 @@ description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 description=
 description=Solar 100 W, wind 400 W, water wheel 120 W. An inverter supplies appliances within 20 tiles and ±3 floors, up to 1,500 W. No cable per household appliance.
-description=[b]Need more than 1,500 W?[/b] Place a second inverter with nothing connected, right-click it > Live Wire > "Couple to an inverter" (1 Inverter Coupling Kit, Electrical 3 recipe). Up to 4 coupled inverters: 6,000 W. New: rebuild an inverter into a 4,500 W [b]inverter cabinet[/b] (Electrical 3); it couples too.
+description=[b]Need more than 1,500 W?[/b] Place a second inverter with nothing connected, right-click it > LiveWire > "Couple to an inverter" (1 Inverter Coupling Kit, Electrical 3 recipe). Up to 4 coupled inverters: 6,000 W. New: rebuild an inverter into a 4,500 W [b]inverter cabinet[/b] (Electrical 3); it couples too.
 description=Store surplus in power banks (4 batteries each). Cables: 1 wire per 4 tiles, range 12. Choose Game values, Realistic 1993, Ultra-realistic 1993 or Comfort consumption in sandbox options.
 description=
 description=[h2]Equipment[/h2]
@@ -47,7 +47,7 @@ description=18 recipes, illustrated below. Electrical recipes unlock automatical
 description=
 description=[h2]Management software[/h2]
 description=
-description=Live Wire Monitor adds consumers (up to 200), coloured appliance silhouettes, cable views, the last 30 events and a three-day production forecast with a powered management computer, alongside 48 h history. Network names appear on LCDs and alerts. Vanilla desktops work; optional Computer Mod/Laptop Mod use a loot disk.
+description=LiveWire Monitor adds consumers (up to 200), coloured appliance silhouettes, cable views, the last 30 events and a three-day production forecast with a powered management computer, alongside 48 h history. Network names appear on LCDs and alerts. Vanilla desktops work; optional Computer Mod/Laptop Mod use a loot disk.
 description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 description=
@@ -61,9 +61,9 @@ description=Server-authoritative simulation and action checks, saved circuit cho
 description=
 description=[h2]Documentation[/h2]
 description=
-description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 description=
-description=[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: this item also contains the optional mod [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) with 3D models of every device. Enable it only if you use Project Viewpoint.
+description=[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: this item also contains the optional mod [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint) with 3D models of every device. Enable it only if you use Project Viewpoint.
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 description=[b]Compatible with[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional): the management software installs from a disk found in computer loot and runs as an app on their desktop.

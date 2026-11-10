@@ -2,7 +2,7 @@
 
 # FAQ
 
-Réponses courtes sur Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.6.0). Le mod est publié sur le [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). La portée de validation de cette mise à jour est précisée dans [Multijoueur](12-multijoueur.md#état). Pour le détail, suivez les liens vers les pages correspondantes.
+Réponses courtes sur LiveWire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.6.0). Le mod est publié sur le [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). La portée de validation de cette mise à jour est précisée dans [Multijoueur](12-multijoueur.md#état). Pour le détail, suivez les liens vers les pages correspondantes.
 
 ## Pour commencer
 
@@ -21,7 +21,7 @@ Pose et ramassage ne demandent aucun niveau (ramasser exige un tournevis). Le ni
 La portée est de 12 cases horizontalement (option sandbox `LinkRange`, de 4 à 30), avec 3 étages d'écart au plus par défaut (option `LinkVerticalRange`, de 0 à 10 ; 0 = même étage). Le coût est de 1 fil électrique (`Base.ElectricWire`) par tranche de 4 cases horizontales, arrondi au-dessus, au moins 1 (option `WirePerTiles`, 0 = gratuit). Voir [Raccordement](03-raccordement.md) et [Options sandbox](11-options-sandbox.md).
 
 **Comment raccorder ou débrancher un équipement ?**
-Clic droit sur l'équipement, « Live Wire », puis son nom, puis « Raccorder à un onduleur » et choisissez l'onduleur (la liste donne distance et fils). Ou clic droit sur l'onduleur, « Raccorder un équipement » ou « Débrancher un équipement ». Le menu de l'équipement propose aussi « Débrancher de l'onduleur ». Voir [Raccordement](03-raccordement.md).
+Clic droit sur l'équipement, « LiveWire », puis son nom, puis « Raccorder à un onduleur » et choisissez l'onduleur (la liste donne distance et fils). Ou clic droit sur l'onduleur, « Raccorder un équipement » ou « Débrancher un équipement ». Le menu de l'équipement propose aussi « Débrancher de l'onduleur ». Voir [Raccordement](03-raccordement.md).
 
 **Combien d'appareils de chaque sorte par réseau ?**
 Autant de sources et de powerbanks que voulu par onduleur, avec jusqu'à quatre onduleurs couplés par réseau. Au plus un disjoncteur, une alarme, un ordinateur de gestion et un groupe électrogène de secours par réseau. Voir [Raccordement](03-raccordement.md).
@@ -58,7 +58,7 @@ Cela dépend de l'option sandbox `ConsumptionProfile`. Avec les valeurs du jeu (
 La demande des appareils de la maison a dépassé 1 500 W, par exemple un lave-linge + sèche-linge superposés. Avec un disjoncteur, c'est lui qui saute et l'onduleur ne subit aucun dommage ; utilisez « Réarmer le disjoncteur » une fois la charge réduite. Sans disjoncteur, l'onduleur saute et perd 3 points d'état ; utilisez « Réarmer » sur lui. Voir [Équipements optionnels](06-equipements-optionnels.md).
 
 **1 500 W ne suffisent pas. Puis-je associer plusieurs onduleurs ?**
-Oui : couplez-les. Posez un second onduleur sans aucun équipement raccordé, clic droit dessus, « Live Wire », puis « Coupler à un onduleur », et choisissez l'onduleur maître à portée de câble. Coût : le fil électrique de la distance et 1 kit de couplage d'onduleurs (recette au niveau 3 d'Électricité). Un maître accepte jusqu'à 3 esclaves : 4 onduleurs donnent 6 000 W sur un seul réseau, avec un seul parc de batteries et la zone alimentée du maître. Chaque onduleur allumé consomme 20 W à vide et s'use comme d'habitude ; un esclave éteint ou cassé ne compte plus. « Découpler » sur l'esclave rend le kit. Voir [Équipements optionnels](06-equipements-optionnels.md#onduleurs-en-parallèle-couplage). Vous pouvez aussi transformer un onduleur en **armoire onduleur** (4 500 W, 60 W à vide, recette au niveau 3 d'Électricité) ; les armoires se couplent comme les onduleurs.
+Oui : couplez-les. Posez un second onduleur sans aucun équipement raccordé, clic droit dessus, « LiveWire », puis « Coupler à un onduleur », et choisissez l'onduleur maître à portée de câble. Coût : le fil électrique de la distance et 1 kit de couplage d'onduleurs (recette au niveau 3 d'Électricité). Un maître accepte jusqu'à 3 esclaves : 4 onduleurs donnent 6 000 W sur un seul réseau, avec un seul parc de batteries et la zone alimentée du maître. Chaque onduleur allumé consomme 20 W à vide et s'use comme d'habitude ; un esclave éteint ou cassé ne compte plus. « Découpler » sur l'esclave rend le kit. Voir [Équipements optionnels](06-equipements-optionnels.md#onduleurs-en-parallèle-couplage). Vous pouvez aussi transformer un onduleur en **armoire onduleur** (4 500 W, 60 W à vide, recette au niveau 3 d'Électricité) ; les armoires se couplent comme les onduleurs.
 
 **Comment fonctionne l'alarme de batterie faible ?**
 Sous 20 % de stock, elle envoie un message aux joueurs à moins de 30 cases et bipe toutes les 10 minutes de jeu jusqu'à « Couper la sonnerie ». Le feu reste allumé jusqu'au retour du stock au-dessus de 25 %. Branchement : niveau 2 requis. Voir [Équipements optionnels](06-equipements-optionnels.md).
@@ -67,23 +67,23 @@ Sous 20 % de stock, elle envoie un message aux joueurs à moins de 30 cases et b
 Un générateur vanilla raccordé à l'onduleur est démarré par le mod sous 20 % de batterie et arrêté à 90 % (options `BackupStartPercent` et `BackupStopPercent`). Il fournit 1 200 W et brûle 1 L de carburant pour 3 kWh en plus de sa consommation vanilla. Il reste bruyant et toxique en intérieur, doit être branché et rempli comme en vanilla, et ne démarre jamais sans batterie. Voir [Équipements optionnels](06-equipements-optionnels.md).
 
 **Pourquoi le groupe électrogène de secours ne démarre-t-il plus ou ne s'arrête-t-il plus seul ?**
-Si vous allumez ou éteignez le générateur vous-même (menu vanilla), le mod respecte votre choix : il passe en **commande manuelle** et ne le pilote plus. Un message près du générateur l'indique, et l'écran de l'onduleur comme le logiciel de gestion affichent « commande manuelle ». Pour rendre la main au mod : clic droit sur le générateur > **Live Wire** > **Générateur de secours** > **Reprendre le secours automatique**. Raccorder un générateur déjà en marche le met aussi en commande manuelle.
+Si vous allumez ou éteignez le générateur vous-même (menu vanilla), le mod respecte votre choix : il passe en **commande manuelle** et ne le pilote plus. Un message près du générateur l'indique, et l'écran de l'onduleur comme le logiciel de gestion affichent « commande manuelle ». Pour rendre la main au mod : clic droit sur le générateur > **LiveWire** > **Générateur de secours** > **Reprendre le secours automatique**. Raccorder un générateur déjà en marche le met aussi en commande manuelle.
 
 ## Logiciel et ordinateur
 
 **Faut-il un ordinateur ou le Computer Mod ?**
-Non, l'onduleur a son propre écran LCD (« Ouvrir l'écran de l'onduleur », 5 pages). Un ordinateur ne sert que pour le logiciel de gestion (« Live Wire Monitor »), qui ajoute un historique de 48 h et la prévision « les batteries tiendront jusqu'au lever du soleil ». Voir [Écran et logiciel](05-ecran-et-logiciel.md).
+Non, l'onduleur a son propre écran LCD (« Ouvrir l'écran de l'onduleur », 5 pages). Un ordinateur ne sert que pour le logiciel de gestion (« LiveWire Monitor »), qui ajoute un historique de 48 h et la prévision « les batteries tiendront jusqu'au lever du soleil ». Voir [Écran et logiciel](05-ecran-et-logiciel.md).
 
 **Comment cela marche-t-il avec ou sans Computer Mod ou Laptop Mod ?**
-Sans eux, un ordinateur de bureau vanilla raccordé à l'onduleur ouvre le logiciel sur l'écran d'ordinateur propre au mod. Avec le Computer Mod (Workshop 3725497089) ou le Laptop Mod (3798992436), facultatifs, le logiciel arrive sur un disque et apparaît comme une application « Live Wire » sur leur bureau. Voir [Écran et logiciel](05-ecran-et-logiciel.md).
+Sans eux, un ordinateur de bureau vanilla raccordé à l'onduleur ouvre le logiciel sur l'écran d'ordinateur propre au mod. Avec le Computer Mod (Workshop 3725497089) ou le Laptop Mod (3798992436), facultatifs, le logiciel arrive sur un disque et apparaît comme une application « LiveWire » sur leur bureau. Voir [Écran et logiciel](05-ecran-et-logiciel.md).
 
 **Où trouver le disque ?**
-« Disque : logiciel de gestion Live Wire » se trouve dans le butin d'ordinateurs, quand Computer Mod ou Laptop Mod est actif : caisses d'ordinateurs (environ 7,8 % par conteneur), bureaux d'université d'électricité (7,8 %), ordinateurs de magasin d'électronique (2,0 %), entre autres. Clic droit sur l'ordinateur avec le disque, puis « Installer le logiciel Live Wire ». Voir [Tables de butin](09-tables-de-butin.md).
+« Disque : logiciel de gestion LiveWire » se trouve dans le butin d'ordinateurs, quand Computer Mod ou Laptop Mod est actif : caisses d'ordinateurs (environ 7,8 % par conteneur), bureaux d'université d'électricité (7,8 %), ordinateurs de magasin d'électronique (2,0 %), entre autres. Clic droit sur l'ordinateur avec le disque, puis « Installer le logiciel LiveWire ». Voir [Tables de butin](09-tables-de-butin.md).
 
 ## Bruit et zombies
 
 **L'onduleur est-il bruyant, peut-on le faire taire ?**
-Il émet un bourdonnement qui ne s'entend qu'à une case autour d'un onduleur allumé. Chaque joueur règle son volume dans Options > Mods > Live Wire (0 = coupé). Un kit d'insonorisation le supprime entièrement. Voir [Écran et logiciel](05-ecran-et-logiciel.md).
+Il émet un bourdonnement qui ne s'entend qu'à une case autour d'un onduleur allumé. Chaque joueur règle son volume dans Options > Mods > LiveWire (0 = coupé). Un kit d'insonorisation le supprime entièrement. Voir [Écran et logiciel](05-ecran-et-logiciel.md).
 
 **Comment marche le kit d'insonorisation, et l'onduleur attire-t-il les zombies ?**
 Les zombies entendent un onduleur allumé à 2 cases (option `InverterNoiseRadius`, 0 = silencieux). Le kit (niveau 2, « Insonoriser l'onduleur » avec un tournevis) supprime le bourdonnement et ce bruit, mais l'onduleur chauffe davantage et s'use 25 % plus vite. « Retirer l'insonorisation » rend le kit. Voir [Équipements optionnels](06-equipements-optionnels.md).
@@ -105,7 +105,7 @@ Il est conçu pour : production, stock, états, pannes et expérience sont calcu
 L'ID du mod est `batman_LiveWire`. L'ID Workshop est `3821807453`. On peut aussi copier `Contents/mods/batman_LiveWire` dans `Zomboid/mods`. Voir [Premiers pas](01-premiers-pas.md#installation).
 
 **Quelles options sandbox comptent pour un serveur ?**
-Page « Live Wire » : `ConsumptionProfile` (ultra-réaliste 1993, réaliste 1993, valeurs du jeu, confort), `PowerScale`, multiplicateurs de sources (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, multiplicateurs d'usure, `LinkRange`, `WirePerTiles`, `SkillGates` et `SimulateUnloaded` (activé par défaut). Si le serveur se met en pause quand il est vide, l'installation aussi. Voir [Options sandbox](11-options-sandbox.md).
+Page « LiveWire » : `ConsumptionProfile` (ultra-réaliste 1993, réaliste 1993, valeurs du jeu, confort), `PowerScale`, multiplicateurs de sources (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, multiplicateurs d'usure, `LinkRange`, `WirePerTiles`, `SkillGates` et `SimulateUnloaded` (activé par défaut). Si le serveur se met en pause quand il est vide, l'installation aussi. Voir [Options sandbox](11-options-sandbox.md).
 
 **Qui peut utiliser une installation, et y a-t-il du retard ?**
 Les installations partagées suivent les règles vanilla des refuges. Le logiciel peut avoir jusqu'à 10 minutes de jeu de retard. Les générateurs vanilla ne changent pas : si un générateur et un onduleur couvrent les mêmes appareils, les deux consomment. Voir [Multijoueur](12-multijoueur.md).
@@ -113,12 +113,12 @@ Les installations partagées suivent les règles vanilla des refuges. Le logicie
 ## Compatibilité
 
 **Puis-je l'utiliser avec d'autres mods d'énergie ?**
-Les autres mods d'énergie ne sont pas pris en charge avec Live Wire. C'est une création originale : aucun code ni ressource d'un autre mod. Les intégrations facultatives incluent Computer Mod, Laptop Mod, Project Viewpoint et Useful Barrels. Voir [Premiers pas](01-premiers-pas.md).
+Les autres mods d'énergie ne sont pas pris en charge avec LiveWire. C'est une création originale : aucun code ni ressource d'un autre mod. Les intégrations facultatives incluent Computer Mod, Laptop Mod, Project Viewpoint et Useful Barrels. Voir [Premiers pas](01-premiers-pas.md).
 
 ## Dépannage
 
 **Un équipement affiche « Non raccordé ».**
-Il n'est relié à aucun onduleur. Clic droit, « Live Wire », puis « Raccorder à un onduleur ». L'onduleur doit être à portée de câble (12 cases horizontalement et 3 étages d'écart au plus par défaut). Une source reposée après ramassage doit être reliée de nouveau. Voir [Raccordement](03-raccordement.md).
+Il n'est relié à aucun onduleur. Clic droit, « LiveWire », puis « Raccorder à un onduleur ». L'onduleur doit être à portée de câble (12 cases horizontalement et 3 étages d'écart au plus par défaut). Une source reposée après ramassage doit être reliée de nouveau. Voir [Raccordement](03-raccordement.md).
 
 **Tout est relié mais rien n'est alimenté.**
 Vérifiez que l'onduleur est allumé (« Allumer ») et non déclenché (« Réarmer »), que les appareils sont à 20 cases et 3 étages (utilisez « Afficher la zone alimentée »), et qu'une source produit réellement (nuit, pas de vent, neige). L'écran de l'onduleur montre production, charge et état. Voir [Écran et logiciel](05-ecran-et-logiciel.md).

@@ -1,4 +1,4 @@
--- Live Wire: individual equipment LCD, using read-only authoritative telemetry.
+-- LiveWire: individual equipment LCD, using read-only authoritative telemetry.
 if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
@@ -112,7 +112,7 @@ function Panel:render()
     if self.closed then return end
     ISPanel.render(self)
     local L,W=self.L,self.width
-    self:drawText("LIVE WIRE",L.side,L.brandY,0.85,0.87,0.9,1,UIFont.Medium)
+    self:drawText("LIVEWIRE",L.side,L.brandY,0.85,0.87,0.9,1,UIFont.Medium)
     local m=LiveWire.Marks.get(self.obj)
     self:setStencilRect(L.titleX,L.titleClipY,W-L.titleRight,L.titleClipH)
     self:drawText(getText("IGUI_LW_Model_"..(m and m.model or "")),L.titleX,L.titleY,0.85,0.87,0.9,1,UIFont.Small)

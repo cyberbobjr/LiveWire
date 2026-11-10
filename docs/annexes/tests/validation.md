@@ -1276,7 +1276,7 @@ du sprite sur les 20 cases refaites. `python -B -m unittest discover -s tests` :
 5 ignorés, code 0 (référence des calques étendue à la roue, quatre saisons de rotation).
 `tools/check_mod.py E:/pz-source-42.22` : OK.
 
-**Non testé en jeu** (essais en attente de l'accord de l'utilisateur). Protocole court :
+**Confirmé en jeu par l'utilisateur** (2026-11-10, essai manuel, « ça fonctionne ») ; aucun passage automatique, détail des points vérifiés et du mode (solo ou multijoueur) non précisé. Protocole proposé :
 1. vieille sauvegarde avec une roue déjà posée : la roue s'affiche et tourne, le voyant
    vert reste visible si elle est raccordée ;
 2. roue cassée (état 0) : la roue s'arrête ;

@@ -1,5 +1,5 @@
 {
-    "ContextMenu_LW_Root": "Live Wire",
+    "ContextMenu_LW_Root": "LiveWire",
     "ContextMenu_LW_Measure": "測定",
     "ContextMenu_LW_Inspect": "点検",
     "ContextMenu_LW_Unlink": "インバーターから切断",
@@ -10,8 +10,8 @@
     "ContextMenu_LW_HideRange": "電力供給範囲を非表示",
     "ContextMenu_LW_ResetBreaker": "ブレーカーをリセット",
     "ContextMenu_LW_AckAlarm": "アラームを消音",
-    "ContextMenu_LW_Software": "Live Wire管理ソフトを開く",
-    "ContextMenu_LW_InstallSoftware": "Live Wireソフトをインストール",
+    "ContextMenu_LW_Software": "LiveWire管理ソフトを開く",
+    "ContextMenu_LW_InstallSoftware": "LiveWireソフトをインストール",
     "ContextMenu_LW_LinkTo": "インバーターに接続",
     "ContextMenu_LW_InverterAt": "インバーター: %1マス先(電線%2本)",
     "ContextMenu_LW_NoInverter": "%1マス以内にインバーターなし",

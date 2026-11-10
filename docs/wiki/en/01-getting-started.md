@@ -2,7 +2,7 @@
 
 # Getting started
 
-**Live Wire** (`batman_LiveWire`) is a Project Zomboid **Build 42.21** mod, translated into English, French, German, Spanish, Portuguese (Brazil and Portugal), Russian, Chinese, Japanese and Korean. It turns the Electrical skill into a trade: solar panels, wind turbines and water wheels produce silent power, and an **inverter** placed in your house powers every appliance around it, with no fuel and no fumes. Batteries stored in a **power bank** keep the surplus for the night. The server is authoritative, so the mod is multiplayer-ready and designed for dedicated servers.
+**LiveWire** (`batman_LiveWire`) is a Project Zomboid **Build 42.21** mod, translated into English, French, German, Spanish, Portuguese (Brazil and Portugal), Russian, Chinese, Japanese and Korean. It turns the Electrical skill into a trade: solar panels, wind turbines and water wheels produce silent power, and an **inverter** placed in your house powers every appliance around it, with no fuel and no fumes. Batteries stored in a **power bank** keep the surplus for the night. The server is authoritative, so the mod is multiplayer-ready and designed for dedicated servers.
 
 Everything in the mod is original: no code or asset comes from another mod.
 
@@ -48,7 +48,7 @@ A water pump wired to the inverter keeps the house taps supplied from water barr
 
 1. **Get a source and an inverter.** Ready-made solar panels and inverters turn up in garages, hardware stores and electrician storage ([Loot tables](09-loot-tables.md)). You can also craft them in the **Electrical** category: solar panel at Electrical 3 (10 solar cells, salvaged from calculators with a screwdriver), inverter at Electrical 3 ([Recipes](08-recipes.md)).
 2. **Place them** with the vanilla furniture cursor. Placing needs no tool or level; picking up needs a screwdriver. Linking each device to the inverter needs its own Electrical level (see [Wiring](03-wiring.md)). Solar panels, wind turbines and water wheels must stand outdoors; the inverter can go indoors.
-3. **Connect the source**: right-click it, **Live Wire**, then **Connect to an inverter** (or, from the inverter, **Connect equipment**). It costs 1 electric wire per 4 tiles, rounded up ([Wiring](03-wiring.md)).
+3. **Connect the source**: right-click it, **LiveWire**, then **Connect to an inverter** (or, from the inverter, **Connect equipment**). It costs 1 electric wire per 4 tiles, rounded up ([Wiring](03-wiring.md)).
 4. **Check the result**: the inverter starts switched on. Its right-click menu shows the powered area (a cyan circle on the ground) and opens its screen ([Inverter screen and software](05-inverter-screen-and-software.md)).
 5. **Add storage for the night** (optional): a power bank holding car batteries or deep-cycle batteries, connected the same way ([Equipment](02-equipment.md)).
 

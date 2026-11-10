@@ -1,6 +1,6 @@
 <p align="center"><img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/preview.png" width="256"></p>
 
-# Live Wire
+# LiveWire
 
 **La compétence Électricité devient un métier : panneaux, éoliennes et roues à aubes alimentent toute la maison, sans carburant ni fumées.**
 
@@ -43,7 +43,7 @@ Orientation et saleté des panneaux, test et réparation des batteries, récupé
 
 ## Principe
 
-Live Wire repose sur **trois rôles et un seul réseau** :
+LiveWire repose sur **trois rôles et un seul réseau** :
 
 - **Les sources produisent** : panneau photovoltaïque (100 W), éolienne (400 W), roue à aubes (120 W), en puissance nominale. Le nombre de sources par onduleur n'est pas limité ; chacune doit se trouver à portée de fil (12 cases horizontalement, 3 étages d'écart au plus par défaut).
 - **Les batteries stockent** (facultatif) : batteries de voiture ou batteries stationnaires, rangées dans une powerbank (4 batteries comptées par powerbank, rendement de charge 0,90). Plusieurs powerbanks par onduleur.
@@ -56,13 +56,13 @@ Live Wire repose sur **trois rôles et un seul réseau** :
 
 C'est le jeu lui-même qui décide ce qui est alimenté (une case est alimentée comme si elle se trouvait près d'un générateur) : frigos, lumières, cuisinières, téléviseurs et radios fonctionnent exactement comme en vanilla.
 
-**Les frigos restent froids pendant votre absence.** Tant qu'il y a du courant, réfrigérateurs et congélateurs conservent la nourriture même quand la zone est déchargée. Vérifié en jeu : un steak frais dans un frigo alimenté, joueur à 300 cases, 10 heures de jeu : âge 0,083 jour (froid) au lieu de 0,417 jour (chaud). Au retour, Live Wire rejoue les changements d'alimentation depuis un historique serveur couvrant 60 jours de jeu. Pour une période plus ancienne, le premier état conservé sert d'approximation ; mettre à jour une sauvegarde ne permet pas de récupérer les changements déjà perdus avec les anciennes versions.
+**Les frigos restent froids pendant votre absence.** Tant qu'il y a du courant, réfrigérateurs et congélateurs conservent la nourriture même quand la zone est déchargée. Vérifié en jeu : un steak frais dans un frigo alimenté, joueur à 300 cases, 10 heures de jeu : âge 0,083 jour (froid) au lieu de 0,417 jour (chaud). Au retour, LiveWire rejoue les changements d'alimentation depuis un historique serveur couvrant 60 jours de jeu. Pour une période plus ancienne, le premier état conservé sert d'approximation ; mettre à jour une sauvegarde ne permet pas de récupérer les changements déjà perdus avec les anciennes versions.
 
 ## Équipements et batteries
 
 Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meubles vanilla (fantôme, 4 orientations, 2 pour les objets muraux). Poser et tourner ne demandent ni outil ni niveau ; ramasser exige un tournevis, sans niveau. Le niveau d'Électricité indiqué est celui du branchement à un onduleur ; mettre un onduleur en service (premier branchement) exige le niveau 3. Un appareil ramassé garde son état. Règles de pose ajoutées par le mod : en extérieur (ciel dégagé) pour le panneau et l'éolienne ; au rez-de-chaussée, sur la berge, contre l'eau d'une rivière pour la roue à aubes (lacs et étangs refusés). Une case refusée affiche la raison en rouge dans le panneau du curseur.
 
-![Tous les équipements Live Wire et leurs chiffres](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png)
+![Tous les équipements LiveWire et leurs chiffres](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png)
 
 | Équipement | Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
 |---|---|---|---|---|---|
@@ -197,16 +197,16 @@ Capacité effective = nominale × (0,4 + 0,6 × état/100) × `BatteryCapacityMu
 ## Raccorder les éléments
 
 1. Fabriquez les appareils ([recettes](#recettes)) et posez-les avec le curseur de meubles. Chaque branchement à l'onduleur exige le niveau d'Électricité de l'appareil (tableau ci-dessous).
-2. Clic droit sur un appareil > « Live Wire » > nom de l'appareil : affiche « Raccordé à l'onduleur à N cases » ou « Non raccordé », puis « Raccorder à un onduleur » > une ligne par onduleur à portée : « Onduleur à N cases (k fil(s)) ». Ou clic droit sur l'onduleur > « Raccorder un équipement » (liste des équipements libres à portée, avec distance et nombre de fils) / « Débrancher un équipement ».
+2. Clic droit sur un appareil > « LiveWire » > nom de l'appareil : affiche « Raccordé à l'onduleur à N cases » ou « Non raccordé », puis « Raccorder à un onduleur » > une ligne par onduleur à portée : « Onduleur à N cases (k fil(s)) ». Ou clic droit sur l'onduleur > « Raccorder un équipement » (liste des équipements libres à portée, avec distance et nombre de fils) / « Débrancher un équipement ».
 3. **Coût** : fil électrique `Base.ElectricWire`, **1 fil par tranche de 4 cases** de distance, arrondi au supérieur, au moins 1 (option `WirePerTiles` ; 0 = gratuit). Exemple : un panneau à 9 cases de l'onduleur coûte 9 / 4 = 2,25, soit **3 fils**.
 4. **Portée** : 12 cases horizontalement (option `LinkRange`, de 4 à 30), 3 étages d'écart au plus par défaut (option `LinkVerticalRange`, de 0 à 10 ; 0 = même étage uniquement). La portée verticale s'applique aussi au couplage d'onduleurs.
 5. **Limites par réseau** : au plus un disjoncteur, une alarme, un ordinateur de gestion et un générateur de secours.
-6. Le générateur vanilla (secours) et l'ordinateur de bureau vanilla (gestion) se raccordent de la même façon, depuis leur propre menu clic droit : « Live Wire » > Générateur de secours / Ordinateur de gestion > Raccorder à un onduleur.
+6. Le générateur vanilla (secours) et l'ordinateur de bureau vanilla (gestion) se raccordent de la même façon, depuis leur propre menu clic droit : « LiveWire » > Générateur de secours / Ordinateur de gestion > Raccorder à un onduleur.
 7. Ramasser l'onduleur déconnecte tout son réseau ; le faire pivoter conserve les liens. Une source ramassée garde son état ; reposée, elle est « Non raccordé ».
 
 **Menu clic droit de l'onduleur** : ouvrir l'écran de l'onduleur, allumer / éteindre, réarmer (après un déclenchement), afficher la zone alimentée (cercle cyan au sol), raccorder / débrancher un équipement, insonoriser l'onduleur, inspecter, réparer, remettre à neuf.
 
-![Menu clic droit « Live Wire » de l'onduleur](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot1.png)
+![Menu clic droit « LiveWire » de l'onduleur](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot1.png)
 
 ## Écran de l'onduleur et logiciel de gestion
 
@@ -218,14 +218,14 @@ Un clic gauche ouvre le LCD de chaque équipement ; **Raccordements** permet de 
 
 ![Écran de l'onduleur dans la maison](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot2.png)
 
-**Logiciel de gestion « Live Wire Monitor »** : onglets Vue d'ensemble, Batteries, Sources, Maison, Historique, Équipements.
+**Logiciel de gestion « LiveWire Monitor »** : onglets Vue d'ensemble, Batteries, Sources, Maison, Historique, Équipements.
 - Vue d'ensemble : production et consommation en grands chiffres avec barres à la même échelle, jauge de stockage et autonomie, fiche de l'onduleur (voyant d'état, état, Marche/Arrêt, Reset), alertes.
 - Historique : graphiques sur 48 h (production, consommation, stock des batteries) et prévision « les batteries tiendront jusqu'à l'aube ». Nécessite un ordinateur de gestion relié.
 
 | Configuration | Fonctionnement |
 |---|---|
-| **Sans le Computer Mod** | Un ordinateur de bureau vanilla relié à l'onduleur ouvre le logiciel sur l'écran d'ordinateur propre au mod (moniteur, écran de démarrage « Live Wire OS », barre d'état avec l'heure du jeu). |
-| **Avec le Computer Mod (Workshop 3725497089) ou le Laptop Mod (3798992436)** | Le logiciel est livré sur un disque, « Disque : logiciel de gestion Live Wire » (`LiveWire.MonitorDisk`), trouvé dans le butin d'ordinateurs. Clic droit sur l'ordinateur avec le disque > « Installer le logiciel Live Wire ». Il apparaît ensuite comme application « Live Wire » sur leur bureau et s'exécute dans leur fenêtre (barre de titre, réduire, fermer, barre des tâches). Il montre l'onduleur relié à cet ordinateur, ou l'onduleur le plus proche à portée de fil. |
+| **Sans le Computer Mod** | Un ordinateur de bureau vanilla relié à l'onduleur ouvre le logiciel sur l'écran d'ordinateur propre au mod (moniteur, écran de démarrage « LiveWire OS », barre d'état avec l'heure du jeu). |
+| **Avec le Computer Mod (Workshop 3725497089) ou le Laptop Mod (3798992436)** | Le logiciel est livré sur un disque, « Disque : logiciel de gestion LiveWire » (`LiveWire.MonitorDisk`), trouvé dans le butin d'ordinateurs. Clic droit sur l'ordinateur avec le disque > « Installer le logiciel LiveWire ». Il apparaît ensuite comme application « LiveWire » sur leur bureau et s'exécute dans leur fenêtre (barre de titre, réduire, fermer, barre des tâches). Il montre l'onduleur relié à cet ordinateur, ou l'onduleur le plus proche à portée de fil. |
 
 **Sans Computer Mod** (ordinateur de bureau vanilla, écran propre au mod) :
 
@@ -235,15 +235,15 @@ Logiciel de gestion sur un ordinateur vanilla, sans Computer Mod ni Laptop Mod.
 
 **Avec Computer Mod ou Laptop Mod** (logiciel installé depuis le disque) :
 
-![Bureau du Computer Mod avec l'icône Live Wire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/computermod.png)
+![Bureau du Computer Mod avec l'icône LiveWire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/computermod.png)
 
-![Live Wire Monitor, vue d'ensemble, dans le Computer Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_computermod.png)
+![LiveWire Monitor, vue d'ensemble, dans le Computer Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_computermod.png)
 
 ![Historique sur 48 h et prévision](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/conso_livewire_computermod.png)
 
 ![Onglet Equipment du logiciel dans le Computer Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/equipement_livewire_computermod.png)
 
-**Bourdonnement de l'onduleur** : un son propre au mod, audible seulement à une case autour d'un onduleur allumé (même étage). Chaque joueur règle son volume dans Options > Mods > Live Wire (0 = coupé). Les zombies l'entendent à 2 cases (option `InverterNoiseRadius`).
+**Bourdonnement de l'onduleur** : un son propre au mod, audible seulement à une case autour d'un onduleur allumé (même étage). Chaque joueur règle son volume dans Options > Mods > LiveWire (0 = coupé). Les zombies l'entendent à 2 cases (option `InverterNoiseRadius`).
 
 **Kit d'insonorisation** (`LiveWire.SoundproofKit`) : se monte sur l'onduleur avec un tournevis (« Insonoriser l'onduleur ») et se retire par « Retirer l'insonorisation » (le kit est rendu). Effets : plus de bourdonnement, les zombies ne l'entendent plus ; en contrepartie l'onduleur chauffe davantage et s'use 25 % plus vite. Le kit suit l'onduleur quand on le ramasse.
 
@@ -261,7 +261,7 @@ Un onduleur insonorisé est recouvert de mousse acoustique grise sur le dessus, 
 
 ### Onduleurs en parallèle (couplage)
 
-Dans une vraie installation autonome, on gagne de la puissance en ajoutant des onduleurs identiques en parallèle, pas en poussant un onduleur au-delà de sa capacité. Live Wire fait de même :
+Dans une vraie installation autonome, on gagne de la puissance en ajoutant des onduleurs identiques en parallèle, pas en poussant un onduleur au-delà de sa capacité. LiveWire fait de même :
 
 - Clic droit sur un onduleur > **Coupler à un onduleur** > un onduleur maître à portée de câble. L'onduleur cliqué devient **esclave**. Coût : le fil électrique de la distance et 1 **kit de couplage d'onduleurs** (recette au niveau 3 d'Électricité).
 - L'esclave ne doit avoir aucun équipement raccordé ; un maître accepte au plus 3 esclaves (4 onduleurs).
@@ -287,7 +287,7 @@ Un appareil posé comme les autres, branché à l'onduleur au niveau 3. Elle pom
 - Seule l'eau est déplacée ; la pluie remplit toujours les barils comme avant. L'eau croupie sort propre au robinet, comme en vanilla.
 - Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les points d'eau desservis, les barils raccordés et la pompe sont surlignés en bleu ; les points d'eau à portée pas encore raccordés apparaissent en gris. Un voyant bleu s'allume sur la pompe lorsqu'elle est alimentée, même au repos.
 - Plusieurs pompes par réseau. L'onglet Équipements du logiciel affiche le nombre de pompes en service et leur débit (L/h), rien d'autre.
-- **Avant de retirer le mod**, lancez l'action de débogage « Retirer tous les relais d'eau » (menu Live Wire > Débogage, avec les droits d'administrateur en multijoueur), sinon les tuiles invisibles des relais restent dans la sauvegarde. L'action arrête aussi toutes les pompes jusqu'à l'action de débogage « Réactiver les pompes à eau ».
+- **Avant de retirer le mod**, lancez l'action de débogage « Retirer tous les relais d'eau » (menu LiveWire > Débogage, avec les droits d'administrateur en multijoueur), sinon les tuiles invisibles des relais restent dans la sauvegarde. L'action arrête aussi toutes les pompes jusqu'à l'action de débogage « Réactiver les pompes à eau ».
 
 ## Tables de calcul
 
@@ -383,9 +383,9 @@ Le nombre de panneaux n'est pas limité : les productions s'additionnent (100 W 
 
 ## Recettes
 
-Les 18 recettes Live Wire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
+Les 18 recettes LiveWire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
 
-![Planche illustrée des recettes Live Wire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png)
+![Planche illustrée des recettes LiveWire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png)
 
 | Ingrédients | Outils (conservés) | Compétence | Résultat |
 |---|---|---|---|
@@ -424,7 +424,7 @@ Poids à ×5 ; estimations si cette liste est sélectionnée, avec un modificate
 | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
 | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 10 | 4 | 21,9 % |
 
-### Équipements Live Wire tout faits
+### Équipements LiveWire tout faits
 
 Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
 
@@ -582,7 +582,7 @@ Par ailleurs : 1 cellule photovoltaïque par calculatrice démontée (sans nivea
 - **Réparation** : 1 déchets électroniques + 1 fil électrique, gain de 5 + niveau d'Électricité points (jusqu'à 90). Chance d'échec : max(5, 40 − 5 × niveau) %, divisée par deux dès le niveau 8 ; les pièces sont perdues en cas d'échec.
 - **Remise à neuf** (niveau 3, 4 déchets électroniques + 2 fils) : retour à 100.
 - **Reconditionnement d'une batterie** : Électricité 4, ou 6 pour une batterie morte ; tournevis conservé, 1 déchet électronique + 1 fil + 0,5 L d'eau. +15 d'état, plafond 80, quatre réparations au maximum. Cycles et énergie conservés ; une batterie morte revient vide.
-- **Testeur de tension** (`LiveWire.VoltageTester`) : clic droit sur une case > Live Wire > Mesurer. Alimentée oui/non (niveau 0), origine (1), consommation de l'appareil (2), bilan du réseau (4).
+- **Testeur de tension** (`LiveWire.VoltageTester`) : clic droit sur une case > LiveWire > Mesurer. Alimentée oui/non (niveau 0), origine (1), consommation de l'appareil (2), bilan du réseau (4).
 
 **Test et équipement hors d'usage :** testez une batterie en inventaire aux niveaux 1/3/5 pour des mesures de plus en plus détaillées. Un équipement hors d'usage se ramasse et se démonte depuis le menu d'artisanat : ses pièces électroniques dépendent de son état. Éteignez l'onduleur maître avant d'intervenir ; voir les [règles de sécurité](docs/wiki/fr/10-competence-electricite-et-entretien.md#sécurité-électrique-et-expérience).
 
@@ -631,7 +631,7 @@ Page « LiveWire » des options sandbox.
 | `GridCharging` | activé | — | Tant que le réseau public fonctionne, un onduleur dans un bâtiment s'alimente et recharge ses batteries sur le secteur |
 | `BackupStartPercent` / `BackupStopPercent` | 20 / 90 | 0-90 / 10-100 | Seuils du générateur de secours |
 
-**Option joueur** (Options > Mods > Live Wire) : volume du bourdonnement de l'onduleur, de 0 à 100 (0 = coupé).
+**Option joueur** (Options > Mods > LiveWire) : volume du bourdonnement de l'onduleur, de 0 à 100 (0 = coupé).
 
 ## Multijoueur, état, installation
 
@@ -647,12 +647,12 @@ Mods facultatifs : Computer Mod (3725497089) ou Laptop Mod (3798992436) pour le 
 
 ## Project Viewpoint
 
-L'objet Workshop contient aussi le mod facultatif **Live Wire - Viewpoint models** (`batman_LiveWireViewpoint`) : les modèles 3D de tous les équipements, de leurs voyants, des pales et de la mousse d'insonorisation pour [Project Viewpoint](https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528). À activer seulement si vous utilisez Project Viewpoint ; sans lui, ce mod ne fait rien. Les modèles sont produits à partir de la même géométrie Blender que les tuiles (`source/viewpoint/export_viewpoint.py`).
+L'objet Workshop contient aussi le mod facultatif **LiveWire - Viewpoint models** (`batman_LiveWireViewpoint`) : les modèles 3D de tous les équipements, de leurs voyants, des pales et de la mousse d'insonorisation pour [Project Viewpoint](https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528). À activer seulement si vous utilisez Project Viewpoint ; sans lui, ce mod ne fait rien. Les modèles sont produits à partir de la même géométrie Blender que les tuiles (`source/viewpoint/export_viewpoint.py`).
 
 ![Viewpoint](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png)
 ![Viewpoint](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png)
 
-*Les équipements Live Wire vus avec Project Viewpoint.*
+*Les équipements LiveWire vus avec Project Viewpoint.*
 
 ## Licence et crédits
 

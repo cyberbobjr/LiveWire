@@ -2,7 +2,7 @@
 
 # FAQ
 
-Short answers about Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.6.0). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). See [Multiplayer](12-multiplayer.md#status) for the validation scope of this update. For details, follow the links to the matching pages.
+Short answers about LiveWire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.6.0). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). See [Multiplayer](12-multiplayer.md#status) for the validation scope of this update. For details, follow the links to the matching pages.
 
 ## Getting started
 
@@ -21,7 +21,7 @@ Placing and picking up need no level (picking up needs a screwdriver). The level
 The range is 12 tiles horizontally (sandbox `LinkRange`, 4 to 30), at most 3 floors apart by default (sandbox `LinkVerticalRange`, 0 to 10; 0 = same floor). The cost is 1 electric wire (`Base.ElectricWire`) per 4 tiles of horizontal distance, rounded up, at least 1 (sandbox `WirePerTiles`, 0 = free). See [Wiring](03-wiring.md) and [Sandbox options](11-sandbox-options.md).
 
 **How do I link or unlink a device?**
-Right-click the device, "Live Wire", then its name, then "Connect to an inverter" and pick the inverter (the list shows distance and wires). Or right-click the inverter and use "Connect equipment" or "Disconnect equipment". The device menu also has "Disconnect from the inverter". See [Wiring](03-wiring.md).
+Right-click the device, "LiveWire", then its name, then "Connect to an inverter" and pick the inverter (the list shows distance and wires). Or right-click the inverter and use "Connect equipment" or "Disconnect equipment". The device menu also has "Disconnect from the inverter". See [Wiring](03-wiring.md).
 
 **How many of each device per network?**
 Any number of sources and power banks per inverter, with up to four coupled inverters per network. At most one breaker, one alarm, one management computer and one backup generator per network. See [Wiring](03-wiring.md).
@@ -58,7 +58,7 @@ It depends on the sandbox `ConsumptionProfile`. With the default game values: li
 The demand of the house appliances went above 1,500 W, for example a stacked washer + dryer. With a breaker panel, the breaker trips and the inverter takes no damage; use "Reset the breaker" once the load is lower. Without a breaker, the inverter trips and loses 3 condition points; use "Reset" on it. See [Optional equipment](06-optional-equipment.md).
 
 **1,500 W is not enough. Can I combine several inverters?**
-Yes: couple them. Place a second inverter with no equipment connected, right-click it, "Live Wire", then "Couple to an inverter", and pick the master inverter within cable range. It costs the electric wire for the distance and 1 Inverter Coupling Kit (recipe at Electrical level 3). A master takes up to 3 slaves, so 4 inverters give 6,000 W on one network, with one battery bank and the master's powered area. Each inverter switched on uses 20 W idle and wears as usual; a slave switched off or broken no longer counts. "Uncouple" on the slave gives the kit back. See [Optional equipment](06-optional-equipment.md#parallel-inverters-coupling). You can also turn an inverter into an **inverter cabinet** (4,500 W, 60 W idle, recipe at Electrical level 3); cabinets couple like inverters.
+Yes: couple them. Place a second inverter with no equipment connected, right-click it, "LiveWire", then "Couple to an inverter", and pick the master inverter within cable range. It costs the electric wire for the distance and 1 Inverter Coupling Kit (recipe at Electrical level 3). A master takes up to 3 slaves, so 4 inverters give 6,000 W on one network, with one battery bank and the master's powered area. Each inverter switched on uses 20 W idle and wears as usual; a slave switched off or broken no longer counts. "Uncouple" on the slave gives the kit back. See [Optional equipment](06-optional-equipment.md#parallel-inverters-coupling). You can also turn an inverter into an **inverter cabinet** (4,500 W, 60 W idle, recipe at Electrical level 3); cabinets couple like inverters.
 
 **How does the low battery alarm work?**
 Below 20 % stock it sends a message to players within 30 tiles and beeps every 10 game minutes until you choose "Silence the alarm". The beacon stays lit until the stock is back above 25 %. Linking it needs Electrical level 2. See [Optional equipment](06-optional-equipment.md).
@@ -67,23 +67,23 @@ Below 20 % stock it sends a message to players within 30 tiles and beeps every 1
 A vanilla generator linked to the inverter is started by the mod under 20 % battery and stopped at 90 % (sandbox `BackupStartPercent` and `BackupStopPercent`). It supplies 1,200 W and burns 1 L of fuel per 3 kWh on top of its vanilla consumption. It stays noisy and toxic indoors, must be plugged and fuelled the vanilla way, and never starts without batteries. See [Optional equipment](06-optional-equipment.md).
 
 **Why does the backup generator no longer start or stop on its own?**
-If you switch the generator on or off yourself (vanilla menu), the mod respects your choice: it goes into **manual control** and stops driving it. A message near the generator says so, and the inverter screen and the management software show "manual control". To hand control back to the mod: right-click the generator > **Live Wire** > **Backup generator** > **Resume automatic backup**. Linking a generator that is already running also puts it in manual control.
+If you switch the generator on or off yourself (vanilla menu), the mod respects your choice: it goes into **manual control** and stops driving it. A message near the generator says so, and the inverter screen and the management software show "manual control". To hand control back to the mod: right-click the generator > **LiveWire** > **Backup generator** > **Resume automatic backup**. Linking a generator that is already running also puts it in manual control.
 
 ## Software and computer
 
 **Do I need a computer or the Computer Mod?**
-No, the inverter has its own LCD screen ("Open the inverter screen", 5 pages). A computer is only needed for the management software ("Live Wire Monitor"), which adds a 48 h history and the forecast "batteries will last until sunrise". See [Inverter screen and software](05-inverter-screen-and-software.md).
+No, the inverter has its own LCD screen ("Open the inverter screen", 5 pages). A computer is only needed for the management software ("LiveWire Monitor"), which adds a 48 h history and the forecast "batteries will last until sunrise". See [Inverter screen and software](05-inverter-screen-and-software.md).
 
 **How does it work with and without the Computer Mod or Laptop Mod?**
-Without them, a vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen. With the optional Computer Mod (Workshop 3725497089) or Laptop Mod (3798992436), the software comes on a disk and appears as a "Live Wire" app on their desktop. See [Inverter screen and software](05-inverter-screen-and-software.md).
+Without them, a vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen. With the optional Computer Mod (Workshop 3725497089) or Laptop Mod (3798992436), the software comes on a disk and appears as a "LiveWire" app on their desktop. See [Inverter screen and software](05-inverter-screen-and-software.md).
 
 **Where do I find the disk?**
-"Disk: Live Wire Management Software" is found in computer loot, when Computer Mod or Laptop Mod is active: computer crates (about 7.8 % per container), university electrical desks (7.8 %), electronics store computers (2.0 %), among others. Right-click the computer with the disk and choose "Install the Live Wire software". See [Loot tables](09-loot-tables.md).
+"Disk: LiveWire Management Software" is found in computer loot, when Computer Mod or Laptop Mod is active: computer crates (about 7.8 % per container), university electrical desks (7.8 %), electronics store computers (2.0 %), among others. Right-click the computer with the disk and choose "Install the LiveWire software". See [Loot tables](09-loot-tables.md).
 
 ## Noise and zombies
 
 **Is the inverter noisy, and can I silence it?**
-It makes a hum heard only one tile around a switched-on inverter. Each player sets its volume in Options > Mods > Live Wire (0 = off). A soundproofing kit removes it entirely. See [Inverter screen and software](05-inverter-screen-and-software.md).
+It makes a hum heard only one tile around a switched-on inverter. Each player sets its volume in Options > Mods > LiveWire (0 = off). A soundproofing kit removes it entirely. See [Inverter screen and software](05-inverter-screen-and-software.md).
 
 **How does the soundproofing kit work, and does the inverter attract zombies?**
 Zombies hear a running inverter within 2 tiles (sandbox `InverterNoiseRadius`, 0 = silent). The kit (level 2, "Soundproof the inverter" with a screwdriver) removes both the hum and that noise, but the inverter runs warmer and wears 25 % faster. "Remove the soundproofing" gives the kit back. See [Optional equipment](06-optional-equipment.md).
@@ -105,7 +105,7 @@ It is designed for it: production, stock, states, failures and experience are co
 The Mod ID is `batman_LiveWire`. The Workshop ID is `3821807453`. You can also copy `Contents/mods/batman_LiveWire` into `Zomboid/mods`. See [Getting started](01-getting-started.md#installation).
 
 **Which sandbox options matter for a server?**
-Page "Live Wire": `ConsumptionProfile` (ultra-realistic 1993, realistic 1993, game values, comfort), `PowerScale`, source multipliers (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, wear multipliers, `LinkRange`, `WirePerTiles`, `SkillGates` and `SimulateUnloaded` (default on). If the server pauses when empty, the installation pauses too. See [Sandbox options](11-sandbox-options.md).
+Page "LiveWire": `ConsumptionProfile` (ultra-realistic 1993, realistic 1993, game values, comfort), `PowerScale`, source multipliers (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, wear multipliers, `LinkRange`, `WirePerTiles`, `SkillGates` and `SimulateUnloaded` (default on). If the server pauses when empty, the installation pauses too. See [Sandbox options](11-sandbox-options.md).
 
 **Who can use an installation, and does it lag?**
 Shared installations follow the vanilla safehouse rules. The software may lag up to 10 game minutes. Vanilla generators are unchanged: if a generator and an inverter cover the same appliances, both pay. See [Multiplayer](12-multiplayer.md).
@@ -113,12 +113,12 @@ Shared installations follow the vanilla safehouse rules. The software may lag up
 ## Compatibility
 
 **Can I use it with other energy mods?**
-Other energy mods are not supported together with Live Wire. Live Wire is an original creation: no code or asset was taken from any other mod. Optional integrations include Computer Mod, Laptop Mod, Project Viewpoint and Useful Barrels. See [Getting started](01-getting-started.md).
+Other energy mods are not supported together with LiveWire. LiveWire is an original creation: no code or asset was taken from any other mod. Optional integrations include Computer Mod, Laptop Mod, Project Viewpoint and Useful Barrels. See [Getting started](01-getting-started.md).
 
 ## Troubleshooting
 
 **A device says "Not connected".**
-It is not linked to an inverter. Right-click it, "Live Wire", then "Connect to an inverter". The inverter must be within cable range (12 tiles horizontally and 3 floors apart at most by default). A source placed again after pick-up must be linked again. See [Wiring](03-wiring.md).
+It is not linked to an inverter. Right-click it, "LiveWire", then "Connect to an inverter". The inverter must be within cable range (12 tiles horizontally and 3 floors apart at most by default). A source placed again after pick-up must be linked again. See [Wiring](03-wiring.md).
 
 **Everything is linked but nothing is powered.**
 Check that the inverter is on ("Turn on") and not tripped ("Reset"), that appliances are within 20 tiles and 3 floors (use "Show the powered area"), and that a source is actually producing (night, no wind, snow). The inverter screen shows production, load and status. See [Inverter screen and software](05-inverter-screen-and-software.md).

@@ -1,5 +1,5 @@
 {
-    "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire": "LiveWire",
     "Sandbox_LiveWire_LinkVerticalRange": "Vertikale Kabelreichweite",
     "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Maximaler Höhenunterschied in Stockwerken für Geräteanschlüsse und die Kopplung von Wechselrichtern, nach oben oder unten. 0 = nur im selben Stockwerk.",
     "Sandbox_LiveWire_PowerScale": "Leistungsskala",
@@ -29,7 +29,7 @@
     "Sandbox_LiveWire_StormDamage": "Sturmschaden",
     "Sandbox_LiveWire_StormDamage_tooltip": "Gewitter und sehr starker Wind beschädigen Solarpanels und Windturbinen.",
     "Sandbox_LiveWire_XPMultiplier": "Elektrotechnik-Erfahrung",
-    "Sandbox_LiveWire_XPMultiplier_tooltip": "Multiplikator der Erfahrung, die Live-Wire-Aktionen geben.",
+    "Sandbox_LiveWire_XPMultiplier_tooltip": "Multiplikator der Erfahrung, die LiveWire-Aktionen geben.",
     "Sandbox_LiveWire_SkillGates": "Fertigkeitsanforderungen",
     "Sandbox_LiveWire_SkillGates_tooltip": "Wenn deaktiviert, ist keine Elektrotechnik-Stufe nötig.",
     "Sandbox_LiveWire_SimulateUnloaded": "Ohne Spieler in der Nähe weiterlaufen",
@@ -52,6 +52,6 @@
     "Sandbox_LiveWire_SolarDirt_tooltip": "Staub sammelt sich auf den Modulen. Regen und Reinigung entfernen ihn.",
     "Sandbox_LiveWire_BatteryCold_tooltip": "Kälte verringert die nutzbare Kapazität im Freien. Bei Erwärmung wird die Reserve wieder verfügbar.",
     "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Standardmäßig an. Stromschlagrisiko: 50%% bei Elektrik 0, null ab 6. Verbrennt die Hand mit dem Schraubendreher; gehaltene Gegenstände fallen. Hauptwechselrichter ausschalten: Der Hauptschalter der Schalttafel reicht nicht.",
-    "Sandbox_LiveWire_EquipmentLootMultiplier": "Beutefaktor für Live-Wire-Geräte und -Bauteile",
-    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multipliziert nur die Beutegewichte von Live-Wire-Geräten und Bauteilen (Solarzellen, Rotoren und Masten) (1-20, Standard 5). Vanilla-Gegenstände und ihre Beutegewichte bleiben unverändert. Software-CDs behalten ihre bisherige Häufigkeit. Neustart nötig; nur künftige Beutewürfe, keine Auffüllung durchsuchter Behälter. Vanilla-Beuteeinstellungen gelten weiterhin."
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Beutefaktor für LiveWire-Geräte und -Bauteile",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multipliziert nur die Beutegewichte von LiveWire-Geräten und Bauteilen (Solarzellen, Rotoren und Masten) (1-20, Standard 5). Vanilla-Gegenstände und ihre Beutegewichte bleiben unverändert. Software-CDs behalten ihre bisherige Häufigkeit. Neustart nötig; nur künftige Beutewürfe, keine Auffüllung durchsuchter Behälter. Vanilla-Beuteeinstellungen gelten weiterhin."
 }

@@ -2,7 +2,7 @@
 
 # LiveWire Extended (optional add-on)
 
-**LiveWire Extended** (`batman_LiveWireExtended`) is an optional mod shipped with Live Wire. It needs Live Wire. **With it, an inverter has no radius anymore**: it only powers what you connect to it, a building (with **Connect the building**, or the building of a breaker board you link) and the zones of outdoor power terminals. Without it, Live Wire works exactly as before, with its radius.
+**LiveWire Extended** (`batman_LiveWireExtended`) is an optional mod shipped with LiveWire. It needs LiveWire. **With it, an inverter has no radius anymore**: it only powers what you connect to it, a building (with **Connect the building**, or the building of a breaker board you link) and the zones of outdoor power terminals. Without it, LiveWire works exactly as before, with its radius.
 
 ## Connect a whole building
 
@@ -34,7 +34,7 @@ A **breaker board** (8, 16 or 24 modules) hangs on a wall. Craft one (Electrical
 - **Open the board** to see each breaker: lever, label, load in W and A, energy today, yesterday and over 7 days, and **Locate** to light up its appliances. Write a label with a pen or a pencil. The inverter software lists the energy of each breaker on its House tab.
 - A **twilight switch** fitted on a breaker keeps its circuit on only between dusk and dawn: garden lights, porch lamps.
 - **Houses of the map**: a house with its own electrical box (often on its facade) always has it as its board; other buildings get a board on a bare wall (garage first, then a utility room, then the entrance) in 30 % of cases by default (sandbox option). It does nothing until you link it to an inverter; then it comes prewired, one breaker per room and a 30 A breaker of their own for the stove and the dryer, without labels: find out which breaker feeds what.
-- My Tailor Is Rich's electric sewing machine and Functional Appliances 2's machines follow their breaker too; so do Live Wire's water pump and management computer.
+- My Tailor Is Rich's electric sewing machine and Functional Appliances 2's machines follow their breaker too; so do LiveWire's water pump and management computer.
 
 ## On the inverter
 
@@ -42,6 +42,6 @@ A **breaker board** (8, 16 or 24 modules) hangs on a wall. Craft one (Electrical
 
 ## Removing the add-on
 
-With breaker boards in use, an admin first opens a board's menu and chooses **Admin: switch every breaker back on (before removing the mod)**: no breaker cuts anymore and every appliance gets back its normal state (fridges cool again, Functional Appliances 2 machines get their setting back). Then untick the add-on in the mod list: Live Wire goes back to its circle the next time the area loads, with no leftover power. Nothing is lost in Live Wire's own data. The same menu resumes the boards if you change your mind.
+With breaker boards in use, an admin first opens a board's menu and chooses **Admin: switch every breaker back on (before removing the mod)**: no breaker cuts anymore and every appliance gets back its normal state (fridges cool again, Functional Appliances 2 machines get their setting back). Then untick the add-on in the mod list: LiveWire goes back to its circle the next time the area loads, with no leftover power. Nothing is lost in LiveWire's own data. The same menu resumes the boards if you change your mind.
 
-Not compatible with LG Extended Electricity, which changes the generator range Live Wire relies on, nor with Knox Power, which puts its own breaker system in houses.
+Not compatible with LG Extended Electricity, which changes the generator range LiveWire relies on, nor with Knox Power, which puts its own breaker system in houses.

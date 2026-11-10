@@ -1,4 +1,4 @@
--- Live Wire: local bank LCD. Native inventory remains responsible for transfers.
+-- LiveWire: local bank LCD. Native inventory remains responsible for transfers.
 if isServer() then return end
 require "ISUI/ISPanel"
 require "ISUI/ISButton"
@@ -95,7 +95,7 @@ function Panel:render()
     local Lcd=LiveWire.Lcd
     local font=Lcd.font()
     local L,W=self.L,self.width
-    self:drawText("LIVE WIRE",L.side,L.brandY,0.85,0.87,0.9,1,UIFont.Medium)
+    self:drawText("LIVEWIRE",L.side,L.brandY,0.85,0.87,0.9,1,UIFont.Medium)
     self:drawText(getText("IGUI_LW_BankTitle"),L.titleX,L.titleY,0.85,0.87,0.9,1,UIFont.Small)
     local line=Lcd.deviceScreen(self,L,W,self.height,"green",font,getTimestampMs())
     local fh=L.fh or getTextManager():getFontHeight(font)+L.linePad

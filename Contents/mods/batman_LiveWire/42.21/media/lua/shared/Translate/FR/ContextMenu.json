@@ -1,5 +1,5 @@
 {
-    "ContextMenu_LW_Root": "Live Wire",
+    "ContextMenu_LW_Root": "LiveWire",
     "ContextMenu_LW_Measure": "Mesurer",
     "ContextMenu_LW_Inspect": "Inspecter",
     "ContextMenu_LW_Unlink": "Débrancher de l'onduleur",
@@ -10,8 +10,8 @@
     "ContextMenu_LW_HideRange": "Masquer la zone alimentée",
     "ContextMenu_LW_ResetBreaker": "Réarmer le disjoncteur",
     "ContextMenu_LW_AckAlarm": "Couper la sonnerie",
-    "ContextMenu_LW_Software": "Ouvrir le logiciel de gestion Live Wire",
-    "ContextMenu_LW_InstallSoftware": "Installer le logiciel Live Wire",
+    "ContextMenu_LW_Software": "Ouvrir le logiciel de gestion LiveWire",
+    "ContextMenu_LW_InstallSoftware": "Installer le logiciel LiveWire",
     "ContextMenu_LW_LinkTo": "Raccorder à un onduleur",
     "ContextMenu_LW_InverterAt": "Onduleur à %1 cases (%2 fil(s))",
     "ContextMenu_LW_NoInverter": "Aucun onduleur à moins de %1 cases",

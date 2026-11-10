@@ -2,9 +2,9 @@
 
 # Recettes
 
-Les 29 recettes Live Wire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
+Les 29 recettes LiveWire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
 
-![Planche illustrée des recettes Live Wire](../../images/diagrams/recipe_book_fr.png)
+![Planche illustrée des recettes LiveWire](../../images/diagrams/recipe_book_fr.png)
 
 | Ingrédients | Outils (conservés) | Compétence | Résultat |
 |---|---|---|---|
@@ -72,7 +72,7 @@ Toutes les recettes LiveWire donnent de l'XP d'Électricité ; pales et mât don
 
 ## Démonter un équipement
 
-Chaque équipement et kit Live Wire se démonte depuis le menu d'artisanat
+Chaque équipement et kit LiveWire se démonte depuis le menu d'artisanat
 (**Démonter un onduleur**, **Démonter un panneau photovoltaïque**, etc.) : ramassez
 d'abord l'équipement, puis démontez-le depuis l'inventaire. Un tournevis en état est
 requis et conservé ; aucun niveau d'Électricité n'est demandé. On récupère toujours

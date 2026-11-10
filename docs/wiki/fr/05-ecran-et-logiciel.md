@@ -22,7 +22,7 @@ Un bouton I/O avec voyant (vert allumé, rouge éteint, orange clignotant en cas
 
 ![Page 1 : production / charge](../../images/screenshots/onduleur.png)
 
-## Logiciel « Live Wire Monitor »
+## Logiciel « LiveWire Monitor »
 
 | Onglet | Contenu |
 |---|---|
@@ -38,7 +38,7 @@ Un bouton I/O avec voyant (vert allumé, rouge éteint, orange clignotant en cas
 
 ### Sans Computer Mod
 
-Un ordinateur de bureau vanilla relié à l'onduleur ouvre le logiciel sur l'écran propre au mod (moniteur, écran de démarrage « Live Wire OS », barre d'état avec l'heure du jeu).
+Un ordinateur de bureau vanilla relié à l'onduleur ouvre le logiciel sur l'écran propre au mod (moniteur, écran de démarrage « LiveWire OS », barre d'état avec l'heure du jeu).
 
 ![Logiciel de gestion sur un ordinateur vanilla, sans Computer Mod ni Laptop Mod](../../images/screenshots/livewire_monitor_without_compute.png)
 
@@ -46,11 +46,11 @@ Un ordinateur de bureau vanilla relié à l'onduleur ouvre le logiciel sur l'éc
 
 ### Avec Computer Mod ou Laptop Mod
 
-Avec le Computer Mod facultatif (Workshop 3725497089) ou le Laptop Mod (3798992436), le logiciel arrive sur un disque : « Disque : logiciel de gestion Live Wire » (`LiveWire.MonitorDisk`), trouvé dans le butin d'ordinateurs ([Tables de butin](09-tables-de-butin.md)). Clic droit sur l'ordinateur avec le disque : « Installer le logiciel Live Wire ». Il apparaît alors comme application « Live Wire » sur leur bureau et s'exécute dans leur fenêtre (barre de titre, réduire, fermer, barre des tâches). Il montre l'onduleur relié à cet ordinateur, ou à défaut l'onduleur le plus proche à portée de câble.
+Avec le Computer Mod facultatif (Workshop 3725497089) ou le Laptop Mod (3798992436), le logiciel arrive sur un disque : « Disque : logiciel de gestion LiveWire » (`LiveWire.MonitorDisk`), trouvé dans le butin d'ordinateurs ([Tables de butin](09-tables-de-butin.md)). Clic droit sur l'ordinateur avec le disque : « Installer le logiciel LiveWire ». Il apparaît alors comme application « LiveWire » sur leur bureau et s'exécute dans leur fenêtre (barre de titre, réduire, fermer, barre des tâches). Il montre l'onduleur relié à cet ordinateur, ou à défaut l'onduleur le plus proche à portée de câble.
 
-![Bureau du Computer Mod avec l'icône Live Wire](../../images/screenshots/computermod.png)
+![Bureau du Computer Mod avec l'icône LiveWire](../../images/screenshots/computermod.png)
 
-![Live Wire Monitor, onglet Overview](../../images/screenshots/livewire_computermod.png)
+![LiveWire Monitor, onglet Overview](../../images/screenshots/livewire_computermod.png)
 
 ![Onglet History : graphiques 48 h et prévision](../../images/screenshots/conso_livewire_computermod.png)
 
@@ -58,7 +58,7 @@ Avec le Computer Mod facultatif (Workshop 3725497089) ou le Laptop Mod (37989924
 
 ## Bourdonnement de l'onduleur
 
-Un son propre au mod, audible seulement à une case autour d'un onduleur allumé (même étage). Chaque joueur règle son volume dans Options, Mods, Live Wire (0 = coupé, de 0 à 100). Les zombies entendent l'onduleur à 2 cases (option InverterNoiseRadius ; 0 = silencieux).
+Un son propre au mod, audible seulement à une case autour d'un onduleur allumé (même étage). Chaque joueur règle son volume dans Options, Mods, LiveWire (0 = coupé, de 0 à 100). Les zombies entendent l'onduleur à 2 cases (option InverterNoiseRadius ; 0 = silencieux).
 
 ## Kit d'insonorisation
 
@@ -103,7 +103,7 @@ ou non alimenté, gris pour un autre réseau. Masquer retire ces teintes. Les wa
 exacts restent consultables dans la liste du logiciel.
 
 
-![Live Wire 1.6.0 — LCDs and electrical panel](../../images/screenshots/shot7.png)
+![LiveWire 1.6.0 — LCDs and electrical panel](../../images/screenshots/shot7.png)
 
 ## Voir aussi
 

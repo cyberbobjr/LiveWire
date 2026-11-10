@@ -6,7 +6,7 @@ Server and game settings are on the **LiveWire** page of the sandbox options.
 
 | Option | Default | Range | Effect |
 |---|---|---|---|
-| EquipmentLootMultiplier | 5 | 1–20 | Live Wire equipment and solar-cell loot weights only; restart required, future rolls only |
+| EquipmentLootMultiplier | 5 | 1–20 | LiveWire equipment and solar-cell loot weights only; restart required, future rolls only |
 | `ConsumptionProfile` | Game values | Ultra-realistic 1993, Realistic 1993, Game values, Comfort | Power drawn by switched-on appliances; see the table in [Production and Calculations](04-production-and-calculations.md#appliance-consumption) |
 | `PowerScale` | 1.0 | 0.1-10 | Multiplies the consumption given by the profile (1 = no change) |
 | `SolarMultiplier` / `WindMultiplier` / `HydroMultiplier` | 1.0 | 0-10 | Production per source family |
@@ -30,7 +30,7 @@ Server and game settings are on the **LiveWire** page of the sandbox options.
 
 ## Player option
 
-In **Options > Mods > Live Wire**: inverter hum volume, 0-100 (0 = off). It is per player and only affects what that player hears.
+In **Options > Mods > LiveWire**: inverter hum volume, 0-100 (0 = off). It is per player and only affects what that player hears.
 
 ## New defaults in 1.6.0
 

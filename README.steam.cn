@@ -1,4 +1,4 @@
-[h1]Live Wire - 电工技能全面改造[/h1]
+[h1]LiveWire - 电工技能全面改造[/h1]
 
 [b]Build 42.21 · 单人与多人（服务器权威）[/b]
 
@@ -16,7 +16,7 @@
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_cn.png[/img]
 
 太阳能100 W、风力400 W、水轮120 W。逆变器为20格内、上下3层的电器供电，单台上限1500 W；家用电器无需单独布线。
-[b]需要超过1500 W？[/b]放置第二台未连接任何设备的逆变器，右键 > Live Wire >「并联到一台逆变器」（1个逆变器并联套件，电工3级配方）。最多4台并联：6000 W。新增：可将逆变器改造成4500 W的[b]逆变器柜[/b]（电工3级），同样可并联。
+[b]需要超过1500 W？[/b]放置第二台未连接任何设备的逆变器，右键 > LiveWire >「并联到一台逆变器」（1个逆变器并联套件，电工3级配方）。最多4台并联：6000 W。新增：可将逆变器改造成4500 W的[b]逆变器柜[/b]（电工3级），同样可并联。
 每个电池柜容纳4块电池。电缆每4格消耗1根电线，范围12格。沙盒可选游戏数值、1993写实、1993超写实或舒适耗电模式。
 
 [h2]设备[/h2]
@@ -44,7 +44,7 @@
 
 [h2]管理软件[/h2]
 
-Live Wire Monitor新增用电设备（最多200项）、彩色轮廓、电缆显示、最近30条事件；管理电脑通电时可查看三天发电预测，另有48小时历史。网络名称显示于LCD和警报。支持原版台式机；可选Computer Mod/Laptop Mod通过战利品磁盘安装。
+LiveWire Monitor新增用电设备（最多200项）、彩色轮廓、电缆显示、最近30条事件；管理电脑通电时可查看三天发电预测，另有48小时历史。网络名称显示于LCD和警报。支持原版台式机；可选Computer Mod/Laptop Mod通过战利品磁盘安装。
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
@@ -58,9 +58,9 @@ Live Wire Monitor新增用电设备（最多200项）、彩色轮廓、电缆显
 
 [h2]文档[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire 维基（英文版）[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 维基（英文版）[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：本物品还包含可选模组 [b]Live Wire - Viewpoint models[/b]（batman_LiveWireViewpoint），提供所有设备的 3D 模型。仅在使用 Project Viewpoint 时启用。
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：本物品还包含可选模组 [b]LiveWire - Viewpoint models[/b]（batman_LiveWireViewpoint），提供所有设备的 3D 模型。仅在使用 Project Viewpoint 时启用。
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]兼容[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（可选）：管理软件可从电脑类战利品中找到的光盘安装，并作为应用在其桌面上运行。

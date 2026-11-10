@@ -1,5 +1,5 @@
 {
-    "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire": "LiveWire",
     "Sandbox_LiveWire_LinkVerticalRange": "電線の垂直到達範囲",
     "Sandbox_LiveWire_LinkVerticalRange_tooltip": "機器の接続とインバーターの並列接続で許容される上下の最大階層差です。0 = 同じ階のみ。",
     "Sandbox_LiveWire_PowerScale": "電力スケール",
@@ -29,7 +29,7 @@
     "Sandbox_LiveWire_StormDamage": "嵐の被害",
     "Sandbox_LiveWire_StormDamage_tooltip": "雷雨や非常に強い風が太陽光パネルと風力発電機を損傷させます。",
     "Sandbox_LiveWire_XPMultiplier": "電気工学の経験値",
-    "Sandbox_LiveWire_XPMultiplier_tooltip": "Live Wireの行動で得られる経験値の倍率です。",
+    "Sandbox_LiveWire_XPMultiplier_tooltip": "LiveWireの行動で得られる経験値の倍率です。",
     "Sandbox_LiveWire_SkillGates": "技能の必要条件",
     "Sandbox_LiveWire_SkillGates_tooltip": "無効にすると、電気工学のレベルは不要になります。",
     "Sandbox_LiveWire_SimulateUnloaded": "プレイヤー不在時も稼働",
@@ -52,6 +52,6 @@
     "Sandbox_LiveWire_SolarDirt_tooltip": "パネルに汚れが蓄積します。雨や手作業の清掃で除去できます。",
     "Sandbox_LiveWire_BatteryCold_tooltip": "屋外蓄電池の利用可能容量が低温で減少し、温まると戻ります。",
     "Sandbox_LiveWire_LiveWorkRisk_tooltip": "初期値は有効。電気工学0で感電率50%%、6以上でゼロ。ドライバーを使う手をやけどし、持ち物を落とします。作業前に主インバーターを停止してください。配電盤の主幹だけでは安全になりません。",
-    "Sandbox_LiveWire_EquipmentLootMultiplier": "Live Wire機器と部品の出現倍率",
-    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Live Wire機器と部品（太陽電池セル、ブレード、マスト）の戦利品ウェイトのみ変更します（1～20、初期値5）。ゲーム本体のアイテムと出現ウェイトは変更しません。ソフトウェアディスクは従来の出現率です。再起動が必要。今後の抽選のみで、探索済み容器は補充しません。ゲーム本体の戦利品設定も適用されます。"
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "LiveWire機器と部品の出現倍率",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "LiveWire機器と部品（太陽電池セル、ブレード、マスト）の戦利品ウェイトのみ変更します（1～20、初期値5）。ゲーム本体のアイテムと出現ウェイトは変更しません。ソフトウェアディスクは従来の出現率です。再起動が必要。今後の抽選のみで、探索済み容器は補充しません。ゲーム本体の戦利品設定も適用されます。"
 }

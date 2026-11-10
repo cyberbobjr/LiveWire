@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Source of the Live Wire translations (EN reference, FR). Generates the JSON files.
+"""Source of the LiveWire translations (EN reference, FR). Generates the JSON files.
 
 Run: python3 -I tools/translations_src.py
 """
@@ -19,7 +19,7 @@ for k, en, fr in [
     ("LiveWire.SolarCell", "Solar Cell", "Cellule photovoltaïque"),
     ("LiveWire.DeepCycleBattery", "Deep-Cycle Battery", "Batterie stationnaire"),
     ("LiveWire.SoundproofKit", "Inverter Soundproofing Kit", "Kit d'insonorisation d'onduleur"),
-    ("LiveWire.MonitorDisk", "Disk: Live Wire Management Software", "Disque : logiciel de gestion Live Wire"),
+    ("LiveWire.MonitorDisk", "Disk: LiveWire Management Software", "Disque : logiciel de gestion LiveWire"),
     ("Base.Mov_LiveWire_SolarPanel", "Solar Panel", "Panneau photovoltaïque"),
     ("Base.Mov_LiveWire_WindTurbine", "Wind Turbine", "Éolienne"),
     ("Base.Mov_LiveWire_WaterWheel", "Water Wheel", "Roue à aubes"),
@@ -60,7 +60,7 @@ for k, en, fr in [
     add("Recipes", k, en, fr)
 
 for k, en, fr in [
-    ("ContextMenu_LW_Root", "Live Wire", "Live Wire"),
+    ("ContextMenu_LW_Root", "LiveWire", "LiveWire"),
     ("ContextMenu_LW_Measure", "Measure", "Mesurer"),
     ("ContextMenu_LW_Inspect", "Inspect", "Inspecter"),
     ("ContextMenu_LW_Unlink", "Disconnect from the inverter", "Débrancher de l'onduleur"),
@@ -71,8 +71,8 @@ for k, en, fr in [
     ("ContextMenu_LW_HideRange", "Hide the powered area", "Masquer la zone alimentée"),
     ("ContextMenu_LW_ResetBreaker", "Reset the breaker", "Réarmer le disjoncteur"),
     ("ContextMenu_LW_AckAlarm", "Silence the alarm", "Couper la sonnerie"),
-    ("ContextMenu_LW_Software", "Open the Live Wire management software", "Ouvrir le logiciel de gestion Live Wire"),
-    ("ContextMenu_LW_InstallSoftware", "Install the Live Wire software", "Installer le logiciel Live Wire"),
+    ("ContextMenu_LW_Software", "Open the LiveWire management software", "Ouvrir le logiciel de gestion LiveWire"),
+    ("ContextMenu_LW_InstallSoftware", "Install the LiveWire software", "Installer le logiciel LiveWire"),
     ("ContextMenu_LW_LinkTo", "Connect to an inverter", "Raccorder à un onduleur"),
     ("ContextMenu_LW_InverterAt", "Inverter %1 tiles away (%2 wire(s))", "Onduleur à %1 cases (%2 fil(s))"),
     ("ContextMenu_LW_NoInverter", "No inverter within %1 tiles", "Aucun onduleur à moins de %1 cases"),
@@ -136,9 +136,9 @@ for k, en, fr in [
     ("Tooltip_LW_OneOptionPerGrid", "This network already has one.", "Ce réseau en a déjà un."),
     ("Tooltip_LW_SoundproofKit", "Fitted on an inverter: no more hum, and zombies no longer hear it. The inverter runs warmer and wears 25%% faster.", "Se pose sur un onduleur : plus de bourdonnement, et les zombies ne l'entendent plus. L'onduleur chauffe davantage et s'use 25 %% plus vite."),
     ("Tooltip_LW_NeedSoundproofKit", "Requires a soundproofing kit.", "Il faut un kit d'insonorisation."),
-    ("Tooltip_LW_MonitorDisk", "Installs the Live Wire management app on a Computer Mod computer or laptop.", "Installe l'application de gestion Live Wire sur un ordinateur ou un portable du Computer Mod."),
-    ("Tooltip_LW_NeedDisk", "Requires the Live Wire software disk.", "Il faut le disque du logiciel Live Wire."),
-    ("Tooltip_LW_NeedSoftware", "Install the Live Wire software (disk) on this computer first.", "Installez d'abord le logiciel Live Wire (disque) sur cet ordinateur."),
+    ("Tooltip_LW_MonitorDisk", "Installs the LiveWire management app on a Computer Mod computer or laptop.", "Installe l'application de gestion LiveWire sur un ordinateur ou un portable du Computer Mod."),
+    ("Tooltip_LW_NeedDisk", "Requires the LiveWire software disk.", "Il faut le disque du logiciel LiveWire."),
+    ("Tooltip_LW_NeedSoftware", "Install the LiveWire software (disk) on this computer first.", "Installez d'abord le logiciel LiveWire (disque) sur cet ordinateur."),
     ("Tooltip_LW_VoltageTester", "Right-click a tile to measure its power.", "Clic droit sur une case pour mesurer le courant."),
     ("Tooltip_LW_DeepCycleBattery", "Stores 1.5 kWh and lasts four times longer than a car battery.", "Stocke 1,5 kWh et dure quatre fois plus qu'une batterie de voiture."),
 ]:
@@ -196,7 +196,7 @@ for k, en, fr in [
     ("IGUI_LW_Option_Line", "%1 (condition %2)", "%1 (état %2)"),
     ("IGUI_LW_Installed", "%1 installed.", "%1 installé."),
     ("IGUI_LW_Adopted", "%1: registration recovered, the device now works.", "%1 : enregistrement rattrapé, l'appareil fonctionne."),
-    ("IGUI_LW_NotRegistered", "Live Wire could not register this device (details in the console).", "Live Wire n'a pas pu enregistrer cet appareil (détails dans la console)."),
+    ("IGUI_LW_NotRegistered", "LiveWire could not register this device (details in the console).", "LiveWire n'a pas pu enregistrer cet appareil (détails dans la console)."),
     ("IGUI_LW_Linked", "Connected.", "Raccordé."),
     ("IGUI_LW_Unlinked", "Disconnected.", "Débranché."),
     ("IGUI_LW_Repaired", "Repaired, condition %1.", "Réparé, état %1."),
@@ -210,13 +210,13 @@ for k, en, fr in [
     ("IGUI_LW_StillOverloaded", "Still overloaded: %1 W for %2 W max. Turn some appliances off first.", "Toujours en surcharge : %1 W pour %2 W max. Éteignez d'abord des appareils."),
     ("IGUI_LW_AlarmSilenced", "Alarm silenced. Its light stays on while the battery is low.", "Sonnerie coupée. Le voyant reste allumé tant que la batterie est basse."),
     ("IGUI_LW_Scale", "Common scale: %1 W", "Échelle commune : %1 W"),
-    ("IGUI_LW_Software_Title", "Live Wire management software", "Logiciel de gestion Live Wire"),
-    ("IGUI_LW_App", "Live Wire", "Live Wire"),
-    ("IGUI_LW_NoInverterForSoftware", "No Live Wire inverter in range.", "Aucun onduleur Live Wire à portée."),
-    ("IGUI_LW_SoftwareInstalled", "Live Wire software installed.", "Logiciel Live Wire installé."),
-    ("IGUI_LW_App_Name", "Live Wire Monitor", "Live Wire Monitor"),
-    ("IGUI_LW_App_OS", "Live Wire OS", "Live Wire OS"),
-    ("IGUI_LW_App_Booting", "Live Wire OS - starting", "Live Wire OS - démarrage"),
+    ("IGUI_LW_Software_Title", "LiveWire management software", "Logiciel de gestion LiveWire"),
+    ("IGUI_LW_App", "LiveWire", "LiveWire"),
+    ("IGUI_LW_NoInverterForSoftware", "No LiveWire inverter in range.", "Aucun onduleur LiveWire à portée."),
+    ("IGUI_LW_SoftwareInstalled", "LiveWire software installed.", "Logiciel LiveWire installé."),
+    ("IGUI_LW_App_Name", "LiveWire Monitor", "LiveWire Monitor"),
+    ("IGUI_LW_App_OS", "LiveWire OS", "LiveWire OS"),
+    ("IGUI_LW_App_Booting", "LiveWire OS - starting", "LiveWire OS - démarrage"),
     ("IGUI_LW_App_Brand", "LW-486 Personal Computer", "LW-486 Personal Computer"),
     ("IGUI_LW_App_Tab_Overview", "Overview", "Vue d'ensemble"),
     ("IGUI_LW_App_Tab_Batteries", "Batteries", "Batteries"),
@@ -243,7 +243,7 @@ for k, en, fr in [
     ("IGUI_LW_App_FamilyTotal", "%1 source(s) - %2 W", "%1 source(s) - %2 W"),
     ("IGUI_LW_App_SourceState", "%1 W - condition %2", "%1 W - état %2"),
     ("IGUI_LW_App_ApplianceState", "%1 - %2 W", "%1 - %2 W"),
-    ("IGUI_LW_LCD_Brand", "LIVE WIRE - INVERTER 1500 W", "LIVE WIRE - ONDULEUR 1500 W"),
+    ("IGUI_LW_LCD_Brand", "LIVEWIRE - INVERTER 1500 W", "LIVEWIRE - ONDULEUR 1500 W"),
     ("IGUI_LW_LCD_Page_Balance", "PRODUCTION / LOAD", "PRODUCTION / CONSO"),
     ("IGUI_LW_LCD_Prod", "PROD   %1 W", "PROD   %1 W"),
     ("IGUI_LW_LCD_Load", "LOAD   %1 W / %2 W", "CONSO  %1 W / %2 W"),
@@ -273,7 +273,7 @@ for k, en, fr in [
     ("IGUI_LW_Measure_Powered", "Power: yes.", "Courant : oui."),
     ("IGUI_LW_Measure_Source_Grid", "Power from the public grid.", "Courant du réseau public."),
     ("IGUI_LW_Measure_Source_Generator", "Power from a generator.", "Courant d'un générateur."),
-    ("IGUI_LW_Measure_Source_LiveWire", "Power from a Live Wire inverter.", "Courant d'un onduleur Live Wire."),
+    ("IGUI_LW_Measure_Source_LiveWire", "Power from a LiveWire inverter.", "Courant d'un onduleur LiveWire."),
     ("IGUI_LW_Measure_Draw", "This appliance draws %1 W.", "Cet appareil consomme %1 W."),
     ("IGUI_LW_Measure_Grid", "Network: %1 W produced, %2 W used, %3 kWh stored, autonomy %4 h", "Réseau : %1 W produits, %2 W consommés, %3 kWh stockés, autonomie %4 h"),
 ]:
@@ -298,7 +298,7 @@ for k, en, fr in [
     ("IGUI_LW_Backup_Fuel", "Fuel: %1%%", "Carburant : %1 %%"),
     ("IGUI_LW_Backup_Thresholds", "Starts below %1%% of battery, stops at %2%%.", "D\u00e9marre sous %1 %% de batterie, s'arr\u00eate \u00e0 %2 %%."),
     ("IGUI_LW_Section_Computer", "Management computer", "Ordinateur de gestion"),
-    ("IGUI_LW_Computer_None", "Connect a desktop computer (Electrical 6) to see the history and the forecast.", "Raccordez un ordinateur de bureau (\u00c9lectricit\u00e9 6) pour voir l'historique et la pr\u00e9vision."),
+    ("IGUI_LW_Computer_None", "Connect a desktop computer (Electrical 3) to see the history and the forecast.", "Raccordez un ordinateur de bureau (\u00c9lectricit\u00e9 3) pour voir l'historique et la pr\u00e9vision."),
     ("IGUI_LW_Computer_Off", "The computer has no power.", "L'ordinateur n'est pas aliment\u00e9."),
     ("IGUI_LW_Computer_NoHistory", "Recording... (one point per hour)", "Enregistrement... (un point par heure)"),
     ("IGUI_LW_Computer_Shed", "Load shedding: lights are switched off below 15%% of battery.", "D\u00e9lestage : les lumi\u00e8res sont \u00e9teintes sous 15 %% de batterie."),
@@ -317,7 +317,7 @@ for k, en, fr in [
 
 # Player options (Options > Mods), UI.json.
 for k, en, fr in [
-    ("UI_LW_Options_Title", "Live Wire", "Live Wire"),
+    ("UI_LW_Options_Title", "LiveWire", "LiveWire"),
     ("UI_LW_Options_HumVolume", "Inverter hum volume (0-100)", "Volume du bourdonnement de l'onduleur (0-100)"),
     ("UI_LW_Options_HumVolume_tooltip", "0 = no hum. Only for you; heard one tile around a running inverter.", "0 = aucun bourdonnement. Pour vous seul ; il s'entend à une case autour d'un onduleur allumé."),
 ]:
@@ -354,7 +354,7 @@ SANDBOX = [
     ("StormDamage", "Storm damage", "Dégâts d'orage",
      "Thunderstorms and very strong winds damage solar panels and wind turbines.", "Les orages et les vents très forts abîment les panneaux et les éoliennes."),
     ("XPMultiplier", "Electrical experience", "Expérience d'électricité",
-     "Multiplier of the experience given by Live Wire actions.", "Multiplicateur de l'expérience donnée par les actions Live Wire."),
+     "Multiplier of the experience given by LiveWire actions.", "Multiplicateur de l'expérience donnée par les actions LiveWire."),
     ("SkillGates", "Skill requirements", "Niveaux requis",
      "When disabled, no Electrical level is required.", "Désactivé : aucun niveau d'Électricité n'est requis."),
     ("SimulateUnloaded", "Run without players nearby", "Fonctionnement sans joueur",
@@ -364,7 +364,7 @@ SANDBOX = [
     ("BackupStopPercent", "Backup stop (percent)", "Arr\u00eat du secours (pourcentage)",
      "The backup generator stops once the batteries reach this percentage. The stop threshold is automatically raised to at least 5 percentage points above the start threshold.", "Le g\u00e9n\u00e9rateur de secours s'arr\u00eate quand les batteries atteignent ce pourcentage. Le seuil d'arrêt est automatiquement relevé à au moins 5 points au-dessus du seuil de démarrage."),
 ]
-add("Sandbox", "Sandbox_LiveWire", "Live Wire", "Live Wire")
+add("Sandbox", "Sandbox_LiveWire", "LiveWire", "LiveWire")
 for name, en, fr, ten, tfr in SANDBOX:
     add("Sandbox", "Sandbox_LiveWire_" + name, en, fr)
     add("Sandbox", "Sandbox_LiveWire_" + name + "_tooltip", ten, tfr)
@@ -467,8 +467,20 @@ def main():
         d = os.path.join(OUT, lang)
         os.makedirs(d, exist_ok=True)
         for f, keys in T.items():
-            data = {k: v[idx] for k, v in keys.items()}
-            with open(os.path.join(d, f + ".json"), "w", encoding="utf-8", newline="\n") as fh:
+            path = os.path.join(d, f + ".json")
+            generated = {k: v[idx] for k, v in keys.items()}
+            # Keep the key order of the existing file; new keys go at the end.
+            current = {}
+            if os.path.exists(path):
+                with open(path, encoding="utf-8") as fh:
+                    current = json.load(fh)
+            dropped = [k for k in current if k not in generated]
+            if dropped:
+                print("warning: %s/%s.json loses keys missing from the sources: %s"
+                      % (lang, f, ", ".join(dropped)))
+            data = {k: generated[k] for k in current if k in generated}
+            data.update(generated)
+            with open(path, "w", encoding="utf-8", newline="\n") as fh:
                 json.dump(data, fh, ensure_ascii=False, indent=4)
                 fh.write("\n")
     print("wrote %d files per language" % len(T))

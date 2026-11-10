@@ -1,5 +1,5 @@
 {
-    "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire": "LiveWire",
     "Sandbox_LiveWire_LinkVerticalRange": "Portée verticale des câbles",
     "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Écart maximal en étages pour le raccordement des équipements et le couplage des onduleurs, au-dessus ou au-dessous. 0 = même étage uniquement.",
     "Sandbox_LiveWire_PowerScale": "Échelle de puissance",
@@ -29,7 +29,7 @@
     "Sandbox_LiveWire_StormDamage": "Dégâts d'orage",
     "Sandbox_LiveWire_StormDamage_tooltip": "Les orages et les vents très forts abîment les panneaux et les éoliennes.",
     "Sandbox_LiveWire_XPMultiplier": "Expérience d'électricité",
-    "Sandbox_LiveWire_XPMultiplier_tooltip": "Multiplicateur de l'expérience donnée par les actions Live Wire.",
+    "Sandbox_LiveWire_XPMultiplier_tooltip": "Multiplicateur de l'expérience donnée par les actions LiveWire.",
     "Sandbox_LiveWire_SkillGates": "Niveaux requis",
     "Sandbox_LiveWire_SkillGates_tooltip": "Désactivé : aucun niveau d'Électricité n'est requis.",
     "Sandbox_LiveWire_SimulateUnloaded": "Fonctionnement sans joueur",

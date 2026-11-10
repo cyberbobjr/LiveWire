@@ -1,5 +1,5 @@
 {
-    "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire": "LiveWire",
     "Sandbox_LiveWire_LinkVerticalRange": "Alcance vertical dos cabos",
     "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Diferença máxima de pisos para ligar equipamentos e acoplar inversores, acima ou abaixo. 0 = apenas no mesmo piso.",
     "Sandbox_LiveWire_PowerScale": "Escala de energia",
@@ -29,7 +29,7 @@
     "Sandbox_LiveWire_StormDamage": "Danos da tempestade",
     "Sandbox_LiveWire_StormDamage_tooltip": "As trovoadas e os ventos muito fortes danificam os painéis solares e as turbinas eólicas.",
     "Sandbox_LiveWire_XPMultiplier": "Experiência em eletricidade",
-    "Sandbox_LiveWire_XPMultiplier_tooltip": "Multiplicador da experiência dada pelas ações Live Wire.",
+    "Sandbox_LiveWire_XPMultiplier_tooltip": "Multiplicador da experiência dada pelas ações LiveWire.",
     "Sandbox_LiveWire_SkillGates": "Requisitos de habilidade",
     "Sandbox_LiveWire_SkillGates_tooltip": "Quando desativado, não é exigido nenhum nível de Eletricidade.",
     "Sandbox_LiveWire_SimulateUnloaded": "Funcionar sem jogadores por perto",
@@ -52,6 +52,6 @@
     "Sandbox_LiveWire_SolarDirt_tooltip": "O pó acumula-se nos painéis. A chuva e a limpeza removem-no.",
     "Sandbox_LiveWire_BatteryCold_tooltip": "O frio reduz a capacidade acessível dos bancos exteriores. A reserva regressa com o aquecimento.",
     "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Ativado por padrão. Risco de choque: 50%% com Eletricidade 0, nulo a partir de 6. Queima a mão da chave de fendas e faz largar objetos. Desligue o inversor principal: o disjuntor geral não basta.",
-    "Sandbox_LiveWire_EquipmentLootMultiplier": "Multiplicador de equipamentos e peças Live Wire",
-    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multiplica apenas os pesos do saque de equipamentos e peças Live Wire (células solares, pás e mastros) (1-20, padrão 5). Os objetos do jogo base e os seus pesos não mudam. Os discos mantêm a frequência atual. Requer reinício; apenas saques futuros, sem reabastecer recipientes revistados. As opções de saque do jogo continuam aplicáveis."
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Multiplicador de equipamentos e peças LiveWire",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multiplica apenas os pesos do saque de equipamentos e peças LiveWire (células solares, pás e mastros) (1-20, padrão 5). Os objetos do jogo base e os seus pesos não mudam. Os discos mantêm a frequência atual. Requer reinício; apenas saques futuros, sem reabastecer recipientes revistados. As opções de saque do jogo continuam aplicáveis."
 }

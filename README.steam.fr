@@ -1,4 +1,4 @@
-[h1]Live Wire - Refonte de la compétence Électricité[/h1]
+[h1]LiveWire - Refonte de la compétence Électricité[/h1]
 
 [b]Build 42.21 · Solo et multijoueur (serveur autoritaire)[/b]
 
@@ -16,7 +16,7 @@ Le tableau possède des leviers éclairage, équipements et principal, avec les 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
 Solaire 100 W, éolien 400 W, roue à aubes 120 W. Un onduleur alimente les appareils à 20 cases et ±3 étages, jusqu'à 1 500 W. Aucun câble par appareil domestique.
-[b]Besoin de plus de 1 500 W ?[/b] Posez un second onduleur sans rien y raccorder, clic droit dessus > Live Wire > « Coupler à un onduleur » (1 kit de couplage d'onduleurs, recette Électricité 3). Jusqu'à 4 onduleurs couplés : 6 000 W. Nouveau : transformez un onduleur en [b]armoire onduleur[/b] de 4 500 W (Électricité 3), couplable elle aussi.
+[b]Besoin de plus de 1 500 W ?[/b] Posez un second onduleur sans rien y raccorder, clic droit dessus > LiveWire > « Coupler à un onduleur » (1 kit de couplage d'onduleurs, recette Électricité 3). Jusqu'à 4 onduleurs couplés : 6 000 W. Nouveau : transformez un onduleur en [b]armoire onduleur[/b] de 4 500 W (Électricité 3), couplable elle aussi.
 Stockez le surplus dans des powerbanks (4 batteries chacune). Câbles : 1 fil par 4 cases, portée 12. Profils sandbox : Valeurs du jeu, Réaliste 1993, Ultra-réaliste 1993 ou Confort.
 
 [h2]Équipements[/h2]
@@ -44,7 +44,7 @@ La pompe (Électricité 3) alimente les sanitaires raccordés à 15 cases depuis
 
 [h2]Logiciel de gestion[/h2]
 
-Live Wire Monitor ajoute consommateurs (200 maximum), silhouettes colorées, câbles, 30 derniers événements et prévision de production sur trois jours avec un ordinateur de gestion alimenté, en plus de l'historique 48 h. Les noms de réseau figurent sur les LCD et alertes. Bureau vanilla utilisable ; Computer Mod/Laptop Mod facultatifs avec un CD trouvé en butin.
+LiveWire Monitor ajoute consommateurs (200 maximum), silhouettes colorées, câbles, 30 derniers événements et prévision de production sur trois jours avec un ordinateur de gestion alimenté, en plus de l'historique 48 h. Les noms de réseau figurent sur les LCD et alertes. Bureau vanilla utilisable ; Computer Mod/Laptop Mod facultatifs avec un CD trouvé en butin.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
@@ -58,9 +58,9 @@ Simulation et contrôles côté serveur, circuits sauvegardés et états des app
 
 [h2]Documentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-Home]Wiki Live Wire (français)[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-Home]Wiki LiveWire (français)[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint), avec les modèles 3D de tous les équipements. À activer seulement si vous utilisez Project Viewpoint.
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint), avec les modèles 3D de tous les équipements. À activer seulement si vous utilisez Project Viewpoint.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Compatible avec[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs) : le logiciel de gestion s'installe depuis un disque trouvé dans le butin informatique et fonctionne comme une application sur leur bureau.

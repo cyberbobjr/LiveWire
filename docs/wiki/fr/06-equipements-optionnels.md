@@ -13,11 +13,11 @@ Quatre équipements facultatifs renforcent un réseau. Chaque réseau en accepte
 
 Le générateur de secours et l'ordinateur ne se fabriquent pas : ce sont des objets vanilla trouvés dans le monde.
 
-**Commande manuelle.** Allumer ou éteindre vous-même le générateur de secours (menu vanilla) le met en commande manuelle : le mod ne le démarre ni ne l'arrête plus, et l'écran de l'onduleur comme le logiciel affichent « commande manuelle ». Clic droit sur le générateur > Live Wire > Générateur de secours > Reprendre le secours automatique pour revenir au pilotage automatique.
+**Commande manuelle.** Allumer ou éteindre vous-même le générateur de secours (menu vanilla) le met en commande manuelle : le mod ne le démarre ni ne l'arrête plus, et l'écran de l'onduleur comme le logiciel affichent « commande manuelle ». Clic droit sur le générateur > LiveWire > Générateur de secours > Reprendre le secours automatique pour revenir au pilotage automatique.
 
 ## Onduleurs en parallèle (couplage)
 
-Dans une vraie installation autonome, on gagne de la puissance en ajoutant des onduleurs identiques en parallèle, pas en poussant un onduleur au-delà de sa capacité. Live Wire fait de même :
+Dans une vraie installation autonome, on gagne de la puissance en ajoutant des onduleurs identiques en parallèle, pas en poussant un onduleur au-delà de sa capacité. LiveWire fait de même :
 
 - Clic droit sur un onduleur > **Coupler à un onduleur** > un onduleur maître à portée de câble. L'onduleur cliqué devient **esclave**. Coût : le fil électrique de la distance et 1 **kit de couplage d'onduleurs** (recette au niveau 3 d'Électricité).
 - L'esclave ne doit avoir aucun équipement raccordé ; un maître accepte au plus 3 esclaves (4 onduleurs).
@@ -75,9 +75,9 @@ principal, lui, coupe seulement la distribution de ce réseau.
 
 Les appareils de mods utilisant les mécanismes vanilla suivent les mêmes règles ;
 les services électriques spécifiques nécessitent une compatibilité. Avant de
-désactiver Live Wire, rétablir les circuits pour restaurer les types des frigos.
+désactiver LiveWire, rétablir les circuits pour restaurer les types des frigos.
 
-![Live Wire 1.6.0](../../images/screenshots/shot6.png)
+![LiveWire 1.6.0](../../images/screenshots/shot6.png)
 
 Le tableau électrique en jeu, avec ses leviers éclairage/équipements et son wattmètre instantané. « Updating... » est l’état temporaire avant réception des mesures.
 

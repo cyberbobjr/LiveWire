@@ -1,5 +1,5 @@
 {
-    "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire": "LiveWire",
     "Sandbox_LiveWire_LinkVerticalRange": "电缆垂直范围",
     "Sandbox_LiveWire_LinkVerticalRange_tooltip": "连接设备和并联逆变器时，允许向上或向下跨越的最大楼层数。0 = 仅限同一楼层。",
     "Sandbox_LiveWire_PowerScale": "功率倍率",
@@ -29,7 +29,7 @@
     "Sandbox_LiveWire_StormDamage": "暴风雨损坏",
     "Sandbox_LiveWire_StormDamage_tooltip": "雷暴和强风会损坏太阳能板和风力涡轮机.",
     "Sandbox_LiveWire_XPMultiplier": "电工经验",
-    "Sandbox_LiveWire_XPMultiplier_tooltip": "Live Wire 操作获得经验的倍率.",
+    "Sandbox_LiveWire_XPMultiplier_tooltip": "LiveWire 操作获得经验的倍率.",
     "Sandbox_LiveWire_SkillGates": "技能要求",
     "Sandbox_LiveWire_SkillGates_tooltip": "禁用后不需要任何电工等级.",
     "Sandbox_LiveWire_SimulateUnloaded": "无玩家附近时运行",
@@ -52,6 +52,6 @@
     "Sandbox_LiveWire_SolarDirt_tooltip": "面板会积尘，雨水和手动清洁可以去除。",
     "Sandbox_LiveWire_BatteryCold_tooltip": "低温会降低室外电池组的可用容量，回暖后储备重新可用。",
     "Sandbox_LiveWire_LiveWorkRisk_tooltip": "默认开启。电工0级触电概率50%%，6级起为零。会烧伤持螺丝刀的手并掉落手持物。作业前关闭主逆变器：仅断开配电盘总开关并不安全。",
-    "Sandbox_LiveWire_EquipmentLootMultiplier": "Live Wire设备与零件战利品倍率",
-    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "仅将Live Wire设备与零件（太阳能电池片、叶片和塔架）的战利品权重乘以指定倍数（1-20，默认5）。不改变原版物品及其战利品权重。软件光盘保持原有掉落率。需要重启；仅影响之后的战利品生成，不会补充已搜索的容器。游戏原有战利品设置仍然生效。"
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "LiveWire设备与零件战利品倍率",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "仅将LiveWire设备与零件（太阳能电池片、叶片和塔架）的战利品权重乘以指定倍数（1-20，默认5）。不改变原版物品及其战利品权重。软件光盘保持原有掉落率。需要重启；仅影响之后的战利品生成，不会补充已搜索的容器。游戏原有战利品设置仍然生效。"
 }

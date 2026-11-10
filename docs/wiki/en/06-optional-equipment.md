@@ -13,11 +13,11 @@ These four add-ons are not required to run a network, but they make it safer and
 
 The management computer and the backup generator are not crafted: they are vanilla objects found in the world. Link them from their own right-click menu (see [Wiring](03-wiring.md)).
 
-**Manual control.** Switching the backup generator on or off yourself (vanilla menu) puts it in manual control: the mod no longer starts or stops it, and the inverter screen and the software show "manual control". Right-click the generator > Live Wire > Backup generator > Resume automatic backup to return to automatic control.
+**Manual control.** Switching the backup generator on or off yourself (vanilla menu) puts it in manual control: the mod no longer starts or stops it, and the inverter screen and the software show "manual control". Right-click the generator > LiveWire > Backup generator > Resume automatic backup to return to automatic control.
 
 ## Parallel inverters (coupling)
 
-Real off-grid systems get more power by adding identical inverters in parallel, not by pushing one beyond its rating. Live Wire does the same:
+Real off-grid systems get more power by adding identical inverters in parallel, not by pushing one beyond its rating. LiveWire does the same:
 
 - Right-click an inverter > **Couple to an inverter** > a master inverter within cable range. The clicked inverter becomes a **slave**. Cost: the electric wire for the distance and 1 **inverter coupling kit** (recipe at Electrical 3).
 - The slave must have no equipment of its own; a master takes at most 3 slaves (4 inverters).
@@ -42,7 +42,7 @@ The lighting circuit turns real mains switches off and restores recorded choices
 Battery lamps are excluded; native room switches act on the whole room.
 
 The LCD shows **lighting, equipment and total in watts**, using the network's
-latest measurement. Equipment includes Live Wire water pumps. These are current
+latest measurement. Equipment includes LiveWire water pumps. These are current
 power readings, not cumulative kWh; inverter idle use, losses and battery charging
 are excluded. An open circuit with no remaining load shows “0 W / OFF”. After
 returning to an area or reconnecting, “Updating...” and dashes replace unavailable
@@ -53,7 +53,7 @@ included in its measured watts.
 
 The equipment lever stops refrigerators/freezers, mains TVs/radios, stoves,
 microwaves, washers, dryers, combination machines and car battery chargers. Fuel
-pumps stop dispensing; Live Wire water pumps stop refilling relays (already stored
+pumps stop dispensing; LiveWire water pumps stop refilling relays (already stored
 water remains available). Lighting can stay on. Originally OFF
 appliances stay OFF when restored; native machine cycles restart their duration.
 Battery devices remain independent. Sources, storage and network controls are excluded.
@@ -70,9 +70,9 @@ lever only opens this network's distribution; other sources can still supply it.
 
 Modded appliances using native classes/container types follow the same rules;
 custom electrical services need explicit compatibility. Restore circuits before
-disabling Live Wire so saved inert refrigerators recover their original types.
+disabling LiveWire so saved inert refrigerators recover their original types.
 
-![Live Wire 1.6.0](../../images/screenshots/shot6.png)
+![LiveWire 1.6.0](../../images/screenshots/shot6.png)
 
 The electrical panel in game, with its lighting/equipment levers and instant wattmeter. “Updating...” is the temporary state before fresh measurements arrive.
 

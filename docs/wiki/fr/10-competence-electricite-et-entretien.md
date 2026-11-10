@@ -24,7 +24,7 @@
 
 ## Testeur de tension
 
-`LiveWire.VoltageTester` : clic droit sur une case, « Live Wire », « Mesurer ».
+`LiveWire.VoltageTester` : clic droit sur une case, « LiveWire », « Mesurer ».
 
 | Niveau | Lecture |
 |---|---|
@@ -136,7 +136,7 @@ Une action refusée ou interrompue par un choc ne donne pas d'XP de réparation.
 
 ## Tester l'usure en debug
 
-En solo `-debug`, ou en administrateur MP : clic droit sur l'appareil → Live Wire
+En solo `-debug`, ou en administrateur MP : clic droit sur l'appareil → LiveWire
 → son nom → **Debug : cet équipement**. Retirez 10 points d'état, fixez 50 % ou
 10 %, mettez hors service (0 %) ou restaurez à 100 %. Fonctionne même sans câble.
 Cela concerne l'équipement sélectionné, pas directement les batteries à l'intérieur,

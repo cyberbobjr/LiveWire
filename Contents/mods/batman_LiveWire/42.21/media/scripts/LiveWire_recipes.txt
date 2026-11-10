@@ -62,6 +62,7 @@ module LiveWire
         category = Electrical,
         inputs
         {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
             item 5 [Base.ElectronicsScrap],
             item 1 [Base.Aluminum],
@@ -162,6 +163,7 @@ module LiveWire
         xpAward = Electricity:2,
         inputs
         {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 1 tags[base:sheetmetalsnips] mode:keep flags[MayDegradeVeryLight],
             item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
             item 2 [Base.SheetMetal],
@@ -182,6 +184,7 @@ module LiveWire
         xpAward = Electricity:2,
         inputs
         {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
             item 1 tags[base:pipewrench] mode:keep flags[MayDegradeVeryLight],
             item 1 [Base.MetalPipe],
@@ -359,6 +362,7 @@ module LiveWire
         OnCreate = LiveWire.Recipes.onDeepCycleBattery,
         inputs
         {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 1 tags[base:pliers] mode:keep flags[MayDegradeVeryLight],
             item 2 [Base.CarBattery1;Base.CarBattery2;Base.CarBattery3] mode:destroy,
             item 2 [Base.ElectricWire],
@@ -405,6 +409,7 @@ module LiveWire
         category = Electrical,
         inputs
         {
+            item 1 tags[base:screwdriver] mode:keep flags[Prop1],
             item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
             item 4 [Base.Plank],
             item 10 [Base.Nails],
@@ -653,6 +658,7 @@ module LiveWire
         xpAward = Electricity:1,
         inputs
         {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
             item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
             item 1 [LiveWire.SoundproofKit] mode:destroy,
         }

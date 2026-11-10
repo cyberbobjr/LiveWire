@@ -1,5 +1,5 @@
 {
-    "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire": "LiveWire",
     "Sandbox_LiveWire_LinkVerticalRange": "Alcance vertical de los cables",
     "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Diferencia máxima de plantas para conectar equipos y acoplar inversores, hacia arriba o hacia abajo. 0 = solo en la misma planta.",
     "Sandbox_LiveWire_PowerScale": "Escala de potencia",
@@ -29,7 +29,7 @@
     "Sandbox_LiveWire_StormDamage": "Daños por tormenta",
     "Sandbox_LiveWire_StormDamage_tooltip": "Las tormentas y los vientos muy fuertes dañan los paneles solares y los aerogeneradores.",
     "Sandbox_LiveWire_XPMultiplier": "Experiencia en electrónica",
-    "Sandbox_LiveWire_XPMultiplier_tooltip": "Multiplicador de la experiencia que dan las acciones de Live Wire.",
+    "Sandbox_LiveWire_XPMultiplier_tooltip": "Multiplicador de la experiencia que dan las acciones de LiveWire.",
     "Sandbox_LiveWire_SkillGates": "Requisitos de habilidad",
     "Sandbox_LiveWire_SkillGates_tooltip": "Si está desactivado, no se requiere ningún nivel de Electrónica.",
     "Sandbox_LiveWire_SimulateUnloaded": "Funcionar sin jugadores cerca",
@@ -52,6 +52,6 @@
     "Sandbox_LiveWire_SolarDirt_tooltip": "El polvo se acumula en los paneles. La lluvia y la limpieza lo eliminan.",
     "Sandbox_LiveWire_BatteryCold_tooltip": "El frío reduce la capacidad disponible en bancos exteriores. La reserva vuelve al calentarse.",
     "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Activado por defecto. Riesgo de descarga: 50%% con Electricidad 0, nulo desde 6. Quema la mano del destornillador y hace soltar objetos. Apaga el inversor maestro: el interruptor general no basta.",
-    "Sandbox_LiveWire_EquipmentLootMultiplier": "Multiplicador de equipos y componentes Live Wire",
-    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multiplica solo los pesos del botín de equipos y componentes Live Wire (células solares, palas y mástiles) (1-20, predeterminado 5). Los objetos del juego base y sus pesos no cambian. Los discos mantienen su frecuencia. Requiere reiniciar; solo botín futuro, sin rellenar contenedores registrados. Se mantienen los ajustes de botín del juego."
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Multiplicador de equipos y componentes LiveWire",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Multiplica solo los pesos del botín de equipos y componentes LiveWire (células solares, palas y mástiles) (1-20, predeterminado 5). Los objetos del juego base y sus pesos no cambian. Los discos mantienen su frecuencia. Requiere reiniciar; solo botín futuro, sin rellenar contenedores registrados. Se mantienen los ajustes de botín del juego."
 }

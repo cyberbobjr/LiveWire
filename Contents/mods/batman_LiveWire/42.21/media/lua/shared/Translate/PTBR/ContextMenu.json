@@ -1,5 +1,5 @@
 {
-    "ContextMenu_LW_Root": "Live Wire",
+    "ContextMenu_LW_Root": "LiveWire",
     "ContextMenu_LW_Measure": "Medir",
     "ContextMenu_LW_Inspect": "Inspecionar",
     "ContextMenu_LW_Unlink": "Desconectar do inversor",
@@ -10,8 +10,8 @@
     "ContextMenu_LW_HideRange": "Ocultar a área alimentada",
     "ContextMenu_LW_ResetBreaker": "Rearmar o disjuntor",
     "ContextMenu_LW_AckAlarm": "Silenciar o alarme",
-    "ContextMenu_LW_Software": "Abrir o software de gestão Live Wire",
-    "ContextMenu_LW_InstallSoftware": "Instalar o software Live Wire",
+    "ContextMenu_LW_Software": "Abrir o software de gestão LiveWire",
+    "ContextMenu_LW_InstallSoftware": "Instalar o software LiveWire",
     "ContextMenu_LW_LinkTo": "Conectar a um inversor",
     "ContextMenu_LW_InverterAt": "Inversor a %1 casas (%2 fio(s))",
     "ContextMenu_LW_NoInverter": "Nenhum inversor a menos de %1 casas",

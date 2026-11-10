@@ -114,12 +114,12 @@ EQUIPMENT = [
 ]
 T = {
     "EN": {"recipe": "Recipe", "in": "Ingredients", "skill": "Skill", "out": "Result", "tools": "Tools (kept)",
-           "none": "none", "loot_title": "Ready-made Live Wire equipment",
+           "none": "none", "loot_title": "Ready-made LiveWire equipment",
            "loot_intro": "Ready-made equipment, at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, a vanilla loot modifier of 0.6, no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.",
            "item": "Equipment", "list": "Vanilla list", "where": "Where", "w": "Weight (×5)", "r": "Rolls",
            "c": "≈ chance per container", "furn": "furniture: × 0.6 included", "dec": "."},
     "FR": {"recipe": "Recette", "in": "Ingrédients", "skill": "Compétence", "out": "Résultat",
-           "tools": "Outils (conservés)", "none": "aucune", "loot_title": "Équipements Live Wire tout faits",
+           "tools": "Outils (conservés)", "none": "aucune", "loot_title": "Équipements LiveWire tout faits",
            "loot_intro": "Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.",
            "item": "Équipement", "list": "Liste vanilla", "where": "Où", "w": "Poids (×5)", "r": "Tirages",
            "c": "≈ chance par conteneur", "furn": "meuble : × 0,6 inclus", "dec": ","},

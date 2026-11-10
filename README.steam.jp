@@ -1,4 +1,4 @@
-[h1]Live Wire - 電気工学スキル改修[/h1]
+[h1]LiveWire - 電気工学スキル改修[/h1]
 
 [b]Build 42.21 · シングルプレイ & マルチプレイ（サーバー主導）[/b]
 
@@ -16,7 +16,7 @@
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_jp.png[/img]
 
 太陽光100 W、風力400 W、水車120 W。インバーターは20マス、上下3階の家電に最大1500 Wを供給。家電ごとの配線は不要です。
-[b]1500 Wでは足りない？[/b]何も接続していない2台目のインバーターを置き、右クリック > Live Wire >「インバーターに連結」（インバーター連結キット1個、電気工学3のレシピ）。最大4台連結で6000 W。新登場：インバーターを4500 Wの[b]インバーター盤[/b]に改造（電気工学3）、連結も可能。
+[b]1500 Wでは足りない？[/b]何も接続していない2台目のインバーターを置き、右クリック > LiveWire >「インバーターに連結」（インバーター連結キット1個、電気工学3のレシピ）。最大4台連結で6000 W。新登場：インバーターを4500 Wの[b]インバーター盤[/b]に改造（電気工学3）、連結も可能。
 バッテリーバンクは各4個を収納。電線は4マスに1本、範囲12マス。消費量はゲーム値、1993年リアル、1993年超リアル、快適から選択。
 
 [h2]機器[/h2]
@@ -44,7 +44,7 @@
 
 [h2]管理ソフト[/h2]
 
-Live Wire Monitorに消費機器一覧（最大200）、色付き輪郭、配線表示、最新30件のイベントを追加。通電した管理PCで3日間の発電予測、従来の48時間履歴も表示。LCDと警報にネットワーク名。バニラPC対応。Computer Mod/Laptop Modは任意で、戦利品ディスクから導入。
+LiveWire Monitorに消費機器一覧（最大200）、色付き輪郭、配線表示、最新30件のイベントを追加。通電した管理PCで3日間の発電予測、従来の48時間履歴も表示。LCDと警報にネットワーク名。バニラPC対応。Computer Mod/Laptop Modは任意で、戦利品ディスクから導入。
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
@@ -58,9 +58,9 @@ Live Wire Monitorに消費機器一覧（最大200）、色付き輪郭、配線
 
 [h2]ドキュメント[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire wiki（英語版）[/url] · ソースコード: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki（英語版）[/url] · ソースコード: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：このアイテムには任意MOD [b]Live Wire - Viewpoint models[/b]（batman_LiveWireViewpoint）も含まれ、全機器の3Dモデルを提供します。Project Viewpoint を使う場合のみ有効にしてください。
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：このアイテムには任意MOD [b]LiveWire - Viewpoint models[/b]（batman_LiveWireViewpoint）も含まれ、全機器の3Dモデルを提供します。Project Viewpoint を使う場合のみ有効にしてください。
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]対応MOD[/b]：[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] と [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（任意）。管理ソフトはパソコン系の戦利品で見つかるディスクからインストールでき、そのデスクトップ上のアプリとして動作する。

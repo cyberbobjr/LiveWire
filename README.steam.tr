@@ -1,4 +1,4 @@
-[h1]Live Wire - Elektrikçilik Becerisi Yenilemesi[/h1]
+[h1]LiveWire - Elektrikçilik Becerisi Yenilemesi[/h1]
 
 [b]Build 42.21 · Tek oyunculu ve çok oyunculu (sunucu yetkili)[/b]
 
@@ -16,7 +16,7 @@ Elektrik panosunda aydınlatma, cihazlar ve ana kollar var; ayrıca anlık devre
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 
 Güneş 100 W, rüzgâr 400 W, su çarkı 120 W. Bir inverter 20 kare ve ±3 kat içindeki cihazlara, 1.500 W'a kadar güç verir. Her ev aleti için ayrı kablo gerekmez.
-[b]1.500 W'tan fazlası mı lazım?[/b] Boş bir ikinci inverter yerleştir, sağ tıkla > Live Wire > "Bir invertere bağla" (1 İnverter Bağlantı Kiti, Elektrikçilik 3 tarifi). En fazla 4 bağlı inverter: 6.000 W. Yeni: bir inverteri 4.500 W'lık [b]inverter dolabına[/b] dönüştür (Elektrikçilik 3); o da bağlanır.
+[b]1.500 W'tan fazlası mı lazım?[/b] Boş bir ikinci inverter yerleştir, sağ tıkla > LiveWire > "Bir invertere bağla" (1 İnverter Bağlantı Kiti, Elektrikçilik 3 tarifi). En fazla 4 bağlı inverter: 6.000 W. Yeni: bir inverteri 4.500 W'lık [b]inverter dolabına[/b] dönüştür (Elektrikçilik 3); o da bağlanır.
 Fazlayı güç bankalarında depola (her biri 4 akü). Kablolar: her 4 karede 1 tel, menzil 12. Sandbox seçeneklerinde Oyun değerlerini, Gerçekçi 1993'ü, Ultra gerçekçi 1993'ü veya Konfor tüketimini seçebilirsin.
 
 [h2]Ekipman[/h2]
@@ -44,7 +44,7 @@ Su pompası (Elektrikçilik 3), 15 kare içindeki tesisatlı donanımlara, en fa
 
 [h2]Yönetim yazılımı[/h2]
 
-Live Wire Monitor; 200 tüketiciye kadar ekler, renkli cihaz siluetleri, kablo görünümleri, son 30 olay ve üç günlük üretim tahmini; güçlü bir yönetim bilgisayarıyla birlikte, 48 saatlik geçmişle. Ağ adları LCD'lerde ve uyarılarda görünür. Vanilla masaüstü bilgisayarlar da çalışır; isteğe bağlı Computer Mod/Laptop Mod bir ganimet diski kullanır.
+LiveWire Monitor; 200 tüketiciye kadar ekler, renkli cihaz siluetleri, kablo görünümleri, son 30 olay ve üç günlük üretim tahmini; güçlü bir yönetim bilgisayarıyla birlikte, 48 saatlik geçmişle. Ağ adları LCD'lerde ve uyarılarda görünür. Vanilla masaüstü bilgisayarlar da çalışır; isteğe bağlı Computer Mod/Laptop Mod bir ganimet diski kullanır.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
 
@@ -58,9 +58,9 @@ Sunucu yetkili simülasyon ve eylem kontrolleri, kaydedilen devre seçimleri ve 
 
 [h2]Belgeler[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Live Wire wiki (İngilizce)[/url] · Kaynak kodu: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki (İngilizce)[/url] · Kaynak kodu: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: bu öğe ayrıca isteğe bağlı [b]Live Wire - Viewpoint models[/b] (batman_LiveWireViewpoint) modunu içerir; her cihazın 3B modelleri. Yalnızca Project Viewpoint kullanıyorsan etkinleştir.
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: bu öğe ayrıca isteğe bağlı [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint) modunu içerir; her cihazın 3B modelleri. Yalnızca Project Viewpoint kullanıyorsan etkinleştir.
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
 [b]Uyumlu:[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] ve [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (isteğe bağlı): yönetim yazılımı bilgisayar ganimetinde bulunan bir diskten kurulur ve masaüstlerinde uygulama olarak çalışır.

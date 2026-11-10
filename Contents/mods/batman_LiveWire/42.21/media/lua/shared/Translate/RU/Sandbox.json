@@ -1,5 +1,5 @@
 {
-    "Sandbox_LiveWire": "Live Wire",
+    "Sandbox_LiveWire": "LiveWire",
     "Sandbox_LiveWire_LinkVerticalRange": "Дальность кабеля по вертикали",
     "Sandbox_LiveWire_LinkVerticalRange_tooltip": "Максимальная разница в этажах при подключении оборудования и объединении инверторов, вверх или вниз. 0 = только на одном этаже.",
     "Sandbox_LiveWire_PowerScale": "Масштаб потребления",
@@ -29,7 +29,7 @@
     "Sandbox_LiveWire_StormDamage": "Урон от непогоды",
     "Sandbox_LiveWire_StormDamage_tooltip": "Грозы и очень сильный ветер повреждают солнечные панели и ветряные турбины.",
     "Sandbox_LiveWire_XPMultiplier": "Опыт электрика",
-    "Sandbox_LiveWire_XPMultiplier_tooltip": "Множитель опыта за действия Live Wire.",
+    "Sandbox_LiveWire_XPMultiplier_tooltip": "Множитель опыта за действия LiveWire.",
     "Sandbox_LiveWire_SkillGates": "Требования навыков",
     "Sandbox_LiveWire_SkillGates_tooltip": "Если выключено, уровень навыка «Электрика» не требуется.",
     "Sandbox_LiveWire_SimulateUnloaded": "Работать без игроков рядом",
@@ -52,6 +52,6 @@
     "Sandbox_LiveWire_SolarDirt_tooltip": "На панелях скапливается пыль. Дождь и очистка удаляют её.",
     "Sandbox_LiveWire_BatteryCold_tooltip": "Холод снижает доступную ёмкость наружных блоков. При потеплении резерв снова доступен.",
     "Sandbox_LiveWire_LiveWorkRisk_tooltip": "По умолчанию включено. Риск удара током: 50%% при электрике 0, нулевой с 6. Ожог руки с отвёрткой и падение предметов. Выключайте главный инвертор: главный автомат щита не делает ремонт безопасным.",
-    "Sandbox_LiveWire_EquipmentLootMultiplier": "Множитель находок оборудования и деталей Live Wire",
-    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Умножает только веса добычи оборудования и деталей Live Wire (фотоэлементы, лопасти и мачты) (1-20, по умолчанию 5). Предметы основной игры и их веса не меняются. Диски сохраняют прежнюю частоту. Нужен перезапуск; только будущая добыча, без пополнения обысканных контейнеров. Настройки добычи игры сохраняются."
+    "Sandbox_LiveWire_EquipmentLootMultiplier": "Множитель находок оборудования и деталей LiveWire",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Умножает только веса добычи оборудования и деталей LiveWire (фотоэлементы, лопасти и мачты) (1-20, по умолчанию 5). Предметы основной игры и их веса не меняются. Диски сохраняют прежнюю частоту. Нужен перезапуск; только будущая добыча, без пополнения обысканных контейнеров. Настройки добычи игры сохраняются."
 }

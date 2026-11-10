@@ -1,6 +1,6 @@
 <p align="center"><img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/preview.png" width="256"></p>
 
-# Live Wire
+# LiveWire
 
 **The Electrical skill becomes a trade: silent solar, wind and water power for your whole house, with no fuel and no fumes.**
 
@@ -60,7 +60,7 @@ Solar panels, wind turbines and water wheels produce silent power. An inverter p
 
 The game itself decides what is powered (a square is powered as if near a generator), so fridges, lights, stoves, TVs and radios work exactly as in vanilla.
 
-**Fridges stay cold while you are away.** Fridges and freezers keep food cold while the area is unloaded, as long as there is power. Checked in game: a fresh steak in a powered fridge, player 300 tiles away, 10 game hours: aged 0.083 day (cold) instead of 0.417 day (warm). On returning, Live Wire replays power changes from a server-side history covering 60 game days. Older periods use the earliest retained state as an approximation; upgrading an existing save cannot recover changes already discarded by earlier versions.
+**Fridges stay cold while you are away.** Fridges and freezers keep food cold while the area is unloaded, as long as there is power. Checked in game: a fresh steak in a powered fridge, player 300 tiles away, 10 game hours: aged 0.083 day (cold) instead of 0.417 day (warm). On returning, LiveWire replays power changes from a server-side history covering 60 game days. Older periods use the earliest retained state as an approximation; upgrading an existing save cannot recover changes already discarded by earlier versions.
 
 ## Equipment
 
@@ -108,7 +108,7 @@ Effective capacity = nominal × (0.4 + 0.6 × condition / 100) × `BatteryCapaci
 ## How to connect (wiring)
 
 1. Craft the devices (see [Recipes](#recipes)) and place them with the furniture cursor. Each link to the inverter needs the device's Electrical level (table above).
-2. Right-click a device > **Live Wire** > device name. It shows "Connected to the inverter N tiles away" or "Not connected", then **Connect to an inverter** > one line per inverter in range: "Inverter N tiles away (k wires)". Or right-click the inverter > **Connect equipment** (list of free equipment in range with distance and wires) / **Disconnect equipment**.
+2. Right-click a device > **LiveWire** > device name. It shows "Connected to the inverter N tiles away" or "Not connected", then **Connect to an inverter** > one line per inverter in range: "Inverter N tiles away (k wires)". Or right-click the inverter > **Connect equipment** (list of free equipment in range with distance and wires) / **Disconnect equipment**.
 3. Pay the cost in electric wire `Base.ElectricWire`.
 4. Respect the limits per network.
 
@@ -118,15 +118,15 @@ Effective capacity = nominal × (0.4 + 0.6 × condition / 100) × `BatteryCapaci
 
 **Limits per network:** at most one breaker, one alarm, one management computer and one backup generator.
 
-**Vanilla objects:** the vanilla generator (backup) and the vanilla desktop computer (management) are linked the same way from their own right-click menu (**Live Wire** > Backup generator / Management computer > Connect to an inverter).
+**Vanilla objects:** the vanilla generator (backup) and the vanilla desktop computer (management) are linked the same way from their own right-click menu (**LiveWire** > Backup generator / Management computer > Connect to an inverter).
 
 **Moving things:** picking up the inverter disconnects its whole network; rotating it keeps the links. Picking up a source keeps its condition; placed again, it is "Not connected".
 
 **Inverter right-click menu:** Open the inverter screen, Turn on / Turn off, Reset (after a trip), Show the powered area (cyan circle on the ground), Connect equipment, Disconnect equipment, Soundproof the inverter, Inspect, Repair, Overhaul.
 
-![The Live Wire right-click menu on the inverter](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot1.png)
+![The LiveWire right-click menu on the inverter](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot1.png)
 
-*The Live Wire right-click menu on the inverter.*
+*The LiveWire right-click menu on the inverter.*
 
 ## Inverter screen and management software
 
@@ -142,26 +142,26 @@ Left-click equipment for its own LCD and use **Connections** to manage its wirin
 
 *Inverter LCD panel in the house.*
 
-**Management software "Live Wire Monitor"** has the tabs Overview, Batteries, Sources, House, History and Equipment.
+**Management software "LiveWire Monitor"** has the tabs Overview, Batteries, Sources, House, History and Equipment.
 
 - **Overview:** production and consumption in large figures with bars on the same scale, storage gauge and autonomy, inverter card (state light, condition, On/Off, Reset), alerts.
 - **History:** 48 h graphs (production, consumption, battery stock) and the forecast "batteries will last until sunrise". It needs a linked management computer.
 
-**Without the Computer Mod:** a vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen (monitor, boot screen "Live Wire OS", status bar with game time).
+**Without the Computer Mod:** a vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen (monitor, boot screen "LiveWire OS", status bar with game time).
 
 ![Management software on a vanilla computer, without the Computer Mod or Laptop Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png)
 
 *Management software on a vanilla computer, without the Computer Mod or Laptop Mod.*
 
-**With the optional Computer Mod (Workshop 3725497089) or Laptop Mod (3798992436):** the software comes on a disk, "Disk: Live Wire Management Software" (`LiveWire.MonitorDisk`), found in computer loot. Right-click the computer with the disk > **Install the Live Wire software**. It then appears as a "Live Wire" app on their desktop and runs inside their window (title bar, minimise, close, taskbar). It shows the inverter linked to that computer, or the nearest inverter in cable range.
+**With the optional Computer Mod (Workshop 3725497089) or Laptop Mod (3798992436):** the software comes on a disk, "Disk: LiveWire Management Software" (`LiveWire.MonitorDisk`), found in computer loot. Right-click the computer with the disk > **Install the LiveWire software**. It then appears as a "LiveWire" app on their desktop and runs inside their window (title bar, minimise, close, taskbar). It shows the inverter linked to that computer, or the nearest inverter in cable range.
 
-![Desktop with the Live Wire icon](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/computermod.png)
+![Desktop with the LiveWire icon](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/computermod.png)
 
-*Computer Mod desktop with the Live Wire icon.*
+*Computer Mod desktop with the LiveWire icon.*
 
-![Live Wire Monitor, Overview tab, inside the Computer Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_computermod.png)
+![LiveWire Monitor, Overview tab, inside the Computer Mod](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_computermod.png)
 
-*Live Wire Monitor, Overview tab, inside the Computer Mod.*
+*LiveWire Monitor, Overview tab, inside the Computer Mod.*
 
 ![History tab: 48 h graphs and forecast](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/conso_livewire_computermod.png)
 
@@ -171,7 +171,7 @@ Left-click equipment for its own LCD and use **Connections** to manage its wirin
 
 *Equipment tab inside the Computer Mod.*
 
-**Inverter hum:** a sound of the mod, heard only one tile around a switched-on inverter (same floor). Each player sets its volume in Options > Mods > Live Wire (0 = off). Zombies hear the inverter within 2 tiles (sandbox `InverterNoiseRadius`).
+**Inverter hum:** a sound of the mod, heard only one tile around a switched-on inverter (same floor). Each player sets its volume in Options > Mods > LiveWire (0 = off). Zombies hear the inverter within 2 tiles (sandbox `InverterNoiseRadius`).
 
 **Soundproofing kit** (`LiveWire.SoundproofKit`): fitted on the inverter with a screwdriver (**Soundproof the inverter**), removed with **Remove the soundproofing** (kit given back). Effects: no hum, zombies no longer hear it; the inverter runs warmer and wears 25 % faster. It follows the inverter when picked up.
 
@@ -294,7 +294,7 @@ A soundproofed inverter is covered with grey acoustic foam on its top, sides and
 
 ### Parallel inverters (coupling)
 
-Real off-grid systems get more power by adding identical inverters in parallel, not by pushing one beyond its rating. Live Wire does the same:
+Real off-grid systems get more power by adding identical inverters in parallel, not by pushing one beyond its rating. LiveWire does the same:
 
 - Right-click an inverter > **Couple to an inverter** > a master inverter within cable range. The clicked inverter becomes a **slave**. Cost: the electric wire for the distance and 1 **inverter coupling kit** (recipe at Electrical 3).
 - The slave must have no equipment of its own; a master takes at most 3 slaves (4 inverters).
@@ -320,7 +320,7 @@ A consumer placed like the other devices, linked to the inverter at level 3. It 
 - Only water is moved, and the rain keeps filling the barrels as before. Tainted water comes out clean at the tap, as in vanilla.
 - Right-click the pump > **Show the supplied taps**: a blue circle shows the range, and the supplied taps, the connected barrels and the pump are highlighted in blue; taps in range that are not plumbed yet are shown in grey. The pump has a blue light whenever powered, including while idle.
 - Several pumps per network. The software Equipment tab shows the number of pumps in service and their flow (L/h), nothing else.
-- **Before removing the mod**, run the debug action "Remove every water relay" (Live Wire menu > Debug, with administrator rights in multiplayer), otherwise the invisible relay tiles stay in the saved world. The action also stops every pump until the debug action "Enable the water pumps again".
+- **Before removing the mod**, run the debug action "Remove every water relay" (LiveWire menu > Debug, with administrator rights in multiplayer), otherwise the invisible relay tiles stay in the saved world. The action also stops every pump until the debug action "Enable the water pumps again".
 
 ## Calculations
 
@@ -424,7 +424,7 @@ There is no limit on the number of solar panels; productions add up (100 W nomin
 
 ## Recipes
 
-The 18 Live Wire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
+The 18 LiveWire recipes are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
 
 ![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png)
 
@@ -473,13 +473,13 @@ Weights at ×5; estimates assume this list is selected and a vanilla loot modifi
 | `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
 | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 10 | 4 | 21.9 % |
 
-**Ready-made Live Wire equipment**
+**Ready-made LiveWire equipment**
 
 Ready-made equipment, at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, a vanilla loot modifier of 0.6, no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.
 
 Look in hardware stores, garages and mechanic workshops, electronics stores, electrical factories and warehouse crates. Deep-cycle batteries also appear among camping gear. Locations and equipment vary by loot category; there is no guaranteed map location. Water wheels can now be found in farming, carpentry and technical storage; water pumps remain craft-only.
 
-Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **1 to 20**. Restart the game or dedicated server after a change. Existing saves without this option use 5. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. Solar cells are included. Vanilla items and their weights are unchanged; software disks keep their existing rates. At 1 the old weights are restored in existing categories, with the new locations still available.
+Set **LiveWire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **1 to 20**. Restart the game or dedicated server after a change. Existing saves without this option use 5. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. Solar cells are included. Vanilla items and their weights are unchanged; software disks keep their existing rates. At 1 the old weights are restored in existing categories, with the new locations still available.
 
 | Equipment | Vanilla list | Where | Weight (×5) | Rolls | ≈ chance per container |
 |---|---|---|---|---|---|
@@ -596,8 +596,8 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 
 **Mod components**
 
-Solar cells, wind turbine blade sets and masts are Live Wire components and use the same multiplier.
-Only objects defined by Live Wire appear in these added loot entries and tables.
+Solar cells, wind turbine blade sets and masts are LiveWire components and use the same multiplier.
+Only objects defined by LiveWire appear in these added loot entries and tables.
 Vanilla crafting ingredients (wire, scrap, amplifiers, speakers, bulbs, batteries
 and building materials) keep their existing distributions and weights. No vanilla
 item is added, removed or reweighted by this option.
@@ -631,7 +631,7 @@ Also: 1 solar cell per calculator dismantled (no level); at level 3, a solar cel
 - **Repair:** 1 electronics scrap + 1 electric wire, gain 5 + Electrical level points (up to 90). Failure chance: max(5, 40 − 5 × level) %, halved from level 8; parts are lost on failure.
 - **Overhaul** (level 3, 4 scrap + 2 wires): back to 100.
 - **Recondition a battery**: Electrical 4, or 6 for a dead battery; kept screwdriver, 1 electronics scrap + 1 wire + 0.5 L water. +15 condition, capped at 80, at most four repairs. Cycles and stored energy remain; a dead battery returns empty.
-- **Voltage tester** (`LiveWire.VoltageTester`): right-click a tile > Live Wire > Measure. It tells power yes/no (level 0), origin (1), appliance consumption (2), network balance (4).
+- **Voltage tester** (`LiveWire.VoltageTester`): right-click a tile > LiveWire > Measure. It tells power yes/no (level 0), origin (1), appliance consumption (2), network balance (4).
 
 **Battery testing and broken equipment:** test a battery in inventory at Electrical 1/3/5 for increasingly detailed readings. Pick up broken equipment and dismantle it from the crafting menu: its electronic parts depend on its condition. Switch off the master inverter before live work; see the [safety rules](docs/wiki/en/10-electrical-skill-and-maintenance.md#electrical-safety-and-experience).
 
@@ -670,7 +670,7 @@ Page **LiveWire**.
 | Option | Default | Range | Effect |
 |---|---|---|---|
 | `ConsumptionProfile` | Game values | Ultra-realistic 1993, Realistic 1993, Game values, Comfort | Power drawn by switched-on appliances (see [Appliance consumption](#appliance-consumption)) |
-| `EquipmentLootMultiplier` | 5 | 1–20 | Live Wire equipment and solar-cell loot weights only; restart required, future rolls only |
+| `EquipmentLootMultiplier` | 5 | 1–20 | LiveWire equipment and solar-cell loot weights only; restart required, future rolls only |
 | `PowerScale` | 1.0 | 0.1-10 | Multiplies the consumption given by the profile (1 = no change) |
 | `SolarMultiplier` / `WindMultiplier` / `HydroMultiplier` | 1.0 | 0-10 | Production per source family |
 | `BatteryCapacityMultiplier` | 1.0 | 0.1-10 | Battery capacity |
@@ -691,7 +691,7 @@ Page **LiveWire**.
 | `GridCharging` | true | n/a | While the public grid works, an inverter inside a building powers itself and charges its batteries from it |
 | `BackupStartPercent` / `BackupStopPercent` | 20 / 90 | 0-90 / 10-100 | Backup generator thresholds |
 
-**Player option** (Options > Mods > Live Wire): inverter hum volume, 0-100 (0 = off).
+**Player option** (Options > Mods > LiveWire): inverter hum volume, 0-100 (0 = off).
 
 ## Multiplayer, status and installation
 
@@ -710,12 +710,12 @@ Version 1.6.1 was published on the Steam Workshop on 2026-10-25. Static checks a
 
 ### Project Viewpoint
 
-The Workshop item also contains the optional mod **Live Wire - Viewpoint models** (`batman_LiveWireViewpoint`): 3D models of every device, its lights, blade frames and soundproofing foam for [Project Viewpoint](https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528). Enable it only if you use Project Viewpoint; without it, the mod does nothing. The models are generated from the same Blender geometry as the tiles (`source/viewpoint/export_viewpoint.py`).
+The Workshop item also contains the optional mod **LiveWire - Viewpoint models** (`batman_LiveWireViewpoint`): 3D models of every device, its lights, blade frames and soundproofing foam for [Project Viewpoint](https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528). Enable it only if you use Project Viewpoint; without it, the mod does nothing. The models are generated from the same Blender geometry as the tiles (`source/viewpoint/export_viewpoint.py`).
 
 ![Viewpoint](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png)
 ![Viewpoint](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png)
 
-*Live Wire devices seen with Project Viewpoint.*
+*LiveWire devices seen with Project Viewpoint.*
 
 ### Licence and credits
 

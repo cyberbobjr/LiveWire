@@ -10,7 +10,7 @@ Des barils d'eau posés au sol peuvent alimenter les points d'eau de toute une m
 
 | Objet | Détail |
 |---|---|
-| Pompe à eau | Recette au niveau 3 d'Électricité (voir [Recettes](08-recettes.md)). Se pose comme tout équipement Live Wire, dedans ou dehors, sans niveau. Le branchement de la pompe à l'onduleur exige le niveau 3 ; relier un baril à la pompe ne demande aucun niveau (tuyau). |
+| Pompe à eau | Recette au niveau 3 d'Électricité (voir [Recettes](08-recettes.md)). Se pose comme tout équipement LiveWire, dedans ou dehors, sans niveau. Le branchement de la pompe à l'onduleur exige le niveau 3 ; relier un baril à la pompe ne demande aucun niveau (tuyau). |
 | Fil électrique | Pour raccorder la pompe à un onduleur, comme tout équipement (1 fil pour 4 cases). |
 | Barils d'eau | Récupérateurs d'eau de pluie vanilla, ou barils du mod facultatif **Useful Barrels**. Jusqu'à 8 par pompe. |
 | Tuyaux en métal | 1 par baril, rendu quand on débranche le baril. |
@@ -19,7 +19,7 @@ Des barils d'eau posés au sol peuvent alimenter les points d'eau de toute une m
 ## Installation
 
 1. Posez la pompe **à côté des barils** : un baril doit être sur l'une des 8 cases autour de la pompe, au même étage (diagonales comprises). Une pompe entourée de barils en accepte jusqu'à 8.
-2. Raccordez la pompe à un onduleur : clic droit sur la pompe > **Live Wire** > **Pompe à eau** > **Raccorder à un onduleur**.
+2. Raccordez la pompe à un onduleur : clic droit sur la pompe > **LiveWire** > **Pompe à eau** > **Raccorder à un onduleur**.
 3. Raccordez chaque baril : clic droit sur la pompe > **Raccorder un baril**, ou clic droit sur le baril > **Baril d'eau** > **Pompe à côté de ce baril (1 tuyau)**.
 4. Raccordez les points d'eau avec une clé anglaise, comme en vanilla (clic droit sur l'évier > **Raccorder la plomberie de…**). L'option apparaît dès que la pompe dessert le point d'eau.
 
@@ -44,7 +44,7 @@ Des barils d'eau posés au sol peuvent alimenter les points d'eau de toute une m
 
 ## Bruit
 
-Un léger ronronnement de moteur s'entend autour d'une pompe en marche (même réglage de volume que le bourdonnement de l'onduleur, Options > Mods > Live Wire). Les zombies l'entendent à 2 cases.
+Un léger ronronnement de moteur s'entend autour d'une pompe en marche (même réglage de volume que le bourdonnement de l'onduleur, Options > Mods > LiveWire). Les zombies l'entendent à 2 cases.
 
 ## Usure
 
@@ -52,7 +52,7 @@ La pompe ne s'use que pendant qu'elle tourne (1 point d'état par 10 jours de po
 
 ## Avant de retirer le mod
 
-Lancez d'abord l'action de debug ou d'administration **Retirer tous les relais d'eau** (clic droit > Live Wire, mode debug en solo, admin en multijoueur), puis sauvegardez. L'action arrête aussi toutes les pompes, pour qu'aucun réservoir ne revienne. Les réservoirs des zones non chargées sont retirés au prochain chargement de leur zone, tant que le mod est encore installé. Pour réutiliser les pompes sans retirer le mod, lancez l'action de debug **Réactiver les pompes à eau**.
+Lancez d'abord l'action de debug ou d'administration **Retirer tous les relais d'eau** (clic droit > LiveWire, mode debug en solo, admin en multijoueur), puis sauvegardez. L'action arrête aussi toutes les pompes, pour qu'aucun réservoir ne revienne. Les réservoirs des zones non chargées sont retirés au prochain chargement de leur zone, tant que le mod est encore installé. Pour réutiliser les pompes sans retirer le mod, lancez l'action de debug **Réactiver les pompes à eau**.
 
 ## Voir aussi
 

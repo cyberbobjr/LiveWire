@@ -2,7 +2,7 @@
 
 # Loot Tables
 
-Live Wire adds solar cells, ready-made equipment and an optional software disk to vanilla loot lists. Electrician vehicles (including the electrical company vans) and metalworker vehicles also carry equipment: lists named `ElectricianTruckBed`, `ElectricianGloveBox`, `ElectricianSeat` and `MetalWelderTruckBed` below.
+LiveWire adds solar cells, ready-made equipment and an optional software disk to vanilla loot lists. Electrician vehicles (including the electrical company vans) and metalworker vehicles also carry equipment: lists named `ElectricianTruckBed`, `ElectricianGloveBox`, `ElectricianSeat` and `MetalWelderTruckBed` below.
 
 ## How to read the tables
 
@@ -30,13 +30,13 @@ Weights at ×5; estimates assume this list is selected and a vanilla loot modifi
 | `CrateMetalwork` | Metalwork crates | 5 | 4 | 11.5 % |
 | `ElectricianTruckBed` | Electrician vehicle, truck bed or trunk | 10 | 4 | 21.9 % |
 
-## Ready-made Live Wire equipment
+## Ready-made LiveWire equipment
 
 Ready-made equipment, at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, a vanilla loot modifier of 0.6, no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.
 
 Look in hardware stores, garages and mechanic workshops, electronics stores, electrical factories and warehouse crates. Deep-cycle batteries also appear among camping gear. Locations and equipment vary by loot category; there is no guaranteed map location. Water wheels can now be found in farming, carpentry and technical storage; water pumps remain craft-only.
 
-Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **1 to 20**. Restart the game or dedicated server after a change. Existing saves without this option use 5. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. Solar cells are included. Vanilla items and their weights are unchanged; software disks keep their existing rates. At 1 the old weights are restored in existing categories, with the new locations still available.
+Set **LiveWire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **1 to 20**. Restart the game or dedicated server after a change. Existing saves without this option use 5. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. Solar cells are included. Vanilla items and their weights are unchanged; software disks keep their existing rates. At 1 the old weights are restored in existing categories, with the new locations still available.
 
 | Equipment | Vanilla list | Where | Weight (×5) | Rolls | ≈ chance per container |
 |---|---|---|---|---|---|
@@ -149,8 +149,8 @@ Set **Live Wire equipment and parts loot multiplier** on the **LiveWire** sandbo
 
 ## Mod components
 
-Solar cells, wind turbine blade sets and masts are Live Wire components and use the same multiplier.
-Only objects defined by Live Wire appear in these added loot entries and tables.
+Solar cells, wind turbine blade sets and masts are LiveWire components and use the same multiplier.
+Only objects defined by LiveWire appear in these added loot entries and tables.
 Vanilla crafting ingredients (wire, scrap, amplifiers, speakers, bulbs, batteries
 and building materials) keep their existing distributions and weights. No vanilla
 item is added, removed or reweighted by this option.

@@ -118,7 +118,9 @@ function Install.checkLink(character, target, inverterObj)
         if kind == "backup" then need = LiveWire.Defs.BACKUP_LEVEL
         elseif kind == "computer" then need = LiveWire.Defs.COMPUTER_LEVEL end
     end
-    -- Placing is free; wiring is the electrician's work. The first link of an
+    -- Wiring is screwdriver work (pump-to-barrel hoses excepted: LWLinkBarrelAction).
+    if not Install.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
+    -- Placing needs no level; wiring is the electrician's work. The first link of an
     -- inverter also puts it in service, which needs the inverter's own level.
     if not im.svc then need = math.max(need, LiveWire.Defs.devices[im.model].level or 0) end
     if not Install.hasLevel(character, need) then
@@ -156,6 +158,7 @@ function Install.checkCouple(character, slaveObj, masterObj)
     if dist > range then
         return false, "Tooltip_LW_TooFarForCable", tostring(math.ceil(dist - 1e-9)), tostring(range)
     end
+    if not Install.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
     local coupling = LiveWire.Defs.COUPLING_LEVEL
     if not Install.hasLevel(character, coupling) then
         return false, "Tooltip_LW_NeedLevel", LiveWire.Config.requiredLevel(coupling)

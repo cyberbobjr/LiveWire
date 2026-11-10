@@ -7,10 +7,10 @@ Devices are linked to an inverter with electric wire. The house itself needs no 
 ## Step by step
 
 1. Craft the devices (see [Recipes](08-recipes.md)) and place them with the furniture cursor. Each link to the inverter needs the device's Electrical level (see [Equipment](02-equipment.md)); putting an inverter into service with its first link needs level 3.
-2. Right-click a device, then **Live Wire**, then the device name. It shows "Connected to the inverter N tiles away" or "Not connected". Then choose **Connect to an inverter**: one line per inverter in range, "Inverter N tiles away (k wires)".
+2. Right-click a device, then **LiveWire**, then the device name. It shows "Connected to the inverter N tiles away" or "Not connected". Then choose **Connect to an inverter**: one line per inverter in range, "Inverter N tiles away (k wires)".
 3. Or right-click the inverter and choose **Connect equipment**: a list of free equipment in range with distance and number of wires. **Disconnect equipment** does the opposite.
 
-![The Live Wire menu on the inverter](../../images/screenshots/shot1.png)
+![The LiveWire menu on the inverter](../../images/screenshots/shot1.png)
 
 ## Wire cost
 
@@ -35,7 +35,7 @@ Electric wire `Base.ElectricWire`: **1 wire per 4 tiles of distance, rounded up,
 
 ## Vanilla generator and computer
 
-The vanilla generator (backup) and the vanilla desktop computer (management) are linked the same way, from their own right-click menu: **Live Wire**, then Backup generator or Management computer, then **Connect to an inverter**.
+The vanilla generator (backup) and the vanilla desktop computer (management) are linked the same way, from their own right-click menu: **LiveWire**, then Backup generator or Management computer, then **Connect to an inverter**.
 
 ## Picking up and rotating
 
@@ -49,7 +49,7 @@ Open the inverter screen, Turn on / Turn off, Reset (after a trip), Show the pow
 
 ## Wire equipment from one window
 
-Click nearby Live Wire equipment directly. Sources and alarms open the wiring
+Click nearby LiveWire equipment directly. Sources and alarms open the wiring
 window. From an inverter LCD or bank LCD, press **Connections**. The electrical
 board controls circuits and resets overload protection.
 

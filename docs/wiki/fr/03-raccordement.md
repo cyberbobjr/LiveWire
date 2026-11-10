@@ -2,15 +2,15 @@
 
 # Raccordement
 
-Les appareils d'un réseau Live Wire se relient à l'onduleur par des fils électriques. La maison, elle, n'a besoin d'aucun câblage : tout appareil dans la zone alimentée par l'onduleur fonctionne.
+Les appareils d'un réseau LiveWire se relient à l'onduleur par des fils électriques. La maison, elle, n'a besoin d'aucun câblage : tout appareil dans la zone alimentée par l'onduleur fonctionne.
 
 ## Pas à pas
 
 1. Fabriquez les appareils ([Recettes](08-recettes.md)) et posez-les avec le curseur de meuble. Chaque branchement à l'onduleur exige le niveau d'Électricité de l'appareil (voir le [tableau des équipements](02-equipements.md)) ; mettre un onduleur en service exige le niveau 3.
-2. Clic droit sur un appareil, puis « Live Wire », puis le nom de l'appareil : le menu indique « Raccordé à l'onduleur à N cases » ou « Non raccordé », puis « Raccorder à un onduleur », avec une ligne par onduleur à portée : « Onduleur à N cases (k fil(s)) ». Autre voie : clic droit sur l'onduleur, « Raccorder un équipement » (liste des équipements libres à portée avec distance et fils) ou « Débrancher un équipement ».
-3. Le générateur vanilla (secours) et l'ordinateur de bureau vanilla (gestion) se relient de la même façon, depuis leur propre menu : « Live Wire », puis Backup generator ou Management computer, puis « Raccorder à un onduleur ».
+2. Clic droit sur un appareil, puis « LiveWire », puis le nom de l'appareil : le menu indique « Raccordé à l'onduleur à N cases » ou « Non raccordé », puis « Raccorder à un onduleur », avec une ligne par onduleur à portée : « Onduleur à N cases (k fil(s)) ». Autre voie : clic droit sur l'onduleur, « Raccorder un équipement » (liste des équipements libres à portée avec distance et fils) ou « Débrancher un équipement ».
+3. Le générateur vanilla (secours) et l'ordinateur de bureau vanilla (gestion) se relient de la même façon, depuis leur propre menu : « LiveWire », puis Backup generator ou Management computer, puis « Raccorder à un onduleur ».
 
-![Le menu Live Wire sur l'onduleur](../../images/screenshots/shot1.png)
+![Le menu LiveWire sur l'onduleur](../../images/screenshots/shot1.png)
 
 ## Coût en fils
 
@@ -53,7 +53,7 @@ Clic droit sur l'onduleur :
 
 ## Tout raccorder depuis une seule fenêtre
 
-Cliquez directement sur un équipement Live Wire proche. Sur un panneau solaire,
+Cliquez directement sur un équipement LiveWire proche. Sur un panneau solaire,
 une éolienne, une roue ou une alarme, la fenêtre de raccordement s'ouvre. Sur le LCD
 de l'onduleur, appuyez sur **Raccordements**. Le tableau électrique sert aux circuits
 et au réarmement.
