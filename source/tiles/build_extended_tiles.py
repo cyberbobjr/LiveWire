@@ -48,13 +48,19 @@ TOTAL = 16
 FACING_NAMES = ["S", "E", "N", "W"]
 
 EXTRA_PAINTS = {
-    "concrete": ("brick", (0.56, 0.55, 0.51)),
-    "utility": ("metal", (0.42, 0.50, 0.46)),
-    "utilitydark": ("metal", (0.26, 0.31, 0.29)),
+    "pole": ("wood", (0.36, 0.30, 0.24)),       # weathered, greyed pine
+    "poledark": ("wood", (0.24, 0.19, 0.14)),
+    "plank": ("wood", (0.50, 0.38, 0.25)),
+    "rust": ("metal", (0.45, 0.24, 0.12)),
+    "galv": ("metal", (0.58, 0.60, 0.58)),
+    "ceramic": ("fabric", (0.82, 0.80, 0.74)),
+    "tape": ("fabric", (0.10, 0.10, 0.12)),
+    "stone": ("brick", (0.48, 0.47, 0.44)),
+    "dirt": ("brick", (0.33, 0.27, 0.20)),
+    "cable": ("fabric", (0.06, 0.06, 0.06)),
     "enclosure": ("metal", (0.80, 0.80, 0.77)),
     "frame": ("metal", (0.36, 0.38, 0.40)),
     "module": ("fabric", (0.93, 0.93, 0.90)),
-    "glass": ("fabric", (0.10, 0.14, 0.16)),
     "blue": ("fabric", (0.12, 0.30, 0.75)),
     "orange": ("fabric", (0.95, 0.45, 0.06)),
 }
@@ -88,38 +94,64 @@ def clear_subject(subject) -> None:
 # Power terminal (front towards -Y, origin at the tile centre on the floor)
 # --------------------------------------------------------------------------- #
 
+def _pole_mound(k: Kit, x: float, y: float, r: float) -> None:
+    """Earth mound ringed with stones at the foot of a planted pole."""
+    k.cyl("t_mound", (x, y, 0.025), r, 0.05, "dirt", segs=10)
+    for i, jitter in enumerate((0.12, -0.21, 0.05, 0.27, -0.09)):
+        a = 2 * math.pi * i / 5 + jitter
+        k.box(f"t_stone{i}", (x + math.cos(a) * r * 0.85, y + math.sin(a) * r * 0.85, 0.04),
+              (0.08, 0.07, 0.06), "stone", rot=(0, 0, a), bevel=0.3)
+
+
+def _cable(k: Kit, name: str, p0, p1, sag: float, r: float = 0.010, n: int = 6) -> None:
+    """Cable from p0 to p1 sagging by `sag` at mid-span (negative: bulges upwards)."""
+    pts = []
+    for i in range(n + 1):
+        t = i / n
+        x, y, z = (p0[j] + (p1[j] - p0[j]) * t for j in range(3))
+        pts.append((x, y, z - sag * 4 * t * (1 - t)))
+    for i in range(n):
+        k.rod(f"{name}_{i}", pts[i], pts[i + 1], r, "cable", segs=6)
+
+
+def _insulator(k: Kit, name: str, c) -> None:
+    x, y, z = c
+    k.cyl(name + "_pin", (x, y, z - 0.03), 0.008, 0.06, "darksteel", segs=6)
+    k.cyl(name + "_a", (x, y, z + 0.01), 0.032, 0.03, "ceramic", segs=12)
+    k.cyl(name + "_b", (x, y, z + 0.045), 0.024, 0.04, "ceramic", segs=12)
+
+
 def build_terminal(k: Kit):
-    """Utility pedestal: concrete pad, steel post, weatherproof cabinet with a door."""
-    k.box("t_pad", (0, 0.02, 0.05), (0.56, 0.48, 0.10), "concrete", bevel=0.04)
-    k.box("t_post", (0, 0.05, 0.36), (0.13, 0.13, 0.54), "utilitydark", bevel=0.05)
-    w, d, h, zc = 0.50, 0.30, 0.60, 0.92
-    yc = 0.03
-    k.box("t_body", (0, yc, zc), (w, d, h), "utility", bevel=0.03)
-    k.box("t_roof", (0, yc + 0.01, zc + h / 2 + 0.03), (w + 0.07, d + 0.08, 0.05), "utilitydark", bevel=0.10)
-    k.box("t_base", (0, yc, zc - h / 2 - 0.02), (w - 0.04, d - 0.04, 0.05), "utilitydark")
-    fy = yc - d / 2 - 0.006
-    k.box("t_door", (0, fy, zc - 0.01), (w - 0.07, 0.012, h - 0.08), "utility", bevel=0.02)
-    for z in (zc + 0.18, zc - 0.18):
-        k.cyl(f"t_hinge_{z:.2f}", (-w / 2 + 0.035, fy - 0.004, z), 0.012, 0.07, "steel")
-    k.box("t_handle", (w / 2 - 0.07, fy - 0.016, zc - 0.03), (0.025, 0.02, 0.12), "darksteel", bevel=0.2)
-    k.cyl("t_lock", (w / 2 - 0.07, fy - 0.012, zc + 0.07), 0.016, 0.012, "steel", rot=(math.pi / 2, 0, 0))
-    # meter window and status light
-    k.box("t_window_frame", (-0.06, fy - 0.010, zc + 0.14), (0.20, 0.008, 0.12), "darksteel")
-    k.box("t_window", (-0.06, fy - 0.015, zc + 0.14), (0.17, 0.004, 0.09), "glass")
-    k.box("t_meter", (-0.06, fy - 0.018, zc + 0.12), (0.10, 0.003, 0.03), "screen")
-    k.box("t_led", (0.10, fy - 0.014, zc + 0.17), (0.035, 0.008, 0.035), "green")
-    # hazard label
-    k.box("t_label", (0.0, fy - 0.010, zc - 0.17), (0.13, 0.004, 0.11), "yellow")
-    k.mesh("t_label_mark", [(-0.035, fy - 0.013, zc - 0.205), (0.035, fy - 0.013, zc - 0.205),
-                            (0.0, fy - 0.013, zc - 0.135)], [(0, 1, 2)], "black")
-    # side louvres
-    for side in (-1, 1):
-        x = side * (w / 2 + 0.004)
-        for i in range(4):
-            k.box(f"t_louvre_{side}_{i}", (x, yc + 0.02, zc + 0.12 - i * 0.05), (0.01, d - 0.12, 0.018), "utilitydark")
-    # conduit into the pad, cable gland
-    k.rod("t_conduit", (0.0, yc + d / 2 - 0.06, zc - h / 2), (0.0, yc + d / 2 - 0.06, 0.10), 0.03, "darksteel")
-    k.cyl("t_gland", (0.0, yc + d / 2 - 0.06, 0.115), 0.045, 0.03, "steel")
+    """Makeshift utility pole: planted wooden pole, crossarm with insulators, salvaged rusty
+    junction box nailed on a plank, lever breaker, hand-painted warning, cable down to the ground."""
+    py = 0.08
+    _pole_mound(k, 0.0, py, 0.20)
+    k.cyl("t_pole", (0.0, py, 1.025), 0.085, 2.05, "pole", segs=12)
+    k.cyl("t_pole_top", (0.0, py, 2.055), 0.078, 0.012, "poledark", segs=12)
+    k.box("t_arm", (0.0, py, 1.92), (0.62, 0.07, 0.07), "poledark")
+    for i, x in enumerate((-0.24, 0.24)):
+        _insulator(k, f"t_ins{i}", (x, py, 1.98))
+    _cable(k, "t_in0", (-0.24, py, 2.03), (-0.06, -0.02, 1.52), sag=0.05)
+    _cable(k, "t_in1", (0.24, py, 2.03), (0.06, -0.02, 1.52), sag=0.05)
+    # salvaged junction box on a backing plank
+    k.box("t_back", (0.0, -0.01, 1.30), (0.34, 0.025, 0.50), "plank")
+    for z in (1.10, 1.50):
+        for x in (-0.14, 0.14):
+            k.cyl(f"t_nail_{x:.2f}_{z:.2f}", (x, -0.025, z), 0.008, 0.006, "darksteel",
+                  rot=(math.pi / 2, 0, 0), segs=6)
+    k.box("t_box", (0.0, -0.08, 1.33), (0.26, 0.12, 0.34), "rust", bevel=0.05)
+    k.box("t_lid", (0.0, -0.143, 1.33), (0.24, 0.01, 0.32), "galv", rot=(0, 0.03, 0), bevel=0.05)
+    # lever breaker on the side
+    k.box("t_lever_box", (0.18, -0.07, 1.30), (0.07, 0.09, 0.14), "darksteel")
+    k.rod("t_lever", (0.22, -0.07, 1.30), (0.26, -0.10, 1.42), 0.012, "red")
+    k.cyl("t_lever_knob", (0.26, -0.10, 1.43), 0.02, 0.04, "red", segs=10)
+    # tape patch and hand-painted warning plank
+    k.box("t_tape", (-0.06, -0.15, 1.42), (0.08, 0.004, 0.025), "tape", rot=(0, 0.4, 0))
+    k.box("t_sign", (0.0, -0.03, 0.92), (0.22, 0.02, 0.10), "white", rot=(0, -0.08, 0))
+    k.box("t_sign_mark", (0.0, -0.042, 0.92), (0.14, 0.004, 0.025), "red", rot=(0, -0.08, 0))
+    # outgoing cable down the pole and along the ground
+    _cable(k, "t_out", (0.0, -0.08, 1.16), (0.0, -0.02, 0.06), sag=-0.04, r=0.013, n=5)
+    _cable(k, "t_run", (0.0, -0.02, 0.06), (0.30, -0.35, 0.02), sag=0.0, r=0.013, n=3)
 
 
 # --------------------------------------------------------------------------- #
@@ -222,7 +254,7 @@ ICONS = [
     ("LWXBreaker20", build_breaker_item("20", 1), 0.16),
     ("LWXBreaker30", build_breaker_item("30", 1), 0.16),
     ("LWXTwilightSwitch", build_twilight_item, 0.19),
-    ("LWXTerminal", build_terminal, 1.75),
+    ("LWXTerminal", build_terminal, 2.3),
     ("LWXPanel", None, 0.85),   # board of 16 modules, built off its wall
 ]
 
