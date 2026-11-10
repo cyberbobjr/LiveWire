@@ -74,6 +74,13 @@ function Anchor.ageFridges(a, id)
     LiveWire.Events.emit(LiveWire.Events.ANCHOR_CHANGING, a, id)
 end
 
+-- 42.22 event, fired by IsoGenerator after setSurroundingElectricity (IsoGenerator.java:487,
+-- 572): vanilla closes the windows of the appliances left without power (ISEntityUI.lua:753).
+-- 42.21 has no such event; triggering it there would register it, so only fire a known one.
+function Anchor.notifyElectricityChanged()
+    if Events.OnElectricityChanged then triggerEvent("OnElectricityChanged") end
+end
+
 -- Apply an anchor and refresh visuals when its state changed on this side.
 Anchor.appliedState = {}  -- id -> last state applied on this machine
 
@@ -84,6 +91,7 @@ function Anchor.set(id, a, on)
     if Anchor.appliedState[id] ~= on then
         Anchor.appliedState[id] = on
         Anchor.refreshVisuals(a, id)
+        Anchor.notifyElectricityChanged()
     end
 end
 
@@ -100,6 +108,7 @@ function Anchor.reshape(id, mutate)
     if on then Anchor.ageFridges(a, id) end
     Anchor.apply(a, on, id)
     Anchor.refreshVisuals(a, id)
+    Anchor.notifyElectricityChanged()
 end
 
 -- World chunk coordinates of an IsoChunk (its wx/wy fields are not readable from Lua).

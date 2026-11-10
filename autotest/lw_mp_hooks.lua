@@ -324,6 +324,12 @@ function H.server.done(ctx)
         p:setPerkLevelDebug(Perks.Electricity, level)
         -- 42.22 toaster: placed by the authority on a square powered by Live Wire, near the player;
         -- the client checks that it sees the power and may open it (client hook, phase toaster).
+        -- Network B (one floor away) also reaches these squares: switched off so that the toaster
+        -- depends on network A only (the client then stops A and expects the window to close).
+        if S.B then
+            local st = setInverter(S.B, false, viaOf(S.B.comp))
+            rep.rec(st == "off", "B switched off so that only A powers the toaster", "st=" .. tostring(st))
+        end
         local cell, toasterSq = getCell(), nil
         local px, py, pz = math.floor(p:getX()), math.floor(p:getY()), math.floor(p:getZ())
         for dx = -6, 6 do
@@ -411,8 +417,21 @@ local function via(f)
     return { x = sq:getX(), y = sq:getY(), z = sq:getZ() }
 end
 
+-- Open appliance window of `obj` (ISEntityUI registry), or nil.
+local function entityWindow(obj)
+    for _, p in pairs(ISEntityUI.players or {}) do
+        for _, w in pairs(p.windows or {}) do
+            if w.instance and w.entityObj == obj then return w.instance end
+        end
+    end
+end
+
 function H.client.start(ctx)
     untouchable(getPlayer())
+    C.elecEvents = 0
+    if Events.OnElectricityChanged then
+        Events.OnElectricityChanged.Add(function() C.elecEvents = C.elecEvents + 1 end)
+    end
     -- No public grid in the test world (the toaster check needs power from Live Wire only): the
     -- admin client changes ElecShutModifier like the admin sandbox panel (sendToServer).
     local so = getSandboxOptions()
@@ -545,12 +564,42 @@ function H.client.done(ctx)
         if not toaster then rep.rec(false, "42.22: client sees the toaster placed by the server"); return true end
         local sq = toaster:getSquare()
         local p2 = getPlayer()
-        p2:setX(sq:getX() + 1.5); p2:setY(sq:getY() + 0.5); p2:setLastX(p2:getX()); p2:setLastY(p2:getY())
+        -- Halfway between the toaster and the computer: in reach of the computer (6 tiles) for the
+        -- off command, within the window's 10 tiles.
+        local cs = C.A.comp:getSquare()
+        p2:setX(math.floor((sq:getX() + cs:getX()) / 2) + 0.5); p2:setY(math.floor((sq:getY() + cs:getY()) / 2) + 0.5)
+        p2:setLastX(p2:getX()); p2:setLastY(p2:getY())
         local can = ISEntityUI.CanOpenWindowFor(p2, toaster) and true or false
         rep.rec(sq:haveElectricity() and not sq:hasGridPower() and can,
             "42.22: the MP client sees Live Wire power on the toaster's square and may open it",
             "haveElectricity=" .. tostring(sq:haveElectricity()) .. " hasGridPower=" .. tostring(sq:hasGridPower())
             .. " CanOpenWindowFor=" .. tostring(can))
+        -- Vanilla opening path (direct call, not a click), then the inverter off from the computer.
+        ISEntityUI.OpenWindow(p2, toaster)
+        C.toaster, C.window = toaster, entityWindow(toaster)
+        C.phase, C.t1 = "toasterWindow", now
+        return false
+    end
+    if C.phase == "toasterWindow" and now - C.t1 > 1500 then
+        local open = C.window ~= nil and entityWindow(C.toaster) == C.window
+        rep.rec(open, "42.22: toaster window open on Live Wire power on the MP client")
+        if not open then return true end
+        C.eventsBefore = C.elecEvents
+        send(P.C_SET_INVERTER, { inverter = C.A.invId, on = false, via = via(C.A) })
+        C.phase, C.t1 = "toasterOff", now
+        return false
+    end
+    if C.phase == "toasterOff" then
+        local sq = C.toaster:getSquare()
+        if sq:haveElectricity() and now - C.t1 < 20000 then return false end
+        if now - C.t1 < 1000 then return false end
+        rep.rec(not sq:haveElectricity(), "42.22: the MP client sees the toaster's square lose power when the inverter stops")
+        if Events.OnElectricityChanged then
+            rep.rec(C.elecEvents > C.eventsBefore, "42.22: OnElectricityChanged fired on the MP client",
+                C.elecEvents - C.eventsBefore)
+            rep.rec(entityWindow(C.toaster) == nil and not C.window:isVisible(),
+                "42.22: toaster window closed by vanilla on the MP client when Live Wire power dropped")
+        end
         return true
     end
     return false

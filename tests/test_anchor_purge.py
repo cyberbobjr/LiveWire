@@ -28,6 +28,7 @@ function instanceof() return false end
 Events = setmetatable({}, { __index = function(t, k)
     local e = { Add = function() end }
     rawset(t, k, e); return e end })
+function triggerEvent() end -- engine global (LuaManager), present in 42.21 and 42.22
 local MD = {}
 ModData = {
     getOrCreate = function(k) MD[k] = MD[k] or {}; return MD[k] end,
@@ -149,6 +150,43 @@ class AnchorPurge(unittest.TestCase):
         lua.execute("A = { x = 804, y = 804, z = 0, on = true }")
         self.assertFalse(lua.eval("LiveWire.Anchor.purgedBy(A, 100 + 7, 100, 20)"))
         self.assertTrue(lua.eval("LiveWire.Anchor.purgedBy(A, 100 + 6, 100 + 6, 20)"))
+
+
+class ElectricityChanged(unittest.TestCase):
+    """42.22 OnElectricityChanged: fired like IsoGenerator when an anchor's power changes."""
+
+    def setUp(self):
+        self.lua = load()
+        self.lua.execute("""
+        FIRED = 0
+        function triggerEvent(name) if name == 'OnElectricityChanged' then FIRED = FIRED + 1 end end
+        A = { x = 804, y = 804, z = 0 }
+        """)
+
+    def test_fired_once_per_power_change_on_42_22(self):
+        self.lua.execute("""
+        Events = { OnElectricityChanged = { Add = function() end } }
+        LiveWire.Anchor.set('inv', A, true); ON = FIRED
+        LiveWire.Anchor.set('inv', A, true); AGAIN = FIRED
+        LiveWire.Anchor.set('inv', A, false); OFF = FIRED
+        """)
+        self.assertEqual([self.lua.eval(v) for v in ("ON", "AGAIN", "OFF")], [1, 1, 2])
+
+    def test_coverage_change_fires_once(self):
+        self.lua.execute("""
+        Events = { OnElectricityChanged = { Add = function() end } }
+        ModData.getOrCreate(LiveWire.ANCHOR_KEY).inv = { x = 804, y = 804, z = 0, on = true }
+        LiveWire.Anchor.reshape('inv', function() end)
+        """)
+        self.assertEqual(self.lua.eval("FIRED"), 1)
+
+    def test_not_fired_on_42_21_where_the_event_does_not_exist(self):
+        self.lua.execute("""
+        Events = {}
+        LiveWire.Anchor.set('inv', A, true)
+        LiveWire.Anchor.set('inv', A, false)
+        """)
+        self.assertEqual(self.lua.eval("FIRED"), 0)
 
 
 if __name__ == "__main__":

@@ -44,6 +44,7 @@ function isServer() return false end
 Events = setmetatable({}, { __index = function(t, k)
     local e = { Add = function() end }
     rawset(t, k, e); return e end })
+function triggerEvent() end -- engine global (LuaManager), present in 42.21 and 42.22
 local MD = {}
 ModData = {
     getOrCreate = function(k) MD[k] = MD[k] or {}; return MD[k] end,
