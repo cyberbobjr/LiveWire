@@ -99,8 +99,9 @@ function C.disconnect(character, dev, key)
     return true
 end
 
--- Forget areas of inverters that no longer exist (picked up, destroyed, coupled).
--- Their positions were already withdrawn with their anchor (LW_Devices).
+-- Forget areas of inverters that no longer own a zone (picked up, destroyed, or coupled
+-- while no add-on keeps the zones of coupled inverters). Their positions were already
+-- withdrawn with their anchor (LW_Devices, LWCoupleAction).
 function C.prune()
     if not LiveWire.API.writable() then return end
     local t, changed = D.table(), false

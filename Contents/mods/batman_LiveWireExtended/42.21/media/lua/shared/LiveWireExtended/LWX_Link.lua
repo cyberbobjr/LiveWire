@@ -5,6 +5,7 @@
 --   kind = { name, field, sprites = { [spriteName] = true }, level, linkedKey }
 --   records: Data.table()[kind.field]["x,y,z"] = { x, y, z, inv = inverterId, ... }
 require "LiveWireExtended/LWX_Data"
+require "LiveWireExtended/LWX_Inverters"
 
 local X = LiveWire.Extended
 local L = { kinds = {} }
@@ -56,7 +57,8 @@ function L.check(character, obj, invObj)
     if not kind or not invObj then return false, "Tooltip_LWX_NoInverter" end
     local im = API.mark(invObj)
     local def = im and API.model(im.model)
-    if not def or def.role ~= "inverter" or im.cpl then return false, "Tooltip_LWX_NoInverter" end
+    if not def or def.role ~= "inverter" then return false, "Tooltip_LWX_NoInverter" end
+    if not X.Inverters.ownsZone(im.cpl) then return false, "Tooltip_LWX_CoupledInverter" end
     local ts, is = obj:getSquare(), invObj:getSquare()
     if not ts or not is then return false, "Tooltip_LWX_NoInverter" end
     if L.recordAt(kind, ts) then return false, kind.linkedKey end

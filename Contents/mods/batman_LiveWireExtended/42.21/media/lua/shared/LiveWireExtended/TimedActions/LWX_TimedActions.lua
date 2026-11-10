@@ -40,11 +40,22 @@ function LWXBuildingAction:complete()
         if not X.Terminals then return false end
         local t = X.Terminal.recordAt(sq)
         local dev = t and X.Inverters.get(t.inv)
-        if self.disconnect then return dev ~= nil and X.Connect.disconnect(ch, dev, self.areaKey) end
+        if self.disconnect then
+            if not dev then
+                LiveWire.notify(ch, "Tooltip_LWX_TerminalNotLinked", {}, true)
+                return false
+            end
+            return X.Connect.disconnect(ch, dev, self.areaKey)
+        end
         return X.Terminals.connectBuilding(ch, obj)
     end
     local dev = X.Inverters.ofObject(obj)
-    if not dev then return false end
+    if not dev then
+        -- Coupled since the menu was opened (or never registered): say why nothing happens.
+        local m = LiveWire.API.mark(obj)
+        LiveWire.notify(ch, m and m.cpl and "Tooltip_LWX_CoupledInverter" or "Tooltip_LWX_NoInverter", {}, true)
+        return false
+    end
     if self.disconnect then return X.Connect.disconnect(ch, dev, self.areaKey) end
     return X.Connect.connectBuilding(ch, dev, dev.x, dev.y, dev.z, LiveWire.Config.tileRange(), nil)
 end

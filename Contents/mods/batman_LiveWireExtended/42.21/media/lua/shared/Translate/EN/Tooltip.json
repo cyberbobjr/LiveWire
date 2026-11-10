@@ -10,6 +10,7 @@
     "Tooltip_LWX_TerminalLinked": "This terminal is already linked.",
     "Tooltip_LWX_TerminalWires": "Uses %1 electric wire. The terminal then powers its 8 x 8 block; set its zone afterwards.",
     "Tooltip_LWX_TerminalNotLinked": "Link the terminal to an inverter first.",
+    "Tooltip_LWX_CoupledInverter": "This inverter is coupled to a master: use the master inverter.",
     "Tooltip_LWX_NoBuildingNearTerminal": "Place the terminal inside a building or right against it.",
     "Tooltip_LWX_PanelLinked": "This breaker board is already linked.",
     "Tooltip_LWX_PanelWires": "Uses %1 electric wire.",

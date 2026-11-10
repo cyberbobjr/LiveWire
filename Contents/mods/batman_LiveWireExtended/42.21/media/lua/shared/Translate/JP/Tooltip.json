@@ -10,6 +10,7 @@
     "Tooltip_LWX_TerminalLinked": "この給電ポールはすでに接続されています。",
     "Tooltip_LWX_TerminalWires": "電線を%1本使います。ポールはそのブロック (8 x 8) に給電します。あとでゾーンを設定してください。",
     "Tooltip_LWX_TerminalNotLinked": "まず給電ポールをインバーターに接続してください。",
+    "Tooltip_LWX_CoupledInverter": "このインバーターは親に連結されています。親のインバーターを使ってください。",
     "Tooltip_LWX_NoBuildingNearTerminal": "給電ポールを建物の中か、建物のすぐそばに置いてください。",
     "Tooltip_LWX_PanelLinked": "この分電盤はすでに接続されています。",
     "Tooltip_LWX_PanelWires": "電線を%1本使います。",

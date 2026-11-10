@@ -10,6 +10,7 @@
     "Tooltip_LWX_TerminalLinked": "该电桩已连接.",
     "Tooltip_LWX_TerminalWires": "消耗 %1 根电线. 之后电桩为其 8 x 8 区块供电; 再设置其区域.",
     "Tooltip_LWX_TerminalNotLinked": "请先将电桩连接到逆变器.",
+    "Tooltip_LWX_CoupledInverter": "该逆变器已并联到主逆变器.请使用主逆变器.",
     "Tooltip_LWX_NoBuildingNearTerminal": "请将电桩放在建筑内或紧贴建筑.",
     "Tooltip_LWX_PanelLinked": "该配电箱已连接.",
     "Tooltip_LWX_PanelWires": "消耗 %1 根电线.",

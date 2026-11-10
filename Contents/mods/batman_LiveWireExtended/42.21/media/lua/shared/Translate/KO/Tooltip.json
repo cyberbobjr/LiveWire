@@ -10,6 +10,7 @@
     "Tooltip_LWX_TerminalLinked": "이 전력 기둥은 이미 연결되어 있습니다.",
     "Tooltip_LWX_TerminalWires": "전선 %1개를 사용합니다. 그러면 기둥이 자신의 8 x 8 블록에 전력을 공급합니다. 이후 구역을 설정하세요.",
     "Tooltip_LWX_TerminalNotLinked": "먼저 전력 기둥을 인버터에 연결하세요.",
+    "Tooltip_LWX_CoupledInverter": "이 인버터는 마스터에 병렬 연결되어 있습니다. 마스터 인버터를 사용하세요.",
     "Tooltip_LWX_NoBuildingNearTerminal": "전력 기둥을 건물 안이나 건물에 바로 붙여 두세요.",
     "Tooltip_LWX_PanelLinked": "이 배전반은 이미 연결되어 있습니다.",
     "Tooltip_LWX_PanelWires": "전선 %1개를 사용합니다.",

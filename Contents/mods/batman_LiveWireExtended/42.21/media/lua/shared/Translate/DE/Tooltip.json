@@ -10,6 +10,7 @@
     "Tooltip_LWX_TerminalLinked": "Diese Anschlusssäule ist bereits verbunden.",
     "Tooltip_LWX_TerminalWires": "Verbraucht %1 Stromkabel. Die Säule versorgt dann ihren Block von 8 x 8 Feldern; die Zone danach festlegen.",
     "Tooltip_LWX_TerminalNotLinked": "Verbinde die Säule zuerst mit einem Wechselrichter.",
+    "Tooltip_LWX_CoupledInverter": "Dieser Wechselrichter ist an einen Hauptwechselrichter gekoppelt: Nutze den Hauptwechselrichter.",
     "Tooltip_LWX_NoBuildingNearTerminal": "Stelle die Säule in ein Gebäude oder direkt daneben.",
     "Tooltip_LWX_PanelLinked": "Dieser Sicherungskasten ist bereits verbunden.",
     "Tooltip_LWX_PanelWires": "Verbraucht %1 Stromkabel.",

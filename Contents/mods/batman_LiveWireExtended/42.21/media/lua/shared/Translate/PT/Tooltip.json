@@ -10,6 +10,7 @@
     "Tooltip_LWX_TerminalLinked": "Este poste já está ligado.",
     "Tooltip_LWX_TerminalWires": "Usa %1 fio(s) elétrico(s). O poste alimenta então o seu bloco de 8 x 8; defina a zona depois.",
     "Tooltip_LWX_TerminalNotLinked": "Ligue primeiro o poste a um inversor.",
+    "Tooltip_LWX_CoupledInverter": "Este inversor está acoplado a um principal: use o inversor principal.",
     "Tooltip_LWX_NoBuildingNearTerminal": "Coloque o poste dentro de um edifício ou encostado a ele.",
     "Tooltip_LWX_PanelLinked": "Este quadro elétrico já está ligado.",
     "Tooltip_LWX_PanelWires": "Usa %1 fio(s) elétrico(s).",

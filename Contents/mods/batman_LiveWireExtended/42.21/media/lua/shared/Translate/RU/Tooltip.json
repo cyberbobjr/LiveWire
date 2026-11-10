@@ -10,6 +10,7 @@
     "Tooltip_LWX_TerminalLinked": "Эта колонка уже подключена.",
     "Tooltip_LWX_TerminalWires": "Расходует электрических проводов: %1. Колонка затем питает свой блок 8 x 8; потом задайте её зону.",
     "Tooltip_LWX_TerminalNotLinked": "Сначала подключите колонку к инвертору.",
+    "Tooltip_LWX_CoupledInverter": "Этот инвертор сцеплен с ведущим: используйте ведущий инвертор.",
     "Tooltip_LWX_NoBuildingNearTerminal": "Поставьте колонку в здании или вплотную к нему.",
     "Tooltip_LWX_PanelLinked": "Этот электрощиток уже подключён.",
     "Tooltip_LWX_PanelWires": "Расходует электрических проводов: %1.",

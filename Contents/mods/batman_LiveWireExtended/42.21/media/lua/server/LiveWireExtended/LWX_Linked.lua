@@ -162,7 +162,7 @@ end
 -- the inverter square is not loaded or still holds an inverter marked with its id.
 local function inverterGone(record)
     if Inv.get(record.inv) then return false end
-    if LiveWire.API.deviceKnown(record.inv) then return true end  -- known, but no longer a master
+    if LiveWire.API.deviceKnown(record.inv) then return true end  -- known, but coupled and zoneless
     if not record.ix then return true end                -- records made before ix was kept
     local sq = getCell():getGridSquare(record.ix, record.iy, record.iz)
     if not sq then return false end

@@ -3,6 +3,7 @@
 if isServer() then return end
 require "LiveWireExtended/LWX_Data"
 require "LiveWireExtended/LWX_Buildings"
+require "LiveWireExtended/LWX_Inverters"
 require "LiveWireExtended/LWX_Terminal"
 require "LiveWireExtended/LWX_Panel"
 require "LiveWireExtended/LWX_Breakers"
@@ -72,10 +73,13 @@ end
 
 -- "Connect the building" option, enabled or explained by its tooltip. `findBuilding()`
 -- gives the building def to connect (nil: none in reach, `noBuildingKey` says so).
-local function connectOption(sub, player, obj, findBuilding, noBuildingKey)
+-- `coupled`: the inverter is coupled to a master and keeps no zone of its own.
+local function connectOption(sub, player, obj, findBuilding, noBuildingKey, coupled)
     local o = sub:addOption(getText("ContextMenu_LWX_ConnectBuilding"), player, Menu.onBuilding, obj, false, nil)
     local def = findBuilding()
-    if not LiveWire.API.hasLevel(player, X.LEVEL) then
+    if coupled then
+        disable(o, "Tooltip_LWX_CoupledInverter")
+    elseif not LiveWire.API.hasLevel(player, X.LEVEL) then
         disable(o, "Tooltip_LWX_NeedLevel", tostring(LiveWire.Config.requiredLevel(X.LEVEL)))
     elseif not def then
         disable(o, noBuildingKey)
@@ -100,7 +104,7 @@ function Menu.addBuildingOptions(sub, player, obj, mark)
     connectOption(sub, player, obj, function()
         return X.Buildings.find(sq:getX(), sq:getY(), sq:getZ(), LiveWire.Config.tileRange(),
             LiveWire.Config.verticalRange())
-    end, "Tooltip_LWX_NoBuilding")
+    end, "Tooltip_LWX_NoBuilding", not X.Inverters.ownsZone(mark.cpl))
     disconnectOptions(sub, player, obj, mark.id, function(area) return area.kind == "building" end)
 end
 
