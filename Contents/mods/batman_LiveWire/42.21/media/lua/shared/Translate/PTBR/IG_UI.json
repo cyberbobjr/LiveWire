@@ -211,6 +211,7 @@
     "IGUI_LW_NetworkName": "Rede: %1",
     "IGUI_LW_PanelFactors": "%1; sujeira %2%%; neve %3%%",
     "IGUI_LW_Shock": "Choque elétrico! Desligue o inversor antes de trabalhar.",
+    "IGUI_LW_CannotReach": "Não dá para chegar perto daqui.",
     "IGUI_LW_StormBrake": "Tempestade perto de %1: acione os freios eólicos.",
     "IGUI_LW_Facing_0": "Sul",
     "IGUI_LW_Facing_1": "Leste",

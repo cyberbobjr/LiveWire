@@ -1,6 +1,5 @@
 {
     "LWMakeVoltageTester": "検電器を作る",
-    "LWSalvageSolarCell": "計算機を分解",
     "LWMakeSolarCellFromScrap": "スクラップから太陽電池を作る",
     "LWMakeSolarPanelKit": "ソーラーパネルを作る",
     "LWMakeInverterKit": "インバーターを作る",

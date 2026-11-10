@@ -211,6 +211,7 @@
     "IGUI_LW_NetworkName": "Сеть: %1",
     "IGUI_LW_PanelFactors": "%1; грязь %2%%; снег %3%%",
     "IGUI_LW_Shock": "Удар током! Выключайте инвертор перед работой.",
+    "IGUI_LW_CannotReach": "Отсюда не подойти.",
     "IGUI_LW_StormBrake": "Гроза у %1: затормозите ветряки.",
     "IGUI_LW_Facing_0": "Юг",
     "IGUI_LW_Facing_1": "Восток",

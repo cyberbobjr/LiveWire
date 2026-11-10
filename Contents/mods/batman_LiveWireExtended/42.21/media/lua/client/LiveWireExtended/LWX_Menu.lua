@@ -29,8 +29,10 @@ local function hint(option, key, arg1, arg2, arg3)
     option.toolTip = t
 end
 
+-- No free square next to the target: nothing can be queued, say so (else the click does nothing).
 local function queueNear(player, sq, action)
-    if luautils.walkAdj(player, sq) then ISTimedActionQueue.add(action) end
+    if luautils.walkAdj(player, sq) then ISTimedActionQueue.add(action)
+    else LiveWire.notify(player, "IGUI_LW_CannotReach", {}, true) end
 end
 
 function Menu.onBuilding(player, obj, disconnect, key)

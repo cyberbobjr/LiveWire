@@ -211,6 +211,7 @@
     "IGUI_LW_NetworkName": "电网：%1",
     "IGUI_LW_PanelFactors": "%1；污垢%2%%；积雪%3%%",
     "IGUI_LW_Shock": "触电！操作前请关闭逆变器。",
+    "IGUI_LW_CannotReach": "无法从这里靠近。",
     "IGUI_LW_StormBrake": "%1附近有雷暴：请刹住风机。",
     "IGUI_LW_Facing_0": "南",
     "IGUI_LW_Facing_1": "东",

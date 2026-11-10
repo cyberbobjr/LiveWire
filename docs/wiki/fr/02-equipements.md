@@ -12,7 +12,7 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 |---|---|---|---|
 | Panneau photovoltaïque | Source, 100 W | Dehors, ciel dégagé ; toit plat possible | 3 |
 | Éolienne | Source, 400 W ; les pales tournent avec le vent | Dehors ; +15 % de vent par étage jusqu'au 3e | 2 |
-| Roue à aubes | Source, 120 W jour et nuit | Rez-de-chaussée, au bord d'une rivière | 2 |
+| Roue à aubes | Source, 120 W jour et nuit ; la roue tourne avec la rivière | Rez-de-chaussée, au bord d'une rivière | 2 |
 | Onduleur | Cœur du réseau, 1 500 W | Toute case de sol, intérieur compris | 3 |
 | Armoire onduleur | Cœur du réseau, 4 500 W, 60 W à vide ; fabriquée à partir d'un onduleur | Toute case de sol, intérieur compris | 3 |
 | Powerbank | Stockage, 4 batteries comptées ; s'ouvre comme une caisse (capacité 50) | Partout ; ramassée seulement vide | 2 |

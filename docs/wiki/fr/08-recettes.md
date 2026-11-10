@@ -10,7 +10,6 @@ Les 29 recettes Live Wire sont dans le menu d'artisanat. Les recettes d'Électri
 |---|---|---|---|
 | 1 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/LightBulb.png" width="24" height="24"> Ampoule<br>1 × <img src="../../images/icons/Battery.png" width="24" height="24"> Pile | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 1 | <img src="../../images/icons/VoltageTester.png" width="32" height="32"> **Testeur de tension** |
 | 1 × <img src="../../images/icons/VoltageTester.png" width="24" height="24"> Testeur de tension | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | aucune | <img src="../../images/icons/ElectronicsScrap.png" width="32" height="32"> **Pièces électroniques** |
-| 1 × <img src="../../images/icons/Calculator.png" width="24" height="24"> Calculatrice | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | aucune | 1 × <img src="../../images/icons/ElectronicsScrap.png" width="32" height="32"> **Pièces électroniques**<br>1 × <img src="../../images/icons/SolarCell.png" width="32" height="32"> **Cellule photovoltaïque** |
 | 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 2 | <img src="../../images/icons/PowerBank.png" width="32" height="32"> **Powerbank** |
 | 1 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 2 | <img src="../../images/icons/BatteryAlarm.png" width="32" height="32"> **Alarme de batterie faible** |
 | 4 × <img src="../../images/icons/Plank.png" width="24" height="24"> Planche<br>10 × <img src="../../images/icons/Nails.png" width="24" height="24"> Clous<br>4 × <img src="../../images/icons/RippedSheets.png" width="24" height="24"> Tissu déchiré | <img src="../../images/icons/Hammer.png" width="24" height="24"> | Électricité 2 | <img src="../../images/icons/SoundproofKit.png" width="32" height="32"> **Kit d'insonorisation d'onduleur** |
@@ -101,8 +100,10 @@ onduleur couplé, est rendu entier.
 | Kit d'insonorisation (marteau au lieu du tournevis) | 3 planches, 5 clous, 2 tissus déchirés | — |
 
 La batterie stationnaire, le jeu de pales et le mât ne se démontent pas. Un
-équipement encore posé et à 0 % peut aussi être démonté sur place avec
-**Démonter pour pièces** ([Compétence Électricité et entretien](10-competence-electricite-et-entretien.md)).
+équipement hors d'usage se ramasse d'abord (tournevis), puis se démonte comme les autres.
+
+Une calculatrice démontée avec la recette du jeu **Démonter l'objet électronique**
+donne aussi une cellule photovoltaïque.
 
 ## Voir aussi
 

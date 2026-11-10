@@ -35,7 +35,7 @@ Toute modification d'un identifiant de ce document (type d'objet, clé de ModDat
 
 Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inventaire est un `base:moveable` posé au curseur de meubles vanilla. Pose et rotation ne demandent ni outil ni niveau ; le ramassage demande `PickUpTool = Electrician`, sans niveau. La tuile ne porte ni `PickUpLevel` ni `PlaceTool`. Le niveau d'Électricité est vérifié au **branchement** (`Defs.devices.*.level`, D-29). Le **nom de modèle** est la clé stockée dans le registre : ne jamais le renommer.
 
-**Poids** : `PickUpWeight / 10` de la tuile (`Moveable.java:145-150`), sauf l'éolienne dont la tuile porte `CustomItem` et qui prend le `Weight` du script (`Moveable.java:129-134`). Le `Weight` de chaque script reprend celui de la tuile. Règle : jamais moins que la somme des composants de la recette (poids vanilla), relevé au poids réaliste à l'échelle du jeu. Panneau 9, éolienne 15, roue à aubes 30, onduleur 12, armoire onduleur 30, powerbank 10, tableau 3, alarme 1, pompe 8.
+**Poids** : `PickUpWeight / 10` de la tuile (`Moveable.java:145-150`), sauf l'éolienne et, depuis 1.8.0, la roue à aubes, dont les tuiles portent `CustomItem` et qui prennent le `Weight` du script (`Moveable.java:129-134`). Le `Weight` de chaque script reprend celui de la tuile. Règle : jamais moins que la somme des composants de la recette (poids vanilla), relevé au poids réaliste à l'échelle du jeu. Panneau 9, éolienne 15, roue à aubes 30, onduleur 12, armoire onduleur 30, powerbank 10, tableau 3, alarme 1, pompe 8.
 
 | Modèle (`Defs.devices`) | Objet posable | Rôle | Tuiles (index, orientations) | Chiffres | Niveau (branchement) | XP (1er branchement) | Usure (`wearDays`) |
 |---|---|---|---|---|---|---|---|
@@ -64,7 +64,7 @@ Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de déc
 
 ### 2.4 Recettes (`LiveWire_recipes.txt`, module `LiveWire`, catégorie `Electrical`)
 
-`LWMakeVoltageTester`, `LWDismantleVoltageTester`, `LWSalvageSolarCell` (calculatrice → cellule + débris électroniques), `LWMakeSolarCellFromScrap`, `LWMakeSolarPanelKit`, `LWMakeInverterKit`, `LWMakeWindTurbineBlades`, `LWMakeWindTurbineMast`, `LWMakeWindTurbineKit`, `LWMakeWaterWheel`, `LWMakePowerBankKit`, `LWMakeBreakerKit`, `LWMakeWaterPump`, `LWMakeCouplingKit`, `LWMakeDeepCycleBattery`, `LWMakeBatteryAlarmKit`, `LWMakeSoundproofKit`. Ingrédients et niveaux : tableau généré [`wiki/fr/_tables.md`](wiki/fr/_tables.md) (`tools/make_doc_tables.py`, données de `tools/make_doc_images.RECIPES`).
+`LWMakeVoltageTester`, `LWDismantleVoltageTester`, `Base.DismantleElectronics` du jeu, non redéfinie : son OnCreate `RecipeCodeOnCreate.dismantleFlashlight` est enveloppé par `LW_Recipes.lua` (effet vanilla, puis une cellule par calculatrice ; une recette redéfinie ajouterait ses entrées à celle du jeu), `LWMakeSolarCellFromScrap`, `LWMakeSolarPanelKit`, `LWMakeInverterKit`, `LWMakeWindTurbineBlades`, `LWMakeWindTurbineMast`, `LWMakeWindTurbineKit`, `LWMakeWaterWheel`, `LWMakePowerBankKit`, `LWMakeBreakerKit`, `LWMakeWaterPump`, `LWMakeCouplingKit`, `LWMakeDeepCycleBattery`, `LWMakeBatteryAlarmKit`, `LWMakeSoundproofKit`. Ingrédients et niveaux : tableau généré [`wiki/fr/_tables.md`](wiki/fr/_tables.md) (`tools/make_doc_tables.py`, données de `tools/make_doc_images.RECIPES`).
 
 ### 2.5 Autres scripts
 
@@ -319,7 +319,7 @@ Portée de la zone alimentée : options vanilla `GeneratorTileRange` (20) et `Ge
 | `IG_UI.json` | `IGUI_LW_` (+ `IGUI_ContainerTitle_livewirepowerbank`) | 171 |
 | `ItemName.json` | `Module.Objet` (`LiveWire.*`, `Base.Mov_LiveWire_*`) | 14 |
 | `Moveables.json` | `Live_Wire_*` (noms des tuiles) | 8 |
-| `Recipes.json` | nom de recette (`LWMake*`, `LWSalvageSolarCell`) | 14 |
+| `Recipes.json` | nom de recette (`LWMake*`, `LWDismantle*`) | 14 |
 | `Sandbox.json` | `Sandbox_LiveWire_` (+ `Sandbox_LiveWire` pour la page) | 35 |
 | `Tooltip.json` | `Tooltip_LW_` | 39 |
 | `UI.json` | `UI_LW_` | 3 |
@@ -369,7 +369,7 @@ leur valeur par défaut à la première lecture ; aucune identité n'est recré�
 | Commande | `setCircuit { device, circuit=lights/equipment/main, off:boolean }` ; proximité du disjoncteur, refuge, registre modifiable ; choix identique sans mutation ni énergie avancée |
 | Miroir | `circuitService { id,rev,x,y,z,sprite,types,media,on,request=0 }`, serveur vers joueurs proches après intervention ; identité stable puis sprite unique en repli ; aucun renvoi d'inventaire |
 | Réconciliation | `readCircuitServices { seq, services[]={id,x,y,z} }`, 16 appareils maximum ; identité, coordonnées entières, joueur vivant et distance de 100 cases revérifiés sous la limitation de débit existante. Réponse au demandeur : `circuitServices { services[]={...instantané de service...,request=seq} }`, relisant l'état natif courant |
-| Actions | `LWCleanPanelAction`, `LWTestBatteryAction`, `LWSalvageAction` ; `LWReconditionAction` étendue. Mutations et coûts revérifiés dans `complete()` sur l'autorité |
+| Actions | `LWCleanPanelAction`, `LWTestBatteryAction` ; `LWReconditionAction` étendue. Mutations et coûts revérifiés dans `complete()` sur l'autorité |
 | Options | `SolarOrientation=true`, `SolarDirt=true`, `BatteryCold=false`, `LiveWorkRisk=true` ; booléens, page LiveWire |
 
 Le bilan énergétique utilise exclusivement la charge accessible ; réserve et capacité
@@ -956,3 +956,32 @@ existantes (pixels, profondeur, propriétés) restent identiques. Icône par
 `source/icons/extract_equipment_icons.py`. Viewpoint : palette complétée des couleurs du
 modèle (`glb_paints()`), modèles `cabinet*` et liaisons 88-103 ; les autres modèles ne
 changent que par leurs coordonnées de palette.
+
+**Roue à aubes animée (1.8.0, D-58).** Comme l'éolienne, la tuile de la roue (8-11) ne
+porte plus la roue : le client dessine toujours une des quatre images de roue,
+`overlays.rotor = 104` (calque 104 + 4 × image + orientation, cases 104-119). La roue a
+10 aubes et 5 rayons, donc une symétrie de 36° : quatre images de 9° bouclent sans saut.
+`rotorFrame` (`LW_Visuals.lua`) suit le type de la source : vent pour `wind`, rivière pour
+`hydro`. La roue tourne tant que `m.cond > 0` et sans `m.br` (la rivière est une règle de
+pose), une image toutes les `HYDRO_PERIOD_MS = 250` ms divisées par `Physics.hydroFactor`
+du mois (printemps plus vite, été plus lent). La boucle de 100 ms anime tout appareil qui
+déclare `overlays.rotor` (avant : l'éolienne seule ; une source ajoutée par l'API avec un
+`rotor` tourne donc aussi à cette cadence). `isOverlay` couvre 92-119.
+
+Les tuiles 8-11 reçoivent `CustomItem = Base.Mov_LiveWire_WaterWheel` : ramassée, la roue
+redevient l'objet du script et garde son icône (sans `CustomItem`, l'objet générique
+`Moveables.<sprite>` prend l'icône découpée dans la tuile, désormais sans roue ;
+`Moveable.java:118-175`). Poids identique (30), même nom. Une roue générique déjà dans un
+inventaire se pose toujours : la pose cherche l'objet par `getWorldSprite()`
+(`ISMoveableSpriteProps.findInInventory`, `ISMoveableSpriteProps.lua:1040-1060`) ; elle
+garde l'icône tirée de la tuile.
+
+Sauvegardes et multijoueur : aucun index ne bouge (les calques sont ajoutés à la fin), les
+roues posées gardent leur sprite et leurs marques, et le calque est recalculé par chaque
+client à partir de la marque ; rien de neuf ne passe par le réseau. Le jeu de tuiles passe
+de 104 à 120 cases (15 rangées). Recette : `hydro_wheel` / `build_hydro_rotor` de
+`build_livewire_tiles.py`. Installation : `hydro_rotor.py` + `install_hydro_rotor.py`,
+qui redessinent 8-11 et ajoutent 104-119 au pack, à la carte de profondeur et aux
+définitions, en vérifiant que toutes les autres cases (pixels, profondeur, propriétés)
+restent identiques et que 8-11 ne gagnent que `CustomItem`. Viewpoint : modèle `hydro`
+sans roue, modèles `hydro_rotor0-3` et liaisons 104-119.

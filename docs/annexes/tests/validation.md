@@ -1264,3 +1264,21 @@ Les journaux gardent leurs alertes natives de démarrage ; les cinq erreurs de
 tuiles de végétation pendant la téléportation sont aussi présentes dans les
 passages solo de cette campagne. Aucune nouvelle erreur Lua ni erreur FMOD
 constatée pendant les hooks. Aucun commit ni publication.
+
+## Roue à aubes animée (D-58) — 2026-11-10, version locale 1.8.0 en préparation
+
+**Confirmé statiquement et hors jeu :** `install_hydro_rotor.py` a vérifié que les
+100 cases hors 8-11 et 104-119 gardent leurs pixels, leur profondeur et leurs
+propriétés, que 8-11 ne gagnent que `CustomItem`, et que le pack se relit à l'identique.
+Le rendu sans interface redonne au pixel près les cases déjà livrées (voyant de la roue
+44-47, pales 48-51) : même chaîne qu'en 1.7. Profondeur : aucun texel manquant ni hors
+du sprite sur les 20 cases refaites. `python -B -m unittest discover -s tests` : 513 tests,
+5 ignorés, code 0 (référence des calques étendue à la roue, quatre saisons de rotation).
+`tools/check_mod.py E:/pz-source-42.22` : OK.
+
+**Non testé en jeu** (essais en attente de l'accord de l'utilisateur). Protocole court :
+1. vieille sauvegarde avec une roue déjà posée : la roue s'affiche et tourne, le voyant
+   vert reste visible si elle est raccordée ;
+2. roue cassée (état 0) : la roue s'arrête ;
+3. ramasser la roue : icône de la roue dans l'inventaire, poids 30 ; la reposer ;
+4. multijoueur : un second joueur voit la roue tourner ; aucune erreur Lua.

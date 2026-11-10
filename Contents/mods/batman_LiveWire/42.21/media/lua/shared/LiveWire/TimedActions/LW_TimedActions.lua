@@ -790,23 +790,3 @@ end
 function LWCleanPanelAction:new(character, target)
     return LWBaseAction.new(self, character, { target = target })
 end
-
-LWSalvageAction = LWBaseAction:derive("LWSalvageAction")
-LWSalvageAction.duration = 250
-LWSalvageAction.LEVEL = 3
-LWSalvageAction.subject = "target"
-LWSalvageAction.facing = true
-function LWSalvageAction:isValid()
-    local m = LiveWire.Marks.get(self.target)
-    return objectStillThere(self.target) and m and (m.cond or 100) <= 0
-        and LiveWire.Stack.canMove(self.target)
-        and I().hasLevel(self.character, LWSalvageAction.LEVEL) and I().screwdriver(self.character)
-end
-function LWSalvageAction:start()
-    self:setActionAnim(CharacterActionAnims.Disassemble)
-    I().showScrewdriver(self)
-end
-function LWSalvageAction:complete() return LiveWire.Maintenance.salvage(self.character, self.target) end
-function LWSalvageAction:new(character, target)
-    return LWBaseAction.new(self, character, { target = target })
-end

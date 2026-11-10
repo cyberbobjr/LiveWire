@@ -262,6 +262,7 @@
     "IGUI_LW_NetworkName": "Réseau : %1",
     "IGUI_LW_PanelFactors": "%1 ; saleté %2%% ; neige %3%%",
     "IGUI_LW_Shock": "Décharge ! Éteignez l’onduleur avant d’intervenir.",
+    "IGUI_LW_CannotReach": "Impossible de s’en approcher d’ici.",
     "IGUI_LW_StormBrake": "Orage près de %1 : serrez les freins des éoliennes.",
     "IGUI_LW_Facing_0": "Sud",
     "IGUI_LW_Facing_1": "Est",

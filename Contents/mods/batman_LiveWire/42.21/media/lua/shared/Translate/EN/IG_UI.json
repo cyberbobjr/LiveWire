@@ -262,6 +262,7 @@
     "IGUI_LW_NetworkName": "Network: %1",
     "IGUI_LW_PanelFactors": "%1; dirt %2%%; snow %3%%",
     "IGUI_LW_Shock": "Electrical shock! Switch off the inverter before working.",
+    "IGUI_LW_CannotReach": "Can't get next to it from here.",
     "IGUI_LW_StormBrake": "Storm near %1: apply wind turbine brakes.",
     "IGUI_LW_Facing_0": "South",
     "IGUI_LW_Facing_1": "East",

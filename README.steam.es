@@ -50,7 +50,7 @@ Live Wire Monitor añade consumidores (hasta 200), siluetas de colores, cables, 
 
 [h2]Seguridad eléctrica y experiencia[/h2]
 
-Prueba baterías al nivel 1/3/5. Reacondiciona al 4 (6 si muerta): destornillador conservado, chatarra, cable, 0,5 L de agua; +15 estado, máximo 80, cuatro veces. Recupera equipos muertos y vacíos al 3. Riesgo con tensión activado: 50/42/33/25/17/8/0% a niveles 0/1/2/3/4/5/6+. Una descarga quema la mano de la herramienta, suelta objetos y cancela antes de gastar materiales. Apaga el inversor maestro; el cuadro no aísla sus bornes.
+Prueba baterías al nivel 1/3/5. Reacondiciona al 4 (6 si muerta): destornillador conservado, chatarra, cable, 0,5 L de agua; +15 estado, máximo 80, cuatro veces. Recoge los equipos rotos y desmóntalos desde el menú de fabricación. Riesgo con tensión activado: 50/42/33/25/17/8/0% a niveles 0/1/2/3/4/5/6+. Una descarga quema la mano de la herramienta, suelta objetos y cancela antes de gastar materiales. Apaga el inversor maestro; el cuadro no aísla sus bornes.
 
 [h2]Multijugador[/h2]
 

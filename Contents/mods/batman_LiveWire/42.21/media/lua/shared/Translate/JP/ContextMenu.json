@@ -75,7 +75,6 @@
     "ContextMenu_LW_RenameNetwork": "電力網の名前を変更",
     "ContextMenu_LW_CleanPanel": "パネルを清掃",
     "ContextMenu_LW_TestBattery": "バッテリーを点検",
-    "ContextMenu_LW_Salvage": "部品を回収",
     "ContextMenu_LW_OpenBoard": "配電盤を開く",
     "ContextMenu_LW_ShowConsumers": "消費機器を表示・非表示",
     "ContextMenu_LW_ShowConnections": "接続を表示・非表示",

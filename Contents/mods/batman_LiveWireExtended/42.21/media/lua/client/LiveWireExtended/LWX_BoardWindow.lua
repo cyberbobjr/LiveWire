@@ -52,7 +52,8 @@ local function slotState(slot)
 end
 
 local function queue(self, action)
-    if luautils.walkAdj(self.player, self.board:getSquare()) then ISTimedActionQueue.add(action) end
+    if luautils.walkAdj(self.player, self.board:getSquare()) then ISTimedActionQueue.add(action)
+    else LiveWire.notify(self.player, "IGUI_LW_CannotReach", {}, true) end
 end
 
 local function kwh(v) return string.format("%.1f kWh", v) end

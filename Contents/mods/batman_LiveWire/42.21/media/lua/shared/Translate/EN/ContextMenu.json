@@ -81,7 +81,6 @@
     "ContextMenu_LW_Debug_deviceRestore": "Restore condition to 100%%",
     "ContextMenu_LW_CleanPanel": "Clean panel",
     "ContextMenu_LW_TestBattery": "Test battery",
-    "ContextMenu_LW_Salvage": "Salvage for parts",
     "ContextMenu_LW_OpenBoard": "Open electrical panel",
     "ContextMenu_LW_ShowConsumers": "Show/hide consumers",
     "ContextMenu_LW_ShowConnections": "Show/hide connections"

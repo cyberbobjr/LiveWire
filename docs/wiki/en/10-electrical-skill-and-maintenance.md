@@ -81,15 +81,15 @@ BatteryCold is off by default: outside banks have 20% less accessible capacity a
 0 C and 40% less at -15 C. The unavailable reserve returns on thawing; indoor banks
 are unaffected. This does not erase charge or reset condition/cycles.
 
-Dead, empty equipment can be salvaged at level 3 with a screwdriver: one scrap and
-one wire, plus a solar cell for a panel. Live maintenance risk is optional; see the detailed rules below.
+Broken equipment is not lost: pick it up (screwdriver) and dismantle it from the crafting
+menu; its electronic parts depend on its condition ([Recipes](08-recipes.md)). Live maintenance risk is optional; see the detailed rules below.
 
 Wind turbines and water wheels need Electrical 2 to link to an inverter; crafting needs 3 and 4 respectively. Placing and picking up need no Electrical level (picking up needs a screwdriver). Mechanical blade/mast recipes need no Electrical level.
 
 ## Electrical safety and experience
 
 **Live maintenance risk** is enabled by default. When active, connecting,
-disconnecting, repairing or salvaging connected equipment can cause a shock. One
+disconnecting or repairing connected equipment can cause a shock. One
 roll occurs at the end of an allowed intervention, before materials are consumed.
 
 | Actual Electrical level | Risk per intervention |

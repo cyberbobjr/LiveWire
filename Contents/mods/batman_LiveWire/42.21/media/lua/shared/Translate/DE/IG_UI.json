@@ -211,6 +211,7 @@
     "IGUI_LW_NetworkName": "Netz: %1",
     "IGUI_LW_PanelFactors": "%1; Schmutz %2%%; Schnee %3%%",
     "IGUI_LW_Shock": "Stromschlag! Wechselrichter vor der Arbeit ausschalten.",
+    "IGUI_LW_CannotReach": "Von hier aus kommst du nicht heran.",
     "IGUI_LW_StormBrake": "Gewitter bei %1: Windradbremsen anziehen.",
     "IGUI_LW_Facing_0": "Süd",
     "IGUI_LW_Facing_1": "Ost",

@@ -211,6 +211,7 @@
     "IGUI_LW_NetworkName": "Red: %1",
     "IGUI_LW_PanelFactors": "%1; suciedad %2%%; nieve %3%%",
     "IGUI_LW_Shock": "¡Descarga! Apaga el inversor antes de intervenir.",
+    "IGUI_LW_CannotReach": "No puedes acercarte desde aquí.",
     "IGUI_LW_StormBrake": "Tormenta cerca de %1: acciona los frenos eólicos.",
     "IGUI_LW_Facing_0": "Sur",
     "IGUI_LW_Facing_1": "Este",

@@ -175,7 +175,9 @@ local function runChecks()
     end)
     check("calculator dismantling gives a solar cell; panel needs 10 cells; loot lists", function()
         local sm = getScriptManager()
-        local r = sm:getCraftRecipe("LiveWire.LWSalvageSolarCell") or sm:getCraftRecipe("LWSalvageSolarCell")
+        -- the vanilla DismantleElectronics gives the cell: its OnCreate is wrapped by LW_Recipes.lua
+        local r = sm:getCraftRecipe("Base.DismantleElectronics")
+        r = r and LiveWire.Recipes.vanillaDismantleFlashlight ~= nil and r:getInputs():size() == 2 and r
         local found = false
         local items = ProceduralDistributions.list.GarageTools.items
         for i = 1, #items do

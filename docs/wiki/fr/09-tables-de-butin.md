@@ -168,7 +168,7 @@ et poids existants. Cette option n'ajoute, ne retire ni ne repondère aucun obje
 
 ## Autres moyens d'obtenir des cellules
 
-- Une cellule photovoltaïque par calculatrice démontée (aucun niveau requis).
+- Une cellule photovoltaïque par calculatrice démontée avec la recette du jeu « Démonter l'objet électronique » (aucun niveau requis).
 - Au niveau 3 d'Électricité : une cellule à partir de 5 déchets électroniques et 1 aluminium.
 
 ## Voir aussi

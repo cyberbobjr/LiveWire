@@ -75,8 +75,10 @@ function Menu.nearestInverter(obj, maxDist)
     return best
 end
 
+-- No free square next to the target: nothing can be queued, say so (else the click does nothing).
 local function queueNear(player, sq, action)
-    if luautils.walkAdj(player, sq) then ISTimedActionQueue.add(action) end
+    if luautils.walkAdj(player, sq) then ISTimedActionQueue.add(action)
+    else LiveWire.notify(player, "IGUI_LW_CannotReach", {}, true) end
 end
 
 -- Callbacks (first argument is the option target).
@@ -377,6 +379,17 @@ local function addInverterOptions(menu, player, obj, mark)
     end
 end
 
+-- Several barrels (or pumps) share one label: number them and outline the one under the mouse
+-- (ISContextMenu:callOptionHighlightFunction, vanilla onHighlight).
+local function outlineOnHover(option, target)
+    option.onHighlight = function(_, _, highlighted, o) o:setHighlighted(highlighted, false) end
+    option.onHighlightParams = { target }
+end
+local function numbered(label, i, n)
+    if n > 1 then return label .. " #" .. i end
+    return label
+end
+
 -- Water pump: its state, and the barrels next to it to connect or disconnect.
 local function addPumpOptions(menu, player, obj, mark)
     disabled(menu, getText("ContextMenu_LW_PumpState_" .. (mark.st or "idle")))
@@ -399,7 +412,8 @@ local function addPumpOptions(menu, player, obj, mark)
     menu:addSubMenu(lo, lsub)
     if #free == 0 then disabled(lsub, getText("ContextMenu_LW_NoBarrel")) end
     for i = 1, #free do
-        local o = lsub:addOption(getText("ContextMenu_LW_BarrelAt"), player, Menu.onLinkBarrel, free[i].obj, obj)
+        local o = lsub:addOption(numbered(getText("ContextMenu_LW_BarrelAt"), i, #free), player, Menu.onLinkBarrel, free[i].obj, obj)
+        outlineOnHover(o, free[i].obj)
         local ok, why = I().checkBarrelLink(player, free[i].obj, obj)
         if not ok then tip(o, why) end
     end
@@ -409,8 +423,9 @@ local function addPumpOptions(menu, player, obj, mark)
     menu:addSubMenu(uo, usub)
     if #linked == 0 then disabled(usub, getText("ContextMenu_LW_NothingLinked")) end
     for i = 1, #linked do
-        usub:addOption(getText("ContextMenu_LW_BarrelAt"), player, Menu.onUnlinkBarrel, mark.id,
+        local u = usub:addOption(numbered(getText("ContextMenu_LW_BarrelAt"), i, #linked), player, Menu.onUnlinkBarrel, mark.id,
             linked[i].obj:getSquare())
+        outlineOnHover(u, linked[i].obj)
     end
 end
 
@@ -429,7 +444,8 @@ local function addBarrelOptions(menu, player, barrel)
     end
     local pumps = I().pumpsInRange(barrel:getSquare())
     for i = 1, #pumps do
-        local o = menu:addOption(getText("ContextMenu_LW_PumpAt"), player, Menu.onLinkBarrel, barrel, pumps[i].obj)
+        local o = menu:addOption(numbered(getText("ContextMenu_LW_PumpAt"), i, #pumps), player, Menu.onLinkBarrel, barrel, pumps[i].obj)
+        outlineOnHover(o, pumps[i].obj)
         local ok, why = I().checkBarrelLink(player, barrel, pumps[i].obj)
         if not ok then tip(o, why) end
     end
@@ -504,11 +520,6 @@ local function addDeviceOptions(root, player, obj)
         if key == def.role or key == def.kind then Menu.providers[key](menu, player, obj, mark, def) end
     end
     menu:addOption(getText("ContextMenu_LW_Inspect"), player, Menu.onInspect, obj)
-    if (mark.cond or 100) <= 0 then
-        menu:addOption(getText("ContextMenu_LW_Salvage"), player, function(ch)
-            queueNear(ch, obj:getSquare(), LWSalvageAction:new(ch, obj))
-        end)
-    end
     local r = menu:addOption(getText("ContextMenu_LW_Repair"), player, Menu.onRepair, obj, false)
     local ok, why, arg = LWRepairAction.canRepair(player, obj, false)
     if not ok then tip(r, why, arg) end

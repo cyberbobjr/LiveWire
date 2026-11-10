@@ -73,6 +73,34 @@ local function dismantled(list)
     return nil
 end
 
+-- The vanilla DismantleElectronics (recipes_electrical.txt) also takes calculators but only gives
+-- electronics scrap. Its OnCreate, RecipeCodeOnCreate.dismantleFlashlight, is looked up by name in
+-- the Lua environment at each craft (CraftRecipeData.initLuaFunctions, LuaManager.getFunctionObject):
+-- wrapped here, it keeps its vanilla effect (a torch gives back its battery) and a dismantled
+-- calculator gives a solar cell too. The recipe itself is not redefined: a second craftRecipe of the
+-- same name adds its inputs to the vanilla one (CraftRecipe has no reset, BaseScriptObject.java:181).
+LiveWire.Recipes.CALCULATOR = "Base.Calculator"
+function LiveWire.Recipes.calculatorCells(craftRecipeData, character)
+    if not character then return end
+    local seen = {}
+    for _, list in ipairs({ craftRecipeData:getAllConsumedItems(), craftRecipeData:getAllDestroyInputItems() }) do
+        for i = 0, list and list:size() - 1 or -1 do
+            local it = list:get(i)
+            if it and not seen[it] and it:getFullType() == LiveWire.Recipes.CALCULATOR then
+                seen[it] = true
+                LiveWire.Install.giveItem(character, "LiveWire.SolarCell")
+            end
+        end
+    end
+end
+if RecipeCodeOnCreate and RecipeCodeOnCreate.dismantleFlashlight and not LiveWire.Recipes.vanillaDismantleFlashlight then
+    LiveWire.Recipes.vanillaDismantleFlashlight = RecipeCodeOnCreate.dismantleFlashlight
+    RecipeCodeOnCreate.dismantleFlashlight = function(craftRecipeData, character)
+        LiveWire.Recipes.vanillaDismantleFlashlight(craftRecipeData, character)
+        LiveWire.Recipes.calculatorCells(craftRecipeData, character)
+    end
+end
+
 function LiveWire.Recipes.onDismantle(craftRecipeData, character)
     if not character then return end
     local item = dismantled(craftRecipeData:getAllDestroyInputItems())

@@ -85,16 +85,16 @@ L'option de froid réduit la capacité accessible des banques extérieures : 20 
 0 °C, 40 % à −15 °C. L'énergie immobilisée redevient accessible au dégel. Le froid
 est désactivé par défaut. Le risque électrique est activé par défaut ; règles détaillées ci-dessous.
 
-Un équipement mort et vide peut être démonté au niveau 3 avec un tournevis. Il est
-retiré une seule fois et rend quelques pièces ; les batteries doivent être retirées
-de la banque avant ce démontage.
+Un équipement hors d'usage n'est pas perdu : ramassez-le (tournevis) et démontez-le
+depuis le menu d'artisanat ; ses pièces électroniques dépendent de son état
+([Recettes](08-recettes.md)).
 
 Éoliennes et roues à aubes : branchement au niveau 2 ; fabrication aux niveaux 3 et 4 respectivement. Pose et ramassage sans niveau. Les pales et le mât se fabriquent sans niveau électrique.
 
 ## Sécurité électrique et expérience
 
 L'option **Risque sous tension** est activée par défaut. Lorsqu'elle est active,
-raccorder, débrancher, réparer ou démonter pour pièces un équipement raccordé
+raccorder, débrancher ou réparer un équipement raccordé
 peut provoquer une décharge. Un seul tirage est effectué à la fin de chaque
 intervention autorisée, avant consommation des matériaux.
 

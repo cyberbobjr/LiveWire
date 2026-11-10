@@ -12,7 +12,6 @@ The 29 Live Wire recipes are in the crafting menu. Electrical recipes unlock aut
 |---|---|---|---|
 | 1 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="../../images/icons/LightBulb.png" width="24" height="24"> Light Bulb<br>1 × <img src="../../images/icons/Battery.png" width="24" height="24"> Battery | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Electrical 1 | <img src="../../images/icons/VoltageTester.png" width="32" height="32"> **Voltage Tester** |
 | 1 × <img src="../../images/icons/VoltageTester.png" width="24" height="24"> Voltage Tester | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | none | <img src="../../images/icons/ElectronicsScrap.png" width="32" height="32"> **Scrap Electronics** |
-| 1 × <img src="../../images/icons/Calculator.png" width="24" height="24"> Calculator | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | none | 1 × <img src="../../images/icons/ElectronicsScrap.png" width="32" height="32"> **Scrap Electronics**<br>1 × <img src="../../images/icons/SolarCell.png" width="32" height="32"> **Solar Cell** |
 | 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Steel Sheet<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Screws | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Electrical 2 | <img src="../../images/icons/PowerBank.png" width="32" height="32"> **Power Bank** |
 | 1 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Scrap Electronics<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Electrical Wire<br>1 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplifier | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Electrical 2 | <img src="../../images/icons/BatteryAlarm.png" width="32" height="32"> **Low Battery Alarm** |
 | 4 × <img src="../../images/icons/Plank.png" width="24" height="24"> Plank<br>10 × <img src="../../images/icons/Nails.png" width="24" height="24"> Nails<br>4 × <img src="../../images/icons/RippedSheets.png" width="24" height="24"> Rag | <img src="../../images/icons/Hammer.png" width="24" height="24"> | Electrical 2 | <img src="../../images/icons/SoundproofKit.png" width="32" height="32"> **Inverter Soundproofing Kit** |
@@ -92,9 +91,11 @@ inverter, or the coupling kit of a coupled inverter, is given back whole.
 | Inverter coupling kit | 1 amplifier, 1 wire, 1 scrap electronics | — |
 | Soundproofing kit (hammer instead of screwdriver) | 3 planks, 5 nails, 2 rags | — |
 
-The deep-cycle battery, the blade set and the mast cannot be dismantled. A device
-that is still placed and at 0 % can also be taken apart on the spot with
-**Salvage for parts** ([Electrical skill and maintenance](10-electrical-skill-and-maintenance.md)).
+The deep-cycle battery, the blade set and the mast cannot be dismantled. A broken
+device is picked up first (screwdriver), then dismantled like any other.
+
+A calculator dismantled with the game's own **Dismantle Simple Electronic Item** recipe
+also gives a solar cell.
 
 ## See also
 

@@ -50,7 +50,7 @@ Live Wire Monitor ajoute consommateurs (200 maximum), silhouettes colorées, câ
 
 [h2]Sécurité électrique et XP[/h2]
 
-Test des batteries aux niveaux 1/3/5. Reconditionnement à 4 (6 si morte) : tournevis conservé, déchet, fil, 0,5 L d'eau ; +15 d'état, plafond 80, quatre fois. Récupération des équipements morts et vides à 3. Risque sous tension activé : 50/42/33/25/17/8/0 % aux niveaux 0/1/2/3/4/5/6+. Un choc brûle la main de l'outil, fait lâcher les objets et interrompt sans consommer les matériaux. Éteignez l'onduleur maître ; le disjoncteur n'isole pas ses bornes.
+Test des batteries aux niveaux 1/3/5. Reconditionnement à 4 (6 si morte) : tournevis conservé, déchet, fil, 0,5 L d'eau ; +15 d'état, plafond 80, quatre fois. Équipement hors d'usage : ramassez-le et démontez-le depuis le menu d'artisanat. Risque sous tension activé : 50/42/33/25/17/8/0 % aux niveaux 0/1/2/3/4/5/6+. Un choc brûle la main de l'outil, fait lâcher les objets et interrompt sans consommer les matériaux. Éteignez l'onduleur maître ; le disjoncteur n'isole pas ses bornes.
 
 [h2]Multijoueur[/h2]
 

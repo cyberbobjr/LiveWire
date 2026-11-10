@@ -75,7 +75,6 @@
     "ContextMenu_LW_RenameNetwork": "Cambiar nombre de la red",
     "ContextMenu_LW_CleanPanel": "Limpiar panel",
     "ContextMenu_LW_TestBattery": "Comprobar batería",
-    "ContextMenu_LW_Salvage": "Desmontar para piezas",
     "ContextMenu_LW_OpenBoard": "Abrir cuadro eléctrico",
     "ContextMenu_LW_ShowConsumers": "Mostrar/ocultar consumidores",
     "ContextMenu_LW_ShowConnections": "Mostrar/ocultar conexiones",

@@ -46,7 +46,6 @@ for k, en, fr in [
 # Recipes (key = recipe name).
 for k, en, fr in [
     ("LWMakeVoltageTester", "Make Voltage Tester", "Fabriquer un testeur de tension"),
-    ("LWSalvageSolarCell", "Dismantle Calculator", "Démonter une calculatrice"),
     ("LWMakeSolarCellFromScrap", "Make Solar Cell from Scrap", "Fabriquer une cellule photovoltaïque"),
     ("LWMakeSolarPanelKit", "Make Solar Panel", "Fabriquer un panneau photovoltaïque"),
     ("LWMakeInverterKit", "Make Inverter", "Fabriquer un onduleur"),

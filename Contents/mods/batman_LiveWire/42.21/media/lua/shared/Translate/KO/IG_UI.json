@@ -211,6 +211,7 @@
     "IGUI_LW_NetworkName": "전력망: %1",
     "IGUI_LW_PanelFactors": "%1; 오염 %2%%; 적설 %3%%",
     "IGUI_LW_Shock": "감전! 작업 전에 인버터를 끄세요.",
+    "IGUI_LW_CannotReach": "여기서는 가까이 갈 수 없습니다.",
     "IGUI_LW_StormBrake": "%1 근처 폭풍: 풍력 터빈 브레이크를 거세요.",
     "IGUI_LW_Facing_0": "남쪽",
     "IGUI_LW_Facing_1": "동쪽",

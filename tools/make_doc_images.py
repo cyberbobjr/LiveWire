@@ -473,7 +473,6 @@ RECIPES = [
     ("LWMakeVoltageTester", 1, [(1, "ElectronicsScrap"), (1, "ElectricWire"), (1, "LightBulb"), (1, "Battery")],
      ["Screwdriver"], [(1, "VoltageTester")]),
     ("LWDismantleVoltageTester", None, [(1, "VoltageTester")], ["Screwdriver"], [(1, "ElectronicsScrap")]),
-    ("LWSalvageSolarCell", None, [(1, "Calculator")], ["Screwdriver"], [(1, "ElectronicsScrap"), (1, "SolarCell")]),
     ("LWMakePowerBankKit", 2, [(2, "ElectronicsScrap"), (3, "ElectricWire"), (1, "SheetMetal"), (4, "Screws")],
      ["Screwdriver", "Pliers"], [(1, "PowerBank")]),
     ("LWMakeBatteryAlarmKit", 2, [(1, "ElectronicsScrap"), (1, "ElectricWire"), (1, "Amplifier")],

@@ -14,8 +14,16 @@
 - Fixed devices that stayed stuck after the game crashed or was closed without saving: screens showing "Updating..." or "Waiting for data..." forever, and every action (switching the inverter on, linking, unlinking) refused with "Not possible". Live Wire now recognises these devices when you come near them and puts them back on their network. The same applies to LiveWire Extended terminals and breaker boards, which get their breakers back; their labels, wiring to appliances and drawn zone have to be set again.
 - Disconnecting a device now gives back the electric wire used to connect it. This also applies to uncoupling an inverter, picking up a connected device (an inverter gives back the wire of its whole network), moving a device to another inverter, and the LiveWire Extended terminal and breaker board. A destroyed device still loses its wire.
 - Fixed fridges, freezers and other appliances losing power at random while the inverter still had plenty of power, until the inverter or the breaker panel was switched off and on again. It happened when the game loaded part of the map diagonally near the base, more often with a vanilla generator nearby (for example a backup generator).
+- Street lights wired to a breaker with a twilight switch during the day (LiveWire Extended) now come on at dusk; it could fail with an error before the outdoor zone was drawn.
+- The water wheel can no longer be placed next to a swimming pool: it needs a river.
+- A device turned to another facing (an inverter facing east, for example) is picked up as its own item again; it could become a generic object that the dismantle recipes refused.
+- Dismantling a calculator with the game's "Dismantle Simple Electronic Item" recipe now gives a solar cell; the separate "Dismantle Calculator" recipe is gone.
 
 ### Improvements
+- A Live Wire action chosen from a menu now tells you when the device can't be reached, instead of doing nothing.
+- The water pump menu numbers the barrels next to it and outlines the one under the mouse.
+- "Salvage for parts" is gone from the device menu: pick up a broken device and dismantle it from the crafting menu, which gives parts according to its condition.
+- The water wheel now turns: its paddles go round as long as the wheel is not broken, a little faster in spring and slower in summer, like its output. Wheels already placed in your world start turning by themselves.
 - Appliances that span several tiles, such as large shop fridges, are now counted once instead of once per tile.
 - The backup generator now tells you when it switches to manual control. Switching it on or off yourself still hands it over to you, but a message now appears next to it, and the inverter screen and the management software show how to give control back: right-click the generator > Live Wire > Backup generator > Resume automatic backup. A confirmation appears when automatic control resumes.
 - Every Live Wire device and kit can now be dismantled from the crafting menu (Dismantle Inverter, Dismantle Solar Panel and so on), with a screwdriver and no Electrical level. You get back fewer parts than the recipe cost: the metal parts always come back, the electronic parts depend on the device's condition, and a fitted soundproofing kit or coupling kit is returned.

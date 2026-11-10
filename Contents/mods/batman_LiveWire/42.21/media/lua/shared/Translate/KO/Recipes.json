@@ -1,6 +1,5 @@
 {
     "LWMakeVoltageTester": "전압 테스터 만들기",
-    "LWSalvageSolarCell": "계산기 분해하기",
     "LWMakeSolarCellFromScrap": "폐품으로 태양광 셀 만들기",
     "LWMakeSolarPanelKit": "태양광 패널 만들기",
     "LWMakeInverterKit": "인버터 만들기",

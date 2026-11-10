@@ -81,7 +81,6 @@
     "ContextMenu_LW_Debug_deviceRestore": "Restaurer l’état à 100 %%",
     "ContextMenu_LW_CleanPanel": "Nettoyer le panneau",
     "ContextMenu_LW_TestBattery": "Tester la batterie",
-    "ContextMenu_LW_Salvage": "Démonter pour pièces",
     "ContextMenu_LW_OpenBoard": "Ouvrir le tableau électrique",
     "ContextMenu_LW_ShowConsumers": "Afficher/masquer les consommateurs",
     "ContextMenu_LW_ShowConnections": "Afficher/masquer les raccordements"

@@ -45,7 +45,7 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 | F24 | Consommateurs, raccordements, événements et noms de réseau | § 11 |
 | F25 | Orientation et nettoyage des panneaux, compléments du frein | § 11 |
 | F26 | Froid, diagnostic et réparation des batteries | § 11 |
-| F27 | Démontage pour pièces et risque électrique | § 11 |
+| F27 | Équipement hors d'usage et risque électrique | § 11 |
 | F28 | Tableau électrique graphique, deux circuits indépendants | § 11 |
 | F29 | Clic direct, LCD individuels, raccordements ciblés et globaux | § 12 |
 | F32 | Éolienne en trois étapes, amplificateurs, branchement éolienne/roue au niveau 2 (pose sans niveau) | § 15 |
@@ -184,7 +184,7 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 |---|---|---|---|---|
 | `LWMakeVoltageTester` | 1 | 1 `ElectronicsScrap`, 1 `ElectricWire`, 1 `LightBulb`, 1 `Base.Battery` ; [tournevis] | `VoltageTester` | 5 |
 | `LWDismantleVoltageTester` | aucun | 1 `LiveWire.VoltageTester` ; [tournevis] | 1 `ElectronicsScrap` | 2 |
-| `LWSalvageSolarCell` (« Démonter une calculatrice ») | — | 1 `Base.Calculator` ; [tournevis] | 1 `ElectronicsScrap` + 1 `SolarCell` | 3 |
+| `Base.DismantleElectronics` du jeu (« Démonter l'objet électronique »), inchangée | — | 1 objet électronique dont `Base.Calculator` ; [tournevis] | 1 `ElectronicsScrap` ; + 1 `SolarCell` par calculatrice (OnCreate vanilla enveloppé par Live Wire) | 2 |
 | `LWMakeSolarPanelKit` | 3 | 10 `SolarCell`, 1 `SheetMetal`, 2 `ElectricWire`, 4 `Screws`, 1 `Glue` ; [tournevis, pinces] | `Mov_LiveWire_SolarPanel` | 15 |
 | `LWMakeSolarCellFromScrap` | 3 | 5 `ElectronicsScrap`, 1 `Aluminum` ; [pinces] | 1 `SolarCell` | 4 |
 | `LWMakeInverterKit` | 3 | 4 `ElectronicsScrap`, 2 `Amplifier`, 3 `ElectricWire`, 1 `SmallSheetMetal`, 4 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_Inverter` | 25 |
@@ -725,10 +725,10 @@ La validation reste limitée aux preuves consignées dans le bilan de tests.
   Tester en inventaire avec le testeur : niveau 1 charge, 3 énergie/capacité/état,
   5 cycles et durée restante estimée. Réparation : § 4.4. Charge, état, cycles et
   nombre de réparations sont distincts.
-- **F27 — Maintenance (I13, I15).** Équipement mort et vide : démontage niveau 3
-  avec tournevis ; un déchet électronique et un fil, plus une cellule pour un
-  panneau ; objet retiré une seule fois. Risque électrique activé par défaut :
-  raccorder, débrancher, réparer ou démonter pour pièces un équipement raccordé
+- **F27 — Maintenance (I13, I15).** Équipement hors d'usage : il se ramasse
+  (tournevis) et se démonte par sa recette `LWDismantle*`, qui rend des pièces
+  électroniques selon son état. Risque électrique activé par défaut :
+  raccorder, débrancher ou réparer un équipement raccordé
   présente un risque de décharge de 50/42/33/25/17/8 % aux niveaux 0 à 5, nul dès 6.
   Seul l'arrêt explicite de l'onduleur maître isole les interventions ; principal,
   circuits ouverts, disjonction, panne ou stock vide ne suffisent pas. Brûlure et

@@ -75,7 +75,6 @@
     "ContextMenu_LW_RenameNetwork": "Stromnetz umbenennen",
     "ContextMenu_LW_CleanPanel": "Panel reinigen",
     "ContextMenu_LW_TestBattery": "Batterie prüfen",
-    "ContextMenu_LW_Salvage": "Für Teile zerlegen",
     "ContextMenu_LW_OpenBoard": "Schalttafel öffnen",
     "ContextMenu_LW_ShowConsumers": "Verbraucher anzeigen/ausblenden",
     "ContextMenu_LW_ShowConnections": "Verbindungen anzeigen/ausblenden",

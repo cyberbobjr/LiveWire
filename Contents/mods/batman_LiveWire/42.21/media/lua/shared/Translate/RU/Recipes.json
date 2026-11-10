@@ -1,6 +1,5 @@
 {
     "LWMakeVoltageTester": "Собрать индикатор напряжения",
-    "LWSalvageSolarCell": "Разобрать калькулятор",
     "LWMakeSolarCellFromScrap": "Собрать солнечную ячейку из металлолома",
     "LWMakeSolarPanelKit": "Собрать солнечную панель",
     "LWMakeInverterKit": "Собрать инвертор",

@@ -211,6 +211,7 @@
     "IGUI_LW_NetworkName": "電力網：%1",
     "IGUI_LW_PanelFactors": "%1、汚れ%2%%、積雪%3%%",
     "IGUI_LW_Shock": "感電！作業前にインバーターを停止してください。",
+    "IGUI_LW_CannotReach": "ここからは近づけない。",
     "IGUI_LW_StormBrake": "%1付近で雷雨：風車のブレーキをかけてください。",
     "IGUI_LW_Facing_0": "南",
     "IGUI_LW_Facing_1": "東",

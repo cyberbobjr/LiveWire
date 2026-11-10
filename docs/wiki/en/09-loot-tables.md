@@ -168,7 +168,7 @@ item is added, removed or reweighted by this option.
 
 ## Other ways to get solar cells
 
-- Dismantle a calculator: 1 solar cell each, no level required.
+- Dismantle a calculator (the game's Dismantle Simple Electronic Item recipe): 1 solar cell each, no level required.
 - At Electrical level 3, make a solar cell from 5 electronics scrap + 1 aluminum.
 
 ## See also

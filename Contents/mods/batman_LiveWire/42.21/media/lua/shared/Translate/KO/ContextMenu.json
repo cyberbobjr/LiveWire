@@ -75,7 +75,6 @@
     "ContextMenu_LW_RenameNetwork": "전력망 이름 변경",
     "ContextMenu_LW_CleanPanel": "패널 청소",
     "ContextMenu_LW_TestBattery": "배터리 진단",
-    "ContextMenu_LW_Salvage": "부품 회수",
     "ContextMenu_LW_OpenBoard": "배전반 열기",
     "ContextMenu_LW_ShowConsumers": "소비 장치 표시/숨기기",
     "ContextMenu_LW_ShowConnections": "연결 표시/숨기기",
