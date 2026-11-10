@@ -1,6 +1,6 @@
 """Offline static checks of the Live Wire mod (no game needed).
 
-Run: python3 -I tools/check_mod.py [path/to/pz-source-42.21]
+Run: python3 -I tools/check_mod.py [path/to/pz-source-42.22]
 Checks:
   1. every .lua file is ASCII and compiles as Lua 5.1 (Kahlua is close to 5.1);
   2. all files load in order in a permissive stub environment (catches load-time
@@ -451,7 +451,7 @@ def check_extended_translations():
 
 
 def main():
-    pz = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(ROOT), "pz-source-42.21")
+    pz = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(ROOT), "pz-source-42.22")
     check_lua()
     # Live Wire alone, then Live Wire with LiveWire Extended.
     for roots, suffix in (([LUA], ""), ([LUA, X_LUA], " + Extended")):
