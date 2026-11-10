@@ -167,6 +167,28 @@ function Panel:snapshot()
     return LiveWire.Client.snapshot(self.inverterId)
 end
 
+-- Is the player within CLOSE_RANGE of an inverter of the network? A coupled inverter
+-- opens its master's screen and may stand far from it: the master's anchor, the object
+-- the screen was opened from and every inverter of the snapshot count. True when no
+-- position is known yet.
+function Panel:inReach()
+    local points = {}
+    local a = LiveWire.Anchor.table()[self.inverterId]
+    if a then points[#points + 1] = a end
+    local sq = self.obj and self.obj.getSquare and self.obj:getSquare()
+    if sq then points[#points + 1] = { x = sq:getX(), y = sq:getY() } end
+    local snap = self:snapshot()
+    local network = snap and snap.network or {}
+    for i = 1, #network do points[#points + 1] = network[i] end
+    if #points == 0 then return true end
+    local px, py = self.player:getX(), self.player:getY()
+    for i = 1, #points do
+        local dx, dy = px - points[i].x, py - points[i].y
+        if dx * dx + dy * dy <= CLOSE_RANGE * CLOSE_RANGE then return true end
+    end
+    return false
+end
+
 function Panel:onButton(b)
     local P = LiveWire.Protocol
     if b.internal == "PREV" then
@@ -198,11 +220,7 @@ function Panel:update()
             LiveWire.Client.send(LiveWire.Protocol.C_SUBSCRIBE, { inverter = self.inverterId })
         end
     end
-    local a = LiveWire.Anchor.table()[self.inverterId]
-    if a then
-        local dx, dy = self.player:getX() - a.x, self.player:getY() - a.y
-        if dx * dx + dy * dy > CLOSE_RANGE * CLOSE_RANGE then self:close() end
-    end
+    if not self:inReach() then self:close() end
     local snap = self:snapshot()
     local st = snap and snap.inverter.state
     self.resetBtn:setVisible(st == "tripped")

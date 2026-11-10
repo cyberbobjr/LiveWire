@@ -365,6 +365,29 @@ class DevicePanels(unittest.TestCase):
         ''')
 
 
+    def test_inverter_screen_stays_open_near_any_inverter_of_the_network(self):
+        self.helper.lcd_fixture()
+        self.load('client/LiveWire/LW_InverterPanel.lua')
+        self.lua.execute('''
+        local P=LiveWire.InverterPanel
+        local PX,PY=0,0
+        local p={inverterId='m',player={getX=function() return PX end,getY=function() return PY end}}
+        setmetatable(p,{__index=P})
+        local anchors={m={x=0,y=0,z=0}}
+        LiveWire.Anchor={table=function() return anchors end}
+        local snap=nil
+        p.snapshot=function() return snap end
+        assert(p:inReach(),'near the master')
+        PX=70;assert(not p:inReach(),'far from the master, nothing else known')
+        p.obj={getSquare=function() return {getX=function() return 70 end,getY=function() return 0 end} end}
+        assert(p:inReach(),'near the coupled inverter it was opened from')
+        p.obj=nil
+        snap={network={{id='m',x=0,y=0,z=0,master=true},{id='s',x=68,y=5,z=0,master=false}}}
+        assert(p:inReach(),'near a coupled inverter of the snapshot')
+        PX=200;assert(not p:inReach(),'far from every inverter')
+        anchors={};snap=nil;assert(p:inReach(),'no position known yet')
+        ''')
+
     def test_inverter_screen_takes_the_shared_palette_lit_or_off(self):
         self.helper.lcd_fixture()
         self.load('client/LiveWire/LW_InverterPanel.lua')

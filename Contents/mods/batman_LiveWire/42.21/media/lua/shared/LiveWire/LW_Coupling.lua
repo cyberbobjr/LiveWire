@@ -55,7 +55,9 @@ function Coupling.inverters(sq)
     return LiveWire.Install.invertersInRange(sq)
 end
 
--- Inverter object with device id `id` that a coupling can reach from `sq`, or nil.
+-- Inverter object with device id `id`: first among those a coupling can reach from `sq`,
+-- else on the square of its anchor at any distance (a server may lower the range after
+-- inverters were coupled), when that square is loaded. Nil otherwise.
 function Coupling.inverterById(sq, id)
     if not id then return nil end
     local list = Coupling.inverters(sq)
@@ -63,7 +65,10 @@ function Coupling.inverterById(sq, id)
         local m = LiveWire.Marks.get(list[i].obj)
         if m and m.id == id then return list[i].obj end
     end
-    return nil
+    local a = LiveWire.Anchor and LiveWire.Anchor.table()[id]
+    local cell = a and getCell()
+    local asq = cell and cell:getGridSquare(a.x, a.y, a.z)
+    return asq and LiveWire.Marks.findOnSquare(asq, id) or nil
 end
 
 -- Client: let the add-on add its options to an inverter's menu.

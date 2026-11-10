@@ -32,11 +32,30 @@ function Registry.init()
     Registry.anchors = a
     if not Registry.readOnly then
         LiveWire.PowerHistory.init(d, a, getGameTime():getWorldAgeHours())
+        Registry.dropCoupledAnchors()
     end
     Registry.ready = true
     local n = 0
     for _ in pairs(d.devices) do n = n + 1 end
     LiveWire.log("version " .. tostring(LiveWire.VERSION) .. ", registry ready: " .. tostring(n) .. " device(s)")
+end
+
+-- At load, when no add-on keeps the zones of coupled inverters (D-45), drop the anchors
+-- they still hold: they were left by an add-on that has since been removed, and nothing
+-- would switch them on or off anymore. The engine purges generator positions when a
+-- chunk loads and Live Wire re-applies only the anchor table, so removing them here is
+-- enough. Returns the number of anchors dropped.
+function Registry.dropCoupledAnchors()
+    if LiveWire.Coupling.slaveKeepsZone() then return 0 end
+    local n = 0
+    for _, dev in ipairs(Registry.devicesByRole("inverter")) do
+        if dev.coupled and Registry.anchors[dev.id] ~= nil then
+            Registry.setAnchor(dev, nil)
+            n = n + 1
+        end
+    end
+    if n > 0 then LiveWire.log("dropped the zone of " .. n .. " coupled inverter(s): no add-on keeps them") end
+    return n
 end
 
 function Registry.newId(prefix)

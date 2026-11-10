@@ -476,15 +476,15 @@ ajoutées au menu Live Wire d'un onduleur). Lecture : `Coupling.active()`, `slav
 inclut les couplés, `Demand.measureGrid(grid, inv)` additionne les zones des couplés en service (dernière valeur gardée
 si une zone n'est pas mesurable), `Circuits.apply` traite leurs listes, la simulation allume chaque couplé avec le
 maître, `Computer.shed` éteint aussi leurs lumières. Avec un inscrit quelconque, l'abonnement à l'écran et les
-commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau. Tests : `tests/test_coupling_api.py`.
+commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau. Compléments (D-57, 2026-11-10) : `inverterById(sq, id)` cherche ensuite l'onduleur sur la case de son ancre, à toute distance, si elle est chargée ; l'écran de l'onduleur reste ouvert à moins de 30 cases de l'ancre du maître, de l'objet d'où il a été ouvert ou de n'importe quel onduleur de `snapshot.network` ; au chargement (`Registry.init`), sans inscrit `slaveKeepsZone`, `Registry.dropCoupledAnchors()` retire les ancres restées aux onduleurs couplés (add-on retiré). Tests : `tests/test_coupling_api.py`.
   Ne renvoie jamais le registre, ses objets Java ou ses tables mutables.
 - Ces garanties portent sur les accès par l'API v1. Les modules internes de
   l'espace Lua partagé ne constituent pas une frontière de sécurité contre un
   autre mod qui remplacerait délibérément leurs fonctions ; ils ne font pas
   partie du contrat d'extension.
 - Raisons d'enregistrement stables : `registration_closed`, `invalid_definition`,
-  `duplicate_type`, `duplicate_model`, `duplicate_sprite`. `API.version=1` ; `API.revision=2`
-  (services pour sous-mods, ci-dessous). `registerBattery`, `registerSource`, `battery`, `source`,
+  `duplicate_type`, `duplicate_model`, `duplicate_sprite`. `API.version=1` ; `API.revision=3`
+  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57). `registerBattery`, `registerSource`, `battery`, `source`,
   `gridAt` sont inchangées.
 
 ### API publique : services pour sous-mods (révision 2, D-47, 2026-11-09)
@@ -521,6 +521,10 @@ Tests : `tests/test_api_submods.py`.
 | `API.pumpId(obj)`, `API.computerId(obj)` | id de la pompe ou du lien d'ordinateur que porte l'objet |
 | `API.registerSoftwareLines(fn)` | **un seul** fournisseur (type fonction validé ; un second, différent, est refusé : `false, "already_registered"` ; `false, "invalid_provider"` si ce n'est pas une fonction) de lignes pour la page « Maison » du logiciel de l'onduleur (client). Remplace le champ `SoftwareApp.houseProvider` |
 | `API.softwareLines(id)` | lignes du fournisseur (nouveau tableau de chaînes ; vide sans fournisseur), lues par le logiciel |
+| `API.networkInverters(id)` | révision 3 : onduleurs du réseau de l'onduleur `id` (maître ou couplé), maître en tête : nouveau tableau de `{ id, x, y, z, master }`, ou `nil`. Autorité : registre ; client : `snapshot.network` de l'onduleur abonné (id du maître) |
+| `API.anchors()` | révision 3 : copie `{ [id] = { x, y, z, on } }` de la table publique des ancres (serveur et client), sans le journal |
+| `API.showRange(id, x, y, z, opts)`, `API.hideRange()`, `API.rangeShown(id)`, `API.rangeColor()` | révision 3, client : afficher, masquer, tester (`nil` : une vue quelconque) la zone d'un onduleur, couleur de la ligne (copie) ; `false`/`nil` sur un serveur |
+| `API.onRangeView(fn)` | révision 3 : `fn(id, affichée)` à l'ouverture ou à la fermeture de la vue de zone d'un onduleur (pas d'une pompe ni d'un cercle `opts`) ; appelable depuis n'importe quel fichier, une même fonction n'est gardée qu'une fois ; `false` si `fn` n'est pas une fonction |
 
 [Preuves et portée exactes des circuits](annexes/recherches/circuits-42-21.md) :
 adaptateurs natifs, reprise des choix, pièces, recouvrements et migration additive.

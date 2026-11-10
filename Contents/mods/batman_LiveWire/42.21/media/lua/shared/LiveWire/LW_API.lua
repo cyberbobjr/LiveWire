@@ -3,7 +3,7 @@ require "LiveWire/LW_Defs"
 require "LiveWire/LW_Coverage"
 require "LiveWire/LW_Extension"
 LiveWire = LiveWire or {}
-local API = { version = 1, revision = 2 }
+local API = { version = 1, revision = 3 }
 LiveWire.API = API
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -328,4 +328,94 @@ function API.subscribeInverter(inverterId)
     if not isClient() or not C or not C.send or not Protocol then return false end
     C.send(Protocol.C_SUBSCRIBE, { inverter = inverterId })
     return true
+end
+
+-- ---------------------------------------------------------------- network and range view (revision 3)
+-- Asked by the author of a coupling add-on, so that it stops reading LiveWire.Anchor,
+-- LiveWire.RangeView and LiveWire.Menu directly.
+
+-- Inverters of the network that inverter `inverterId` belongs to (master or coupled): a new
+-- array of { id, x, y, z, master (boolean) }, master first, or nil when the network is
+-- unknown. The authority reads the registry; a client reads the snapshot of the inverter
+-- it subscribed to (API.subscribeInverter: pass the master's id).
+function API.networkInverters(inverterId)
+    local R = LiveWire.Registry
+    if not isClient() then
+        local dev = R and R.ready and R.device(inverterId)
+        local grid = dev and dev.grid and R.grid(dev.grid)
+        local master = grid and R.device(grid.inverter)
+        if not master then return nil end
+        local out = { { id = master.id, x = master.x, y = master.y, z = master.z, master = true } }
+        local slaves = R.slaves(grid)
+        for i = 1, #slaves do
+            local sl = slaves[i]
+            out[i + 1] = { id = sl.id, x = sl.x, y = sl.y, z = sl.z, master = false }
+        end
+        return out
+    end
+    local C = LiveWire.Client
+    local snap = C and C.snapshot and C.snapshot(inverterId)
+    return snap and snap.network and copy(snap.network) or nil
+end
+
+-- Every power anchor (powered zone) known on this side, server or client: a new table
+-- { [inverterId] = { x, y, z, on (boolean) } }. Coupled inverters appear only while a
+-- coupling add-on keeps their zone (D-45).
+function API.anchors()
+    local out = {}
+    local A = LiveWire.Anchor
+    for id, a in pairs(A and A.table() or {}) do
+        out[id] = { x = a.x, y = a.y, z = a.z, on = a.on == true }
+    end
+    return out
+end
+
+-- Range view (client). Show the powered area of inverter `inverterId` centred on (x, y, z), as
+-- the "Show powered area" option does; `opts` (optional) { radius, color = { r, g, b, a },
+-- floors } draws another circle instead. False where there is no range view (server).
+function API.showRange(inverterId, x, y, z, opts)
+    local RV = LiveWire.RangeView
+    if not RV then return false end
+    RV.show(inverterId, x, y, z, opts)
+    return true
+end
+
+function API.hideRange()
+    local RV = LiveWire.RangeView
+    if RV then RV.hide() end
+end
+
+-- Is the powered area of `inverterId` shown? (nil: is any range shown?)
+function API.rangeShown(inverterId)
+    local RV = LiveWire.RangeView
+    if not RV then return false end
+    if inverterId == nil then return RV.inverterId ~= nil end
+    return RV.isShown(inverterId)
+end
+
+-- Colour of the powered area line (a copy { r, g, b, a }), or nil on a server.
+function API.rangeColor()
+    local RV = LiveWire.RangeView
+    return RV and copy(RV.COLOR) or nil
+end
+
+-- fn(inverterId, shown) is called on a client when the powered area of an inverter is shown
+-- or hidden (menu option, walking away, another view replacing it). May be called from any
+-- file, shared or client; registering the same function twice keeps one. False when `fn` is
+-- not a function.
+local rangeListeners = {}
+function API.onRangeView(fn)
+    if type(fn) ~= "function" then return false end
+    for i = 1, #rangeListeners do
+        if rangeListeners[i] == fn then return true end
+    end
+    rangeListeners[#rangeListeners + 1] = fn
+    return true
+end
+
+-- The listeners of API.onRangeView (a new array), read by the range view (LW_RangeView).
+function API.rangeViewListeners()
+    local out = {}
+    for i = 1, #rangeListeners do out[i] = rangeListeners[i] end
+    return out
 end

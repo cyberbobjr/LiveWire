@@ -254,6 +254,13 @@ function Sim.snapshot(grid)
                             state = o.state or "ok" }
     end
     local slaves = R.slaves(grid)
+    -- Positions of the network's inverters (master first): the inverter screen stays open
+    -- near any of them, and LiveWire.API.networkInverters reads them on a client.
+    snap.network = { { id = inv.id, x = inv.x, y = inv.y, z = inv.z, master = true } }
+    for i = 1, #slaves do
+        local sl = slaves[i]
+        snap.network[i + 1] = { id = sl.id, x = sl.x, y = sl.y, z = sl.z, master = false }
+    end
     if #slaves > 0 then
         local inService = Inverters.inService(grid)
         snap.coupled = { n = inService, total = 1 + #slaves }

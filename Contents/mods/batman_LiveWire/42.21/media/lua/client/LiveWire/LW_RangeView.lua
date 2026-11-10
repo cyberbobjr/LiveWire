@@ -10,6 +10,7 @@
 if isServer() then return end
 
 require "ISUI/ISUIElement"
+require "LiveWire/LW_API"
 
 LiveWire = LiveWire or {}
 
@@ -116,7 +117,15 @@ function RV.isShown(inverterId)
     return RV.inverterId ~= nil and RV.inverterId == inverterId
 end
 
-function RV.hide()
+-- Tell the listeners of LiveWire.API.onRangeView that an inverter's range view opened or
+-- closed. A pump view or a custom circle (opts) is not reported.
+local function tell(inverterId, shown)
+    local list = LiveWire.API.rangeViewListeners()
+    for i = 1, #list do list[i](inverterId, shown) end
+end
+
+local function close()
+    local id, inverterView = RV.inverterId, RV.opts == nil
     if RV.element then
         RV.element:setVisible(false)
         RV.element:removeFromUIManager()
@@ -124,12 +133,19 @@ function RV.hide()
     end
     RV.inverterId, RV.center, RV.opts = nil, nil, nil
     unwatch()
+    return id, inverterView
+end
+
+function RV.hide()
+    local id, inverterView = close()
+    if id ~= nil and inverterView then tell(id, false) end
 end
 
 -- `opts` (optional) changes the circle: radius in tiles, colour, vertical range.
 -- Without it the circle is the inverter's powered area.
 function RV.show(inverterId, x, y, z, opts)
-    RV.hide()
+    local prev, prevInverterView = close()
+    if prev ~= nil and prevInverterView and (prev ~= inverterId or opts ~= nil) then tell(prev, false) end
     RV.inverterId = inverterId
     RV.center = { x = x, y = y, z = z }
     RV.opts = opts
@@ -139,6 +155,7 @@ function RV.show(inverterId, x, y, z, opts)
     el:backMost()
     RV.element = el
     watch()
+    if opts == nil then tell(inverterId, true) end
 end
 
 onTick = function()
