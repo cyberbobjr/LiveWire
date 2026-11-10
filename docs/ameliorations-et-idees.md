@@ -94,6 +94,8 @@ validation hors jeu et contrôles manuels restants dans le
 | I22 | Câbler les appareils consommateurs | ⬜ Décidée (D-31 à D-34), pas commencée | Sous-mod LiveWire Extended : bâtiment entier, relais, borne et zone extérieure, lampadaires ; [plan](annexes/plans/livewire-extended.md) |
 | I23 | Compatibilité caméra de surveillance | ⬜ À creuser | Sous-mod de compatibilité avec le mod Workshop 3825788212 |
 | I24 | Démonter les équipements depuis l'inventaire | ✅ Réalisée, non publiée | 11 recettes, rendement inférieur au coût, pièces électroniques selon l'état, kits rendus ; voir avancement |
+| I25 | Robinet extérieur sur la pompe | ⬜ Proposée | Demande joueur ; complète I16 |
+| I26 | Pompe immergée en rivière | ⬜ Proposée | Demande joueur ; reprend la détection d'eau de la roue à aubes |
 
 ---
 
@@ -677,6 +679,33 @@ Les idées déjà retenues (chargeur de piles, clôture électrifiée, installat
 - **Anti-abus.** Chaque total rendu, état parfait compris, reste inférieur au coût de fabrication, armoire comprise (coût de l'onduleur ajouté), avec au moins une pièce perdue par type. Un appareil usé rend moins : démonter puis refabriquer un onduleur usé coûte au moins autant que la remise à neuf (4 déchets + 2 fils). Exclus : batterie stationnaire (recyclerait deux batteries de voiture neuves), pales et mât (pièces intermédiaires).
 - **Impact MP.** `OnCreate` s'exécute en solo ou sur le serveur, jamais sur un client MP ; ajout par `Install.giveItem` (`sendAddItemToContainer`).
 - **Avancement : ✅ réalisée le 2026-11-08, non publiée.** Hors jeu : 3 tests `test_crafting.py` (rendement inférieur au coût pour les 11 recettes, état et kits, comparaison à la remise à neuf) ; `check_mod.py` OK. En jeu (SP 42.21, `autotest/dismantle.json`, chemin de la fenêtre d'artisanat) : code 0, 4/4 PASS, `runs/20261108-234144-sp-b4fdd59aed0f` ; onduleur à 60 % avec kit d'insonorisation, panneau neuf et kit de couplage rendent exactement les pièces attendues. MP non testé.
+
+### I25 — Robinet extérieur branché sur la pompe
+- **Origine.** Retour d'un joueur du 2026-11-10 (vidéos de LiveWire Extended) : un tuyau d'eau pour arroser les plantes et remplir des seaux.
+- **Description.** Un robinet de jardin, nouvelle tuile posée contre un mur extérieur ou sur un piquet, se branche à la clé à tuyaux comme un évier. La pompe l'alimente comme les autres points d'eau. Le joueur y remplit arrosoir, seau ou bouteille par le geste vanilla habituel, puis arrose son potager à la main.
+- **Intérêt joueur.** Le potager et la cour profitent de la pompe sans rentrer dans la maison, avec le geste que le joueur connaît déjà.
+- **Faisabilité moteur.**
+  - Aujourd'hui, la pompe ne sert que les points d'eau situés dans une pièce : `sq:getRoom()` dans `LW_PumpRelays.lua:232` et `:253`. Le robinet demande une exception ciblée, par son sprite ou sa marque, sans ouvrir la règle à tous les points d'eau extérieurs du voisinage.
+  - Le relais invisible se pose à l'étage au-dessus du point d'eau. **À vérifier d'abord** : qu'un relais au-dessus d'une case extérieure, sans toit ni étage, est accepté par la plomberie vanilla et ne gêne ni la pluie, ni la construction, ni la circulation.
+  - Le remplissage suit les règles vanilla des points d'eau : aucun code de remplissage propre.
+- **Impact MP.** Mêmes chemins que les autres points d'eau (relais posés par l'autorité). Tuile et recette nouvelles, traductions dans toutes les langues livrées.
+- **Dépendances.** Pompe. Complète I16 : le robinet pour le geste manuel, l'arroseur pour l'automatique.
+- **Effort.** S-M, plus la tuile.
+- **Avancement : ⬜ proposée.**
+
+### I26 — Pompe immergée en rivière
+- **Origine.** Même retour du 2026-11-10 : rétablir l'eau d'une maison avec ses canalisations existantes, sans dépendre de la pluie.
+- **Description.** Une pompe posée au bord d'une rivière ou d'un lac tire l'eau directement de l'eau naturelle, à la place des barils. L'eau arrive **croupie** (comme l'eau de rivière vanilla) : il faut la faire bouillir, ou ajouter un filtre que l'on change périodiquement pour obtenir de l'eau propre. Débit et consommation comparables à la pompe actuelle, avec une distance plus grande entre la rive et la maison, par du tuyau à poser.
+- **Intérêt joueur.** Une base près de l'eau devient autonome en eau toute l'année, même en saison sèche. Complète la roue à aubes, qui s'installe déjà au même endroit.
+- **Faisabilité moteur.**
+  - La détection de l'eau à la pose existe déjà pour la roue à aubes : `LW_Placement.lua:29-56` (drapeau `IsoFlagType.water` sur une case voisine).
+  - La source n'est plus un `FluidContainer` de baril : `Pump.moveWater` (`LW_PumpTransfer.lua:186`) doit accepter une source inépuisable, sans retrait réel. La pureté de l'eau livrée aux relais suit le filtre.
+  - Portée : la rive est souvent loin de la maison. À trancher entre une pompe plus puissante, des relais de tuyau sur le modèle des câbles (1 tuyau pour N cases), ou la réutilisation des câbles comme tracé.
+  - **À vérifier d'abord** : comportement de l'eau gelée en hiver (le moteur gèle-t-il les cases d'eau ?) et des niveaux d'eau saisonniers éventuels.
+- **Impact MP.** Calcul serveur seulement ; état du filtre dans le registre.
+- **Dépendances.** Pompe ; C03 et C04 avant d'ajouter du travail à la minute.
+- **Effort.** M-L.
+- **Avancement : ⬜ proposée.**
 
 ### Remarques sur les idées déjà retenues
 - **Chargeur de piles (idée 1).** Le moteur a déjà une classe `IsoCarBatteryCharger` (`java/zombie/iso/objects/IsoCarBatteryCharger.java`), que `Demand.category` range en `charger`. Vérifier son comportement avec l'ancre : il pourrait recharger les batteries de voiture vanilla sans aucun code. Le chargeur de piles du mod peut en reprendre le principe (consommation lue par `getGeneratorPowerConsumption`) plutôt que d'ajouter une demande à part.
