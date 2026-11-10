@@ -691,6 +691,7 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 ### 10.4 Modèles pour Project Viewpoint (F23)
 
 - Mod facultatif livré dans le même objet Workshop : `batman_LiveWireViewpoint` (`require=atman_LiveWire`), modèles 3D de tous les équipements, voyants, pales et mousse d'insonorisation pour Project Viewpoint. Sans Project Viewpoint, il ne fait rien.
+- Si LiveWire Extended est actif, il ajoute les modèles de la borne électrique et des trois tableaux électriques (manifeste séparé `extended.properties`, enregistré seulement dans ce cas).
 
 ## 11. Fonctionnalités de la version 1.6.0 (campagne IXX)
 

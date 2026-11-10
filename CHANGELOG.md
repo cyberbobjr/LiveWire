@@ -7,6 +7,7 @@
   - Right-click an inverter to **connect the whole building**: every floor, the basement and a strip around it get power, even beyond the inverter's circle.
   - A new **power terminal** (Electrical 3) brings power outdoors: link it to an inverter with electric wire, then draw its zone on the ground (up to 16 x 16 squares). Placed against a distant building, it can connect that building too.
   - The range view outlines the extra powered blocks, and the inverter screen lists the connected buildings and terminals.
+  - With "Live Wire - Viewpoint models" enabled, the power terminal and the breaker boards also get 3D models in Project Viewpoint.
   - Not compatible with LG Extended Electricity.
 
 ### Fixes
