@@ -82,6 +82,19 @@ class CircuitProvider(unittest.TestCase):
         assert(f.container.kind=='fridge' and not LiveWire.Appliances.saved(f))
         ''')
 
+    def test_provider_cuts_an_appliance_outside_every_grid(self):
+        # a point wired to an open breaker before any inverter serves it (twilight switch by day)
+        self.run_lua('''
+        local f=fridge();CUT=true
+        LiveWire.Circuits.owner=function() return nil end
+        assert(LiveWire.CircuitProvider.register(provider(function() return CUT end)))
+        LiveWire.Circuits.applyObject(f)
+        local s=LiveWire.Appliances.saved(f)
+        assert(f.container.kind=='none' and s.cut==true and s.owner==nil)
+        CUT=false;LiveWire.Circuits.applyObject(f)
+        assert(f.container.kind=='fridge' and not LiveWire.Appliances.saved(f))
+        ''')
+
     def test_registration_rules(self):
         self.run_lua('''
         local CP=LiveWire.CircuitProvider

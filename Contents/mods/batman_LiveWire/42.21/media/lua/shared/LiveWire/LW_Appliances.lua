@@ -43,7 +43,8 @@ function A.capture(o, grid)
     if s then return s end
     local kind = A.kind(o)
     if not kind then return nil end
-    s = { v = 1, kind = kind, owner = grid.id, cut = true,
+    -- grid is nil for a point cut by a sub-mod's breaker before any inverter serves it
+    s = { v = 1, kind = kind, owner = grid and grid.id, cut = true,
         watts = LiveWire.Consumption.watts(o, nil, true), category = LiveWire.Demand.category(o) }
     if kind == "light" then s.on = o:isActivated()
     elseif kind == "media" then s.on = o:getDeviceData():getIsTurnedOn()

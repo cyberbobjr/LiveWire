@@ -114,7 +114,7 @@ local function captureFor(o, g)
     end
     local s = LiveWire.Appliances.capture(o, g)
     if s and roomOn ~= nil then s.on = roomOn end
-    local old = g.lightChoices and g.lightChoices[key(o)]
+    local old = g and g.lightChoices and g.lightChoices[key(o)]
     if s and s.kind == "light" and old ~= nil then s.on = old; g.lightChoices[key(o)] = nil end
 end
 function Circuits.applyObject(o)
