@@ -24,6 +24,10 @@ source/tiles/models/oso_inverter.glb):
   96-99   inverter cabinet fault: red light                      (overlay) S E N W
   100-103 inverter cabinet soundproofed: acoustic foam panels    (overlay) S E N W
 
+Added in 1.8.0 (hydro_rotor.py, install_hydro_rotor.py):
+  104-119 water wheel, frame f (0-3), facing k: 104 + 4 * f + k   (overlay)
+  The water wheel tiles 8-11 lose their wheel: the client always draws a wheel frame.
+
 Overlays (attachedAnimSprite, set by the client, LW_Visuals.lua; no properties):
   24-27   inverter running: lit screen and green light   S E N W
   28-31   inverter fault: red light                      S E N W
@@ -36,6 +40,8 @@ Overlays (attachedAnimSprite, set by the client, LW_Visuals.lua; no properties):
   66-67   alarm ringing: lit beacon                      S E
   68-71   inverter soundproofed: acoustic foam panels    S E N W
 The wind turbine tiles 4-7 have no blades: the client always draws a blade frame.
+  104-119 water wheel, frame f (0-3), facing k:  104 + 4 * f + k   (added in 1.8.0)
+The water wheel tiles 8-11 have no wheel either (since 1.8.0).
 
 Needs pz-sprite-forge (MIT, https://github.com/Leeheejin/pz-sprite-forge).
 1. Render every cell, headless:
@@ -283,10 +289,17 @@ def build_wind_rotor(frame: int):
     return fn
 
 
-def build_hydro(k: Kit):
-    """Paddle wheel in a wooden frame with a small generator box; wheel to the front."""
-    zc, r = 0.50, 0.44
-    wheel = k.empty("hydro_wheel", (0, -0.12, zc))
+HYDRO_ZC, HYDRO_R = 0.50, 0.44
+#: Ten paddles and five spokes: the wheel repeats every 36 degrees, so four frames
+#: of 9 degrees loop without a jump.
+HYDRO_STEP = 9
+
+
+def hydro_wheel(k: Kit, frame: int):
+    """Paddle wheel turned by HYDRO_STEP degrees per frame (paddles at the front move down)."""
+    zc, r = HYDRO_ZC, HYDRO_R
+    wheel = k.empty(f"hydro_wheel_{frame}" if frame else "hydro_wheel", (0, -0.12, zc),
+                    (math.radians(HYDRO_STEP * frame), 0, 0))
     # two rims (axle along X)
     for sx in (-1, 1):
         wheel.cyl(f"hydro_rim_{sx}", (sx * 0.16, 0, 0), r, 0.035, "darkwood", rot=(0, math.radians(90), 0), segs=32)
@@ -300,6 +313,15 @@ def build_hydro(k: Kit):
         a = math.pi * p / 5
         wheel.rod(f"hydro_spoke_{p}", (0, (r - 0.06) * math.cos(a), (r - 0.06) * math.sin(a)),
                   (0, -(r - 0.06) * math.cos(a), -(r - 0.06) * math.sin(a)), 0.015, "darkwood")
+    return wheel
+
+
+def build_hydro(k: Kit, wheel=True):
+    """Paddle wheel in a wooden frame with a small generator box; wheel to the front.
+    The tiles have no wheel (wheel=False): it is an overlay animated by the client."""
+    zc = HYDRO_ZC
+    if wheel:
+        hydro_wheel(k, 0)
     k.rod("hydro_axle", (-0.36, -0.12, zc), (0.36, -0.12, zc), 0.03, "steel")
     for sx in (-1, 1):
         x = sx * 0.30
@@ -317,6 +339,14 @@ def build_hydro_led(k: Kit):
     build_hydro(k)
     mark_holdout(k.anchor)
     return [k.box("hydro_led_on", (0.40, -0.3945, 0.07), (0.075, 0.003, 0.075), "greenlit")]
+
+
+def build_hydro_rotor(frame: int):
+    def fn(k: Kit):
+        build_hydro(k, wheel=False)
+        mark_holdout(k.anchor)
+        return [hydro_wheel(k, frame)]
+    return fn
 
 
 def build_inverter(k: Kit):
@@ -602,7 +632,7 @@ def build_alarm_ring(k: Kit):
 GROUPS = [
     ("solar", [0, 1, 2, 3], build_solar),
     ("wind", [4, 5, 6, 7], lambda k: build_wind(k, blades=False)),
-    ("hydro", [8, 9, 10, 11], build_hydro),
+    ("hydro", [8, 9, 10, 11], lambda k: build_hydro(k, wheel=False)),
     ("inverter", [12, 13, 14, 15], build_inverter),
     ("powerbank", [16, 17, 18, 19], build_powerbank),
     ("breaker", [20, 21], build_breaker),
@@ -628,7 +658,7 @@ OVERLAYS = [
     ("cabinet_on", [92, 93, 94, 95], build_cabinet_on),
     ("cabinet_fault", [96, 97, 98, 99], build_cabinet_fault),
     ("cabinet_muffle", [100, 101, 102, 103], build_cabinet_muffle),
-]
+] + [(f"hydro_rotor{f}", [104 + 4 * f + i for i in range(4)], build_hydro_rotor(f)) for f in range(4)]
 ALL_GROUPS = GROUPS + OVERLAYS
 OVERLAY_KEYS = {key for key, _, _ in OVERLAYS}
 
@@ -736,6 +766,8 @@ def main() -> None:
 # Packaging (plain Python with Pillow + pzforge)
 # --------------------------------------------------------------------------- #
 
+#: CustomItem on every facing of every device: the picked-up item is the device's own moveable whatever
+#: its facing (without it, a facing other than the item's WorldObjectSprite gives a generic moveable).
 #: Placing needs no tool and no level (no PlaceTool: ISMoveableSpriteProps.lua:1959).
 #: Picking up needs a screwdriver (Electrician, ISMoveableDefinitions.lua:313) but no
 #: level (no PickUpLevel: ISMoveableSpriteProps.lua:485-494). The Electrical level is
@@ -743,30 +775,39 @@ def main() -> None:
 _TOOLS = {"PickUpTool": "Electrician"}
 PROPS = [
     (range(0, 4), {"CustomName": "Solar Panel", "solidtrans": "", "BlocksPlacement": "",
-                   "Material": "MetalPlates", "PickUpWeight": "90", **_TOOLS}),
+                   "Material": "MetalPlates", "PickUpWeight": "90",
+                   "CustomItem": "Base.Mov_LiveWire_SolarPanel", **_TOOLS}),
     # CustomItem: the tile has no blades, the item keeps its own icon (Moveable.java:128-141).
     (range(4, 8), {"CustomName": "Wind Turbine", "solidtrans": "", "BlocksPlacement": "",
                    "Material": "MetalPlates", "PickUpWeight": "150",
                    "CustomItem": "Base.Mov_LiveWire_WindTurbine", **_TOOLS}),
+    # CustomItem since 1.8.0: the tile lost its wheel (animated overlay), the item keeps its own icon.
     (range(8, 12), {"CustomName": "Water Wheel", "solidtrans": "", "BlocksPlacement": "",
-                    "Material": "Wood", "PickUpWeight": "300", **_TOOLS}),
+                    "Material": "Wood", "PickUpWeight": "300",
+                    "CustomItem": "Base.Mov_LiveWire_WaterWheel", **_TOOLS}),
     (range(12, 16), {"CustomName": "Inverter", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "120", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "120",
+                     "CustomItem": "Base.Mov_LiveWire_Inverter", **_TOOLS}),
     (range(16, 20), {"CustomName": "Power Bank", "solidtrans": "", "BlocksPlacement": "", "IsLow": "",
                      "IsTable": "", "IsStackable": "", "Surface": "18",
                      "container": "livewirepowerbank", "ContainerCapacity": "50", "ContainerPosition": "Low",
-                     "Material": "MetalPlates", "PickUpWeight": "100", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "100",
+                     "CustomItem": "Base.Mov_LiveWire_PowerBank", **_TOOLS}),
     (range(20, 22), {"CustomName": "Breaker Panel", "MoveType": "WallObject", "Material": "MetalPlates",
-                     "PickUpWeight": "30", **_TOOLS}),
+                     "PickUpWeight": "30",
+                     "CustomItem": "Base.Mov_LiveWire_Breaker", **_TOOLS}),
     (range(22, 24), {"CustomName": "Battery Alarm", "MoveType": "WallObject", "Material": "MetalPlates",
-                     "PickUpWeight": "10", **_TOOLS}),
+                     "PickUpWeight": "10",
+                     "CustomItem": "Base.Mov_LiveWire_BatteryAlarm", **_TOOLS}),
     (range(72, 76), {"CustomName": "Water Pump", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "80", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "80",
+                     "CustomItem": "Base.Mov_LiveWire_WaterPump", **_TOOLS}),
     (range(88, 92), {"CustomName": "Inverter Cabinet", "solidtrans": "", "BlocksPlacement": "",
-                     "Material": "MetalPlates", "PickUpWeight": "300", **_TOOLS}),
+                     "Material": "MetalPlates", "PickUpWeight": "300",
+                     "CustomItem": "Base.Mov_LiveWire_InverterCabinet", **_TOOLS}),
 ]
 FACING_NAMES = ["S", "E", "N", "W"]
-TOTAL = 104
+TOTAL = 120
 
 
 def styled_cells(group_dir: Path, work: Path, overlay: bool = False) -> list:

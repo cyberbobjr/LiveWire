@@ -27,6 +27,9 @@ LiveWire.Defs = Defs
 --   blinkWhenBraked = true: the `linked` light blinks (500 ms) while m.br
 --   tripped = m.st is "tripped"        powered = m.inv and m.pw and m.cond > 0, only when not tripped
 --   ringing = m.st is "ringing"        rotor = first of 4 blade frames (4 sprites per frame, + facing)
+--   (rotor turns with the wind for kind "wind", with the river for kind "hydro"; it stops
+--   when m.cond is 0 or m.br is set, and the client always draws a frame: the tile has no
+--   blades or wheel)
 -- A source registered by API.registerSource may pass `overlays` too (D-53): its values are
 -- then indices in the source's own sheet, and a light sprite missing from that sheet is
 -- skipped. A device without `overlays` shows no light.
@@ -52,7 +55,7 @@ Defs.devices = {
         item = "Base.Mov_LiveWire_WaterWheel", tile = 8, facings = 4,
         nominalW = 120, level = 2, xp = 20,
         wearDays = 6, needsOutside = true, needsRiver = true,
-        overlays = { linked = 44 },
+        overlays = { linked = 44, rotor = 104 },
     },
     Inverter = {
         role = "inverter",

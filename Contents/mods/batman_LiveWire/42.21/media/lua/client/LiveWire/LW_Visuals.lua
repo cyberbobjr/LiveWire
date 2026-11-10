@@ -4,10 +4,11 @@
 --             broken, acoustic foam panels when soundproofed;
 --   power bank and sources: green light when connected to an inverter;
 --   wind turbine: blades (the tile has none), turning with the wind;
+--   water wheel: wheel (the tile has none since 1.8.0), turning with the river;
 --   breaker: green while supplied, red when tripped; pump: blue LCD glow while
 --            supplied; alarm: lit beacon while it rings.
 -- The state comes from the device mark (modData.movableData.LiveWire, sent by the
--- server: st, pw, inv). Only our own overlays (24-71, 80-87, 92-103) are touched; the list
+-- server: st, pw, inv). Only our own overlays (24-71, 80-87, 92-119) are touched; the list
 -- is rebuilt from the mark whenever it differs, so overlays saved with a single
 -- player world are corrected at the next update.
 -- Devices are tracked when their chunk loads, when the server adds them (MP), by a small scan around the player and a slow spread sweep (no full scan in one frame).
@@ -23,10 +24,10 @@ local FIRST_OVERLAY = 24
 local LAST_OVERLAY = 71   -- 72-75 are the water pump (base device), 76 the relay tank
 
 -- Overlay sprite indices: 24-71 (inverter, sources, breaker, alarm, wind blades),
--- 80-87 (water pump light, breaker green light; 86-87 remain reserved) and 92-103
--- (inverter cabinet; 88-91 is its base tile).
+-- 80-87 (water pump light, breaker green light; 86-87 remain reserved), 92-103
+-- (inverter cabinet; 88-91 is its base tile) and 104-119 (water wheel frames).
 local function isOverlay(n)
-    return (n >= FIRST_OVERLAY and n <= LAST_OVERLAY) or (n >= 80 and n <= 87) or (n >= 92 and n <= 103)
+    return (n >= FIRST_OVERLAY and n <= LAST_OVERLAY) or (n >= 80 and n <= 87) or (n >= 92 and n <= 119)
 end
 
 -- Overlay sprites that exist in the pack (lights on the front are not drawn for the
@@ -40,6 +41,7 @@ for i = 80, 83 do EXISTS[i] = true end   -- pump light on top of the motor: all 
 EXISTS[84], EXISTS[85] = true, true      -- breaker supplied: S/E wall facings
 for _, i in ipairs({ 92, 93, 96, 97 }) do EXISTS[i] = true end   -- cabinet lights: S/E facings
 for i = 100, 103 do EXISTS[i] = true end -- cabinet foam: all four facings
+for i = 104, 119 do EXISTS[i] = true end -- water wheel frames: all four facings
 
 V.NEAR_RADIUS = 4      -- squares around the player checked every NEAR_MS (single player placement)
 V.NEAR_MS = 1000
@@ -49,6 +51,7 @@ V.PRUNE_DIST = 160     -- tracked objects farther than this (tiles) are dropped
 V.STATE_MS = 1000
 V.FRAME_MS = 100
 V.WIND_CUT_IN = 10   -- km/h, same as the simulation (LW_Physics.lua)
+V.HYDRO_PERIOD_MS = 250   -- water wheel: one 9 degree frame per period (6 turns a minute)
 
 V.tracked = {}       -- list of objects
 local known = {}     -- object -> true
@@ -186,11 +189,19 @@ local function prune(player)
     end
 end
 
--- Blade frame of a wind turbine (0-3), or 0 when it does not turn.
-local function rotorFrame(obj, mark, now)
-    local wind = LiveWire.Physics.windAtHeight(getClimateManager():getWindspeedKph(), obj:getZ())
-    if wind < V.WIND_CUT_IN or wind > LiveWire.Physics.WIND_CUT_OUT or (mark and ((mark.cond or 100) <= 0 or mark.br)) then return 0 end
-    local period = math.max(70, math.floor(600 - wind * 8))
+-- Rotor frame (0-3) of a wind turbine or a water wheel, or 0 when it does not turn.
+-- The wheel turns whenever it is not broken: it stands by a river (placement rule),
+-- faster in spring and slower in summer, like its output (Physics.hydroFactor).
+local function rotorFrame(obj, def, mark, now)
+    if mark and ((mark.cond or 100) <= 0 or mark.br) then return 0 end
+    local period
+    if def.kind == "hydro" then
+        period = math.floor(V.HYDRO_PERIOD_MS / LiveWire.Physics.hydroFactor(getGameTime():getMonth()))
+    else
+        local wind = LiveWire.Physics.windAtHeight(getClimateManager():getWindspeedKph(), obj:getZ())
+        if wind < V.WIND_CUT_IN or wind > LiveWire.Physics.WIND_CUT_OUT then return 0 end
+        period = math.max(70, math.floor(600 - wind * 8))
+    end
     local offset = (obj:getSquare():getX() * 7 + obj:getSquare():getY() * 13) % 4
     return (math.floor(now / period) + offset) % 4
 end
@@ -224,7 +235,7 @@ function V.wanted(obj, now)
         elseif o.powered and m.inv and m.pw and (m.cond or 0) > 0 then add(o.powered + f) end
         if o.ringing and m.st == "ringing" then add(o.ringing + f) end
     end
-    if o.rotor then add(o.rotor + 4 * rotorFrame(obj, m, now) + f) end
+    if o.rotor then add(o.rotor + 4 * rotorFrame(obj, def, m, now) + f) end
     table.sort(out)
     return out
 end
@@ -259,7 +270,7 @@ local function same(a, b)
     return true
 end
 
--- A wind turbine changes its blade overlay up to ten times a second. Objects are
+-- A wind turbine or a water wheel changes its rotor overlay up to ten times a second. Objects are
 -- otherwise drawn once into the chunk render texture (FBO) and redrawn only when
 -- the chunk is invalidated; an object flagged as animating is drawn every frame
 -- instead (FBORenderCell.isObjectRenderLayer_MinusFloor, FBORenderCell.java:1627).
@@ -278,6 +289,13 @@ function V.apply(obj, now)
     local prefix = prefixOf(def)
     for i = #pos, 1, -1 do obj:RemoveAttachedAnim(pos[i]) end
     for i = 1, #want do obj:addAttachedAnimSpriteByName(prefix .. tostring(want[i])) end
+end
+
+-- Devices whose rotor overlay turns (wind turbine, water wheel, registered sources).
+local function hasRotor(o)
+    local model = LiveWire.Defs.modelOfObject(o)
+    local def = model and LiveWire.Defs.devices[model]
+    return def ~= nil and def.overlays ~= nil and def.overlays.rotor ~= nil
 end
 
 -- Inverters seen by this client (for the hum).
@@ -315,7 +333,7 @@ local function onTick()
     end
     for i = 1, #V.tracked do
         local o = V.tracked[i]
-        if alive(o) and (all or LiveWire.Defs.modelOfObject(o) == "WindTurbine") then
+        if alive(o) and (all or hasRotor(o)) then
             V.apply(o, now)
             if all and LiveWire.Adopt then LiveWire.Adopt.check(o, now) end
         end
