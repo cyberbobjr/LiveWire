@@ -921,7 +921,7 @@ disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
 - **Tableau électrique (D-62)** : un tableau fabriqué, qui n'est pas étanche, ne se pose que sur la face intérieure d'un mur ; sur une face extérieure, le
   curseur de meubles le refuse et affiche la raison en rouge (`Tooltip_LWX_BoardNeedIndoor`). Il dessert le lieu de
   sa case : bâtiment de la carte (tous les étages, sous-sol vanilla compris), sous-sol ou maison créés par l'éditeur
-  de pièces du jeu (Basement Building), ou construction de joueur close et couverte, limitée à son étage, en solo,
+  de pièces du jeu (Basement Building), ou construction de joueur close et couverte (tous ses étages empilés), en solo,
   sur le client et sur serveur dédié. Les cases « emptyoutside » (cours, porches) sont dehors ; les pièces sans
   réseau public (`derelict`) sont dedans. Un coffret vanilla est étanche : il se pose aussi dehors et dessert alors le
   bâtiment de l'autre côté de son mur ; un coffret de façade reste le tableau de sa maison. Un tableau fabriqué dehors

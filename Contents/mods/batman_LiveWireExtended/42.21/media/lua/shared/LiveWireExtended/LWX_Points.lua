@@ -68,8 +68,9 @@ function PT.regionPoints(record)
 end
 
 -- Served sites, rebuilt when the boards change: building key -> board key, and the boards
--- that serve an enclosure (an enclosure is compared live: X.Sites never keeps a region).
+-- that serve an enclosure (their squares are cached a few seconds, enclosureSet).
 local served, servedRev = nil, nil
+local enclosureSet
 PT.rev = 0
 function PT.changed() PT.rev = PT.rev + 1 end
 function PT.servedIndex()
@@ -86,14 +87,29 @@ function PT.servedIndex()
     return served
 end
 
+-- Squares of the enclosure a board serves, kept a few seconds (walls change, the map does not).
+local enclosureCache = {}
+PT.ENCLOSURE_TTL_MS = 5000
+local function now() return getTimestampMs and getTimestampMs() or 0 end
+enclosureSet = function(record)
+    local k = record.x .. "," .. record.y .. "," .. record.z
+    local c = enclosureCache[k]
+    if c and c.rev == PT.rev and now() - c.at < PT.ENCLOSURE_TTL_MS then return c.set end
+    local site = X.Panel.siteOf(record)
+    local set = site and site.kind == "enclosure" and X.Sites.squareSet(site) or {}
+    enclosureCache[k] = { set = set, rev = PT.rev, at = now() }
+    return set
+end
+
 -- Is the square in a site served by a board?
 function PT.servedAt(x, y, z)
     local site = X.Sites.at(x, y, z)
     if not site then return false end
     local index = PT.servedIndex()
     if site.kind == "building" then return index.buildings[X.Sites.key(site)] ~= nil end
+    local k = x .. "," .. y .. "," .. z
     for _, r in ipairs(index.enclosures) do
-        if X.Sites.same(site, X.Panel.siteOf(r)) then return true end
+        if enclosureSet(r)[k] then return true end
     end
     return false
 end
