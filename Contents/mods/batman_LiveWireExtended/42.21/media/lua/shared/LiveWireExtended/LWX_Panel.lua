@@ -54,7 +54,8 @@ function P.siteOf(record)
 end
 
 -- Tiles a player hangs (batman_livewireext_01_8..13), not weatherproof: only on the inside face
--- of a wall. The vanilla boxes keep the vanilla placement (P.WEATHERPROOF).
+-- of a wall. The vanilla boxes (P.WEATHERPROOF) are not concerned: the furniture cursor never
+-- places them (not moveable, industry_02_212 measured in game), only the map does.
 P.REFUSED_OUTSIDE = "Tooltip_LWX_BoardNeedIndoor"
 function P.placementRule(spriteName, sq)
     if not spriteName or P.SIZES[tonumber(string.match(spriteName, "^" .. X.Terminal.SHEET .. "_(%d+)$") or "")] == nil then

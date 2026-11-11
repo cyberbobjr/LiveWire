@@ -1349,3 +1349,12 @@ crépusculaire, bascule d'un tick en multijoueur.
 - Raccourcis : téléportation, murs et planchers ajoutés par script, onduleur maintenu allumé, contrôles de pose par
   appel direct des fonctions du curseur vanilla (pas la souris).
 - Non testé en jeu : sous-sol vanilla, Basement Building, client MP et serveur dédié (Linux compris).
+- Mise à jour (2026-11-11, après coffrets étanches et maison de joueur sur tous ses étages, lanceur `PZDevKit/pzdev.py`) :
+  solo `sp autotest/site42.json` → code 0, 31 PASS, `runs/20261111-124215-sp-eb3f37beb296` (coffret vanilla `industry_02_212`
+  posé sur la face extérieure, relié, dessert la maison à travers son mur). MP `mp autotest/site_mp.json --clients 1
+  --client-run` → code 1, `runs/20261111-124312-mp-c6c262e696f5` : serveur dédié 17 PASS sans échec (maison : intérieur
+  accepté, extérieur refusé par l'autorité ; coffret de façade relié ; abri de 4 x 3 lu comme enceinte close et couverte
+  en 364 ms sans aucune pièce de carte, tableau relié, enceinte desservie) ; client 8 PASS (maison, coffret, refus
+  extérieur) et 4 FAIL sur l'abri : le client reçoit murs et planchers mais pas la mise à jour des régions
+  (`IsoRegions.getSquareFlags` = sol seul pendant 90 s), donc ni enceinte ni curseur favorable côté client. Abri posé par
+  script (`transmitAddObjectToSquare`) : reste à savoir si une vraie construction par le menu du jeu se comporte pareil.
