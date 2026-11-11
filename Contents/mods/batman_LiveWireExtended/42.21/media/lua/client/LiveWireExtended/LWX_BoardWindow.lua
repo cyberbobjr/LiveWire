@@ -144,7 +144,7 @@ function Window:refreshTint(record)
     local T, tint = X.BoardTint, self.tint
     if not tint then return end
     if self.locating then
-        if next(tint.lit) then T.clear(tint) end
+        for _ in pairs(tint.lit or {}) do T.clear(tint); break end -- Kahlua has no next()
         self.tintRev = nil
         return
     end

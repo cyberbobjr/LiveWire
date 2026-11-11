@@ -384,6 +384,12 @@ local function relinkTarget(dev)
     return inv, grid
 end
 
+-- Kahlua has no next(): test a table for any entry with pairs.
+local function hasEntry(t)
+    for _ in pairs(t or {}) do return true end
+    return false
+end
+
 -- Restore the link a recovered device had. Returns true when linked or coupled.
 local function relink(dev)
     local inv, grid = relinkTarget(dev)
@@ -394,7 +400,7 @@ local function relink(dev)
     end
     if dev.role == "inverter" then
         local own = dev.grid and R().grid(dev.grid)
-        if (own and (next(own.members) ~= nil or next(own.slaves or {}) ~= nil))
+        if (own and (hasEntry(own.members) or hasEntry(own.slaves)))
             or #R().slaves(grid) >= LiveWire.Defs.MAX_SLAVES then
             dev.relink = nil
             return false
