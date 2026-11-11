@@ -1,0 +1,21 @@
+{
+ "name": "LiveWire-Wiki-Screenshots-Base",
+ "gameVersion": "42.21",
+ "mods": [
+  {
+   "path": "../../Contents/mods/batman_LiveWire"
+  }
+ ],
+ "hooks": "../lw_wiki_hooks.lua",
+ "runsDir": "../../runs",
+ "params": {
+  "part": "base"
+ },
+ "sp": {
+  "save": "2026-10-17_17-50-04",
+  "gameMode": "Sandbox",
+  "saveMods": "replace",
+  "timeoutSec": 600,
+  "startDelaySec": 5
+ }
+}
