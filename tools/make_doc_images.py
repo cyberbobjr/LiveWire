@@ -27,9 +27,12 @@ BASE_RECIPES = os.path.join(BASE_MOD, "scripts", "LiveWire_recipes.txt")
 EXT_RECIPES = os.path.join(EXT_MOD, "scripts", "LiveWireExtended_recipes.txt")
 MOD_TR = os.path.join(BASE_MOD, "lua", "shared", "Translate")
 EXT_TR = os.path.join(EXT_MOD, "lua", "shared", "Translate")
-GAME_TR = os.environ.get("PZ_TRANSLATE", r"D:\SteamLibrary\steamapps\common\ProjectZomboid\media\lua\shared\Translate")
+GAME_MEDIA = os.environ.get("PZ_MEDIA", r"D:\SteamLibrary\steamapps\common\ProjectZomboid\media")
+GAME_TR = os.environ.get("PZ_TRANSLATE", os.path.join(GAME_MEDIA, "lua", "shared", "Translate"))
 FONTS = os.environ.get("FONTS_DIR", r"C:\Windows\Fonts")
-LANGS = ["EN", "FR", "DE", "ES", "PTBR", "PT", "RU", "CN", "JP", "KO"]
+LANGS = ["EN", "FR", "DE", "ES", "PTBR", "PT", "RU", "CN", "JP", "KO", "TR"]
+# Languages written with a decimal comma.
+DECIMAL_COMMA = ("FR", "DE", "ES", "PTBR", "PT", "RU", "TR")
 
 BG = (251, 247, 239)
 CARD = (255, 255, 255)
@@ -224,6 +227,23 @@ L = {
         "recipes": "레시피", "no_level": "레벨 없음", "tools": "도구 (유지)", "level": "%s %d",
         "any_car_battery": "자동차 배터리 (아무거나)",
     },
+    "TR": {
+        "sources": "KAYNAKLAR", "solar": "Güneş paneli · 100 W", "wind": "Rüzgâr türbini · 400 W",
+        "water": "Su çarkı · 120 W", "src_note": "sınırsız sayıda,\ninvertere en fazla 12 kare",
+        "wire": "elektrik kablosu", "wire_cost": "4 karede 1 kablo", "inverter": "İNVERTER",
+        "inv_main": "en fazla 1.500 W · boşta 20 W", "inv_note": "ağ başına bir · iç mekâna kurulur\nzehirsiz",
+        "house_power": "ev elektriği", "house": "EV", "house_main": "Buzdolapları, ışıklar,\nocaklar, TV, radyolar…",
+        "house_note": "20 kare yarıçap, ±3 kat,\ninverter merkezli,\ncihaz başına kablo yok",
+        "store": "depolar / geri verir", "bank": "GÜÇ BANKASI (isteğe bağlı)", "bank_note": "4 akü · şarj verimi 0,90",
+        "c_solar": "Bir günde güneş paneli (yeni panel)", "summer": "Yaz, açık hava",
+        "winter": "Kış, açık hava", "overcast": "Yaz, bulutlu", "hour": "Saat",
+        "c_wind": "Rüzgâra göre türbin gücü", "wind_axis": "Rüzgâr (km/sa)", "brake": "85 km/sa üstünde fren",
+        "c_daily": "Tipik bir eve karşı günlük enerji",
+        "need": "ihtiyaç 3,8 kWh/gün (oyun değerleri profili)", "s_summer": "Yaz", "s_winter": "Kış",
+        "g1": "4 güneş paneli", "g2": "6 panel\n+ 1 rüzgâr türbini", "g3": "1 su çarkı\n+ 2 panel",
+        "recipes": "TARİFLER", "no_level": "seviye yok", "tools": "Aletler (kalır)", "level": "%s %d",
+        "any_car_battery": "Araba aküsü (herhangi biri)",
+    },
 }
 
 # Strings added for LiveWire 2.0.0 (extended recipe book, dismantling card, Extended board, inverter coupling).
@@ -268,6 +288,18 @@ EXTRA_L = {
            "dis_title": "분해", "dis_all": "%d개 레시피 모두 드라이버 필요 · 레벨 없음",
            "dis_extra": "+ %s: %s", "fig_zone": "구역 최대 16 × 16칸", "fig_modules": "%d 모듈",
            "fig_night": "밤에만 통전", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "TR": {"inv_note": "ağ başına en fazla 4 (bağlama kiti)\niç mekâna kurulur · zehirsiz",
+           "dis_title": "SÖKME", "dis_all": "%d tarifin hepsi için tornavida · seviye yok",
+           "dis_extra": "+ %s: %s", "fig_zone": "en fazla 16 × 16 karelik alan", "fig_modules": "%d modül",
+           "fig_night": "yalnızca gece açık", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+}
+# Base breaker on the equipment board: an overload trips it instead of the inverter, which is not damaged
+# (LW_Simulation.tripOverload); its threshold is the network capacity, not a fixed wattage.
+BREAKER_FIG = {
+    "EN": "protects the inverter", "FR": "protège l'onduleur", "DE": "schützt den Wechselrichter",
+    "ES": "protege el inversor", "PTBR": "protege o inversor", "PT": "protege o inversor",
+    "RU": "защищает инвертор", "CN": "保护逆变器", "JP": "インバーターを保護", "KO": "인버터 보호",
+    "TR": "inverteri korur",
 }
 for _lang in L:
     L[_lang].update(EXTRA_L[_lang])
@@ -300,6 +332,13 @@ def arrow(d, x0, y0, x1, y1, w=5, head=16):
         d.polygon([(x1, y1), (x1 - head, y1 - head * 0.6), (x1 - head, y1 + head * 0.6)], fill=ACCENT)
 
 
+def caps(s, lang):
+    """Capitals with the Turkish dotted / dotless i (i -> İ, ı -> I)."""
+    if lang == "TR":
+        s = s.replace("i", "İ").replace("ı", "I")
+    return s.upper()
+
+
 def save(im, name, lang):
     os.makedirs(OUT, exist_ok=True)
     p = os.path.join(OUT, "%s_%s.png" % (name, lang.lower()))
@@ -320,6 +359,7 @@ BREAKER_NOTES = {
     "CN": "过载保护\n照明 / 设备\n总开关",
     "JP": "過負荷保護\n照明 / 機器\n主回路スイッチ",
     "KO": "과부하 보호\n조명 / 장비\n메인 스위치",
+    "TR": "Aşırı yük koruması\nAydınlatma / cihazlar\nAna şalter",
 }
 
 
@@ -331,9 +371,9 @@ def diagram(lang):
     t["solar"] = "%s \u00b7 100 %s" % (item("SolarPanel"), unit)
     t["wind"] = "%s \u00b7 400 %s" % (item("WindTurbine"), unit)
     t["water"] = "%s \u00b7 120 %s" % (item("WaterWheel"), unit)
-    t["inverter"] = item("Inverter").upper()
+    t["inverter"] = caps(item("Inverter"), lang)
     optional = t["bank"][t["bank"].rfind("("):] if "(" in t["bank"] else t["bank"][t["bank"].rfind("\uff08"):]
-    t["bank"] = "%s %s" % (item("PowerBank").upper(), optional)
+    t["bank"] = "%s %s" % (caps(item("PowerBank"), lang), optional)
     W, H = 1200, 430
     im = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(im)
@@ -354,7 +394,7 @@ def diagram(lang):
     text(d, (360, 186), t["inv_note"], fit(d, t["inv_note"], lang, 15, 230), MUTED)
     # Optional breaker, between the inverter and the household distribution.
     d.rounded_rectangle((650, 80, 870, 260), 12, fill=BG, outline=GREY, width=2)
-    breaker = item("Breaker").upper()
+    breaker = caps(item("Breaker"), lang)
     text(d, (670, 96), breaker, fit(d, breaker, lang, 24, 180, True))
     text(d, (670, 134), optional, fit(d, optional, lang, 16, 180), MUTED)
     note = BREAKER_NOTES[lang]
@@ -606,8 +646,9 @@ def production(lang):
         for j, (val, col) in enumerate(((s, ACCENT), (w, BLUE))):
             x = gx + j * (bw + 4)
             d.rectangle((x, by1 - val / ymax * (by1 - by0), x + bw, by1), fill=col)
-            text(d, (x + bw / 2, by1 - val / ymax * (by1 - by0) + 4), ("%.1f" % val).replace(
-                ".", "," if lang in ("FR", "DE", "ES", "PTBR", "PT", "RU") else "."), font(lang, 12, True), CARD, anchor="ma")
+            # Value at the foot of the bar: the dashed need line (3.8) crosses the top of the 4.1 / 4.3 bars.
+            text(d, (x + bw / 2, by1 - 6), ("%.1f" % val).replace(".", "," if lang in DECIMAL_COMMA else "."),
+                 font(lang, 12, True), CARD, anchor="md")
         text(d, (bx0 + i * gw + gw / 2, by1 + 8), t[g], font(lang, 12), INK, anchor="ma")
     py = by1 - 3.8 / ymax * (by1 - by0)
     for x in range(bx0, bx1, 12):
@@ -836,7 +877,7 @@ def recipe_book(lang, which):
 
 # (icon key, figures shown under the name; language-neutral)
 EQUIP = [("SolarPanel", "100 W"), ("WindTurbine", "400 W · 10-85 km/h"), ("WaterWheel", "120 W"),
-         ("Inverter", "1500 W max"), ("InverterCabinet", "4500 W max"), ("PowerBank", "4 × "), ("Breaker", "> 1500 W"),
+         ("Inverter", "1500 W max"), ("InverterCabinet", "4500 W max"), ("PowerBank", "4 × "), ("Breaker", None),
          ("BatteryAlarm", "< 20 %"), ("WaterPump", "250 W · 5 L/min")]
 
 
@@ -891,12 +932,12 @@ def board(lang, entries, name):
             ic = icon("CarBattery1", 24)
             im.paste(ic, (int(cx - w / 2 + w - 24), 280), ic)
         else:
-            text(d, (cx, 292), fig, f, ACCENT, anchor="mm")
+            text(d, (cx, 292), fig, fit(d, fig, lang, 15, cw - 10), ACCENT, anchor="mm")
     save(im, name, lang)
 
 
 def equipment(lang):
-    board(lang, EQUIP, "equipment")
+    board(lang, [(key, BREAKER_FIG[lang] if key == "Breaker" else fig) for key, fig in EQUIP], "equipment")
 
 
 def equipment_extended(lang):
@@ -912,11 +953,70 @@ def equipment_extended(lang):
 
 # --- 5. Icons ----------------------------------------------------------------------------------
 
+ITEM_ICON = re.compile(r"\bitem\s+(\w+)\s*\{[^}]*?\bIcon\s*=\s*(\w+)", re.S)
+# Game packs that hold the inventory icons (the tile packs are large and hold none).
+ICON_PACKS = ("UI.pack", "UI2.pack")
+
+
+def pack_icons(wanted):
+    """Inventory icons (Item_<name>) read from the game's texture packs, as the game shows them: the packed
+    sub-image placed at its offset in its full frame. Pack format of TexturePackPage.loadFromPackFile, version 1
+    ("PZPK", version, page count; per page: name, entries, mask, entries x (name, x, y, w, h, ox, oy, full w,
+    full h), PNG length, PNG); integers little-endian, strings prefixed by their length."""
+    import io
+    import struct
+    found = {}
+    for pack in ICON_PACKS:
+        with open(os.path.join(GAME_MEDIA, "texturepacks", pack), "rb") as f:
+            b = f.read()
+        if b[:4] != b"PZPK" or struct.unpack_from("<i", b, 4)[0] != 1:
+            raise ValueError("%s: unsupported pack format" % pack)
+        pages, o = struct.unpack_from("<i", b, 8)[0], 12
+        for _ in range(pages):
+            n = struct.unpack_from("<i", b, o)[0]
+            o += 4 + n
+            count = struct.unpack_from("<i", b, o)[0]
+            o += 8
+            entries = []
+            for _ in range(count):
+                n = struct.unpack_from("<i", b, o)[0]
+                name = b[o + 4:o + 4 + n].decode("latin-1")
+                o += 4 + n
+                entries.append((name, struct.unpack_from("<8i", b, o)))
+                o += 32
+            size = struct.unpack_from("<i", b, o)[0]
+            png = b[o + 4:o + 4 + size]
+            o += 4 + size
+            page = None
+            for name, (x, y, w, h, ox, oy, fw, fh) in entries:
+                if name.startswith("Item_") and name[5:] in wanted and name[5:] not in found:
+                    page = page or Image.open(io.BytesIO(png)).convert("RGBA")
+                    im = Image.new("RGBA", (fw, fh), (0, 0, 0, 0))
+                    im.paste(page.crop((x, y, x + w, y + h)), (ox, oy))
+                    found[name[5:]] = im
+    missing = set(wanted) - set(found)
+    if missing:
+        raise KeyError("icons not found in the game packs: %s" % ", ".join(sorted(missing)))
+    return found
+
+
 def collect_icons():
-    """Copy the inventory textures of both mods into docs/images/icons (vanilla icons are kept as they are)."""
+    """Copy the inventory textures of both mods into docs/images/icons; mod items that use a vanilla icon
+    (Icon = Remote...) get that icon from the game packs, as in game. Other vanilla icons are kept as they are."""
     base_tex = os.path.join(BASE_MOD, "textures")
     ext_tex = os.path.join(EXT_MOD, "textures")
-    copies = {"VoltageTester": os.path.join(base_tex, "LiveWire", "VoltageTester.png")}
+    copies = {}
+    vanilla = {}
+    for script in (os.path.join(BASE_MOD, "scripts", "LiveWire_items.txt"),
+                   os.path.join(EXT_MOD, "scripts", "LiveWireExtended_items.txt")):
+        with open(script, encoding="utf-8-sig") as f:
+            for key, ic in ITEM_ICON.findall(strip_lua_comments(f.read())):
+                if not any(os.path.exists(os.path.join(t, "Item_%s.png" % ic)) for t in (base_tex, ext_tex)):
+                    vanilla[key] = ic
+    for key, im in pack_icons(set(vanilla.values())).items():
+        for item_key, ic in vanilla.items():
+            if ic == key:
+                im.save(os.path.join(ICONS, item_key + ".png"), optimize=True)
     for f in os.listdir(base_tex):
         m = re.fullmatch(r"Item_LiveWire(\w+)\.png", f)
         if m:
