@@ -408,7 +408,7 @@ for f, k, en, fr in [
     ("Tooltip", "Tooltip_LW_BarrelTooFar", "The barrel must stand next to the pump, on the same floor.", "Le baril doit être à côté de la pompe, au même étage."),
     ("Tooltip", "Tooltip_LW_BarrelOtherPump", "This barrel is already connected to another pump.", "Ce baril est déjà raccordé à une autre pompe."),
     ("Tooltip", "Tooltip_LW_PumpFull", "A pump takes at most %1 barrels.", "Une pompe accepte au plus %1 barils."),
-    ("Tooltip", "Tooltip_LW_NeedPipe", "Needs a metal pipe.", "Il faut un tuyau en métal."),
+    ("Tooltip", "Tooltip_LW_NeedPipe", "Needs an Iron Pipe.", "Il faut un tuyau en métal."),
 ]:
     add(f, k, en, fr)
 
