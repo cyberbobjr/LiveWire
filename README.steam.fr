@@ -2,7 +2,7 @@
 
 [b]Build 42.21+ · Solo et multijoueur[/b]
 
-Le courant ne reviendra plus, mais les lumières peuvent rester allumées. Construisez votre propre électricité hors réseau : panneaux solaires, éoliennes et roues à aubes alimentent un onduleur, qui fait fonctionner la maison autour de lui. Ajoutez des batteries pour la nuit. Chaque appareil a un niveau d'Électricité, et votre niveau améliore l'installation.
+Le courant ne reviendra plus, mais les lumières peuvent rester allumées. Produisez votre électricité hors réseau : panneaux solaires, éoliennes et roues à aubes alimentent un onduleur qui fait tourner la maison autour de lui, avec des batteries pour la nuit. Chaque appareil a un niveau d'Électricité, et votre niveau améliore l'installation.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
@@ -28,7 +28,7 @@ L'orientation solaire compte : sud 100 %, est et ouest 85 %, nord 55 %. Nuages, 
 
 [h2]Raccordement et couplage[/h2]
 
-Clic droit sur un appareil, puis LiveWire, puis Raccorder à un onduleur. Un câble coûte 1 fil par 4 cases, portée 12. Besoin de plus de 1 500 W ? Couplez un second onduleur (Coupler à un onduleur, 1 kit de couplage) : un réseau compte 4 onduleurs, soit 6 000 W.
+Clic droit sur un appareil > LiveWire > Raccorder à un onduleur. Un câble coûte 1 fil par 4 cases, portée 12. Besoin de plus de 1 500 W ? Couplez un second onduleur (Coupler à un onduleur, 1 Kit de couplage d'onduleurs) : un réseau compte 4 onduleurs, soit 6 000 W.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-03-raccordement]Guide du raccordement[/url]
 
 [h2]Écran de l'onduleur et logiciel de gestion[/h2]
@@ -45,7 +45,7 @@ La pompe à eau (Électricité 3) alimente les sanitaires raccordés à 15 cases
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png[/img]
 
-16 recettes de fabrication, montrées ci-dessus. Un équipement hors d'usage se ramasse et se démonte depuis le menu d'artisanat (12 recettes de démontage, au tournevis).
+16 recettes de fabrication (ci-dessus) et 15 de démontage (tournevis) : tout se démonte sauf la cellule photovoltaïque. Ramassez l'appareil, même hors d'usage, puis démontez-le au menu d'artisanat.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-08-recettes]Recettes[/url]
 
 [h2]Électricité et sécurité[/h2]
@@ -62,9 +62,9 @@ Le serveur contrôle chaque action ; les choix de circuits et les états des app
 
 Porte le courant au-delà du cercle de l'onduleur :
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#raccorder-tout-un-bâtiment]Raccorder un bâtiment entier[/url] : chaque étage, le sous-sol et une bande autour du rez-de-chaussée.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#raccorder-tout-un-bâtiment]Raccorder un bâtiment entier[/url] : chaque étage et le sous-sol. Une bande autour seulement si l'option sandbox Bande extérieure autour d'un bâtiment dépasse 0 (0 par défaut).
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#borne-électrique-et-zone]Borne électrique extérieure[/url] : alimente une zone tracée jusqu'à 16 x 16 cases.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#tableaux-électriques]Tableaux électriques[/url] : disjoncteurs de 15, 20 ou 30 A, un par appareil.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#tableaux-électriques]Tableaux électriques[/url] : disjoncteurs de 15, 20 ou 30 A, un par circuit, qui peut alimenter plusieurs appareils.
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#interrupteur-crépusculaire]Interrupteur crépusculaire pour disjoncteur[/url] : posé sur un disjoncteur, il laisse ce circuit allumé du crépuscule à l'aube, selon la saison.
 [*]Certaines maisons de la carte ont déjà un tableau précâblé, sans étiquette.
 [/list]
@@ -77,11 +77,11 @@ Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extende
 
 [h2]Modèles Project Viewpoint[/h2]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif LiveWire - Viewpoint models, avec les modèles 3D de tous les équipements. Activez-le seulement si vous utilisez Project Viewpoint.
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif LiveWire - Viewpoint models, avec les modèles 3D de tous les équipements. À activer seulement avec Project Viewpoint.
 
 [h2]Compatibilité[/h2]
 
-Compatible avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs). Création originale, non prévue pour fonctionner avec d'autres mods de système électrique. Licence MIT.
+Compatible avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs). Création originale, non prévue avec d'autres mods de système électrique. Licence MIT.
 
 [h2]Documentation[/h2]
 

@@ -1,14 +1,14 @@
-[h1]LiveWire - Renovación de la habilidad de Electricidad[/h1]
+[h1]LiveWire - Renovación de la habilidad de Electrónica[/h1]
 
 [b]Build 42.21+ · Un jugador y multijugador[/b]
 
-La red eléctrica se fue para siempre, pero las luces no tienen por qué apagarse. Construye tu propia electricidad fuera de la red: paneles solares, aerogeneradores y ruedas hidráulicas alimentan un inversor, que da corriente a la casa que lo rodea. Añade baterías para la noche. Cada aparato tiene un nivel de Electricidad, y tu nivel mejora la instalación.
+La red eléctrica se fue para siempre, pero las luces no tienen por qué apagarse. Produce tu electricidad fuera de la red: paneles solares, aerogeneradores y ruedas hidráulicas alimentan un inversor que da corriente a la casa que lo rodea, con baterías para la noche. Cada aparato tiene un nivel de Electrónica, y tu nivel mejora la instalación.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_es.png[/img]
 
 [h2]Cómo funciona[/h2]
 
-Solar 100 W, eólica 400 W, rueda hidráulica 120 W. Un inversor alimenta los aparatos a 20 casillas y ±3 plantas, hasta 1.500 W, sin cable por aparato. El excedente va a powerbanks.
+Solar 100 W, eólica 400 W, rueda hidráulica 120 W. Un inversor alimenta los aparatos a 20 casillas y ±3 plantas, hasta 1.500 W, sin cable por aparato. El excedente va a bancos de baterías.
 Mientras la red pública funcione, un inversor dentro de un edificio también toma hasta una quinta parte de su potencia de la red (opción sandbox GridCharging, activada por defecto).
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]Primeros pasos[/url]
 
@@ -16,7 +16,7 @@ Mientras la red pública funcione, un inversor dentro de un edificio también to
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_es.png[/img]
 
-Colocar requiere un destornillador, sin nivel. Conexión: paneles solares e inversores nivel 3; aerogeneradores, ruedas hidráulicas y powerbanks nivel 2. Opcional: disyuntor, alarma, insonorización, generador de respaldo vanilla y ordenador de gestión.
+Colocar requiere un destornillador, sin nivel. Conexión: paneles solares e inversores nivel 3; aerogeneradores, ruedas hidráulicas y bancos de baterías nivel 2. Opcional: disyuntor, alarma, insonorización, generador de respaldo vanilla y ordenador de gestión.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]Guía del equipo[/url]
 
 [h2]Producción[/h2]
@@ -28,7 +28,7 @@ La orientación solar importa: sur 100 %, este y oeste 85 %, norte 55 %. Nubes, 
 
 [h2]Cableado y acoplamiento[/h2]
 
-Clic derecho en un aparato, luego LiveWire, luego Conectar a un inversor. Un cable cuesta 1 hilo por cada 4 casillas, alcance 12. ¿Necesitas más de 1.500 W? Acopla un segundo inversor (Acoplar a un inversor, 1 kit de acoplamiento): una red admite 4 inversores, 6.000 W.
+Clic derecho en un aparato > LiveWire > Conectar a un inversor. Un cable cuesta 1 cable eléctrico por cada 4 casillas, alcance 12. ¿Necesitas más de 1.500 W? Acopla un segundo inversor (Acoplar a un inversor, 1 kit de acoplamiento de inversores): una red admite 4 inversores, 6.000 W.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Guía de cableado[/url]
 
 [h2]Pantalla del inversor y software de gestión[/h2]
@@ -38,19 +38,19 @@ La pantalla del inversor controla la iluminación, los equipos y las palancas pr
 
 [h2]Bomba de agua[/h2]
 
-Una bomba de agua (Electricidad 3) alimenta los sanitarios conectados a 15 casillas, desde hasta 8 recolectores de lluvia o barriles [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adyacentes.
+Una bomba de agua (Electrónica 3) alimenta los sanitarios conectados a 15 casillas, desde hasta 8 recolectores de lluvia o barriles [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adyacentes.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Guía de la bomba[/url]
 
 [h2]Recetas[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_es.png[/img]
 
-16 recetas de fabricación, mostradas arriba. Los equipos estropeados se recogen y desmontan desde el menú de fabricación (12 recetas de desmontaje, con destornillador).
+16 recetas de fabricación (arriba) y 15 de desmontaje (destornillador): todo se desmonta salvo la célula solar. Recoge el aparato, aunque esté estropeado, y desmóntalo en el menú de fabricación.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]Recetas[/url]
 
-[h2]Electricidad y seguridad[/h2]
+[h2]Electrónica y seguridad[/h2]
 
-Prueba las baterías en Electricidad 1, 3 y 5 para ver más detalles. El trabajo con corriente tiene riesgo de descarga, activado por defecto: 50 % en nivel 0, 0 % en nivel 6 o más. Apaga primero el inversor maestro; abrir un disyuntor no aísla.
+Prueba las baterías en Electrónica 1, 3 y 5 para ver más detalles. El trabajo con corriente tiene riesgo de descarga, activado por defecto: 50 % en nivel 0, 0 % en nivel 6 o más. Apaga primero el inversor maestro; abrir un disyuntor no aísla.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Habilidad de Electricidad y mantenimiento[/url]
 
 [h2]Multijugador[/h2]
@@ -62,9 +62,9 @@ El servidor comprueba cada acción; las elecciones de circuitos y los estados de
 
 Lleva la corriente más allá del círculo del inversor:
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Conectar un edificio entero[/url]: cada planta, el sótano y una franja alrededor de la planta baja.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Conectar un edificio entero[/url]: cada planta y el sótano. Una franja alrededor del edificio solo si la opción sandbox Franja exterior alrededor de un edificio es mayor que 0 (0 por defecto).
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Terminal de corriente exterior[/url]: alimenta una zona dibujada de hasta 16 x 16 casillas.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Cuadros de disyuntores[/url]: disyuntores de 15, 20 o 30 A, uno por aparato.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Cuadros eléctricos[/url]: disyuntores de 15, 20 o 30 A, uno por circuito; un disyuntor puede alimentar varios aparatos.
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disyuntor[/url]: montado en un disyuntor, mantiene ese circuito encendido del anochecer al amanecer, según la estación.
 [*]Algunas casas del mapa ya tienen un cuadro precableado, sin etiquetas.
 [/list]
@@ -81,7 +81,7 @@ Actívalo en la lista de mods, después de LiveWire. No es compatible con LG Ext
 
 [h2]Compatibilidad[/h2]
 
-Compatible con [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] y [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionales). Creación original, no pensada para funcionar junto con otros mods de sistemas eléctricos. Licencia MIT.
+Compatible con [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] y [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionales). Creación original, no pensada para otros mods de sistemas eléctricos. Licencia MIT.
 
 [h2]Documentación[/h2]
 

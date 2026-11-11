@@ -1,76 +1,78 @@
-[h1]LiveWire - 電気スキルの刷新[/h1]
+[h1]LiveWire - 電気工学スキルの刷新[/h1]
 
 [b]Build 42.21+ · シングルプレイ & マルチプレイ[/b]
 
-送電網は戻りませんが、明かりまで消す必要はありません。太陽光パネル、風力タービン、水車がインバーターを動かし、インバーターが周囲の家に電気を供給します。夜はバッテリーで備えます。すべての機器には電気レベルがあり、レベルが高いほど設備が良くなります。
+送電網は戻りませんが、明かりまで消す必要はありません。ソーラーパネル、風力発電機、水車がインバーターを動かし、インバーターが周囲の家に給電します。夜はバッテリーで備えます。各機器に電気工学レベルがあり、高いほど設備が良くなります。
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_jp.png[/img]
 
 [h2]仕組み[/h2]
 
-太陽光 100 W、風力 400 W、水車 120 W。インバーターは20マス以内・±3階の家電に最大1,500 Wを供給します。
-公共送電網が機能している間、建物内のインバーターは定格出力の5分の1まで送電網から電力を引き出せます（サンドボックスオプション GridCharging、初期設定で有効）。
+太陽光100 W、風力400 W、水車120 W。インバーターは20マス以内・±3階の家電に最大1,500 Wを供給し、家電ごとの配線不要。余剰はバッテリーバンクへ。
+公共送電網が動いている間、建物内のインバーターは出力の5分の1まで送電網から引き出せます（設定 GridCharging、初期値で有効）。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]はじめに[/url]
 
 [h2]設備[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_jp.png[/img]
 
-設置にはドライバーが必要ですが、電気レベルは不要です。パネルとインバーターはレベル3、風力タービン・水車・パワーバンクはレベル2で接続できます。
+設置はスクリュードライバーのみでレベル不要。接続：ソーラーパネルとインバーターはレベル3、風力発電機・水車・バッテリーバンクはレベル2。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]設備ガイド[/url]
 
 [h2]発電[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_jp.png[/img]
 
-太陽光は向きで変わります：南100%、東と西85%、北55%。曇りや雪は出力を下げます。
+太陽光は向き次第：南100%、東と西85%、北55%。曇り、雪、汚れで低下し、雨がパネルを洗います。風力は10 km/hから発電し、30〜85 km/hで最大出力。水車は昼も夜も発電します。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]発電と計算[/url]
 
 [h2]配線と連結[/h2]
 
-機器を右クリックし、LiveWire > インバーターに接続。1,500 Wを超える場合は2台目のインバーターを連結します（最大4台、6,000 W）。
+機器を右クリックし、LiveWire > インバーターに接続。ケーブルは4マスごとに電線1本、最大12マス。1,500 W超なら2台目を連結（インバーターに連結、インバーター連結キット1個）：1つのネットワークに最大4台、6,000 W。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]配線ガイド[/url]
 
 [h2]インバーター画面と管理ソフト[/h2]
 
-画面では各回路のワット数を確認し、照明や機器を操作できます。LiveWire Monitorは消費機器、ケーブル表示、3日間の発電予測、直近30件のイベントを表示します。
+画面で照明・機器・主幹レバーを切り替え、回路ごとのワット数を表示。LiveWire Monitorは給電中の管理用コンピューターで消費機器、ケーブル表示、3日予測、直近30件のイベントを表示。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]画面とソフト[/url]
 
 [h2]水ポンプ[/h2]
 
-水ポンプ（電気レベル3）は、隣接する雨水収集器や [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] から、15マス以内の配管済み設備に水を供給します。
+水ポンプ（電気工学3）は、隣接する最大8個の雨水収集器や [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] から、15マス以内の配管済み設備に給水します。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]水ポンプガイド[/url]
 
 [h2]レシピ[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_jp.png[/img]
 
-製作レシピは16種類で上に掲載しています。壊れた機器は拾ってクラフトメニューから分解できます（分解レシピ12種類、ドライバー使用）。
+製作レシピ16種類（上図）と分解レシピ15種類（スクリュードライバー）。太陽電池以外はすべて分解でき、壊れた機器も拾えば製作メニューで分解できます。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]レシピ[/url]
 
-[h2]電気スキルと安全[/h2]
+[h2]電気工学と安全[/h2]
 
-通電中の作業には感電の危険があります（初期設定で有効）。レベル0では50%、レベル6以上では0%です。作業前にメインのインバーターを切ってください。
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]電気スキルと保守[/url]
+電気工学1、3、5でバッテリーを点検すると詳細が増えます。通電中の作業は感電の危険あり（初期値で有効）：レベル0で50%、6以上で0%。先にマスターのインバーターを切ること。ブレーカーを切っても絶縁されません。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]電気工学と保守[/url]
 
 [h2]マルチプレイ[/h2]
 
-サーバーがすべての操作を検証し、回路の設定を保存します。MODを無効にする前に両方の回路を閉じてください。
+サーバーが全操作を検証し、回路の選択と家電の状態を保存・同期。MOD無効化の前に両方の回路を閉じること。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]マルチプレイガイド[/url]
 
 [h2]LiveWire Extended（任意の追加MOD）[/h2]
 
+インバーターの範囲外へ給電：
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]建物全体を接続[/url]：全階、地下室、1階の周囲。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]屋外の電源端子[/url]：16 x 16マスまでのゾーンに給電。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]ブレーカーボード[/url]：15・20・30 Aのブレーカー。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]ブレーカー用夕暮れスイッチ[/url]：ブレーカーに取り付け、季節に合わせて夕暮れから夜明けまでその回路に通電。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]建物全体を接続[/url]：全階と地下室。周囲の帯はサンドボックス設定「建物周囲の屋外帯」が0より大きい場合のみ（初期値0）。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]屋外の電源端子[/url]：16 x 16マスまでの指定ゾーンに給電。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]分電盤[/url]：15・20・30 Aのブレーカーを回路ごとに1つ（1つで複数の家電に給電可）。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]ブレーカー用夕暮れスイッチ[/url]：ブレーカーに付けると、季節に応じて夕暮れから夜明けまで通電。
+[*]マップの一部の家には配線済み・ラベルなしの分電盤があります。
 [/list]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_jp.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_jp.png[/img]
 
-MODリストでLiveWireの後に有効にしてください。LG Extended ElectricityおよびKnox Powerとは互換性がありません。
+MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Powerとは非互換。外す前に、管理者が分電盤のメニューから全ブレーカーを入れ直します。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
 
 [h2]Project Viewpointモデル[/h2]

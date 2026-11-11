@@ -2,76 +2,76 @@
 
 [b]Build 42.21+ · Одиночная игра и мультиплеер[/b]
 
-Электросеть пропала навсегда, но свет можно сохранить. Солнечные панели, ветряки и водяные колёса питают инвертор, который снабжает дом. Каждый прибор имеет уровень электрики, и он улучшает установку.
+Электросеть пропала навсегда, но свет можно сохранить. Солнечные панели, ветряки и водяные колёса питают инвертор, который снабжает дом. Уровень Электрики улучшает установку.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ru.png[/img]
 
 [h2]Как это работает[/h2]
 
-Солнце 100 Вт, ветер 400 Вт, колесо 120 Вт. Инвертор питает приборы в радиусе 20 клеток до 1 500 Вт.
-Пока публичная сеть работает, инвертор внутри здания берёт из сети до пятой части своей мощности (опция песочницы GridCharging, включена по умолчанию).
+Солнце 100 Вт, ветер 400 Вт, колесо 120 Вт. Инвертор питает приборы в 20 клетках и ±3 этажах, до 1 500 Вт.
+Пока публичная сеть работает, инвертор в здании берёт из сети до 1/5 своей мощности (опция GridCharging, вкл. по умолчанию).
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]Начало работы[/url]
 
 [h2]Оборудование[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_ru.png[/img]
 
-Установка требует отвёртку, без уровня. Панели и инверторы подключаются с 3 уровня, ветряки и колёса с 2.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]Руководство по оборудованию[/url]
+Установка: отвёртка, без уровня. Подключение: панели и инверторы с 3 уровня, ветряки и колёса со 2.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]Оборудование[/url]
 
 [h2]Выработка[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ru.png[/img]
 
-Юг даёт панелям 100 %, восток и запад 85 %, север 55 %. Облака и снег снижают выработку.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Выработка и расчёты[/url]
+Юг 100 %, восток и запад 85 %, север 55 %. Облака и снег снижают выработку. Ветер: от 10 км/ч, полная мощность от 30 до 85 км/ч. Колесо работает днём и ночью.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Выработка[/url]
 
 [h2]Проводка и сцепка[/h2]
 
-ПКМ по прибору > LiveWire > Подключить к инвертору. Больше 1 500 Вт? Сцепите второй инвертор: до 4 инверторов, 6 000 Вт.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Руководство по проводке[/url]
+ПКМ по прибору > LiveWire > Подключить к инвертору. 1 провод на 4 клетки, дальность 12. Больше 1 500 Вт? Сцепите второй инвертор: до 4 инверторов, 6 000 Вт.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Проводка[/url]
 
 [h2]Экран инвертора и программа управления[/h2]
 
-Экран показывает ватты каждой цепи. LiveWire Monitor добавляет потребителей, прогноз и журнал событий.
+Экран показывает ватты каждой цепи. LiveWire Monitor добавляет потребителей, прогноз и журнал.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]Экран и программа[/url]
 
 [h2]Водяной насос[/h2]
 
-Насос (электрика 3) питает сантехнику в радиусе 15 клеток от дождевых сборников и бочек [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Руководство по насосу[/url]
+Насос (Электрика 3) питает сантехнику в 15 клетках от 8 соседних дождевых сборников или бочек [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Насос[/url]
 
 [h2]Рецепты[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_ru.png[/img]
 
-16 рецептов крафта, все показаны выше. Сломанное оборудование можно подобрать и разобрать в меню крафта (12 рецептов разборки, отвёрткой).
+16 рецептов крафта и 15 разборки (отвёртка): разбирается всё, кроме солнечной ячейки.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]Рецепты[/url]
 
 [h2]Электрика и безопасность[/h2]
 
-Работа под напряжением опасна: шанс удара 50 % на уровне 0 и 0 % с 6 уровня. Сначала выключите главный инвертор.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Электрика и обслуживание[/url]
+Проверяйте аккумуляторы на Электрике 1, 3 и 5. Удар током: 50 % на уровне 0, 0 % с 6. Сначала выключите главный инвертор.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Обслуживание[/url]
 
 [h2]Мультиплеер[/h2]
 
 Сервер проверяет каждое действие. Перед отключением мода закройте обе цепи.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Руководство по мультиплееру[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Мультиплеер[/url]
 
 [h2]LiveWire Extended (дополнение, необязательно)[/h2]
 
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Всё здание[/url]: все этажи и подвал.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Всё здание[/url]: этажи и подвал; полоса вокруг, только если опция «Полоса вокруг здания» больше 0 (по умолчанию 0).
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Наружная клемма[/url]: зона до 16 x 16 клеток.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Щитки с автоматами[/url]: 15, 20 или 30 А.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Сумеречный выключатель для автомата[/url]: ставится на автомат и держит его цепь включённой от заката до рассвета, по времени года.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Электрощитки[/url]: автоматы 15, 20, 30 А, один на цепь из нескольких приборов.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Сумеречный выключатель для автомата[/url]: держит цепь автомата включённой от заката до рассвета, по сезону.
 [/list]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ru.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ru.png[/img]
 
 Включите после LiveWire. Несовместимо с LG Extended Electricity и Knox Power.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Полное руководство[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Руководство[/url]
 
 [h2]Модели Project Viewpoint[/h2]
 

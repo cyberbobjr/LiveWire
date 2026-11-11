@@ -45,7 +45,7 @@ A water pump (Electrical 3) feeds plumbed fixtures within 15 tiles, from up to 8
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
 
-16 crafting recipes, shown above. Broken equipment can be picked up and dismantled from the crafting menu (12 dismantling recipes, screwdriver).
+16 crafting recipes, shown above, and 15 dismantling recipes (screwdriver): everything you craft can be dismantled except the solar cell. Pick up a device, even broken, then dismantle it from the crafting menu.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]Recipes[/url]
 
 [h2]Electrical skill & safety[/h2]
@@ -62,9 +62,9 @@ The server checks every action; circuit choices and appliance states are saved a
 
 Carries power beyond the inverter's circle:
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor, the basement and a strip around the ground floor.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor and the basement. A strip around the building only if the sandbox option Outdoor strip around a building is above 0 (0 by default).
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Outdoor power terminal[/url]: powers a drawn zone of up to 16 x 16 squares.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Breaker boards[/url]: 15, 20 or 30 A breakers, one per appliance.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Breaker boards[/url]: 15, 20 or 30 A breakers, one per circuit; a breaker can feed several appliances.
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Breaker Twilight Switch[/url]: fitted on a breaker, it keeps that circuit on from dusk to dawn, following the seasons.
 [*]Some map houses already have a prewired, unlabelled breaker board.
 [/list]

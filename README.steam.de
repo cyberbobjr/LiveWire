@@ -1,14 +1,14 @@
-[h1]LiveWire - Elektrik-Fertigkeit neu gestaltet[/h1]
+[h1]LiveWire - Elektrotechnik-Fertigkeit neu gestaltet[/h1]
 
 [b]Build 42.21+ · Einzelspieler & Mehrspieler[/b]
 
-Der Strom ist endgültig weg, aber das Licht muss nicht ausgehen. Baue deine eigene Stromversorgung abseits des Netzes: Solarmodule, Windturbinen und Wasserräder speisen einen Wechselrichter, der das Haus um ihn herum versorgt. Batterien sorgen für die Nacht. Jedes Gerät hat eine Elektrik-Stufe, und deine Stufe verbessert die Anlage.
+Der Strom ist endgültig weg, aber das Licht muss nicht ausgehen. Baue deine eigene Stromversorgung: Solarmodule, Windturbinen und Wasserräder speisen einen Wechselrichter, der das Haus um ihn herum versorgt, mit Batterien für die Nacht. Jedes Gerät hat eine Elektrotechnik-Stufe, und deine Stufe verbessert die Anlage.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_de.png[/img]
 
 [h2]So funktioniert es[/h2]
 
-Solar 100 W, Wind 400 W, Wasserrad 120 W. Ein Wechselrichter versorgt Geräte in 20 Feldern und ±3 Etagen mit bis zu 1.500 W, ohne Kabel pro Gerät. Überschuss landet in Powerbanks.
+Solar 100 W, Wind 400 W, Wasserrad 120 W. Ein Wechselrichter versorgt Geräte in 20 Feldern und ±3 Etagen mit bis zu 1.500 W, ohne Kabel pro Gerät. Überschuss landet in Batteriebanken.
 Solange das öffentliche Netz läuft, zieht ein Wechselrichter in einem Gebäude zusätzlich bis zu einem Fünftel seiner Leistung aus dem Netz (Sandbox-Option GridCharging, standardmäßig aktiv).
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]Erste Schritte[/url]
 
@@ -16,7 +16,7 @@ Solange das öffentliche Netz läuft, zieht ein Wechselrichter in einem Gebäude
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_de.png[/img]
 
-Platzieren braucht einen Schraubenzieher, aber keine Stufe. Anschluss: Solarmodule und Wechselrichter ab Stufe 3; Windturbinen, Wasserräder und Powerbanks ab Stufe 2. Optional: Sicherung, Batteriealarm, Schalldämmung, vanilla Notstromaggregat, Verwaltungscomputer.
+Platzieren: Schraubenzieher, keine Stufe. Anschluss: Solarmodule und Wechselrichter ab Stufe 3; Windturbinen, Wasserräder und Batteriebanken ab Stufe 2. Optional: Schutzschaltertafel, Batteriealarm, Schalldämmung, vanilla Notstromaggregat, Verwaltungscomputer.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]Ausrüstungs-Anleitung[/url]
 
 [h2]Produktion[/h2]
@@ -28,7 +28,7 @@ Die Ausrichtung zählt: Süd 100 %, Ost und West 85 %, Nord 55 %. Wolken, Schnee
 
 [h2]Verkabelung & Kopplung[/h2]
 
-Rechtsklick auf ein Gerät, dann LiveWire, dann Mit einem Wechselrichter verbinden. Ein Kabel kostet 1 Draht pro 4 Felder, Reichweite 12. Mehr als 1.500 W nötig? Koppele einen zweiten Wechselrichter (An einen Wechselrichter koppeln, 1 Kopplungsset): ein Netz umfasst 4 Wechselrichter, 6.000 W.
+Rechtsklick auf ein Gerät > LiveWire > Mit einem Wechselrichter verbinden. Ein Kabel kostet 1 Stromkabel pro 4 Felder, Reichweite 12. Mehr als 1.500 W nötig? Koppele einen zweiten Wechselrichter (An einen Wechselrichter koppeln, 1 Kopplungsset für Wechselrichter): ein Netz umfasst 4 Wechselrichter, 6.000 W.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Verkabelungs-Anleitung[/url]
 
 [h2]Wechselrichter-Bildschirm & Verwaltungssoftware[/h2]
@@ -38,20 +38,20 @@ Der Wechselrichter-Bildschirm steuert Beleuchtung, Geräte und Hauptschalter und
 
 [h2]Wasserpumpe[/h2]
 
-Eine Wasserpumpe (Elektrik 3) versorgt Sanitäranlagen im Umkreis von 15 Feldern, aus bis zu 8 angrenzenden Regensammlern oder [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
+Eine Wasserpumpe (Elektrotechnik 3) versorgt Sanitäranlagen im Umkreis von 15 Feldern, aus bis zu 8 angrenzenden Regensammlern oder [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Wasserpumpen-Anleitung[/url]
 
 [h2]Rezepte[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_de.png[/img]
 
-16 Herstellungsrezepte, oben gezeigt. Kaputte Geräte lassen sich aufheben und im Handwerksmenü zerlegen (12 Zerlegungsrezepte, mit Schraubenzieher).
+16 Herstellungsrezepte (oben) und 15 Zerlegungsrezepte (Schraubenzieher): Alles lässt sich zerlegen außer der Solarzelle. Hebe das Gerät auf, auch kaputt, und zerlege es im Handwerksmenü.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]Rezepte[/url]
 
-[h2]Elektrik & Sicherheit[/h2]
+[h2]Elektrotechnik & Sicherheit[/h2]
 
-Batterien bei Elektrik 1, 3 und 5 prüfen, für mehr Details. Arbeiten unter Spannung bergen ein Schockrisiko (standardmäßig aktiv): 50 % bei Stufe 0, 0 % ab Stufe 6. Schalte zuerst den Master-Wechselrichter aus; ein Sicherungsschalter isoliert nicht.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Elektrik und Wartung[/url]
+Batterien bei Elektrotechnik 1, 3 und 5 prüfen, für mehr Details. Arbeiten unter Spannung bergen ein Schockrisiko (standardmäßig aktiv): 50 % bei Stufe 0, 0 % ab Stufe 6. Schalte zuerst den Master-Wechselrichter aus; ein geöffneter Schutzschalter isoliert nicht.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Elektrotechnik und Wartung[/url]
 
 [h2]Mehrspieler[/h2]
 
@@ -62,9 +62,9 @@ Der Server prüft jede Aktion; Schaltungswahl und Gerätezustände werden gespei
 
 Bringt Strom über den Kreis des Wechselrichters hinaus:
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Ein ganzes Gebäude anschließen[/url]: jede Etage, der Keller und ein Streifen um das Erdgeschoss.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Ein ganzes Gebäude anschließen[/url]: jede Etage und der Keller. Ein Streifen drumherum nur, wenn die Sandbox-Option Außenstreifen um ein Gebäude über 0 liegt (Standard 0).
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Stromanschluss im Freien[/url]: versorgt eine gezeichnete Zone von bis zu 16 x 16 Feldern.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sicherungskästen[/url]: Sicherungen mit 15, 20 oder 30 A, eine pro Gerät.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sicherungskästen[/url]: Schutzschalter mit 15, 20 oder 30 A, einer pro Stromkreis, der mehrere Geräte versorgen kann.
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Dämmerungsschalter für Schutzschalter[/url]: auf einem Schutzschalter hält er diesen Stromkreis von der Dämmerung bis zum Morgengrauen an, je nach Jahreszeit.
 [*]Manche Häuser der Karte haben bereits einen vorverdrahteten, unbeschrifteten Sicherungskasten.
 [/list]
@@ -72,16 +72,16 @@ Bringt Strom über den Kreis des Wechselrichters hinaus:
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_de.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_de.png[/img]
 
-Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity oder Knox Power. Zum sicheren Entfernen schaltet ein Admin zuerst alle Sicherungen über das Menü eines Kastens wieder ein.
+Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity oder Knox Power. Zum sicheren Entfernen schaltet ein Admin zuerst alle Schutzschalter über das Menü eines Kastens wieder ein.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
 
 [h2]Project Viewpoint-Modelle[/h2]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieser Eintrag enthält auch den optionalen Mod LiveWire - Viewpoint models mit 3D-Modellen aller Geräte. Aktiviere ihn nur, wenn du Project Viewpoint nutzt.
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieser Eintrag enthält auch den optionalen Mod LiveWire - Viewpoint models mit 3D-Modellen aller Geräte. Nur mit Project Viewpoint aktivieren.
 
 [h2]Kompatibilität[/h2]
 
-Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Eigenständige Schöpfung, nicht für den Betrieb zusammen mit anderen Strom-Mods gedacht. Lizenz MIT.
+Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Eigenständige Schöpfung, nicht für andere Strom-Mods gedacht. Lizenz MIT.
 
 [h2]Dokumentation[/h2]
 

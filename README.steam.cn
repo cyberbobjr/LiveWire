@@ -1,14 +1,14 @@
-[h1]LiveWire - 电气技能重做[/h1]
+[h1]LiveWire - 电工技能重做[/h1]
 
 [b]Build 42.21+ · 单人与多人[/b]
 
-电网断了就断了，但灯不必跟着熄灭。太阳能板、风力发电机和水车为逆变器供电，逆变器再带动周围的房屋。夜里靠电池撑住。每台设备都有电气等级，等级越高，安装效果越好。
+电网断了就断了，但灯不必跟着熄灭。自建离网电力：太阳能板、风力涡轮机和水轮机为逆变器供电，逆变器再带动周围的房屋，夜里靠电池撑住。每台设备都有电工等级要求，你的等级越高，安装效果越好。
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_cn.png[/img]
 
 [h2]工作原理[/h2]
 
-太阳能 100 W，风力 400 W，水车 120 W。逆变器可为 20 格和上下 ±3 层内的电器供电，最高 1,500 W，无需为每台电器单独布线。
+太阳能 100 W，风力 400 W，水轮机 120 W。逆变器可为 20 格和上下 ±3 层内的电器供电，最高 1,500 W，无需为每台电器单独布线。多余电量存入电池组。
 公共电网运行期间，建筑内的逆变器还可从电网取电，最多为其额定功率的五分之一（沙盒选项 GridCharging，默认开启）。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]入门指南[/url]
 
@@ -16,61 +16,63 @@
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_cn.png[/img]
 
-放置需要螺丝刀，但不需要电气等级。太阳能板和逆变器需 3 级连接，风力发电机、水车和充电宝需 2 级。
+放置需要螺丝刀，不需要等级。连接：太阳能板和逆变器需 3 级；风力涡轮机、水轮机和电池组需 2 级。可选：断路器面板、低电量警报器、隔音、原版备用发电机、管理电脑。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]设备指南[/url]
 
 [h2]发电[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_cn.png[/img]
 
-太阳能板朝向影响发电：南 100%，东和西 85%，北 55%。云、雪和污垢会降低产量。
+太阳能板朝向影响发电：南 100%，东和西 85%，北 55%。云、雪和污垢会降低产量；雨水会清洗面板。风力从 10 km/h 开始发电，30 到 85 km/h 时满功率。水轮机昼夜都发电。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]发电与计算[/url]
 
 [h2]布线与并联[/h2]
 
-右键设备 > LiveWire > 连接到逆变器。超过 1,500 W 时，放置第二台逆变器并选择并联到一台逆变器，一个网络最多 4 台（6,000 W）。
+右键设备 > LiveWire > 连接到逆变器。每 4 格线缆消耗 1 根电线，最远 12 格。需要超过 1,500 W？并联第二台逆变器（并联到一台逆变器，1 个逆变器并联套件）：一个网络最多 4 台逆变器，6,000 W。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]布线指南[/url]
 
 [h2]逆变器界面与管理软件[/h2]
 
-界面可查看每个回路的瓦数，并控制照明和设备。LiveWire Monitor 显示用电设备、线路视图、三天发电预测和最近 30 条事件。
+逆变器界面可开关照明、设备和总开关，并显示每个回路的瓦数。在通电的管理电脑上，LiveWire Monitor 还会显示用电设备、线路视图、三天发电预测和最近 30 条事件。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]界面与软件[/url]
 
 [h2]水泵[/h2]
 
-水泵（电气 3 级）可从相邻的雨水收集器或 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 取水，为 15 格内接通水管的设备供水。
+水泵（电工 3 级）可从最多 8 个相邻的雨水收集器或 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 取水，为 15 格内接通水管的设备供水。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]水泵指南[/url]
 
 [h2]配方[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_cn.png[/img]
 
-共 16 个制作配方，全部展示在上方。损坏的设备可以拾取，并在制作菜单中拆解（12 个拆解配方，需螺丝刀）。
+16 个制作配方（见上图）和 15 个拆解配方（螺丝刀）：除太阳能电池外，所有制作的物品都能拆解。先拾取设备（损坏的也可以），再在制作菜单中拆解。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]配方[/url]
 
-[h2]电气技能与安全[/h2]
+[h2]电工技能与安全[/h2]
 
-带电作业有触电风险（默认开启）：0 级为 50%，6 级及以上为 0%。作业前请关闭主逆变器。
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]电气技能与维护[/url]
+在电工 1、3 和 5 级检测电池可获得更多信息。带电作业有触电风险（默认开启）：0 级为 50%，6 级及以上为 0%。作业前请先关闭主逆变器；断开断路器并不能隔离电路。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]电工技能与维护[/url]
 
 [h2]多人游戏[/h2]
 
-服务器会检查每个操作并保存电路选择。禁用模组前请先关闭两条电路。
+服务器会检查每个操作；电路选择和电器状态会被保存并同步。禁用模组前请先关闭两条电路。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]多人指南[/url]
 
 [h2]LiveWire Extended（可选扩展）[/h2]
 
+将电力送到逆变器范围之外：
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]接入整栋建筑[/url]：每一层、地下室以及一层周围。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]户外供电端子[/url]：为最多 16 x 16 格的区域供电。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]配电箱[/url]：15、20 或 30 A 断路器，每台设备一个。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]接入整栋建筑[/url]：每一层和地下室。只有沙盒选项「建筑周围的室外带」大于 0（默认 0）时，建筑周围一圈才会通电。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]户外供电端子[/url]：为最多 16 x 16 格的划定区域供电。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]配电箱[/url]：15、20 或 30 A 断路器，每条回路一个；一个断路器可为多台电器供电。
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]断路器光控开关[/url]：装在断路器上，使该回路从黄昏到黎明通电，随季节变化。
+[*]地图上有些房屋已经装有预先接线、没有标签的配电箱。
 [/list]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_cn.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_cn.png[/img]
 
-在模组列表中放在 LiveWire 之后启用。与 LG Extended Electricity 和 Knox Power 不兼容。
+在模组列表中放在 LiveWire 之后启用。与 LG Extended Electricity 和 Knox Power 不兼容。安全移除前，管理员先在配电箱菜单中重新合上所有断路器。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完整指南[/url]
 
 [h2]Project Viewpoint 模型[/h2]
@@ -79,7 +81,7 @@
 
 [h2]兼容性[/h2]
 
-兼容 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]。许可证 MIT。
+兼容 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（可选）。原创作品，不应与其他电力系统模组同时使用。许可证 MIT。
 
 [h2]文档[/h2]
 
