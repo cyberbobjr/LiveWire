@@ -1358,3 +1358,8 @@ crépusculaire, bascule d'un tick en multijoueur.
   extérieur) et 4 FAIL sur l'abri : le client reçoit murs et planchers mais pas la mise à jour des régions
   (`IsoRegions.getSquareFlags` = sol seul pendant 90 s), donc ni enceinte ni curseur favorable côté client. Abri posé par
   script (`transmitAddObjectToSquare`) : reste à savoir si une vraie construction par le menu du jeu se comporte pareil.
+- Mise à jour (2026-11-11, client MP indulgent, porche de bord de maison refusé côté client par
+  `IsoMetaGrid.getAssociatedBuildingAt`, zombies supprimés) : MP `mp autotest/site_mp.json --clients 1 --client-run` → code 0,
+  `runs/20261111-132105-mp-c8618fd95d89` : serveur ok, client ok (abri neuf accepté par le curseur, porche couvert refusé :
+  `mapOutside=true`), client reconnecté ok (abri vu comme enceinte). Solo `sp autotest/site42.json` → code 0, 35 PASS,
+  `runs/20261111-132417-sp-fe7fbc71b965`. Toujours non testé en jeu : sous-sol vanilla, Basement Building, serveur Linux.
