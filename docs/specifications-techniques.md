@@ -310,7 +310,7 @@ Portée de la zone alimentée : options vanilla `GeneratorTileRange` (20) et `Ge
 ## 6. Traductions
 
 - Source unique : `tools/translations_src.py`, qui écrit `media/lua/shared/Translate/<LANGUE>/*.json` (JSON plat UTF-8 sans BOM, contrôlé par `tools/check_mod.py`).
-- Langues : `EN` (référence), `FR`, `DE`, `ES`, `PT`, `PTBR`, `RU`, `CN`, `JP`, `KO`.
+- Langues : `EN` (référence), `FR`, `DE`, `ES`, `PT`, `PTBR`, `RU`, `CN`, `JP`, `KO`, `TR`.
 - Fichiers et préfixes (EN, 1.3.1) :
 
 | Fichier | Préfixe des clés | Clés |
@@ -652,7 +652,7 @@ schéma de sauvegarde et aucun appel au ramasse-miettes dans le mod de productio
 - Surbrillance native par joueur, persistante entre rendus, purement cliente.
   Pas de copie d'objet, de baisse d'alpha des appareils, de nouveau paquet pour
   activer/masquer la vue ni de parcours du monde dans `render`.
-- 27 nouvelles clés traduites dans les dix langues, dont la mention du fabricant
+- 27 nouvelles clés traduites dans les onze langues, dont la mention du fabricant
   et les commandes/refus d'empilage.
   Les éléments des panneaux
   sont dessinés avec les classes ISUI et les primitives natives existantes.
@@ -710,7 +710,7 @@ supplémentaires. Pas de migration de données. Changement appliqué au redémar
 complet du jeu/serveur, pour les tirages futurs, réapparition vanilla comprise si
 activée. Aucun effet rétroactif sur le contenu sauvegardé des conteneurs.
 
-Deux clés de traduction dans les dix langues :
+Deux clés de traduction dans les onze langues :
 `Sandbox_LiveWire_EquipmentLootMultiplier` et son suffixe `_tooltip`.
 Le générateur de tableaux montre les poids à ×5 et estime la probabilité sous
 condition de sélection de la liste : `1 − (1 − poids × modificateur / 100)^tirages`,
@@ -783,7 +783,7 @@ Electrical, tags InHandCraft/Electrical, sans apprentissage ou niveau requis,
 NoBrokenItems ; un `LiveWire.VoltageTester`, mode destroy, ItemCount/ResearchInput.
 Sortie unique : un `Base.ElectronicsScrap`. Consommation et synchronisation natives,
 aucun callback ou hook ajouté. Identifiants existants et sauvegardes inchangés.
-Clé de recette traduite `LWDismantleVoltageTester` dans les dix langues.
+Clé de recette traduite `LWDismantleVoltageTester` dans les onze langues.
 
 ### Recettes de démontage des pièces intermédiaires — D-64
 
@@ -805,7 +805,7 @@ lu sur l'objet (`getCondition()`, la batterie n'a pas de marque) : entrée
 `LiveWire.Recipes.DISMANTLE`, puis `salvaged`.
 
 Chaque total reste sous sa fabrication (`test_dismantling_always_returns_less_than_the_crafting_recipe`).
-Clés traduites dans les dix langues (`tools/translations_ixx.py`, EN et FR via
+Clés traduites dans les onze langues (`tools/translations_ixx.py`, EN et FR via
 `tools/translations_src.py`).
 
 ## Risque sous tension et XP — règle révisée le 2026-10-25
@@ -857,7 +857,7 @@ les probabilités restent celles ci-dessus ; aucun contrôle par image ajouté.
 
 `Client.equipmentCondition(cond)` formate la valeur numérique bornée à 0–100,
 arrondie au pourcentage ; nil/invalide donne « -- », jamais 100 par défaut.
-`IGUI_LW_EquipmentCondition` est traduit dans les dix langues. Les marques
+`IGUI_LW_EquipmentCondition` est traduit dans les onze langues. Les marques
 `Marks.get(obj).cond` déjà synchronisées alimentent le LCD powerbank et celui du
 tableau ; indépendants, cassés et banques empilées utilisent leur propre objet.
 La charge et l'état des batteries continuent de venir de la vue bancaire existante.

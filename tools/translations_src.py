@@ -499,12 +499,21 @@ def main():
     for lang, keys in extra.items():
         if lang in ('EN', 'FR'):
             continue
-        for f in ('IG_UI', 'ContextMenu', 'Tooltip', 'Sandbox', 'ItemName', 'Recipes', 'Moveables'):
+        os.makedirs(os.path.join(OUT, lang), exist_ok=True)
+        for f in T:
             path = os.path.join(OUT, lang, f + '.json')
+            if not os.path.exists(path):
+                # A new language follows the key order of the English file.
+                path = os.path.join(OUT, 'EN', f + '.json')
             with open(path, encoding='utf-8') as fh:
                 data = json.load(fh)
-            data.update({k: v for k, v in keys.items()
-                         if translation_file(k) == f})
+            path = os.path.join(OUT, lang, f + '.json')
+            values = {k: v for k, v in keys.items() if translation_file(k) == f}
+            missing = [k for k in data if k not in values]
+            if missing:
+                raise SystemExit("%s/%s.json: no %s value for %s"
+                                 % (lang, f, lang, ", ".join(missing)))
+            data.update(values)
             with open(path, 'w', encoding='utf-8', newline='\n') as fh:
                 json.dump(data, fh, ensure_ascii=False, indent=4)
                 fh.write('\n')

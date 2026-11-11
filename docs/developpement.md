@@ -62,7 +62,7 @@ Les scénarios, résultats et limites des campagnes CXX sont regroupés dans le
   butin par `python tools/make_doc_tables.py` (→ `docs/wiki/<langue>/_tables.md`).
 - Contrats techniques, clés ModData, commandes réseau, options sandbox et langues livrées :
   [`specifications-techniques.md`](specifications-techniques.md). Langues : `EN` (référence), `FR`, `DE`, `ES`, `PT`,
-  `PTBR`, `RU`, `CN`, `JP`, `KO`.
+  `PTBR`, `RU`, `CN`, `JP`, `KO`, `TR`.
 - Un fait nouveau et réutilisable sur le **moteur du jeu** découvert ici se note dans
   [`annexes/recherches/notes-moteur.md`](annexes/recherches/notes-moteur.md) (titre, Build, date, statut, preuve,
   conséquence) : l'utilisateur le reportera dans sa base de connaissances maîtresse, hors de ce dépôt.

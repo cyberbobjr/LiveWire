@@ -1,0 +1,19 @@
+{
+    "LiveWire.VoltageTester": "Voltaj Test Cihazı",
+    "LiveWire.SolarCell": "Güneş Hücresi",
+    "LiveWire.DeepCycleBattery": "Derin Döngü Bataryası",
+    "LiveWire.SoundproofKit": "İnvertör Ses Yalıtım Kiti",
+    "LiveWire.MonitorDisk": "Disk: LiveWire Yönetim Yazılımı",
+    "Base.Mov_LiveWire_SolarPanel": "Güneş Paneli",
+    "Base.Mov_LiveWire_WindTurbine": "Rüzgâr Türbini",
+    "Base.Mov_LiveWire_WaterWheel": "Su Çarkı",
+    "Base.Mov_LiveWire_Inverter": "İnvertör",
+    "Base.Mov_LiveWire_PowerBank": "Güç Bankası",
+    "Base.Mov_LiveWire_Breaker": "Sigorta Kutusu",
+    "Base.Mov_LiveWire_BatteryAlarm": "Düşük Batarya Alarmı",
+    "Base.Mov_LiveWire_WaterPump": "Su Pompası",
+    "LiveWire.CouplingKit": "İnvertör Eşleme Kiti",
+    "LiveWire.WindTurbineBlades": "Rüzgâr Türbini Kanat Seti",
+    "LiveWire.WindTurbineMast": "Rüzgâr Türbini Direği",
+    "Base.Mov_LiveWire_InverterCabinet": "İnvertör Dolabı"
+}

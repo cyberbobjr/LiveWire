@@ -1,0 +1,7 @@
+{
+    "Sandbox_LiveWireExtended": "LiveWire Extended",
+    "Sandbox_LiveWireExtended_BuildingBand": "Binanın çevresindeki dış şerit",
+    "Sandbox_LiveWireExtended_BuildingBand_tooltip": "Bağlı bir binanın çevresinde de enerji alan şeridin kare cinsinden genişliği (sundurma, bahçe yolu). Oyun enerjiyi tam 8 x 8 bloklar hâlinde verir; bu yüzden enerji verilen alan bu bloklara yuvarlanır.",
+    "Sandbox_LiveWireExtended_HouseBoardPercent": "Sigorta panolu binalar (%%)",
+    "Sandbox_LiveWireExtended_HouseBoardPercent_tooltip": "Haritadaki binalardan halihazırda bir sigorta panosu bulunanların oranı (varsa kendi elektrik kutuları). Bir invertöre bağlandığında oda oda, etiketsiz olarak önceden kablolanmıştır: hangi sigortanın neyi beslediğini bulun. Binanın kablolanmamış cihazlarında artık akım olmaz."
+}

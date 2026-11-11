@@ -6,7 +6,7 @@
 
 Le mod fonctionne en solo, sur un serveur dédié et en multijoueur. Le serveur décide de tout, donc les règles sont les mêmes pour chaque joueur.
 
-L'interface est écrite en anglais et en français. Des fichiers de traduction existent aussi pour l'allemand, l'espagnol, le portugais (Brésil et Portugal), le russe, le chinois, le japonais et le coréen.
+L'interface est écrite en anglais et en français. Des fichiers de traduction existent aussi pour l'allemand, l'espagnol, le portugais (Brésil et Portugal), le russe, le chinois, le japonais, le coréen et le turc.
 
 ![Schéma : sources, onduleur, powerbank et maison](../../images/diagrams/diagram_fr.png)
 

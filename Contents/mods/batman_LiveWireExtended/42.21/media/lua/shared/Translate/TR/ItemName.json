@@ -1,0 +1,10 @@
+{
+    "Base.Mov_LiveWire_Terminal": "Güç Terminali",
+    "Base.Mov_LiveWire_Panel8": "Sigorta Panosu (8 modül)",
+    "Base.Mov_LiveWire_Panel16": "Sigorta Panosu (16 modül)",
+    "Base.Mov_LiveWire_Panel24": "Sigorta Panosu (24 modül)",
+    "LiveWire.Breaker15": "15 A Sigorta",
+    "LiveWire.Breaker20": "20 A Sigorta",
+    "LiveWire.Breaker30": "30 A Sigorta",
+    "LiveWire.TwilightSwitch": "Sigorta Alacakaranlık Anahtarı"
+}

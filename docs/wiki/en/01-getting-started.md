@@ -6,7 +6,7 @@
 
 The mod works in single player, on a dedicated server and in multiplayer. The server decides everything, so the rules are the same for every player.
 
-The interface is written in English and French. Translation files are also included for German, Spanish, Portuguese (Brazil and Portugal), Russian, Chinese, Japanese and Korean.
+The interface is written in English and French. Translation files are also included for German, Spanish, Portuguese (Brazil and Portugal), Russian, Chinese, Japanese, Korean and Turkish.
 
 ![How it works: sources, inverter, house and power bank](../../images/diagrams/diagram_en.png)
 

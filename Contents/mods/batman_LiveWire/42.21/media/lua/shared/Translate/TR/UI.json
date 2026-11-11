@@ -1,0 +1,5 @@
+{
+    "UI_LW_Options_Title": "LiveWire",
+    "UI_LW_Options_HumVolume": "İnvertör uğultusu ses düzeyi (0-100)",
+    "UI_LW_Options_HumVolume_tooltip": "0 = uğultu yok. Yalnızca sizin için; çalışan bir invertörün bir kare çevresinde duyulur."
+}
