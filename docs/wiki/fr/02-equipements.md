@@ -4,14 +4,14 @@
 
 ![Tous les équipements LiveWire et leurs chiffres](../../images/diagrams/equipment_fr.png)
 
-Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meuble vanilla (fantôme, 4 orientations, 2 pour les objets muraux). Poser, tourner et ramasser demandent un tournevis, sans niveau. Le niveau d'Électricité du tableau est celui du **branchement** à un onduleur. Un appareil ramassé garde son état.
+Chaque équipement est une vraie tuile du mod, posée comme un meuble vanilla. Chaque recette d'équipement donne un meuble posable `Base.Mov_LiveWire_*`. Les pièces et kits (cellules solaires, kits de couplage, kits d'insonorisation, etc.) sont des objets séparés.
 
 ## Tableau des équipements
 
 | Équipement | Rôle | Pose | Niveau pour brancher |
 |---|---|---|---|
 | Panneau photovoltaïque | Source, 100 W | Dehors, ciel dégagé ; toit plat possible | 3 |
-| Éolienne | Source, 400 W ; les pales tournent avec le vent | Dehors ; +15 % de vent par étage jusqu'au 3e | 2 |
+| Éolienne | Source, 400 W ; les pales tournent avec le vent | Dehors ; le vent est 15 % plus fort par étage, jusqu'au 3e | 2 |
 | Roue à aubes | Source, 120 W jour et nuit ; la roue tourne avec la rivière | Rez-de-chaussée, au bord d'une rivière | 2 |
 | Onduleur | Cœur du réseau, 1 500 W | Toute case de sol, intérieur compris | 3 |
 | Armoire onduleur | Cœur du réseau, 4 500 W, 60 W à vide ; fabriquée à partir d'un onduleur | Toute case de sol, intérieur compris | 3 |
@@ -20,21 +20,11 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 | Alarme de batterie faible | Alerte, facultatif | Sur un mur | 2 |
 | Pompe à eau | Alimente les points d'eau de la maison depuis des barils, 250 W pendant le pompage | N'importe où, à côté de ses barils | 3 |
 
-## Règles de pose
+La dernière colonne donne le niveau nécessaire pour brancher l'équipement à un onduleur. Un onduleur demande en plus le niveau 3 pour son premier branchement, qui le met en service. La pose ne demande aucun niveau.
 
-- Poser, tourner et ramasser : tournevis, sans niveau.
-- Panneau et éolienne : à l'extérieur, sous ciel ouvert.
-- Roue à aubes : berge d'une rivière, rez-de-chaussée, à côté de l'eau de la rivière (lacs et étangs refusés).
-- Pompe à eau : n'importe où ; ses barils doivent être sur les 8 cases autour d'elle (voir [Pompe à eau](07-pompe-a-eau.md)).
-- Une case refusée affiche la raison en rouge dans le panneau du curseur.
+La fabrication demande davantage : le kit de roue à aubes exige le niveau 4 d'Électricité, et les autres kits demandent de 1 à 3 (voir [Recettes](08-recettes.md)).
 
-## Voyants
-
-- Onduleur et armoire onduleur : écran allumé en marche, voyant rouge en cas de défaut.
-- Sources et powerbank : voyant vert « connecté ».
-- Disjoncteur : lampe rouge quand il a sauté.
-- Alarme : gyrophare allumé pendant la sonnerie.
-- Pompe à eau : voyant bleu lorsqu'elle est alimentée, même au repos.
+Le mod facultatif Viewpoint affiche des modèles 3D de ces équipements (voir [Accueil](Home.md)).
 
 ## Batteries
 
@@ -51,25 +41,42 @@ Capacité effective = nominale × (0,4 + 0,6 × état/100) × BatteryCapacityMul
 
 ![La powerbank ouverte comme une caisse](../../images/screenshots/shot3.png)
 
-## Ramasser et tourner
+## Pièces
 
-- Ramasser l'onduleur déconnecte tout son réseau ; le tourner conserve les liens.
-- Ramasser une source conserve son état ; reposée, elle est « Non raccordé ».
-- La powerbank ne se ramasse que vide. Si elle en porte une autre, retirez celle
-  du dessus avant de déplacer, tourner ou démonter celle du dessous.
+- Les **cellules solaires** (`LiveWire.SolarCell`) se fabriquent avec 5 déchets électroniques et de l'aluminium, au niveau 3 d'Électricité. Une calculatrice démontée avec la recette vanilla « Démonter un appareil électronique simple » donne aussi une cellule solaire.
+- Le **kit de panneau solaire** demande 10 cellules solaires. Voir [Recettes](08-recettes.md) pour tous les kits.
 
 ## Superposer deux powerbanks
 
-Utilisez le curseur de pose de meubles pour poser une seconde powerbank sur la
-même case que la première : le fantôme doit apparaître au-dessus. Deux banques
-au maximum par pile, soit huit emplacements de batteries (quatre par banque).
+Utilisez le curseur de pose de meubles pour poser une seconde powerbank sur la même case que la première : le fantôme apparaît au-dessus. Deux banques au maximum par pile, soit huit emplacements de batteries (quatre par banque).
 
-Chaque banque possède son propre conteneur et doit être raccordée à l'onduleur.
-Le bouton **Banque 1/2** ou **Banque 2/2** du LCD passe de celle du bas à celle du
-haut et sélectionne son conteneur dans la fenêtre de butin. Le panneau de
-raccordement indique aussi le numéro de banque. Les batteries ne sont ni fusionnées
-ni copiées ; une nouvelle banque ne contient pas de batteries gratuites.
+Chaque banque possède son propre conteneur et son propre branchement à l'onduleur. Le bouton **Banque 1/2** ou **Banque 2/2** du LCD passe de la banque du bas à celle du haut et sélectionne son conteneur de butin. La liste des raccordements indique aussi le numéro de banque. Superposer ne crée ni batteries ni énergie. Pour déplacer ou ramasser la banque du bas, videz et ramassez d'abord celle du dessus.
+
+## Voyants
+
+- Onduleur et armoire onduleur : écran allumé en marche, voyant rouge en cas de défaut.
+- Sources et powerbank : voyant vert « connecté ».
+- Disjoncteur : vert quand la distribution est alimentée, rouge quand il a sauté. Un voyant vert ne prouve pas que le circuit est sûr à isoler pour un entretien.
+- Alarme : gyrophare allumé pendant la sonnerie.
+- Pompe à eau : voyant bleu lorsqu'elle est alimentée, même au repos.
+
+## Règles de pose
+
+- Poser, tourner et ramasser avec le curseur de meuble vanilla (fantôme, 4 orientations, 2 pour les objets muraux).
+- Poser, tourner et ramasser demandent un **tournevis**, sans niveau d'Électricité.
+- Brancher un équipement à un onduleur est expliqué dans [Raccordement](03-raccordement.md).
+- Un appareil ramassé garde son état.
+- Panneau et éolienne : à l'extérieur, sous ciel ouvert.
+- Roue à aubes : berge d'une rivière, rez-de-chaussée, à côté de l'eau de la rivière. Lacs, étangs et piscines sont refusés.
+- Pompe à eau : n'importe où ; ses barils doivent être sur les 8 cases autour d'elle (voir [Pompe à eau](07-pompe-a-eau.md)).
+- Une case refusée affiche la raison en rouge dans le panneau du curseur.
+
+## Démontage
+
+Chaque équipement et chaque kit a une recette de démontage dans le menu de fabrication. Elle demande un tournevis (certaines recettes demandent aussi un marteau ou une clé à tuyau) et aucun niveau d'Électricité. On récupère des pièces métalliques, et des pièces électroniques selon l'état de l'objet : un équipement usé en rend moins. Un kit d'insonorisation ou de couplage posé sur un onduleur revient en entier.
+
+Les batteries stationnaires, les pales et le mât d'éolienne, et les cellules solaires n'ont pas de recette de démontage.
 
 ## Voir aussi
 
-[Raccordement](03-raccordement.md) · [Équipements optionnels](06-equipements-optionnels.md) · [Recettes](08-recettes.md) · [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md)
+[Raccordement](03-raccordement.md) · [Recettes](08-recettes.md) · [Équipements optionnels](06-equipements-optionnels.md) · [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) · [LiveWire Extended](14-livewire-extended.md)

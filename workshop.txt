@@ -3,71 +3,92 @@ id=3821807453
 title=LiveWire - Electrical Skill Overhaul
 description=[h1]LiveWire - Electrical Skill Overhaul[/h1]
 description=
-description=[b]Build 42.21 · Singleplayer & Multiplayer (server-authoritative)[/b]
+description=[b]Build 42.21+ · Singleplayer & Multiplayer[/b]
 description=
-description=The power is out for good... but the lights do not have to be. Build your own off-grid electricity: solar panels, a wind turbine or a water wheel feed an inverter, and the inverter powers the whole house around it. Add batteries for the night. The Electrical skill finally matters: every device has a level, and your level makes the installation better.
-description=
-description=[h2]1.6.0 — Control your installation[/h2]
-description=
-description=The electrical panel has lighting, equipment and main levers, plus instant circuit/total watts. Cut real appliances and restore their previous choices, including after a restart. Sources can keep charging while main distribution is open. Left-click each device for its LCD; use Connections to choose its inverter.
-description=
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
-description=
-description=[h2]How it works[/h2]
+description=The power is out for good, but the lights do not have to be. Build your own off-grid electricity: solar panels, wind turbines and water wheels feed an inverter that powers the house around it, with batteries for the night. Every device has an Electrical level, and your level makes the installation better.
 description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 description=
-description=Solar 100 W, wind 400 W, water wheel 120 W. An inverter supplies appliances within 20 tiles and ±3 floors, up to 1,500 W. No cable per household appliance.
-description=[b]Need more than 1,500 W?[/b] Place a second inverter with nothing connected, right-click it > LiveWire > "Couple to an inverter" (1 Inverter Coupling Kit, Electrical 3 recipe). Up to 4 coupled inverters: 6,000 W. New: rebuild an inverter into a 4,500 W [b]inverter cabinet[/b] (Electrical 3); it couples too.
-description=Store surplus in power banks (4 batteries each). Cables: 1 wire per 4 tiles, range 12. Choose Game values, Realistic 1993, Ultra-realistic 1993 or Comfort consumption in sandbox options.
+description=[h2]How it works[/h2]
+description=
+description=Solar 100 W, wind 400 W, water wheel 120 W. An inverter powers appliances within 20 tiles and ±3 floors, up to 1,500 W, with no cable per appliance. Surplus goes into power banks.
+description=While the public grid works, an inverter inside a building also draws up to a fifth of its power from the mains (sandbox option GridCharging, on by default).
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]Getting started[/url]
 description=
 description=[h2]Equipment[/h2]
 description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_en.png[/img]
 description=
-description=Placing needs no level: solar panels and turbines outdoors, water wheels on river banks, inverters, power banks. Linking: solar panels and inverters 3; turbines, water wheels, power banks 2. Stack two banks on one tile, with separate inventories and connections; empty them before removal, upper bank first.
-description=Optional: breaker, battery alarm, soundproofing, vanilla backup generator and management computer.
+description=Placing needs a screwdriver, no level. Linking: solar panels and inverters level 3; wind turbines, water wheels and power banks level 2. Optional: breaker, battery alarm, soundproofing, vanilla backup generator, management computer.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]Equipment guide[/url]
 description=
 description=[h2]Production[/h2]
 description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_en.png[/img]
 description=
-description=Solar direction matters: south 100%, east/west 85%, north 55%. Clouds, snow and dirt reduce output; rain washes panels, or clean with a rag + 0.5 L water. Wind produces from 10 km/h, full power at 30–85 and brakes above; +15% wind per floor up to the 3rd. The water wheel produces day and night. Optional battery cold effects retain unavailable energy as a reserve; off by default.
+description=Solar output depends on direction: south 100%, east and west 85%, north 55%. Clouds, snow and dirt reduce it; rain cleans the panels. Wind produces from 10 km/h, at full power from 30 to 85 km/h. The water wheel works day and night.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Production and calculations[/url]
+description=
+description=[h2]Wiring & coupling[/h2]
+description=
+description=Right-click a device, then LiveWire, then Connect to an inverter. A cable costs 1 wire per 4 tiles, range 12. Need more than 1,500 W? Couple a second inverter (Couple to an inverter, 1 Inverter Coupling Kit): a network holds 4 inverters, 6,000 W.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Wiring guide[/url]
+description=
+description=[h2]Inverter screen & management software[/h2]
+description=
+description=The inverter screen switches lighting, equipment and main levers, and shows the watts of each circuit. LiveWire Monitor adds consumers, cable views, a three-day forecast and the last 30 events on a powered management computer.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]Inverter screen and software[/url]
 description=
 description=[h2]Water pump[/h2]
 description=
-description=A water pump (Electrical 3) supplies plumbed fixtures within 15 tiles from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] barrels, one metal pipe each. Use a pipe wrench for plumbing. Rainwater comes out clean: up to 5 L/min, 250 W while pumping. Blue light = powered, even idle. Before uninstalling, remove all water relays with the debug/admin action.
+description=A water pump (Electrical 3) feeds plumbed fixtures within 15 tiles, from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Water pump guide[/url]
 description=
 description=[h2]Recipes[/h2]
 description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png[/img]
 description=
-description=18 recipes, illustrated below. Electrical recipes unlock automatically; blades and masts are in Metalworking with no Electrical gate. Assemble a turbine at level 3; craft a water wheel at 4, both using two amplifiers. Linking either needs level 2; placing needs no level. Dismantle a voltage tester for scrap. Every recipe grants Electrical XP. Broader equipment/parts loot; sandbox multiplier 5 by default (1–20), future rolls only after restart.
+description=16 crafting recipes, shown above. Broken equipment can be picked up and dismantled from the crafting menu (12 dismantling recipes, screwdriver).
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]Recipes[/url]
 description=
-description=[h2]Management software[/h2]
+description=[h2]Electrical skill & safety[/h2]
 description=
-description=LiveWire Monitor adds consumers (up to 200), coloured appliance silhouettes, cable views, the last 30 events and a three-day production forecast with a powered management computer, alongside 48 h history. Network names appear on LCDs and alerts. Vanilla desktops work; optional Computer Mod/Laptop Mod use a loot disk.
-description=
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
-description=
-description=[h2]Electrical safety and XP[/h2]
-description=
-description=Test batteries at Electrical 1/3/5 for more detail. Recondition at 4 (6 if dead): kept screwdriver, scrap, wire, 0.5 L water; +15 condition, max 80, four times. Pick up broken equipment and dismantle it from the crafting menu. Live-work risk is on by default: 50/42/33/25/17/8/0% at levels 0/1/2/3/4/5/6+. A shock burns the tool hand, drops held items and aborts before spending materials. Switch off the master inverter; opening the breaker does not isolate it.
+description=Test batteries at Electrical 1, 3 and 5 for more detail. Live work has a shock risk, on by default: 50% at level 0, 0% at level 6+. Switch off the master inverter first; opening a breaker does not isolate it.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Electrical skill and maintenance[/url]
 description=
 description=[h2]Multiplayer[/h2]
 description=
-description=Server-authoritative simulation and action checks, saved circuit choices and appliance state synchronisation. Close both circuits before disabling the mod.
+description=The server checks every action; circuit choices and appliance states are saved and synchronised. Close both circuits before disabling the mod.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Multiplayer guide[/url]
+description=
+description=[h2]LiveWire Extended (optional add-on)[/h2]
+description=
+description=Carries power beyond the inverter's circle:
+description=[list]
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor, the basement and a strip around the ground floor.
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Outdoor power terminal[/url]: powers a drawn zone of up to 16 x 16 squares.
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Breaker boards[/url]: 15, 20 or 30 A breakers, one per appliance.
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Twilight switch[/url]: a circuit on from dusk to dawn.
+description=[*]Some map houses already have a prewired, unlabelled breaker board.
+description=[/list]
+description=
+description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_en.png[/img]
+description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_en.png[/img]
+description=
+description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. To remove it safely, an admin first switches every breaker back on from a board's menu.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
+description=
+description=[h2]Project Viewpoint models[/h2]
+description=
+description=[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: this item also contains the optional mod LiveWire - Viewpoint models, with 3D models of every device. Enable it only if you use Project Viewpoint.
+description=
+description=[h2]Compatibility[/h2]
+description=
+description=Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Original creation, not meant to run with other power-system mods. Licence MIT.
 description=
 description=[h2]Documentation[/h2]
 description=
-description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki (English)[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
-description=
-description=[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: this item also contains the optional mod [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint) with 3D models of every device. Enable it only if you use Project Viewpoint.
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
-description=[b]Compatible with[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional): the management software installs from a disk found in computer loot and runs as an app on their desktop.
-description=[b]Compatibility[/b]: original creation, not meant to run together with other power-system mods. Licence MIT.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 description=
 description=[h2]Discord[/h2]
 description=

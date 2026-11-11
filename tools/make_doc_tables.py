@@ -2,127 +2,78 @@
 
     python tools/make_doc_tables.py   ->  docs/wiki/en/_tables.md, docs/wiki/fr/_tables.md
 
-Recipes come from tools/make_doc_images.RECIPES (same data as LiveWire_recipes.txt); item names from the
-game and mod translations. Loot weights mirror media/lua/server/Items/LiveWire_Distributions.lua; the chance
-per selected list is 1 - (1 - W * modifier/100)^rolls, using modifier 0.6 in the examples.
+Recipes are read from the recipe scripts of both mods (make_doc_images.parse_recipes). Loot weights are read from
+the distribution Lua files of both mods (LiveWire_Distributions.lua, LWX_Distributions.lua); the rolls of each
+vanilla list come from the game's ProceduralDistributions.lua / VehicleDistributions.lua (PZ_SERVER_LUA).
+The chance per selected list is 1 - (1 - W * modifier/100)^rolls, using modifier 0.6 in the examples.
 """
 import os
+import re
 import sys
+from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import make_doc_images as M  # noqa: E402
 
 RAW = "https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/"
-ROLLS = {"GarageTools": 4, "CrateTools": 4, "GarageMetalwork": 4, "MechanicShelfElectric": 4, "ElectricianTools": 3,
-         "MetalShopTools": 4, "WireFactoryElectric": 4, "ToolStoreMisc": 4, "ToolStoreTools": 4,
-         "CarSupplyBatteries": 4, "GarageMechanics": 4,
-         "CrateElectronics": 4, "ElectronicStoreMisc": 4, "CrateMetalwork": 4,
-         "ToolStoreMetalwork": 4, "MechanicShelfTools": 4, "CrateMechanics": 4,
-         "CampingStoreGear": 4, "ElectronicStoreAppliances": 1}
-ROLLS.update(WireFactoryTools=4, CrateFarming=4, ToolStoreFarming=4, CrateCarpentry=4, ToolStoreCarpentry=4)
-# Vehicle containers (VehicleDistributions), see VEHICLE in LiveWire_Distributions.lua.
-ROLLS.update(ElectricianTruckBed=4, ElectricianGloveBox=1, ElectricianSeat=1, MetalWelderTruckBed=4)
+GAME_SERVER = os.environ.get("PZ_SERVER_LUA", r"D:\SteamLibrary\steamapps\common\ProjectZomboid\media\lua\server")
+BASE_LOOT = os.path.join(M.BASE_MOD, "lua", "server", "Items", "LiveWire_Distributions.lua")
+EXT_LOOT = os.path.join(M.EXT_MOD, "lua", "server", "Items", "LWX_Distributions.lua")
+# The Lua scripts apply EquipmentLootMultiplier (default 5) to every weight, except the management disk (x1).
+LOOT_MULTIPLIER = 5
+MODIFIER = 0.6
 WHERE = {
     "EN": {"ElectricianTools": "Electrician's tools", "ToolStoreTools": "Hardware store, tools",
            "ToolStoreMisc": "Hardware store, miscellaneous", "GarageTools": "Garage tool storage",
            "CrateTools": "Tool crates", "WireFactoryElectric": "Wire factory, electrical",
            "MechanicShelfElectric": "Mechanic shop, electrical shelf", "CarSupplyBatteries": "Car parts store, batteries",
-           "GarageMechanics": "Garage, mechanic storage"},
+           "GarageMechanics": "Garage, mechanic storage", "CrateElectronics": "Electronics crates",
+           "ElectronicStoreMisc": "Electronics store, miscellaneous", "CrateMetalwork": "Metalwork crates",
+           "ToolStoreMetalwork": "Hardware store, metalwork", "MechanicShelfTools": "Mechanic shop, tools",
+           "CrateMechanics": "Mechanic supply crates", "CampingStoreGear": "Camping store, gear",
+           "ElectronicStoreAppliances": "Electronics store, appliances", "GarageMetalwork": "Garage metalwork storage",
+           "MetalShopTools": "Metal shop tools", "WireFactoryTools": "Wire factory, tools",
+           "CrateFarming": "Farming supply crates", "ToolStoreFarming": "Hardware/outdoor store, farming",
+           "CrateCarpentry": "Carpentry crates", "ToolStoreCarpentry": "Hardware store, carpentry",
+           "ElectricianTruckBed": "Electrician vehicle, truck bed or trunk",
+           "ElectricianGloveBox": "Electrician vehicle, glove box",
+           "MetalWelderTruckBed": "Metalworker vehicle, truck bed or trunk",
+           "ElectronicStoreComputers": "Electronics store, computers", "CrateComputer": "Computer crates",
+           "BookstoreComputer": "Bookstore, computers", "UniversityDesk_Computer": "University desk, computers",
+           "UniversityDesk_Electrical": "University desk, electrical", "OfficeDesk": "Office desk"},
     "FR": {"ElectricianTools": "Outils d'électricien", "ToolStoreTools": "Quincaillerie, outils",
            "ToolStoreMisc": "Quincaillerie, divers", "GarageTools": "Rangement d'outils de garage",
            "CrateTools": "Caisses d'outils", "WireFactoryElectric": "Usine de câbles, rayon électrique",
            "MechanicShelfElectric": "Garage automobile, étagère électrique",
-           "CarSupplyBatteries": "Magasin de pièces auto, batteries", "GarageMechanics": "Garage, rangement mécanique"},
+           "CarSupplyBatteries": "Magasin de pièces auto, batteries", "GarageMechanics": "Garage, rangement mécanique",
+           "CrateElectronics": "Caisses d'électronique", "ElectronicStoreMisc": "Magasin d'électronique, divers",
+           "CrateMetalwork": "Caisses de métallerie", "ToolStoreMetalwork": "Quincaillerie, métallerie",
+           "MechanicShelfTools": "Garage automobile, outils", "CrateMechanics": "Caisses de mécanique",
+           "CampingStoreGear": "Magasin de camping, matériel",
+           "ElectronicStoreAppliances": "Magasin d'électronique, appareils", "GarageMetalwork": "Rangement de métallerie de garage",
+           "MetalShopTools": "Outils de métallerie", "WireFactoryTools": "Usine de câbles, outils",
+           "CrateFarming": "Caisses de matériel agricole", "ToolStoreFarming": "Quincaillerie ou magasin extérieur, agriculture",
+           "CrateCarpentry": "Caisses de menuiserie", "ToolStoreCarpentry": "Quincaillerie, menuiserie",
+           "ElectricianTruckBed": "Véhicule d'électricien, plateau ou coffre",
+           "ElectricianGloveBox": "Véhicule d'électricien, boîte à gants",
+           "MetalWelderTruckBed": "Véhicule de métallier, plateau ou coffre",
+           "ElectronicStoreComputers": "Magasin d'électronique, informatique", "CrateComputer": "Caisses d'informatique",
+           "BookstoreComputer": "Librairie, informatique", "UniversityDesk_Computer": "Bureau universitaire, informatique",
+           "UniversityDesk_Electrical": "Bureau universitaire, électricité", "OfficeDesk": "Bureau d'entreprise"},
 }
-WHERE['EN'].update(CrateElectronics='Electronics crates', ElectronicStoreMisc='Electronics store, miscellaneous',
-    CrateMetalwork='Metalwork crates', ToolStoreMetalwork='Hardware store, metalwork',
-    MechanicShelfTools='Mechanic shop, tools', CrateMechanics='Mechanic supply crates',
-    CampingStoreGear='Camping store, gear', ElectronicStoreAppliances='Electronics store, appliances',
-    GarageMetalwork='Garage metalwork storage')
-WHERE['EN']['MetalShopTools'] = 'Metal shop tools'
-WHERE['FR'].update(CrateElectronics="Caisses d'électronique", ElectronicStoreMisc="Magasin d'électronique, divers",
-    CrateMetalwork='Caisses de métallerie', ToolStoreMetalwork='Quincaillerie, métallerie',
-    MechanicShelfTools='Garage automobile, outils', CrateMechanics='Caisses de mécanique',
-    CampingStoreGear='Magasin de camping, matériel', ElectronicStoreAppliances="Magasin d'électronique, appareils",
-    GarageMetalwork='Rangement de métallerie de garage')
-WHERE['FR']['MetalShopTools'] = 'Outils de métallerie'
-WHERE['EN'].update(WireFactoryTools='Wire factory, tools', CrateFarming='Farming supply crates',
-    ToolStoreFarming='Hardware/outdoor store, farming', CrateCarpentry='Carpentry crates',
-    ToolStoreCarpentry='Hardware store, carpentry')
-WHERE['FR'].update(WireFactoryTools='Usine de câbles, outils', CrateFarming='Caisses de matériel agricole',
-    ToolStoreFarming='Quincaillerie ou magasin extérieur, agriculture', CrateCarpentry='Caisses de menuiserie',
-    ToolStoreCarpentry='Quincaillerie, menuiserie')
-WHERE['EN'].update(ElectricianTruckBed='Electrician vehicle, truck bed or trunk',
-    ElectricianGloveBox='Electrician vehicle, glove box', ElectricianSeat='Electrician vehicle, passenger seat',
-    MetalWelderTruckBed='Metalworker vehicle, truck bed or trunk')
-WHERE['FR'].update(ElectricianTruckBed="Véhicule d'électricien, plateau ou coffre",
-    ElectricianGloveBox="Véhicule d'électricien, boîte à gants", ElectricianSeat="Véhicule d'électricien, siège passager",
-    MetalWelderTruckBed='Véhicule de métallier, plateau ou coffre')
-VEHICLE_LISTS = {'ElectricianTruckBed', 'ElectricianGloveBox', 'ElectricianSeat', 'MetalWelderTruckBed'}
-# Base weights from LiveWire_Distributions.lua; displayed at the default x5.
-LOOT_MULTIPLIER = 5
-CELL_LISTS = {'GarageTools': 2, 'CrateTools': 1, 'GarageMetalwork': 1, 'MechanicShelfElectric': 2,
-              'ElectricianTools': 3, 'MetalShopTools': 1, 'WireFactoryElectric': 2, 'ToolStoreMisc': 2,
-              'CrateElectronics': 2, 'ElectronicStoreMisc': 2, 'ToolStoreMetalwork': 1, 'CrateMetalwork': 1,
-              'ElectricianTruckBed': 2}
-EQUIPMENT = [
-    ("SolarPanel", "Base.Mov_LiveWire_SolarPanel", True,
-     {"GarageTools": 0.3, "CrateTools": 0.3, "GarageMetalwork": 0.5, "ToolStoreMisc": 0.5, "ToolStoreTools": 0.3,
-      "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.5, "CrateMetalwork": 0.3, "ToolStoreMetalwork": 0.3,
-      "GarageMechanics": 0.3, "ElectricianTruckBed": 0.5, "MetalWelderTruckBed": 0.3}),
-    ("VoltageTester", "LiveWire.VoltageTester", False,
-     {"ElectricianTools": 3, "ToolStoreTools": 1, "GarageTools": 1, "CrateTools": 1, "WireFactoryElectric": 1,
-      "ElectronicStoreMisc": 1, "CrateElectronics": 1, "MechanicShelfElectric": 1, "MechanicShelfTools": 1,
-      "GarageMechanics": 1, "GarageMetalwork": 0.5,
-      "ElectricianTruckBed": 2, "ElectricianGloveBox": 1, "ElectricianSeat": 1}),
-    ("DeepCycleBattery", "LiveWire.DeepCycleBattery", False,
-     {"MechanicShelfElectric": 1, "CarSupplyBatteries": 2, "GarageMechanics": 0.3,
-      "CrateMechanics": 0.7, "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.5, "CampingStoreGear": 0.3}),
-    ("Inverter", "Base.Mov_LiveWire_Inverter", True,
-     {"ElectricianTools": 0.5, "WireFactoryElectric": 0.5, "ToolStoreMisc": 0.2, "GarageTools": 0.1,
-      "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.5, "ElectronicStoreAppliances": 0.3,
-      "MechanicShelfElectric": 0.3, "CrateTools": 0.2, "GarageMechanics": 0.3,
-      "ElectricianTruckBed": 0.5}),
-    ("Breaker", "Base.Mov_LiveWire_Breaker", True,
-     {"ElectricianTools": 1, "WireFactoryElectric": 1, "ToolStoreMisc": 0.5, "GarageTools": 0.3, "CrateTools": 0.3,
-      "CrateElectronics": 0.7, "ElectronicStoreMisc": 0.5, "ToolStoreTools": 0.5, "CrateMetalwork": 0.3,
-      "GarageMechanics": 0.3, "GarageMetalwork": 0.3, "ElectricianTruckBed": 1}),
-    ("PowerBank", "Base.Mov_LiveWire_PowerBank", True,
-     {"ElectricianTools": 0.5, "MechanicShelfElectric": 0.5, "ToolStoreMisc": 0.3, "GarageTools": 0.2,
-      "CrateElectronics": 0.5, "ElectronicStoreMisc": 0.4, "CrateMechanics": 0.3,
-      "GarageMechanics": 0.2, "CrateTools": 0.2, "ElectricianTruckBed": 0.5}),
-    ("BatteryAlarm", "Base.Mov_LiveWire_BatteryAlarm", True,
-     {"ElectricianTools": 1, "WireFactoryElectric": 1, "ToolStoreMisc": 0.5,
-      "CrateElectronics": 0.7, "ElectronicStoreMisc": 0.5, "CrateTools": 0.3, "GarageTools": 0.3,
-      "GarageMechanics": 0.3, "ElectricianTruckBed": 1}),
-    ("WindTurbine", "Base.Mov_LiveWire_WindTurbine", True,
-     {"ToolStoreMisc": 0.3, "WireFactoryElectric": 0.5, "CrateElectronics": 0.3,
-      "CrateMetalwork": 0.3, "ToolStoreMetalwork": 0.5, "CrateTools": 0.3,
-      "WireFactoryTools": 0.5, "CrateFarming": 0.3, "ToolStoreFarming": 0.3, "MechanicShelfTools": 0.3, "GarageMetalwork": 0.2,
-      "MetalWelderTruckBed": 0.3}),
-    ("WaterWheel", "Base.Mov_LiveWire_WaterWheel", True,
-     {"CrateCarpentry": 0.5, "ToolStoreCarpentry": 0.5, "CrateFarming": 0.5,
-      "ToolStoreFarming": 0.3, "CrateTools": 0.3, "CrateMechanics": 0.3, "CrateMetalwork": 0.3}),
-    ("WindTurbineBlades", "LiveWire.WindTurbineBlades", False,
-     {"CrateMetalwork": 1, "ToolStoreMetalwork": 1, "CrateTools": 0.7,
-      "CrateFarming": 0.7, "ToolStoreFarming": 0.7, "WireFactoryTools": 0.7, "GarageMetalwork": 0.7,
-      "MetalWelderTruckBed": 1}),
-    ("WindTurbineMast", "LiveWire.WindTurbineMast", False,
-     {"CrateMetalwork": 1, "ToolStoreMetalwork": 1, "CrateTools": 0.7,
-      "CrateMechanics": 0.7, "CrateFarming": 0.7, "ToolStoreFarming": 0.7, "GarageMetalwork": 0.7,
-      "MetalWelderTruckBed": 1}),
-]
 T = {
     "EN": {"recipe": "Recipe", "in": "Ingredients", "skill": "Skill", "out": "Result", "tools": "Tools (kept)",
            "none": "none", "loot_title": "Ready-made LiveWire equipment",
-           "loot_intro": "Ready-made equipment, at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, a vanilla loot modifier of 0.6, no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.",
+           "loot_intro": "Ready-made equipment, at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, a vanilla loot modifier of 0.6, no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate. LiveWire Extended equipment is in the same table.",
            "item": "Equipment", "list": "Vanilla list", "where": "Where", "w": "Weight (×5)", "r": "Rolls",
-           "c": "≈ chance per container", "furn": "furniture: × 0.6 included", "dec": "."},
+           "c": "≈ chance per container", "furn": "furniture: × 0.6 included", "disk": "needs the Computer Mod",
+           "dec": "."},
     "FR": {"recipe": "Recette", "in": "Ingrédients", "skill": "Compétence", "out": "Résultat",
            "tools": "Outils (conservés)", "none": "aucune", "loot_title": "Équipements LiveWire tout faits",
-           "loot_intro": "Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.",
+           "loot_intro": "Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis. Les équipements LiveWire Extended figurent dans le même tableau.",
            "item": "Équipement", "list": "Liste vanilla", "where": "Où", "w": "Poids (×5)", "r": "Tirages",
-           "c": "≈ chance par conteneur", "furn": "meuble : × 0,6 inclus", "dec": ","},
+           "c": "≈ chance par conteneur", "furn": "meuble : × 0,6 inclus", "disk": "nécessite le Computer Mod",
+           "dec": ","},
 }
 
 
@@ -134,56 +85,152 @@ def num(x, lang, digits=1):
     return ("%.*f" % (digits, x)).replace(".", T[lang]["dec"])
 
 
-def recipes_md(lang):
+# --- Recipes ------------------------------------------------------------------------------------
+
+def recipes_md(lang, recs):
     t = T[lang]
     item, rnames, skill = M.names(lang)
-    out = ["| %s | %s | %s | %s |" % (t["in"], t["tools"], t["skill"], t["out"]), "|---|---|---|---|"]
-    for rk, lvl, ins, tools, outs in M.RECIPES:
-        ing = "<br>".join("%d × %s %s" % (q, img(k), item(k)) for q, k in ins)
-        tl = " ".join(img(k) for k in tools)
-        sk = t["none"] if lvl is None else "%s %d" % (skill, lvl)
-        res = "<br>".join("%s%s **%s**" % ("%d × " % q if len(outs) > 1 else "", img(k, 32), item(k)) for q, k in outs)
-        out.append("| %s | %s | %s | %s |" % (ing, tl, sk, res))
+    out = ["| %s | %s | %s | %s | %s |" % (t["recipe"], t["in"], t["tools"], t["skill"], t["out"]),
+           "|---|---|---|---|---|"]
+    for r in recs:
+        if r["name"] not in rnames:
+            raise KeyError("no translation for recipe %s (%s)" % (r["name"], lang))
+        ing = "<br>".join("%d × %s %s" % (q, img(k), item(k)) for q, k in r["ins"])
+        tl = " ".join(img(k) for k in r["tools"])
+        sk = t["none"] if r["level"] is None else "%s %d" % (skill, r["level"])
+        res = "<br>".join("%s%s **%s**" % ("%d × " % q if len(r["outs"]) > 1 else "", img(k, 32), item(k))
+                          for q, k in r["outs"])
+        out.append("| %s | %s | %s | %s | %s |" % (rnames[r["name"]], ing, tl, sk, res))
     return "\n".join(out)
 
 
-def loot_md(lang):
+# --- Loot, read from the Lua distribution scripts -----------------------------------------------
+
+def read_lua(path):
+    with open(path, encoding="utf-8-sig") as f:
+        return re.sub(r"--[^\n]*", "", f.read())
+
+
+def lua_block(src, name):
+    m = re.search(r"\blocal\s+%s\s*=\s*\{" % name, src)
+    if not m:
+        raise ValueError("local %s table not found" % name)
+    depth, i = 1, m.end()
+    while depth:
+        c = src[i]
+        depth += (c == "{") - (c == "}")
+        i += 1
+    return src[m.end():i - 1]
+
+
+def flat(body):
+    return {k: float(v) for k, v in re.findall(r"(\w+)\s*=\s*([\d.]+)", body)}
+
+
+def keyed(body):
+    return {k: flat(v) for k, v in re.findall(r'\["([\w.]+)"\]\s*=\s*\{([^{}]*)\}', body)}
+
+
+def load_loot():
+    """(cells, items): vanilla list weights of solar cells, and per item {list: weight x1} with its multiplier."""
+    base = read_lua(BASE_LOOT)
+    ext = read_lua(EXT_LOOT)
+    cells = flat(lua_block(base, "CELL_LISTS"))
+    items = OrderedDict()
+
+    def put(full, lists, mult):
+        entry = items.setdefault(full, {"lists": {}, "mult": mult})
+        entry["lists"].update(lists)
+    put("LiveWire.SolarCell", cells, LOOT_MULTIPLIER)
+    put("Base.Mov_LiveWire_SolarPanel", flat(lua_block(base, "PANEL_LISTS")), LOOT_MULTIPLIER)
+    put("LiveWire.MonitorDisk", flat(lua_block(base, "DISK_LISTS")), 1)  # equipment(...) adds it without the multiplier
+    for full, lists in keyed(lua_block(base, "EQUIPMENT")).items():
+        put(full, lists, LOOT_MULTIPLIER)
+    for full, lists in keyed(lua_block(base, "VEHICLE")).items():
+        put(full, lists, LOOT_MULTIPLIER)
+    pro = flat(lua_block(ext, "PRO"))
+    house = flat(lua_block(ext, "HOUSE"))
+    for full, rest in re.findall(r'item = "([\w.]+)"([^{}]*)', lua_block(ext, "ENTRIES")):
+        w = float(re.search(r"weight = ([\d.]+)", rest).group(1))
+        lists = {}
+        if re.search(r"lists = PRO\b", rest):
+            lists.update({k: w * f for k, f in pro.items()})
+        if re.search(r"house = HOUSE\b", rest):
+            lists.update({k: w * f for k, f in house.items()})
+        vm = re.search(r"vehicle = ([\d.]+)", rest)
+        if vm:
+            lists["ElectricianTruckBed"] = float(vm.group(1))
+        put(full, lists, LOOT_MULTIPLIER)
+    return cells, items
+
+
+def vanilla_rolls():
+    """Rolls of each vanilla list used here (game files, read only)."""
+    proc = read_lua(os.path.join(GAME_SERVER, "Items", "ProceduralDistributions.lua"))
+    veh = read_lua(os.path.join(GAME_SERVER, "Vehicles", "VehicleDistributions.lua"))
+    rolls = {}
+    # "name = {" then optional "key = value," lines (isShop = true, ...) then "rolls = N,".
+    field = r"\w+\s*=\s*[^,\n{}]+,\s*"
+    for name, n in re.findall(r"^\s*(\w+)\s*=\s*\{\s*(?:" + field + r")*?rolls\s*=\s*(\d+)", proc, re.M):
+        rolls.setdefault(name, int(n))
+    for name, n in re.findall(r"VehicleDistributions\.(\w+)\s*=\s*\{\s*(?:" + field + r")*?rolls\s*=\s*(\d+)", veh):
+        rolls.setdefault(name, int(n))
+    return rolls
+
+
+def chance(weight, rolls):
+    return (1 - (1 - weight * MODIFIER / 100.0) ** rolls) * 100
+
+
+def cells_md(lang, cells, rolls):
+    t = T[lang]
+    out = ["| %s | %s | %s | %s | %s |" % (t["list"], t["where"], t["w"], t["r"], t["c"]), "|---|---|---|---|---|"]
+    for name, base in cells.items():
+        weight = base * LOOT_MULTIPLIER
+        out.append("| `%s` | %s | %s | %d | %s %% |" % (name, WHERE[lang][name], num(weight, lang, 0),
+                                                       rolls[name], num(chance(weight, rolls[name]), lang)))
+    return "\n".join(out)
+
+
+def loot_md(lang, items, rolls):
     t = T[lang]
     item, _, _ = M.names(lang)
     out = ["| %s | %s | %s | %s | %s | %s |" % (t["item"], t["list"], t["where"], t["w"], t["r"], t["c"]),
            "|---|---|---|---|---|---|"]
-    for key, _, furniture, lists in EQUIPMENT:
+    for full, entry in items.items():
+        key = M.short(full)
+        M.FULL_NAMES.setdefault(key, full)
+        note = ""
+        if full.startswith("Base.Mov_"):
+            note = " (%s)" % t["furn"]
+        if full == "LiveWire.MonitorDisk":
+            note = " (%s)" % t["disk"]
         first = True
-        for name, w in sorted(lists.items(), key=lambda kv: -kv[1]):
-            w *= LOOT_MULTIPLIER
-            r = ROLLS[name]
-            c = (1 - (1 - w * 0.6 / 100.0) ** r) * 100
-            label = "%s **%s**%s" % (img(key), item(key), " (%s)" % t["furn"] if furniture else "") if first else ""
+        for name, w in sorted(entry["lists"].items(), key=lambda kv: -kv[1]):
+            weight = w * entry["mult"]
+            r = rolls[name]
+            label = ("%s **%s**%s" % (img(key), item(key), note)) if first else ""
             out.append("| %s | `%s` | %s | %s | %d | %s %% |" % (label, name, WHERE[lang][name],
-                                                               num(w, lang, 0 if w % 1 == 0 else 1), r, num(c, lang)))
+                                                               num(weight, lang, 0 if weight % 1 == 0 else 1), r,
+                                                               num(chance(weight, r), lang)))
             first = False
     return "\n".join(out)
 
 
-def cells_md(lang):
-    t = T[lang]
-    out = ['| %s | %s | %s | %s | %s |' % (t['list'], t['where'], t['w'], t['r'], t['c']),
-           '|---|---|---|---|---|']
-    for name, base in CELL_LISTS.items():
-        weight, rolls = base * LOOT_MULTIPLIER, ROLLS[name]
-        chance = (1 - (1 - weight * 0.6 / 100.0) ** rolls) * 100
-        out.append('| `%s` | %s | %s | %d | %s %% |' %
-                   (name, WHERE[lang][name], num(weight, lang, 0), rolls, num(chance, lang)))
-    return '\n'.join(out)
-
-
 def main():
+    cells, items = load_loot()
+    rolls = vanilla_rolls()
     for lang in ("EN", "FR"):
         p = os.path.join(M.ROOT, "docs", "wiki", lang.lower(), "_tables.md")
+        crafts = [r for r in M.BASE_RECIPE_LIST if r["kind"] == "craft"]
+        dismantles = [r for r in M.BASE_RECIPE_LIST if r["kind"] == "dismantle"]
         with open(p, "w", encoding="utf-8", newline="\n") as f:
-            f.write("<!-- generated by tools/make_doc_tables.py -->\n\n## RECIPES\n\n" + recipes_md(lang) +
-                    "\n\n## CELLS (x5)\n\n" + cells_md(lang) +
-                    "\n\n## LOOT: " + T[lang]["loot_title"] + "\n\n" + T[lang]["loot_intro"] + "\n\n" + loot_md(lang) + "\n")
+            f.write("<!-- generated by tools/make_doc_tables.py -->\n\n## RECIPES\n\n" + recipes_md(lang, crafts) +
+                    "\n\n## DISMANTLING\n\n" + recipes_md(lang, dismantles) +
+                    "\n\n## RECIPES EXTENDED\n\n" + recipes_md(lang, M.EXT_RECIPE_LIST) +
+                    "\n\n## CELLS (x5)\n\n" + cells_md(lang, cells, rolls) +
+                    "\n\n## LOOT: " + T[lang]["loot_title"] + "\n\n" + T[lang]["loot_intro"] + "\n\n" +
+                    loot_md(lang, items, rolls) + "\n")
         print("wrote", p)
 
 

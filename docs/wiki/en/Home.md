@@ -6,15 +6,13 @@
 
 ![LiveWire](../../images/screenshots/shot4.png)
 
-LiveWire is a Project Zomboid **Build 42.21** mod (mod id `batman_LiveWire`, [Workshop item 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)). It adds solar panels, wind turbines and water wheels, batteries in a power bank, an inverter that powers the house, and a water pump that feeds its taps from water barrels. The Electrical skill becomes a trade.
+**LiveWire** (version 2.0.0, mod id `batman_LiveWire`, [Workshop item 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)) is a Project Zomboid **Build 42.21** mod (it runs on Build 42.22). It adds solar panels, wind turbines and water wheels, batteries in a power bank, an inverter that powers the house, and a water pump that feeds the taps from water barrels. The Electrical skill becomes a trade.
+
+**LiveWire Extended** (version 1.0.0, `batman_LiveWireExtended`) is an optional add-on in the same Workshop item. It connects whole buildings, adds outdoor power terminals and breaker boards where each appliance has its own breaker. See [LiveWire Extended](14-livewire-extended.md).
+
+**LiveWire Viewpoint** (`batman_LiveWireViewpoint`) is another optional mod. It adds 3D models of the devices for Project Zomboid Viewpoint.
 
 New here? Start with [Getting started](01-getting-started.md).
-
-## Version 1.6.0
-
-A substantial minor update: control lighting and appliances from a working electrical panel, open an LCD on each device and manage its connections from one window. Stack two power banks, inspect consumers and cable links, and plan production with the three-day forecast and event log.
-
-Solar orientation and dirt, battery testing and repair, salvage, electrical work risks, revised recipes and broader equipment loot add more depth to the Electrical skill. See the [changelog](../../../CHANGELOG.md), [recipes](08-recipes.md) and [maintenance guide](10-electrical-skill-and-maintenance.md).
 
 ![Electrical panel with separate lighting and equipment circuits](../../images/screenshots/shot6.png)
 
@@ -22,20 +20,20 @@ Solar orientation and dirt, battery testing and repair, salvage, electrical work
 
 ## Pages
 
-- [Getting started](01-getting-started.md)
-- [Equipment](02-equipment.md)
-- [Wiring](03-wiring.md)
-- [Production and calculations](04-production-and-calculations.md)
-- [Inverter screen and software](05-inverter-screen-and-software.md)
-- [Optional equipment](06-optional-equipment.md)
-- [Water pump](07-water-pump.md)
-- [Recipes](08-recipes.md)
-- [Loot tables](09-loot-tables.md)
-- [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md)
-- [Sandbox options](11-sandbox-options.md)
-- [Multiplayer](12-multiplayer.md)
-- [FAQ](13-faq.md)
-- [LiveWire Extended](14-livewire-extended.md) — optional add-on: whole buildings and outdoor terminals
+- [Getting started](01-getting-started.md): your first source, your first inverter and the first link.
+- [Equipment](02-equipment.md): every device, the batteries, placing, turning, picking up and dismantling.
+- [Wiring](03-wiring.md): linking devices to an inverter, wire cost, ranges and the Connections window.
+- [Production and calculations](04-production-and-calculations.md): what each source makes and what appliances use.
+- [Inverter screen and software](05-inverter-screen-and-software.md): the inverter LCD, LiveWire Monitor, the hum, soundproofing and direct clicks.
+- [Optional equipment](06-optional-equipment.md): breaker, low battery alarm, backup generator, management computer, coupled inverters and the two-circuit electrical panel.
+- [Water pump](07-water-pump.md): water barrels that feed the house taps.
+- [Recipes](08-recipes.md): every craft and dismantle recipe.
+- [Loot tables](09-loot-tables.md): where devices and parts are found.
+- [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md): skill levels, wear, repair and cleaning.
+- [Sandbox options](11-sandbox-options.md): every LiveWire option.
+- [Multiplayer](12-multiplayer.md): dedicated servers and multiplayer rules.
+- [FAQ](13-faq.md): common questions.
+- [LiveWire Extended](14-livewire-extended.md): the optional add-on: whole buildings, outdoor terminals and breaker boards.
 
 ---
 

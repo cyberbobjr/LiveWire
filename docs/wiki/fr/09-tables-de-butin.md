@@ -2,7 +2,7 @@
 
 # Tables de butin
 
-Les véhicules d'électricien (dont les utilitaires des entreprises d'électricité) et de métallier transportent aussi des équipements : listes `ElectricianTruckBed`, `ElectricianGloveBox`, `ElectricianSeat` et `MetalWelderTruckBed` ci-dessous.
+Les véhicules d'électricien (dont les utilitaires des entreprises d'électricité) et de métallier transportent aussi des équipements : listes `ElectricianTruckBed`, `ElectricianGloveBox` et `MetalWelderTruckBed` ci-dessous.
 
 ## Lire les poids et les tirages
 
@@ -34,9 +34,9 @@ Poids à ×5 ; estimations si cette liste est sélectionnée, avec un modificate
 
 Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
 
-Fouillez les quincailleries, garages et ateliers automobiles, magasins d'électronique, usines électriques et caisses d'entrepôt. Les batteries stationnaires peuvent aussi apparaître parmi le matériel de camping. Les objets disponibles dépendent de la catégorie de rangement : aucun lieu précis ne garantit une découverte. Les roues à aubes se trouvent aussi dans les rangements agricoles, de menuiserie et techniques ; les pompes restent à fabriquer.
+Fouillez les quincailleries, garages et ateliers automobiles, magasins d'électronique, usines électriques et caisses d'entrepôt. Les batteries stationnaires peuvent aussi apparaître parmi le matériel de camping. Les objets disponibles dépendent de la catégorie de rangement : aucun lieu précis ne garantit une découverte. Les roues à aubes se trouvent dans les rangements et caisses de menuiserie et d'agriculture, ainsi que dans les caisses d'outils, de mécanique et de métallerie. Les pompes à eau sont à fabriquer uniquement.
 
-Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox **LiveWire** : **5 par défaut**, de **1 à 20**. Redémarrez le jeu ou le serveur dédié après modification. Les anciennes parties sans cette option utilisent 5. Seuls les prochains tirages sont concernés, y compris la réapparition vanilla du butin si elle est activée ; aucun remplissage des conteneurs déjà fouillés. Les cellules photovoltaïques sont incluses. Objets et poids vanilla inchangés ; les CD gardent leur taux actuel. À 1, les anciens poids sont rétablis dans les catégories existantes, tout en conservant les nouveaux lieux.
+Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox **LiveWire** : **5 par défaut**, de **1 à 20**. Redémarrez le jeu ou le serveur dédié après modification. Seuls les prochains tirages sont concernés, y compris la réapparition vanilla du butin si elle est activée ; aucun remplissage des conteneurs déjà fouillés. Les cellules photovoltaïques sont incluses. Objets et poids vanilla inchangés. Le disque du logiciel n'est pas concerné par cette option.
 
 | Équipement | Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
 |---|---|---|---|---|---|
@@ -154,6 +154,10 @@ et utilisent le même multiplicateur. Seuls les objets définis par LiveWire fig
 ajouts de butin et tableaux. Les ingrédients vanilla (fils, déchets électroniques,
 amplificateurs, haut-parleurs, ampoules, piles et matériaux) gardent leurs tables
 et poids existants. Cette option n'ajoute, ne retire ni ne repondère aucun objet vanilla.
+
+## Butin de LiveWire Extended
+
+Les équipements de l'extension optionnelle (borne électrique, tableaux électriques, disjoncteurs et interrupteur crépusculaire) utilisent le même multiplicateur. Les disjoncteurs sont les plus fréquents : outillage d'électricien, quincaillerie, caisses d'électronique et d'usine de câbles, et dans les garages et caisses d'outils des maisons. Les tableaux et les interrupteurs crépusculaires sont plus rares et ne se trouvent que dans le butin professionnel. La borne se trouve dans le butin professionnel et dans les camions d'électricien. Les listes utilisées sont `ElectricianTools`, `ToolStoreMisc`, `CrateElectronics`, `WireFactoryElectric`, `GarageTools`, `CrateTools`, `GarageMetalwork` et le plateau du camion d'électricien.
 
 ## Disque du logiciel de gestion (`LiveWire.MonitorDisk`, seulement avec le Computer Mod actif)
 

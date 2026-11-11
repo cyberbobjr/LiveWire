@@ -30,7 +30,7 @@ Condition factor = 0.5 + 0.5 x condition / 100.
 
 ### Installation efficiency
 
-Based on the Electrical level of whoever first links the device to an inverter (the best level seen is kept).
+Set when the device is first connected to an inverter, from the Electrical level of the player who connects it.
 
 | Electrical level | Efficiency |
 |---|---|
@@ -40,7 +40,7 @@ Based on the Electrical level of whoever first links the device to an inverter (
 
 ## Solar panel (100 W)
 
-Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcast: factor x (1 - 0.8 x clouds). Snow settles on the panel during snowfall and melts above 0 C (use the "Clear the snow" action). A new panel under a clear sky gives about **0.94 kWh per summer day** and **0.60 kWh in winter**.
+Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcast: factor x (1 - 0.8 x clouds). Snow settles on the panel during snowfall and melts above 0 C (use the "Clear the snow" action to remove it by hand). A new panel under a clear sky gives about **0.94 kWh per summer day** and **0.60 kWh in winter**.
 
 ## Wind turbine (400 W)
 
@@ -48,7 +48,7 @@ Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcas
 - (v / 30)^3 between 10 and 30 km/h.
 - 100 % from 30 to 85 km/h.
 - 0 above 85 km/h (automatic brake).
-- Wind is +15 % per floor, up to the 3rd.
+- The wind is 15 % stronger per floor, up to the 3rd floor.
 
 | Wind (km/h) | Share of nominal | Power |
 |---|---|---|
@@ -66,7 +66,7 @@ Values are the wind share applied to the 400 W nominal, before the condition and
 
 ## Water wheel (120 W)
 
-Produces day and night, about 2.9 kWh per day (120 W x 24 h). Rivers only: the engine cannot tell a lake's current. Season multipliers: spring x 1.2, summer x 0.8, autumn and winter x 1.0.
+Produces day and night, about 2.9 kWh per day (120 W x 24 h). Rivers only: the engine cannot tell a lake's current. The wheel turns with the river, faster in spring and slower in summer. Season multipliers: spring x 1.2, summer x 0.8, autumn and winter x 1.0.
 
 | Season | Power | Energy per day |
 |---|---|---|
@@ -81,12 +81,17 @@ Produces day and night, about 2.9 kWh per day (120 W x 24 h). Rivers only: the e
 - Charging: surplus x 0.90 (charge efficiency).
 - Self-discharge: 0.2 % per day.
 - When full, extra production is lost (shown as "production lost").
-- Public grid (sandbox `GridCharging`, on by default): while it works, an inverter standing in a room of a building draws up to a fifth of its rated power from the mains (300 W for an inverter, 900 W for a cabinet). That power first covers what the sources do not supply, then charges the batteries; it is only drawn when needed, so nothing is lost. A broken inverter does not charge; a switched-off one does.
 - Effective capacity = nominal x (0.4 + 0.6 x condition / 100) x `BatteryCapacityMultiplier`.
+
+### Public grid
+
+Sandbox option `GridCharging` is on by default. While the public grid works, an inverter that stands in a room of a building can draw power from the mains, up to a fifth of its rated power (300 W for an inverter, 900 W for an inverter cabinet). The grid power first covers what the sources do not supply, then charges the batteries. It is drawn only when needed, so nothing is lost. The grid stops when the game's vanilla power shut-off takes effect.
+
+A broken inverter does not charge from the grid or the sources. A switched-off inverter still lets its sources charge the batteries.
 
 ## Inverter supply order
 
-The inverter supplies the demand from the **current production first** (x efficiency), then from the **public grid** while it works (sandbox `GridCharging`), then from the **batteries**. It can only restart when production (grid included) covers the demand or the batteries hold more than 2 % of their capacity. Appliance consumption depends on the sandbox `ConsumptionProfile` (below).
+The inverter supplies the demand from the **current production first** (x efficiency), then from the **public grid** while it works (sandbox `GridCharging`), then from the **batteries**. It can only restart when production (grid included) covers the demand, or when the batteries hold more than 2 % of their capacity. Appliance consumption depends on the sandbox `ConsumptionProfile` (below).
 
 ## Appliance consumption
 
@@ -118,7 +123,7 @@ The sandbox option **`ConsumptionProfile`** sets how much power each switched-on
 
 ### What the realistic profiles change
 
-The inverter limit stays **1,500 W** (4,500 W for the inverter cabinet; [coupled inverters](06-optional-equipment.md) add up), in line with the off-grid inverters of the 1990s. In the 1993 profiles:
+The inverter limit stays **1,500 W** (4,500 W for the inverter cabinet; [coupled inverters](06-optional-equipment.md#parallel-inverters-coupling) add up), in line with the off-grid inverters of the 1990s. In the 1993 profiles:
 
 - An electric cooker (2,000 or 3,000 W) or a dryer trips a single inverter: cook on gas, a wood stove or a campfire, or couple inverters. A breaker panel protects the inverter.
 - Lights become the main night load: switch off empty rooms.
@@ -151,11 +156,11 @@ There is **no limit**: productions add up (100 W nominal each). The 1,500 W limi
 
 ## Panel care and orientation
 
-With SolarOrientation enabled, south gives 100%, east/west 85% with an earlier/later
-peak, north 55%. Inspect the panel to read its facing, dirt and snow. SolarDirt adds
-slow dust accumulation (faster in autumn); rain helps wash it off. Clean with a rag
-(kept) and 0.5 L of water. The old snow-only action remains available. A braked wind
-turbine has a blinking connection lamp; a storm warning reminds you to apply brakes.
+With the sandbox option `SolarOrientation` on (the default), south gives 100 %, east and west 85 % (with an earlier or later peak), and north 55 %. Inspect a panel to read its facing, dirt and snow. The `SolarDirt` option adds slow dust build-up (faster in autumn); rain helps wash it off.
+
+Two actions clean a panel. **Clean panel** uses a rag and 0.5 L of water and removes dirt and snow. **Clear the snow** removes only the snow.
+
+A braked wind turbine has a blinking connection lamp.
 
 ## See also
 

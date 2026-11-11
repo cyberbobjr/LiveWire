@@ -2,13 +2,13 @@
 
 # Raccordement
 
-Les appareils d'un réseau LiveWire se relient à l'onduleur par des fils électriques. La maison, elle, n'a besoin d'aucun câblage : tout appareil dans la zone alimentée par l'onduleur fonctionne.
+Les équipements d'un réseau LiveWire se relient à l'onduleur par des fils électriques. La maison, elle, n'a besoin d'aucun câblage : tout appareil dans la zone alimentée par l'onduleur fonctionne.
 
 ## Pas à pas
 
-1. Fabriquez les appareils ([Recettes](08-recettes.md)) et posez-les avec le curseur de meuble. Chaque branchement à l'onduleur exige le niveau d'Électricité de l'appareil (voir le [tableau des équipements](02-equipements.md)) ; mettre un onduleur en service exige le niveau 3.
-2. Clic droit sur un appareil, puis « LiveWire », puis le nom de l'appareil : le menu indique « Raccordé à l'onduleur à N cases » ou « Non raccordé », puis « Raccorder à un onduleur », avec une ligne par onduleur à portée : « Onduleur à N cases (k fil(s)) ». Autre voie : clic droit sur l'onduleur, « Raccorder un équipement » (liste des équipements libres à portée avec distance et fils) ou « Débrancher un équipement ».
-3. Le générateur vanilla (secours) et l'ordinateur de bureau vanilla (gestion) se relient de la même façon, depuis leur propre menu : « LiveWire », puis Backup generator ou Management computer, puis « Raccorder à un onduleur ».
+1. Fabriquez les équipements ([Recettes](08-recettes.md)) et posez-les avec le curseur de meuble. Brancher un équipement demande un **tournevis**, des fils électriques et le niveau d'Électricité de l'équipement (voir le [tableau des équipements](02-equipements.md)). Mettre un onduleur en service par son premier branchement demande le niveau 3.
+2. Clic droit sur un équipement, puis « LiveWire », puis le nom de l'équipement : le menu indique « Raccordé à l'onduleur à N cases » ou « Non raccordé ». Choisissez ensuite « Raccorder à un onduleur », avec une ligne par onduleur à portée : « Onduleur à N cases (k fil(s)) ».
+3. Autre voie : clic droit sur l'onduleur, « Raccorder un équipement » (liste des équipements libres à portée, avec distance et fils) ; « Débrancher un équipement » fait l'inverse.
 
 ![Le menu LiveWire sur l'onduleur](../../images/screenshots/shot1.png)
 
@@ -16,25 +16,32 @@ Les appareils d'un réseau LiveWire se relient à l'onduleur par des fils élect
 
 Un fil électrique `Base.ElectricWire` par tranche de 4 cases de distance, arrondi à l'entier supérieur, au moins 1 (option WirePerTiles ; 0 = câblage gratuit).
 
-| Distance | Fils |
-|---|---|
-| 4 cases | 1 |
-| 9 cases | 3 |
-| 12 cases | 3 |
+| Distance | Calcul | Fils |
+|---|---|---|
+| 4 cases | 4 / 4 = 1 | 1 |
+| 9 cases | 9 / 4 = 2,25, arrondi | 3 |
+| 12 cases | 12 / 4 = 3 | 3 |
 
 ## Portée et limites
 
 | Règle | Valeur |
 |---|---|
-| Portée de câble | 12 cases horizontalement (option LinkRange, 4 à 30), 3 étages d'écart au plus par défaut (option LinkVerticalRange, 0 à 10 ; 0 = même étage). S'applique aussi au couplage d'onduleurs |
+| Portée de câble | 12 cases horizontalement (option LinkRange, 4 à 30), et 3 étages au-dessus ou en dessous par défaut (option LinkVerticalRange, 0 à 10 ; 0 = même étage). S'applique aussi au couplage d'onduleurs |
+| Onduleurs par réseau | Un onduleur maître, plus jusqu'à 3 onduleurs couplés (4 au total). Voir [Équipements optionnels](06-equipements-optionnels.md#onduleurs-en-parallèle-couplage) |
 | Sources par onduleur | Illimitées |
 | Powerbanks par onduleur | Plusieurs |
 | Disjoncteur, alarme, ordinateur de gestion, générateur de secours | Un de chaque par réseau au plus |
-| Onduleur | Un par réseau |
 
 ## Générateur et ordinateur vanilla
 
-Le générateur de secours et l'ordinateur de bureau sont des objets vanilla trouvés dans le monde, pas des recettes. Voir [Équipements optionnels](06-equipements-optionnels.md).
+Le générateur de secours et l'ordinateur de bureau sont des objets vanilla trouvés dans le monde, pas des recettes. Ils se raccordent depuis leur propre menu : « LiveWire », puis « Générateur de secours » ou « Ordinateur de gestion », puis « Raccorder à un onduleur ». Le menu du générateur de secours est décrit dans [Équipements optionnels](06-equipements-optionnels.md).
+
+## Débrancher, ramasser et tourner
+
+- Débrancher un équipement, ou le ramasser, rend ses fils électriques (« fil(s) électrique(s) récupéré(s) »).
+- Ramasser l'onduleur déconnecte tout son réseau, et les fils de ce réseau reviennent.
+- Tourner l'onduleur conserve ses liens.
+- Ramasser une source conserve son état ; reposée, elle est « Non raccordé ».
 
 ## Menu de l'onduleur
 
@@ -42,31 +49,26 @@ Clic droit sur l'onduleur :
 
 | Entrée | Effet |
 |---|---|
-| Open the inverter screen | Ouvre l'écran LCD |
-| Turn on / Turn off | Marche / arrêt |
-| Reset | Réarme après une disjonction |
-| Show the powered area | Cercle cyan au sol |
-| Connect equipment / Disconnect equipment | Gérer les liens |
-| Soundproof the inverter | Pose du kit d'insonorisation |
-| Inspect | Inspection (expérience) |
-| Repair / Overhaul | Réparation / remise à neuf |
+| Ouvrir l'écran de l'onduleur | Ouvre l'écran LCD |
+| Allumer / Éteindre | Marche / arrêt |
+| Réarmer | Réarme après une disjonction |
+| Afficher la zone alimentée | Cercle cyan au sol |
+| Raccorder un équipement / Débrancher un équipement | Gérer les liens |
+| Insonoriser l'onduleur (ou Retirer l'insonorisation) | Pose ou retrait du kit d'insonorisation |
+| Inspecter | Inspection (expérience) |
+| Réparer / Remettre à neuf | Réparation / remise à neuf |
+| Renommer le réseau | Nom du réseau |
+
+Un onduleur couplé à un maître affiche « Découpler » à la place des options de couplage.
 
 ## Tout raccorder depuis une seule fenêtre
 
-Cliquez directement sur un équipement LiveWire proche. Sur un panneau solaire,
-une éolienne, une roue ou une alarme, la fenêtre de raccordement s'ouvre. Sur le LCD
-de l'onduleur, appuyez sur **Raccordements**. Le tableau électrique sert aux circuits
-et au réarmement.
+Cliquez directement sur un équipement LiveWire proche, et son écran s'ouvre : l'onduleur ouvre son écran, une powerbank son LCD, un disjoncteur son tableau électrique. Les panneaux solaires, les éoliennes, les roues à aubes, les pompes et les alarmes ouvrent leur propre LCD. Chacun de ces écrans a un bouton **Raccordements** (sur l'onduleur, la powerbank et le disjoncteur, il est sur l'écran lui-même). Ce bouton ouvre la fenêtre commune.
 
-Choisissez l'onduleur en haut, sélectionnez un équipement, puis **Raccorder** ou
-**Débrancher**. Le personnage se déplace jusqu'à lui ; les fils et les règles de
-compétence restent nécessaires. La fenêtre reste ouverte pour les autres équipements.
-**Actualiser** recherche les objets nouvellement posés. Les équipements raccordés à
-un autre réseau sont signalés : débranchez-les d'abord de ce réseau.
+Dans la fenêtre, choisissez un onduleur, sélectionnez un équipement, puis **Raccorder** ou **Débrancher**. Le personnage se déplace jusqu'à lui ; les fils et les règles de compétence restent nécessaires. La fenêtre reste ouverte pour les autres équipements. **Actualiser** recherche les équipements nouvellement posés. Les équipements raccordés à un autre réseau sont signalés : débranchez-les d'abord de ce réseau.
 
-Le clic droit reste disponible. Le couplage des onduleurs et les barils de pompe
-conservent leurs options spécifiques.
+Le clic droit reste disponible. Le couplage des onduleurs et les barils de pompe conservent leurs options spécifiques.
 
 ## Voir aussi
 
-[Équipements](02-equipements.md) · [Écran et logiciel](05-ecran-et-logiciel.md) · [Options sandbox](11-options-sandbox.md)
+[Équipements](02-equipements.md) · [Écran et logiciel](05-ecran-et-logiciel.md) · [Options sandbox](11-options-sandbox.md) · [LiveWire Extended](14-livewire-extended.md)

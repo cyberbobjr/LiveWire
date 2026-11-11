@@ -334,7 +334,8 @@ def check_events(pz):
 
 
 def check_versions():
-    """The Lua runtime and both shipped mods must announce the same release."""
+    """The Lua runtime, LiveWire and its Viewpoint models announce the same release;
+    LiveWire Extended has its own version number."""
     core_path = os.path.join(LUA, "shared", "LiveWire", "LW_Core.lua")
     with open(core_path, encoding="ascii") as stream:
         match = re.search(r'LiveWire\.VERSION\s*=\s*"([^"]+)"', stream.read())
@@ -346,8 +347,12 @@ def check_versions():
     for path in infos:
         with open(path, encoding="utf-8-sig") as stream:
             match = re.search(r'^modversion\s*=\s*(\S+)\s*$', stream.read(), re.MULTILINE)
-        if not match or match.group(1) != version:
-            fail("%s: modversion must match LiveWire.VERSION (%s)" % (os.path.relpath(path, ROOT), version))
+        rel = os.path.relpath(path, ROOT)
+        if "batman_LiveWireExtended" in rel:
+            if not match or not re.fullmatch(r"\d+\.\d+\.\d+", match.group(1)):
+                fail("%s: modversion must be a x.y.z version" % rel)
+        elif not match or match.group(1) != version:
+            fail("%s: modversion must match LiveWire.VERSION (%s)" % (rel, version))
 
 
 def check_extended_info():

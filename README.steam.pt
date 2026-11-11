@@ -1,85 +1,106 @@
-[h1]LiveWire - Revisão Completa da Competência de Eletricidade[/h1]
+[h1]LiveWire - Reformulação da habilidade de Eletricidade[/h1]
 
-[b]Build 42.21 · Um jogador e multijogador (o servidor tem a autoridade)[/b]
+[b]Build 42.21+ · Um jogador e multijogador[/b]
 
-A eletricidade acabou para sempre... mas as luzes não têm de acabar. Construa a sua própria eletricidade fora da rede: painéis solares, uma turbina eólica ou uma roda de água alimentam um inversor, e o inversor dá energia a toda a casa à volta. Adicione baterias para a noite. A competência Eletricidade finalmente conta: cada equipamento tem um nível, e o seu nível melhora a instalação.
-
-[h2]1.6.0 — Controle a sua instalação[/h2]
-
-O quadro tem alavancas de iluminação, equipamentos e principal, com watts atuais por circuito e totais. Desligue aparelhos reais e restaure os estados anteriores, mesmo após reiniciar. As fontes podem carregar baterias com a distribuição principal aberta. Clique esquerdo abre o LCD de cada equipamento; o botão de ligações permite escolher o inversor.
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
-
-[h2]Como funciona[/h2]
+A energia acabou de vez, mas as luzes não precisam acabar. Construa sua própria eletricidade fora da rede: painéis solares, turbinas eólicas e rodas d'água alimentam um inversor, que abastece a casa ao redor. Adicione baterias para a noite. Cada aparelho tem um nível de Eletricidade, e o seu nível melhora a instalação.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_pt.png[/img]
 
-Solar 100 W, eólica 400 W, roda de água 120 W. Um inversor alimenta aparelhos a 20 quadrados e ±3 pisos, até 1500 W. Sem cabo por eletrodoméstico.
-[b]Precisa de mais de 1500 W?[/b] Coloque um segundo inversor sem nada ligado, clique direito > LiveWire > «Acoplar a um inversor» (1 kit de acoplamento de inversores, receita de Eletricidade 3). Até 4 inversores acoplados: 6000 W. Novo: transforme um inversor num [b]armário inversor[/b] de 4500 W (Eletricidade 3), também acoplável.
-Bancos com 4 baterias guardam o excedente. Cabos: 1 fio por 4 quadrados, alcance 12. Perfis: valores do jogo, Realista 1993, Ultrarealista 1993 ou Conforto.
+[h2]Como funciona[/h2]
 
-[h2]Equipamento[/h2]
+Solar 100 W, eólica 400 W, roda d'água 120 W. Um inversor alimenta os aparelhos a 20 casas e ±3 andares, até 1.500 W, sem cabo para cada aparelho. O excedente vai para powerbanks.
+Enquanto a rede pública funcionar, um inversor dentro de um edifício também puxa até um quinto da sua potência da rede (opção sandbox GridCharging, ativada por padrão).
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]Primeiros passos[/url]
+
+[h2]Equipamentos[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_pt.png[/img]
 
-Colocar não exige nível (painéis e turbinas no exterior, rodas na margem de um rio, inversores, bancos). Ligar: painéis e inversores com Eletricidade 3; turbinas, rodas e bancos com 2. Empilhe dois bancos por quadrado com inventários e ligações separados; esvazie antes de recolher, primeiro o superior.
-Opcionais: quadro elétrico, alarme, insonorização, gerador vanilla de reserva e computador de gestão.
+Colocar exige uma chave de fenda, sem nível. Ligação: painéis solares e inversores no nível 3; turbinas eólicas, rodas d'água e powerbanks no nível 2. Opcionais: disjuntor, alarme de bateria, isolamento acústico, gerador de reserva vanilla e computador de gestão.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]Guia de equipamentos[/url]
 
 [h2]Produção[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_pt.png[/img]
 
-Orientação solar: sul 100%, este/oeste 85%, norte 55%. Nuvens, neve e sujidade reduzem a produção. A chuva limpa; também um trapo + 0,5 L de água. Vento desde 10 km/h, potência máxima a 30–85, travão acima disso; +15% de vento por piso até ao 3.º. Roda ativa de dia e noite. O frio opcional preserva como reserva a energia inacessível das baterias; desligado por predefinição.
+A orientação solar importa: sul 100%, leste e oeste 85%, norte 55%. Nuvens, neve e sujeira reduzem a produção; a chuva limpa os painéis. A turbina produz a partir de 10 km/h, com potência total de 30 a 85 km/h. A roda d'água produz dia e noite.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Produção e cálculos[/url]
 
-[h2]Bomba de água[/h2]
+[h2]Fiação e acoplamento[/h2]
 
-A bomba (Eletricidade 3) abastece sanitários ligados num raio de 15 quadrados a partir de até 8 coletores ou barris [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacentes, um tubo metálico cada. Canalização com chave de tubos. Água da chuva sai limpa: até 5 L/min, 250 W ao bombear. Azul = alimentada, mesmo em repouso. Antes de desinstalar, retire todos os relés de água pela ação debug/admin.
+Clique com o botão direito em um aparelho, depois em LiveWire, depois em Ligar a um inversor. Um cabo custa 1 fio a cada 4 casas, alcance 12. Precisa de mais de 1.500 W? Acople um segundo inversor (Acoplar a um inversor, 1 kit de acoplamento): uma rede comporta 4 inversores, 6.000 W.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Guia de fiação[/url]
+
+[h2]Tela do inversor e software de gestão[/h2]
+
+A tela do inversor controla iluminação, equipamentos e alavancas principais, e mostra os watts de cada circuito. O LiveWire Monitor acrescenta consumidores, visões de cabos, previsão de três dias e os últimos 30 eventos, em um computador de gestão com energia.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]Tela e software[/url]
+
+[h2]Bomba d'água[/h2]
+
+Uma bomba d'água (Eletricidade 3) abastece os sanitários ligados a 15 casas, a partir de até 8 coletores de chuva ou barris [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacentes.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Guia da bomba[/url]
 
 [h2]Receitas[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_pt.png[/img]
 
-18 receitas ilustradas. Desbloqueio automático em Eletricidade; pás e mastro em Metalurgia sem nível elétrico. Montagem da turbina ao 3, fabrico da roda ao 4, ambas com dois amplificadores. Ligar ambas ao 2; colocar não exige nível. Desmonte um testador para recuperar sucata eletrónica. Todas dão XP de Eletricidade. Mais locais de saque; multiplicador 5 por predefinição (1–20), apenas sorteios futuros após reiniciar.
+16 receitas de criação, mostradas acima. Equipamentos danificados podem ser pegos e desmontados pelo menu de criação (12 receitas de desmontagem, com chave de fenda).
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]Receitas[/url]
 
-[h2]Software de gestão[/h2]
+[h2]Eletricidade e segurança[/h2]
 
-LiveWire Monitor acrescenta consumidores (até 200), silhuetas coloridas, cabos, 30 últimos eventos e previsão de produção de três dias com computador de gestão alimentado, além do histórico de 48 h. Nomes de rede nos LCD e avisos. Computadores vanilla funcionam; Computer Mod/Laptop Mod opcionais com disco encontrado no saque.
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
-
-[h2]Segurança elétrica e experiência[/h2]
-
-Teste baterias aos níveis 1/3/5. Recondicione ao 4 (6 se morta): chave de fendas conservada, sucata, fio, 0,5 L de água; +15 estado, máximo 80, quatro vezes. Apanhe equipamentos avariados e desmonte-os no menu de fabrico. Risco sob tensão ativo: 50/42/33/25/17/8/0% nos níveis 0/1/2/3/4/5/6+. O choque queima a mão da ferramenta, larga os objetos e cancela antes de gastar materiais. Desligue o inversor mestre; o quadro não isola os seus terminais.
+Teste as baterias na Eletricidade 1, 3 e 5 para mais detalhes. Trabalhar com a rede tem risco de choque, ativado por padrão: 50% no nível 0, 0% no nível 6 ou mais. Desligue primeiro o inversor mestre; abrir um disjuntor não isola.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Eletricidade e manutenção[/url]
 
 [h2]Multijogador[/h2]
 
-Simulação e verificações no servidor, circuitos guardados e estados sincronizados. Feche os dois circuitos antes de desativar o mod.
+O servidor verifica cada ação; as escolhas de circuitos e os estados dos aparelhos são salvos e sincronizados. Feche os dois circuitos antes de desativar o mod.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Guia multijogador[/url]
+
+[h2]LiveWire Extended (complemento opcional)[/h2]
+
+Leva a energia além do círculo do inversor:
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Ligar um edifício inteiro[/url]: cada andar, o porão e uma faixa ao redor do térreo.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Terminal de energia externo[/url]: alimenta uma zona desenhada de até 16 x 16 casas.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Quadros de disjuntores[/url]: disjuntores de 15, 20 ou 30 A, um por aparelho.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disjuntor[/url]: montado num disjuntor, mantém esse circuito ligado do anoitecer ao amanhecer, conforme a estação.
+[*]Algumas casas do mapa já têm um quadro pré-fiado, sem etiquetas.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_pt.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_pt.png[/img]
+
+Ative-o na lista de mods, depois do LiveWire. Não é compatível com LG Extended Electricity nem com Knox Power. Para removê-lo com segurança, um admin primeiro religa todos os disjuntores pelo menu de um quadro.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guia completo[/url]
+
+[h2]Modelos Project Viewpoint[/h2]
+
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este item também contém o mod opcional LiveWire - Viewpoint models, com modelos 3D de todos os aparelhos. Ative-o apenas se usar o Project Viewpoint.
+
+[h2]Compatibilidade[/h2]
+
+Compatível com [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] e [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionais). Criação original, não feita para rodar junto com outros mods de sistemas elétricos. Licença MIT.
 
 [h2]Documentação[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki (em inglês)[/url] · Código-fonte: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este item inclui também o mod opcional [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint) com modelos 3D de todos os equipamentos. Ativa-o só se usares o Project Viewpoint.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
-[b]Compatível com[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] e [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionais): o software de gestão instala-se a partir de um disco encontrado no saque de computadores e funciona como uma aplicação no ambiente de trabalho deles.
-[b]Compatibilidade[/b]: criação original, não pensada para funcionar em conjunto com outros mods de sistemas elétricos. Licença MIT.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Wiki do LiveWire[/url] · Código-fonte: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [h2]Discord[/h2]
 
-Perguntas, erros ou ideias? Junte-se ao Discord:
+Dúvidas, bugs ou ideias? Entre no Discord:
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
-[h2]Uma nota sobre a IA[/h2]
+[h2]Uma nota sobre IA[/h2]
 
-Sou programador há anos e criava mods muito antes de existirem agentes de programação, muitas vezes à custa do tempo com a minha família. Uso abertamente o Claude Code e o Codex: cada funcionalidade continua a ser discutida, concebida e planeada, e não feita às cegas em «vibe coding». A IA veio para ficar; escolhi adaptar-me em vez de resistir. Obrigado a todos os que se insurgiram contra os ataques pessoais.
+Sou desenvolvedor há anos e criava mods muito antes dos agentes de código existirem, muitas vezes às custas do tempo com a família. Uso abertamente o Claude Code e o Codex: cada funcionalidade continua sendo discutida, projetada e planejada, não “vibe coded” às cegas. A IA veio para ficar; escolhi me adaptar em vez de resistir. Obrigado a todos que se levantaram contra os ataques pessoais.
 
 [h2]Apoie o projeto[/h2]
 
-Gosta do mod? Um café ajuda a financiar novas funcionalidades e traduções.
+Gostou do mod? Um café ajuda a financiar novas funções e traduções.
 [url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
 
 [h2]Créditos[/h2]
 
-Criado por batmanfr. Modelo do armário inversor: PewPewCricket. Código original, tiles e sons; nenhum conteúdo retirado de outros mods.
+Criado por batmanfr. Modelo do armário inversor: PewPewCricket. Código, tiles e sons originais; nenhum conteúdo tirado de outros mods.

@@ -11,6 +11,7 @@ Item names come from the game's translations (vanilla items) and the mod's trans
 import json
 import math
 import os
+import re
 import sys
 
 from PIL import Image, ImageDraw, ImageFont
@@ -18,7 +19,14 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "docs", "images", "diagrams")
 ICONS = os.path.join(ROOT, "docs", "images", "icons")
-MOD_TR = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media", "lua", "shared", "Translate")
+MODS = os.path.join(ROOT, "Contents", "mods")
+BASE_MOD = os.path.join(MODS, "batman_LiveWire", "42.21", "media")
+EXT_MOD = os.path.join(MODS, "batman_LiveWireExtended", "42.21", "media")
+# Recipe scripts: every craftRecipe block of both mods is read from here (no hand-written recipe table).
+BASE_RECIPES = os.path.join(BASE_MOD, "scripts", "LiveWire_recipes.txt")
+EXT_RECIPES = os.path.join(EXT_MOD, "scripts", "LiveWireExtended_recipes.txt")
+MOD_TR = os.path.join(BASE_MOD, "lua", "shared", "Translate")
+EXT_TR = os.path.join(EXT_MOD, "lua", "shared", "Translate")
 GAME_TR = os.environ.get("PZ_TRANSLATE", r"D:\SteamLibrary\steamapps\common\ProjectZomboid\media\lua\shared\Translate")
 FONTS = os.environ.get("FONTS_DIR", r"C:\Windows\Fonts")
 LANGS = ["EN", "FR", "DE", "ES", "PTBR", "PT", "RU", "CN", "JP", "KO"]
@@ -218,11 +226,57 @@ L = {
     },
 }
 
+# Strings added for LiveWire 2.0.0 (extended recipe book, dismantling card, Extended board, inverter coupling).
+EXTRA_L = {
+    "EN": {"inv_note": "up to 4 per network (coupling kit)\nindoor placement · no toxicity",
+           "dis_title": "DISMANTLING", "dis_all": "Screwdriver for all %d recipes · no level",
+           "dis_extra": "+ %s: %s", "fig_zone": "zone up to 16 × 16 tiles", "fig_modules": "%d modules",
+           "fig_night": "on at night only", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "FR": {"inv_note": "jusqu'à 4 par réseau (kit de couplage)\npose intérieure · aucune toxicité",
+           "dis_title": "DÉMONTAGE", "dis_all": "Tournevis pour les %d recettes · sans niveau",
+           "dis_extra": "+ %s : %s", "fig_zone": "zone jusqu'à 16 × 16 cases", "fig_modules": "%d modules",
+           "fig_night": "allumé la nuit seulement", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "DE": {"inv_note": "bis zu 4 pro Netz (Kopplungsset)\nim Haus aufstellbar · nicht giftig",
+           "dis_title": "ZERLEGEN", "dis_all": "Schraubendreher für alle %d Rezepte · ohne Stufe",
+           "dis_extra": "+ %s: %s", "fig_zone": "Zone bis 16 × 16 Felder", "fig_modules": "%d Module",
+           "fig_night": "nur nachts an", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "ES": {"inv_note": "hasta 4 por red (kit de acoplamiento)\ninterior · no es tóxico",
+           "dis_title": "DESMONTAJE", "dis_all": "Destornillador para las %d recetas · sin nivel",
+           "dis_extra": "+ %s: %s", "fig_zone": "zona hasta 16 × 16 casillas", "fig_modules": "%d módulos",
+           "fig_night": "encendido solo de noche", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "PTBR": {"inv_note": "até 4 por rede (kit de acoplamento)\ninstalação interna · sem toxicidade",
+             "dis_title": "DESMONTAGEM", "dis_all": "Chave de fenda para as %d receitas · sem nível",
+             "dis_extra": "+ %s: %s", "fig_zone": "zona até 16 × 16 quadrados", "fig_modules": "%d módulos",
+             "fig_night": "ligado só à noite", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "PT": {"inv_note": "até 4 por rede (kit de acoplamento)\ninstalação interior · sem toxicidade",
+           "dis_title": "DESMONTAGEM", "dis_all": "Chave de parafusos para as %d receitas · sem nível",
+           "dis_extra": "+ %s: %s", "fig_zone": "zona até 16 × 16 quadrículas", "fig_modules": "%d módulos",
+           "fig_night": "ligado só de noite", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "RU": {"inv_note": "до 4 на сеть (комплект связки)\nможно в доме · не токсичен",
+           "dis_title": "РАЗБОРКА", "dis_all": "Отвёртка для всех %d рецептов · без уровня",
+           "dis_extra": "+ %s: %s", "fig_zone": "зона до 16 × 16 клеток", "fig_modules": "модулей: %d",
+           "fig_night": "только ночью", "fig_amp": "%d A · %d %s", "w_unit": "Вт"},
+    "CN": {"inv_note": "每个电网最多 4 台（耦合套件）\n可放室内 · 无毒",
+           "dis_title": "拆解", "dis_all": "%d 个配方都需要螺丝刀 · 无等级",
+           "dis_extra": "+ %s：%s", "fig_zone": "区域最大 16 × 16 格", "fig_modules": "%d 个模块",
+           "fig_night": "仅夜间导通", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "JP": {"inv_note": "1ネットワークに最大4台（連結キット）\n屋内設置可 · 毒性なし",
+           "dis_title": "分解", "dis_all": "%d件すべてドライバーが必要 · レベル不要",
+           "dis_extra": "+ %s：%s", "fig_zone": "範囲 最大 16 × 16 マス", "fig_modules": "%dモジュール",
+           "fig_night": "夜間のみ通電", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+    "KO": {"inv_note": "네트워크당 최대 4대 (연결 키트)\n실내 설치 가능 · 독성 없음",
+           "dis_title": "분해", "dis_all": "%d개 레시피 모두 드라이버 필요 · 레벨 없음",
+           "dis_extra": "+ %s: %s", "fig_zone": "구역 최대 16 × 16칸", "fig_modules": "%d 모듈",
+           "fig_night": "밤에만 통전", "fig_amp": "%d A · %d %s", "w_unit": "W"},
+}
+for _lang in L:
+    L[_lang].update(EXTRA_L[_lang])
+
 # --- Drawing helpers ----------------------------------------------------------------------------
 
 
-def text(d, xy, s, f, fill=INK, anchor="la", spacing=4):
-    d.multiline_text(xy, s, font=f, fill=fill, anchor=anchor, spacing=spacing)
+def text(d, xy, s, f, fill=INK, anchor="la", spacing=4, align="left"):
+    d.multiline_text(xy, s, font=f, fill=fill, anchor=anchor, spacing=spacing, align=align)
 
 
 def tsize(d, s, f, spacing=4):
@@ -566,57 +620,99 @@ def production(lang):
     save(im, "production", lang)
 
 
-# --- 3. Recipe board ----------------------------------------------------------------------------
+# --- 3. Recipes, read from the recipe scripts ---------------------------------------------------
 
-# (recipe key, level or None, [(qty, item)], [tools], [(qty, output)])
-RECIPES = [
-    ("LWMakeVoltageTester", 1, [(1, "ElectronicsScrap"), (1, "ElectricWire"), (1, "LightBulb"), (1, "Battery")],
-     ["Screwdriver"], [(1, "VoltageTester")]),
-    ("LWDismantleVoltageTester", None, [(1, "VoltageTester")], ["Screwdriver"], [(1, "ElectronicsScrap")]),
-    ("LWMakePowerBankKit", 2, [(2, "ElectronicsScrap"), (3, "ElectricWire"), (1, "SheetMetal"), (4, "Screws")],
-     ["Screwdriver", "Pliers"], [(1, "PowerBank")]),
-    ("LWMakeBatteryAlarmKit", 2, [(1, "ElectronicsScrap"), (1, "ElectricWire"), (1, "Amplifier")],
-     ["Screwdriver"], [(1, "BatteryAlarm")]),
-    ("LWMakeSoundproofKit", 2, [(4, "Plank"), (10, "Nails"), (4, "RippedSheets")], ["Hammer"],
-     [(1, "SoundproofKit")]),
-    ("LWMakeSolarPanelKit", 3, [(10, "SolarCell"), (1, "SheetMetal"), (2, "ElectricWire"), (4, "Screws"),
-                                (1, "Glue")], ["Screwdriver", "Pliers"], [(1, "SolarPanel")]),
-    ("LWMakeBreakerKit", 3, [(2, "ElectronicsScrap"), (1, "ElectricWire"), (1, "SmallSheetMetal"), (2, "Screws")],
-     ["Screwdriver"], [(1, "Breaker")]),
-    ("LWMakeInverterKit", 3, [(4, "ElectronicsScrap"), (2, "Amplifier"), (3, "ElectricWire"),
-                              (1, "SmallSheetMetal"), (4, "Screws")], ["Screwdriver", "Pliers"], [(1, "Inverter")]),
-    ("LWMakeInverterCabinet", 3, [(1, "Inverter"), (4, "ElectronicsScrap"), (2, "Amplifier"), (4, "ElectricWire"),
-                                  (1, "SheetMetal"), (8, "Screws")], ["Screwdriver", "Pliers"],
-     [(1, "InverterCabinet")]),
-    ("LWMakeWindTurbineBlades", None, [(2, "SheetMetal"), (2, "Screws")], ["SheetMetalSnips", "Hammer"],
-     [(1, "WindTurbineBlades")]),
-    ("LWMakeWindTurbineMast", None, [(1, "MetalPipe"), (2, "MetalBar"), (2, "Screws")], ["Hammer", "PipeWrench"],
-     [(1, "WindTurbineMast")]),
-    ("LWMakeWindTurbineKit", 3, [(1, "WindTurbineBlades"), (1, "WindTurbineMast"), (2, "Amplifier"),
-                                 (3, "ElectricWire"), (4, "ElectronicsScrap"), (2, "Screws")], ["Screwdriver", "Pliers"],
-     [(1, "WindTurbine")]),
-    ("LWMakeDeepCycleBattery", 3, [(2, "CarBattery1"), (2, "ElectricWire"), (1, "ScrapMetal")], ["Pliers"],
-     [(1, "DeepCycleBattery")]),
-    ("LWMakeWaterWheel", 4, [(8, "Plank"), (20, "Nails"), (2, "Amplifier"), (3, "ElectricWire"),
-                             (4, "ElectronicsScrap"), (1, "MetalBar")], ["Hammer", "Screwdriver"],
-     [(1, "WaterWheel")]),
-    ("LWMakeWaterPump", 3, [(3, "ElectronicsScrap"), (2, "ElectricWire"), (2, "MetalPipe"), (1, "SmallSheetMetal"),
-                            (4, "Screws")], ["Screwdriver", "PipeWrench"], [(1, "WaterPump")]),
-    ("LWMakeCouplingKit", 3, [(2, "ElectronicsScrap"), (2, "ElectricWire"), (1, "Amplifier")], ["Screwdriver"],
-     [(1, "CouplingKit")]),
-    ("LWMakeSolarCellFromScrap", 3, [(5, "ElectronicsScrap"), (1, "Aluminum")], ["Pliers"], [(1, "SolarCell")]),
-]
+# Tools are the tags of the scripts (tags[base:x] with mode:keep); their game item names.
+TOOL_TAGS = {"screwdriver": "Screwdriver", "pliers": "Pliers", "sheetmetalsnips": "SheetMetalSnips",
+             "hammer": "Hammer", "pipewrench": "PipeWrench"}
+TOOL_FULL = {"Screwdriver": "Base.Screwdriver", "Pliers": "Base.Pliers", "SheetMetalSnips": "Base.SheetMetalSnips",
+             "Hammer": "Base.Hammer", "PipeWrench": "Base.PipeWrench"}
+ITEM_LINE = re.compile(r"^item (\d+) (?:tags\[base:(\w+)\]|\[([^\]]+)\])(.*)$")
+OUTPUT_LINE = re.compile(r"^item (\d+) ([A-Za-z_][\w.]*)$")
+# Full item type -> icon / table key: "Base.Mov_LiveWire_X" -> X, "LiveWire.Breaker15" -> Breaker15.
+FULL_NAMES = dict((k, v) for k, v in TOOL_FULL.items())
 
-MOD_ITEMS = {"VoltageTester": "LiveWire.VoltageTester", "SolarCell": "LiveWire.SolarCell",
-             "WindTurbineBlades": "LiveWire.WindTurbineBlades",
-             "WindTurbineMast": "LiveWire.WindTurbineMast",
-             "DeepCycleBattery": "LiveWire.DeepCycleBattery", "SoundproofKit": "LiveWire.SoundproofKit",
-             "SolarPanel": "Base.Mov_LiveWire_SolarPanel", "WindTurbine": "Base.Mov_LiveWire_WindTurbine",
-             "WaterWheel": "Base.Mov_LiveWire_WaterWheel", "Inverter": "Base.Mov_LiveWire_Inverter",
-             "InverterCabinet": "Base.Mov_LiveWire_InverterCabinet",
-             "PowerBank": "Base.Mov_LiveWire_PowerBank", "Breaker": "Base.Mov_LiveWire_Breaker",
-             "BatteryAlarm": "Base.Mov_LiveWire_BatteryAlarm", "WaterPump": "Base.Mov_LiveWire_WaterPump",
-             "CouplingKit": "LiveWire.CouplingKit"}
+
+def short(full):
+    name = full.split(".", 1)[1]
+    if name.startswith("Mov_LiveWire_"):
+        return name[len("Mov_LiveWire_"):]
+    return name
+
+
+def strip_lua_comments(src):
+    src = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+    return re.sub(r"--[^\n]*", "", src)
+
+
+def parse_recipes(path):
+    """Every craftRecipe block of a recipe script: name, kind (craft / dismantle, by name: LWSoundproofKit dismantling
+    uses timedAction = Making), level, inputs, tools, outputs."""
+    with open(path, encoding="utf-8-sig") as f:
+        src = strip_lua_comments(f.read())
+    recipes = []
+    for block in re.split(r"\bcraftRecipe\s+", src)[1:]:
+        name = re.match(r"\w+", block).group(0)
+        lvl = re.search(r"SkillRequired\s*=\s*Electricity:(\d+)", block)
+        head, _, rest = block.partition("inputs")
+        ins_src, _, outs_src = rest.partition("outputs")
+        # Each section ends at its own closing brace: the scripts also declare `item` blocks between recipes.
+        ins_src, outs_src = ins_src.split("}")[0], outs_src.split("}")[0]
+        ins, tools, outs = [], [], []
+        for line in ins_src.splitlines():
+            line = line.strip().rstrip(",")
+            if not line.startswith("item "):
+                continue
+            m = ITEM_LINE.match(line)
+            if not m:
+                raise ValueError("%s: unparsed input line %r" % (name, line))
+            qty, tag, alts, flags = int(m.group(1)), m.group(2), m.group(3), m.group(4)
+            if tag:
+                key = TOOL_TAGS[tag]
+                if "mode:keep" not in flags:
+                    raise ValueError("%s: tag %s is consumed (no mode:keep)" % (name, tag))
+                tools.append(key)
+                continue
+            if ";" in alts:
+                # The only alternative list in the scripts: any of the three car batteries.
+                if not all("CarBattery" in a for a in alts.split(";")):
+                    raise ValueError("%s: unexpected alternatives %s" % (name, alts))
+                key = "CarBattery1"
+            else:
+                key = short(alts)
+                FULL_NAMES[key] = alts
+            if "mode:keep" in flags:
+                tools.append(key)
+            else:
+                ins.append((qty, key))
+        for line in outs_src.splitlines():
+            line = line.strip().rstrip(",")
+            if not line.startswith("item "):
+                continue
+            m = OUTPUT_LINE.match(line)
+            if not m:
+                raise ValueError("%s: unparsed output line %r" % (name, line))
+            key = short(m.group(2))
+            FULL_NAMES[key] = m.group(2)
+            outs.append((int(m.group(1)), key))
+        if not ins or not outs:
+            raise ValueError("%s: no inputs or outputs parsed" % name)
+        recipes.append({"name": name, "kind": "dismantle" if name.startswith("LWDismantle") else "craft",
+                        "level": int(lvl.group(1)) if lvl else None, "ins": ins, "tools": tools, "outs": outs})
+    return recipes
+
+
+BASE_RECIPE_LIST = parse_recipes(BASE_RECIPES)
+EXT_RECIPE_LIST = parse_recipes(EXT_RECIPES)
+RECIPE_SETS = {"base": BASE_RECIPE_LIST, "ext": EXT_RECIPE_LIST}
+# Checks: the scripts hold 16 crafts and 12 dismantling recipes (base), 8 crafts (Extended); every dismantling
+# recipe needs a screwdriver (the dismantling card states it).
+if [r["kind"] for r in BASE_RECIPE_LIST].count("craft") != 16 or len(BASE_RECIPE_LIST) != 28:
+    raise ValueError("LiveWire_recipes.txt: expected 16 crafts and 12 dismantling recipes")
+if len(EXT_RECIPE_LIST) != 8 or any(r["kind"] != "craft" for r in EXT_RECIPE_LIST):
+    raise ValueError("LiveWireExtended_recipes.txt: expected 8 crafts")
+if not all("Screwdriver" in r["tools"] for r in BASE_RECIPE_LIST if r["kind"] == "dismantle"):
+    raise ValueError("a dismantling recipe does not need a screwdriver")
 
 
 def load_json(path):
@@ -628,21 +724,26 @@ def load_json(path):
 
 
 def names(lang):
-    def tr(folder, name):
-        base = load_json(os.path.join(folder, "EN", name))
-        base.update(load_json(os.path.join(folder, lang, name)))
-        return base
-    game_items = tr(GAME_TR, "ItemName.json")
-    game_ui = tr(GAME_TR, "IG_UI.json")
-    mod_items = tr(MOD_TR, "ItemName.json")
-    recipes = tr(MOD_TR, "Recipes.json")
+    def tr(folders, name):
+        out = {}
+        for folder in folders:
+            out.update(load_json(os.path.join(folder, "EN", name)))
+            out.update(load_json(os.path.join(folder, lang, name)))
+        return out
+    game_items = tr([GAME_TR], "ItemName.json")
+    game_ui = tr([GAME_TR], "IG_UI.json")
+    mod_items = tr([MOD_TR, EXT_TR], "ItemName.json")
+    recipes = tr([MOD_TR, EXT_TR], "Recipes.json")
 
     def item(key):
         if key == "CarBattery1":
             return L[lang]["any_car_battery"]
-        if key in MOD_ITEMS:
-            return mod_items.get(MOD_ITEMS[key], key)
-        return game_items.get("Base." + key, key)
+        full = FULL_NAMES[key]  # KeyError: an item the scripts do not know
+        if full in mod_items:
+            return mod_items[full]
+        if full in game_items:
+            return game_items[full]
+        raise KeyError("no translation for %s (%s)" % (full, lang))
     return item, recipes, game_ui.get("IGUI_perks_Electricity", "Electrical")
 
 
@@ -651,25 +752,43 @@ def icon(key, size):
     return im.resize((size, size), Image.NEAREST if im.width <= 32 else Image.LANCZOS)
 
 
-def recipes(lang):
-    """Recipe book, 640 px wide: Steam shows description images in a column of about
-    640 px, so a wider board would be scaled down and become unreadable."""
+def dismantle_rows(lang, item):
+    """Dismantling card rows: the screwdriver for all, then each extra tool with the devices it serves."""
+    dis = [r for r in BASE_RECIPE_LIST if r["kind"] == "dismantle"]
+    extra = {}
+    for r in dis:
+        for tool in r["tools"]:
+            if tool != "Screwdriver":
+                extra.setdefault(tool, []).append(r["ins"][0][1])
+    sep = "、" if lang in ("CN", "JP") else ", "
+    rows = [("Screwdriver", L[lang]["dis_all"] % len(dis))]
+    for tool, keys in extra.items():
+        rows.append((tool, L[lang]["dis_extra"] % (item(tool), sep.join(item(k) for k in keys))))
+    return rows
+
+
+def recipe_book(lang, which):
+    """Recipe book, 640 px wide: Steam shows description images in a column of about 640 px, so a wider
+    board would be scaled down and become unreadable. Crafts as cards; dismantling as one compact card."""
     t = L[lang]
     item, rnames, skill = names(lang)
     W, PAD = 640, 12
-    fT, fR, fS, fI = font(lang, 30, True), font(lang, 20, True), font(lang, 15), font(lang, 16)
+    fT, fS = font(lang, 30, True), font(lang, 15)
     probe = ImageDraw.Draw(Image.new("RGB", (1, 1)))
-    cards = []
-    for rk, lvl, ins, tools, outs in RECIPES:
-        rows = (len(ins) + 1) // 2
-        cards.append((rk, lvl, ins, tools, outs, 84 + rows * 40 + 8))
-    H = 70 + sum(c[-1] + 10 for c in cards) + 6
+    recs = [r for r in RECIPE_SETS[which] if r["kind"] == "craft"]
+    dis_rows = dismantle_rows(lang, item) if which == "base" else []
+    cards = [(r, 84 + ((len(r["ins"]) + 1) // 2) * 40 + 8) for r in recs]
+    dis_h = 44 + 26 * len(dis_rows) + 14 if dis_rows else 0
+    H = 70 + sum(ch + 10 for _, ch in cards) + (dis_h + 10 if dis_rows else 0) + 6
     im = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(im)
-    text(d, (PAD + 4, 18), t["recipes"], fT)
+    text(d, (PAD + 4, 18), t["recipes"] if which == "base" else "LIVEWIRE EXTENDED · " + t["recipes"], fT)
     text(d, (W - PAD - 4, 32), t["tools"], fS, MUTED, anchor="ra")
     y = 66
-    for rk, lvl, ins, tools, outs, ch in cards:
+    for r, ch in cards:
+        rk, lvl, ins, tools, outs = r["name"], r["level"], r["ins"], r["tools"], r["outs"]
+        if rk not in rnames:
+            raise KeyError("no translation for recipe %s (%s)" % (rk, lang))
         d.rounded_rectangle((PAD, y, W - PAD, y + ch), 12, fill=CARD, outline=LINE, width=2)
         # Header: result icon(s), recipe name, skill badge; tools on the right.
         ox = PAD + 12
@@ -678,7 +797,7 @@ def recipes(lang):
             im.paste(ic, (ox, y + 12), ic)
             ox += 56
         tools_w = 40 * len(tools)
-        rn = rnames.get(rk, rk)
+        rn = rnames[rk]
         text(d, (ox + 8, y + 12), rn, fit(d, rn, lang, 20, W - PAD - 16 - tools_w - (ox + 8), True))
         lv = t["no_level"] if lvl is None else t["level"] % (skill, lvl)
         bw = tsize(probe, lv, fS)[0]
@@ -701,14 +820,23 @@ def recipes(lang):
             label = "%d× %s" % (q, item(it))
             text(d, (cx + 40, cy + 16), label, fit(d, label, lang, 16, colw - 48), INK, anchor="lm")
         y += ch + 10
-    save(im, "recipe_book", lang)
+    if dis_rows:
+        d.rounded_rectangle((PAD, y, W - PAD, y + dis_h), 12, fill=CARD, outline=LINE, width=2)
+        text(d, (PAD + 12, y + 12), t["dis_title"], font(lang, 20, True), ACCENT)
+        text(d, (W - PAD - 12, y + 16), t["no_level"], fS, MUTED, anchor="ra")
+        for k, (tool, label) in enumerate(dis_rows):
+            yy = y + 44 + 26 * k
+            ic = icon(tool, 24)
+            im.paste(ic, (PAD + 12, yy), ic)
+            text(d, (PAD + 44, yy + 12), label, fit(d, label, lang, 16, W - 2 * PAD - 56), INK, anchor="lm")
+    save(im, "recipe_book" if which == "base" else "recipe_book_extended", lang)
 
 
-# --- 4. Equipment board ------------------------------------------------------------------------
+# --- 4. Equipment boards ------------------------------------------------------------------------
 
 # (icon key, figures shown under the name; language-neutral)
-EQUIP = [("SolarPanel", "100 W"), ("WindTurbine", "400 W \u00b7 10-85 km/h"), ("WaterWheel", "120 W"),
-         ("Inverter", "1500 W max"), ("InverterCabinet", "4500 W max"), ("PowerBank", "4 \u00d7 "), ("Breaker", "> 1500 W"),
+EQUIP = [("SolarPanel", "100 W"), ("WindTurbine", "400 W · 10-85 km/h"), ("WaterWheel", "120 W"),
+         ("Inverter", "1500 W max"), ("InverterCabinet", "4500 W max"), ("PowerBank", "4 × "), ("Breaker", "> 1500 W"),
          ("BatteryAlarm", "< 20 %"), ("WaterPump", "250 W · 5 L/min")]
 
 
@@ -721,43 +849,105 @@ def sprite(key):
     return im.crop(im.getbbox())
 
 
-def equipment(lang):
+def wrap2(d, s, lang, size, width):
+    """Name on one line, or on two lines at the most balanced space when one line is too wide."""
+    f = font(lang, size, True)
+    if tsize(d, s, f)[0] <= width:
+        return s, f
+    words = s.split(" ")
+    best = None
+    for k in range(1, len(words)):
+        a, b = " ".join(words[:k]), " ".join(words[k:])
+        w = max(tsize(d, a, f)[0], tsize(d, b, f)[0])
+        if best is None or w < best[0]:
+            best = (w, a + "\n" + b)
+    if best is None:
+        return s, fit(d, s, lang, size, width, True)
+    return best[1], fit(d, best[1], lang, size, width, True)
+
+
+def board(lang, entries, name):
+    """Row of devices: picture, name, figures. entries = [(icon key, figure text)]."""
     item, _, _ = names(lang)
     W, H = 1200, 330
     im = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(im)
     d.rounded_rectangle((10, 10, W - 10, H - 10), 14, fill=CARD, outline=LINE, width=2)
-    cw = (W - 40) / len(EQUIP)
+    cw = (W - 40) / len(entries)
     # Common scale, enlarged up to 2x for the small wall devices so they stay readable.
-    base = min(min(150 / sprite(key).width, 190 / sprite(key).height) for key, _ in EQUIP)
-    for i, (key, fig) in enumerate(EQUIP):
+    base = min(min(150 / sprite(key).width, 190 / sprite(key).height) for key, _ in entries)
+    for i, (key, fig) in enumerate(entries):
         cx = 20 + cw * i + cw / 2
         sp = sprite(key)
         k = min(2 * base, 150 / sp.width, 190 / sp.height)
         sp = sp.resize((max(1, int(sp.width * k)), max(1, int(sp.height * k))), Image.LANCZOS)
-        im.paste(sp, (int(cx - sp.width / 2), 220 - sp.height), sp)
-        name = item(key)
-        text(d, (cx, 236), name, fit(d, name, lang, 17, cw - 12, True), INK, anchor="ma")
+        im.paste(sp, (int(cx - sp.width / 2), 210 - sp.height), sp)
+        nm, f = wrap2(d, item(key), lang, 17, cw - 12)
+        text(d, (cx, 228), nm, f, INK, anchor="ma", align="center")
         f = font(lang, 15)
         if key == "PowerBank":
             w = tsize(d, fig, f)[0] + 26
-            text(d, (cx - w / 2, 274), fig, f, ACCENT, anchor="lm")
+            text(d, (cx - w / 2, 292), fig, f, ACCENT, anchor="lm")
             ic = icon("CarBattery1", 24)
-            im.paste(ic, (int(cx - w / 2 + w - 24), 262), ic)
+            im.paste(ic, (int(cx - w / 2 + w - 24), 280), ic)
         else:
-            text(d, (cx, 274), fig, f, ACCENT, anchor="mm")
-    save(im, "equipment", lang)
+            text(d, (cx, 292), fig, f, ACCENT, anchor="mm")
+    save(im, name, lang)
+
+
+def equipment(lang):
+    board(lang, EQUIP, "equipment")
+
+
+def equipment_extended(lang):
+    """Extended devices: terminal, breaker boards, breakers (rating = A x 120 V, as the code computes it), twilight switch."""
+    t = L[lang]
+    entries = [("Terminal", t["fig_zone"]), ("Panel8", t["fig_modules"] % 8),
+               ("Panel16", t["fig_modules"] % 16), ("Panel24", t["fig_modules"] % 24)]
+    for amps in (15, 20, 30):
+        entries.append(("Breaker%d" % amps, t["fig_amp"] % (amps, amps * 120, t["w_unit"])))
+    entries.append(("TwilightSwitch", t["fig_night"]))
+    board(lang, entries, "equipment_extended")
+
+
+# --- 5. Icons ----------------------------------------------------------------------------------
+
+def collect_icons():
+    """Copy the inventory textures of both mods into docs/images/icons (vanilla icons are kept as they are)."""
+    base_tex = os.path.join(BASE_MOD, "textures")
+    ext_tex = os.path.join(EXT_MOD, "textures")
+    copies = {"VoltageTester": os.path.join(base_tex, "LiveWire", "VoltageTester.png")}
+    for f in os.listdir(base_tex):
+        m = re.fullmatch(r"Item_LiveWire(\w+)\.png", f)
+        if m:
+            copies[m.group(1)] = os.path.join(base_tex, f)
+    for f in os.listdir(ext_tex):
+        m = re.fullmatch(r"Item_LWX(\w+)\.png", f)
+        if not m:
+            continue
+        if m.group(1) == "Panel":  # one texture for the 8, 16 and 24 module boards
+            for n in (8, 16, 24):
+                copies["Panel%d" % n] = os.path.join(ext_tex, f)
+        else:
+            copies[m.group(1)] = os.path.join(ext_tex, f)
+    for key, src in sorted(copies.items()):
+        dst = os.path.join(ICONS, key + ".png")
+        with open(src, "rb") as fi, open(dst, "wb") as fo:
+            fo.write(fi.read())
 
 
 def main():
     langs = [a.upper() for a in sys.argv[1:]] or LANGS
+    collect_icons()
     for lang in langs:
         diagram(lang)
         if lang in EXT:
             extended_diagram(lang)
         production(lang)
-        recipes(lang)
+        recipe_book(lang, "base")
+        recipe_book(lang, "ext")
         equipment(lang)
+        equipment_extended(lang)
 
 
 if __name__ == "__main__":

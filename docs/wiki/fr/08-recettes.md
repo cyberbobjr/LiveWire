@@ -2,58 +2,71 @@
 
 # Recettes
 
-Les 29 recettes LiveWire sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
+Les 28 recettes LiveWire de base sont dans le menu d'artisanat : 16 de fabrication et 12 de démontage. LiveWire Extended ajoute 8 recettes de fabrication, listées dans [LiveWire Extended](14-livewire-extended.md#recettes). Les recettes d'Électricité apparaissent au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes les recettes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
 
 ![Planche illustrée des recettes LiveWire](../../images/diagrams/recipe_book_fr.png)
 
-| Ingrédients | Outils (conservés) | Compétence | Résultat |
-|---|---|---|---|
-| 1 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/LightBulb.png" width="24" height="24"> Ampoule<br>1 × <img src="../../images/icons/Battery.png" width="24" height="24"> Pile | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 1 | <img src="../../images/icons/VoltageTester.png" width="32" height="32"> **Testeur de tension** |
-| 1 × <img src="../../images/icons/VoltageTester.png" width="24" height="24"> Testeur de tension | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | aucune | <img src="../../images/icons/ElectronicsScrap.png" width="32" height="32"> **Pièces électroniques** |
-| 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 2 | <img src="../../images/icons/PowerBank.png" width="32" height="32"> **Powerbank** |
-| 1 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 2 | <img src="../../images/icons/BatteryAlarm.png" width="32" height="32"> **Alarme de batterie faible** |
-| 4 × <img src="../../images/icons/Plank.png" width="24" height="24"> Planche<br>10 × <img src="../../images/icons/Nails.png" width="24" height="24"> Clous<br>4 × <img src="../../images/icons/RippedSheets.png" width="24" height="24"> Tissu déchiré | <img src="../../images/icons/Hammer.png" width="24" height="24"> | Électricité 2 | <img src="../../images/icons/SoundproofKit.png" width="32" height="32"> **Kit d'insonorisation d'onduleur** |
-| 10 × <img src="../../images/icons/SolarCell.png" width="24" height="24"> Cellule photovoltaïque<br>1 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>2 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis<br>1 × <img src="../../images/icons/Glue.png" width="24" height="24"> Super glue | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/SolarPanel.png" width="32" height="32"> **Panneau photovoltaïque** |
-| 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>2 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/Breaker.png" width="32" height="32"> **Disjoncteur** |
-| 4 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/Inverter.png" width="32" height="32"> **Onduleur** |
-| 1 × <img src="../../images/icons/Inverter.png" width="24" height="24"> Onduleur<br>4 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>4 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>8 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/InverterCabinet.png" width="32" height="32"> **Armoire onduleur** |
-| 2 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>2 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/SheetMetalSnips.png" width="24" height="24"> <img src="../../images/icons/Hammer.png" width="24" height="24"> | aucune | <img src="../../images/icons/WindTurbineBlades.png" width="32" height="32"> **Jeu de pales d’éolienne** |
-| 1 × <img src="../../images/icons/MetalPipe.png" width="24" height="24"> Tuyau en métal<br>2 × <img src="../../images/icons/MetalBar.png" width="24" height="24"> Barre en métal<br>2 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Hammer.png" width="24" height="24"> <img src="../../images/icons/PipeWrench.png" width="24" height="24"> | aucune | <img src="../../images/icons/WindTurbineMast.png" width="32" height="32"> **Mât d’éolienne** |
-| 1 × <img src="../../images/icons/WindTurbineBlades.png" width="24" height="24"> Jeu de pales d’éolienne<br>1 × <img src="../../images/icons/WindTurbineMast.png" width="24" height="24"> Mât d’éolienne<br>2 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/WindTurbine.png" width="32" height="32"> **Éolienne** |
-| 2 × <img src="../../images/icons/CarBattery1.png" width="24" height="24"> Batterie de voiture (toutes)<br>2 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/ScrapMetal.png" width="24" height="24"> Ferraille | <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/DeepCycleBattery.png" width="32" height="32"> **Batterie stationnaire** |
-| 3 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>2 × <img src="../../images/icons/MetalPipe.png" width="24" height="24"> Tuyau en métal<br>1 × <img src="../../images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/PipeWrench.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/WaterPump.png" width="32" height="32"> **Pompe à eau** |
-| 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/CouplingKit.png" width="32" height="32"> **Kit de couplage d'onduleurs** |
-| 5 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/Aluminum.png" width="24" height="24"> Aluminium | <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | <img src="../../images/icons/SolarCell.png" width="32" height="32"> **Cellule photovoltaïque** |
-| 8 × <img src="../../images/icons/Plank.png" width="24" height="24"> Planche<br>20 × <img src="../../images/icons/Nails.png" width="24" height="24"> Clous<br>2 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/MetalBar.png" width="24" height="24"> Barre en métal | <img src="../../images/icons/Hammer.png" width="24" height="24"> <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 4 | <img src="../../images/icons/WaterWheel.png" width="32" height="32"> **Roue à aubes** |
+## Recettes de fabrication
 
-## Notes
+La durée est la valeur de recette du script du jeu, en unités de temps de jeu.
 
-- L'ordinateur de gestion et le générateur de secours ne se fabriquent pas : ce sont des objets vanilla trouvés dans le monde.
-- Les cellules photovoltaïques se trouvent dans le butin, se récupèrent sur les calculatrices ou se fabriquent au niveau 3 ([Tables de butin](09-tables-de-butin.md)).
-- La batterie stationnaire sort vide ; son état est la moyenne de celui des deux batteries de voiture.
+| Ingrédients | Outils (conservés) | Compétence | Durée | Résultat |
+|---|---|---|---|---|
+| 1 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/LightBulb.png" width="24" height="24"> Ampoule<br>1 × <img src="../../images/icons/Battery.png" width="24" height="24"> Pile | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 1 | 80 | <img src="../../images/icons/VoltageTester.png" width="32" height="32"> **Testeur de tension** |
+| 5 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/Aluminum.png" width="24" height="24"> Aluminium | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | 100 | <img src="../../images/icons/SolarCell.png" width="32" height="32"> **Cellule photovoltaïque** |
+| 10 × <img src="../../images/icons/SolarCell.png" width="24" height="24"> Cellule photovoltaïque<br>1 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>2 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis<br>1 × <img src="../../images/icons/Glue.png" width="24" height="24"> Colle | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | 270 | <img src="../../images/icons/SolarPanel.png" width="32" height="32"> **Panneau photovoltaïque** |
+| 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 2 | 100 | <img src="../../images/icons/BatteryAlarm.png" width="32" height="32"> **Alarme de batterie faible** |
+| 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 2 | 200 | <img src="../../images/icons/PowerBank.png" width="32" height="32"> **Powerbank** |
+| 4 × <img src="../../images/icons/Plank.png" width="24" height="24"> Planche<br>10 × <img src="../../images/icons/Nails.png" width="24" height="24"> Clous<br>4 × <img src="../../images/icons/RippedSheets.png" width="24" height="24"> Tissu déchiré | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Hammer.png" width="24" height="24"> | Électricité 2 | 200 | <img src="../../images/icons/SoundproofKit.png" width="32" height="32"> **Kit d'insonorisation d'onduleur** |
+| 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>2 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 3 | 130 | <img src="../../images/icons/Breaker.png" width="32" height="32"> **Disjoncteur** |
+| 4 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | 340 | <img src="../../images/icons/Inverter.png" width="32" height="32"> **Onduleur** |
+| 1 × <img src="../../images/icons/Inverter.png" width="24" height="24"> Onduleur<br>4 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>4 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>8 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | 470 | <img src="../../images/icons/InverterCabinet.png" width="32" height="32"> **Armoire onduleur** |
+| 2 × <img src="../../images/icons/SheetMetal.png" width="24" height="24"> Plaque en métal<br>2 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/SheetMetalSnips.png" width="24" height="24"> <img src="../../images/icons/Hammer.png" width="24" height="24"> | Métallerie | 120 | <img src="../../images/icons/WindTurbineBlades.png" width="32" height="32"> **Jeu de pales d’éolienne** |
+| 1 × <img src="../../images/icons/MetalPipe.png" width="24" height="24"> Tuyau en métal<br>2 × <img src="../../images/icons/MetalBar.png" width="24" height="24"> Barre en métal<br>2 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Hammer.png" width="24" height="24"> <img src="../../images/icons/PipeWrench.png" width="24" height="24"> | Métallerie | 120 | <img src="../../images/icons/WindTurbineMast.png" width="32" height="32"> **Mât d’éolienne** |
+| 1 × <img src="../../images/icons/WindTurbineBlades.png" width="24" height="24"> Jeu de pales d’éolienne<br>1 × <img src="../../images/icons/WindTurbineMast.png" width="24" height="24"> Mât d’éolienne<br>2 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | 160 | <img src="../../images/icons/WindTurbine.png" width="32" height="32"> **Éolienne** |
+| 2 × <img src="../../images/icons/CarBattery1.png" width="24" height="24"> Batterie de voiture (l'un des trois types)<br>2 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/ScrapMetal.png" width="24" height="24"> Ferraille | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/Pliers.png" width="24" height="24"> | Électricité 3 | 270 | <img src="../../images/icons/DeepCycleBattery.png" width="32" height="32"> **Batterie stationnaire** |
+| 3 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>2 × <img src="../../images/icons/MetalPipe.png" width="24" height="24"> Tuyau en métal<br>1 × <img src="../../images/icons/SmallSheetMetal.png" width="24" height="24"> Petite plaque en métal<br>4 × <img src="../../images/icons/Screws.png" width="24" height="24"> Vis | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> <img src="../../images/icons/PipeWrench.png" width="24" height="24"> | Électricité 3 | 270 | <img src="../../images/icons/WaterPump.png" width="32" height="32"> **Pompe à eau** |
+| 2 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>2 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>1 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur | <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 3 | 130 | <img src="../../images/icons/CouplingKit.png" width="32" height="32"> **Kit de couplage d'onduleurs** |
+| 8 × <img src="../../images/icons/Plank.png" width="24" height="24"> Planche<br>20 × <img src="../../images/icons/Nails.png" width="24" height="24"> Clous<br>2 × <img src="../../images/icons/Amplifier.png" width="24" height="24"> Amplificateur<br>3 × <img src="../../images/icons/ElectricWire.png" width="24" height="24"> Fil électrique<br>4 × <img src="../../images/icons/ElectronicsScrap.png" width="24" height="24"> Pièces électroniques<br>1 × <img src="../../images/icons/MetalBar.png" width="24" height="24"> Barre en métal | <img src="../../images/icons/Hammer.png" width="24" height="24"> <img src="../../images/icons/Screwdriver.png" width="24" height="24"> | Électricité 4 | 400 | <img src="../../images/icons/WaterWheel.png" width="32" height="32"> **Roue à aubes** |
+
+## Recettes de démontage
+
+Le démontage demande de ramasser l'équipement d'abord. Un tournevis en état est requis et conservé. Aucune recette de démontage ne demande de niveau d'Électricité.
+
+| Recette | Outils (conservés) | Durée |
+|---|---|---|
+| Démonter un testeur de tension | Tournevis | 60 |
+| Démonter un panneau photovoltaïque | Tournevis | 200 |
+| Démonter une éolienne | Tournevis | 150 |
+| Démonter une roue à aubes | Tournevis, marteau | 250 |
+| Démonter un onduleur | Tournevis | 200 |
+| Démonter une armoire onduleur | Tournevis | 300 |
+| Démonter une powerbank | Tournevis | 120 |
+| Démonter un disjoncteur | Tournevis | 80 |
+| Démonter une alarme de batterie faible | Tournevis | 60 |
+| Démonter une pompe à eau | Tournevis, clé à tuyau | 200 |
+| Démonter un kit de couplage d'onduleurs | Tournevis | 60 |
+| Démonter un kit d'insonorisation d'onduleur | Tournevis, marteau | 150 |
 
 ## Pales, mât et amplificateurs
 
 Fabriquez un jeu de pales avec deux plaques métalliques et deux vis (cisailles et
 marteau), puis un mât avec un tuyau métallique, deux barres et deux vis (marteau et
 clé à tuyau). Ces deux pièces ne demandent aucun niveau d'Électricité. Assemblez
-les deux avec deux amplificateurs, trois fils, quatre déchets et deux vis au niveau 3.
+les deux avec deux amplificateurs, trois fils, quatre pièces électroniques et deux vis au niveau 3.
 La roue à aubes se fabrique au niveau 4, avec deux amplificateurs également.
 
-Pales et mâts peuvent aussi être trouvés dans le butin technique. Les amplificateurs
-sont des pièces vanilla : récupérez-les notamment par démontage des appareils.
-Démonter un haut-parleur donne un amplificateur et un déchet par la recette vanilla.
-Leur butin reste inchangé. Le branchement des deux machines complètes à un onduleur demande seulement le niveau 2 ; la pose et le ramassage n'en demandent aucun. Machines existantes et identifiants conservés.
-Les deux nouvelles pièces ont temporairement des icônes et modèles au sol vanilla.
-
-Les recettes des équipements affichent leur icône de résultat après redémarrage
-complet du jeu.
+Pales et mâts se trouvent aussi dans le butin ; voir [Tables de butin](09-tables-de-butin.md).
+Les amplificateurs sont des pièces vanilla, récupérées notamment en démontant des appareils.
+Leur butin reste inchangé. Le branchement des deux machines complètes à un onduleur
+demande seulement le niveau 2. La pose et le ramassage demandent un tournevis, sans niveau d'Électricité.
 
 ## Armoire onduleur
 
 **Fabriquer une armoire onduleur** transforme un onduleur ordinaire en grande armoire
 électrique : 4 500 W au lieu de 1 500 W, 60 W de consommation à vide au lieu de 20 W.
-Il faut le niveau 3 d'Électricité pour la fabriquer et la mettre en service (premier branchement) ; la pose et le ramassage n'en demandent aucun.
+Il faut le niveau 3 d'Électricité pour la fabriquer et la mettre en service (premier branchement) ;
+la pose et le ramassage demandent un tournevis, sans niveau d'Électricité.
 L'onduleur utilisé est consommé (son état est perdu : l'armoire est neuve). L'armoire
 fonctionne comme un onduleur (écran, voyants de marche et de défaut, kit
 d'insonorisation, usure) et se couple avec des onduleurs ou d'autres armoires ; la
@@ -72,12 +85,12 @@ Toutes les recettes LiveWire donnent de l'XP d'Électricité ; pales et mât don
 
 ## Démonter un équipement
 
-Chaque équipement et kit LiveWire se démonte depuis le menu d'artisanat
+Chaque équipement et kit LiveWire de base se démonte depuis le menu d'artisanat
 (**Démonter un onduleur**, **Démonter un panneau photovoltaïque**, etc.) : ramassez
 d'abord l'équipement, puis démontez-le depuis l'inventaire. Un tournevis en état est
 requis et conservé ; aucun niveau d'Électricité n'est demandé. On récupère toujours
 moins de pièces que la fabrication n'en coûte : fabriquer puis démonter ne crée donc
-jamais de matériaux.
+jamais de matériaux. Les équipements LiveWire Extended n'ont pas de recette de démontage.
 
 Les pièces métalliques reviennent toujours. Les pièces électroniques dépendent de
 l'état de l'équipement : le tableau les donne à 100 % ; un équipement à 60 % en
@@ -95,9 +108,9 @@ onduleur couplé, est rendu entier.
 | Powerbank | 1 plaque en métal, 2 vis | 2 fils, 1 pièce électronique |
 | Disjoncteur | 1 petite plaque en métal, 1 vis | 1 fil, 1 pièce électronique |
 | Alarme de batterie faible | 1 fil | 1 amplificateur |
-| Pompe à eau (avec une clé à tube) | 2 tuyaux en métal, 1 petite plaque en métal, 2 vis | 1 fil, 2 pièces électroniques |
+| Pompe à eau (avec une clé à tuyau) | 2 tuyaux en métal, 1 petite plaque en métal, 2 vis | 1 fil, 2 pièces électroniques |
 | Kit de couplage d'onduleurs | 1 amplificateur, 1 fil, 1 pièce électronique | — |
-| Kit d'insonorisation (marteau au lieu du tournevis) | 3 planches, 5 clous, 2 tissus déchirés | — |
+| Kit d'insonorisation (marteau en plus du tournevis) | 3 planches, 5 clous, 2 tissus déchirés | — |
 
 La batterie stationnaire, le jeu de pales et le mât ne se démontent pas. Un
 équipement hors d'usage se ramasse d'abord (tournevis), puis se démonte comme les autres.
@@ -105,6 +118,21 @@ La batterie stationnaire, le jeu de pales et le mât ne se démontent pas. Un
 Une calculatrice démontée avec la recette du jeu **Démonter l'objet électronique**
 donne aussi une cellule photovoltaïque.
 
+## Recettes Extended
+
+LiveWire Extended ajoute huit recettes de fabrication, toutes au niveau 3 d'Électricité et toutes avec un tournevis. Leurs ingrédients sont listés dans [LiveWire Extended](14-livewire-extended.md#recettes).
+
+| Recette | Résultat | Durée |
+|---|---|---|
+| Fabriquer une borne électrique | Borne électrique | 270 |
+| Fabriquer un tableau électrique (8 modules) | Tableau électrique, 8 modules | 190 |
+| Fabriquer un tableau électrique (16 modules) | Tableau électrique, 16 modules | 240 |
+| Fabriquer un tableau électrique (24 modules) | Tableau électrique, 24 modules | 290 |
+| Fabriquer un disjoncteur 15 A | Disjoncteur 15 A | 90 |
+| Fabriquer un disjoncteur 20 A | Disjoncteur 20 A | 100 |
+| Fabriquer un disjoncteur 30 A | Disjoncteur 30 A | 120 |
+| Fabriquer un interrupteur crépusculaire pour disjoncteur | Interrupteur crépusculaire pour disjoncteur | 130 |
+
 ## Voir aussi
 
-[Équipements](02-equipements.md) · [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) · [Tables de butin](09-tables-de-butin.md)
+[Équipements](02-equipements.md) · [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) · [Tables de butin](09-tables-de-butin.md) · [LiveWire Extended](14-livewire-extended.md)

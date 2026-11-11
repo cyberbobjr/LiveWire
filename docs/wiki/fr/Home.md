@@ -6,15 +6,13 @@
 
 ![LiveWire](../../images/screenshots/shot4.png)
 
-LiveWire est un mod pour Project Zomboid **Build 42.21** (ID du mod `batman_LiveWire`, [objet Workshop 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)). Il ajoute panneaux solaires, éoliennes et roues à aubes, batteries rangées dans une powerbank, un onduleur qui alimente la maison et une pompe à eau qui alimente les robinets depuis des barils. La compétence Électricité devient un métier.
+**LiveWire** (version 2.0.0, ID du mod `batman_LiveWire`, [objet Workshop 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)) est un mod pour Project Zomboid **Build 42.21** (il fonctionne aussi en Build 42.22). Il ajoute panneaux photovoltaïques, éoliennes et roues à aubes, batteries rangées dans une powerbank, un onduleur qui alimente la maison et une pompe à eau qui alimente les robinets depuis des barils. La compétence Électricité devient un métier.
+
+**LiveWire Extended** (version 1.0.0, `batman_LiveWireExtended`) est un module facultatif dans le même objet Workshop. Il raccorde des bâtiments entiers, ajoute des bornes d'alimentation extérieures et des tableaux de disjoncteurs où chaque appareil a son propre disjoncteur. Voir [LiveWire Extended](14-livewire-extended.md).
+
+**LiveWire Viewpoint** (`batman_LiveWireViewpoint`) est un autre mod facultatif. Il ajoute des modèles 3D des équipements pour Project Viewpoint.
 
 Pour commencer : [Premiers pas](01-premiers-pas.md).
-
-## Version 1.6.0
-
-Une mise à jour mineure importante : commandez l'éclairage et les appareils depuis un véritable tableau électrique, ouvrez le LCD de chaque équipement et gérez ses raccordements dans une fenêtre commune. Empilez deux powerbanks, affichez les consommateurs et les câbles, puis préparez la production grâce aux prévisions sur trois jours et au journal d'événements.
-
-Orientation et saleté des panneaux, test et réparation des batteries, récupération des équipements cassés, risques électriques, recettes révisées et butin élargi donnent davantage de place à la compétence Électricité. Voir le [changelog](../../../CHANGELOG.md), les [recettes](08-recettes.md) et le [guide d'entretien](10-competence-electricite-et-entretien.md).
 
 ![Tableau électrique avec circuits éclairage et équipements séparés](../../images/screenshots/shot6.png)
 
@@ -22,20 +20,20 @@ Orientation et saleté des panneaux, test et réparation des batteries, récupé
 
 ## Pages
 
-- [Premiers pas](01-premiers-pas.md)
-- [Équipements](02-equipements.md)
-- [Raccordement](03-raccordement.md)
-- [Production et calculs](04-production-et-calculs.md)
-- [Écran et logiciel](05-ecran-et-logiciel.md)
-- [Équipements optionnels](06-equipements-optionnels.md)
-- [Pompe à eau](07-pompe-a-eau.md)
-- [Recettes](08-recettes.md)
-- [Tables de butin](09-tables-de-butin.md)
-- [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md)
-- [Options sandbox](11-options-sandbox.md)
-- [Multijoueur](12-multijoueur.md)
-- [FAQ](13-faq.md)
-- [LiveWire Extended](14-livewire-extended.md) — module facultatif : bâtiments entiers et bornes extérieures
+- [Premiers pas](01-premiers-pas.md) : première source, premier onduleur et premier raccordement.
+- [Équipements](02-equipements.md) : chaque équipement, les batteries, la pose, la rotation, le ramassage et le démontage.
+- [Raccordement](03-raccordement.md) : relier les équipements à un onduleur, coût en fils, portées et fenêtre Raccordements.
+- [Production et calculs](04-production-et-calculs.md) : ce que produit chaque source et ce que consomment les appareils.
+- [Écran et logiciel](05-ecran-et-logiciel.md) : LCD de l'onduleur, LiveWire Monitor, bourdonnement, insonorisation et clics directs.
+- [Équipements optionnels](06-equipements-optionnels.md) : disjoncteur, alarme, générateur de secours, ordinateur de gestion, onduleurs couplés et tableau électrique à deux circuits.
+- [Pompe à eau](07-pompe-a-eau.md) : des barils d'eau qui alimentent les robinets de la maison.
+- [Recettes](08-recettes.md) : toutes les recettes de fabrication et de démontage.
+- [Tables de butin](09-tables-de-butin.md) : où trouver les équipements et les pièces.
+- [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) : niveaux de compétence, usure, réparation et nettoyage.
+- [Options sandbox](11-options-sandbox.md) : toutes les options de LiveWire.
+- [Multijoueur](12-multijoueur.md) : serveurs dédiés et règles du multijoueur.
+- [FAQ](13-faq.md) : questions fréquentes.
+- [LiveWire Extended](14-livewire-extended.md) : le module facultatif : bâtiments entiers, bornes extérieures et tableaux de disjoncteurs.
 
 ---
 

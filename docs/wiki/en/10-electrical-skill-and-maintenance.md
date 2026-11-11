@@ -40,13 +40,15 @@ The Voltage Tester (`LiveWire.VoltageTester`): right-click a tile, then **LiveWi
 | 0 | Read a tester: powered or not | none |
 | 1 | Voltage tester | Detailed reading of the tile |
 | 2 | Power bank, low battery alarm, soundproofing kit, backup generator | Battery wear -5 % |
-| 3 | Solar panels, breaker, inverter, inverter cabinet, wind turbine assembly, deep-cycle battery, water pump, inverter coupling, solar cells from scrap, management computer (with load shedding), overhaul | Installation efficiency 0.85 |
+| 3 | Solar panels, breaker, inverter, inverter cabinet, wind turbine assembly, deep-cycle battery, water pump, inverter coupling, solar cells from scrap, management computer (with load shedding), overhaul | none |
 | 4 | Recondition a battery, water wheel crafting | Autonomy reading |
 | 5 | none | none |
 | 6 | none | Battery wear -10 % |
 | 7 | none | Installation efficiency 0.95 |
 | 8 | none | Repair failure halved |
 | 9-10 | none | Installation efficiency 1.0; device wear -25 % |
+
+Installation efficiency is 0.85 at levels 0 to 6, 0.95 at levels 7 and 8, and 1.0 at levels 9 and 10.
 
 ## Experience
 
@@ -58,10 +60,14 @@ Always given by the server (sandbox `XPMultiplier`).
 | First link of a solar panel (once) | 10 |
 | First link of a wind turbine or water wheel (once) | 20 |
 | First link of an inverter, putting it into service (once) | 25 |
+| First link of an inverter cabinet (once) | 35 |
+| First link of a water pump (once) | 20 |
+| First link of a power bank, breaker or low battery alarm (once each) | 5 |
 | Link a vanilla generator or computer | 3 (plus the inverter's XP if that link puts it into service) |
 | Couple two inverters | 5 (plus the inverter's XP if due) |
 | Inspect a device | 2 (once per device per day) |
-| Measure with the tester | 1 (once per tile per hour) |
+| Clean a panel | 2 (once per device per 24 hours) |
+| Measure with the tester | 1 per tile; a tile gives XP again after an hour; at most 5 gains per player in a rolling hour |
 | Repair | 5 + 1 per point, max 15 |
 | Recondition a battery | 8 |
 | Reset after fixing an overload | 5 (once per hour) |
@@ -82,9 +88,9 @@ BatteryCold is off by default: outside banks have 20% less accessible capacity a
 are unaffected. This does not erase charge or reset condition/cycles.
 
 Broken equipment is not lost: pick it up (screwdriver) and dismantle it from the crafting
-menu; its electronic parts depend on its condition ([Recipes](08-recipes.md)). Live maintenance risk is optional; see the detailed rules below.
+menu; its electronic parts depend on its condition ([Recipes](08-recipes.md)). Live maintenance risk is enabled by default; see the detailed rules below.
 
-Wind turbines and water wheels need Electrical 2 to link to an inverter; crafting needs 3 and 4 respectively. Placing and picking up need no Electrical level, but a screwdriver. Mechanical blade/mast recipes need no Electrical level.
+Wind turbines and water wheels need Electrical 2 to link to an inverter; crafting needs 3 and 4 respectively. Placing and picking up need a screwdriver but no Electrical level. Blade and mast recipes need no Electrical level.
 
 ## Electrical safety and experience
 
@@ -129,13 +135,10 @@ its 30 XP. Refused or shock-interrupted work awards no repair XP.
 ## Testing wear in debug
 
 In solo `-debug`, or as an MP administrator: right-click a device → LiveWire →
-its name → **Debug: this device**. Remove 10 condition points, set 50% or 10%,
-disable it (0%) or restore 100%. Works without a cable. This affects the selected
+its name → **Debug: this equipment**. Remove 10 condition points, set 50% or 10%,
+disable it (0%) or restore 100%. This affects the selected
 device, does not directly edit its stored batteries, and awards no XP. Restoring
 a broken inverter leaves it switched off.
-
-A world that already saved the electrical risk as disabled keeps that setting:
-enable **Live maintenance risk** in its sandbox options if needed.
 
 ## See also
 

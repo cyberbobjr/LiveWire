@@ -1,85 +1,104 @@
-[h1]LiveWire - 电工技能全面改造[/h1]
+[h1]LiveWire - 电气技能重做[/h1]
 
-[b]Build 42.21 · 单人与多人（服务器权威）[/b]
+[b]Build 42.21+ · 单人与多人[/b]
 
-电网已经彻底断了……但灯光不必如此。自建离网供电：太阳能板、风力涡轮机或水轮机为逆变器供电，逆变器再为周围整栋房屋供电。夜间可加装电池。电工技能终于有了用处：每种设备都有等级，你的等级越高，安装效果越好。
-
-[h2]1.6.0 — 掌控你的供电系统[/h2]
-
-配电箱新增照明、设备和总闸手柄，显示各回路及总功率。切断真实电器并恢复此前开关状态，重启后仍保留。总闸断开时，电源仍可给电池充电。左键点击设备打开各自LCD；连接按钮可选择逆变器。
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
-
-[h2]工作原理[/h2]
+电网断了就断了，但灯不必跟着熄灭。太阳能板、风力发电机和水车为逆变器供电，逆变器再带动周围的房屋。夜里靠电池撑住。每台设备都有电气等级，等级越高，安装效果越好。
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_cn.png[/img]
 
-太阳能100 W、风力400 W、水轮120 W。逆变器为20格内、上下3层的电器供电，单台上限1500 W；家用电器无需单独布线。
-[b]需要超过1500 W？[/b]放置第二台未连接任何设备的逆变器，右键 > LiveWire >「并联到一台逆变器」（1个逆变器并联套件，电工3级配方）。最多4台并联：6000 W。新增：可将逆变器改造成4500 W的[b]逆变器柜[/b]（电工3级），同样可并联。
-每个电池柜容纳4块电池。电缆每4格消耗1根电线，范围12格。沙盒可选游戏数值、1993写实、1993超写实或舒适耗电模式。
+[h2]工作原理[/h2]
+
+太阳能 100 W，风力 400 W，水车 120 W。逆变器可为 20 格和上下 ±3 层内的电器供电，最高 1,500 W，无需为每台电器单独布线。
+公共电网运行期间，建筑内的逆变器还可从电网取电，最多为其额定功率的五分之一（沙盒选项 GridCharging，默认开启）。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]入门指南[/url]
 
 [h2]设备[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_cn.png[/img]
 
-放置无需等级。接入：太阳能板、逆变器电工3级；风机、水轮、电池柜2级。同一格可叠放两个柜，库存和连接独立；先清空，再从上方拆走。
-可选配电箱、低电量警报、隔音、原版备用发电机和管理电脑。
+放置需要螺丝刀，但不需要电气等级。太阳能板和逆变器需 3 级连接，风力发电机、水车和充电宝需 2 级。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]设备指南[/url]
 
 [h2]发电[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_cn.png[/img]
 
-太阳能朝向：南100%，东/西85%，北55%。云、雪和污垢降低产量。雨水清洗面板，也可用抹布和0.5 L水清洁。风速10 km/h起发电，30–85满功率，更高自动制动；每层楼风速+15%，最多3层。水轮昼夜发电。电池低温效果默认关闭；暂不可用的能量保留为储备。
+太阳能板朝向影响发电：南 100%，东和西 85%，北 55%。云、雪和污垢会降低产量。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]发电与计算[/url]
+
+[h2]布线与并联[/h2]
+
+右键设备 > LiveWire > 连接到逆变器。超过 1,500 W 时，放置第二台逆变器并选择并联到一台逆变器，一个网络最多 4 台（6,000 W）。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]布线指南[/url]
+
+[h2]逆变器界面与管理软件[/h2]
+
+界面可查看每个回路的瓦数，并控制照明和设备。LiveWire Monitor 显示用电设备、线路视图、三天发电预测和最近 30 条事件。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]界面与软件[/url]
 
 [h2]水泵[/h2]
 
-水泵（电工3级）从最多8个相邻雨水收集器或[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]桶向15格内已接管的设施供水，每桶需1根金属管。用管钳接管。雨水输出为净水：最多5 L/分钟，泵水时250 W。蓝灯表示有电，待机也亮。卸载前用调试/管理员操作移除全部供水中继。
+水泵（电气 3 级）可从相邻的雨水收集器或 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 取水，为 15 格内接通水管的设备供水。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]水泵指南[/url]
 
 [h2]配方[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_cn.png[/img]
 
-下图展示18个配方。电工配方按等级自动解锁；叶片和桅杆在金属加工分类，无电工门槛。风机最终组装3级、水轮制作4级，各需两个放大器；两者接入仅需2级，放置无需等级。可拆解测电器获得电子废料。全部配方给予电工经验。设备及零件战利品地点增多，倍率默认5（1–20），重启后仅影响新掉落。
+共 16 个制作配方，全部展示在上方。损坏的设备可以拾取，并在制作菜单中拆解（12 个拆解配方，需螺丝刀）。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]配方[/url]
 
-[h2]管理软件[/h2]
+[h2]电气技能与安全[/h2]
 
-LiveWire Monitor新增用电设备（最多200项）、彩色轮廓、电缆显示、最近30条事件；管理电脑通电时可查看三天发电预测，另有48小时历史。网络名称显示于LCD和警报。支持原版台式机；可选Computer Mod/Laptop Mod通过战利品磁盘安装。
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
-
-[h2]用电安全与经验[/h2]
-
-电池测试在电工1/3/5级提供更多信息。翻新需4级，报废电池6级：保留螺丝刀，消耗废料、电线及0.5 L水；状态+15，上限80，最多四次。损坏的设备可拾起后在制作菜单中拆解。带电风险默认开启：0/1/2/3/4/5/6+级为50/42/33/25/17/8/0%。触电灼伤持工具的手、掉落手持物，材料消耗前取消操作。请关闭主逆变器；配电箱不能隔离其接线端。
+带电作业有触电风险（默认开启）：0 级为 50%，6 级及以上为 0%。作业前请关闭主逆变器。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]电气技能与维护[/url]
 
 [h2]多人游戏[/h2]
 
-服务器负责模拟及操作验证，保存回路选择并同步电器状态。停用模组前请闭合两条回路。
+服务器会检查每个操作并保存电路选择。禁用模组前请先关闭两条电路。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]多人指南[/url]
+
+[h2]LiveWire Extended（可选扩展）[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]接入整栋建筑[/url]：每一层、地下室以及一层周围。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]户外供电端子[/url]：为最多 16 x 16 格的区域供电。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]配电箱[/url]：15、20 或 30 A 断路器，每台设备一个。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]断路器光控开关[/url]：装在断路器上，使该回路从黄昏到黎明通电，随季节变化。
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_cn.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_cn.png[/img]
+
+在模组列表中放在 LiveWire 之后启用。与 LG Extended Electricity 和 Knox Power 不兼容。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完整指南[/url]
+
+[h2]Project Viewpoint 模型[/h2]
+
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：包含为所有设备提供 3D 模型的可选模组 LiveWire - Viewpoint models。仅在使用 Project Viewpoint 时启用。
+
+[h2]兼容性[/h2]
+
+兼容 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]。许可证 MIT。
 
 [h2]文档[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 维基（英文版）[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：本物品还包含可选模组 [b]LiveWire - Viewpoint models[/b]（batman_LiveWireViewpoint），提供所有设备的 3D 模型。仅在使用 Project Viewpoint 时启用。
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
-[b]兼容[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（可选）：管理软件可从电脑类战利品中找到的光盘安装，并作为应用在其桌面上运行。
-[b]兼容性[/b]：原创作品，不保证与其他电力系统模组同时运行。许可证：MIT。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 维基[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [h2]Discord[/h2]
 
-有问题、错误报告或想法？欢迎加入 Discord：
+有问题、错误报告或想法？加入 Discord：
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]关于 AI 的说明[/h2]
 
-我做开发已有多年，早在编程智能体出现之前就在制作模组，而这往往占用了陪伴家人的时间。我公开使用 Claude Code 和 Codex：每个功能依然经过讨论、设计和规划，而不是盲目地“氛围编程”。AI 将长期存在；我选择适应，而不是抗拒。感谢所有站出来反对人身攻击的人。
+我做开发多年，早在编程代理出现之前就做过模组，常常以牺牲陪伴家人的时间为代价。我公开使用 Claude Code 和 Codex：每个功能仍然经过讨论、设计和规划，而不是盲目地“氛围编程”。AI 会一直存在；我选择适应而不是抵抗。感谢所有在人身攻击面前挺身而出的人。
 
 [h2]支持本项目[/h2]
 
-喜欢这个模组吗？一杯咖啡能帮助资助新功能和翻译。
+喜欢这个模组吗？一杯咖啡有助于资助新功能和翻译。
 [url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
 
 [h2]致谢[/h2]
 
-作者：batmanfr。逆变器柜模型：PewPewCricket。原创代码、贴图和声音；未使用其他模组的任何内容。
+由 batmanfr 创建。逆变器柜模型由 PewPewCricket 提供。原创代码、瓦片和声音；未使用其他模组的内容。

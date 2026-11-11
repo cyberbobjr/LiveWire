@@ -40,13 +40,15 @@
 | 0 | Lire un testeur : alimenté ou non | aucun |
 | 1 | Testeur de tension | Lecture détaillée de la case |
 | 2 | Powerbank, alarme de batterie faible, kit d'insonorisation, générateur de secours | Usure des batteries −5 % |
-| 3 | Panneaux photovoltaïques, disjoncteur, onduleur, armoire onduleur, assemblage de l’éolienne, batterie stationnaire, pompe à eau, couplage d'onduleurs, cellules à partir de déchets, ordinateur de gestion (avec délestage), remise à neuf | Rendement d'installation 0,85 |
+| 3 | Panneaux photovoltaïques, disjoncteur, onduleur, armoire onduleur, assemblage de l’éolienne, batterie stationnaire, pompe à eau, couplage d'onduleurs, cellules à partir de déchets, ordinateur de gestion (avec délestage), remise à neuf | aucun |
 | 4 | Reconditionner une batterie, fabrication de la roue à aubes | Lecture de l'autonomie |
 | 5 | aucun | aucun |
 | 6 | aucun | Usure des batteries −10 % |
 | 7 | aucun | Rendement d'installation 0,95 |
 | 8 | aucun | Échec de réparation divisé par deux |
 | 9-10 | aucun | Rendement d'installation 1,0 ; usure des appareils −25 % |
+
+Le rendement d'installation vaut 0,85 du niveau 0 au niveau 6, 0,95 aux niveaux 7 et 8, et 1,0 aux niveaux 9 et 10.
 
 ## Expérience
 
@@ -56,11 +58,15 @@ Toujours attribuée par le serveur.
 |---|---|
 | Recettes du mod | voir [Recettes](08-recettes.md) |
 | Premier branchement d'une source (une fois) | 10 (panneau), 20 (éolienne, roue à aubes) |
+| Premier branchement d'une pompe à eau (une fois) | 20 |
+| Premier branchement d'une powerbank, d'un disjoncteur ou d'une alarme de batterie faible (une fois chacun) | 5 |
 | Mise en service d'un onduleur (premier branchement, une fois) | 25 |
+| Mise en service d'une armoire onduleur (une fois) | 35 |
 | Brancher un générateur ou un ordinateur vanilla | 3 (plus l'XP de l'onduleur si ce branchement le met en service) |
 | Coupler deux onduleurs | 5 (plus l'XP de l'onduleur si due) |
 | Inspecter un appareil | 2 (une fois par appareil et par jour) |
-| Mesurer au testeur | 1 (une fois par case et par heure) |
+| Nettoyer le panneau | 2 (une fois par appareil et par 24 heures) |
+| Mesurer au testeur | 1 par case ; une case rapporte de nouveau de l'XP après une heure ; 5 gains au maximum par joueur sur une heure glissante |
 | Réparer | 5 + 1 par point, maximum 15 |
 | Reconditionner une batterie | 8 |
 | Réarmer après avoir réglé une surcharge | 5 (une fois par heure) |
@@ -89,7 +95,7 @@ Un équipement hors d'usage n'est pas perdu : ramassez-le (tournevis) et démont
 depuis le menu d'artisanat ; ses pièces électroniques dépendent de son état
 ([Recettes](08-recettes.md)).
 
-Éoliennes et roues à aubes : branchement au niveau 2 ; fabrication aux niveaux 3 et 4 respectivement. Pose et ramassage sans niveau. Les pales et le mât se fabriquent sans niveau électrique.
+Éoliennes et roues à aubes : branchement au niveau 2 ; fabrication aux niveaux 3 et 4 respectivement. Pose et ramassage au tournevis, sans niveau. Les pales et le mât se fabriquent sans niveau électrique.
 
 ## Sécurité électrique et expérience
 
@@ -138,12 +144,9 @@ Une action refusée ou interrompue par un choc ne donne pas d'XP de réparation.
 
 En solo `-debug`, ou en administrateur MP : clic droit sur l'appareil → LiveWire
 → son nom → **Debug : cet équipement**. Retirez 10 points d'état, fixez 50 % ou
-10 %, mettez hors service (0 %) ou restaurez à 100 %. Fonctionne même sans câble.
+10 %, mettez hors service (0 %) ou restaurez à 100 %.
 Cela concerne l'équipement sélectionné, pas directement les batteries à l'intérieur,
 et ne donne pas d'XP. Un onduleur cassé restauré reste éteint.
-
-Une partie qui avait déjà enregistré le risque électrique sur « désactivé » garde
-ce choix : activez **Risque sous tension** dans ses options sandbox si nécessaire.
 
 ## Voir aussi
 

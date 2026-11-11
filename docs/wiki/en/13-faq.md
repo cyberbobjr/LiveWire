@@ -2,7 +2,7 @@
 
 # FAQ
 
-Short answers about LiveWire (`batman_LiveWire`, Project Zomboid Build 42.21, version 1.6.0). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). See [Multiplayer](12-multiplayer.md#status) for the validation scope of this update. For details, follow the links to the matching pages.
+Short answers about LiveWire (`batman_LiveWire`, Project Zomboid Build 42.21 and later). The mod is published on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). See [Multiplayer](12-multiplayer.md#validation) for the validation scope. For details, follow the links to the matching pages.
 
 ## Getting started
 
@@ -13,7 +13,7 @@ No. One source and one inverter is the minimal system. Without batteries the hou
 One source (solar panel 100 W, wind turbine 400 W or water wheel 120 W) and one inverter, linked by electric wire. Every powered appliance within 20 tiles and 3 floors of the inverter is then powered, with no per-appliance wiring. See [Equipment](02-equipment.md).
 
 **Which Electrical level do I need for what?**
-Placing and picking up need no level, but a screwdriver. The level applies to linking to an inverter: power bank, low battery alarm, backup generator, wind turbine and water wheel: level 2; solar panel, breaker panel, inverter and inverter cabinet (the first link puts it into service), coupling, water pump and management computer (with load shedding): level 3. Crafting: soundproofing kit level 2, water wheel level 4, final turbine assembly, deep-cycle battery, solar cells from scrap and overhaul level 3. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
+Placing and picking up need a screwdriver, but no level. The level applies to linking to an inverter: power bank, low battery alarm, backup generator, wind turbine and water wheel: level 2; solar panel, breaker panel, inverter and inverter cabinet (the first link puts it into service), coupling, water pump and management computer (with load shedding): level 3. Crafting: soundproofing kit level 2, water wheel level 4, final turbine assembly, deep-cycle battery, solar cells from scrap and overhaul level 3. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
 
 ## Wiring
 
@@ -46,10 +46,13 @@ Solar panels follow a sine curve between dawn and dusk: about 0.94 kWh per summe
 **How do I size my storage for the night?**
 A 14 h winter night for a fridge-freezer and 10 lights needs about 2.4 kWh: roughly 4 car batteries or 2 deep-cycle batteries. A power bank counts 4 batteries. See [Production and calculations](04-production-and-calculations.md).
 
+**Does the house charge from the public grid?**
+Yes, while the public grid works and the sandbox option `GridCharging` is on (default: on). An inverter inside a building then powers itself and charges its batteries from the grid, up to a fifth of its rated power. See [Sandbox options](11-sandbox-options.md).
+
 ## Storage and appliances
 
 **Do fridges keep working when I leave the area?**
-Yes, as long as there is power. The server simulates every 10 game minutes even with nobody nearby (sandbox `SimulateUnloaded`). Checked in single player: a steak in a powered fridge with the player 300 tiles away for 10 game hours aged 0.083 day instead of 0.417. Catch-up replays power changes retained for 60 game days; older missing history cannot be recovered. See [Getting started](01-getting-started.md).
+Yes, as long as there is power. The server simulates every 10 game minutes even with nobody nearby (sandbox `SimulateUnloaded`). Catch-up replays power changes retained for 60 game days; older missing history cannot be recovered. See [Getting started](01-getting-started.md).
 
 **What consumes power?**
 It depends on the sandbox `ConsumptionProfile`. With the default game values: light 2 W, radio 10 W, television 30 W, fridge alone 80 W, stove, microwave, washer and dryer 90 W each, fridge-freezer 130 W, a stacked washer + dryer up to 1,800 W. With Realistic 1993: light 60 W, television 80 W, fridge-freezer 130 W, electric cooker 2,000 W, dryer 3,000 W. The inverter itself uses 20 W idle. See [Production and calculations](04-production-and-calculations.md#appliance-consumption).
@@ -58,15 +61,15 @@ It depends on the sandbox `ConsumptionProfile`. With the default game values: li
 The demand of the house appliances went above 1,500 W, for example a stacked washer + dryer. With a breaker panel, the breaker trips and the inverter takes no damage; use "Reset the breaker" once the load is lower. Without a breaker, the inverter trips and loses 3 condition points; use "Reset" on it. See [Optional equipment](06-optional-equipment.md).
 
 **1,500 W is not enough. Can I combine several inverters?**
-Yes: couple them. Place a second inverter with no equipment connected, right-click it, "LiveWire", then "Couple to an inverter", and pick the master inverter within cable range. It costs the electric wire for the distance and 1 Inverter Coupling Kit (recipe at Electrical level 3). A master takes up to 3 slaves, so 4 inverters give 6,000 W on one network, with one battery bank and the master's powered area. Each inverter switched on uses 20 W idle and wears as usual; a slave switched off or broken no longer counts. "Uncouple" on the slave gives the kit back. See [Optional equipment](06-optional-equipment.md#parallel-inverters-coupling). You can also turn an inverter into an **inverter cabinet** (4,500 W, 60 W idle, recipe at Electrical level 3); cabinets couple like inverters.
+Yes: couple them. Place a second inverter with no equipment connected, right-click it, "LiveWire", then "Couple to an inverter", and pick the master inverter within cable range. It costs the electric wire for the distance and 1 Inverter Coupling Kit (recipe at Electrical level 3). A master takes up to 3 slaves, so 4 inverters give 6,000 W on one network, with one battery bank and the master's powered area. Each inverter switched on uses 20 W idle and wears as usual; a slave that is switched off or broken does not count. "Uncouple" on the slave gives the kit back. See [Optional equipment](06-optional-equipment.md#parallel-inverters-coupling). You can also turn an inverter into an **inverter cabinet** (4,500 W, 60 W idle, recipe at Electrical level 3); cabinets couple like inverters.
 
 **How does the low battery alarm work?**
-Below 20 % stock it sends a message to players within 30 tiles and beeps every 10 game minutes until you choose "Silence the alarm". The beacon stays lit until the stock is back above 25 %. Linking it needs Electrical level 2. See [Optional equipment](06-optional-equipment.md).
+Below 20 % stock it sends a message to players within 30 tiles and beeps every 2 game hours until you choose "Silence the alarm". The beacon stays lit until the stock is back above 25 %. Linking it needs Electrical level 2. See [Optional equipment](06-optional-equipment.md).
 
 **How does the backup generator work?**
 A vanilla generator linked to the inverter is started by the mod under 20 % battery and stopped at 90 % (sandbox `BackupStartPercent` and `BackupStopPercent`). It supplies 1,200 W and burns 1 L of fuel per 3 kWh on top of its vanilla consumption. It stays noisy and toxic indoors, must be plugged and fuelled the vanilla way, and never starts without batteries. See [Optional equipment](06-optional-equipment.md).
 
-**Why does the backup generator no longer start or stop on its own?**
+**How do I give the backup generator back to automatic control?**
 If you switch the generator on or off yourself (vanilla menu), the mod respects your choice: it goes into **manual control** and stops driving it. A message near the generator says so, and the inverter screen and the management software show "manual control". To hand control back to the mod: right-click the generator > **LiveWire** > **Backup generator** > **Resume automatic backup**. Linking a generator that is already running also puts it in manual control.
 
 ## Software and computer
@@ -79,6 +82,9 @@ Without them, a vanilla desktop computer linked to the inverter opens the softwa
 
 **Where do I find the disk?**
 "Disk: LiveWire Management Software" is found in computer loot, when Computer Mod or Laptop Mod is active: computer crates (about 7.8 % per container), university electrical desks (7.8 %), electronics store computers (2.0 %), among others. Right-click the computer with the disk and choose "Install the LiveWire software". See [Loot tables](09-loot-tables.md).
+
+**Why does "Show consumers" not count my appliances?**
+While the public grid is on, it powers the house: its appliances draw nothing from the inverter. The view shows them in white, and "Public grid still on" appears above the character and in the legend window. They move to the inverter when the game's electricity shuts off. See [Inverter screen and software](05-inverter-screen-and-software.md).
 
 ## Noise and zombies
 
@@ -96,16 +102,24 @@ Per game days, roughly: solar panel -1 per 10 days, wind turbine -1 per 4, water
 **How do I repair or overhaul a device?**
 Repair: 1 electronics scrap + 1 electric wire, gaining 5 + your Electrical level points (up to 90), with a failure chance of max(5, 40 - 5 x level) % that loses the parts. Overhaul (level 3, 4 scrap + 2 wires) restores 100. A battery can be reconditioned at level 4 (6 when dead): kept screwdriver, scrap, wire and 0.5 L water; +15 condition, cap 80, four repairs maximum. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md).
 
+## LiveWire Extended
+
+**What is LiveWire Extended?**
+An optional add-on, in the same Workshop item as LiveWire. It connects a whole building to an inverter, powers outdoor areas through a power terminal, and wires each appliance to its own breaker on a breaker board. See [LiveWire Extended](14-livewire-extended.md).
+
+**Why will a breaker board not hang outside?**
+A crafted breaker board is not weatherproof. The furniture cursor refuses an outside spot and gives the reason. Hang it on an inside wall of a building, or in a closed, roofed room. See [LiveWire Extended](14-livewire-extended.md#breaker-boards).
+
 ## Multiplayer and server
 
 **Does it work on a dedicated server?**
-It is designed for it: production, stock, states, failures and experience are computed by the server, which re-checks every client request. Earlier in-game campaigns covered single player and a Windows dedicated server with two clients; the validation report distinguishes those snapshots from the latest changes. See [Multiplayer](12-multiplayer.md).
+It is designed for it: production, stock, states, failures and experience are computed by the server, which re-checks every client request. See [Multiplayer](12-multiplayer.md).
 
 **What are the Workshop ID and Mod ID?**
-The Mod ID is `batman_LiveWire`. The Workshop ID is `3821807453`. You can also copy `Contents/mods/batman_LiveWire` into `Zomboid/mods`. See [Getting started](01-getting-started.md#installation).
+The Mod ID is `batman_LiveWire`. The Workshop ID is `3821807453`; LiveWire Extended (`batman_LiveWireExtended`) is in the same Workshop item. You can also copy `Contents/mods/batman_LiveWire` into `Zomboid/mods`. See [Getting started](01-getting-started.md#installation).
 
 **Which sandbox options matter for a server?**
-Page "LiveWire": `ConsumptionProfile` (ultra-realistic 1993, realistic 1993, game values, comfort), `PowerScale`, source multipliers (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, wear multipliers, `LinkRange`, `WirePerTiles`, `SkillGates` and `SimulateUnloaded` (default on). If the server pauses when empty, the installation pauses too. See [Sandbox options](11-sandbox-options.md).
+Page "LiveWire": `ConsumptionProfile` (ultra-realistic 1993, realistic 1993, game values, comfort), `PowerScale`, source multipliers (`SolarMultiplier`, `WindMultiplier`, `HydroMultiplier`), `BatteryCapacityMultiplier`, wear multipliers, `LinkRange`, `WirePerTiles`, `SkillGates`, `SimulateUnloaded` (default on) and `GridCharging` (default on). If the server pauses when empty, the installation pauses too. See [Sandbox options](11-sandbox-options.md).
 
 **Who can use an installation, and does it lag?**
 Shared installations follow the vanilla safehouse rules. The software may lag up to 10 game minutes. Vanilla generators are unchanged: if a generator and an inverter cover the same appliances, both pay. See [Multiplayer](12-multiplayer.md).
@@ -113,7 +127,7 @@ Shared installations follow the vanilla safehouse rules. The software may lag up
 ## Compatibility
 
 **Can I use it with other energy mods?**
-Other energy mods are not supported together with LiveWire. LiveWire is an original creation: no code or asset was taken from any other mod. Optional integrations include Computer Mod, Laptop Mod, Project Viewpoint and Useful Barrels. See [Getting started](01-getting-started.md).
+Other energy mods are not supported together with LiveWire. LiveWire is an original creation: no code or asset was taken from any other mod. LiveWire Extended is incompatible with LG Extended Electricity and Knox Power. Optional integrations include Computer Mod, Laptop Mod, Project Viewpoint and Useful Barrels; with LiveWire Extended, My Tailor Is Rich and Functional Appliances 2 follow their breakers. See [LiveWire Extended](14-livewire-extended.md#other-mods).
 
 ## Troubleshooting
 

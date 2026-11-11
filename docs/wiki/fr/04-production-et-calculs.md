@@ -4,9 +4,11 @@
 
 Les exemples solaires supposent des panneaux propres, déneigés et orientés au sud. Orientation, saleté et météo modifient le résultat réel.
 
-Le serveur calcule tout toutes les 10 minutes de jeu, joueurs présents ou non (option SimulateUnloaded, activée par défaut). Cette page détaille le modèle.
+Le serveur calcule tout toutes les 10 minutes de jeu, joueurs présents ou non (option SimulateUnloaded, activée par défaut). Les valeurs ci-dessous sont des valeurs de départ pour l'équilibrage.
 
 ![Trois graphiques : journée solaire, courbe de l'éolienne, énergie par jour face à une maison type](../../images/diagrams/production_fr.png)
+
+*Journée solaire, courbe de l'éolienne et énergie par jour face à une maison type.*
 
 ## Puissance d'une source
 
@@ -28,7 +30,7 @@ Facteur d'état = 0,5 + 0,5 × état/100.
 
 ### Rendement d'installation
 
-Il est fixé au premier branchement de l'appareil, d'après le niveau d'Électricité de celui qui le branche (le meilleur niveau vu est conservé).
+Il est fixé au premier branchement de l'équipement à un onduleur, d'après le niveau d'Électricité de celui qui le branche.
 
 | Niveau | Rendement |
 |---|---|
@@ -38,11 +40,11 @@ Il est fixé au premier branchement de l'appareil, d'après le niveau d'Électri
 
 ## Solaire (100 W)
 
-Courbe en sinus entre l'aube et le crépuscule de la saison. Les nuages laissent 20 % en ciel couvert (facteur × (1 − 0,8 × nuages)). La neige se dépose sur le panneau pendant une chute de neige et fond au-dessus de 0 °C (action « Déneiger »). Environ 0,94 kWh par jour d'été et 0,60 kWh en hiver (panneau neuf, ciel dégagé).
+Courbe en sinus entre l'aube et le crépuscule de la saison. Les nuages laissent 20 % en ciel couvert (facteur × (1 − 0,8 × nuages)). La neige se dépose sur le panneau pendant une chute de neige et fond au-dessus de 0 °C (l'action « Déneiger » l'enlève à la main). Environ 0,94 kWh par jour d'été et 0,60 kWh en hiver (panneau neuf, ciel dégagé).
 
 ## Éolien (400 W)
 
-0 sous 10 km/h ; (v / 30)³ entre 10 et 30 km/h ; 100 % de 30 à 85 km/h ; 0 au-dessus de 85 km/h (frein automatique). Le vent gagne 15 % par étage, jusqu'au 3e.
+0 sous 10 km/h ; (v / 30)³ entre 10 et 30 km/h ; 100 % de 30 à 85 km/h ; 0 au-dessus de 85 km/h (frein automatique). Le vent est 15 % plus fort par étage, jusqu'au 3e.
 
 | Vent (km/h) | Part de la puissance nominale | Puissance |
 |---|---|---|
@@ -58,7 +60,7 @@ Courbe en sinus entre l'aube et le crépuscule de la saison. Les nuages laissent
 
 ## Roue à aubes (120 W)
 
-Jour et nuit, environ 2,9 kWh par jour. Rivières seulement (le moteur ne sait pas distinguer le courant d'un lac).
+Jour et nuit, environ 2,9 kWh par jour. Rivières seulement (le moteur ne sait pas distinguer le courant d'un lac). La roue tourne avec la rivière, plus vite au printemps et plus lentement en été.
 
 | Saison | Coefficient | Puissance | kWh/jour |
 |---|---|---|---|
@@ -74,12 +76,17 @@ Jour et nuit, environ 2,9 kWh par jour. Rivières seulement (le moteur ne sait p
 - Surplus × 0,90 (rendement de charge).
 - Autodécharge : 0,2 % par jour.
 - Batterie pleine : la production en trop est perdue (affichée « Production perdue »).
-- Réseau public (option `GridCharging`, activée par défaut) : tant qu'il fonctionne, un onduleur installé dans une pièce d'un bâtiment tire du secteur jusqu'à un cinquième de sa puissance nominale (300 W pour un onduleur, 900 W pour une armoire). Ce courant couvre d'abord ce que les sources ne fournissent pas, puis recharge les batteries ; il n'est tiré que si besoin, donc rien n'est perdu. Un onduleur cassé ne recharge pas ; un onduleur éteint, si.
-- La consommation des appareils dépend de l'option `ConsumptionProfile` (ci-dessous).
+- Capacité effective = nominale × (0,4 + 0,6 × état/100) × BatteryCapacityMultiplier.
+
+### Réseau public
+
+L'option sandbox `GridCharging` est activée par défaut. Tant que le réseau public fonctionne, un onduleur installé dans une pièce d'un bâtiment peut tirer du secteur jusqu'à un cinquième de sa puissance nominale (300 W pour un onduleur, 900 W pour une armoire onduleur). Ce courant couvre d'abord ce que les sources ne fournissent pas, puis recharge les batteries. Il n'est tiré que si besoin, donc rien n'est perdu. Le réseau s'arrête quand la coupure de courant vanilla du jeu prend effet.
+
+Un onduleur cassé ne recharge ni depuis le réseau ni depuis les sources. Un onduleur éteint laisse ses sources recharger les batteries.
 
 ## Ordre d'alimentation de l'onduleur
 
-L'onduleur couvre d'abord la demande avec la production du moment (× rendement), puis avec le réseau public tant qu'il fonctionne (option `GridCharging`), puis avec les batteries. Il ne peut redémarrer que si la production (réseau compris) couvre la demande ou si les batteries contiennent plus de 2 % de leur capacité. La limite de 1 500 W s'applique à la demande de la maison, pas à la production.
+L'onduleur couvre d'abord la demande avec la production du moment (× rendement), puis avec le réseau public tant qu'il fonctionne (option `GridCharging`), puis avec les batteries. Il ne peut redémarrer que si la production (réseau compris) couvre la demande, ou si les batteries contiennent plus de 2 % de leur capacité. La consommation des appareils dépend de l'option `ConsumptionProfile` (ci-dessous).
 
 ## Consommation des appareils
 
@@ -102,7 +109,7 @@ L'option sandbox **`ConsumptionProfile`** (« Profil de consommation ») fixe la
 | Appareil au gaz (commandes seulement) et appareils ajoutés par d'autres mods | valeur du jeu | valeur du jeu | valeur du jeu | moitié |
 
 - **Valeurs du jeu** : celles du moteur, utilisées par le générateur vanilla (1 unité de puissance du moteur par heure = 1 000 W). Une base coûte donc autant sur un onduleur que sur un générateur vanilla. Elles sont très basses pour les lumières, les télévisions et les cuisinières. Le lave-linge + sèche-linge superposé vanilla est au contraire étrangement élevé (0,9 par moitié au lieu de 0,09).
-- **Réaliste 1993** : consommations courantes d'un foyer de l'époque. Ampoules à incandescence de 60 W, téléviseur cathodique de 63 cm, frigo-congélateur des années 90 (environ 1 100 kWh par an), cuisinière et sèche-linge électriques en 240 V.
+- **Réaliste 1993** : consommations courantes d'un foyer de l'époque. Ampoules à incandescence de 60 W, téléviseur cathodique, frigo-congélateur des années 90 (environ 1 100 kWh par an), cuisinière et sèche-linge électriques en 240 V.
 - **Ultra-réaliste 1993** : appareils plus anciens et plus gourmands. Plafonniers de 100 W, grand téléviseur cathodique, frigo des années 80, cuisinière et sèche-linge à pleine puissance.
 - **Confort** : la moitié des valeurs du jeu, avec le lave-linge + sèche-linge superposé corrigé.
 - `PowerScale` multiplie le résultat du profil (1 = aucun changement). L'onduleur consomme toujours 20 W à vide.
@@ -111,7 +118,7 @@ L'option sandbox **`ConsumptionProfile`** (« Profil de consommation ») fixe la
 
 ### Ce que changent les profils réalistes
 
-La limite de l'onduleur reste **1 500 W** (4 500 W pour l'armoire onduleur ; les [onduleurs couplés](06-equipements-optionnels.md) s'additionnent), dans l'ordre de grandeur des onduleurs autonomes des années 90. Avec les profils 1993 :
+La limite de l'onduleur reste **1 500 W** (4 500 W pour l'armoire onduleur ; les [onduleurs couplés](06-equipements-optionnels.md#onduleurs-en-parallèle-couplage) s'additionnent), dans l'ordre de grandeur des onduleurs autonomes des années 90. Avec les profils 1993 :
 
 - Une cuisinière électrique (2 000 ou 3 000 W) ou un sèche-linge fait disjoncter un onduleur seul. Cuisinez au gaz, au poêle à bois ou au feu de camp, ou couplez des onduleurs. Un disjoncteur protège l'onduleur.
 - Les lumières deviennent la principale charge de nuit : éteignez les pièces vides.
@@ -144,16 +151,12 @@ Il n'y a pas de limite : les productions s'additionnent (100 W nominaux chacun).
 
 ## Orientation et entretien des panneaux
 
-L'orientation visible de la tuile compte : sud 100 %, est et ouest 85 % avec un
-décalage de production de deux heures, nord 55 %. L'inspection indique orientation,
-saleté et neige. La saleté réduit la production, s'accumule plus vite en automne
-et diminue sous la pluie. Nettoyer demande un chiffon conservé et 0,5 L d'eau ;
-le nettoyage retire saleté et neige. La suie des incendies n'est pas modélisée.
+Avec l'option sandbox `SolarOrientation` activée (par défaut), le sud donne 100 %, l'est et l'ouest 85 % (avec un pic de production plus tôt ou plus tard), et le nord 55 %. L'inspection d'un panneau indique son orientation, sa saleté et sa neige. L'option `SolarDirt` ajoute une lente accumulation de poussière (plus rapide en automne) ; la pluie aide à la nettoyer.
 
-Le frein conserve ses commandes existantes et arrête la production de l'éolienne.
-Le voyant clignote lorsque le frein est serré ; le journal avertit une fois par
-épisode orageux si une éolienne tourne librement.
+Deux actions nettoient un panneau. **Nettoyer le panneau** utilise un chiffon et 0,5 L d'eau, et retire la saleté et la neige. **Déneiger** retire seulement la neige.
+
+Une éolienne freinée a un voyant de connexion qui clignote.
 
 ## Voir aussi
 
-[Équipements](02-equipements.md) · [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) · [Options sandbox](11-options-sandbox.md) · [Multijoueur](12-multijoueur.md)
+[Équipements](02-equipements.md) · [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) · [Options sandbox](11-options-sandbox.md) · [Équipements optionnels](06-equipements-optionnels.md)

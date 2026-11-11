@@ -1,85 +1,106 @@
-[h1]LiveWire - Überarbeitung der Elektrotechnik[/h1]
+[h1]LiveWire - Elektrik-Fertigkeit neu gestaltet[/h1]
 
-[b]Build 42.21 · Einzelspieler und Mehrspieler (serverautoritativ)[/b]
+[b]Build 42.21+ · Einzelspieler & Mehrspieler[/b]
 
-Der Strom ist endgültig weg ... aber das Licht muss nicht ausgehen. Baue dein eigenes Inselnetz: Solarpanels, eine Windturbine oder ein Wasserrad speisen einen Wechselrichter, und der Wechselrichter versorgt das ganze Haus darum herum. Für die Nacht gibt es Batterien. Die Fertigkeit Elektrotechnik zählt endlich: Jedes Gerät hat eine Stufe, und deine Stufe verbessert die Installation.
-
-[h2]1.6.0 — Deine Anlage steuern[/h2]
-
-Der Sicherungskasten hat Hebel für Licht, Geräte und Hauptversorgung sowie aktuelle Wattwerte je Stromkreis und insgesamt. Echte Geräte abschalten und frühere Schaltzustände wiederherstellen, auch nach Neustarts. Bei offener Hauptverteilung können Quellen weiter Batterien laden. Linksklick öffnet das jeweilige LCD; Anschlüsse werden im gemeinsamen Fenster verwaltet.
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
-
-[h2]So funktioniert es[/h2]
+Der Strom ist endgültig weg, aber das Licht muss nicht ausgehen. Baue deine eigene Stromversorgung abseits des Netzes: Solarmodule, Windturbinen und Wasserräder speisen einen Wechselrichter, der das Haus um ihn herum versorgt. Batterien sorgen für die Nacht. Jedes Gerät hat eine Elektrik-Stufe, und deine Stufe verbessert die Anlage.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_de.png[/img]
 
-Solar 100 W, Wind 400 W, Wasserrad 120 W. Ein Wechselrichter versorgt Geräte in 20 Feldern und ±3 Stockwerken mit bis zu 1.500 W. Keine Einzelkabel zu Haushaltsgeräten.
-[b]Mehr als 1.500 W nötig?[/b] Stelle einen zweiten Wechselrichter ohne Anschlüsse auf, Rechtsklick > LiveWire > „An einen Wechselrichter koppeln“ (1 Kopplungsset für Wechselrichter, Rezept Elektrik 3). Bis zu 4 gekoppelte Wechselrichter: 6.000 W. Neu: Baue einen Wechselrichter zum [b]Wechselrichterschrank[/b] mit 4.500 W um (Elektrik 3); auch er lässt sich koppeln.
-Batteriebänke speichern Überschüsse (je 4 Batterien). Kabel: 1 Draht pro 4 Felder, Reichweite 12. Verbrauchsprofile: Spielwerte, Realistisch 1993, Ultrarealistisch 1993 oder Komfort.
+[h2]So funktioniert es[/h2]
+
+Solar 100 W, Wind 400 W, Wasserrad 120 W. Ein Wechselrichter versorgt Geräte in 20 Feldern und ±3 Etagen mit bis zu 1.500 W, ohne Kabel pro Gerät. Überschuss landet in Powerbanks.
+Solange das öffentliche Netz läuft, zieht ein Wechselrichter in einem Gebäude zusätzlich bis zu einem Fünftel seiner Leistung aus dem Netz (Sandbox-Option GridCharging, standardmäßig aktiv).
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]Erste Schritte[/url]
 
 [h2]Ausrüstung[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_de.png[/img]
 
-Aufstellen braucht keine Stufe: Solarmodule und Windräder draußen, Wasserräder am Flussufer, Wechselrichter, Batteriebänke. Anschluss: Solarmodule und Wechselrichter Elektrik 3; Windräder, Wasserräder, Batteriebänke 2. Zwei Bänke passen übereinander auf ein Feld, mit getrennten Inventaren und Anschlüssen. Vor dem Aufheben leeren, obere Bank zuerst.
-Optional: Sicherungskasten, Batteriealarm, Schalldämmung, Vanilla-Notstromgenerator und Verwaltungscomputer.
+Platzieren braucht einen Schraubenzieher, aber keine Stufe. Anschluss: Solarmodule und Wechselrichter ab Stufe 3; Windturbinen, Wasserräder und Powerbanks ab Stufe 2. Optional: Sicherung, Batteriealarm, Schalldämmung, vanilla Notstromaggregat, Verwaltungscomputer.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]Ausrüstungs-Anleitung[/url]
 
-[h2]Erzeugung[/h2]
+[h2]Produktion[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_de.png[/img]
 
-Solarausrichtung: Süden 100%, Osten/Westen 85%, Norden 55%. Wolken, Schnee und Schmutz senken den Ertrag. Regen reinigt; manuell mit Lappen + 0,5 L Wasser. Windstrom ab 10 km/h, volle Leistung bei 30–85, darüber Bremse; +15 % Wind pro Etage bis zur 3. Wasserkraft läuft Tag und Nacht. Optionale Batteriekälte bewahrt vorübergehend unzugängliche Energie als Reserve; standardmäßig aus.
+Die Ausrichtung zählt: Süd 100 %, Ost und West 85 %, Nord 55 %. Wolken, Schnee und Schmutz senken die Leistung; Regen reinigt die Module. Wind liefert ab 10 km/h, mit voller Leistung von 30 bis 85 km/h. Das Wasserrad produziert Tag und Nacht.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Produktion und Berechnungen[/url]
+
+[h2]Verkabelung & Kopplung[/h2]
+
+Rechtsklick auf ein Gerät, dann LiveWire, dann Mit einem Wechselrichter verbinden. Ein Kabel kostet 1 Draht pro 4 Felder, Reichweite 12. Mehr als 1.500 W nötig? Koppele einen zweiten Wechselrichter (An einen Wechselrichter koppeln, 1 Kopplungsset): ein Netz umfasst 4 Wechselrichter, 6.000 W.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Verkabelungs-Anleitung[/url]
+
+[h2]Wechselrichter-Bildschirm & Verwaltungssoftware[/h2]
+
+Der Wechselrichter-Bildschirm steuert Beleuchtung, Geräte und Hauptschalter und zeigt die Watt jedes Stromkreises. LiveWire Monitor ergänzt Verbraucher, Kabelansichten, eine Drei-Tages-Prognose und die letzten 30 Ereignisse auf einem versorgten Verwaltungscomputer.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]Bildschirm und Software[/url]
 
 [h2]Wasserpumpe[/h2]
 
-Die Wasserpumpe (Elektrik 3) versorgt angeschlossene Sanitärgeräte in 15 Feldern aus bis zu 8 benachbarten Regensammlern oder [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]-Fässern, je ein Metallrohr. Rohrzange zum Anschließen. Regenwasser kommt sauber an: bis 5 L/min, 250 W beim Pumpen. Blau = mit Strom versorgt, auch im Leerlauf. Vor Deinstallation alle Wasserrelais per Debug-/Adminaktion entfernen.
+Eine Wasserpumpe (Elektrik 3) versorgt Sanitäranlagen im Umkreis von 15 Feldern, aus bis zu 8 angrenzenden Regensammlern oder [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Wasserpumpen-Anleitung[/url]
 
 [h2]Rezepte[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_de.png[/img]
 
-18 bebilderte Rezepte. Elektrikrezepte werden automatisch freigeschaltet; Rotorblätter und Mast unter Metallverarbeitung ohne Elektrikstufe. Windrad-Endmontage auf 3, Wasserradbau auf 4, jeweils mit zwei Verstärkern. Beide auf Stufe 2 anschließen; Aufstellen braucht keine Stufe. Spannungsprüfer zu Elektroschrott zerlegen. Alle Rezepte geben Elektrik-EP. Mehr Fundorte; Beutemultiplikator standardmäßig 5 (1–20), nur neue Würfe nach Neustart.
+16 Herstellungsrezepte, oben gezeigt. Kaputte Geräte lassen sich aufheben und im Handwerksmenü zerlegen (12 Zerlegungsrezepte, mit Schraubenzieher).
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]Rezepte[/url]
 
-[h2]Verwaltungssoftware[/h2]
+[h2]Elektrik & Sicherheit[/h2]
 
-LiveWire Monitor ergänzt Verbraucher (bis 200), farbige Gerätesilhouetten, Kabelansicht, 30 letzte Ereignisse und drei Tage Produktionsprognose mit versorgtem Verwaltungscomputer, neben 48 Stunden Verlauf. Netzwerknamen auf LCDs und Warnungen. Vanilla-PCs funktionieren; Computer Mod/Laptop Mod optional mit Beutediskette.
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
-
-[h2]Elektrische Sicherheit und EP[/h2]
-
-Batterietests auf Elektrik 1/3/5. Aufbereitung auf 4 (6 bei defekt): Schraubendreher bleibt, Schrott, Draht, 0,5 L Wasser; +15 Zustand, maximal 80, viermal. Defekte Geräte aufheben und im Handwerksmenü zerlegen. Arbeiten unter Spannung: Risiko standardmäßig an, 50/42/33/25/17/8/0% auf Stufe 0/1/2/3/4/5/6+. Stromschlag verbrennt die Werkzeughand, lässt Gegenstände fallen und bricht vor Materialverbrauch ab. Hauptwechselrichter ausschalten; der Sicherungskasten isoliert seine Anschlüsse nicht.
+Batterien bei Elektrik 1, 3 und 5 prüfen, für mehr Details. Arbeiten unter Spannung bergen ein Schockrisiko (standardmäßig aktiv): 50 % bei Stufe 0, 0 % ab Stufe 6. Schalte zuerst den Master-Wechselrichter aus; ein Sicherungsschalter isoliert nicht.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Elektrik und Wartung[/url]
 
 [h2]Mehrspieler[/h2]
 
-Serverseitige Simulation und Aktionsprüfung, gespeicherte Stromkreise und synchronisierte Gerätezustände. Vor Abschalten des Mods beide Stromkreise schließen.
+Der Server prüft jede Aktion; Schaltungswahl und Gerätezustände werden gespeichert und synchronisiert. Schließe beide Stromkreise, bevor du den Mod deaktivierst.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Mehrspieler-Anleitung[/url]
+
+[h2]LiveWire Extended (optionale Erweiterung)[/h2]
+
+Bringt Strom über den Kreis des Wechselrichters hinaus:
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Ein ganzes Gebäude anschließen[/url]: jede Etage, der Keller und ein Streifen um das Erdgeschoss.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Stromanschluss im Freien[/url]: versorgt eine gezeichnete Zone von bis zu 16 x 16 Feldern.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sicherungskästen[/url]: Sicherungen mit 15, 20 oder 30 A, eine pro Gerät.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Dämmerungsschalter für Schutzschalter[/url]: auf einem Schutzschalter hält er diesen Stromkreis von der Dämmerung bis zum Morgengrauen an, je nach Jahreszeit.
+[*]Manche Häuser der Karte haben bereits einen vorverdrahteten, unbeschrifteten Sicherungskasten.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_de.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_de.png[/img]
+
+Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity oder Knox Power. Zum sicheren Entfernen schaltet ein Admin zuerst alle Sicherungen über das Menü eines Kastens wieder ein.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
+
+[h2]Project Viewpoint-Modelle[/h2]
+
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieser Eintrag enthält auch den optionalen Mod LiveWire - Viewpoint models mit 3D-Modellen aller Geräte. Aktiviere ihn nur, wenn du Project Viewpoint nutzt.
+
+[h2]Kompatibilität[/h2]
+
+Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Eigenständige Schöpfung, nicht für den Betrieb zusammen mit anderen Strom-Mods gedacht. Lizenz MIT.
 
 [h2]Dokumentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki (auf Englisch)[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieses Item enthält auch die optionale Mod [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint) mit 3D-Modellen aller Geräte. Nur aktivieren, wenn du Project Viewpoint nutzt.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
-[b]Kompatibel mit[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional): Die Verwaltungssoftware wird von einer Diskette aus Computer-Beute installiert und läuft als App auf deren Desktop.
-[b]Kompatibilität[/b]: eigenständige Neuschöpfung, nicht dafür gedacht, zusammen mit anderen Mods für Stromsysteme zu laufen. Lizenz MIT.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire-Wiki[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [h2]Discord[/h2]
 
-Fragen, Fehlerberichte oder Ideen? Komm auf den Discord:
+Fragen, Fehlerberichte oder Ideen? Tritt dem Discord bei:
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
-[h2]Ein Wort zur KI[/h2]
+[h2]Ein Wort zu KI[/h2]
 
-Ich bin seit Jahren Entwickler und habe Mods erstellt, lange bevor es Coding-Agenten gab – oft auf Kosten der Zeit mit meiner Familie. Ich nutze offen Claude Code und Codex: Jede Funktion wird weiterhin besprochen, entworfen und geplant, nicht blind „gevibecodet“. KI wird bleiben; ich habe mich entschieden, mich anzupassen, statt mich zu wehren. Danke an alle, die sich gegen die persönlichen Angriffe gestellt haben.
+Ich bin seit Jahren Entwickler und habe Mods lange vor den Code-Agenten gebaut, oft auf Kosten der Zeit mit meiner Familie. Ich nutze offen Claude Code und Codex: Jede Funktion wird weiterhin besprochen, entworfen und geplant, nicht blind „vibe-codiert“. KI ist gekommen, um zu bleiben; ich habe mich entschieden, mich anzupassen statt Widerstand zu leisten. Danke an alle, die sich gegen die persönlichen Angriffe gestellt haben.
 
-[h2]Unterstütze das Projekt[/h2]
+[h2]Projekt unterstützen[/h2]
 
-Gefällt dir der Mod? Ein Kaffee hilft, neue Funktionen und Übersetzungen zu finanzieren.
+Dir gefällt der Mod? Ein Kaffee hilft, neue Funktionen und Übersetzungen zu finanzieren.
 [url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
 
 [h2]Danksagungen[/h2]
 
-Erstellt von batmanfr. Modell des Wechselrichterschranks: PewPewCricket. Eigener Code, Tiles und Sounds; kein Inhalt aus anderen Mods übernommen.
+Erstellt von batmanfr. Modell des Wechselrichter-Schranks von PewPewCricket. Originalcode, Kacheln und Sounds; keine Inhalte aus anderen Mods übernommen.

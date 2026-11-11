@@ -1,85 +1,104 @@
-[h1]LiveWire - 電気工学スキル改修[/h1]
+[h1]LiveWire - 電気スキルの刷新[/h1]
 
-[b]Build 42.21 · シングルプレイ & マルチプレイ（サーバー主導）[/b]
+[b]Build 42.21+ · シングルプレイ & マルチプレイ[/b]
 
-太陽光・風力・水車をインバーターにつなぎ、家に電気を供給。夜はバッテリーを活用。電気工学スキルで設置と整備が上達します。
-
-[h2]1.6.0 — 電力設備を操作[/h2]
-
-配電盤に照明・機器・主回路レバーと回路別／合計ワット表示を追加。実際の家電を切り、以前の設定を復元します。再起動後も保持。主配電を切っても電源は充電を続けられます。左クリックで各機器のLCD、接続ボタンでインバーター選択。
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
-
-[h2]仕組み[/h2]
+送電網は戻りませんが、明かりまで消す必要はありません。太陽光パネル、風力タービン、水車がインバーターを動かし、インバーターが周囲の家に電気を供給します。夜はバッテリーで備えます。すべての機器には電気レベルがあり、レベルが高いほど設備が良くなります。
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_jp.png[/img]
 
-太陽光100 W、風力400 W、水車120 W。インバーターは20マス、上下3階の家電に最大1500 Wを供給。家電ごとの配線は不要です。
-[b]1500 Wでは足りない？[/b]何も接続していない2台目のインバーターを置き、右クリック > LiveWire >「インバーターに連結」（インバーター連結キット1個、電気工学3のレシピ）。最大4台連結で6000 W。新登場：インバーターを4500 Wの[b]インバーター盤[/b]に改造（電気工学3）、連結も可能。
-バッテリーバンクは各4個を収納。電線は4マスに1本、範囲12マス。消費量はゲーム値、1993年リアル、1993年超リアル、快適から選択。
+[h2]仕組み[/h2]
 
-[h2]機器[/h2]
+太陽光 100 W、風力 400 W、水車 120 W。インバーターは20マス以内・±3階の家電に最大1,500 Wを供給します。
+公共送電網が機能している間、建物内のインバーターは定格出力の5分の1まで送電網から電力を引き出せます（サンドボックスオプション GridCharging、初期設定で有効）。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]はじめに[/url]
+
+[h2]設備[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_jp.png[/img]
 
-設置にレベルは不要。接続：パネルとインバーターは電気工学3、風車・水車・バンクは2。同じマスに2段のバンクを設置でき、収納と接続は独立。空にして上段から回収します。
-配電盤、低電量警報、防音、バニラ予備発電機、管理PCも追加可能。
+設置にはドライバーが必要ですが、電気レベルは不要です。パネルとインバーターはレベル3、風力タービン・水車・パワーバンクはレベル2で接続できます。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]設備ガイド[/url]
 
-[h2]発電量[/h2]
+[h2]発電[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_jp.png[/img]
 
-太陽光の向き：南100%、東西85%、北55%。雲・雪・汚れで低下。雨で洗浄され、布と水0.5 Lでも清掃可能。風速10 km/hから発電、30–85で最大、それ以上はブレーキ。1階ごとに風速+15%（3階まで）。水車は昼夜稼働。電池の寒さ効果は初期無効で、使えないエネルギーは予備として保持。
+太陽光は向きで変わります：南100%、東と西85%、北55%。曇りや雪は出力を下げます。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]発電と計算[/url]
 
-[h2]給水ポンプ[/h2]
+[h2]配線と連結[/h2]
 
-給水ポンプ（電気工学3）は隣接する雨水タンクまたは[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]の樽を最大8個接続し、15マス内の配管済み設備へ給水。各容器に金属パイプ1本、配管にパイプレンチが必要。雨水を浄化し最大5 L/分、揚水中250 W。青ランプは待機中も通電を表示。削除前にdebug/admin操作で全給水リレーを撤去。
+機器を右クリックし、LiveWire > インバーターに接続。1,500 Wを超える場合は2台目のインバーターを連結します（最大4台、6,000 W）。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]配線ガイド[/url]
+
+[h2]インバーター画面と管理ソフト[/h2]
+
+画面では各回路のワット数を確認し、照明や機器を操作できます。LiveWire Monitorは消費機器、ケーブル表示、3日間の発電予測、直近30件のイベントを表示します。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]画面とソフト[/url]
+
+[h2]水ポンプ[/h2]
+
+水ポンプ（電気レベル3）は、隣接する雨水収集器や [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] から、15マス以内の配管済み設備に水を供給します。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]水ポンプガイド[/url]
 
 [h2]レシピ[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_jp.png[/img]
 
-図解レシピ18種。電気工学レシピはレベルで自動解放。羽根と支柱は金属加工で電気工学レベル不要。風車の最終組立3、水車製作4で、それぞれアンプ2個を使用。両方の接続は2、設置はレベル不要。テスターを分解して電子スクラップを回収。全レシピで電気工学XP。設備・部品の入手先拡大、倍率は初期5（1–20）、再起動後の新規抽選のみ。
+製作レシピは16種類で上に掲載しています。壊れた機器は拾ってクラフトメニューから分解できます（分解レシピ12種類、ドライバー使用）。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]レシピ[/url]
 
-[h2]管理ソフト[/h2]
+[h2]電気スキルと安全[/h2]
 
-LiveWire Monitorに消費機器一覧（最大200）、色付き輪郭、配線表示、最新30件のイベントを追加。通電した管理PCで3日間の発電予測、従来の48時間履歴も表示。LCDと警報にネットワーク名。バニラPC対応。Computer Mod/Laptop Modは任意で、戦利品ディスクから導入。
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
-
-[h2]電気作業の安全と経験値[/h2]
-
-電池検査は電気工学1/3/5で詳しく表示。再生は4、故障電池は6：ドライバー保持、スクラップ、電線、水0.5 L。状態+15、上限80、最大4回。故障した設備は拾ってクラフトメニューで分解。活線作業リスクは初期有効：0/1/2/3/4/5/6以上で50/42/33/25/17/8/0%。感電は工具を持つ手を火傷させ、所持品を落とし、資材消費前に中断。主インバーターを切ってください。配電盤では端子を絶縁できません。
+通電中の作業には感電の危険があります（初期設定で有効）。レベル0では50%、レベル6以上では0%です。作業前にメインのインバーターを切ってください。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]電気スキルと保守[/url]
 
 [h2]マルチプレイ[/h2]
 
-サーバー側で計算・操作検証し、回路選択を保存、家電状態を同期。MOD無効化前に両回路を閉じてください。
+サーバーがすべての操作を検証し、回路の設定を保存します。MODを無効にする前に両方の回路を閉じてください。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]マルチプレイガイド[/url]
+
+[h2]LiveWire Extended（任意の追加MOD）[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]建物全体を接続[/url]：全階、地下室、1階の周囲。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]屋外の電源端子[/url]：16 x 16マスまでのゾーンに給電。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]ブレーカーボード[/url]：15・20・30 Aのブレーカー。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]ブレーカー用夕暮れスイッチ[/url]：ブレーカーに取り付け、季節に合わせて夕暮れから夜明けまでその回路に通電。
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_jp.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_jp.png[/img]
+
+MODリストでLiveWireの後に有効にしてください。LG Extended ElectricityおよびKnox Powerとは互換性がありません。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
+
+[h2]Project Viewpointモデル[/h2]
+
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：全機器の3Dモデルを含むMOD「LiveWire - Viewpoint models」が含まれます。Project Viewpointを使う場合のみ有効にしてください。
+
+[h2]互換性[/h2]
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url]および[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]と互換。ライセンスはMIT。
 
 [h2]ドキュメント[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki（英語版）[/url] · ソースコード: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：このアイテムには任意MOD [b]LiveWire - Viewpoint models[/b]（batman_LiveWireViewpoint）も含まれ、全機器の3Dモデルを提供します。Project Viewpoint を使う場合のみ有効にしてください。
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
-[b]対応MOD[/b]：[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] と [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（任意）。管理ソフトはパソコン系の戦利品で見つかるディスクからインストールでき、そのデスクトップ上のアプリとして動作する。
-[b]互換性[/b]: 独自に作成したMODで、他の電力系MODと同時に動かすことは想定していない。ライセンスはMIT。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · ソースコード：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [h2]Discord[/h2]
 
-質問、不具合報告、アイデアは Discord へどうぞ：
+質問、不具合報告、アイデアはこちら：
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]AIについて[/h2]
 
-私は長年開発者として働いており、コーディングエージェントが登場するずっと前からMODを作ってきましたが、その多くは家族との時間を犠牲にしていました。私はClaude CodeとCodexを公然と使っています。すべての機能は今も議論し、設計し、計画したうえで作っており、やみくもな「バイブコーディング」ではありません。AIはこれからも残ります。私は抵抗するより適応することを選びました。個人攻撃に立ち向かってくださった皆さんに感謝します。
+私は長年開発に携わり、コーディングエージェントが登場するずっと前からMODを作ってきました。家族との時間を犠牲にすることも少なくありません。Claude CodeやCodexを公然と使っていますが、すべての機能は依然として議論・設計・計画されており、盲目的に「バイブコーディング」しているわけではありません。AIは今後も続きます。私は抵抗するより適応することを選びました。個人への攻撃に立ち向かってくれた皆さんに感謝します。
 
 [h2]プロジェクトを支援[/h2]
 
-MODを楽しんでいただけたなら、コーヒー1杯が新機能や翻訳の開発費になります。
+MODを気に入っていただけましたか？コーヒー1杯が新機能や翻訳の資金になります。
 [url=https://ko-fi.com/Z8Z8QJV31][img]https://storage.ko-fi.com/cdn/kofi6.png?v=6[/img][/url]
 
 [h2]クレジット[/h2]
 
-作成: batmanfr。インバーター盤のモデル: PewPewCricket。オリジナルのコード、タイル、サウンド。他のMODの内容は一切使用していない。
+作成：batmanfr。インバーターキャビネットのモデル：PewPewCricket。オリジナルのコード、タイル、サウンド。他のMODの素材は使用していません。

@@ -1,70 +1,91 @@
 [h1]LiveWire - Refonte de la compétence Électricité[/h1]
 
-[b]Build 42.21 · Solo et multijoueur (serveur autoritaire)[/b]
+[b]Build 42.21+ · Solo et multijoueur[/b]
 
-Le courant ne reviendra plus... mais les lumières, elles, peuvent rester allumées. Construisez votre propre électricité hors réseau : des panneaux photovoltaïques, une éolienne ou une roue à aubes alimentent un onduleur, et l'onduleur fait fonctionner toute la maison autour de lui. Ajoutez des batteries pour la nuit. La compétence Électricité compte enfin : chaque appareil a un niveau, et votre niveau améliore l'installation.
-
-[h2]1.6.0 — Pilotez votre installation[/h2]
-
-Le tableau possède des leviers éclairage, équipements et principal, avec les watts de chaque circuit et du total. Coupez les vrais appareils et retrouvez leurs choix précédents, même après redémarrage. Les sources peuvent charger les batteries avec la distribution principale ouverte. Clic gauche sur chaque équipement pour son LCD ; Raccordements permet de choisir son onduleur.
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot6.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/shot7.png[/img]
-
-[h2]Fonctionnement[/h2]
+Le courant ne reviendra plus, mais les lumières peuvent rester allumées. Construisez votre propre électricité hors réseau : panneaux solaires, éoliennes et roues à aubes alimentent un onduleur, qui fait fonctionner la maison autour de lui. Ajoutez des batteries pour la nuit. Chaque appareil a un niveau d'Électricité, et votre niveau améliore l'installation.
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
-Solaire 100 W, éolien 400 W, roue à aubes 120 W. Un onduleur alimente les appareils à 20 cases et ±3 étages, jusqu'à 1 500 W. Aucun câble par appareil domestique.
-[b]Besoin de plus de 1 500 W ?[/b] Posez un second onduleur sans rien y raccorder, clic droit dessus > LiveWire > « Coupler à un onduleur » (1 kit de couplage d'onduleurs, recette Électricité 3). Jusqu'à 4 onduleurs couplés : 6 000 W. Nouveau : transformez un onduleur en [b]armoire onduleur[/b] de 4 500 W (Électricité 3), couplable elle aussi.
-Stockez le surplus dans des powerbanks (4 batteries chacune). Câbles : 1 fil par 4 cases, portée 12. Profils sandbox : Valeurs du jeu, Réaliste 1993, Ultra-réaliste 1993 ou Confort.
+[h2]Fonctionnement[/h2]
+
+Solaire 100 W, éolien 400 W, roue à aubes 120 W. Un onduleur alimente les appareils à 20 cases et ±3 étages, jusqu'à 1 500 W, sans câble par appareil. Le surplus va dans des powerbanks.
+Tant que le réseau public fonctionne, un onduleur dans un bâtiment tire aussi jusqu'à un cinquième de sa puissance du secteur (option sandbox GridCharging, activée par défaut).
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-01-premiers-pas]Premiers pas[/url]
 
 [h2]Équipements[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png[/img]
 
-Poser ne demande aucun niveau : panneaux et éoliennes dehors, roues à aubes sur une berge, onduleurs, powerbanks. Raccordement : panneaux et onduleurs 3 ; éoliennes, roues et powerbanks 2. Empilez deux powerbanks sur une case, inventaires et liens séparés ; videz-les avant ramassage, celle du haut en premier.
-En option : disjoncteur, alarme, insonorisation, générateur vanilla de secours et ordinateur de gestion.
+Poser demande un tournevis, sans niveau. Raccordement : panneaux solaires et onduleurs niveau 3 ; éoliennes, roues à aubes et powerbanks niveau 2. En option : disjoncteur, alarme, insonorisation, générateur vanilla de secours, ordinateur de gestion.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-02-equipements]Guide des équipements[/url]
 
 [h2]Production[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_fr.png[/img]
 
-Orientation solaire : sud 100 %, est/ouest 85 %, nord 55 %. Nuages, neige et saleté réduisent la production ; la pluie lave les panneaux, ou nettoyez avec un chiffon + 0,5 L d'eau. L'éolienne produit dès 10 km/h, à pleine puissance de 30 à 85, puis freine ; +15 % de vent par étage jusqu'au 3e. La roue produit jour et nuit. Le froid des batteries, option désactivée par défaut, conserve l'énergie indisponible en réserve.
+L'orientation solaire compte : sud 100 %, est et ouest 85 %, nord 55 %. Nuages, neige et saleté réduisent la production ; la pluie lave les panneaux. L'éolienne produit dès 10 km/h, à pleine puissance de 30 à 85 km/h. La roue à aubes produit jour et nuit.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-04-production-et-calculs]Production et calculs[/url]
+
+[h2]Raccordement et couplage[/h2]
+
+Clic droit sur un appareil, puis LiveWire, puis Raccorder à un onduleur. Un câble coûte 1 fil par 4 cases, portée 12. Besoin de plus de 1 500 W ? Couplez un second onduleur (Coupler à un onduleur, 1 kit de couplage) : un réseau compte 4 onduleurs, soit 6 000 W.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-03-raccordement]Guide du raccordement[/url]
+
+[h2]Écran de l'onduleur et logiciel de gestion[/h2]
+
+L'écran de l'onduleur pilote l'éclairage, les équipements et les leviers principaux, et affiche les watts de chaque circuit. LiveWire Monitor ajoute les consommateurs, les vues des câbles, une prévision sur trois jours et les 30 derniers événements, sur un ordinateur de gestion alimenté.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-05-ecran-et-logiciel]Écran et logiciel[/url]
 
 [h2]Pompe à eau[/h2]
 
-La pompe (Électricité 3) alimente les sanitaires raccordés à 15 cases depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum, un tuyau métallique chacun. Plomberie à la clé à tuyau. Eau de pluie rendue propre : jusqu'à 5 L/min, 250 W en pompant. Voyant bleu = alimentée, même au repos. Avant désinstallation, retirez les relais d'eau via l'action debug/admin.
+La pompe à eau (Électricité 3) alimente les sanitaires raccordés à 15 cases, depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-07-pompe-a-eau]Guide de la pompe[/url]
 
 [h2]Recettes[/h2]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png[/img]
 
-18 recettes illustrées ci-dessous. Déblocage automatique en Électricité ; pales et mât en Métallerie, sans niveau électrique requis. Assemblage de l'éolienne au niveau 3, fabrication de la roue à 4, avec deux amplificateurs chacune. Raccordement des deux au niveau 2 ; pose sans niveau. Le testeur se démonte en déchet électronique. Toutes les recettes donnent de l'XP électrique. Butin élargi : multiplicateur sandbox 5 par défaut (1–20), prochains tirages après redémarrage.
+16 recettes de fabrication, montrées ci-dessus. Un équipement hors d'usage se ramasse et se démonte depuis le menu d'artisanat (12 recettes de démontage, au tournevis).
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-08-recettes]Recettes[/url]
 
-[h2]Logiciel de gestion[/h2]
+[h2]Électricité et sécurité[/h2]
 
-LiveWire Monitor ajoute consommateurs (200 maximum), silhouettes colorées, câbles, 30 derniers événements et prévision de production sur trois jours avec un ordinateur de gestion alimenté, en plus de l'historique 48 h. Les noms de réseau figurent sur les LCD et alertes. Bureau vanilla utilisable ; Computer Mod/Laptop Mod facultatifs avec un CD trouvé en butin.
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/livewire_monitor_without_compute.png[/img]
-
-[h2]Sécurité électrique et XP[/h2]
-
-Test des batteries aux niveaux 1/3/5. Reconditionnement à 4 (6 si morte) : tournevis conservé, déchet, fil, 0,5 L d'eau ; +15 d'état, plafond 80, quatre fois. Équipement hors d'usage : ramassez-le et démontez-le depuis le menu d'artisanat. Risque sous tension activé : 50/42/33/25/17/8/0 % aux niveaux 0/1/2/3/4/5/6+. Un choc brûle la main de l'outil, fait lâcher les objets et interrompt sans consommer les matériaux. Éteignez l'onduleur maître ; le disjoncteur n'isole pas ses bornes.
+Testez les batteries aux niveaux 1, 3 et 5 pour plus de détails. Le travail sous tension présente un risque de choc, activé par défaut : 50 % au niveau 0, 0 % au niveau 6 et plus. Éteignez l'onduleur maître d'abord ; ouvrir un disjoncteur n'isole pas.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-10-competence-electricite-et-entretien]Compétence Électricité et entretien[/url]
 
 [h2]Multijoueur[/h2]
 
-Simulation et contrôles côté serveur, circuits sauvegardés et états des appareils synchronisés. Refermez les deux circuits avant de désactiver le mod.
+Le serveur contrôle chaque action ; les choix de circuits et les états des appareils sont sauvegardés et synchronisés. Refermez les deux circuits avant de désactiver le mod.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-12-multijoueur]Guide multijoueur[/url]
+
+[h2]LiveWire Extended (extension optionnelle)[/h2]
+
+Porte le courant au-delà du cercle de l'onduleur :
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#raccorder-tout-un-bâtiment]Raccorder un bâtiment entier[/url] : chaque étage, le sous-sol et une bande autour du rez-de-chaussée.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#borne-électrique-et-zone]Borne électrique extérieure[/url] : alimente une zone tracée jusqu'à 16 x 16 cases.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#tableaux-électriques]Tableaux électriques[/url] : disjoncteurs de 15, 20 ou 30 A, un par appareil.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#interrupteur-crépusculaire]Interrupteur crépusculaire pour disjoncteur[/url] : posé sur un disjoncteur, il laisse ce circuit allumé du crépuscule à l'aube, selon la saison.
+[*]Certaines maisons de la carte ont déjà un tableau précâblé, sans étiquette.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_fr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_fr.png[/img]
+
+Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extended Electricity et Knox Power. Pour le retirer sans risque, un admin remet d'abord tous les disjoncteurs depuis le menu d'un tableau.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended]Guide complet[/url]
+
+[h2]Modèles Project Viewpoint[/h2]
+
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif LiveWire - Viewpoint models, avec les modèles 3D de tous les équipements. Activez-le seulement si vous utilisez Project Viewpoint.
+
+[h2]Compatibilité[/h2]
+
+Compatible avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs). Création originale, non prévue pour fonctionner avec d'autres mods de système électrique. Licence MIT.
 
 [h2]Documentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-Home]Wiki LiveWire (français)[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif [b]LiveWire - Viewpoint models[/b] (batman_LiveWireViewpoint), avec les modèles 3D de tous les équipements. À activer seulement si vous utilisez Project Viewpoint.
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/screenshots/viewpoint2.png[/img]
-[b]Compatible avec[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs) : le logiciel de gestion s'installe depuis un disque trouvé dans le butin informatique et fonctionne comme une application sur leur bureau.
-[b]Compatibilité[/b] : création originale, non prévue pour fonctionner avec d'autres mods de système électrique. Licence MIT.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-Home]Wiki LiveWire[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
 
 [h2]Discord[/h2]
 
