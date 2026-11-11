@@ -2,33 +2,33 @@
 
 ## 2.0.0 — 2026-11-11
 
-LiveWire 2.0.0 adds the optional **LiveWire Extended** add-on, new crafting and dismantling options, and a round of fixes. The mod is now called **LiveWire** in every game text (it was "Live Wire"). Saves and servers are not affected.
+LiveWire 2.0.0 adds the optional **LiveWire Extended** add-on, dismantling recipes and fixes. The mod is now called **LiveWire** in every text you see in game (it was "Live Wire"). Saves and servers are not affected.
 
 ### LiveWire Extended 1.0.0 — new optional add-on
 
-Extended is a separate mod in the same Workshop item. Enable it in the mod list after LiveWire. Without it, LiveWire works as before. Its main jobs need Electrical level 3. Guide: [wiki](https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended).
+Extended is a separate mod in the same Workshop item: enable it after LiveWire, or leave it off and LiveWire works as before. Its main jobs need Electrical level 3. Guide: [wiki](https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended).
 
 - **Whole building:** right-click an inverter, then LiveWire Extended > **Connect the building**. Every floor and the basement get power, with no item cost. The building must be within the inverter's reach. The game powers whole 8 x 8 blocks, so nearby squares get power too.
-- **Outdoor strip:** sandbox option **Outdoor strip around a building** (0 to 8 squares, 0 by default) also powers a strip on the ground around the building.
-- **Power terminal (Electrical 3):** craft it, place it, link it to an inverter with electric wire, then **Set the zone**: drag on the ground to power an area of up to 16 x 16 squares.
+- **Outdoor strip:** sandbox option **Outdoor strip around a building** (0 to 8 squares, 0 by default) also powers the ground around the building.
+- **Power terminal (Electrical 3):** craft, place and link it to an inverter with electric wire, then **Set the zone**: drag to power up to 16 x 16 squares.
 - **Distant building:** a linked terminal placed inside a building, or within 2 squares of it, can use **Connect the building** to power that building.
-- **Breaker boards (8, 16 or 24 modules):** link one to an inverter, then **Install a breaker**. A board serves its whole building, all floors. Boards you place can grow with **Enlarge the board** (1 small sheet metal, 4 screws). Crafted boards are weatherproof only indoors: an outside wall is refused and the cursor says why. The game's own wall electrical boxes on a facade serve the house across the wall.
-- **Breakers:** 15 A, 20 A and 30 A, one module each: up to 1,800, 2,400 and 3,600 W at 120 V. An overload trips the breaker; reset it by hand on the board. Each module takes a short label.
+- **Breaker boards (8, 16 or 24 modules):** link one to an inverter, then **Install a breaker**. A board serves its whole building, all floors. Boards you place can grow with **Enlarge the board** (1 small sheet metal, 4 screws). Crafted boards are not weatherproof: they hang only on an inside wall (a closed, roofed shelter counts); the cursor says why an outside wall is refused. The game's own wall electrical boxes on a facade serve the house across the wall.
+- **Breakers:** 15 A, 20 A and 30 A, one module each: up to 1,800, 2,400 and 3,600 W at 120 V. One breaker can feed several appliances. An overload trips the breaker; reset it by hand on the board. Each module takes a short label.
 - **Wiring appliances:** **Wire to a breaker board** on an appliance costs electric wire, a screwdriver and a voltage tester (kept). On the board, **Wire an appliance** lists unwired appliances of its building, grouped by room. Unwired appliances in a served building have no power.
-- **Breaker Twilight Switch:** not a module of its own, it goes on a breaker already in a board (**Fit a twilight switch**). Its circuit is on from dusk to dawn, which follow the seasons.
+- **Breaker Twilight Switch:** not a module of its own, it goes on a breaker already in a board (**Fit a twilight switch**). Its circuit is on from dusk to dawn, which follow the seasons. Crafting it needs Electrical level 3; fitting it needs only a screwdriver.
 - **Metering:** each breaker counts kWh for today, yesterday and 7 days on the board screen, and per breaker in the management software (House tab).
-- **Board window:** left-click a board to open it. The lever switches a breaker when you stand next to the board, and **Locate** lights its appliances in gold. Drag a twilight switch from the inventory onto a module. While the window is open, appliances in the building are tinted by board and breaker state.
+- **Board window:** left-click a board to open it. The lever switches a breaker (your character walks to the board first if needed), and **Locate** lights its appliances in gold. Drag a twilight switch from the inventory onto a module. While it is open, the building's appliances are tinted by breaker state.
 - **Prewired boards:** sandbox option **Buildings with a breaker board (%)**, 30 by default. Some map buildings start with a board already wired room by room, without labels.
 - **Adapters:** My Tailor Is Rich sewing machines, Functional Appliances 2 machines set to a temperature, and LiveWire pumps and computers follow their breaker.
 - **Viewpoint models:** with **LiveWire - Viewpoint models** and Project Viewpoint, the terminal and boards get 3D models.
-- **Multiplayer:** the server has the final say on placing boards and linking.
-- **Not compatible** with LG Extended Electricity or KnoxPower.
-- **Removing it:** before removing the mod, an admin (anyone in solo) runs **Admin: switch every breaker back on (before removing the mod)** from a board's menu. Every appliance gets power back. **Admin: breaker boards work again** undoes it. Extended devices have no dismantle recipe yet: pick them up with a screwdriver.
+- **Not compatible** with LG Extended Electricity or Knox Power.
+- **Removing it:** first, an admin (anyone in solo) runs **Admin: switch every breaker back on (before removing the mod)** from a board's menu: every appliance gets power back. **Admin: breaker boards work again** undoes it. Extended devices have no dismantle recipe yet: pick them up with a screwdriver.
 
 ### New features
 
 - **Public grid charging:** sandbox option **Charge from the public grid**, on by default. An inverter inside a building with public power draws from the grid after the sources, then charges its batteries, up to a fifth of its rated power. Its screen shows **MAINS** and **Public grid** lines. It stops when the game's electricity shuts off.
-- **Dismantle base devices and kits:** 11 crafting recipes, such as Dismantle Solar Panel, Dismantle Inverter and Dismantle Water Pump. They need a screwdriver (some also a hammer or pipe wrench) and no Electrical level. You get fewer parts than the recipe cost: metal parts always come back, electronic parts depend on condition. A fitted soundproofing or coupling kit comes back. Deep-cycle batteries, wind turbine blades and masts, and solar cells cannot be dismantled.
+- **Dismantle devices, kits and parts:** 14 new crafting recipes, such as Dismantle Solar Panel, Dismantle Inverter, Dismantle Wind Turbine Blades and Dismantle Deep-Cycle Battery. They need a screwdriver (some also a hammer or pipe wrench) and no Electrical level. You get fewer parts than the recipe cost: metal parts always come back, electronic parts depend on condition. A fitted soundproofing or coupling kit comes back. Only solar cells cannot be dismantled.
+- **Turkish:** LiveWire and LiveWire Extended are now translated into Turkish.
 
 ### Improvements
 
@@ -37,25 +37,26 @@ Extended is a separate mod in the same Workshop item. Enable it in the mod list 
 - **Faster crafting** for 16 recipes, for example Voltage Tester, Inverter kit and Water Wheel.
 - **Salvage for parts** is gone: dismantle a broken device from the crafting menu instead. It gives parts by condition.
 - **Voltage testers** are rarer in loot: tool stores, garages and electrician vehicles.
-- **Show consumers and the public grid:** appliances the public grid still powers appear in white and the character says "Public grid still on". The legend is a window at the top of the screen with a close button. The software's Consumers list marks them "public grid".
+- **Show consumers and the public grid:** appliances the public grid still powers appear in white and the character says "Public grid still on". The legend is a closable window at the top of the screen. The software's Consumers list marks them "public grid".
 - **Clear refusals:** a menu action that cannot reach its device says "Can't get next to it from here."
 - **Water pump menu** numbers the barrels next to it and outlines the one under the mouse.
 - **Water wheel turns** while it is not broken, faster in spring and slower in summer.
 - **Multi-tile appliances** that span several squares count once for power, not once per square.
-- **Backup generator:** when you switch it on or off by hand, nearby players are told it is in manual mode and how to resume: LiveWire > Backup generator > **Resume automatic backup**. A message confirms when automatic control resumes.
+- **Backup generator:** when you switch it on or off by hand, nearby players are told it is in manual mode and how to resume (LiveWire > Backup generator > **Resume automatic backup**); a message confirms it.
 - **Windows follow the game's font size** (inverter, power bank, device, connection, breaker and software screens) and stay on screen.
 - **Screens:** shortened text on the LCD ends with "..." instead of a symbol the screen cannot show.
 
 ### Fixes
 
 - **Stuck devices:** devices left stuck after a crash or forced quit ("Waiting for data..." forever, or "Not possible." on every action) come back on their network when their area loads.
-- **Wire refunded:** disconnecting a device gives back its electric wire: unlinking, uncoupling an inverter, picking up a connected device (an inverter gives back its whole network's wire), or moving a device to another inverter. A destroyed device still loses its wire.
+- **Wire refunded:** unlinking, uncoupling, picking up a connected device (an inverter returns its whole network's wire) or moving it to another inverter gives back its electric wire. A destroyed device still loses its wire.
 - **Fridges and freezers** no longer lose power at random when the map loads diagonally near a base, especially with a vanilla generator nearby.
 - **Water wheel** cannot be placed next to a swimming pool: it needs a river.
 - **Turned devices:** a device turned to another facing is picked up as its own item again.
-- **Calculators:** the vanilla "Dismantle Simple Electronic Item" recipe gives a solar cell from a calculator. The separate "Dismantle Calculator" recipe is removed.
+- **Calculators:** the vanilla "Dismantle Simple Electronic Item" recipe now gives a solar cell from a calculator, replacing "Dismantle Calculator".
 - **42.22 servers:** a shock during live work drops both held items instead of failing.
 - **42.22:** toaster and coffee machine windows close when their appliance loses power, as with vanilla generators.
+- **Hum volume option:** the tooltip now gives the right range: about two tiles, not one.
 
 ## 1.7.2 — 2026-11-07
 

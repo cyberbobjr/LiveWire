@@ -1,8 +1,14 @@
-# Live Wire — documentation
+# LiveWire — documentation
 
-Version **1.6.4** publiée le 2026-10-28 : compatibilité avec les mods qui étalent le chargement de la carte sur plusieurs images (Let Me Drive!), qui faisait compter avariée la nourriture des frigos au retour à la base. La 1.6.3 (frein d'éolienne sans niveau requis) et la 1.6.2 (portée verticale des câbles) sont conservées. Voir le [changelog](../CHANGELOG.md) et la [décision du 2026-10-28](decisions.md).
+Version **2.0.0** (non publiée, datée du 2026-11-11) : module complémentaire facultatif LiveWire Extended 1.0.0, recettes de démontage, recharge sur le réseau public, traduction turque et correctifs. Voir le [changelog](../CHANGELOG.md) et le [journal des décisions](decisions.md).
 
-Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétence Électricité un métier : panneaux solaires, éoliennes et roues à aubes, batteries en powerbank, onduleur qui alimente la maison et pompe à eau.
+Le projet livre trois mods dans le même objet Workshop (Project Zomboid Build 42.21 et 42.22) :
+
+| Mod | `id` | Version | Rôle |
+|---|---|---|---|
+| LiveWire | `batman_LiveWire` | 2.0.0 | Fait de la compétence Électricité un métier : panneaux solaires, éoliennes et roues à aubes, batteries en powerbank, onduleur qui alimente la maison et pompe à eau |
+| LiveWire Extended | `batman_LiveWireExtended` | 1.0.0 | Facultatif : bâtiment entier, borne et zone extérieure, tableaux électriques et disjoncteurs |
+| LiveWire - Viewpoint models | `batman_LiveWireViewpoint` | 2.0.0 | Facultatif : modèles 3D des équipements pour Project Viewpoint |
 
 ## Documents
 
@@ -11,7 +17,7 @@ Live Wire (`batman_LiveWire`, Project Zomboid Build 42.21) fait de la compétenc
 | [`architecture.md`](architecture.md) | Architecture logicielle : mécanisme d'alimentation (ancres), modules, modèle de données, boucle de simulation, protocole, persistance, risques |
 | [`specifications-fonctionnelles.md`](specifications-fonctionnelles.md) | Ce que fait le mod pour le joueur et l'administrateur, fonctionnalités F01 à F32 |
 | [`specifications-techniques.md`](specifications-techniques.md) | Contrats précis : objets, appareils, commandes réseau, ModData, options sandbox, traductions, compatibilités |
-| [`developpement.md`](developpement.md) | Contraintes de développement du projet : périmètre (deux mods), architecture à préserver, création indépendante, outils, dépôt |
+| [`developpement.md`](developpement.md) | Contraintes de développement du projet : périmètre (trois mods), architecture à préserver, création indépendante, outils, dépôt |
 | [`decisions.md`](decisions.md) | Exigences de l'utilisateur et journal des décisions validées (D-n) |
 | [`ameliorations-et-idees.md`](ameliorations-et-idees.md) | Améliorations de code et idées de fonctionnalités (propositions et suivi des correctifs autorisés) |
 | [`wiki/`](wiki/) | Source du wiki GitHub : [anglais](wiki/en/Home.md), [français](wiki/fr/Home.md) |
