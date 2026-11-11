@@ -89,10 +89,13 @@ function S.key(site)
     return "e:" .. c[1] .. "," .. c[2] .. "," .. c[3]
 end
 
--- Is square (x, y, z) an "emptyoutside" part of a map building (yard, porch)? Map data, the
--- same on every side.
+-- Is square (x, y, z) a part of a map building outside its rooms: a yard or porch room
+-- ("emptyoutside"), or a square on the edge of one of its rooms (a porch drawn in no room,
+-- IsoMetaChunk.getAssociatedBuildingAt: rooms grown by one square)? Map data, the same on
+-- every side.
 function S.mapOutside(x, y, z)
-    return getWorld():getMetaGrid():getEmptyOutsideAt(x, y, z) ~= nil
+    local grid = getWorld():getMetaGrid()
+    return grid:getEmptyOutsideAt(x, y, z) ~= nil or grid:getAssociatedBuildingAt(x, y) ~= nil
 end
 
 -- Are sites a and b one place?

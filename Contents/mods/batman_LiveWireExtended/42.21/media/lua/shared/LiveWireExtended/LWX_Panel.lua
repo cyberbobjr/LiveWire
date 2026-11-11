@@ -65,7 +65,7 @@ function P.placementRule(spriteName, sq)
     -- An MP client learns late that a fresh player house is closed and roofed (its world
     -- regions are only right after a reconnection, measured 2026-11-11): under a roof it lets
     -- the authority judge, which runs this rule again when the place action completes.
-    -- A porch or yard of a map building stays refused: that is map data, right on a client too.
+    -- A porch, yard or edge of a map building stays refused: that is map data, right on a client too.
     if isClient() and sq:getZ() >= 0 and not sq:isOutside()
         and not X.Sites.mapOutside(sq:getX(), sq:getY(), sq:getZ()) then return true end
     return false, P.REFUSED_OUTSIDE
