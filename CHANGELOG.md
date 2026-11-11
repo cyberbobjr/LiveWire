@@ -56,7 +56,7 @@ Extended is a separate mod in the same Workshop item: enable it after LiveWire, 
 - **Calculators:** the vanilla "Dismantle Simple Electronic Item" recipe now gives a solar cell from a calculator, replacing "Dismantle Calculator".
 - **42.22 servers:** a shock during live work drops both held items instead of failing.
 - **42.22:** toaster and coffee machine windows close when their appliance loses power, as with vanilla generators.
-- **Hum volume option:** the tooltip now gives the right range: about two tiles, not one.
+- **Hum volume option:** the tooltip gives the right ranges: 2 tiles (inverter), 4 (pump).
 
 ## 1.7.2 — 2026-11-07
 
