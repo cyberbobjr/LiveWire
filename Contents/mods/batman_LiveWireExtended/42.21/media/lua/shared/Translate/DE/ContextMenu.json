@@ -19,6 +19,7 @@
     "ContextMenu_LWX_BoardAt": "Kasten %1 Felder entfernt",
     "ContextMenu_LWX_WireAppliance": "Gerät anschließen",
     "ContextMenu_LWX_ApplianceAt": "%1, %2 Felder entfernt",
+    "ContextMenu_LWX_RoomOutside": "Außen",
     "ContextMenu_LWX_ResetBreaker": "%1 zurücksetzen (ausgelöst)",
     "ContextMenu_LWX_OpenBoard": "Sicherungskasten öffnen",
     "ContextMenu_LWX_TwilightFit": "Dämmerungsschalter an %1 anbringen",

@@ -61,6 +61,7 @@ function X.receive(data)
         if k ~= "inverters" then t[k] = v end
     end
     if X.Points then X.Points.changed() end
+    D.touch()
     D.invalidate()
 end
 

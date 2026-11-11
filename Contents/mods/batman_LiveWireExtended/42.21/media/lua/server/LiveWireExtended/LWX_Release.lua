@@ -25,6 +25,7 @@ local function applyAll()
         for _, o in ipairs(PT.objectsOf(key, p)) do PT.apply(o); n = n + 1 end
     end
     PT.regionsChanged()
+    X.Data.touch()
     if isServer() then ModData.transmit(X.DATA_KEY) end
     return n
 end

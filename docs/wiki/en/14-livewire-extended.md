@@ -4,9 +4,11 @@
 
 **LiveWire Extended** (`batman_LiveWireExtended`) is an optional mod shipped with LiveWire. It needs LiveWire. **With it, an inverter has no radius anymore**: it only powers what you connect to it, a building (with **Connect the building**, or the building of a breaker board you link) and the zones of outdoor power terminals. Without it, LiveWire works exactly as before, with its radius.
 
+![Diagram: without a board, with a board, outdoor terminal](../../images/diagrams/diagram_extended_en.png)
+
 ## Connect a whole building
 
-Right-click an inverter > **LiveWire Extended** > **Connect the building** (Electrical 3, no tool, no wire). The building the inverter stands in is connected; an inverter placed outside connects the nearest building within its generator range (20 squares by default). Every floor gets power, the basement too, plus the rest of the 8 x 8 blocks it covers: the game powers whole blocks. A sandbox option adds an outdoor strip around the ground floor (0 to 8 squares, 0 by default).
+Right-click an inverter > **LiveWire Extended** > **Connect the building** (Electrical 3, a screwdriver, no wire). The building the inverter stands in is connected; an inverter placed outside connects the nearest building within its generator range (20 squares by default). Every floor gets power, the basement too, plus the rest of the 8 x 8 blocks it covers: the game powers whole blocks. A sandbox option adds an outdoor strip around the ground floor (0 to 8 squares, 0 by default).
 
 - The game powers whole blocks of 8 x 8 squares: neighbouring squares of the same blocks get power too (a garden path, part of the next yard).
 - A building is connected to one inverter at most. **Disconnect the building** in the same menu.
@@ -25,7 +27,7 @@ Unlinking or picking up the terminal removes its zone and the building it connec
 
 ## Breaker boards
 
-A **breaker board** (8, 16 or 24 modules) hangs on a wall. Craft one (Electrical 3), place it with the furniture cursor and link it to an inverter with electric wire, like a terminal. Then:
+A **breaker board** (8, 16 or 24 modules) hangs on an **inside wall** of a building. Craft one (Electrical 3), place it with the furniture cursor and link it to an inverter with electric wire, like a terminal. It serves the building it hangs in: a house of the map with its basement, a basement, or a building you made yourself as long as it is closed and roofed (one board per floor for those). A crafted board is not weatherproof: on an outside wall the cursor refuses it and says why. The game's own wall electrical boxes are weatherproof: you can move them, hang them outside too, and from outside they serve the building on the other side of their wall. Then:
 
 - **Install breakers** with a screwdriver: 15 A, 20 A or 30 A, one module each. Each one is an item you find (electricians, hardware stores, garages) or craft (Electrical 3, more parts for a higher rating).
 - **Wire an appliance** to a breaker, from the appliance (right-click > LiveWire Extended > Wire to a breaker board) or from the board (Wire an appliance). It takes wire for the distance, a screwdriver, a voltage tester (kept) and Electrical 3, and gives 5 XP. The wiring options sit in the object's own menu when the game gives it one (Light Switch >, Dark Wall Lamp >, oven), otherwise under LiveWire Extended. A multi-tile appliance counts once; a room and its wall switches form one lighting point; a terminal wired to a breaker brings its whole zone with it.

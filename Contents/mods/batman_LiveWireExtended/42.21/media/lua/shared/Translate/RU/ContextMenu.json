@@ -19,6 +19,7 @@
     "ContextMenu_LWX_BoardAt": "Щиток в %1 клетках",
     "ContextMenu_LWX_WireAppliance": "Подключить прибор проводом",
     "ContextMenu_LWX_ApplianceAt": "%1, в %2 клетках",
+    "ContextMenu_LWX_RoomOutside": "Снаружи",
     "ContextMenu_LWX_ResetBreaker": "Сбросить %1 (сработал)",
     "ContextMenu_LWX_OpenBoard": "Открыть электрощиток",
     "ContextMenu_LWX_TwilightFit": "Установить сумеречный выключатель на %1",

@@ -1,8 +1,8 @@
 module Base
 {
     /* Placeable equipment of the batman_livewire_01 tileset (tiledef 7174).
-       Placed with the vanilla furniture cursor: placing needs nothing, picking up
-       a screwdriver (tile PickUpTool = Electrician, no PickUpLevel); the Electrical
+       Placed with the vanilla furniture cursor: placing and picking up need
+       a screwdriver (tile PlaceTool/PickUpTool = Electrician, no PickUpLevel); the Electrical
        level is needed to link the device to an inverter. Name and
        weight come from the tile (Moveable.ReadFromWorldSprite: PickUpWeight / 10),
        except for a tile with CustomItem (wind turbine), which takes the script

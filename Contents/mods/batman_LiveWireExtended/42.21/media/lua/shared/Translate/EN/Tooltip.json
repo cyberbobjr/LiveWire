@@ -26,6 +26,8 @@
     "Tooltip_LWX_NeedPen": "Requires a pen or a pencil.",
     "Tooltip_LWX_WiredTo": "Circuit: %1 (%2 A), %3 W measured.",
     "Tooltip_LWX_UnwiredServed": "No current: a breaker board serves this building and this appliance is wired to no breaker.",
+    "Tooltip_LWX_BoardNoBuilding": "This board hangs outside: it serves no building. Hang it on an inside wall first.",
+    "Tooltip_LWX_BoardNeedIndoor": "Not weatherproof: hang it on an inside wall of a building (a closed, roofed shelter counts).",
     "Tooltip_LWX_MachineCut": "No current: its breaker is off, or it is wired to no breaker in a building a board serves.",
     "Tooltip_LWX_Twilight": "The circuit is then closed only between dusk and dawn.",
     "Tooltip_LWX_NoTwilightItem": "You have no twilight switch.",

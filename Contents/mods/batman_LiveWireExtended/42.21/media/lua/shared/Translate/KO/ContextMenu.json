@@ -19,6 +19,7 @@
     "ContextMenu_LWX_BoardAt": "배전반 %1칸 거리",
     "ContextMenu_LWX_WireAppliance": "기기 배선",
     "ContextMenu_LWX_ApplianceAt": "%1, %2칸 거리",
+    "ContextMenu_LWX_RoomOutside": "실외",
     "ContextMenu_LWX_ResetBreaker": "%1 복구 (차단됨)",
     "ContextMenu_LWX_OpenBoard": "배전반 열기",
     "ContextMenu_LWX_TwilightFit": "%1에 조도 스위치 설치",

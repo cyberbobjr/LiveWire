@@ -60,7 +60,7 @@ C'est le jeu lui-même qui décide ce qui est alimenté (une case est alimentée
 
 ## Équipements et batteries
 
-Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meubles vanilla (fantôme, 4 orientations, 2 pour les objets muraux). Poser et tourner ne demandent ni outil ni niveau ; ramasser exige un tournevis, sans niveau. Le niveau d'Électricité indiqué est celui du branchement à un onduleur ; mettre un onduleur en service (premier branchement) exige le niveau 3. Un appareil ramassé garde son état. Règles de pose ajoutées par le mod : en extérieur (ciel dégagé) pour le panneau et l'éolienne ; au rez-de-chaussée, sur la berge, contre l'eau d'une rivière pour la roue à aubes (lacs et étangs refusés). Une case refusée affiche la raison en rouge dans le panneau du curseur.
+Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meubles vanilla (fantôme, 4 orientations, 2 pour les objets muraux). Poser, tourner et ramasser exigent un tournevis, sans niveau. Le niveau d'Électricité indiqué est celui du branchement à un onduleur ; mettre un onduleur en service (premier branchement) exige le niveau 3. Un appareil ramassé garde son état. Règles de pose ajoutées par le mod : en extérieur (ciel dégagé) pour le panneau et l'éolienne ; au rez-de-chaussée, sur la berge, contre l'eau d'une rivière pour la roue à aubes (lacs et étangs refusés). Une case refusée affiche la raison en rouge dans le panneau du curseur.
 
 ![Tous les équipements LiveWire et leurs chiffres](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_fr.png)
 

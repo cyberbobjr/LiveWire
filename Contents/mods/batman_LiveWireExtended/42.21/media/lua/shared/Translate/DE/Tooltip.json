@@ -26,6 +26,8 @@
     "Tooltip_LWX_NeedPen": "Erfordert einen Kugelschreiber oder einen Bleistift.",
     "Tooltip_LWX_WiredTo": "Stromkreis: %1 (%2 A), %3 W gemessen.",
     "Tooltip_LWX_UnwiredServed": "Kein Strom: Ein Sicherungskasten versorgt dieses Gebäude und dieses Gerät ist an keinen Schutzschalter angeschlossen.",
+    "Tooltip_LWX_BoardNoBuilding": "Dieser Verteiler hängt außen: Er versorgt kein Gebäude. Hänge ihn zuerst an eine Innenwand.",
+    "Tooltip_LWX_BoardNeedIndoor": "Nicht wetterfest: nur an einer Innenwand eines Gebäudes anzubringen (ein geschlossener, überdachter Bau zählt).",
     "Tooltip_LWX_MachineCut": "Kein Strom: Sein Schutzschalter ist aus, oder es ist in einem von einem Kasten versorgten Gebäude an keinen Schutzschalter angeschlossen.",
     "Tooltip_LWX_Twilight": "Der Stromkreis ist dann nur zwischen Abenddämmerung und Morgengrauen geschlossen.",
     "Tooltip_LWX_NoTwilightItem": "Du hast keinen Dämmerungsschalter.",

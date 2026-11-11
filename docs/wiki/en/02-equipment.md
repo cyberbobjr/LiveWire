@@ -60,7 +60,7 @@ or salvaging the lower one.
 ## Placement rules
 
 - Place, rotate and pick up with the vanilla furniture cursor (ghost, 4 facings, 2 for wall objects).
-- Placing and rotating need no tool and no level; picking up needs a **screwdriver**, no level.
+- Placing, rotating and picking up need a **screwdriver**, no level.
 - Linking it to an inverter needs the Electrical level shown above. Putting an inverter into service (its first link) needs level 3.
 - A picked-up device keeps its condition.
 - Solar panel and wind turbine: outdoors (open sky).

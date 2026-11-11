@@ -33,7 +33,7 @@ Toute modification d'un identifiant de ce document (type d'objet, clé de ModDat
 
 ### 2.2 Appareils posés (`LiveWire_moveables.txt`, module `Base`, et `LW_Defs.lua`)
 
-Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inventaire est un `base:moveable` posé au curseur de meubles vanilla. Pose et rotation ne demandent ni outil ni niveau ; le ramassage demande `PickUpTool = Electrician`, sans niveau. La tuile ne porte ni `PickUpLevel` ni `PlaceTool`. Le niveau d'Électricité est vérifié au **branchement** (`Defs.devices.*.level`, D-29). Le **nom de modèle** est la clé stockée dans le registre : ne jamais le renommer.
+Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inventaire est un `base:moveable` posé au curseur de meubles vanilla. Pose, rotation et ramassage demandent un tournevis (`PlaceTool = Electrician`, `PickUpTool = Electrician`, D-59), sans niveau : la tuile ne porte pas de `PickUpLevel`. Le niveau d'Électricité est vérifié au **branchement** (`Defs.devices.*.level`, D-29). Le **nom de modèle** est la clé stockée dans le registre : ne jamais le renommer.
 
 **Poids** : `PickUpWeight / 10` de la tuile (`Moveable.java:145-150`), sauf l'éolienne et, depuis 1.8.0, la roue à aubes, dont les tuiles portent `CustomItem` et qui prennent le `Weight` du script (`Moveable.java:129-134`). Le `Weight` de chaque script reprend celui de la tuile. Règle : jamais moins que la somme des composants de la recette (poids vanilla), relevé au poids réaliste à l'échelle du jeu. Panneau 9, éolienne 15, roue à aubes 30, onduleur 12, armoire onduleur 30, powerbank 10, tableau 3, alarme 1, pompe 8.
 
@@ -525,6 +525,7 @@ Tests : `tests/test_api_submods.py`.
 | `API.anchors()` | révision 3 : copie `{ [id] = { x, y, z, on } }` de la table publique des ancres (serveur et client), sans le journal |
 | `API.showRange(id, x, y, z, opts)`, `API.hideRange()`, `API.rangeShown(id)`, `API.rangeColor()` | révision 3, client : afficher, masquer, tester (`nil` : une vue quelconque) la zone d'un onduleur, couleur de la ligne (copie) ; `false`/`nil` sur un serveur |
 | `API.onRangeView(fn)` | révision 3 : `fn(id, affichée)` à l'ouverture ou à la fermeture de la vue de zone d'un onduleur (pas d'une pompe ni d'un cercle `opts`) ; appelable depuis n'importe quel fichier, une même fonction n'est gardée qu'une fois ; `false` si `fn` n'est pas une fonction |
+| `API.addPlacementRule(rule)` | révision 4, D-62 : `rule(nomTuile, case, personnage)` rend `nil` (tuile non concernée), `true`, ou `false` et une clé de traduction ; consultée pour toute tuile par `canPlaceMoveableInternal` (client et autorité) et affichée en rouge dans le panneau du curseur. Inscription au chargement des Lua (`false` après `OnInitGlobalModData` ou si `rule` n'est pas une fonction ; la même fonction n'est gardée qu'une fois). Tests : `tests/test_placement_rules.py` |
 
 [Preuves et portée exactes des circuits](annexes/recherches/circuits-42-21.md) :
 adaptateurs natifs, reprise des choix, pièces, recouvrements et migration additive.

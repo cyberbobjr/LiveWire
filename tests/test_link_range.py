@@ -32,6 +32,8 @@ class LinkRange(unittest.TestCase):
             assert(z>=-32 and z<=31,'scan outside world floors')
             return SQUARES[x..','..y..','..z]
         end} end
+        SCREWDRIVER=true
+        LiveWire.Install.screwdriver=function() return SCREWDRIVER and {} or nil end
         INVERTER=object(0,0,0,'Inverter','d1')
         SOLAR=object(0,0,2,'SolarPanel','d2')
         GENERATOR=object(0,0,2,nil,nil,'IsoGenerator')
@@ -53,6 +55,20 @@ class LinkRange(unittest.TestCase):
             local ok,why,actual,limit=I.checkLink(PLAYER,object(0,0,dz,'SolarPanel','d2'),INVERTER)
             assert(not ok and why=='Tooltip_LW_TooManyFloors' and actual=='4' and limit=='3')
         end
+        ''')
+
+    def test_link_and_coupling_need_a_screwdriver(self):
+        self.lua.execute('''
+        local I=LiveWire.Install
+        local solar=object(0,0,1,'SolarPanel','d2')
+        local other=object(1,0,0,'Inverter','d5')
+        SCREWDRIVER=false
+        local ok,why=I.checkLink(PLAYER,solar,INVERTER)
+        assert(not ok and why=='Tooltip_LW_NeedScrewdriver','link without screwdriver')
+        ok,why=I.checkCouple(PLAYER,other,INVERTER)
+        assert(not ok and why=='Tooltip_LW_NeedScrewdriver','coupling without screwdriver')
+        SCREWDRIVER=true
+        assert(I.checkLink(PLAYER,solar,INVERTER),'link with screwdriver')
         ''')
 
     def test_link_needs_device_level_and_inverter_level_until_in_service(self):

@@ -29,19 +29,6 @@ function B.key(def)
     return "b:" .. def:getX() .. "," .. def:getY()
 end
 
--- The building of key `key` (B.key), or nil.
-function B.byKey(key)
-    local x, y = tostring(key or ""):match("^b:(%-?%d+),(%-?%d+)$")
-    if not x then return nil end
-    x, y = tonumber(x), tonumber(y)
-    local list = getWorld():getMetaGrid():getBuildings()
-    for i = 0, list:size() - 1 do
-        local def = list:get(i)
-        if def:getX() == x and def:getY() == y then return def end
-    end
-    return nil
-end
-
 local function rectDistance2(px, py, x, y, w, h)
     local nx = math.max(x, math.min(px, x + w - 1))
     local ny = math.max(y, math.min(py, y + h - 1))
@@ -85,15 +72,21 @@ function B.find(x, y, z, reach, V)
     return best
 end
 
--- Footprint of a building for inverter `id` (salt from the id keeps two areas apart).
-function B.area(def, id)
+-- Powered area of rooms (B.roomsOf form) for inverter `id`, labelled { x, y } on the inverter
+-- screen (salt from the id keeps two areas apart). nil when the rooms give none.
+function B.footprint(rooms, label, id)
     local salt = 0
     for i = 1, #tostring(id) do salt = salt + string.byte(tostring(id), i) end
-    local area = X.Footprint.compute(B.roomsOf(def), { band = X.option("BuildingBand"),
+    local area = X.Footprint.compute(rooms, { band = X.option("BuildingBand"),
         R = LiveWire.Config.tileRange(), V = LiveWire.Config.verticalRange(), salt = salt })
     if not area then return nil end
     local out = X.Footprint.public(area)
     out.kind = "building"
-    out.label = { x = def:getX(), y = def:getY() }
+    out.label = label
     return out
+end
+
+-- Footprint of a building for inverter `id`.
+function B.area(def, id)
+    return B.footprint(B.roomsOf(def), { x = def:getX(), y = def:getY() }, id)
 end

@@ -3,7 +3,7 @@ require "LiveWire/LW_Defs"
 require "LiveWire/LW_Coverage"
 require "LiveWire/LW_Extension"
 LiveWire = LiveWire or {}
-local API = { version = 1, revision = 3 }
+local API = { version = 1, revision = 4 }
 LiveWire.API = API
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -319,6 +319,23 @@ function API.gridName(inverterId)
     local C = LiveWire.Client
     local snap = C and C.snapshot and C.snapshot(inverterId)
     return snap and snap.name or nil
+end
+
+-- Client: player 0 when a direct left click on world object `obj` may open its screen, under
+-- the rules of Live Wire's own screens (reach, sight, same floor, no obstacle, safehouse, not
+-- aiming, asleep, driving, dragging or paused); nil otherwise and where there is no client UI.
+function API.directClickPlayer(obj)
+    local E = LiveWire.Equipment
+    return obj and E and E.clickPlayer(obj) or nil
+end
+
+-- Placement rule of a sub-mod (D-62): rule(spriteName, square, character) returns nil when the
+-- tile is not its concern, true, or false and a tooltip key shown in red by the furniture cursor.
+-- Checked on the client and on the authority for every tile. Call while Lua files load: false
+-- after OnInitGlobalModData or when `rule` is not a function.
+function API.addPlacementRule(rule)
+    local Placement = LiveWire.Placement
+    return Placement ~= nil and Placement.addRule(rule) or false
 end
 
 -- Asks the server for the snapshots of an inverter, as Live Wire's own panels do (client).

@@ -19,6 +19,7 @@ require "ISUI/ISContextMenu"
 require "ISUI/ISInventoryPane"
 require "LiveWire/LW_UIScale"
 require "LiveWireExtended/LWX_Points"
+require "LiveWireExtended/LWX_BoardTint"
 
 local X = LiveWire.Extended
 local B = X.Breakers
@@ -40,8 +41,13 @@ local TITLES = { lever = "IGUI_LWX_LeverSwitchOff", label = "IGUI_LWX_Rename", l
 local ALL_TITLES = { "IGUI_LWX_LeverReset", "IGUI_LWX_LeverSwitchOn", "IGUI_LWX_LeverSwitchOff",
     "IGUI_LWX_Rename", "IGUI_LWX_Locate", "IGUI_LWX_LocateOff", "IGUI_LWX_TwilightRemoveBtn",
     "IGUI_LWX_TwilightFitBtn", "IGUI_LWX_Remove" }
--- Help text shown while no breaker is selected (both lines, the window size keeps them).
+-- Help text shown while no breaker is selected (every line, the window size keeps them), and
+-- the tint legend, or why there is no tint when the board hangs outside (D-62).
 local HELP_KEYS = { "IGUI_LWX_SelectHint", "IGUI_LWX_EmptyHint" }
+local function helpKeys(record)
+    local last = record and X.Panel.siteOf(record) and "IGUI_LWX_TintLegend" or "IGUI_LWX_NoRegion"
+    return { HELP_KEYS[1], HELP_KEYS[2], last }
+end
 local LCD_KEYS = { "IGUI_LWX_LcdLoad", "IGUI_LWX_LcdCurrent", "IGUI_LWX_LcdToday" }
 local LCD_MIN_W = 246
 
@@ -60,7 +66,8 @@ local function kwh(v) return string.format("%.1f kWh", v) end
 
 -- Layout of the window for a board of `size` modules at factor k, reference units. Returns the
 -- kit's layout (L) and the grid origin, its height and the LCD width.
-local function layoutAt(k, size, compact)
+local function layoutAt(k, size, compact, help)
+    help = help or HELP_KEYS
     local K = kit()
     local tm = getTextManager()
     local fr = tm:getFontHeight(UIFont.Small) / k
@@ -78,7 +85,8 @@ local function layoutAt(k, size, compact)
         local second = i == 1 and getText("IGUI_LW_BoardCutWatts") or i == 2 and "99.9 / 30 A" or "99.9 kWh"
         lcdW = math.max(lcdW, math.ceil(screen(getText(LCD_KEYS[i])) + screen(second) + 52))
     end
-    lcdW = math.max(lcdW, math.ceil(measure(getText("IGUI_LWX_Rating", "30", "3600")) + 44))
+    lcdW = math.max(lcdW, math.ceil(measure(getText("IGUI_LWX_Rating", "30", "3600")) + 44),
+        math.ceil(measure(getText("IGUI_LWX_NoPoints")) + 60))  -- LCD line: x + 38, width w - 55
     local widest = 0
     for _, key in ipairs(ALL_TITLES) do widest = math.max(widest, measure(getText(key))) end
     local spec = { fr = fr, fmr = fmr, fl = fl, compact = compact, lcdW = lcdW, gridW = gridW, gridH = gridH,
@@ -86,13 +94,13 @@ local function layoutAt(k, size, compact)
     spec.hintLines = 0
     local base = K.layout(spec)
     local lines = 0
-    for _, key in ipairs(HELP_KEYS) do lines = lines + #K.wrap(getText(key), base.inW, measure) end
+    for _, key in ipairs(help) do lines = lines + #K.wrap(getText(key), base.inW, measure) end
     spec.hintLines = lines
     local L = K.layout(spec)
     L.lsH, L.rows, L.gridW, L.gridH, L.lcdW = lsH, rows, gridW, gridH, lcdW
     L.gx = L.recessX + 14 + lcdW + 20
     L.gy = L.recessY + 14 + math.floor((L.innerH - gridH) / 2)
-    L.helpKeys = HELP_KEYS
+    L.helpKeys = help
     return L
 end
 
@@ -126,7 +134,23 @@ function Window:prerender()
     self.size = record.size or 8
     if self.selected and not B.slotAt(record, self.selected) then self.selected = nil end
     self:refreshButtons(record)
+    self:refreshTint(record)
     self:drawBoard(record)
+end
+
+-- Tint of the region's appliances (LWX_BoardTint): computed again only when the public table
+-- changed; removed while "Locate" lights a circuit, put back afterwards.
+function Window:refreshTint(record)
+    local T, tint = X.BoardTint, self.tint
+    if not tint then return end
+    if self.locating then
+        if next(tint.lit) then T.clear(tint) end
+        self.tintRev = nil
+        return
+    end
+    if self.tintRev == X.Data.rev then return end
+    self.tintRev = X.Data.rev
+    T.apply(tint, (T.compute(record)))
 end
 
 -- Drawn in prerender: the game renders the children (buttons) between prerender and
@@ -143,6 +167,7 @@ function Window:drawBoard(record)
     end
     local hover = self:hit(self:getMouseX(), self:getMouseY())
     local dragged = self:draggedBreaker()
+    local twilightDrag = self:draggedTwilight()
     local fr = K.fontHeight(self, UIFont.Small)
     for pos = 1, record.size do
         local x, y = self:moduleRect(pos)
@@ -150,11 +175,16 @@ function Window:drawBoard(record)
         if slot then
             K.module(self, x, y, slotState(slot), K.RATING[slot.amps], false)
             K.plate(self, x, y, slot.amps, K.RATING[slot.amps], K.RATING_TEXT[slot.amps] or C.plateText)
+            if twilightDrag and not slot.twilight then
+                K.border(self, x - 1, y - 1, MOD_W + 2, MOD_H + 2, DRAG_GREEN, hover == pos and 1 or 0.6)
+            end
             if slot.twilight then K.rect(self, x + MOD_W - 12, y + 13, 7, 7, C.orange) end
             K.rect(self, x, y + MOD_H + LABEL_GAP, MOD_W, L.lsH, C.light)
             K.border(self, x, y + MOD_H + LABEL_GAP, MOD_W, L.lsH, C.edge)
+            -- orange label: this breaker controls no appliance yet
             K.text(self, slot.label ~= "" and slot.label or tostring(pos), x + 3,
-                y + MOD_H + LABEL_GAP + (L.lsH - fr) / 2, MOD_W - 6, C.ink, UIFont.Small, "center")
+                y + MOD_H + LABEL_GAP + (L.lsH - fr) / 2, MOD_W - 6, B.pointCount(slot) == 0 and C.orange or C.ink,
+                UIFont.Small, "center")
         else
             K.module(self, x, y, "empty")
             K.rect(self, x, y + MOD_H + LABEL_GAP, MOD_W, L.lsH, C.light, 0.6)
@@ -231,7 +261,7 @@ function Window:lcdContent(record)
             { getText(LCD_KEYS[2]), string.format("%.1f / %d A", load / slot.volts, slot.amps) },
             { getText(LCD_KEYS[3]), kwh(m.today) } },
         led = state == "on" and K.C.green or state == "tripped" and K.C.red or K.C.edge,
-        line = getText("IGUI_LWX_State_" .. state),
+        line = getText(B.pointCount(slot) == 0 and "IGUI_LWX_NoPoints" or "IGUI_LWX_State_" .. state),
         status = getText("IGUI_LWX_Rating", tostring(slot.amps), tostring(B.capacityW(slot))),
         strip = getText("IGUI_LWX_LcdHistory", string.format("%.1f", m.yesterday), string.format("%.1f", m.week)) }
 end
@@ -278,7 +308,14 @@ end
 function Window:onLever()
     local slot = self:selectedSlot()
     if not slot then return end
-    queue(self, LWXBreakerAction:new(self.player, self.board, nil, slot.pos, (slot.off or slot.tripped) and "on" or "off"))
+    local action = LWXBreakerAction:new(self.player, self.board, nil, slot.pos, (slot.off or slot.tripped) and "on" or "off")
+    -- Already in reach: no walk, the switch is queued at once (the authority checks the same range).
+    if LWXBreakerAction.inReach(self.player, self.board) then
+        ISTimedActionQueue.clear(self.player)
+        ISTimedActionQueue.add(action)
+    else
+        queue(self, action)
+    end
 end
 
 function Window:onLabel()
@@ -311,6 +348,7 @@ function Window:locate(pos)
     local slot = record and B.slotAt(record, pos)
     if not slot then return end
     self.locating = pos
+    if self.tint then X.BoardTint.clear(self.tint); self.tintRev = nil end
     for _, key in ipairs(B.pointList(slot)) do
         for _, found in ipairs(X.Points.objectsOf(key, X.Points.point(key))) do
             for _, o in ipairs(X.Adapters.find(found).pieces(found)) do
@@ -331,6 +369,10 @@ end
 function Window:onTwilight()
     local slot = self:selectedSlot()
     if not slot then return end
+    if not slot.twilight then
+        local ok, why = B.checkTwilight(self.player, self.board, slot.pos)
+        if not ok then LiveWire.notify(self.player, why, {}, true); return end
+    end
     queue(self, LWXBreakerAction:new(self.player, self.board, nil, slot.pos, slot.twilight and "twilightOff" or "twilightOn"))
 end
 
@@ -374,8 +416,36 @@ function Window:draggedBreaker()
     return nil
 end
 
+-- The twilight switch item being dragged from an inventory window, or nil.
+function Window:draggedTwilight()
+    local dragging = ISMouseDrag and ISMouseDrag.dragging
+    if not dragging then return nil end
+    for _, it in ipairs(ISInventoryPane.getActualItems(dragging)) do
+        if it:getFullType() == B.TWILIGHT_ITEM then return it end
+    end
+    return nil
+end
+
+-- Drop a dragged twilight switch on a breaker without one: fit it there (LWXBreakerAction
+-- mode twilightOn, as the button does).
+function Window:dropTwilight(x, y)
+    local num = self.player:getPlayerNum()
+    getPlayerInventory(num).render3DItems = {}
+    getPlayerLoot(num).render3DItems = {}
+    local pos = self:hit(x, y)
+    local record = self:record()
+    local slot = pos and record and B.slotAt(record, pos)
+    if slot and not slot.twilight then
+        local ok, why = B.checkTwilight(self.player, self.board, pos)
+        if ok then queue(self, LWXBreakerAction:new(self.player, self.board, nil, pos, "twilightOn"))
+        else self.player:Say(getText(why)) end
+    end
+    return true
+end
+
 -- Drop a dragged breaker on an empty module: install it there.
 function Window:onMouseUp(x, y)
+    if self:draggedTwilight() then return self:dropTwilight(x, y) end
     local item = self:draggedBreaker()
     if not item then return ISPanel.onMouseUp(self, x, y) end
     local num = self.player:getPlayerNum()
@@ -411,6 +481,7 @@ end
 
 function Window:close()
     self:clearLocate()
+    if self.tint then X.BoardTint.clear(self.tint) end
     self:setVisible(false)
     self:removeFromUIManager()
     if Window.instance == self then Window.instance = nil end
@@ -445,17 +516,19 @@ function Window.open(player, board)
     local size = record and record.size or X.Panel.size(board) or 8
     local UI = LiveWire.UIScale
     local K = kit()
+    local help = helpKeys(record)
     local k = K.twoPass(function(kk)
-        local L = layoutAt(kk, size, false)
+        local L = layoutAt(kk, size, false, help)
         return L.W, L.H
     end, UI.factor, UI.fontScale())
     local core = getCore()
-    local compact = K.needsCompact(layoutAt(k, size, false).H, k, core:getScreenHeight(), UI.MARGIN)
-    local L = layoutAt(k, size, compact)
+    local compact = K.needsCompact(layoutAt(k, size, false, help).H, k, core:getScreenHeight(), UI.MARGIN)
+    local L = layoutAt(k, size, compact, help)
     local x, y, w, h = UI.fit(getPlayerScreenLeft(player:getPlayerNum()) + 120,
         getPlayerScreenTop(player:getPlayerNum()) + 60, UI.px(L.W, k), UI.px(L.H, k))
     local win = Window:new(x, y, w, h)
     win.lwK, win.player, win.board, win.size, win.L = k, player, board, size, L
+    win.tint = { idx = player:getPlayerNum(), lit = {} }
     if record and record.inv then LiveWire.API.subscribeInverter(record.inv) end
     win:initialise()
     win:addToUIManager()
@@ -481,3 +554,15 @@ local function softwareLines(inverterId)
 end
 
 LiveWire.API.registerSoftwareLines(softwareLines)
+
+-- Direct left click on a board opens its window, under Live Wire's direct-click rules
+-- (LiveWire.API.directClickPlayer); the context menu entry stays. A board linked to no
+-- inverter has no window (it closes without a record): the click says so instead.
+function Window.onClick(obj)
+    if not X.Panel.isPanel(obj) then return end
+    local player = LiveWire.API.directClickPlayer(obj)
+    if not player then return end
+    if X.Panel.recordAt(obj:getSquare()) then Window.open(player, obj)
+    else HaloTextHelper.addBadText(player, getText("Tooltip_LWX_PanelNotLinked")) end
+end
+Events.OnObjectLeftMouseButtonDown.Add(Window.onClick)

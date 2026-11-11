@@ -369,7 +369,7 @@ def main() -> None:
 # Packaging (plain Python with Pillow + pzforge)
 # --------------------------------------------------------------------------- #
 
-_TOOLS = {"PickUpTool": "Electrician"}
+_TOOLS = {"PickUpTool": "Electrician", "PlaceTool": "Electrician"}  # screwdriver, no level
 TERMINAL_PROPS = {"GroupName": "LiveWire Extended", "CustomName": "Terminal", "IsMoveAble": "",
                   "solidtrans": "", "BlocksPlacement": "", "Material": "MetalPlates", "PickUpWeight": "40", **_TOOLS}
 BOARD_PROPS = {"GroupName": "LiveWire Extended", "IsMoveAble": "", "MoveType": "WallObject",

@@ -4,7 +4,7 @@
 
 ![Tous les équipements LiveWire et leurs chiffres](../../images/diagrams/equipment_fr.png)
 
-Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meuble vanilla (fantôme, 4 orientations, 2 pour les objets muraux). Poser et tourner ne demandent ni outil ni niveau ; ramasser demande un tournevis, sans niveau. Le niveau d'Électricité du tableau est celui du **branchement** à un onduleur. Un appareil ramassé garde son état.
+Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tourne et le ramasse avec le curseur de meuble vanilla (fantôme, 4 orientations, 2 pour les objets muraux). Poser, tourner et ramasser demandent un tournevis, sans niveau. Le niveau d'Électricité du tableau est celui du **branchement** à un onduleur. Un appareil ramassé garde son état.
 
 ## Tableau des équipements
 
@@ -22,7 +22,7 @@ Chaque recette donne un meuble posable `Base.Mov_LiveWire_*`. On le pose, le tou
 
 ## Règles de pose
 
-- Poser et tourner : aucun niveau ; ramasser : tournevis, sans niveau.
+- Poser, tourner et ramasser : tournevis, sans niveau.
 - Panneau et éolienne : à l'extérieur, sous ciel ouvert.
 - Roue à aubes : berge d'une rivière, rez-de-chaussée, à côté de l'eau de la rivière (lacs et étangs refusés).
 - Pompe à eau : n'importe où ; ses barils doivent être sur les 8 cases autour d'elle (voir [Pompe à eau](07-pompe-a-eau.md)).

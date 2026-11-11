@@ -3,6 +3,7 @@
 -- wire like the power terminal (LWX_Link). Its breakers fill its slots (E16).
 require "LiveWireExtended/LWX_Link"
 require "LiveWireExtended/LWX_Terminal"
+require "LiveWireExtended/LWX_Sites"
 
 local X = LiveWire.Extended
 local L = X.Link
@@ -28,6 +29,41 @@ P.kind = L.register({ name = "panel", field = "panels", sprites = SPRITES, level
 function P.isPanel(obj) return L.kindOf(obj) == P.kind end
 function P.onSquare(sq) return L.objectOn(P.kind, sq) end
 function P.recordAt(sq) return L.recordAt(P.kind, sq) end
+
+-- A vanilla wall box of the map is weatherproof: it may hang outside (D-62). Offset from its
+-- square to the square on the other side of the wall it hangs on (industry_02_212 attachedN,
+-- 213 attachedW, 214 attachedS, 215 attachedE). A crafted board is not weatherproof.
+P.WEATHERPROOF = { industry_02_212 = { 0, -1 }, industry_02_213 = { -1, 0 },
+                   industry_02_214 = { 0, 1 }, industry_02_215 = { 1, 0 } }
+
+-- dx, dy to the square across the wall of a weatherproof box, or nil.
+function P.acrossWall(spriteName)
+    local d = P.WEATHERPROOF[spriteName or ""]
+    if not d then return nil end
+    return d[1], d[2]
+end
+
+-- Site a board serves (D-62): the site of its own square, the face of the wall it hangs on
+-- (X.Sites); a weatherproof box hanging outside (record.wall, set when linked) serves the site
+-- across its wall. The one rule of the placement, the power (LWX_Panels), the breakers
+-- (LWX_Points), the tint and the wiring menu. nil when the board serves nothing.
+function P.siteOf(record)
+    local site = X.Sites.at(record.x, record.y, record.z)
+    if site or not record.wall then return site end
+    return X.Sites.at(record.x + record.wall[1], record.y + record.wall[2], record.z)
+end
+
+-- Tiles a player hangs (batman_livewireext_01_8..13), not weatherproof: only on the inside face
+-- of a wall. The vanilla boxes keep the vanilla placement (P.WEATHERPROOF).
+P.REFUSED_OUTSIDE = "Tooltip_LWX_BoardNeedIndoor"
+function P.placementRule(spriteName, sq)
+    if not spriteName or P.SIZES[tonumber(string.match(spriteName, "^" .. X.Terminal.SHEET .. "_(%d+)$") or "")] == nil then
+        return nil
+    end
+    if X.Sites.at(sq:getX(), sq:getY(), sq:getZ()) then return true end
+    return false, P.REFUSED_OUTSIDE
+end
+LiveWire.API.addPlacementRule(P.placementRule)
 
 -- Number of modules of a board object, from its sprite.
 function P.size(obj)

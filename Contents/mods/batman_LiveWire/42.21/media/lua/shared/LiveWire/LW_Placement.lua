@@ -14,6 +14,7 @@
 require "Moveables/ISMoveableSpriteProps"
 require "LiveWire/LW_Stack"
 require "LiveWire/LW_EventBus"
+require "LiveWire/LW_Extension"
 
 LiveWire = LiveWire or {}
 
@@ -60,6 +61,28 @@ function Placement.check(model, sq)
     return true
 end
 
+-- Placement rules of sub-mods (LiveWire.API.addPlacementRule, D-62): rule(spriteName, square,
+-- character) returns nil when the tile is not its concern, true, or false and a tooltip key.
+-- Added while Lua files load; checked for every tile, on the client and on the authority.
+local rules = {}
+function Placement.addRule(rule)
+    if type(rule) ~= "function" or LiveWire.Extension.isSealed() then return false end
+    for i = 1, #rules do
+        if rules[i] == rule then return true end
+    end
+    rules[#rules + 1] = rule
+    return true
+end
+
+-- true, or false and the tooltip key of the first rule that refuses `spriteName` on `sq`.
+function Placement.checkRules(spriteName, sq, character)
+    for i = 1, #rules do
+        local verdict, why = rules[i](spriteName, sq, character)
+        if verdict == false then return false, why end
+    end
+    return true
+end
+
 local function authority()
     return LiveWire.isAuthority() and LiveWire.Devices ~= nil
 end
@@ -83,6 +106,7 @@ function MP:canPlaceMoveableInternal(_character, _square, _item, _forceTypeObjec
     if ok and _square then
         local model = modelOfSprite(self.spriteName)
         if model and not Placement.check(model, _square) then return false end
+        if not Placement.checkRules(self.spriteName, _square, _character) then return false end
     end
     return ok
 end
@@ -92,6 +116,10 @@ local origInfo = MP.getInfoPanelDescription
 function MP:getInfoPanelDescription(_square, _object, _player, _mode, ...)
     local info = origInfo(self, _square, _object, _player, _mode, ...)
     if _mode == "place" and _square and type(info) == "table" then
+        local allowed, reason = Placement.checkRules(self.spriteName, _square, _player)
+        if not allowed and reason then
+            info = MP.addLineToInfoTable(info, getText(reason), 255, 60, 60)
+        end
         local model = modelOfSprite(self.spriteName)
         if model then
             local ok, why = Placement.check(model, _square)

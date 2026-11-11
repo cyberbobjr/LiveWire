@@ -111,6 +111,13 @@ end
 function B.amps(slot) return (slot.load or 0) / slot.volts end
 
 -- Point keys of a slot, sorted.
+-- Number of points (appliances, rooms) wired to the breaker of `slot`.
+function B.pointCount(slot)
+    local n = 0
+    for _ in pairs(slot and slot.points or {}) do n = n + 1 end
+    return n
+end
+
 function B.pointList(slot)
     local out = {}
     for key in pairs(slot.points or {}) do out[#out + 1] = key end
@@ -131,6 +138,19 @@ end
 -- Is the breaker's circuit open (switched off, tripped, or a twilight switch by day)?
 function B.isOpen(slot)
     return slot.off == true or slot.tripped == true or (slot.twilight == true and not B.isNight())
+end
+
+-- Can `character` fit a twilight switch on the breaker of module `pos` of board `obj`? true, or
+-- false and a refusal key (and its argument). Shared by the menu, the window (button and
+-- drag-and-drop) and the authority, which checks it again (LWX_Twilight.setTwilight).
+function B.checkTwilight(character, obj, pos)
+    local record = X.Panel.isPanel(obj) and X.Panel.recordAt(obj:getSquare())
+    if not record then return false, "Tooltip_LWX_PanelNotLinked" end
+    if not B.slotAt(record, tonumber(pos)) then return false, "Tooltip_LWX_NoBreakerThere" end
+    local I = LiveWire.API
+    if not I.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
+    if I.countType(character, B.TWILIGHT_ITEM) < 1 then return false, "Tooltip_LWX_NoTwilightItem" end
+    return true
 end
 
 -- ---------------------------------------------------------------- meter (E24)

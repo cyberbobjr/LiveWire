@@ -4,9 +4,11 @@
 
 **LiveWire Extended** (`batman_LiveWireExtended`) est un mod facultatif livré avec LiveWire. Il a besoin de LiveWire. **Avec lui, un onduleur n'a plus de rayon** : il n'alimente que ce que vous lui raccordez, un bâtiment (par **Raccorder le bâtiment**, ou le bâtiment d'un tableau électrique que vous reliez) et les zones des bornes extérieures. Sans lui, LiveWire fonctionne exactement comme avant.
 
+![Schéma : sans tableau, avec tableau, borne extérieure](../../images/diagrams/diagram_extended_fr.png)
+
 ## Raccorder un bâtiment entier
 
-Clic droit sur un onduleur > **LiveWire Extended** > **Raccorder le bâtiment** (Électricité 3, ni outil ni fil). Le bâtiment où se trouve l'onduleur est raccordé ; un onduleur posé dehors raccorde le bâtiment le plus proche dans sa portée de générateur (20 cases par défaut). Tous les étages reçoivent le courant, le sous-sol aussi, plus le reste des blocs de 8 x 8 cases qu'il couvre : le jeu alimente des blocs entiers. Une option sandbox ajoute une bande extérieure autour du rez-de-chaussée (0 à 8 cases, 0 par défaut).
+Clic droit sur un onduleur > **LiveWire Extended** > **Raccorder le bâtiment** (Électricité 3, tournevis, sans fil). Le bâtiment où se trouve l'onduleur est raccordé ; un onduleur posé dehors raccorde le bâtiment le plus proche dans sa portée de générateur (20 cases par défaut). Tous les étages reçoivent le courant, le sous-sol aussi, plus le reste des blocs de 8 x 8 cases qu'il couvre : le jeu alimente des blocs entiers. Une option sandbox ajoute une bande extérieure autour du rez-de-chaussée (0 à 8 cases, 0 par défaut).
 
 - Le jeu alimente des blocs entiers de 8 x 8 cases : les cases voisines de ces blocs reçoivent aussi le courant (une allée, un bout de la cour d'à côté).
 - Un bâtiment n'est raccordé qu'à un seul onduleur. **Débrancher le bâtiment** dans le même menu.
@@ -25,7 +27,7 @@ Débrancher ou ramasser la borne retire sa zone et le bâtiment qu'elle raccorda
 
 ## Tableaux électriques
 
-Un **tableau électrique** (8, 16 ou 24 modules) se fixe au mur. Fabriquez-en un (Électricité 3), posez-le avec le curseur de meubles et raccordez-le à un onduleur avec du fil électrique, comme une borne. Ensuite :
+Un **tableau électrique** (8, 16 ou 24 modules) se fixe sur un **mur intérieur** d'un bâtiment. Fabriquez-en un (Électricité 3), posez-le avec le curseur de meubles et raccordez-le à un onduleur avec du fil électrique, comme une borne. Il dessert le bâtiment où il est accroché : une maison de la carte avec son sous-sol, un sous-sol, ou un bâtiment que vous avez construit vous-même pourvu qu'il soit fermé et couvert (un tableau par étage dans ce cas). Un tableau fabriqué n'est pas étanche : sur un mur extérieur, le curseur le refuse et dit pourquoi. Les coffrets électriques muraux du jeu sont étanches : on peut les déplacer, les accrocher aussi dehors, et de dehors ils desservent le bâtiment de l'autre côté de leur mur. Ensuite :
 
 - **Installez des disjoncteurs** au tournevis : 15 A, 20 A ou 30 A, un module chacun. Chacun est un objet à trouver (électriciens, quincailleries, garages) ou à fabriquer (Électricité 3, plus de pièces pour un calibre plus élevé).
 - **Raccordez un appareil** à un disjoncteur, depuis l'appareil (clic droit > LiveWire Extended > Raccorder au tableau) ou depuis le tableau (Raccorder un appareil). Il faut du fil selon la distance, un tournevis, un testeur de tension (conservé) et Électricité 3 ; cela rapporte 5 XP. L'option se trouve dans le menu propre à l'objet quand le jeu lui en donne un (Interrupteur >, Applique >, four), sinon sous LiveWire Extended. Un appareil de plusieurs cases compte une fois ; une pièce et ses interrupteurs muraux forment un seul point d'éclairage ; une borne raccordée à un disjoncteur entraîne toute sa zone.

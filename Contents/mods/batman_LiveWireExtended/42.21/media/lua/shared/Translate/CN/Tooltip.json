@@ -26,6 +26,8 @@
     "Tooltip_LWX_NeedPen": "需要一支钢笔或铅笔.",
     "Tooltip_LWX_WiredTo": "回路: %1 (%2 A), 实测 %3 W.",
     "Tooltip_LWX_UnwiredServed": "没有电: 配电箱为该建筑供电, 而此电器未接到任何断路器.",
+    "Tooltip_LWX_BoardNoBuilding": "此配电箱挂在室外：它不为任何建筑供电。请先把它挂在室内墙上。",
+    "Tooltip_LWX_BoardNeedIndoor": "不防水：只能挂在建筑的室内墙上（封闭且有屋顶的建筑也可以）。",
     "Tooltip_LWX_MachineCut": "没有电: 其断路器已关闭, 或在由配电箱供电的建筑中未接到任何断路器.",
     "Tooltip_LWX_Twilight": "此后回路仅在黄昏到黎明之间闭合.",
     "Tooltip_LWX_NoTwilightItem": "你没有光控开关.",

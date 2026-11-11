@@ -64,7 +64,7 @@ The game itself decides what is powered (a square is powered as if near a genera
 
 ## Equipment
 
-Each recipe gives a placeable furniture item `Base.Mov_LiveWire_*`. Place, rotate and pick up with the vanilla furniture cursor (ghost, 4 facings, 2 for wall objects). Placing and rotating need no tool and no level; picking up needs a screwdriver, no level. The Electrical level below is the one needed to link the device to an inverter (putting an inverter into service, with its first link, needs level 3). A picked-up device keeps its condition.
+Each recipe gives a placeable furniture item `Base.Mov_LiveWire_*`. Place, rotate and pick up with the vanilla furniture cursor (ghost, 4 facings, 2 for wall objects). Placing, rotating and picking up need a screwdriver, no level. The Electrical level below is the one needed to link the device to an inverter (putting an inverter into service, with its first link, needs level 3). A picked-up device keeps its condition.
 
 Placement rules added by the mod: outdoors (open sky) for the solar panel and wind turbine; river bank, ground floor, next to river water for the water wheel (lakes and ponds are refused). A refused square shows the reason in red in the cursor panel.
 

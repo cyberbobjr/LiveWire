@@ -56,6 +56,7 @@ function PR.check()
             end
         end
     end
+    if any then X.Data.touch() end
     if any and isServer() then ModData.transmit(X.DATA_KEY) end
 end
 

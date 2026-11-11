@@ -12,19 +12,15 @@ local P = X.Panel
 local PS = {}
 X.Panels = PS
 
--- Building a board serves: the house it was drawn for (its key on the object, a box on
--- the facade stands outside), else the building it hangs in or against.
-local function buildingOf(record, obj)
-    local house = obj and obj:hasModData() and obj:getModData().LWXHouse
-    local def = house and X.Buildings.byKey(house)
-    return def or X.Buildings.find(record.x, record.y, record.z, 1, LiveWire.Config.verticalRange())
-end
-
 P.kind.onLink = function(record, dev, key, obj)
     record.size = P.size(obj) or 8
     record.slots = {}
-    -- D-44: no radius anymore, the inverter powers the board's building
-    X.Connect.connectDef(dev, buildingOf(record, obj), key)
+    -- a weatherproof box remembers the side of its wall (P.siteOf, also read by the clients)
+    local spr = obj and obj:getSprite()
+    local dx, dy = P.acrossWall(spr and spr:getName())
+    record.wall = dx and { dx, dy } or nil
+    -- D-44, D-62: no radius anymore, the inverter powers the site of the board's wall face
+    X.Connect.connectSite(dev, P.siteOf(record), key)
 end
 
 local previousForget = P.kind.onForget
@@ -51,6 +47,7 @@ function PS.unlink(character, obj)
 end
 
 local function transmit()
+    X.Data.touch()
     if isServer() then ModData.transmit(X.DATA_KEY) end
 end
 

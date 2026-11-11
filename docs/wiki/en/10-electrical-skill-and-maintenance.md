@@ -84,7 +84,7 @@ are unaffected. This does not erase charge or reset condition/cycles.
 Broken equipment is not lost: pick it up (screwdriver) and dismantle it from the crafting
 menu; its electronic parts depend on its condition ([Recipes](08-recipes.md)). Live maintenance risk is optional; see the detailed rules below.
 
-Wind turbines and water wheels need Electrical 2 to link to an inverter; crafting needs 3 and 4 respectively. Placing and picking up need no Electrical level (picking up needs a screwdriver). Mechanical blade/mast recipes need no Electrical level.
+Wind turbines and water wheels need Electrical 2 to link to an inverter; crafting needs 3 and 4 respectively. Placing and picking up need no Electrical level, but a screwdriver. Mechanical blade/mast recipes need no Electrical level.
 
 ## Electrical safety and experience
 

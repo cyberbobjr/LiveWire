@@ -290,7 +290,7 @@ local function register(character, sq, spriteName, adopted)
         end
     end
 
-    -- Placing is free: efficiency, installer level and experience come with the
+    -- Placing needs no level: efficiency, installer level and experience come with the
     -- first link (Devices.wired). `xpd = false` marks a device whose link
     -- experience is still due; the mark keeps `xpd = true` once given, so a moved
     -- device does not give it again. Registry devices of older saves have no xpd

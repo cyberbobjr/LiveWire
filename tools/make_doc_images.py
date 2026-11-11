@@ -331,6 +331,106 @@ def diagram(lang):
     save(im, "diagram", lang)
 
 
+# --- 1b. LiveWire Extended diagram (EN, FR: the languages of its documentation) -------------------
+
+EXT = {
+    "EN": {
+        "title": "LIVEWIRE EXTENDED · HOW A BUILDING GETS POWER",
+        "a": "WITHOUT A BOARD", "b": "WITH A BOARD (optional)", "c": "OUTDOORS",
+        "inverter": "INVERTER", "house": "BUILDING", "board": "BREAKER BOARD", "terminal": "POWER TERMINAL",
+        "zone": "ZONE", "points": "WIRED APPLIANCES", "wire": "electric wire",
+        "a_link": "Connect the building",
+        "a_house": "Every appliance has power,\nno wiring needed",
+        "a_note": "An overload trips the whole network",
+        "b_board": "8, 16 or 24 modules\nhung on an inside wall\nof the building",
+        "b_breakers": "breakers\n15 / 20 / 30 A",
+        "b_points": "Rooms (lights) and appliances,\neach wired to one breaker",
+        "b_rules": "All power goes through the board:\n"
+                   "· an appliance wired to no breaker has no power\n"
+                   "· a board without breakers cuts the whole building\n"
+                   "· an overloaded breaker trips alone, the rest stays on\n"
+                   "· several boards in one building: each appliance on one of them",
+        "c_zone": "drawn around the terminal,\nup to 16 x 16 tiles",
+    },
+    "FR": {
+        "title": "LIVEWIRE EXTENDED · COMMENT UN BÂTIMENT REÇOIT LE COURANT",
+        "a": "SANS TABLEAU", "b": "AVEC TABLEAU (facultatif)", "c": "DEHORS",
+        "inverter": "ONDULEUR", "house": "BÂTIMENT", "board": "TABLEAU ÉLECTRIQUE", "terminal": "BORNE",
+        "zone": "ZONE", "points": "APPAREILS RACCORDÉS", "wire": "fil électrique",
+        "a_link": "Raccorder le bâtiment",
+        "a_house": "Tous les appareils ont le courant,\naucun câblage",
+        "a_note": "Une surcharge fait sauter tout le réseau",
+        "b_board": "8, 16 ou 24 modules\naccroché à un mur intérieur\ndu bâtiment",
+        "b_breakers": "disjoncteurs\n15 / 20 / 30 A",
+        "b_points": "Pièces (lumières) et appareils,\nchacun raccordé à un disjoncteur",
+        "b_rules": "Tout le courant passe par le tableau :\n"
+                   "· un appareil raccordé à aucun disjoncteur n'a pas de courant\n"
+                   "· un tableau sans disjoncteur coupe tout le bâtiment\n"
+                   "· un disjoncteur en surcharge saute seul, le reste continue\n"
+                   "· plusieurs tableaux dans un bâtiment : chaque appareil sur l'un d'eux",
+        "c_zone": "tracée autour de la borne,\njusqu'à 16 x 16 cases",
+    },
+}
+
+
+def box(d, xy, fill, outline, width=2):
+    d.rounded_rectangle(xy, 12, fill=fill, outline=outline, width=width)
+
+
+def labelled_arrow(d, x0, x1, y, label, lang):
+    arrow(d, x0, y, x1, y, head=12)
+    f = fit(d, label, lang, 14, x1 - x0 + 40)
+    text(d, ((x0 + x1) // 2, y - 10), label, f, MUTED, anchor="md")
+
+
+def extended_diagram(lang):
+    t = EXT[lang]
+    W, H = 1200, 760
+    im = Image.new("RGB", (W, H), BG)
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((10, 10, W - 10, H - 10), 14, fill=CARD, outline=LINE, width=2)
+    text(d, (30, 28), t["title"], fit(d, t["title"], lang, 24, W - 60, True))
+    fH = font(lang, 18, True)
+    # Row A: inverter -> building, no board.
+    text(d, (30, 78), t["a"], fH, ACCENT)
+    box(d, (30, 108, 200, 198), ACCENT_BG, ACCENT, 3)
+    text(d, (45, 138), t["inverter"], fit(d, t["inverter"], lang, 20, 145, True))
+    labelled_arrow(d, 205, 455, 153, t["a_link"], lang)
+    box(d, (460, 108, 880, 198), GREEN_BG, GREEN)
+    text(d, (480, 120), t["house"], fit(d, t["house"], lang, 20, 380, True))
+    text(d, (480, 150), t["a_house"], fit(d, t["a_house"], lang, 16, 380), spacing=4)
+    text(d, (900, 140), t["a_note"], fit(d, t["a_note"], lang, 15, 270), MUTED)
+    # Row B: inverter -> wire -> board -> breakers -> wired appliances, in the building.
+    text(d, (30, 228), t["b"], fH, ACCENT)
+    box(d, (270, 258, 1170, 600), GREEN_BG, GREEN)
+    text(d, (290, 268), t["house"], fit(d, t["house"], lang, 18, 300, True), GREEN)
+    box(d, (30, 320, 200, 410), ACCENT_BG, ACCENT, 3)
+    text(d, (45, 350), t["inverter"], fit(d, t["inverter"], lang, 20, 145, True))
+    labelled_arrow(d, 205, 335, 365, t["wire"], lang)
+    box(d, (340, 300, 620, 440), BG, ACCENT, 2)
+    text(d, (358, 312), t["board"], fit(d, t["board"], lang, 18, 250, True))
+    text(d, (358, 344), t["b_board"], fit(d, t["b_board"], lang, 14, 250), MUTED, spacing=4)
+    labelled_arrow(d, 625, 755, 365, t["b_breakers"].split("\n")[0], lang)
+    text(d, (690, 385), t["b_breakers"].split("\n")[1], fit(d, "15 / 20 / 30 A", lang, 14, 120), MUTED, anchor="ma")
+    box(d, (760, 300, 1150, 440), CARD, GREEN)
+    text(d, (778, 312), t["points"], fit(d, t["points"], lang, 18, 360, True))
+    text(d, (778, 344), t["b_points"], fit(d, t["b_points"], lang, 15, 360), spacing=4)
+    rules = t["b_rules"]
+    text(d, (290, 458), rules, fit(d, rules, lang, 16, 860), spacing=7)
+    # Row C: terminal -> its outdoor zone.
+    text(d, (30, 625), t["c"], fH, ACCENT)
+    box(d, (30, 655, 200, 735), ACCENT_BG, ACCENT, 3)
+    text(d, (45, 680), t["inverter"], fit(d, t["inverter"], lang, 20, 145, True))
+    labelled_arrow(d, 205, 335, 695, t["wire"], lang)
+    box(d, (340, 655, 620, 735), BG, ACCENT, 2)
+    text(d, (358, 682), t["terminal"], fit(d, t["terminal"], lang, 18, 250, True))
+    arrow(d, 625, 695, 755, 695, head=12)
+    box(d, (760, 655, 1170, 735), GREEN_BG, GREEN)
+    text(d, (778, 665), t["zone"], fit(d, t["zone"], lang, 18, 370, True))
+    text(d, (778, 691), t["c_zone"], fit(d, t["c_zone"], lang, 14, 370), MUTED, spacing=3)
+    save(im, "diagram_extended", lang)
+
+
 # --- 2. Production charts -----------------------------------------------------------------------
 
 
@@ -653,6 +753,8 @@ def main():
     langs = [a.upper() for a in sys.argv[1:]] or LANGS
     for lang in langs:
         diagram(lang)
+        if lang in EXT:
+            extended_diagram(lang)
         production(lang)
         recipes(lang)
         equipment(lang)

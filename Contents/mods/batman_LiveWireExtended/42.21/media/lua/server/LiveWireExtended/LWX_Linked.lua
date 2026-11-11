@@ -19,6 +19,7 @@ X.Linked = SL
 SL.MARK_KEY = "LiveWireExtendedLink"
 
 local function transmit()
+    X.Data.touch()
     if isServer() then ModData.transmit(X.DATA_KEY) end
 end
 

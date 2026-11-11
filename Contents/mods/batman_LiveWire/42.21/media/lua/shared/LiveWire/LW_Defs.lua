@@ -11,8 +11,8 @@ LiveWire.Defs = Defs
 -- Each device is a tile of the mod tileset (source/tiles/build_livewire_tiles.py):
 -- `tile` is the index of its first sprite, `facings` the number of sprites (S, E,
 -- N, W; wall objects: S = north wall, E = west wall). Placing and picking up use
--- the vanilla furniture cursor: placing needs nothing, picking up a screwdriver
--- (tile PickUpTool = Electrician, no PickUpLevel). `level` is the Electrical level
+-- the vanilla furniture cursor: placing and picking up need a screwdriver
+-- (tile PlaceTool/PickUpTool = Electrician, no PickUpLevel). `level` is the Electrical level
 -- needed to link the device to an inverter, or for an inverter to put it in
 -- service (first link). `xp` is awarded once, at the device's first link. `item` is
 -- the placeable inventory item made by the recipe.

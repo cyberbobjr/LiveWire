@@ -14,6 +14,11 @@ X.Data = D
 
 local CHUNK = X.CHUNK
 
+-- Revision of the public table: bumped by every change of the authority (before it is sent)
+-- and by every copy a client receives. Views compare it instead of polling the data.
+D.rev = 0
+function D.touch() D.rev = D.rev + 1 end
+
 function D.table()
     local t = ModData.getOrCreate(X.DATA_KEY)
     t.inverters = t.inverters or {}

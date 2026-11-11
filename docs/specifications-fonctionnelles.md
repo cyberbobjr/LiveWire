@@ -107,7 +107,7 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
   - tous sont marqués `placeholder` dans les scripts et dans ce document.
 - **Objets vanilla réutilisés tels quels** : batteries de voiture `Base.CarBattery1/2/3`, `Base.ElectricWire`, `Base.ElectronicsScrap`, `Base.Calculator`, `Base.SmallSheetMetal`, `Base.SheetMetal`, `Base.Screws`, `Base.Pipe`, `Base.MetalBar`, `Base.Plank`, `Base.Nails`, `Base.Amplifier`, `Base.Speaker`, `Base.LightBulb`, `Base.Battery`, `Base.Glue`, `Base.Aluminum`, `Base.ScrapMetal`. Tous existent en 42.21 (`media/scripts/generated/items/normal.txt`, `drainable.txt`, `weapon.txt`).
 - **Outils, par tag vanilla** : tournevis `base:screwdriver`, pinces `base:pliers`, marteau `base:hammer`. Syntaxe `craftRecipe` 42.21 : `item 1 tags[base:screwdriver] mode:keep` (`media/scripts/generated/recipes/recipes_traps.txt:99-121`).
-- **Équipements : des meubles posables.** La recette donne un meuble `Base.Mov_LiveWire_*` (nom, poids et icône tirés de la tuile ; l'éolienne, dont la tuile porte `CustomItem`, prend le poids de son script). On le pose, le tourne et le ramasse avec le **curseur de meubles vanilla** : fantôme de la tuile, quatre orientations (deux pour les objets muraux), aucun niveau ni outil pour poser et tourner ; ramasser exige un tournevis (`PickUpTool = Electrician`), sans niveau. Le niveau d'Électricité se demande au **branchement** à un onduleur (§ 2.3, D-29). Ramassé, l'équipement garde son état.
+- **Équipements : des meubles posables.** La recette donne un meuble `Base.Mov_LiveWire_*` (nom, poids et icône tirés de la tuile ; l'éolienne, dont la tuile porte `CustomItem`, prend le poids de son script). On le pose, le tourne et le ramasse avec le **curseur de meubles vanilla** : fantôme de la tuile, quatre orientations (deux pour les objets muraux), poser, tourner et ramasser exigent un tournevis (`PlaceTool`/`PickUpTool = Electrician`, D-59), sans niveau. Toutes les recettes et tous les raccordements demandent aussi un tournevis, sauf relier un baril à la pompe à eau. Le niveau d'Électricité se demande au **branchement** à un onduleur (§ 2.3, D-29). Ramassé, l'équipement garde son état.
 - **Batteries : rangées dans une powerbank.** Une batterie ne se pose jamais au sol : on la range dans une powerbank, qu'on ouvre comme une caisse (§ 5.1). Elle reste un vrai objet, avec son icône et sa charge vanilla.
 
 ### 2.2 Objets d'inventaire
@@ -761,6 +761,9 @@ La validation reste limitée aux preuves consignées dans le bilan de tests.
   Les réseaux couplés utilisent le maître. En recouvrement, le LCD garde la
   consommation réellement attribuée à son ancre : une charge d'un autre tableau
   alimentée par ce réseau reste visible, même avec un de ses circuits ouvert.
+  Fenêtre ouverte (D-60) : appareils de la région desservie teintés — rouge non raccordé
+  (sans courant), vert ce tableau, bleu disjoncteur ouvert, gris autre tableau du bâtiment ;
+  un module sans appareil a son étiquette orange et « Aucun appareil raccordé ».
 
 **I18** : API publique v1 pour les extensions, dans les
 [contrats techniques](specifications-techniques.md#api-publique-v1). Elle n'expose
@@ -771,7 +774,9 @@ ni outils admin ni références au registre mutable.
 
 - Clic gauche simple à proximité : LCD de l'onduleur, LCD de la powerbank,
   tableau du disjoncteur, LCD individuel des panneaux solaires, éoliennes,
-  roues à aubes, pompes et alarmes. Aucun déclenchement en visée, en construction,
+  roues à aubes, pompes et alarmes ; avec LiveWire Extended, fenêtre du tableau
+  électrique (non raccordé : message « Raccordez d'abord le tableau à un onduleur »).
+  Aucun déclenchement en visée, en construction,
   en pause, à travers un obstacle ou dans un refuge interdit. Le clic souris
   utilise le joueur 0, comme le vanilla ; les menus restent disponibles aux
   autres joueurs locaux.
@@ -903,16 +908,25 @@ traitement par image n'est ajouté.
 Mod `batman_LiveWireExtended`, livré avec Live Wire, qui le requiert. Sans lui, la couverture d'un onduleur reste le
 disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
 
-- **Bâtiment entier** : sur l'onduleur, « Raccorder le bâtiment » (Électricité 3, ni outil ni fil) alimente tous les
+- **Bâtiment entier** : sur l'onduleur, « Raccorder le bâtiment » (Électricité 3, tournevis, sans fil, D-59) alimente tous les
   étages, le sous-sol et une bande extérieure (`LiveWireExtended.BuildingBand`, 0 à 8, défaut 0 depuis le 2026-11-09) du bâtiment où se
   trouve l'onduleur, sinon du plus proche que son disque atteint. Arrondi aux blocs de 8 × 8 cases du moteur. Un
   bâtiment par onduleur au plus ; facture, disjoncteur, délestage et attribution à l'onduleur allumé le plus proche
   inchangés. Sur serveur dédié, les constructions des joueurs n'ont pas de `BuildingDef` : la borne les couvre.
-- **Borne extérieure** : objet posable (pose libre, ramassage au tournevis), recette niveau 3, butin. Raccordée à un
+- **Borne extérieure** : objet posable (pose et ramassage au tournevis), recette niveau 3, butin. Raccordée à un
   onduleur par les règles de câble de Live Wire (portée, étages, fils, niveau 3), elle alimente son bloc, puis la zone
   tracée par le joueur : 2 × 2 blocs au plus, chacun à un bloc au plus de celui de la borne, à l'étage de la borne
   ±`GeneratorVerticalPowerRange`. Aperçu des blocs réellement alimentés.
 - **Relais** : une borne raccordée posée dans un bâtiment ou contre lui (2 cases) le raccorde, alimenté par son onduleur.
+- **Tableau électrique (D-62)** : un tableau fabriqué, qui n'est pas étanche, ne se pose que sur la face intérieure d'un mur ; sur une face extérieure, le
+  curseur de meubles le refuse et affiche la raison en rouge (`Tooltip_LWX_BoardNeedIndoor`). Il dessert le lieu de
+  sa case : bâtiment de la carte (tous les étages, sous-sol vanilla compris), sous-sol ou maison créés par l'éditeur
+  de pièces du jeu (Basement Building), ou construction de joueur close et couverte, limitée à son étage, en solo,
+  sur le client et sur serveur dédié. Les cases « emptyoutside » (cours, porches) sont dehors ; les pièces sans
+  réseau public (`derelict`) sont dedans. Un coffret vanilla est étanche : il se pose aussi dehors et dessert alors le
+  bâtiment de l'autre côté de son mur ; un coffret de façade reste le tableau de sa maison. Un tableau fabriqué dehors
+  (mur ouvert après la pose) ne dessert rien et sa fenêtre le dit. Les bâtiments construits par les joueurs ne
+  reçoivent pas de tableau de maison.
 - **Affichage** : contour des blocs ajoutés dans « Afficher la portée », lignes des zones sur la page 4 de l'écran.
 - **Retrait** : décocher le sous-mod ramène au disque au chargement suivant de la zone, sans courant résiduel ; les
   données de Live Wire ne changent pas. Incompatible avec LG Extended Electricity.

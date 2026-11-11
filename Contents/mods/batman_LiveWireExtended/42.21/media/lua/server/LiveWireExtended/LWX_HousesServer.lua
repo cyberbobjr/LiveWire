@@ -1,12 +1,13 @@
 if isClient() then return end
 -- LiveWire Extended: boards already in the map's buildings, on the authority (D-40, D-42).
 -- When every room of a building is loaded for the first time in a session, the draw of
--- LWX_Houses decides (seeded by the building, nothing stored). A drawn building reuses its
--- vanilla wall electrical box when it has one, otherwise gets an Extended board on a free
--- north wall of its ground floor. The square keeps a mark (its own ModData, saved with
--- the chunk) so that a board picked up is never put back. The board is inert and outside
--- every registry until a player links it to an inverter: then, once, its breakers and
--- per-room points are created (no label) and the building is served (D-37).
+-- LWX_Houses decides (seeded by the building, nothing stored). A building reuses its vanilla
+-- wall electrical box (inside, or weatherproof on its facade, D-62) when it has one; otherwise
+-- a drawn building gets an Extended board on a free north wall of its ground floor. Buildings
+-- made by players (userDefined) get none. The square keeps a mark (its own ModData, saved with the chunk) so that a board picked up is
+-- never put back. The board is inert and outside every registry until a player links it to an
+-- inverter: then, once, its breakers and per-room points are created (no label) and the
+-- building is served (D-37).
 require "LiveWireExtended/LWX_Houses"
 require "LiveWireExtended/LWX_PointsServer"
 
@@ -124,9 +125,10 @@ P.kind.onLink = function(record, dev, key, obj)
     local house = obj and obj:hasModData() and obj:getModData()[HS.HOUSE_KEY]
     if not house then return end
     record.house = house
-    -- by its key: a box on the facade stands outside the building
-    local def = X.Buildings.byKey(house)
-    if not def or not HS.prewire(record, key, HS.collect(def)) then return end
+    -- the site the board serves (inside, or across the wall of a weatherproof box) is that house
+    local site = P.siteOf(record)
+    if not site or site.kind ~= "building" or X.Sites.key(site) ~= house then return end
+    if not HS.prewire(record, key, HS.collect(site.def)) then return end
     PT.regionsChanged()
     X.log("house board " .. key .. " of " .. tostring(house) .. " prewired: " .. #record.slots .. " breakers")
 end
@@ -151,7 +153,7 @@ local function sheetIndex(modules)
 end
 
 -- Vanilla box of the map hanging on the facade: on a square just outside a room, against a
--- wall whose other side is a room of this building (H.acrossWall).
+-- wall whose other side is a room of this building (X.Panel.acrossWall).
 local function facadeBox(def)
     local inside, cell, found = {}, getCell(), nil
     roomRects(def, function(room, r)
@@ -169,8 +171,8 @@ local function facadeBox(def)
                 for i = 0, objs and objs:size() - 1 or -1 do
                     local o = objs:get(i)
                     local spr = o:getSprite()
-                    local ax, ay = H.acrossWall(x, y, spr and spr:getName())
-                    if ax and inside[ax .. "," .. ay .. "," .. z] then found = o end
+                    local dx, dy = P.acrossWall(spr and spr:getName())
+                    if dx and inside[(x + dx) .. "," .. (y + dy) .. "," .. z] then found = o end
                 end
             end
         end
@@ -181,6 +183,8 @@ end
 function HS.handle(def)
     local key = X.Buildings.key(def)
     if done[key] then return end
+    -- built by players (enclosure, room editor): no board of the map there
+    if def:isUserDefined() then done[key] = true; return end
     if size(def) > HS.MAX_SQUARES then done[key] = true; return end
     if not loaded(def) then return end
     done[key] = true

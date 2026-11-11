@@ -768,11 +768,11 @@ def main() -> None:
 
 #: CustomItem on every facing of every device: the picked-up item is the device's own moveable whatever
 #: its facing (without it, a facing other than the item's WorldObjectSprite gives a generic moveable).
-#: Placing needs no tool and no level (no PlaceTool: ISMoveableSpriteProps.lua:1959).
-#: Picking up needs a screwdriver (Electrician, ISMoveableDefinitions.lua:313) but no
-#: level (no PickUpLevel: ISMoveableSpriteProps.lua:485-494). The Electrical level is
-#: required to link a device to an inverter (LW_Install.lua, Install.checkLink).
-_TOOLS = {"PickUpTool": "Electrician"}
+#: Placing and picking up need a screwdriver (Electrician, ISMoveableDefinitions.lua:313;
+#: PlaceTool checked at ISMoveableSpriteProps.lua:1959) but no level (no PickUpLevel:
+#: ISMoveableSpriteProps.lua:485-494). The Electrical level is required to link a device
+#: to an inverter (LW_Install.lua, Install.checkLink).
+_TOOLS = {"PickUpTool": "Electrician", "PlaceTool": "Electrician"}
 PROPS = [
     (range(0, 4), {"CustomName": "Solar Panel", "solidtrans": "", "BlocksPlacement": "",
                    "Material": "MetalPlates", "PickUpWeight": "90",

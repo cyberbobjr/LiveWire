@@ -19,6 +19,7 @@
     "ContextMenu_LWX_BoardAt": "Quadro a %1 quadrados",
     "ContextMenu_LWX_WireAppliance": "Cabear um aparelho",
     "ContextMenu_LWX_ApplianceAt": "%1, a %2 quadrados",
+    "ContextMenu_LWX_RoomOutside": "Exterior",
     "ContextMenu_LWX_ResetBreaker": "Rearmar %1 (desarmou)",
     "ContextMenu_LWX_OpenBoard": "Abrir o quadro elétrico",
     "ContextMenu_LWX_TwilightFit": "Instalar um interruptor crepuscular em %1",

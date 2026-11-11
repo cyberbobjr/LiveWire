@@ -61,17 +61,6 @@ function H.bareWall(sq)
     return true
 end
 
--- A vanilla electrical box of the map hangs on a wall, inside or on the facade. Square on
--- the other side of that wall (the box belongs to the building of one of the two squares).
-H.VANILLA_WALL = { industry_02_212 = { 0, -1 }, industry_02_213 = { -1, 0 },
-                   industry_02_214 = { 0, 1 }, industry_02_215 = { 1, 0 } }
-
-function H.acrossWall(x, y, spriteName)
-    local d = H.VANILLA_WALL[spriteName or ""]
-    if not d then return nil end
-    return x + d[1], y + d[2]
-end
-
 -- Where a board goes, as in a real house: the garage first, then a utility room, then the
 -- entrance, then any room (lower is better).
 H.ROOM_RANK = { garage = 1, laundry = 2, storage = 2, utility = 2, hall = 3, hallway = 3, lobby = 3, entry = 3 }

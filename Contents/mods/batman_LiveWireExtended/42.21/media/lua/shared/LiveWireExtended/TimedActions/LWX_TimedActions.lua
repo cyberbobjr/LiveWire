@@ -177,15 +177,28 @@ function LWXBreakerAction:complete()
 end
 
 -- The length depends on the mode; 200 (the class duration) is install and remove.
+-- Switching a breaker (on/off, reset included) is one tick, as for an instant character:
+-- the same authority path, without the walk-up turn or the wait.
 function LWXBreakerAction:getDuration()
     if LWBaseAction.instant(self.character) then return 1 end
-    if self.mode == "on" or self.mode == "off" then return 30 end
+    if self.mode == "on" or self.mode == "off" then return 1 end
     if self.mode == "label" then return 100 end
     return self.duration
 end
 
+function LWXBreakerAction:waitToStart()
+    if self.mode == "on" or self.mode == "off" then return false end
+    return LWBaseAction.waitToStart(self)
+end
+
 function LWXBreakerAction:new(character, target, fullType, pos, mode, text)
     return LWBaseAction.new(self, character, { target = target, fullType = fullType, pos = pos, mode = mode, text = text })
+end
+
+-- True when the character already stands within the authority's range of the board: a
+-- breaker switch is then queued without walking (the same test as LWBaseAction:guard).
+function LWXBreakerAction.inReach(character, board)
+    return LWBaseAction.near(character, board:getSquare(), LWXBreakerAction.range)
 end
 
 --------------------------------------------------------------------------------

@@ -26,6 +26,8 @@
     "Tooltip_LWX_NeedPen": "Requiere un bolígrafo o un lápiz.",
     "Tooltip_LWX_WiredTo": "Circuito: %1 (%2 A), %3 W medidos.",
     "Tooltip_LWX_UnwiredServed": "Sin corriente: un cuadro eléctrico alimenta este edificio y este aparato no está cableado a ningún disyuntor.",
+    "Tooltip_LWX_BoardNoBuilding": "Este cuadro cuelga por fuera: no abastece ningún edificio. Cuélgalo primero en una pared interior.",
+    "Tooltip_LWX_BoardNeedIndoor": "No es estanco: cuélgalo en una pared interior de un edificio (vale un refugio cerrado y techado).",
     "Tooltip_LWX_MachineCut": "Sin corriente: su disyuntor está apagado, o no está cableado a ningún disyuntor en un edificio alimentado por un cuadro.",
     "Tooltip_LWX_Twilight": "El circuito solo se cierra entre el anochecer y el amanecer.",
     "Tooltip_LWX_NoTwilightItem": "No tienes ningún interruptor crepuscular.",

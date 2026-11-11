@@ -12,6 +12,7 @@ local TW = {}
 X.Twilight = TW
 
 local function transmit()
+    X.Data.touch()
     if isServer() then ModData.transmit(X.DATA_KEY) end
 end
 

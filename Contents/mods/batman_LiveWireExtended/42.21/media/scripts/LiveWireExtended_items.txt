@@ -2,8 +2,8 @@ module Base
 {
     /* Blender model (source/tiles/build_extended_tiles.py), tiledef 7175.
        Outdoor power terminal of LiveWire Extended (D-34). Placed with the vanilla
-       furniture cursor: placing needs nothing, picking up a screwdriver (tile
-       PickUpTool = Electrician); linking it to an inverter needs Electrical 3.
+       furniture cursor: placing and picking up need a screwdriver (tile
+       PlaceTool/PickUpTool = Electrician); linking it to an inverter needs Electrical 3.
        Weight mirrors the tile (PickUpWeight 40 / 10) and is above the recipe inputs. */
     item Mov_LWX_Terminal
     {

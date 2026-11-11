@@ -187,7 +187,14 @@ end
 
 -- Breakers of a linked board (E16): install one of the carried types, remove one.
 function Menu.onBreaker(player, obj, fullType, pos, mode)
-    queueNear(player, obj:getSquare(), LWXBreakerAction:new(player, obj, fullType, pos, mode))
+    local action = LWXBreakerAction:new(player, obj, fullType, pos, mode)
+    -- Couper / remettre a breaker: already in reach, queued at once without walking.
+    if (mode == "on" or mode == "off") and LWXBreakerAction.inReach(player, obj) then
+        ISTimedActionQueue.clear(player)
+        ISTimedActionQueue.add(action)
+    else
+        queueNear(player, obj:getSquare(), action)
+    end
 end
 
 function Menu.onEnlarge(player, obj)
@@ -241,9 +248,8 @@ function Menu.panelExtra(sub, player, obj)
         local o = sub:addOption(getText(slot.twilight and "ContextMenu_LWX_TwilightRemove" or "ContextMenu_LWX_TwilightFit",
             Menu.slotLabel(slot)), player, Menu.onBreaker, obj, nil, slot.pos, slot.twilight and "twilightOff" or "twilightOn")
         if not slot.twilight then
-            if not LiveWire.API.screwdriver(player) then disable(o, "Tooltip_LW_NeedScrewdriver")
-            elseif LiveWire.API.countType(player, B.TWILIGHT_ITEM) < 1 then disable(o, "Tooltip_LWX_NoTwilightItem")
-            else hint(o, "Tooltip_LWX_Twilight") end
+            local ok, why = B.checkTwilight(player, obj, slot.pos)
+            if not ok then disable(o, why) else hint(o, "Tooltip_LWX_Twilight") end
         end
     end
     Menu.addWireApplianceOptions(sub, player, obj, record)
@@ -328,37 +334,76 @@ function Menu.addPointOptions(sub, player, o)
     end
 end
 
--- On a board: "Wire an appliance": the nearest unwired points in cable reach, same floor.
+-- "Wire an appliance" lists at most this many appliances per room (or per cable-reach list)
+-- and this many rooms.
 Menu.WIRE_LIST_MAX = 20
-function Menu.addWireApplianceOptions(sub, player, board, record)
-    if not record or #(record.slots or {}) == 0 then return end
-    local range, cell, seen, found = LiveWire.Config.get("LinkRange"), getCell(), {}, {}
-    for dy = -range, range do
-        for dx = -range, range do
-            local sq = cell:getGridSquare(record.x + dx, record.y + dy, record.z)
-            local objs = sq and sq:getObjects()
-            for i = 0, objs and objs:size() - 1 or -1 do
-                local o = objs:get(i)
-                local key = X.Adapters.find(o) and X.Adapters.identity(o)
-                if key and not seen[key] and not X.Points.point(key) then
-                    seen[key] = true
-                    found[#found + 1] = { o = o, d = dx * dx + dy * dy }
-                end
+Menu.WIRE_ROOM_MAX = 20
+
+-- Translated room name: the game's key for a named room (IGUI_<name>Key, as the shop rooms),
+-- else the room name with a capital.
+local function roomLabel(name)
+    local text = getTextOrNull("IGUI_" .. name .. "Key")
+    if text then return text end
+    return name:sub(1, 1):upper() .. name:sub(2)
+end
+
+-- Unwired appliances of the region served by `record`, grouped by the room of each appliance
+-- (rooms sorted by label, outside squares last): { { name, label, items = { { o, d2 } } } }.
+-- nil when the board serves no region.
+function Menu.wireRooms(record)
+    local points = X.Points.regionPoints(record)
+    if not points then return nil end
+    local byName, groups = {}, {}
+    for _, e in ipairs(points) do
+        if not X.Points.point(e.key) then
+            local room = e.o:getSquare() and e.o:getSquare():getRoom()
+            local name = room and room:getName() or ""
+            local g = byName[name]
+            if not g then
+                local label = name == "" and getText("ContextMenu_LWX_RoomOutside") or roomLabel(name)
+                g = { name = name, label = label, items = {} }
+                byName[name], groups[#groups + 1] = g, g
             end
+            g.items[#g.items + 1] = { o = e.o, d2 = e.d2 }
         end
     end
-    if #found == 0 then return end
-    table.sort(found, function(a, b) return a.d < b.d end)
+    table.sort(groups, function(a, b)
+        if (a.name == "") ~= (b.name == "") then return b.name == "" end
+        return a.label < b.label
+    end)
+    for i = #groups, Menu.WIRE_ROOM_MAX + 1, -1 do groups[i] = nil end
+    for _, g in ipairs(groups) do
+        table.sort(g.items, function(a, b) return a.d2 < b.d2 end)
+        for i = #g.items, Menu.WIRE_LIST_MAX + 1, -1 do g.items[i] = nil end
+    end
+    return groups
+end
+
+-- On a board: "Wire an appliance" > room > appliance (distance) > breaker module. The rooms are
+-- the unwired appliances of the region the board serves (its building, or its terminal zone).
+-- A board serving no region gets the entry disabled, with the reason.
+function Menu.addWireApplianceOptions(sub, player, board, record)
+    if not record or #(record.slots or {}) == 0 then return end
+    local groups = Menu.wireRooms(record)
+    if not groups then
+        disable(sub:addOption(getText("ContextMenu_LWX_WireAppliance"), nil, nil), "Tooltip_LWX_BoardNoBuilding")
+        return
+    end
+    if #groups == 0 then return end
     local root = sub:addOption(getText("ContextMenu_LWX_WireAppliance"), nil, nil)
     local asub = ISContextMenu:getNew(sub)
     sub:addSubMenu(root, asub)
-    for i = 1, math.min(#found, Menu.WIRE_LIST_MAX) do
-        local o = found[i].o
-        local ao = asub:addOption(getText("ContextMenu_LWX_ApplianceAt", Menu.applianceName(o),
-            tostring(math.floor(math.sqrt(found[i].d) + 0.5))), nil, nil)
-        local ssub = ISContextMenu:getNew(asub)
-        asub:addSubMenu(ao, ssub)
-        addSlotOptions(ssub, player, o, board, record)
+    for _, g in ipairs(groups) do
+        local ro = asub:addOption(g.label, nil, nil)
+        local menu = ISContextMenu:getNew(asub)
+        asub:addSubMenu(ro, menu)
+        for _, item in ipairs(g.items) do
+            local ao = menu:addOption(getText("ContextMenu_LWX_ApplianceAt", Menu.applianceName(item.o),
+                tostring(math.floor(math.sqrt(item.d2) + 0.5))), nil, nil)
+            local ssub = ISContextMenu:getNew(menu)
+            menu:addSubMenu(ao, ssub)
+            addSlotOptions(ssub, player, item.o, board, record)
+        end
     end
 end
 

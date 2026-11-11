@@ -24,9 +24,8 @@ function Equipment.open(player,obj)
     else LiveWire.DevicePanel.open(player,obj) end
     return true
 end
-function Equipment.onClick(obj)
-    local m=LiveWire.Marks.get(obj)
-    if not m then return end
+-- Player 0 when a direct left click on world object `obj` may open its screen, else nil.
+function Equipment.clickPlayer(obj)
     local player=getSpecificPlayer(0) -- native mouse picker targets player 0
     local speed=UIManager.getSpeedControls()
     if not Equipment.accessible(player,obj,3) or player:isAiming() or player:isAsleep()
@@ -36,6 +35,11 @@ function Equipment.onClick(obj)
     local ps=player:getCurrentSquare()
     if not sq:isSeen(0) or not ps or ps:isSomethingTo(sq)
         or player:DistToSquared(sq:getX()+0.5,sq:getY()+0.5)>=6 then return end
-    Equipment.open(player,obj)
+    return player
+end
+function Equipment.onClick(obj)
+    if not LiveWire.Marks.get(obj) then return end
+    local player=Equipment.clickPlayer(obj)
+    if player then Equipment.open(player,obj) end
 end
 Events.OnObjectLeftMouseButtonDown.Add(Equipment.onClick)

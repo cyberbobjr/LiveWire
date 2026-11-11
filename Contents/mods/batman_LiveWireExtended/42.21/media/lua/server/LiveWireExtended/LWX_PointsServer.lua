@@ -12,6 +12,7 @@ local PS = X.Panels
 Ad.isCut = function(o) return PT.blocked(o) end
 
 local function transmit()
+    X.Data.touch()
     if isServer() then ModData.transmit(X.DATA_KEY) end
 end
 
@@ -104,7 +105,12 @@ function PS.setBreaker(character, boardObj, pos, off)
         transmit()
         PT.applySlot(slot)
     end
-    LiveWire.notify(character, off and "IGUI_LWX_BreakerOff" or "IGUI_LWX_BreakerOn", { tostring(slot.pos) })
+    -- A breaker that controls nothing changes nothing: say so, the player has wiring to do.
+    if B.pointCount(slot) == 0 then
+        LiveWire.notify(character, "IGUI_LWX_BreakerNoPoints", { tostring(slot.pos) }, true)
+    else
+        LiveWire.notify(character, off and "IGUI_LWX_BreakerOff" or "IGUI_LWX_BreakerOn", { tostring(slot.pos) })
+    end
     return true
 end
 

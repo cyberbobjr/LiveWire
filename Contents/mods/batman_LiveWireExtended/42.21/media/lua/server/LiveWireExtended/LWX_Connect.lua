@@ -4,6 +4,7 @@ if isClient() then return end
 -- Live Wire to rebuild the appliance list and sends the public table to the clients.
 require "LiveWireExtended/LWX_Data"
 require "LiveWireExtended/LWX_Buildings"
+require "LiveWireExtended/LWX_Sites"
 require "LiveWireExtended/LWX_Inverters"
 
 local X = LiveWire.Extended
@@ -25,6 +26,7 @@ function C.commit(id, mutate)
         D.invalidate(key)
     end)
     LiveWire.API.invalidateDemand(id)
+    X.Data.touch()
     if isServer() then ModData.transmit(X.DATA_KEY) end
 end
 
@@ -75,19 +77,19 @@ function C.connectBuilding(character, dev, x, y, z, reach, via)
     return true
 end
 
--- Connect building `def` to inverter `dev` without a player check (a linked breaker
--- board serves its building, D-44); `via` is the key of what brought it. False when
--- another inverter already powers that building.
-function C.connectDef(dev, def, via)
-    local key = def and X.Buildings.key(def)
+-- Connect site `site` (X.Sites: a building or a player enclosure) to inverter `dev` without a
+-- player check (a linked breaker board serves its site, D-44, D-62); `via` is the key of what
+-- brought it. False when another inverter already powers that site.
+function C.connectSite(dev, site, via)
+    local key = site and X.Sites.key(site)
     if not key then return false end
     local owner = D.ownerOf(key)
     if owner then return owner == tostring(dev.id) end
-    local area = X.Buildings.area(def, dev.id)
+    local area = X.Sites.area(site, dev.id)
     if not area then return false end
     area.via = via
     C.commit(dev.id, function(e) e.areas[key] = area end)
-    X.log("building " .. key .. " connected to " .. tostring(dev.id) .. " by its board " .. tostring(via))
+    X.log("site " .. key .. " connected to " .. tostring(dev.id) .. " by its board " .. tostring(via))
     return true
 end
 
@@ -116,6 +118,7 @@ function C.prune()
         changed = true
         X.log("areas of removed inverter " .. tostring(stale[i]) .. " forgotten")
     end
+    if changed then X.Data.touch() end
     if changed and isServer() then ModData.transmit(X.DATA_KEY) end
     return changed
 end

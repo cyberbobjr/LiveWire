@@ -19,6 +19,7 @@
     "ContextMenu_LWX_BoardAt": "Tableau à %1 cases",
     "ContextMenu_LWX_WireAppliance": "Raccorder un appareil",
     "ContextMenu_LWX_ApplianceAt": "%1, à %2 cases",
+    "ContextMenu_LWX_RoomOutside": "Extérieur",
     "ContextMenu_LWX_ResetBreaker": "Réarmer le %1 (déclenché)",
     "ContextMenu_LWX_OpenBoard": "Ouvrir le tableau",
     "ContextMenu_LWX_TwilightFit": "Poser un interrupteur crépusculaire sur le %1",

@@ -4,12 +4,12 @@
 -- switches (LWX_Adapters identity).
 --   points[identity] = { board = "x,y,z", pos = module, x, y, z, adapter }
 --   and the breaker slot lists it: slot.points[identity] = true
--- D-37: a linked board serves the building it stands in (or, outdoors, the terminal
--- zone around it). In a served region, an appliance wired to no breaker has no
--- current; outside any served region the usual rule applies (everything powered).
+-- D-37, D-62: a linked board serves the site of the wall face it hangs on (X.Sites). In a
+-- served site, an appliance wired to no breaker has no current; outside any served site the
+-- usual rule applies (everything powered).
+require "LiveWireExtended/LWX_Panel"
 require "LiveWireExtended/LWX_Breakers"
 require "LiveWireExtended/LWX_Adapters"
-require "LiveWireExtended/LWX_Buildings"
 
 local X = LiveWire.Extended
 local D = X.Data
@@ -28,49 +28,72 @@ function PT.point(key) return key and PT.table()[key] or nil end
 
 local function boards() return D.table().panels or {} end
 
--- Region keys of a square: the building it belongs to, then the terminal zones that
--- hold it (chunk rectangle, terminal floor +/- the vertical range).
-function PT.regionsAt(x, y, z)
-    local out = {}
-    local def = getWorld():getMetaGrid():getBuildingAt(x, y, z)
-    if def then out[#out + 1] = X.Buildings.key(def) end
-    local cx, cy, V = math.floor(x / X.CHUNK), math.floor(y / X.CHUNK), LiveWire.Config.verticalRange()
-    for _, e in pairs(D.table().inverters or {}) do
-        for _, a in pairs(e.areas or {}) do
-            local r = a.kind == "zone" and a.rect
-            if r and a.terminal and cx >= r.cx0 and cx <= r.cx1 and cy >= r.cy0 and cy <= r.cy1
-                and math.abs(z - (a.label and a.label.z or z)) <= V then
-                out[#out + 1] = "t:" .. a.terminal
+-- Calls fn(x, y, z) for every square of the site served by board `record` (X.Panel.siteOf):
+-- the rooms of its building (every floor), or the floor of its enclosure (X.Sites). Returns
+-- false when the board serves no site (fn never called). Several boards may serve the same
+-- site; each one walks it whole.
+function PT.eachRegionSquare(record, fn)
+    local site = record and X.Panel.siteOf(record)
+    if not site then return false end
+    X.Sites.eachSquare(site, fn)
+    return true
+end
+
+-- Points of the region served by board `record`, one entry per point (a multi-tile appliance
+-- or a room's switches count once): { key, o, d2 } with o its first loaded object found and d2
+-- the squared distance from the board to its nearest square. nil when the board serves no
+-- region. The one region query of the views (window tint, wiring menu); wired or not, the
+-- caller decides with PT.point(key).
+function PT.regionPoints(record)
+    local cell, Ad, list, byKey = getCell(), X.Adapters, {}, {}
+    local served = PT.eachRegionSquare(record, function(x, y, z)
+        local sq = cell:getGridSquare(x, y, z)
+        local objs = sq and sq:getObjects()
+        for i = 0, objs and objs:size() - 1 or -1 do
+            local o = objs:get(i)
+            local key = Ad.find(o) and Ad.identity(o)
+            if key then
+                local d2 = (x - record.x) * (x - record.x) + (y - record.y) * (y - record.y)
+                local e = byKey[key]
+                if not e then
+                    e = { key = key, o = o, d2 = d2 }
+                    byKey[key], list[#list + 1] = e, e
+                elseif d2 < e.d2 then
+                    e.d2 = d2
+                end
             end
         end
-    end
-    return out
+    end)
+    return served and list or nil
 end
 
--- Region served by a board record: its building, else the first zone holding it.
-function PT.regionOf(record)
-    return PT.regionsAt(record.x, record.y, record.z)[1]
-end
-
--- Served regions (region key -> board key), rebuilt when the boards change.
+-- Served sites, rebuilt when the boards change: building key -> board key, and the boards
+-- that serve an enclosure (an enclosure is compared live: X.Sites never keeps a region).
 local served, servedRev = nil, nil
 PT.rev = 0
 function PT.changed() PT.rev = PT.rev + 1 end
 function PT.servedIndex()
     if served and servedRev == PT.rev then return served end
-    served, servedRev = {}, PT.rev
+    served, servedRev = { buildings = {}, enclosures = {} }, PT.rev
     for key, r in pairs(boards()) do
-        local region = PT.regionOf(r)
-        if region then served[region] = key end
+        local site = X.Panel.siteOf(r)
+        if site and site.kind == "building" then
+            served.buildings[X.Sites.key(site)] = key
+        elseif site then
+            served.enclosures[#served.enclosures + 1] = r
+        end
     end
     return served
 end
 
--- Is the square in a region served by a board?
+-- Is the square in a site served by a board?
 function PT.servedAt(x, y, z)
+    local site = X.Sites.at(x, y, z)
+    if not site then return false end
     local index = PT.servedIndex()
-    for _, region in ipairs(PT.regionsAt(x, y, z)) do
-        if index[region] then return true end
+    if site.kind == "building" then return index.buildings[X.Sites.key(site)] ~= nil end
+    for _, r in ipairs(index.enclosures) do
+        if X.Sites.same(site, X.Panel.siteOf(r)) then return true end
     end
     return false
 end

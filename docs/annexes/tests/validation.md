@@ -1282,3 +1282,70 @@ du sprite sur les 20 cases refaites. `python -B -m unittest discover -s tests` :
 2. roue cassée (état 0) : la roue s'arrête ;
 3. ramasser la roue : icône de la roue dans l'inventaire, poids 30 ; la reposer ;
 4. multijoueur : un second joueur voit la roue tourner ; aucune erreur Lua.
+
+## 2026-11-10 — Tournevis partout (D-59), clic sur le tableau, disjoncteur sous réseau public
+
+Retours de l'utilisateur après une partie : (1) tournevis pour poser les tableaux, la roue à aubes et, plus
+largement, pour toutes les recettes et poses ; (2) le clic gauche sur un tableau doit ouvrir sa fenêtre ;
+(3) avec le réseau public encore en marche, un disjoncteur raccordé à un interrupteur n'aurait aucun effet.
+
+Hors jeu : suite `tests/test_*.py` (55 fichiers) sans échec ; `tools/check_mod.py E:/pz-source-42.22` : OK.
+Doublures complétées : tournevis porté par défaut, refus sans tournevis pour le branchement, le couplage, la
+liaison d'un tableau et le raccordement d'un bâtiment ; révision 4 de l'API (`directClickPlayer`).
+
+En jeu (solo 42.22) : `pz_autotest.py sp LiveWire/autotest/appliances42.json -P case=gridlight` → code 0,
+`summary=LiveWire Extended gridlight`, `runs/20261110-235506-sp-ca30f6c2a661` : réseau public actif sur le
+bâtiment ; tuile du tableau `PlaceTool = Electrician` sans niveau ; pose et raccordement refusés sans
+tournevis ; lumière d'une chambre raccordée au module 1 : coupée à l'ouverture du disjoncteur, recoupée après
+un basculement de l'interrupteur, rétablie à la fermeture ; 0 erreur Lua. Le point (3) n'est donc **pas
+reproduit** par l'autorité ; parcours réel de l'utilisateur (fenêtre, type de lumière, tableau de maison) à
+préciser. Premier passage avec `ext.json` (sauvegarde 42.21) : code 2, sauvegarde refusée par le jeu 42.22
+(`runs/20261110-235408-sp-ca64ac6b6aaa`).
+
+À confirmer en jeu par l'utilisateur : clic gauche sur un tableau raccordé (fenêtre) et non raccordé (message),
+pose d'un équipement sans tournevis refusée par le curseur, recettes listant le tournevis.
+
+### Disjoncteur sans appareil signalé (2026-11-11)
+
+Cause de la remarque (3), confirmée en jeu par l'utilisateur avec deux relevés `LWDIAG` dans `console.txt` :
+l'interrupteur de la cabane n'était raccordé à aucun module (`points=0`) et le tableau, posé sur la face
+extérieure du mur, ne desservait aucun bâtiment (`region=nil`) ; couper le disjoncteur ne pouvait rien changer.
+Correctif demandé (option 2) : étiquette orange et « Aucun appareil raccordé » sur l'écran du tableau pour un
+module sans appareil ; couper ou remettre un tel disjoncteur affiche « ce disjoncteur ne commande aucun appareil ».
+`tests/test_extended_points.py` (nouveau test) et suite complète sans échec ; `tools/check_mod.py` : OK.
+À confirmer en jeu : couleur et texte sur la fenêtre du tableau, message au levier.
+
+### Teinte depuis le tableau (D-60, 2026-11-11)
+
+Hors jeu : `tests/test_extended_board_tint.py` (7 tests : rouge, vert, bleu, gris avec deux tableaux dans un même
+bâtiment, parcours de la région sans doublon, tableau sans région, révision des données) ; suite complète sans échec ;
+`tools/check_mod.py E:/pz-source-42.22` : OK.
+En jeu (solo 42.22) : `pz_autotest.py sp LiveWire/autotest/appliances42.json -P case=tint` → code 0,
+`summary=LiveWire Extended tint`, `runs/20261111-100044-sp-70a8e3280786` : vraie fenêtre du tableau ouverte ;
+lumière d'une pièce rouge non raccordée, verte une fois raccordée au module 1, bleue disjoncteur ouvert, sans teinte
+après fermeture ; second tableau relié dans le même bâtiment : la lumière y apparaît grise ; 0 erreur Lua.
+À confirmer par l'utilisateur : lisibilité des couleurs et de la légende, tableau sans bâtiment (message).
+
+### Tableau dehors, menu par pièce, bascule instantanée, interrupteur crépusculaire (2026-11-11)
+
+Règle unique du bâtiment d'un tableau (`X.Panel.buildingOf`) : un tableau sur la face extérieure d'un mur sert ce bâtiment
+(test `test_board_on_the_outside_face_of_a_wall_serves_that_building`). Requête de région unique `X.Points.regionPoints`
+pour la teinte et le menu. Suite hors jeu (55 fichiers) sans échec ; `tools/check_mod.py E:/pz-source-42.22` : OK.
+En jeu (solo 42.22, `appliances42.json`) : `tint` code 0 `runs/20261111-110350-sp-d79c8fea2d85` ; `gridlight` code 0
+`runs/20261111-110444-sp-1632f2ed0bab` ; `twilight` code 0 `runs/20261111-110534-sp-6b0eccf1142d` ; `board` code 0
+`runs/20261111-110622-sp-4a7ebdc2b5b5`. Non couverts en jeu : menu par pièce, glisser-déposer de l'interrupteur
+crépusculaire, bascule d'un tick en multijoueur.
+
+### Tableau sur un mur intérieur seulement (D-62, 2026-11-11)
+
+- Hors jeu : 567 tests verts (5 ignorés), `check_mod.py` OK. Doubles fidèles au Java : `getRoomAt` ignore les pièces
+  `emptyoutside`, `RoomDef.isUserDefined`, régions `IsoRegions` absentes sous le sol.
+- En jeu, solo 42.22 (`autotest/site42.json`, sauvegarde `test_claude`) : code 0, 27 PASS,
+  `runs/20261111-121239-sp-d34c1152237e`. Maison de la carte : intérieur accepté par le curseur vanilla, face
+  extérieure (mur sud vu du jardin) refusée avec la raison traduite dans le panneau ; le tableau posé et relié
+  raccorde la maison. Enceinte de joueur 4 x 3 (murs de bois et planchers posés par script) : région close et
+  couverte en 250 ms, lue comme enceinte bien que le jeu solo en ait fait un bâtiment `userDefined` ; mêmes
+  résultats, coin éloigné desservi, dehors non desservi.
+- Raccourcis : téléportation, murs et planchers ajoutés par script, onduleur maintenu allumé, contrôles de pose par
+  appel direct des fonctions du curseur vanilla (pas la souris).
+- Non testé en jeu : sous-sol vanilla, Basement Building, client MP et serveur dédié (Linux compris).

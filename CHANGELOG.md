@@ -11,6 +11,7 @@
   - Not compatible with LG Extended Electricity.
 
 ### Fixes
+- LiveWire Extended: a breaker board hung on the outside face of a building's wall powered the building but its breakers had no effect on it. A crafted breaker board is not weatherproof and now hangs only on an inside wall: the furniture cursor refuses an outside wall and says why. The game's own wall electrical boxes are weatherproof: they can be moved and hung outside too, and from outside they serve the building on the other side of their wall. A board serves the building it hangs in, for power and breakers alike: a house of the map with its basement, a basement, or a building you made yourself as long as it is closed and roofed (one board per floor), in solo and on a dedicated server.
 - Fixed devices that stayed stuck after the game crashed or was closed without saving: screens showing "Updating..." or "Waiting for data..." forever, and every action (switching the inverter on, linking, unlinking) refused with "Not possible". Live Wire now recognises these devices when you come near them and puts them back on their network. The same applies to LiveWire Extended terminals and breaker boards, which get their breakers back; their labels, wiring to appliances and drawn zone have to be set again.
 - Disconnecting a device now gives back the electric wire used to connect it. This also applies to uncoupling an inverter, picking up a connected device (an inverter gives back the wire of its whole network), moving a device to another inverter, and the LiveWire Extended terminal and breaker board. A destroyed device still loses its wire.
 - Fixed fridges, freezers and other appliances losing power at random while the inverter still had plenty of power, until the inverter or the breaker panel was switched off and on again. It happened when the game loaded part of the map diagonally near the base, more often with a vanilla generator nearby (for example a backup generator).
@@ -20,6 +21,13 @@
 - Dismantling a calculator with the game's "Dismantle Simple Electronic Item" recipe now gives a solar cell; the separate "Dismantle Calculator" recipe is gone.
 
 ### Improvements
+- A screwdriver is now needed for every LiveWire and LiveWire Extended job: all crafting recipes (blades, mast, solar cells from scrap, deep-cycle battery and soundproofing kit included), placing a device, a breaker board or a power terminal, linking a device to an inverter, coupling two inverters, and connecting a building. Placing still needs no Electrical level. Linking a barrel to the water pump needs no tool.
+- LiveWire Extended: left-click a breaker board to open its window, like the other LiveWire screens. A board not linked to an inverter yet tells you to link it first.
+- LiveWire Extended: a breaker that controls no appliance yet now shows its label in orange and "No appliance wired" on the board screen, and switching it off or on tells you it controls nothing, so you know an appliance or a light still has to be wired to it.
+- LiveWire Extended: while a breaker board window is open, the appliances and lights of its building are tinted: red when wired to no board (they get no power), green when wired to this board, blue when their breaker is off, grey when wired to another board of the building. A board that serves no building says so in its window.
+- LiveWire Extended: "Wire an appliance" on a breaker board now lists the unwired appliances and lights of its building, grouped by room (room > appliance > breaker). A board that serves no building greys the entry out and tells you why.
+- LiveWire Extended: switching a breaker on or off, or resetting it after a trip, is now instant when you stand next to the board.
+- LiveWire Extended: a twilight switch can be dragged from the inventory onto an installed breaker in the board window, like a breaker onto an empty module.
 - A Live Wire action chosen from a menu now tells you when the device can't be reached, instead of doing nothing.
 - The water pump menu numbers the barrels next to it and outlines the one under the mouse.
 - "Salvage for parts" is gone from the device menu: pick up a broken device and dismantle it from the crafting menu, which gives parts according to its condition.

@@ -19,6 +19,7 @@
     "ContextMenu_LWX_BoardAt": "配电箱, 距离 %1 格",
     "ContextMenu_LWX_WireAppliance": "给电器接线",
     "ContextMenu_LWX_ApplianceAt": "%1, 距离 %2 格",
+    "ContextMenu_LWX_RoomOutside": "室外",
     "ContextMenu_LWX_ResetBreaker": "复位 %1 (已跳闸)",
     "ContextMenu_LWX_OpenBoard": "打开配电箱",
     "ContextMenu_LWX_TwilightFit": "给 %1 装上光控开关",

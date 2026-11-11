@@ -26,6 +26,8 @@
     "Tooltip_LWX_NeedPen": "ペンか鉛筆が必要です。",
     "Tooltip_LWX_WiredTo": "回路: %1 (%2 A)、実測 %3 W。",
     "Tooltip_LWX_UnwiredServed": "電気なし: この建物には分電盤が給電していて、この機器はどのブレーカーにも配線されていません。",
+    "Tooltip_LWX_BoardNoBuilding": "この分電盤は屋外に掛かっているため、どの建物にも給電しません。まず屋内側の壁に掛けてください。",
+    "Tooltip_LWX_BoardNeedIndoor": "防水ではありません。建物の屋内側の壁に掛けてください（壁と屋根で閉じた建物も可）。",
     "Tooltip_LWX_MachineCut": "電気なし: ブレーカーがオフか、分電盤が給電する建物でどのブレーカーにも配線されていません。",
     "Tooltip_LWX_Twilight": "回路は夕暮れから夜明けの間だけ閉じます。",
     "Tooltip_LWX_NoTwilightItem": "夕暮れスイッチを持っていません。",
