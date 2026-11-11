@@ -169,7 +169,7 @@ local function stepJob()
     local entry = Demand.inventories[job.id]
     if entry then
         entry.objects = job.list
-        entry.report, entry.readings, entry.owners = nil, nil, nil
+        entry.report, entry.readings, entry.owners, entry.onGrid = nil, nil, nil, nil
         entry.measured = false -- the previous report belongs to the old list
         entry.builtAt = getGameTime():getWorldAgeHours()
         entry.queued = false
@@ -277,6 +277,8 @@ function Demand.measure(inv, allowDirty)
     local profile = LiveWire.Consumption.profile()
     local breakdown = {}
     local readings, owners = {}, {}
+    -- Appliances the public grid still feeds: listed by the consumers view, never billed.
+    local onGrid = {}
     -- Other switched-on anchors, collected once per call (see closerInverter).
     local R = LiveWire.Config.tileRange()
     local V = LiveWire.Config.verticalRange()
@@ -290,9 +292,11 @@ function Demand.measure(inv, allowDirty)
     for i = 1, #entry.objects do
         local o = entry.objects[i]
         local sq = o:getSquare()
-        if sq and o:getObjectIndex() ~= -1 and not ItemContainer.isObjectPowered(o, false)
+        local listed = sq and o:getObjectIndex() ~= -1
             and (exteriorOk or not sq:getProperties():has(IsoFlagType.exterior))
-            and (not anchorOn or sq:haveElectricity()) then
+        if listed and ItemContainer.isObjectPowered(o, false) then
+            onGrid[i] = math.floor(LiveWire.Consumption.watts(o, profile) + 0.5)
+        elseif listed and (not anchorOn or sq:haveElectricity()) then
             local w = LiveWire.Consumption.watts(o, profile)
             local owned = #others == 0 or not closerInverter(others, inv, sq:getX(), sq:getY(), sq:getZ(), R * R, V)
             readings[i], owners[i] = math.floor(w + 0.5), owned
@@ -317,7 +321,7 @@ function Demand.measure(inv, allowDirty)
         breakdown.other = b
     end
     -- Billing keeps only scalar readings; display rows are built on demand.
-    entry.report, entry.readings, entry.owners = nil, readings, owners
+    entry.report, entry.readings, entry.owners, entry.onGrid = nil, readings, owners, onGrid
     entry.measured = true
     return total, breakdown
 end
@@ -409,13 +413,14 @@ local function report(entry)
     if entry.report then return entry.report end
     local heap = {}
     for i, o in ipairs(entry.objects) do
-        local w = entry.readings and entry.readings[i]
+        local grid = entry.onGrid and entry.onGrid[i]
+        local w = entry.readings and entry.readings[i] or grid
         local sq = w and o:getSquare()
         if sq and o:getObjectIndex() ~= -1 and (#heap < 200 or w >= heap[1].w) then
             local saved = LiveWire.Appliances and LiveWire.Appliances.saved(o)
             local r = { x = sq:getX(), y = sq:getY(), z = sq:getZ(), w = w,
                 index = i, object = o, owned = entry.owners[i], cat = Demand.category(o),
-                requested = saved and saved.watts or w }
+                requested = saved and saved.watts or w, grid = grid ~= nil }
             if #heap < 200 then
                 local pos = #heap + 1; heap[pos] = r
                 while pos > 1 do
@@ -444,8 +449,8 @@ function Demand.consumers(inv)
     for i, r in ipairs(report(entry)) do
         local o = r.object
         local sprite = o and o.getSprite and o:getSprite()
-        local served = o and o:getObjectIndex() ~= -1 and ItemContainer.isObjectPowered(o, true) and r.w > 0
-        out[i] = { x = r.x, y = r.y, z = r.z, cat = r.cat, w = served and r.w or 0,
+        local served = not r.grid and o and o:getObjectIndex() ~= -1 and ItemContainer.isObjectPowered(o, true) and r.w > 0
+        out[i] = { x = r.x, y = r.y, z = r.z, cat = r.cat, w = served and r.w or 0, grid = r.grid,
             objectIndex = o and o:getObjectIndex() or -1, sprite = sprite and sprite:getName(),
             requestedW = math.floor((r.requested or r.w) + 0.5), served = served == true, owned = r.owned,
             circuitOff = LiveWire.Appliances and LiveWire.Appliances.blocked(o) or false }

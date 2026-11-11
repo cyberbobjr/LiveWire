@@ -1,10 +1,17 @@
 -- Live Wire: local load map and wiring display, using subscribed primitive snapshots.
 if isServer() then return end
 require "ISUI/ISUIElement"
+require "ISUI/ISCollapsableWindow"
 LiveWire = LiveWire or {}
 local View = {}
 LiveWire.NetworkView = View
 local Overlay = ISUIElement:derive("LiveWireNetworkOverlay")
+-- Legend of the consumers view: a vanilla window (title bar, close button), top centre.
+local Legend = ISCollapsableWindow:derive("LiveWireConsumersLegend")
+View.KEYS = { { "IGUI_LW_ConsumerKey_Low", { 0.2, 1, 0.2 } }, { "IGUI_LW_ConsumerKey_Mid", { 1, 0.65, 0.2 } },
+    { "IGUI_LW_ConsumerKey_High", { 1, 0.2, 0.2 } }, { "IGUI_LW_ConsumerKey_Off", { 0.3, 0.6, 1 } },
+    { "IGUI_LW_ConsumerKey_Other", { 0.5, 0.5, 0.5 } }, { "IGUI_LW_ConsumerKey_Grid", { 1, 1, 1 } } }
+local PAD, SWATCH, COLS = 10, 12, 3
 View.highlights = {}
 -- The OnTick handler exists only while the view is open.
 local watching = false
@@ -32,6 +39,9 @@ end
 function View.hide()
     for o,h in pairs(View.highlights) do release(o,h) end
     View.highlights = {}
+    local legend = View.legend
+    View.legend = nil
+    if legend then legend:removeFromUIManager() end
     if View.element then View.element:removeFromUIManager() end
     View.element, View.inverter = nil, nil
     unwatch()
@@ -43,6 +53,8 @@ function View.show(id, mode)
     View.lastHighlight = -1000
     watch()
     if mode=="consumers" and LiveWire.PumpView then LiveWire.PumpView.hide() end
+    View.gridTold = false
+    if mode=="consumers" then View.openLegend() end
     local o = ISUIElement:new(0, 0, 1, 1)
     setmetatable(o, Overlay); Overlay.__index = Overlay
     o:initialise(); o:addToUIManager(); o:backMost()
@@ -87,8 +99,13 @@ function View.refreshHighlights()
             if d.w>300 then c={1,0.2,0.2} end
             if d.circuitOff or not d.served then c={0.3,0.6,1} end
             if d.owned==false then c={0.5,0.5,0.5} end
+            if d.grid then c={1,1,1} end
             wanted[o]=c
         end
+    end
+    if not View.gridTold and View.gridActive(snap) then
+        View.gridTold = true
+        HaloTextHelper.addText(p, getText("IGUI_LW_ConsumerGridHalo"))
     end
     local keep={}
     for o,h in pairs(View.highlights) do
@@ -110,6 +127,13 @@ function View.refreshHighlights()
         end
     end
 end
+-- Does the public grid still feed an appliance of this view?
+function View.gridActive(snap)
+    for _,d in ipairs(snap and snap.consumers or {}) do
+        if d.grid then return true end
+    end
+    return false
+end
 function Overlay:render()
     local player = getPlayer()
     local snap = View.inverter and LiveWire.Client.snapshot(View.inverter)
@@ -130,8 +154,45 @@ function Overlay:render()
                 end
             end
         end
-    else
-        self:drawText(getText("IGUI_LW_ConsumerGhostLegend"),20,80,1,1,1,1,UIFont.Small)
+    end
+end
+function View.openLegend()
+    local tm = getTextManager()
+    local fh = tm:getFontHeight(UIFont.Small)
+    local colW = 0
+    for _, k in ipairs(View.KEYS) do
+        colW = math.max(colW, SWATCH + 6 + tm:MeasureStringX(UIFont.Small, getText(k[1])) + 16)
+    end
+    local warnW = tm:MeasureStringX(UIFont.Small, getText("IGUI_LW_ConsumerGridActive"))
+    local rows = math.ceil(#View.KEYS / COLS)
+    local w = math.max(COLS * colW, warnW) + 2 * PAD
+    local h = ISCollapsableWindow.TitleBarHeight() + PAD + (rows + 1) * (fh + 6) + PAD
+    local o = Legend:new(math.floor((getCore():getScreenWidth() - w) / 2), 60, w, h)
+    o.colW, o.fh = colW, fh
+    o:initialise()
+    o:setTitle(getText("IGUI_LW_App_Tab_Consumers"))
+    o:setResizable(false)
+    o:addToUIManager()
+    View.legend = o
+end
+-- The window's close button closes the whole view.
+function Legend:close() View.hide() end
+function Legend:render()
+    ISCollapsableWindow.render(self)
+    local y0 = self:titleBarHeight() + PAD
+    local step = self.fh + 6
+    for i, k in ipairs(View.KEYS) do
+        local x = PAD + ((i - 1) % COLS) * self.colW
+        local y = y0 + math.floor((i - 1) / COLS) * step
+        local c, sy = k[2], y + math.floor((self.fh - SWATCH) / 2)
+        self:drawRect(x, sy, SWATCH, SWATCH, 1, c[1], c[2], c[3])
+        self:drawRectBorder(x, sy, SWATCH, SWATCH, 1, 0, 0, 0)
+        self:drawText(getText(k[1]), x + SWATCH + 6, y, 1, 1, 1, 1, UIFont.Small)
+    end
+    local snap = View.inverter and LiveWire.Client.snapshot(View.inverter)
+    if View.gridActive(snap) then
+        local rows = math.ceil(#View.KEYS / COLS)
+        self:drawText(getText("IGUI_LW_ConsumerGridActive"), PAD, y0 + rows * step + 2, 1, 0.85, 0.2, 1, UIFont.Small)
     end
 end
 onTick = function()

@@ -18,9 +18,10 @@ for index, size in pairs(P.SIZES) do
     local name = X.Terminal.SHEET .. "_" .. index
     SPRITES[name], SIZE_OF[name] = true, size
 end
--- The vanilla wall electrical boxes (industry_02_212..215, measured in E12) are boards of
--- 8 modules too: D-40 reuses them in the map's houses.
-P.VANILLA = { "industry_02_212", "industry_02_213", "industry_02_214", "industry_02_215" }
+-- The vanilla wall electrical boxes (industry_02_212..215, measured in E12, and 180..183, the
+-- same box drawn lower on its wall) are boards of 8 modules too: D-40 reuses them in the map's houses.
+P.VANILLA = { "industry_02_212", "industry_02_213", "industry_02_214", "industry_02_215",
+              "industry_02_180", "industry_02_181", "industry_02_182", "industry_02_183" }
 for _, name in ipairs(P.VANILLA) do SPRITES[name], SIZE_OF[name] = true, 8 end
 P.kind = L.register({ name = "panel", field = "panels", sprites = SPRITES, level = X.LEVEL,
     linkedKey = "Tooltip_LWX_PanelLinked", linkedNote = "IGUI_LWX_PanelLinked",
@@ -32,9 +33,11 @@ function P.recordAt(sq) return L.recordAt(P.kind, sq) end
 
 -- A vanilla wall box of the map is weatherproof: it may hang outside (D-62). Offset from its
 -- square to the square on the other side of the wall it hangs on (industry_02_212 attachedN,
--- 213 attachedW, 214 attachedS, 215 attachedE). A crafted board is not weatherproof.
+-- 213 attachedW, 214 attachedS, 215 attachedE; 180..183 likewise). A crafted board is not weatherproof.
 P.WEATHERPROOF = { industry_02_212 = { 0, -1 }, industry_02_213 = { -1, 0 },
-                   industry_02_214 = { 0, 1 }, industry_02_215 = { 1, 0 } }
+                   industry_02_214 = { 0, 1 }, industry_02_215 = { 1, 0 },
+                   industry_02_180 = { 0, -1 }, industry_02_181 = { -1, 0 },
+                   industry_02_182 = { 0, 1 }, industry_02_183 = { 1, 0 } }
 
 -- dx, dy to the square across the wall of a weatherproof box, or nil.
 function P.acrossWall(spriteName)
@@ -86,7 +89,7 @@ end
 -- ---------------------------------------------------------------- enlargement (D-55)
 -- A board the player placed (batman_livewireext_01 tiles) grows in place: 8 -> 16 -> 24
 -- modules. The next size is the tile two indices on (same face: even indices south, odd east).
--- The vanilla wall boxes (industry_02_212..215) are not placed by the player and never grow.
+-- The vanilla wall boxes (industry_02_212..215, 180..183) are not placed by the player and never grow.
 P.MAX_SIZE = 24
 P.ENLARGE_COST = { items = { { "Base.SmallSheetMetal", 1 }, { "Base.Screws", 4 } } }
 

@@ -388,7 +388,8 @@ function App:details(snap)
     local rows = {}
     if self.tab == "consumers" then
         for _, r in ipairs(snap.consumers or {}) do
-            rows[#rows + 1] = T("IGUI_LW_ConsumerLine", T("IGUI_LW_Appliance_" .. r.cat), r.w, r.x, r.y, r.z)
+            rows[#rows + 1] = r.grid and T("IGUI_LW_ConsumerLineGrid", T("IGUI_LW_Appliance_" .. r.cat), r.x, r.y, r.z)
+                or T("IGUI_LW_ConsumerLine", T("IGUI_LW_Appliance_" .. r.cat), r.w, r.x, r.y, r.z)
         end
     elseif self.tab == "events" then
         for i = #(snap.events or {}), 1, -1 do
