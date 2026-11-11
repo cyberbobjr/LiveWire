@@ -19,9 +19,9 @@
 
 | Action | Niveau | Coût | Effet |
 |---|---|---|---|
-| Réparer (Repair) | selon l'appareil | 1 déchets électroniques + 1 fil électrique | Gain de 5 + niveau d'Électricité en points d'état (jusqu'à 90). Échec : max(5, 40 − 5 × niveau) %, divisé par deux dès le niveau 8 ; pièces perdues en cas d'échec |
-| Remise à neuf (Overhaul) | 3 | 4 déchets électroniques + 2 fils électriques | Retour à 100 |
-| Reconditionner une batterie | 4, ou 6 si morte | Tournevis conservé, 1 déchet électronique + 1 fil + 0,5 L d'eau | +15 d'état, plafond 80, quatre réparations au maximum ; cycles et énergie conservés, une batterie morte revient vide |
+| Réparer (Repair) | selon l'appareil | 1 × Pièces électroniques + 1 fil électrique | Gain de 5 + niveau d'Électricité en points d'état (jusqu'à 90). Échec : max(5, 40 − 5 × niveau) %, divisé par deux dès le niveau 8 ; pièces perdues en cas d'échec |
+| Remise à neuf (Overhaul) | 3 | 4 × Pièces électroniques + 2 fils électriques | Retour à 100 |
+| Reconditionner une batterie | 4, ou 6 si morte | Tournevis conservé, 1 × Pièces électroniques + 1 fil + 0,5 L d'eau | +15 d'état, plafond 80, quatre réparations au maximum ; cycles et énergie conservés, une batterie morte revient vide |
 
 ## Testeur de tension
 
@@ -82,7 +82,7 @@ charge ; le niveau 3 ajoute énergie, capacité et état ; le niveau 5 ajoute cy
 durée de vie estimée et réparations. Charge, état et cycles restent distincts.
 
 Le reconditionnement existant répare aussi une batterie morte : niveau 4 pour une
-batterie usée, 6 si morte, tournevis, un déchet électronique, un fil électrique et
+batterie usée, 6 si morte, tournevis, 1 × Pièces électroniques, un fil électrique et
 0,5 L d'eau. Gain de 15 points d'état, plafond 80, quatre réparations au maximum.
 La même batterie conserve ses cycles et son énergie ; une batterie morte reste
 vide après réparation. La précision inférieure à une graduation native est

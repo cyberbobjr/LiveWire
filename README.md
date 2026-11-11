@@ -232,7 +232,7 @@ The server computes every 10 game minutes, players present or not (sandbox `Simu
 
 ### Solar (100 W)
 
-Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcast (factor × (1 − 0.8 × clouds)). Snow builds up on the panel during snowfall and melts above 0 °C (use the "Clear the snow" action). About 0.94 kWh per summer day and 0.60 kWh in winter (new panel, clear sky).
+Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcast (factor × (1 − 0.8 × clouds)). Snow builds up on the panel during snowfall and melts above 0 °C (use the "Clear the snow" action). A new panel under a clear sky gives about 0.93 kWh per summer day and 0.60 kWh in winter, before installation efficiency. With the usual 0.85 (Electrical 3 to 6), that is about 0.79 kWh and 0.51 kWh.
 
 ### Wind (400 W)
 
@@ -292,9 +292,9 @@ The inverter limit stays **1,500 W** (4,500 W for the inverter cabinet; [coupled
 
 ### Sizing example
 
-A reference day: one fridge-freezer all day, 10 lights for 6 hours, the TV for 3 hours, plus the inverter idle (20 W). Lights and TV are used at night. A winter night lasts 14 hours.
+A reference day: one fridge-freezer all day, 10 lights for 6 hours, the TV for 3 hours, plus the inverter idle (20 W). Lights and TV are used at night. A winter night lasts 14 hours. The evening demand leaves out the inverter's 20 W idle draw; the energy per day and the winter night include it.
 
-| Profile | Evening demand | Energy per day | Winter night | Batteries for the night |
+| Profile | Evening demand (without idle) | Energy per day | Winter night | Batteries for the night |
 |---|---|---|---|---|
 | Ultra-realistic 1993 | 1,300 W | 11.2 kWh | 9.2 kWh | about 16 car batteries or 7 deep-cycle |
 | Realistic 1993 | 810 W | 7.4 kWh | 5.9 kWh | about 10 car batteries or 4 deep-cycle |
@@ -303,20 +303,20 @@ A reference day: one fridge-freezer all day, 10 lights for 6 hours, the TV for 3
 
 (Standard car battery: 0.6 kWh; deep-cycle battery: 1.5 kWh; new batteries in full condition.)
 
-Winter production of the sources: solar panel about 0.6 kWh/day, water wheel about 2.9 kWh/day, wind turbine about 0.7 kWh/day with an average 25 km/h wind.
+Production of the sources per day, for new devices, clear sky, installation efficiency 0.85 (Electrical 3 to 6), and a steady 25 km/h wind at ground level: solar panel about 0.79 kWh in summer and 0.51 kWh in winter; water wheel about 2.0 kWh in summer and 2.4 kWh in autumn or winter; wind turbine about 4.7 kWh in both seasons. Real wind varies, and a turbine gives nothing below 10 km/h or above 85 km/h.
 
-| Installation | Summer (kWh/day) | Winter (kWh/day) | Enough for |
+| Installation | Summer (kWh/day) | Winter (kWh/day) | Enough for (compared with the energy per day above) |
 |---|---|---|---|
-| 4 solar panels | 3.8 | 2.4 | Comfort |
-| 6 panels + 1 wind turbine | 6.3 | 4.3 | Game values |
-| 1 water wheel + 8 panels | 9.8 | 7.7 | Realistic 1993 |
-| 2 water wheels + 9 panels | 13.1 | 11.2 | Ultra-realistic 1993 (just) |
+| 4 solar panels | 3.2 | 2.0 | Comfort in summer, just short in winter (2.1 needed) |
+| 6 panels + 1 wind turbine | 9.5 | 7.8 | Realistic 1993 in both seasons |
+| 1 water wheel + 8 panels | 8.3 | 6.5 | Realistic 1993 in summer, Game values in winter |
+| 2 water wheels + 9 panels | 11.0 | 9.5 | Realistic 1993 in both seasons; Ultra-realistic 1993 just short in summer (11.2 needed) |
 
 There is no limit on the number of solar panels; productions add up (100 W nominal each). The 1,500 W limit applies to the house demand, not to production.
 
 ## Recipes
 
-LiveWire has 28 recipes: 16 craft devices and parts, 12 dismantle them. They are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling. Dismantling a device gives back parts; electronic parts depend on its condition. Deep-cycle batteries, solar cells, wind turbine blades and masts cannot be dismantled.
+LiveWire has 31 recipes: 16 craft devices and parts, 15 dismantle them. They are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling. Dismantling a device gives back parts; electronic parts depend on its condition. Only solar cells cannot be dismantled.
 
 ![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png)
 
@@ -330,7 +330,7 @@ Project Zomboid tests each item independently at each roll of a container list, 
 
 Set **LiveWire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **1 to 20**. Restart the game or dedicated server after a change. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. At 1, the base weights apply and the new locations are kept. Software disks keep their own rates.
 
-Full weights and chances per container: [Loot tables](https://github.com/cyberbobjr/LiveWire/wiki/EN-09-loot-tables). Also: 1 solar cell per calculator dismantled (no level); at level 3, a solar cell from 5 electronics scrap + 1 aluminum.
+Full weights and chances per container: [Loot tables](https://github.com/cyberbobjr/LiveWire/wiki/EN-09-loot-tables). Also: 1 solar cell per calculator dismantled (no level); at level 3, a solar cell from 5 Scrap Electronics + 1 Aluminum Foil.
 
 ## Wear and maintenance
 
@@ -345,9 +345,9 @@ Full weights and chances per container: [Loot tables](https://github.com/cyberbo
 | Power bank, alarm | −1 per 30 days | none |
 | Battery | 100 / life cycles per full cycle | Discharge below 20 %: wear doubled; self-discharge 0.2 % per day |
 
-- **Repair:** 1 electronics scrap + 1 electric wire, gain 5 + Electrical level points (up to 90). Failure chance: max(5, 40 − 5 × level) %, halved from level 8; parts are lost on failure.
+- **Repair:** 1 Scrap Electronics + 1 electric wire, gain 5 + Electrical level points (up to 90). Failure chance: max(5, 40 − 5 × level) %, halved from level 8; parts are lost on failure.
 - **Overhaul** (level 3, 4 scrap + 2 wires): back to 100.
-- **Recondition a battery**: Electrical 4, or 6 for a dead battery; kept screwdriver, 1 electronics scrap + 1 wire + 0.5 L water. +15 condition, capped at 80, at most four repairs. Cycles and stored energy remain; a dead battery returns empty.
+- **Recondition a battery**: Electrical 4, or 6 for a dead battery; kept screwdriver, 1 Scrap Electronics + 1 wire + 0.5 L water. +15 condition, capped at 80, at most four repairs. Cycles and stored energy remain; a dead battery returns empty.
 - **Voltage tester** (`LiveWire.VoltageTester`): right-click a tile > LiveWire > Measure. It tells power yes/no (level 0), origin (1), appliance consumption (2), network balance (4).
 
 **Battery testing and broken equipment:** test a battery in inventory at Electrical 1/3/5 for increasingly detailed readings. Pick up broken equipment and dismantle it from the crafting menu: its electronic parts depend on its condition. Switch off the master inverter before live work; see the [safety rules](https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance).

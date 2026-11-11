@@ -319,7 +319,7 @@ for k, en, fr in [
 for k, en, fr in [
     ("UI_LW_Options_Title", "LiveWire", "LiveWire"),
     ("UI_LW_Options_HumVolume", "Inverter hum volume (0-100)", "Volume du bourdonnement de l'onduleur (0-100)"),
-    ("UI_LW_Options_HumVolume_tooltip", "0 = no hum. Only for you; heard one tile around a running inverter.", "0 = aucun bourdonnement. Pour vous seul ; il s'entend à une case autour d'un onduleur allumé."),
+    ("UI_LW_Options_HumVolume_tooltip", "0 = no hum. Only for you; heard about two tiles around a running inverter.", "0 = aucun bourdonnement. Pour vous seul ; il s'entend à environ deux cases autour d'un onduleur allumé."),
 ]:
     add("UI", k, en, fr)
 

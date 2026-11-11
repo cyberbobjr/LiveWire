@@ -222,7 +222,7 @@ Le serveur calcule toutes les 10 minutes de jeu, joueurs présents ou non (optio
 - Rendement d'installation (niveau d'Électricité de celui qui branche l'appareil, au premier branchement ; le meilleur niveau vu est gardé) : 0,85 (niveaux 0 à 6), 0,95 (niveaux 7 et 8), 1,0 (niveaux 9 et 10).
 - Chaque source lisse sa sortie (réponse sur 30 minutes de jeu) : un nuage de passage ne fait pas vaciller la maison.
 
-**Solaire (100 W)** : courbe sinusoïdale entre l'aube et le crépuscule de la saison ; un ciel couvert laisse 20 % (facteur × (1 − 0,8 × nuages)) ; la neige recouvre le panneau pendant les chutes et fond au-dessus de 0 °C (action « Déneiger »). Environ 0,94 kWh par jour d'été et 0,60 kWh en hiver (panneau neuf, ciel clair).
+**Solaire (100 W)** : courbe sinusoïdale entre l'aube et le crépuscule de la saison ; un ciel couvert laisse 20 % (facteur × (1 − 0,8 × nuages)) ; la neige recouvre le panneau pendant les chutes et fond au-dessus de 0 °C (action « Déneiger »). Environ 0,93 kWh par jour d'été et 0,60 kWh en hiver (panneau neuf, ciel dégagé), avant rendement d'installation. Avec le rendement habituel de 0,85 (niveau 3 à 6 d'Électricité), cela fait environ 0,79 kWh et 0,51 kWh.
 
 **Éolien (400 W)** : part de la puissance nominale selon la vitesse du vent v, avec +15 % de vent par étage jusqu'au 3e.
 
@@ -278,9 +278,9 @@ La limite de l'onduleur reste **1 500 W** (4 500 W pour l'armoire onduleur ; les
 
 ### Exemple de dimensionnement
 
-Journée de référence : un frigo-congélateur toute la journée, 10 lumières pendant 6 heures, la télévision pendant 3 heures, plus l'onduleur à vide (20 W). Lumières et télévision servent la nuit. Une nuit d'hiver dure 14 heures.
+Journée de référence : un frigo-congélateur toute la journée, 10 lumières pendant 6 heures, la télévision pendant 3 heures, plus l'onduleur à vide (20 W). Lumières et télévision servent la nuit. Une nuit d'hiver dure 14 heures. La demande du soir exclut la consommation à vide de l'onduleur (20 W) ; l'énergie par jour et la nuit d'hiver l'incluent.
 
-| Profil | Demande le soir | Énergie par jour | Nuit d'hiver | Batteries pour la nuit |
+| Profil | Demande le soir (hors à vide) | Énergie par jour | Nuit d'hiver | Batteries pour la nuit |
 |---|---|---|---|---|
 | Ultra-réaliste 1993 | 1 300 W | 11,2 kWh | 9,2 kWh | environ 16 batteries de voiture ou 7 stationnaires |
 | Réaliste 1993 | 810 W | 7,4 kWh | 5,9 kWh | environ 10 batteries de voiture ou 4 stationnaires |
@@ -289,20 +289,20 @@ Journée de référence : un frigo-congélateur toute la journée, 10 lumières 
 
 (Batterie de voiture standard : 0,6 kWh ; batterie stationnaire : 1,5 kWh ; batteries neuves en parfait état.)
 
-Production d'hiver des sources : panneau solaire environ 0,6 kWh/jour, roue à aubes environ 2,9 kWh/jour, éolienne environ 0,7 kWh/jour avec un vent moyen de 25 km/h.
+Production des sources par jour, pour des équipements neufs, ciel dégagé, rendement d'installation de 0,85 (niveau 3 à 6 d'Électricité) et un vent stable de 25 km/h au niveau du sol : panneau solaire environ 0,79 kWh en été et 0,51 kWh en hiver ; roue à aubes environ 2,0 kWh en été et 2,4 kWh en automne ou en hiver ; éolienne environ 4,7 kWh dans les deux saisons. Le vent réel varie, et une éolienne ne produit rien sous 10 km/h ni au-dessus de 85 km/h.
 
-| Installation | Été (kWh/jour) | Hiver (kWh/jour) | Suffisant pour |
+| Installation | Été (kWh/jour) | Hiver (kWh/jour) | Suffisant pour (à comparer à l'énergie par jour ci-dessus) |
 |---|---|---|---|
-| 4 panneaux | 3,8 | 2,4 | Confort |
-| 6 panneaux + 1 éolienne | 6,3 | 4,3 | Valeurs du jeu |
-| 1 roue à aubes + 8 panneaux | 9,8 | 7,7 | Réaliste 1993 |
-| 2 roues à aubes + 9 panneaux | 13,1 | 11,2 | Ultra-réaliste 1993 (tout juste) |
+| 4 panneaux | 3,2 | 2,0 | Confort en été, juste en dessous en hiver (2,1 nécessaires) |
+| 6 panneaux + 1 éolienne | 9,5 | 7,8 | Réaliste 1993 dans les deux saisons |
+| 1 roue à aubes + 8 panneaux | 8,3 | 6,5 | Réaliste 1993 en été, Valeurs du jeu en hiver |
+| 2 roues à aubes + 9 panneaux | 11,0 | 9,5 | Réaliste 1993 dans les deux saisons ; Ultra-réaliste 1993 juste en dessous en été (11,2 nécessaires) |
 
 Le nombre de panneaux n'est pas limité : les productions s'additionnent (100 W nominaux chacun). La limite de 1 500 W s'applique à la demande de la maison, pas à la production.
 
 ## Recettes
 
-LiveWire compte 28 recettes : 16 pour fabriquer les appareils et les pièces, 12 pour les démonter. Elles sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur. Démonter un appareil rend des pièces ; les pièces électroniques dépendent de son état. Les batteries stationnaires, les cellules photovoltaïques, les pales et les mâts d'éolienne ne se démontent pas.
+LiveWire compte 31 recettes : 16 pour fabriquer les appareils et les pièces, 15 pour les démonter. Elles sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Travail des métaux**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur. Démonter un appareil rend des pièces ; les pièces électroniques dépendent de son état. Seules les cellules photovoltaïques ne se démontent pas.
 
 ![Planche illustrée des recettes LiveWire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png)
 
@@ -316,7 +316,7 @@ Project Zomboid tire chaque objet indépendamment à chaque tirage d'une liste d
 
 Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox **LiveWire** : **5 par défaut**, de **1 à 20**. Redémarrez le jeu ou le serveur dédié après modification. Seuls les prochains tirages sont concernés, y compris la réapparition vanilla du butin si elle est activée ; aucun remplissage des conteneurs déjà fouillés. À 1, les poids de base s'appliquent et les nouveaux lieux sont conservés. Les disques de logiciel gardent leur propre taux.
 
-Tous les poids et chances par conteneur : [Tables de butin](https://github.com/cyberbobjr/LiveWire/wiki/FR-09-tables-de-butin). Par ailleurs : 1 cellule photovoltaïque par calculatrice démontée (sans niveau) ; au niveau 3, une cellule se fabrique à partir de 5 déchets électroniques et 1 aluminium.
+Tous les poids et chances par conteneur : [Tables de butin](https://github.com/cyberbobjr/LiveWire/wiki/FR-09-tables-de-butin). Par ailleurs : 1 cellule photovoltaïque par calculatrice démontée (sans niveau) ; au niveau 3, une cellule se fabrique à partir de 5 × Pièces électroniques et 1 × Aluminium.
 
 ## Usure et entretien
 
@@ -331,9 +331,9 @@ Tous les poids et chances par conteneur : [Tables de butin](https://github.com/c
 | Powerbank, alarme | −1 tous les 30 jours | — |
 | Batterie | 100 / durée de vie par cycle complet | Décharge sous 20 % : usure doublée ; autodécharge 0,2 % par jour |
 
-- **Réparation** : 1 déchet électronique + 1 fil électrique, gain de 5 + niveau d'Électricité points (jusqu'à 90). Chance d'échec : max(5, 40 − 5 × niveau) %, divisée par deux dès le niveau 8 ; les pièces sont perdues en cas d'échec.
-- **Remise à neuf** (niveau 3, 4 déchets électroniques + 2 fils) : retour à 100.
-- **Reconditionnement d'une batterie** : Électricité 4, ou 6 pour une batterie morte ; tournevis conservé, 1 déchet électronique + 1 fil + 0,5 L d'eau. +15 d'état, plafond 80, quatre réparations au maximum. Cycles et énergie conservés ; une batterie morte revient vide.
+- **Réparation** : 1 × Pièces électroniques + 1 fil électrique, gain de 5 + niveau d'Électricité points (jusqu'à 90). Chance d'échec : max(5, 40 − 5 × niveau) %, divisée par deux dès le niveau 8 ; les pièces sont perdues en cas d'échec.
+- **Remise à neuf** (niveau 3, 4 × Pièces électroniques + 2 fils) : retour à 100.
+- **Reconditionnement d'une batterie** : Électricité 4, ou 6 pour une batterie morte ; tournevis conservé, 1 × Pièces électroniques + 1 fil + 0,5 L d'eau. +15 d'état, plafond 80, quatre réparations au maximum. Cycles et énergie conservés ; une batterie morte revient vide.
 - **Testeur de tension** (`LiveWire.VoltageTester`) : clic droit sur une case > LiveWire > Mesurer. Alimentée oui/non (niveau 0), origine (1), consommation de l'appareil (2), bilan du réseau (4).
 
 **Test et équipement hors d'usage :** testez une batterie en inventaire aux niveaux 1/3/5 pour des mesures de plus en plus détaillées. Un équipement hors d'usage se ramasse et se démonte depuis le menu d'artisanat : ses pièces électroniques dépendent de son état. Éteignez l'onduleur maître avant d'intervenir ; voir les [règles de sécurité](https://github.com/cyberbobjr/LiveWire/wiki/FR-10-competence-electricite-et-entretien).

@@ -383,7 +383,7 @@ def check_extended_info():
 
 
 # Keys allowed in EN and FR only while a step is under way (English fallback in game).
-X_PENDING_TRANSLATION = set()  # emptied at E23: the ten languages are complete
+X_PENDING_TRANSLATION = set()  # emptied at E23: the eleven languages are complete
 def check_extended_translations():
     """Keys *_LWX_* used by the sub-mod exist in its own EN and FR files; others like EN."""
     used = set()
@@ -421,7 +421,7 @@ def check_extended_translations():
             keys.update(json.loads(raw.decode("utf-8-sig")))
         for k in sorted(set(keys) ^ set(tr["EN"])):
             if k not in keys and k in X_PENDING_TRANSLATION:
-                continue  # English fallback until the ten-language pass (plan step E23)
+                continue  # English fallback until the eleven-language pass (plan step E23)
             fail("Extended %s: key %s %s" % (lang, k, "missing" if k in tr["EN"] else "unknown"))
         for k, v in keys.items():
             en = tr["EN"].get(k)

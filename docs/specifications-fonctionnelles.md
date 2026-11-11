@@ -236,7 +236,7 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
   - elle fond de 0,05 par heure au-dessus de 0 °C ;
   - l'action « Déneiger » la remet à 0.
 - **Puissance nominale : 100 W.**
-- **Ordres de grandeur** (panneau neuf, ciel clair) : à la latitude fixe de 38°, le jour dure environ 14,8 h l'été et 9,5 h l'hiver (`ErosionSeason.java:79-80`, `java/zombie/erosion/ErosionConfig.java:425`). Cela donne **≈ 0,94 kWh par jour d'été** et **≈ 0,60 kWh par jour d'hiver**, et 60 % de ces valeurs par ciel moyennement nuageux.
+- **Ordres de grandeur** (panneau neuf, ciel clair) : à la latitude fixe de 38°, le jour dure environ 14,6 h au solstice d'été et 9,4 h au solstice d'hiver (`ErosionSeason.java:79-80`, `java/zombie/erosion/ErosionConfig.java:425`). Cela donne **≈ 0,93 kWh par jour d'été** et **≈ 0,60 kWh par jour d'hiver** avant rendement d'installation, soit ≈ 0,79 et 0,51 kWh avec le rendement de 0,85 (niveaux 0 à 6), et 60 % de ces valeurs par ciel moyennement nuageux.
 
 ### 3.3 Éolienne
 
@@ -271,21 +271,23 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 
 ### 3.5 Exemple de bilan
 
-Journée de référence : un réfrigérateur-congélateur toute la journée, 10 lumières pendant 6 h, la télévision pendant 3 h, plus la consommation à vide de l'onduleur (20 W). Les valeurs dépendent du profil de consommation (§ 5.3).
+Journée de référence : un réfrigérateur-congélateur toute la journée, 10 lumières pendant 6 h, la télévision pendant 3 h, plus la consommation à vide de l'onduleur (20 W). Les valeurs dépendent du profil de consommation (§ 5.3). La demande du soir exclut la consommation à vide de l'onduleur ; l'énergie par jour et la nuit d'hiver l'incluent.
 
-| Profil | Demande le soir | Énergie par jour | Nuit d'hiver (14 h) | Batteries pour la nuit |
+| Profil | Demande le soir (hors à vide) | Énergie par jour | Nuit d'hiver (14 h) | Batteries pour la nuit |
 |---|---|---|---|---|
 | Ultra-réaliste 1993 | 1 300 W | 11,2 kWh | 9,2 kWh | ≈ 16 batteries de voiture ou 7 stationnaires |
 | Réaliste 1993 | 810 W | 7,4 kWh | 5,9 kWh | ≈ 10 batteries de voiture ou 4 stationnaires |
 | Valeurs du jeu (défaut) | 180 W | 3,8 kWh | 2,3 kWh | ≈ 4 batteries de voiture ou 2 stationnaires |
 | Confort | 90 W | 2,1 kWh | 1,3 kWh | ≈ 3 batteries de voiture ou 1 stationnaire |
 
-| Installation | Été (kWh/j) | Hiver (kWh/j) | Suffisant pour |
+Production par jour des sources neuves, ciel dégagé, rendement d'installation de 0,85 et vent stable de 25 km/h au sol (231 W, soit 196 W après rendement) : panneau ≈ 0,79 kWh en été et 0,51 kWh en hiver ; roue à aubes ≈ 2,0 kWh en été et 2,4 kWh en automne ou en hiver ; éolienne ≈ 4,7 kWh dans les deux saisons (le vent réel varie).
+
+| Installation | Été (kWh/j) | Hiver (kWh/j) | Suffisant pour (énergie par jour ci-dessus) |
 |---|---|---|---|
-| 4 panneaux | 3,8 | 2,4 | Confort |
-| 6 panneaux + 1 éolienne (vent moyen 25 km/h, ≈ 0,7 kWh) | 6,3 | 4,3 | Valeurs du jeu |
-| 1 roue à aubes + 8 panneaux | 9,8 | 7,7 | Réaliste 1993 |
-| 2 roues à aubes + 9 panneaux | 13,1 | 11,2 | Ultra-réaliste 1993 (tout juste) |
+| 4 panneaux | 3,2 | 2,0 | Confort en été, juste en dessous en hiver (2,1 nécessaires) |
+| 6 panneaux + 1 éolienne | 9,5 | 7,8 | Réaliste 1993 dans les deux saisons |
+| 1 roue à aubes + 8 panneaux | 8,3 | 6,5 | Réaliste 1993 en été, Valeurs du jeu en hiver |
+| 2 roues à aubes + 9 panneaux | 11,0 | 9,5 | Réaliste 1993 dans les deux saisons ; Ultra-réaliste 1993 juste en dessous en été (11,2 nécessaires) |
 
 Batterie de voiture standard : 0,6 kWh ; batterie stationnaire : 1,5 kWh (§ 5.1), neuves.
 

@@ -43,7 +43,7 @@ Capacité effective = nominale × (0,4 + 0,6 × état/100) × BatteryCapacityMul
 
 ## Pièces
 
-- Les **cellules solaires** (`LiveWire.SolarCell`) se fabriquent avec 5 déchets électroniques et de l'aluminium, au niveau 3 d'Électricité, avec un tournevis et une pince. Une calculatrice démontée avec la recette vanilla « Démonter un appareil électronique simple » donne aussi une cellule solaire.
+- Les **cellules solaires** (`LiveWire.SolarCell`) se fabriquent avec 5 × Pièces électroniques et de l'aluminium, au niveau 3 d'Électricité, avec un tournevis et une pince. Une calculatrice démontée avec la recette vanilla « Démonter un appareil électronique simple » donne aussi une cellule solaire.
 - Le **kit de panneau solaire** demande 10 cellules solaires. Voir [Recettes](08-recettes.md) pour tous les kits.
 - Les **pales et le mât d'éolienne** n'exigent aucun niveau d'Électricité. Les pales se fabriquent avec un tournevis, des cisailles à tôle et un marteau ; le mât avec un tournevis, un marteau et une clé à tuyau. Les deux entrent dans le kit d'éolienne.
 - La **batterie stationnaire** (`LiveWire.DeepCycleBattery`) se fabrique au niveau 3 d'Électricité avec un tournevis et une pince, à partir de deux batteries de voiture, de fil électrique et de ferraille.
