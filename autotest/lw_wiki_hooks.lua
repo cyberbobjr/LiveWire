@@ -362,6 +362,55 @@ local function wikiExt()
         standAt(10818.5, 9443.5)
     end)
     step(3000, function() wikiShot("board-tint") end)
+    -- Locate on the Oven breaker, pressed through its button: the window must keep being drawn
+    -- (prerender returns, no Lua error) for 60 frames and more, the oven lit in gold; pressed
+    -- again, the region tint comes back.
+    local oven = { 10818, 9435, "appliances_cooking_01_5" }
+    local function color(o, c)
+        local v = o and o:getHighlightColor(0)
+        return o ~= nil and o:isHighlighted(0) and v ~= nil and math.abs(v:getR() - c[1]) < 0.01
+            and math.abs(v:getG() - c[2]) < 0.01 and math.abs(v:getB() - c[3]) < 0.01
+    end
+    step(300, function()
+        local win = WIKI.win
+        WIKI.drawn = 0
+        win.prerender = function(self)
+            X.BoardWindow.prerender(self)
+            WIKI.drawn = WIKI.drawn + 1
+        end
+        win.selected = 1
+        standAt(10817.5, 9438.5, IsoDirections.SE)
+    end)
+    step(500, function()
+        WIKI.locErrors, WIKI.drawn = getLuaDebuggerErrorCount(), 0
+        local before = color(objectAt(oven[1], oven[2], oven[3]), X.BoardTint.COLORS.on)
+        WIKI.win.btn.locate:forceClick()
+        rec(WIKI.win.locating == 1, "Locate on the Oven breaker", "oven green before: " .. tostring(before))
+    end)
+    waitFor("60 frames in Locate", 30000, function() return WIKI.drawn >= 60 end)
+    step(1500, function()
+        local errs = getLuaDebuggerErrorCount() - WIKI.locErrors
+        rec(errs == 0 and WIKI.drawn >= 60, "window drawn while locating",
+            WIKI.drawn .. " frames, " .. errs .. " Lua errors")
+        rec(color(objectAt(oven[1], oven[2], oven[3]), { 0.95, 0.75, 0.2 }), "oven lit in gold")
+        wikiShot("board-locate")
+    end)
+    step(300, function()
+        WIKI.locErrors, WIKI.drawn = getLuaDebuggerErrorCount(), 0
+        WIKI.win.btn.locate:forceClick()
+        rec(WIKI.win.locating == nil, "Locate turned off")
+    end)
+    waitFor("frames after Locate", 30000, function() return WIKI.drawn >= 30 end)
+    step(300, function()
+        local errs = getLuaDebuggerErrorCount() - WIKI.locErrors
+        rec(errs == 0, "window drawn after Locate", WIKI.drawn .. " frames, " .. errs .. " Lua errors")
+        local o = objectAt(oven[1], oven[2], oven[3])
+        local v, inTint = o and o:getHighlightColor(0), 0
+        for _ in pairs(WIKI.win.tint.lit or {}) do inTint = inTint + 1 end
+        rec(color(o, X.BoardTint.COLORS.on), "oven tinted green again", "lit " .. tostring(o and o:isHighlighted(0))
+            .. ", colour " .. (v and string.format("%.2f %.2f %.2f", v:getR(), v:getG(), v:getB()) or "nil")
+            .. ", " .. inTint .. " tinted objects, oven tinted " .. tostring(o ~= nil and WIKI.win.tint.lit[o] ~= nil))
+    end)
     step(300, function()
         WIKI.win:close()
         local tsq = freeGround(10815, 9449)

@@ -25,6 +25,8 @@ BOXES = {
     "board-window": (115, 55, 905, 622),
     "board-window-fr": (115, 55, 905, 653),
     "board-tint": (0, 55, 1280, 652),
+    "board-locate": (0, 55, 1280, 618),
+    "board-locate-fr": (0, 55, 1280, 653),
     "zone-tool": (60, 55, 1280, 635),
 }
 LIMIT = 1_500_000
