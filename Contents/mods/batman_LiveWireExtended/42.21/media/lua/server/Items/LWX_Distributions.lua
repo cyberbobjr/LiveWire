@@ -10,14 +10,14 @@ require "LiveWire/LW_Config"
 local PRO = { ElectricianTools = 1, ToolStoreMisc = 0.7, CrateElectronics = 0.7, WireFactoryElectric = 1 }
 local HOUSE = { GarageTools = 0.4, CrateTools = 0.3, GarageMetalwork = 0.2 }
 local ENTRIES = {
-    { item = "Base.Mov_LWX_Terminal", lists = PRO, weight = 0.3, vehicle = 0.3 },
-    { item = "Base.LWXBreaker15", lists = PRO, house = HOUSE, weight = 0.8, vehicle = 0.8 },
-    { item = "Base.LWXBreaker20", lists = PRO, house = HOUSE, weight = 0.8, vehicle = 0.8 },
-    { item = "Base.LWXBreaker30", lists = PRO, house = HOUSE, weight = 0.5, vehicle = 0.5 },
-    { item = "Base.Mov_LWX_Panel8", lists = PRO, weight = 0.2, vehicle = 0.1 },
-    { item = "Base.Mov_LWX_Panel16", lists = PRO, weight = 0.12, vehicle = 0.05 },
-    { item = "Base.Mov_LWX_Panel24", lists = PRO, weight = 0.06 },
-    { item = "Base.LWXTwilightSwitch", lists = PRO, weight = 0.15, vehicle = 0.1 },
+    { item = "Base.Mov_LiveWire_Terminal", lists = PRO, weight = 0.3, vehicle = 0.3 },
+    { item = "LiveWire.Breaker15", lists = PRO, house = HOUSE, weight = 0.8, vehicle = 0.8 },
+    { item = "LiveWire.Breaker20", lists = PRO, house = HOUSE, weight = 0.8, vehicle = 0.8 },
+    { item = "LiveWire.Breaker30", lists = PRO, house = HOUSE, weight = 0.5, vehicle = 0.5 },
+    { item = "Base.Mov_LiveWire_Panel8", lists = PRO, weight = 0.2, vehicle = 0.1 },
+    { item = "Base.Mov_LiveWire_Panel16", lists = PRO, weight = 0.12, vehicle = 0.05 },
+    { item = "Base.Mov_LiveWire_Panel24", lists = PRO, weight = 0.06 },
+    { item = "LiveWire.TwilightSwitch", lists = PRO, weight = 0.15, vehicle = 0.1 },
 }
 
 -- Put `item` at `weight` in the loot list (replaces the weight of a previous merge).

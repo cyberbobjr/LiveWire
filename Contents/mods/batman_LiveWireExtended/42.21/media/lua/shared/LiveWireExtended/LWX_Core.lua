@@ -20,6 +20,15 @@ X.CHUNK = 8                       -- IsoChunkMap.CHUNK_SIZE_IN_SQUARES
 X.LEVEL = 3                       -- Electrical level of every wiring job: inverter commissioning (D-29, D-33), terminal, board, breaker, point (D-41)
 X.WIRE = "Base.ElectricWire"      -- the cable item of Live Wire
 
+-- Debug kit of Live Wire (debug menu "spawnKit"): Extended's equipment too.
+X.DEBUG_KIT = {
+    { "Base.Mov_LiveWire_Terminal", 1 }, { "Base.Mov_LiveWire_Panel8", 1 },
+    { "Base.Mov_LiveWire_Panel16", 1 }, { "Base.Mov_LiveWire_Panel24", 1 },
+    { "LiveWire.Breaker15", 4 }, { "LiveWire.Breaker20", 4 }, { "LiveWire.Breaker30", 2 },
+    { "LiveWire.TwilightSwitch", 2 }, { "Base.SmallSheetMetal", 2 }, { "Base.Screws", 8 },
+}
+for i = 1, #X.DEBUG_KIT do LiveWire.API.registerDebugKitItem(X.DEBUG_KIT[i][1], X.DEBUG_KIT[i][2]) end
+
 function X.log(msg) print("[LiveWireExtended] " .. tostring(msg)) end
 function X.warn(msg) print("[LiveWireExtended] WARNING: " .. tostring(msg)) end
 

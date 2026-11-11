@@ -1,10 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "Poste elétrico",
-    "Base.Mov_LWX_Panel8": "Quadro elétrico (8 módulos)",
-    "Base.Mov_LWX_Panel16": "Quadro elétrico (16 módulos)",
-    "Base.Mov_LWX_Panel24": "Quadro elétrico (24 módulos)",
-    "Base.LWXBreaker15": "Disjuntor de 15 A",
-    "Base.LWXBreaker20": "Disjuntor de 20 A",
-    "Base.LWXBreaker30": "Disjuntor de 30 A",
-    "Base.LWXTwilightSwitch": "Interruptor crepuscular"
+    "Base.Mov_LiveWire_Terminal": "Poste elétrico",
+    "Base.Mov_LiveWire_Panel8": "Quadro elétrico (8 módulos)",
+    "Base.Mov_LiveWire_Panel16": "Quadro elétrico (16 módulos)",
+    "Base.Mov_LiveWire_Panel24": "Quadro elétrico (24 módulos)",
+    "LiveWire.Breaker15": "Disjuntor de 15 A",
+    "LiveWire.Breaker20": "Disjuntor de 20 A",
+    "LiveWire.Breaker30": "Disjuntor de 30 A",
+    "LiveWire.TwilightSwitch": "Interruptor crepuscular para disjuntor"
 }

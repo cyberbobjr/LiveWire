@@ -1,10 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "Anschlusssäule",
-    "Base.Mov_LWX_Panel8": "Sicherungskasten (8 Module)",
-    "Base.Mov_LWX_Panel16": "Sicherungskasten (16 Module)",
-    "Base.Mov_LWX_Panel24": "Sicherungskasten (24 Module)",
-    "Base.LWXBreaker15": "Schutzschalter 15 A",
-    "Base.LWXBreaker20": "Schutzschalter 20 A",
-    "Base.LWXBreaker30": "Schutzschalter 30 A",
-    "Base.LWXTwilightSwitch": "Dämmerungsschalter"
+    "Base.Mov_LiveWire_Terminal": "Anschlusssäule",
+    "Base.Mov_LiveWire_Panel8": "Sicherungskasten (8 Module)",
+    "Base.Mov_LiveWire_Panel16": "Sicherungskasten (16 Module)",
+    "Base.Mov_LiveWire_Panel24": "Sicherungskasten (24 Module)",
+    "LiveWire.Breaker15": "Schutzschalter 15 A",
+    "LiveWire.Breaker20": "Schutzschalter 20 A",
+    "LiveWire.Breaker30": "Schutzschalter 30 A",
+    "LiveWire.TwilightSwitch": "Dämmerungsschalter für Schutzschalter"
 }

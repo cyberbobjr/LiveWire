@@ -2,6 +2,7 @@
 -- debug mode in single player, admin role in multiplayer (LW_Debug.lua), device
 -- within 30 tiles. Every use is written to the server console.
 if isClient() then return end
+require "LiveWire/LW_API"
 
 LiveWire = LiveWire or {}
 
@@ -11,7 +12,8 @@ LiveWire.DebugCommands = DebugCommands
 local P = LiveWire.Protocol
 local function R() return LiveWire.Registry end
 
--- Items given by "spawnKit".
+-- Items given by "spawnKit", after one of each device; sub-mods add theirs through
+-- LiveWire.API.registerDebugKitItem (nothing more when none is installed).
 DebugCommands.KIT = {
     { "Base.Screwdriver", 1 }, { "Base.ElectricWire", 20 }, { "Base.ElectronicsScrap", 10 },
     { "LiveWire.VoltageTester", 1 }, { "Base.CarBattery2", 4 }, { "LiveWire.DeepCycleBattery", 2 },
@@ -120,6 +122,8 @@ local function spawnKit(player)
     local list = {}
     for _, def in pairs(LiveWire.Defs.devices) do list[#list + 1] = { def.item, 1 } end
     for i = 1, #DebugCommands.KIT do list[#list + 1] = DebugCommands.KIT[i] end
+    local extra = LiveWire.API.debugKitItems()
+    for i = 1, #extra do list[#list + 1] = extra[i] end
     for i = 1, #list do
         for _ = 1, list[i][2] do LiveWire.Install.giveItem(player, list[i][1]) end
     end

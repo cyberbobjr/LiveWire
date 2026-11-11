@@ -29,7 +29,8 @@
     "Tooltip_LWX_BoardNoBuilding": "이 분전반은 바깥쪽에 걸려 있어 어떤 건물에도 전기를 공급하지 않습니다. 먼저 안쪽 벽에 거세요.",
     "Tooltip_LWX_BoardNeedIndoor": "방수가 되지 않습니다. 건물 안쪽 벽에 거세요(벽과 지붕으로 막힌 건물도 됩니다).",
     "Tooltip_LWX_MachineCut": "전류 없음: 차단기가 꺼져 있거나, 배전반이 전력을 공급하는 건물에서 어떤 차단기에도 배선되어 있지 않습니다.",
-    "Tooltip_LWX_Twilight": "그러면 회로는 해 질 녘부터 새벽 사이에만 닫힙니다.",
+    "Tooltip_LWX_Twilight": "밤에는 차단기가 닫힌 채로 전기가 흐르고, 낮에는 열려 회로를 끊습니다. 해 질 녘과 새벽은 계절에 따라 바뀝니다.",
+    "Tooltip_LWX_TwilightItem": "배전반의 별도 모듈이 아닙니다. 배전반에 이미 설치된 차단기에 스크류드라이버로 설치합니다.\n밤에는 차단기가 닫힌 채로 전기가 흐르고, 낮에는 열려 회로를 끊습니다.\n해 질 녘과 새벽은 계절에 따라 바뀝니다.",
     "Tooltip_LWX_NoTwilightItem": "조도 스위치가 없습니다.",
     "Tooltip_LWX_ModuleTaken": "이 모듈은 비어 있지 않습니다.",
     "Tooltip_LWX_NeedTester": "전압 테스터가 필요합니다 (소모되지 않음)."

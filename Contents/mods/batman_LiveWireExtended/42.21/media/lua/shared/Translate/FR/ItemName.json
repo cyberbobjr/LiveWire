@@ -1,10 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "Borne électrique",
-    "Base.Mov_LWX_Panel8": "Tableau électrique (8 modules)",
-    "Base.Mov_LWX_Panel16": "Tableau électrique (16 modules)",
-    "Base.Mov_LWX_Panel24": "Tableau électrique (24 modules)",
-    "Base.LWXBreaker15": "Disjoncteur 15 A",
-    "Base.LWXBreaker20": "Disjoncteur 20 A",
-    "Base.LWXBreaker30": "Disjoncteur 30 A",
-    "Base.LWXTwilightSwitch": "Interrupteur crépusculaire"
+    "Base.Mov_LiveWire_Terminal": "Borne électrique",
+    "Base.Mov_LiveWire_Panel8": "Tableau électrique (8 modules)",
+    "Base.Mov_LiveWire_Panel16": "Tableau électrique (16 modules)",
+    "Base.Mov_LiveWire_Panel24": "Tableau électrique (24 modules)",
+    "LiveWire.Breaker15": "Disjoncteur 15 A",
+    "LiveWire.Breaker20": "Disjoncteur 20 A",
+    "LiveWire.Breaker30": "Disjoncteur 30 A",
+    "LiveWire.TwilightSwitch": "Interrupteur crépusculaire pour disjoncteur"
 }

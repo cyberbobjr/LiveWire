@@ -483,8 +483,8 @@ commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau
   autre mod qui remplacerait délibérément leurs fonctions ; ils ne font pas
   partie du contrat d'extension.
 - Raisons d'enregistrement stables : `registration_closed`, `invalid_definition`,
-  `duplicate_type`, `duplicate_model`, `duplicate_sprite`. `API.version=1` ; `API.revision=3`
-  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57). `registerBattery`, `registerSource`, `battery`, `source`,
+  `duplicate_type`, `duplicate_model`, `duplicate_sprite`. `API.version=1` ; `API.revision=5`
+  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage). `registerBattery`, `registerSource`, `battery`, `source`,
   `gridAt` sont inchangées.
 
 ### API publique : services pour sous-mods (révision 2, D-47, 2026-11-09)
@@ -521,6 +521,7 @@ Tests : `tests/test_api_submods.py`.
 | `API.pumpId(obj)`, `API.computerId(obj)` | id de la pompe ou du lien d'ordinateur que porte l'objet |
 | `API.registerSoftwareLines(fn)` | **un seul** fournisseur (type fonction validé ; un second, différent, est refusé : `false, "already_registered"` ; `false, "invalid_provider"` si ce n'est pas une fonction) de lignes pour la page « Maison » du logiciel de l'onduleur (client). Remplace le champ `SoftwareApp.houseProvider` |
 | `API.softwareLines(id)` | lignes du fournisseur (nouveau tableau de chaînes ; vide sans fournisseur), lues par le logiciel |
+| `API.registerDebugKitItem(type, n)`, `API.debugKitItems()` | révision 5 : objets qu'un sous-mod ajoute au kit du menu de débogage (« spawnKit », `LW_DebugCommands`) ; `n` entier de 1 à 100, un type déjà inscrit change de nombre ; `false, "invalid_definition"` sinon. Lecture : nouveau tableau de `{ type, n }` dans l'ordre d'inscription. Extended y inscrit sa borne, ses tableaux, ses disjoncteurs et ses interrupteurs crépusculaires (`LWX_Core.lua`) |
 | `API.networkInverters(id)` | révision 3 : onduleurs du réseau de l'onduleur `id` (maître ou couplé), maître en tête : nouveau tableau de `{ id, x, y, z, master }`, ou `nil`. Autorité : registre ; client : `snapshot.network` de l'onduleur abonné (id du maître) |
 | `API.anchors()` | révision 3 : copie `{ [id] = { x, y, z, on } }` de la table publique des ancres (serveur et client), sans le journal |
 | `API.showRange(id, x, y, z, opts)`, `API.hideRange()`, `API.rangeShown(id)`, `API.rangeColor()` | révision 3, client : afficher, masquer, tester (`nil` : une vue quelconque) la zone d'un onduleur, couleur de la ligne (copie) ; `false`/`nil` sur un serveur |

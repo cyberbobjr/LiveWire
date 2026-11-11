@@ -11,11 +11,11 @@ local B = {}
 X.Breakers = B
 
 B.TYPES = {
-    ["Base.LWXBreaker15"] = { amps = 15, volts = 120, poles = 1 },
-    ["Base.LWXBreaker20"] = { amps = 20, volts = 120, poles = 1 },
-    ["Base.LWXBreaker30"] = { amps = 30, volts = 120, poles = 1 },
+    ["LiveWire.Breaker15"] = { amps = 15, volts = 120, poles = 1 },
+    ["LiveWire.Breaker20"] = { amps = 20, volts = 120, poles = 1 },
+    ["LiveWire.Breaker30"] = { amps = 30, volts = 120, poles = 1 },
 }
-B.ORDER = { "Base.LWXBreaker15", "Base.LWXBreaker20", "Base.LWXBreaker30" }
+B.ORDER = { "LiveWire.Breaker15", "LiveWire.Breaker20", "LiveWire.Breaker30" }
 
 -- Rated power of a breaker type or slot: W = A x V.
 function B.capacityW(t) return t.amps * t.volts end
@@ -126,7 +126,7 @@ function B.pointList(slot)
 end
 
 -- ---------------------------------------------------------------- twilight (E21)
-B.TWILIGHT_ITEM = "Base.LWXTwilightSwitch"
+B.TWILIGHT_ITEM = "LiveWire.TwilightSwitch"
 
 -- Between the season's dusk and dawn (decimal hours, as the solar panels use).
 function B.isNight()

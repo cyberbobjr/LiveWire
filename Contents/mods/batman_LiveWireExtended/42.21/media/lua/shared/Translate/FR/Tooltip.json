@@ -29,7 +29,8 @@
     "Tooltip_LWX_BoardNoBuilding": "Ce tableau est accroché à l'extérieur : il ne dessert aucun bâtiment. Accrochez-le d'abord sur un mur intérieur.",
     "Tooltip_LWX_BoardNeedIndoor": "Pas étanche : à accrocher sur un mur intérieur d'un bâtiment (un abri fermé et couvert compte).",
     "Tooltip_LWX_MachineCut": "Pas de courant : son disjoncteur est coupé, ou il n'est raccordé à aucun disjoncteur dans un bâtiment desservi par un tableau.",
-    "Tooltip_LWX_Twilight": "Le circuit n'est alors fermé qu'entre le crépuscule et l'aube.",
+    "Tooltip_LWX_Twilight": "La nuit, le disjoncteur reste fermé et le courant passe ; le jour, il s'ouvre et coupe le circuit. Le crépuscule et l'aube suivent les saisons.",
+    "Tooltip_LWX_TwilightItem": "Ce n'est pas un module de tableau à part : il se pose au tournevis sur un disjoncteur déjà installé dans un tableau électrique.\nLa nuit, le disjoncteur reste fermé et le courant passe ; le jour, il s'ouvre et coupe le circuit.\nLe crépuscule et l'aube suivent les saisons.",
     "Tooltip_LWX_NoTwilightItem": "Vous n'avez pas d'interrupteur crépusculaire.",
     "Tooltip_LWX_ModuleTaken": "Ce module n'est pas libre.",
     "Tooltip_LWX_NeedTester": "Nécessite un testeur de tension (conservé)."

@@ -29,7 +29,8 @@
     "Tooltip_LWX_BoardNoBuilding": "This board hangs outside: it serves no building. Hang it on an inside wall first.",
     "Tooltip_LWX_BoardNeedIndoor": "Not weatherproof: hang it on an inside wall of a building (a closed, roofed shelter counts).",
     "Tooltip_LWX_MachineCut": "No current: its breaker is off, or it is wired to no breaker in a building a board serves.",
-    "Tooltip_LWX_Twilight": "The circuit is then closed only between dusk and dawn.",
+    "Tooltip_LWX_Twilight": "At night the breaker stays closed and the power flows; by day it opens and cuts the circuit. Dusk and dawn follow the seasons.",
+    "Tooltip_LWX_TwilightItem": "Not a board module of its own: fit it with a screwdriver on a breaker already in an electrical board.\nAt night the breaker stays closed and the power flows; by day it opens and cuts the circuit.\nDusk and dawn follow the seasons.",
     "Tooltip_LWX_NoTwilightItem": "You have no twilight switch.",
     "Tooltip_LWX_ModuleTaken": "This module is not free.",
     "Tooltip_LWX_NeedTester": "Requires a voltage tester (kept)."

@@ -12,8 +12,8 @@ local H = {}
 X.Houses = H
 
 H.SIZES = { 8, 16, 24 }
-H.ROOM_BREAKER = "Base.LWXBreaker20"
-H.HEAVY_BREAKER = "Base.LWXBreaker30"
+H.ROOM_BREAKER = "LiveWire.Breaker20"
+H.HEAVY_BREAKER = "LiveWire.Breaker30"
 
 -- Deterministic 31-bit hash of a building key (no random generator involved).
 function H.hash(key)

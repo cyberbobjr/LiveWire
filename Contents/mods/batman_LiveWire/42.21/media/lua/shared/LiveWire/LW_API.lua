@@ -3,7 +3,7 @@ require "LiveWire/LW_Defs"
 require "LiveWire/LW_Coverage"
 require "LiveWire/LW_Extension"
 LiveWire = LiveWire or {}
-local API = { version = 1, revision = 4 }
+local API = { version = 1, revision = 5 }
 LiveWire.API = API
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -434,5 +434,29 @@ end
 function API.rangeViewListeners()
     local out = {}
     for i = 1, #rangeListeners do out[i] = rangeListeners[i] end
+    return out
+end
+
+-- Revision 5: items a sub-mod adds to the debug kit (debug menu "spawnKit", LW_DebugCommands).
+-- Registering a type again replaces its count. False, "invalid_definition" on a bad type or count.
+local debugKit = {}
+function API.registerDebugKitItem(fullType, count)
+    if not identifier(fullType) or not number(count, 1, 100) or count % 1 ~= 0 then
+        return false, "invalid_definition"
+    end
+    for i = 1, #debugKit do
+        if debugKit[i][1] == fullType then
+            debugKit[i][2] = count
+            return true
+        end
+    end
+    debugKit[#debugKit + 1] = { fullType, count }
+    return true
+end
+
+-- The registered debug kit items, in registration order: a new array of { fullType, count }.
+function API.debugKitItems()
+    local out = {}
+    for i = 1, #debugKit do out[i] = { debugKit[i][1], debugKit[i][2] } end
     return out
 end

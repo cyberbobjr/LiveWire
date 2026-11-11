@@ -1,10 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "电桩",
-    "Base.Mov_LWX_Panel8": "配电箱 (8 个模块)",
-    "Base.Mov_LWX_Panel16": "配电箱 (16 个模块)",
-    "Base.Mov_LWX_Panel24": "配电箱 (24 个模块)",
-    "Base.LWXBreaker15": "断路器 15 A",
-    "Base.LWXBreaker20": "断路器 20 A",
-    "Base.LWXBreaker30": "断路器 30 A",
-    "Base.LWXTwilightSwitch": "光控开关"
+    "Base.Mov_LiveWire_Terminal": "电桩",
+    "Base.Mov_LiveWire_Panel8": "配电箱 (8 个模块)",
+    "Base.Mov_LiveWire_Panel16": "配电箱 (16 个模块)",
+    "Base.Mov_LiveWire_Panel24": "配电箱 (24 个模块)",
+    "LiveWire.Breaker15": "断路器 15 A",
+    "LiveWire.Breaker20": "断路器 20 A",
+    "LiveWire.Breaker30": "断路器 30 A",
+    "LiveWire.TwilightSwitch": "断路器光控开关"
 }

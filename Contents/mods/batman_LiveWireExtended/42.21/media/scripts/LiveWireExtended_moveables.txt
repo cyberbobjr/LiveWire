@@ -1,0 +1,52 @@
+module Base
+{
+    /* Blender model (source/tiles/build_extended_tiles.py), tiledef 7175.
+       Outdoor power terminal of LiveWire Extended (D-34). Placed with the vanilla
+       furniture cursor: placing and picking up need a screwdriver (tile
+       PlaceTool/PickUpTool = Electrician); linking it to an inverter needs Electrical 3.
+       Weight mirrors the tile (PickUpWeight 40 / 10) and is above the recipe inputs. */
+    item Mov_LiveWire_Terminal
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LWXTerminal,
+        Weight = 4.0,
+        WorldObjectSprite = batman_livewireext_01_0,
+    }
+
+    /* Breaker board of 8 modules (D-35), a wall object placed with
+       the vanilla furniture cursor; linking it to an inverter needs Electrical 3.
+       Weight mirrors the tile (PickUpWeight 20) and is above the recipe inputs. */
+    item Mov_LiveWire_Panel8
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LWXPanel,
+        Weight = 2.0,
+        WorldObjectSprite = batman_livewireext_01_8,
+    }
+
+    /* Breaker board of 16 modules (D-35), a wall object placed with
+       the vanilla furniture cursor; linking it to an inverter needs Electrical 3.
+       Weight mirrors the tile (PickUpWeight 30) and is above the recipe inputs. */
+    item Mov_LiveWire_Panel16
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LWXPanel,
+        Weight = 3.0,
+        WorldObjectSprite = batman_livewireext_01_10,
+    }
+
+    /* Breaker board of 24 modules (D-35), a wall object placed with
+       the vanilla furniture cursor; linking it to an inverter needs Electrical 3.
+       Weight mirrors the tile (PickUpWeight 40) and is above the recipe inputs. */
+    item Mov_LiveWire_Panel24
+    {
+        DisplayCategory = Furniture,
+        ItemType = base:moveable,
+        Icon = LWXPanel,
+        Weight = 4.0,
+        WorldObjectSprite = batman_livewireext_01_12,
+    }
+}

@@ -29,7 +29,8 @@
     "Tooltip_LWX_BoardNoBuilding": "Dieser Verteiler hängt außen: Er versorgt kein Gebäude. Hänge ihn zuerst an eine Innenwand.",
     "Tooltip_LWX_BoardNeedIndoor": "Nicht wetterfest: nur an einer Innenwand eines Gebäudes anzubringen (ein geschlossener, überdachter Bau zählt).",
     "Tooltip_LWX_MachineCut": "Kein Strom: Sein Schutzschalter ist aus, oder es ist in einem von einem Kasten versorgten Gebäude an keinen Schutzschalter angeschlossen.",
-    "Tooltip_LWX_Twilight": "Der Stromkreis ist dann nur zwischen Abenddämmerung und Morgengrauen geschlossen.",
+    "Tooltip_LWX_Twilight": "Nachts bleibt der Schutzschalter geschlossen und der Strom fließt; tagsüber öffnet er und unterbricht den Stromkreis. Abenddämmerung und Morgengrauen folgen den Jahreszeiten.",
+    "Tooltip_LWX_TwilightItem": "Kein eigenes Modul im Kasten: Er wird mit einem Schraubenzieher auf einen Schutzschalter gesetzt, der schon in einem Sicherungskasten steckt.\nNachts bleibt der Schutzschalter geschlossen und der Strom fließt; tagsüber öffnet er und unterbricht den Stromkreis.\nAbenddämmerung und Morgengrauen folgen den Jahreszeiten.",
     "Tooltip_LWX_NoTwilightItem": "Du hast keinen Dämmerungsschalter.",
     "Tooltip_LWX_ModuleTaken": "Dieses Modul ist nicht frei.",
     "Tooltip_LWX_NeedTester": "Erfordert einen Spannungsprüfer (bleibt erhalten)."

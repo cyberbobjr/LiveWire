@@ -1,10 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "給電ポール",
-    "Base.Mov_LWX_Panel8": "分電盤 (8 モジュール)",
-    "Base.Mov_LWX_Panel16": "分電盤 (16 モジュール)",
-    "Base.Mov_LWX_Panel24": "分電盤 (24 モジュール)",
-    "Base.LWXBreaker15": "ブレーカー 15 A",
-    "Base.LWXBreaker20": "ブレーカー 20 A",
-    "Base.LWXBreaker30": "ブレーカー 30 A",
-    "Base.LWXTwilightSwitch": "夕暮れスイッチ"
+    "Base.Mov_LiveWire_Terminal": "給電ポール",
+    "Base.Mov_LiveWire_Panel8": "分電盤 (8 モジュール)",
+    "Base.Mov_LiveWire_Panel16": "分電盤 (16 モジュール)",
+    "Base.Mov_LiveWire_Panel24": "分電盤 (24 モジュール)",
+    "LiveWire.Breaker15": "ブレーカー 15 A",
+    "LiveWire.Breaker20": "ブレーカー 20 A",
+    "LiveWire.Breaker30": "ブレーカー 30 A",
+    "LiveWire.TwilightSwitch": "ブレーカー用夕暮れスイッチ"
 }

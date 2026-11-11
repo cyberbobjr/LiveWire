@@ -29,7 +29,8 @@
     "Tooltip_LWX_BoardNoBuilding": "Este cuadro cuelga por fuera: no abastece ningún edificio. Cuélgalo primero en una pared interior.",
     "Tooltip_LWX_BoardNeedIndoor": "No es estanco: cuélgalo en una pared interior de un edificio (vale un refugio cerrado y techado).",
     "Tooltip_LWX_MachineCut": "Sin corriente: su disyuntor está apagado, o no está cableado a ningún disyuntor en un edificio alimentado por un cuadro.",
-    "Tooltip_LWX_Twilight": "El circuito solo se cierra entre el anochecer y el amanecer.",
+    "Tooltip_LWX_Twilight": "De noche el disyuntor permanece cerrado y pasa la corriente; de día se abre y corta el circuito. El anochecer y el amanecer siguen las estaciones.",
+    "Tooltip_LWX_TwilightItem": "No es un módulo propio del cuadro: se instala con un destornillador sobre un disyuntor ya montado en un cuadro eléctrico.\nDe noche el disyuntor permanece cerrado y pasa la corriente; de día se abre y corta el circuito.\nEl anochecer y el amanecer siguen las estaciones.",
     "Tooltip_LWX_NoTwilightItem": "No tienes ningún interruptor crepuscular.",
     "Tooltip_LWX_ModuleTaken": "Este módulo no está libre.",
     "Tooltip_LWX_NeedTester": "Requiere un comprobador de tensión (se conserva)."

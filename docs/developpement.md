@@ -17,6 +17,9 @@ automatisés) vivent dans le fichier d'instructions unique du dossier de dévelo
   `GeneratorTileRange` ni `GeneratorVerticalPowerRange`, range ses données sous sa
   propre clé ModData `LiveWireExtended` et se déclare `incompatible=\LGExtendedElectricity`. Lua sous
   `LiveWireExtended/LWX_*.lua`, sous-table `LiveWire.Extended`, clés de traduction `*_LWX_*`.
+- Objets des deux mods, mêmes règles : un appareil posable est `Base.Mov_LiveWire_<Nom>` (`module Base`, fichier
+  `*_moveables.txt`), un objet d'inventaire `LiveWire.<Nom>` (`module LiveWire`, `*_items.txt`), une recette en
+  `module LiveWire` (`*_recipes.txt`, préfixe `LW`, `LWX` pour Extended). Le préfixe `LWX` ne sert jamais à un nom d'objet.
 - Chaque mod a un dossier `common/` et la variante `42.21/` portant `mod.info` (`versionMin=42.21`, `modversion=` à
   jour) et `media/`. Noms de fichiers et espaces de noms Lua propres au mod (`LiveWire/…`, table globale `LiveWire`).
 - `preview.png` existe en 512 × 512.

@@ -1,10 +1,10 @@
 {
-    "Base.Mov_LWX_Terminal": "Power Terminal",
-    "Base.Mov_LWX_Panel8": "Breaker Board (8 modules)",
-    "Base.Mov_LWX_Panel16": "Breaker Board (16 modules)",
-    "Base.Mov_LWX_Panel24": "Breaker Board (24 modules)",
-    "Base.LWXBreaker15": "Breaker 15 A",
-    "Base.LWXBreaker20": "Breaker 20 A",
-    "Base.LWXBreaker30": "Breaker 30 A",
-    "Base.LWXTwilightSwitch": "Twilight Switch"
+    "Base.Mov_LiveWire_Terminal": "Power Terminal",
+    "Base.Mov_LiveWire_Panel8": "Breaker Board (8 modules)",
+    "Base.Mov_LiveWire_Panel16": "Breaker Board (16 modules)",
+    "Base.Mov_LiveWire_Panel24": "Breaker Board (24 modules)",
+    "LiveWire.Breaker15": "Breaker 15 A",
+    "LiveWire.Breaker20": "Breaker 20 A",
+    "LiveWire.Breaker30": "Breaker 30 A",
+    "LiveWire.TwilightSwitch": "Breaker Twilight Switch"
 }

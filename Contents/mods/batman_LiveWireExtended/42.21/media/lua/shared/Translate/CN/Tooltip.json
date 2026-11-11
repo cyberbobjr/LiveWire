@@ -29,7 +29,8 @@
     "Tooltip_LWX_BoardNoBuilding": "此配电箱挂在室外：它不为任何建筑供电。请先把它挂在室内墙上。",
     "Tooltip_LWX_BoardNeedIndoor": "不防水：只能挂在建筑的室内墙上（封闭且有屋顶的建筑也可以）。",
     "Tooltip_LWX_MachineCut": "没有电: 其断路器已关闭, 或在由配电箱供电的建筑中未接到任何断路器.",
-    "Tooltip_LWX_Twilight": "此后回路仅在黄昏到黎明之间闭合.",
+    "Tooltip_LWX_Twilight": "夜间断路器保持闭合, 电流通过; 白天断开, 切断回路. 黄昏和黎明随季节变化.",
+    "Tooltip_LWX_TwilightItem": "它不是配电箱中的独立模块: 用螺丝刀装到已装在配电箱里的断路器上.\n夜间断路器保持闭合, 电流通过; 白天断开, 切断回路.\n黄昏和黎明随季节变化.",
     "Tooltip_LWX_NoTwilightItem": "你没有光控开关.",
     "Tooltip_LWX_ModuleTaken": "该模块已被占用。",
     "Tooltip_LWX_NeedTester": "需要电压测试器 (不消耗)."

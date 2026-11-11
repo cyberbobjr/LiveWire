@@ -29,7 +29,8 @@
     "Tooltip_LWX_BoardNoBuilding": "Este quadro está pendurado do lado de fora: ele não atende nenhum prédio. Pendure-o primeiro em uma parede interna.",
     "Tooltip_LWX_BoardNeedIndoor": "Não é à prova d'água: pendure-o em uma parede interna de um prédio (um abrigo fechado e coberto conta).",
     "Tooltip_LWX_MachineCut": "Sem corrente: o disjuntor dele está desligado, ou ele não está cabeado a nenhum disjuntor em um prédio alimentado por um quadro.",
-    "Tooltip_LWX_Twilight": "O circuito só fica fechado entre o anoitecer e o amanhecer.",
+    "Tooltip_LWX_Twilight": "À noite o disjuntor fica fechado e a corrente passa; de dia ele abre e corta o circuito. O anoitecer e o amanhecer seguem as estações.",
+    "Tooltip_LWX_TwilightItem": "Não é um módulo próprio do quadro: é instalado com uma chave de fenda em um disjuntor já montado em um quadro elétrico.\nÀ noite o disjuntor fica fechado e a corrente passa; de dia ele abre e corta o circuito.\nO anoitecer e o amanhecer seguem as estações.",
     "Tooltip_LWX_NoTwilightItem": "Você não tem nenhum interruptor crepuscular.",
     "Tooltip_LWX_ModuleTaken": "Este módulo não está livre.",
     "Tooltip_LWX_NeedTester": "Requer um testador de tensão (não é consumido)."
