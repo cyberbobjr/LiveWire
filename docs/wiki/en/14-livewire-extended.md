@@ -137,6 +137,10 @@ If you already stand in reach of the board, the switch happens at once. A breake
 
 **Locate** lights up the appliances of that breaker; **Hide** turns the light off.
 
+![Locate on the Oven breaker](../../images/screenshots/board-locate-en.png)
+
+*Locate on the Oven breaker: the oven lights up in gold; the button now reads Hide.*
+
 ![Breaker board window](../../images/screenshots/board-window-en.png)
 
 *The board window: four labelled breakers; the selected Porch breaker runs on a twilight switch (night only).*

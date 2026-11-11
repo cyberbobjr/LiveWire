@@ -137,6 +137,10 @@ Si vous êtes déjà à portée du tableau, la manœuvre se fait immédiatement.
 
 **Localiser** allume les appareils de ce disjoncteur ; **Masquer** éteint ce repère.
 
+![Localiser sur le disjoncteur Four](../../images/screenshots/board-locate-fr.png)
+
+*Localiser sur le disjoncteur Four : la cuisinière s'allume en doré ; le bouton affiche maintenant Masquer.*
+
 ![Fenêtre du tableau électrique](../../images/screenshots/board-window-fr.png)
 
 *La fenêtre du tableau : quatre disjoncteurs étiquetés ; le disjoncteur Porche sélectionné passe par un interrupteur crépusculaire (nuit seulement).*
