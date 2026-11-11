@@ -142,7 +142,7 @@ Left-click equipment for its own LCD and use **Connections** to manage its wirin
 **Management software "LiveWire Monitor"** has the tabs Overview, Batteries, Sources, House, History and Equipment.
 
 - **Overview:** production and consumption in large figures with bars on the same scale, storage gauge and autonomy, inverter card (state light, condition, On/Off, Reset), alerts.
-- **History:** 48 h graphs (production, consumption, battery stock) and the forecast "batteries will last until sunrise". It needs a linked management computer.
+- **History:** 48 h graphs (production, consumption, battery stock) and a three-day forecast that says whether the batteries will last until sunrise. It needs a linked management computer.
 
 **Without the Computer Mod:** a vanilla desktop computer linked to the inverter opens the software on the mod's own computer screen (monitor, boot screen "LiveWire OS", status bar with game time).
 
@@ -181,7 +181,7 @@ A soundproofed inverter is covered with grey acoustic foam on its top, sides and
 | Breaker panel (wall) | Trips instead of the inverter when the house demand exceeds 1,500 W: the inverter loses no condition point. Red lamp when tripped; reset on the breaker itself ("Reset the breaker"), refused while the overload lasts. | 3 |
 | Low battery alarm (wall) | Below 20 % storage: message to players within 30 tiles, a beep every 2 game hours until it is silenced; the beacon stays lit until storage is back above 25 %. | 2 |
 | Backup generator (vanilla generator) | Started by the mod under 20 % battery, stopped at 90 % (sandbox options). Supplies 1,200 W and burns 1 L of fuel per 3 kWh, on top of its vanilla use. Noisy and toxic indoors; connect and fuel it the vanilla way. Never starts without batteries. | 2 |
-| Management computer (vanilla desktop) | 48 h history and a forecast until sunrise. Automatic load shedding: switches off lights under 15 % to save the fridge, back on above 30 %. | 3 |
+| Management computer (vanilla desktop) | 48 h history and a three-day forecast of whether the batteries last until sunrise. Automatic load shedding: switches off lights under 15 % to save the fridge, back on above 30 %. | 3 |
 | Coupled inverters (up to 3 more) | Network capacity is the sum of the inverters in service: up to 4 × 1,500 W = 6,000 W with standard inverters, more with inverter cabinets (4,500 W each). See below. | 3 |
 
 ### Parallel inverters (coupling)
@@ -322,7 +322,7 @@ LiveWire has 28 recipes: 16 craft devices and parts, 12 dismantle them. They are
 
 *Illustrated recipe board.*
 
-Ingredients, tools, levels and times for every recipe: [Recipes](https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes). The eight [LiveWire Extended](#livewire-extended) recipes are on the same wiki page.
+Ingredients, tools, levels and times for the base recipes: [Recipes](https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes). The eight [LiveWire Extended](#livewire-extended) recipes list their ingredients on the [LiveWire Extended](https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended) wiki page, and their times on the Recipes page.
 
 ## Loot tables
 
@@ -379,7 +379,7 @@ Full weights and chances per container: [Loot tables](https://github.com/cyberbo
 - Recondition a battery: 8.
 - Reset after fixing an overload: 5 (once per hour).
 - Soundproof the inverter: 3.
-- LiveWire Extended: wiring an appliance to a breaker gives 5 XP per point per day.
+- LiveWire Extended: wiring an appliance to a breaker gives 5 XP per appliance, once per day.
 
 ## Sandbox options
 
@@ -413,7 +413,7 @@ Page **LiveWire**. Options of LiveWire Extended are on its own page, see [LiveWi
 
 ## LiveWire Extended
 
-LiveWire Extended 1.0.0 is an optional add-on, shipped in the same Workshop item. It requires LiveWire 2.0.0 (`require=\batman_LiveWire`) and is not compatible with LG Extended Electricity or KnoxPower. It connects a whole building, powers an outdoor area from a terminal, and wires each appliance to its own breaker on a breaker board. Every Extended recipe and wiring job needs Electrical level 3.
+LiveWire Extended 1.0.0 is an optional add-on, shipped in the same Workshop item. It requires LiveWire 2.0.0 (`require=\batman_LiveWire`) and is not compatible with LG Extended Electricity or KnoxPower. It connects a whole building, powers an outdoor area from a terminal, and wires each appliance to a breaker on a breaker board (one breaker can feed several appliances). Every Extended recipe needs Electrical level 3, and so do the connection jobs (building, terminal, board, breakers, appliance wiring, enlarging). Fitting a twilight switch needs none.
 
 - **Whole buildings.** Right-click an inverter > LiveWire Extended > **Connect the building**. Every floor and the basement get power, even beyond the inverter's circle. One inverter per building. A strip outside the ground floor is powered only if the sandbox option "Outdoor strip around a building" (`BuildingBand`, 0 to 8 squares) is raised; its default is 0.
 - **Outdoor power terminal.** Craft a power terminal (or find one with electricians' gear). Link it to an inverter with electric wire, then draw its zone on the ground: up to 16 × 16 squares, rounded to the 8 × 8 blocks the game really powers. A terminal placed inside a building, or right against it, can connect that building too.
@@ -422,11 +422,11 @@ LiveWire Extended 1.0.0 is an optional add-on, shipped in the same Workshop item
 - **Twilight switch.** Fitted to a breaker, it closes that circuit only from dusk to dawn.
 - **Prewired houses.** Some buildings of the map already have a board, without labels (sandbox `HouseBoardPercent`, default 30 %). Find out which breaker feeds what.
 - **Inverter circle.** While Extended is enabled, the inverter's own circle does not power appliances: only connected buildings and terminal zones are powered.
-- **Other mods.** Appliances of My Tailor Is Rich (sewing machine) and Functional Appliances 2 (machines set to a temperature) follow their breaker. LiveWire's own water pump and management computer are supported too.
+- **Other mods.** Appliances of My Tailor Is Rich (sewing machine) and Functional Appliances 2 (machines set to a temperature) follow their breaker. LiveWire's own water pump and management computer follow their breaker too.
 - **Removing it.** Before removing the mod, an admin chooses **Admin: switch every breaker back on (before removing the mod)** from a board's menu. Breakers then cut nothing, and LiveWire goes back to its own circle.
 - **Project Viewpoint.** The 3D models of the terminal and the boards come from the optional mod `batman_LiveWireViewpoint`.
 
-Sandbox options on the **LiveWire Extended** page: `BuildingBand` (outdoor strip, 0-8, default 0) and `HouseBoardPercent` (share of map buildings with a prewired board, 0-100, default 30).
+Sandbox options on the **LiveWire Extended** page: `BuildingBand` (outdoor strip, 0-8, default 0) and `HouseBoardPercent` (share of map buildings with a prewired board, 0-100, default 30). The sandbox option **Skill requirements** (LiveWire page) also turns off the Extended levels.
 
 ![Recipes of LiveWire Extended](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_en.png)
 

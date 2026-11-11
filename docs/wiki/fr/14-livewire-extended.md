@@ -2,7 +2,7 @@
 
 # LiveWire Extended (extension optionnelle)
 
-**LiveWire Extended** (`batman_LiveWireExtended`, version 1.0.0) est une extension optionnelle de LiveWire. Elle demande LiveWire. Elle ajoute quatre moyens d'amener le courant là où le mod de base ne peut pas aller : un bâtiment entier raccordé à un onduleur, une borne électrique extérieure avec sa propre zone, des tableaux électriques qui donnent à chaque appareil son disjoncteur, et les disjoncteurs, étiquettes et interrupteurs crépusculaires qui vont avec. Avec l'extension, un onduleur n'alimente que ce qui est raccordé à lui, et plus un rayon autour de lui. Sans elle, LiveWire fonctionne comme avant.
+**LiveWire Extended** (`batman_LiveWireExtended`, version 1.0.0) est une extension optionnelle de LiveWire. Elle demande LiveWire. Elle ajoute quatre moyens d'amener le courant là où le mod de base ne peut pas aller : un bâtiment entier raccordé à un onduleur, une borne électrique extérieure avec sa propre zone, des tableaux électriques où chaque appareil est branché sur un disjoncteur (un même disjoncteur peut alimenter plusieurs appareils), et les disjoncteurs, étiquettes et interrupteurs crépusculaires qui vont avec. Avec l'extension, un onduleur n'alimente que ce qui est raccordé à lui, et plus un rayon autour de lui. Sans elle, LiveWire fonctionne comme avant.
 
 ![Schéma : sans tableau, avec tableau, borne extérieure](../../images/diagrams/diagram_extended_fr.png)
 
@@ -10,7 +10,8 @@
 
 - LiveWire Extended est livrée dans le même élément du Workshop Steam que LiveWire (identifiant 3821807453). Abonnez-vous à cet élément, puis activez **LiveWire Extended** dans la liste des mods. Elle se charge après LiveWire.
 - Elle demande LiveWire (`batman_LiveWire`). Sans LiveWire, elle ne fait rien.
-- Raccorder un bâtiment, la borne électrique, les tableaux électriques, les disjoncteurs, le raccordement d'un appareil, l'interrupteur crépusculaire et l'agrandissement d'un tableau demandent le **niveau 3 d'Électricité**. Poser et ramasser un objet demande un **tournevis**, sans niveau.
+- Raccorder un bâtiment, raccorder la borne électrique ou un tableau à un onduleur, installer un disjoncteur, raccorder un appareil et agrandir un tableau demandent le **niveau 3 d'Électricité** et un **tournevis**. Poser ou ramasser une borne ou un tableau demande un **tournevis**, sans niveau. Poser un interrupteur crépusculaire demande un tournevis, sans niveau ; seule sa fabrication demande le niveau 3.
+- L'option sandbox **Niveaux requis** (options de LiveWire) s'applique aussi à Extended : désactivée, aucun niveau n'est requis pour les opérations ci-dessus. Les recettes de fabrication gardent leur niveau 3.
 - Mods déclarés incompatibles : voir [Mods incompatibles](#mods-incompatibles).
 
 ## Recettes
@@ -29,6 +30,8 @@ Les recettes demandent le niveau 3 d'Électricité et un tournevis. Les durées 
 | Fabriquer un disjoncteur 20 A | 2 pièces électroniques, 1 fil électrique, 2 vis |
 | Fabriquer un disjoncteur 30 A | 3 pièces électroniques, 2 fils électriques, 3 vis |
 | Fabriquer un interrupteur crépusculaire pour disjoncteur | 2 pièces électroniques, 1 fil électrique, 1 vis |
+
+Les appareils Extended n'ont pas de recette de démontage : on les ramasse au tournevis.
 
 ## Raccorder tout un bâtiment
 
@@ -76,14 +79,14 @@ Un **tableau électrique** (8, 16 ou 24 modules) s'accroche sur un mur intérieu
 
 ### Agrandir un tableau
 
-Un tableau que vous avez posé s'agrandit sur place, de 8 à 16 puis 24 modules. Clic droit sur le tableau > **Agrandir le tableau (8 -> 16 modules)**. Il faut le niveau 3 d'Électricité, un tournevis, **1 petite plaque en métal** et **4 vis** dans l'inventaire. Les disjoncteurs, les étiquettes et les appareils sont conservés. Les boîtes électriques du jeu ne s'agrandissent pas, et un tableau de 24 modules ne grandit plus.
+Un tableau que vous avez posé s'agrandit sur place, de 8 à 16 puis 24 modules. Clic droit sur le tableau > **Agrandir le tableau (8 → 16 modules)**. Le menu affiche la taille suivante : un tableau de 16 modules propose 16 → 24. Il faut le niveau 3 d'Électricité, un tournevis, **1 petite plaque en métal** et **4 vis** dans l'inventaire. Les disjoncteurs, les étiquettes et les appareils sont conservés. Les boîtes électriques du jeu ne s'agrandissent pas, et un tableau de 24 modules ne grandit plus.
 
 ### Disjoncteurs : 15, 20 et 30 A
 
-- Un disjoncteur prend **un seul module**. Installez-le au tournevis dans un module vide : depuis la fenêtre du tableau (cliquez sur un module vide) ou depuis le menu du tableau (**Installer un disjoncteur**).
+- Un disjoncteur prend **un seul module**. Installez-le dans un module vide, au tournevis et avec le niveau 3 d'Électricité : depuis la fenêtre du tableau (cliquez sur un module vide) ou depuis le menu du tableau (**Installer un disjoncteur**).
 - Calibres à 120 V : **15 A = 1 800 W**, **20 A = 2 400 W**, **30 A = 3 600 W**.
-- On les trouve dans le butin des électriciens, des quincailleries, des garages et des caisses d'outils, ou on les fabrique (niveau 3 d'Électricité ; un calibre plus fort demande plus de pièces ; voir [Recettes](#recettes)).
-- Pour retirer un disjoncteur, il faut un tournevis : **Retirer le disjoncteur du module N**.
+- On les trouve dans le butin des électriciens, de l'électronique, des magasins d'outils et des usines de fil électrique, ainsi que dans les garages et les caisses d'outils, ou on les fabrique (niveau 3 d'Électricité ; un calibre plus fort demande plus de pièces ; voir [Recettes](#recettes)).
+- Pour retirer un disjoncteur, il faut un tournevis : **Retirer le disjoncteur du module N (Disjoncteur 15 A)**. Le disjoncteur retourne dans votre inventaire ; entre parenthèses, le nom de l'objet (Disjoncteur 15 A, 20 A ou 30 A). Dans les menus, un module se désigne par son calibre (par exemple 15 A), ou par son étiquette s'il en a une.
 
 ### Raccorder un appareil
 
@@ -109,7 +112,7 @@ Dès qu'un tableau dessert son bâtiment, **chaque appareil de ce bâtiment qui 
 
 - Chaque disjoncteur **saute tout seul** quand son circuit tire plus que son calibre (watts = ampères x 120 V). La vérification a lieu environ toutes les 10 minutes de jeu.
 - Un disjoncteur déclenché est coupé. Les joueurs à moins de 20 cases voient ce message : *Un disjoncteur a sauté : le module N était surchargé.*
-- **Réarmez-le** sur le tableau : la manette **RÉARMER** dans la fenêtre du tableau, ou **Réarmer le disjoncteur du module N (déclenché)** dans le menu.
+- **Réarmez-le** sur le tableau : la manette **RÉARMER** dans la fenêtre du tableau, ou **Réarmer le module N (15 A) (déclenché)** dans le menu, où « 15 A » est le calibre du module ou son étiquette.
 - La charge d'un circuit dépend du profil de consommation des options sandbox.
 
 ### Fenêtre du tableau, étiquettes et Localiser
@@ -142,9 +145,9 @@ L'**interrupteur crépusculaire pour disjoncteur** n'est pas un module de tablea
 - Le crépuscule et l'aube **suivent les saisons** : les lampes s'allument plus tôt en hiver qu'en été. Ni les nuages ni la pluie ne les allument. L'interrupteur vérifie toutes les dix minutes de jeu.
 - Coupé à la main ou déclenché, le disjoncteur reste ouvert, de nuit comme de jour.
 
-- Posez-le : glissez l'interrupteur depuis votre inventaire sur un module. Les modules sans interrupteur crépusculaire reçoivent une bordure verte. Vous pouvez aussi utiliser le bouton **Interrupteur crépusculaire** de la fenêtre du tableau, ou **Poser un interrupteur crépusculaire sur le module N** dans le menu. La pose demande un tableau raccordé, un disjoncteur dans le module, un tournevis et l'interrupteur.
+- Posez-le : glissez l'interrupteur depuis votre inventaire sur un module. Les modules sans interrupteur crépusculaire reçoivent une bordure verte. Vous pouvez aussi utiliser le bouton **Crépusculaire** de la fenêtre du tableau, ou **Poser un interrupteur crépusculaire sur le module N (15 A)** dans le menu. La pose demande un tableau raccordé, un disjoncteur dans le module, un tournevis et l'interrupteur.
 - L'étiquette du disjoncteur indique alors *(nuit seulement)*.
-- Retirez-le avec **Retirer l'interrupteur crépusculaire du module N**, ou le bouton **Retirer le crépusculaire**.
+- Retirez-le avec **Retirer l'interrupteur crépusculaire du module N (15 A)**, ou le bouton **Retirer le crépusculaire**.
 
 ### Comptage de l'énergie
 
@@ -181,6 +184,7 @@ L'écran de l'onduleur liste les bâtiments et les zones de borne raccordés à 
 
 - **My Tailor Is Rich** : sa machine à coudre électrique suit son disjoncteur.
 - **Functional Appliances 2** : ses machines suivent leur disjoncteur.
+- **Pompe à eau et ordinateur de gestion de LiveWire** : ils suivent eux aussi leur disjoncteur.
 - **Project Viewpoint** : l'option **LiveWire - Viewpoint models** (`batman_LiveWireViewpoint`) ajoute des modèles 3D de la borne et des tableaux quand LiveWire Extended est activée. Elle demande Project Viewpoint.
 
 ## Mods incompatibles
@@ -192,7 +196,7 @@ LiveWire Extended est déclarée incompatible avec **LG Extended Electricity** e
 Avant de retirer LiveWire Extended, un **administrateur** remet tous les disjoncteurs en service. Sinon, un disjoncteur peut continuer de couper des appareils que l'extension ne commande plus.
 
 1. Ouvrez le menu d'un tableau électrique et choisissez **Admin : tout remettre en service (avant de retirer le mod)**.
-2. Aucun disjoncteur ne coupe. Chaque appareil retrouve son état normal : les réfrigérateurs refroidissent, les machines de Functional Appliances 2 retrouvent leur réglage, et les zones des bornes sont rétablies. Le message dit : *Tous les disjoncteurs sont remis et plus aucun tableau ne coupe. LiveWire Extended peut être retiré.*
+2. Aucun disjoncteur ne coupe. Chaque appareil retrouve son état normal : les réfrigérateurs refroidissent, les machines de Functional Appliances 2 retrouvent leur réglage, et les zones des bornes sont rétablies. Le message dit : *Tous les disjoncteurs sont remis et plus aucun tableau ne coupe (N points rétablis). LiveWire Extended peut être retiré.*
 3. Décochez **LiveWire Extended** dans la liste des mods. LiveWire fonctionne alors sans l'extension, avec son propre rayon. Rien n'est perdu dans les données propres à LiveWire.
 
 L'entrée de menu **Admin : remettre les tableaux en fonction** reprend le fonctionnement des tableaux si vous changez d'avis.

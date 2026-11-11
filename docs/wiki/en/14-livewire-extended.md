@@ -2,7 +2,7 @@
 
 # LiveWire Extended (optional add-on)
 
-**LiveWire Extended** (`batman_LiveWireExtended`, version 1.0.0) is an optional add-on for LiveWire. It needs LiveWire. It adds four ways to bring power where the base mod cannot: a whole building connected to one inverter, an outdoor power terminal with its own zone, breaker boards that give each appliance its own breaker, and the breakers, labels and twilight switches that go with them. With the add-on, an inverter powers only what is connected to it, and no longer a radius around itself. Without it, LiveWire works as before.
+**LiveWire Extended** (`batman_LiveWireExtended`, version 1.0.0) is an optional add-on for LiveWire. It needs LiveWire. It adds four ways to bring power where the base mod cannot: a whole building connected to one inverter, an outdoor power terminal with its own zone, breaker boards where each appliance is wired to a breaker (one breaker can feed several appliances), and the breakers, labels and twilight switches that go with them. With the add-on, an inverter powers only what is connected to it, and no longer a radius around itself. Without it, LiveWire works as before.
 
 ![Diagram: without a board, with a board, outdoor terminal](../../images/diagrams/diagram_extended_en.png)
 
@@ -10,7 +10,8 @@
 
 - LiveWire Extended ships in the same Steam Workshop item as LiveWire (ID 3821807453). Subscribe to that item, then enable **LiveWire Extended** in the mod list. It loads after LiveWire.
 - It requires LiveWire (`batman_LiveWire`). Without LiveWire, it does nothing.
-- Connecting a building, the power terminal, breaker boards, breakers, wiring an appliance, the twilight switch and enlarging a board need **Electrical level 3**. Placing and picking up items need a **screwdriver** and no level.
+- Connecting a building, linking the power terminal or a breaker board to an inverter, installing a breaker, wiring an appliance and enlarging a board need **Electrical level 3** and a **screwdriver**. Placing or picking up a terminal or a board needs a screwdriver and no level. Fitting a twilight switch needs a screwdriver and no level; only crafting the switch needs level 3.
+- The sandbox option **Skill requirements** (LiveWire options) also applies to Extended: when it is off, no level is required for the jobs above. The crafting recipes keep their level 3.
 - Mods declared incompatible: see [Incompatible mods](#incompatible-mods).
 
 ## Recipes
@@ -29,6 +30,8 @@ Recipes are at Electrical level 3, each with a screwdriver. Times are the recipe
 | Make Breaker 20 A | 2 Scrap Electronics, 1 Electrical Wire, 2 Screws |
 | Make Breaker 30 A | 3 Scrap Electronics, 2 Electrical Wire, 3 Screws |
 | Make Breaker Twilight Switch | 2 Scrap Electronics, 1 Electrical Wire, 1 Screws |
+
+LiveWire Extended devices have no dismantle recipe: pick them up with a screwdriver instead.
 
 ## Connect a whole building
 
@@ -76,14 +79,14 @@ A **breaker board** (8, 16 or 24 modules) hangs on an inside wall of a building.
 
 ### Enlarge a board
 
-A board you placed grows in place, from 8 to 16 and then 24 modules. Right-click it > **Enlarge the board (8 -> 16 modules)**. Enlarging needs Electrical level 3, a screwdriver, **1 Steel Sheet - Small** and **4 Screws** in your inventory. Breakers, labels and appliances are kept. The game's own wall boxes cannot be enlarged, and a 24-module board cannot grow further.
+A board you placed grows in place, from 8 to 16 and then 24 modules. Right-click it > **Enlarge the board (8 → 16 modules)**. The menu shows the next size: a 16-module board offers 16 → 24. Enlarging needs Electrical level 3, a screwdriver, **1 Steel Sheet - Small** and **4 Screws** in your inventory. Breakers, labels and appliances are kept. The game's own wall boxes cannot be enlarged, and a 24-module board cannot grow further.
 
 ### Breakers: 15, 20 and 30 A
 
-- A breaker takes **one module**. Install it with a screwdriver in an empty module: from the board window (click an empty module) or from the board's menu (**Install a breaker**).
+- A breaker takes **one module**. Install it in an empty module, with a screwdriver and Electrical level 3: from the board window (click an empty module) or from the board's menu (**Install a breaker**).
 - Ratings at 120 V: **15 A = 1,800 W**, **20 A = 2,400 W**, **30 A = 3,600 W**.
-- Find them in electrician, hardware, garage and tool crate loot, or craft them (Electrical level 3; a higher rating needs more parts; see [Recipes](#recipes)).
-- Remove a breaker with a screwdriver: **Remove the breaker of module N**.
+- Find them in electrician, electronics, tool store and wire factory loot, and in garage and tool crate loot, or craft them (Electrical level 3; a higher rating needs more parts; see [Recipes](#recipes)).
+- Remove a breaker with a screwdriver: **Remove the breaker of module N (Breaker 15 A)**. The breaker goes back to your inventory. The bracket shows the item name (Breaker 15 A, 20 A or 30 A). In menus, a module is named by its rating (for example 15 A), or by its label when it has one.
 
 ### Wire an appliance
 
@@ -109,7 +112,7 @@ Once a board serves its building, **every appliance of that building that is wir
 
 - Each breaker **trips on its own** when its circuit draws more than its rating (watts = amps x 120 V). The check runs about every 10 game minutes.
 - A tripped breaker is off. Players within 20 tiles see a message: *A breaker tripped: module N was overloaded.*
-- **Reset** it on the board: the **RESET** lever in the board window, or **Reset module N (tripped)** in the menu.
+- **Reset** it on the board: the **RESET** lever in the board window, or **Reset module N (15 A) (tripped)** in the menu, where "15 A" is the module's rating or its label.
 - How much a circuit draws depends on the sandbox consumption profile.
 
 ### Board window, labels and Locate
@@ -142,9 +145,9 @@ The **Breaker Twilight Switch** is not a board module of its own: it is fitted *
 - Dusk and dawn **follow the seasons**: the lights come on earlier in winter than in summer. It does not react to clouds or rain. The switch checks every ten game minutes.
 - Switched off by hand or tripped, the breaker stays open, night or day.
 
-- Fit it: drag the switch from your inventory onto a module. Modules without a twilight switch get a green border. You can also use the **Twilight switch** button in the board window, or **Fit a twilight switch to module N** in the menu. Fitting needs a linked board, a breaker in the module, a screwdriver and the switch.
+- Fit it: drag the switch from your inventory onto a module. Modules without a twilight switch get a green border. You can also use the **Twilight switch** button in the board window, or **Fit a twilight switch to module N (15 A)** in the menu. Fitting needs a linked board, a breaker in the module, a screwdriver and the switch.
 - The breaker's label then reads *(night only)*.
-- Remove it with **Remove the twilight switch of module N**, or the **Remove twilight** button.
+- Remove it with **Remove the twilight switch of module N (15 A)**, or the **Remove twilight** button.
 
 ### Energy metering
 
@@ -181,6 +184,7 @@ The inverter screen lists the buildings and terminal zones connected to it.
 
 - **My Tailor Is Rich**: its electric sewing machine follows its breaker.
 - **Functional Appliances 2**: its machines follow their breaker.
+- **LiveWire's own water pump and management computer**: they follow their breaker too.
 - **Project Viewpoint**: the optional mod **LiveWire - Viewpoint models** (`batman_LiveWireViewpoint`) adds 3D models of the power terminal and the breaker boards when LiveWire Extended is enabled. It needs Project Viewpoint.
 
 ## Incompatible mods
@@ -192,7 +196,7 @@ LiveWire Extended is declared incompatible with **LG Extended Electricity** and 
 Before removing LiveWire Extended, an **admin** turns every breaker back on. Otherwise, breakers could keep cutting appliances once the add-on is gone.
 
 1. Open the menu of a breaker board and choose **Admin: switch every breaker back on (before removing the mod)**.
-2. Breakers cut nothing. Every appliance gets its normal state: fridges cool again, Functional Appliances 2 machines get their setting back, and terminal zones are restored. The message reads: *Every breaker is back on and no board cuts anymore. LiveWire Extended can be removed.*
+2. Breakers cut nothing. Every appliance gets its normal state: fridges cool again, Functional Appliances 2 machines get their setting back, and terminal zones are restored. The message reads: *Every breaker is back on and no board cuts anymore (N points restored). LiveWire Extended can be removed.*
 3. Untick **LiveWire Extended** in the mod list. LiveWire then works without the add-on, with its own radius. Nothing is lost in LiveWire's own data.
 
 The same menu item **Admin: breaker boards work again** resumes the boards if you change your mind.

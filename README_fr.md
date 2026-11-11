@@ -133,7 +133,7 @@ Un clic gauche ouvre le LCD de chaque équipement ; **Raccordements** permet de 
 **Logiciel de gestion « LiveWire Monitor »** : onglets Vue d'ensemble, Batteries, Sources, Maison, Historique, Équipements.
 
 - Vue d'ensemble : production et consommation en grands chiffres avec barres à la même échelle, jauge de stockage et autonomie, fiche de l'onduleur (voyant d'état, état, Marche/Arrêt, Reset), alertes.
-- Historique : graphiques sur 48 h (production, consommation, stock des batteries) et prévision « les batteries tiendront jusqu'à l'aube ». Nécessite un ordinateur de gestion relié.
+- Historique : graphiques sur 48 h (production, consommation, stock des batteries) et une prévision sur trois jours indiquant si les batteries tiendront jusqu'à l'aube. Nécessite un ordinateur de gestion relié.
 
 | Configuration | Fonctionnement |
 |---|---|
@@ -173,7 +173,7 @@ Un onduleur insonorisé est recouvert de mousse acoustique grise sur le dessus, 
 | Disjoncteur (mur) | Saute à la place de l'onduleur quand la demande de la maison dépasse 1 500 W : l'onduleur ne perd aucun point d'état. Lampe rouge quand il a sauté ; réarmement sur le disjoncteur lui-même (« Réarmer le disjoncteur »), refusé tant que la surcharge persiste. | 3 |
 | Alarme de batterie faible (mur) | Sous 20 % de stock : message aux joueurs à 30 cases, bip toutes les 2 heures de jeu jusqu'à ce qu'elle soit coupée ; le gyrophare reste allumé jusqu'à ce que le stock repasse au-dessus de 25 %. | 2 |
 | Générateur de secours (générateur vanilla) | Démarré par le mod sous 20 % de batterie, arrêté à 90 % (options sandbox). Fournit 1 200 W et brûle 1 L de carburant pour 3 kWh, en plus de sa consommation vanilla. Toujours bruyant et toxique en intérieur ; à brancher et alimenter en carburant à la manière vanilla. Ne démarre jamais sans batteries. | 2 |
-| Ordinateur de gestion (ordinateur de bureau vanilla) | Historique 48 h et prévision jusqu'à l'aube. Délestage automatique : éteint les lumières sous 15 % pour sauver le frigo, rallumées au-dessus de 30 %. | 3 |
+| Ordinateur de gestion (ordinateur de bureau vanilla) | Historique 48 h et prévision sur trois jours (les batteries tiendront-elles jusqu'à l'aube ?). Délestage automatique : éteint les lumières sous 15 % pour sauver le frigo, rallumées au-dessus de 30 %. | 3 |
 | Onduleurs couplés (jusqu'à 3 onduleurs de plus) | La puissance du réseau est la somme des onduleurs en service : jusqu'à 4 × 1 500 W = 6 000 W avec des onduleurs ordinaires, davantage avec des armoires onduleurs (4 500 W chacune). Voir ci-dessous. | 3 |
 
 ### Onduleurs en parallèle (couplage)
@@ -308,7 +308,7 @@ LiveWire compte 28 recettes : 16 pour fabriquer les appareils et les pièces, 12
 
 *Planche illustrée des recettes LiveWire.*
 
-Ingrédients, outils, niveaux et durées de chaque recette : [Recettes](https://github.com/cyberbobjr/LiveWire/wiki/FR-08-recettes). Les huit recettes de [LiveWire Extended](#livewire-extended) figurent sur la même page.
+Ingrédients, outils, niveaux et durées des recettes de base : [Recettes](https://github.com/cyberbobjr/LiveWire/wiki/FR-08-recettes). Les huit recettes de [LiveWire Extended](#livewire-extended) ont leurs ingrédients sur la page [LiveWire Extended](https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended) du wiki, et leurs durées sur la page Recettes.
 
 ## Tables de butin
 
@@ -365,7 +365,7 @@ Tous les poids et chances par conteneur : [Tables de butin](https://github.com/c
 - Reconditionner une batterie : 8.
 - Réinitialiser après avoir corrigé une surcharge : 5 (une fois par heure).
 - Insonoriser l'onduleur : 3.
-- LiveWire Extended : raccorder un appareil à un disjoncteur donne 5 XP par point et par jour.
+- LiveWire Extended : raccorder un appareil à un disjoncteur donne 5 XP par appareil, une fois par jour.
 
 ## Options sandbox
 
@@ -399,7 +399,7 @@ Page « LiveWire » des options sandbox. Les options de LiveWire Extended figure
 
 ## LiveWire Extended
 
-LiveWire Extended 1.0.0 est un module complémentaire facultatif, livré dans le même objet Workshop. Il exige LiveWire 2.0.0 (`require=\batman_LiveWire`) et n'est pas compatible avec LG Extended Electricity ni KnoxPower. Il raccorde un bâtiment entier, alimente une zone extérieure depuis une borne et branche chaque appareil sur son propre disjoncteur, dans un tableau électrique. Toutes les recettes et tous les branchements d'Extended exigent le niveau 3 d'Électricité.
+LiveWire Extended 1.0.0 est un module complémentaire facultatif, livré dans le même objet Workshop. Il exige LiveWire 2.0.0 (`require=\batman_LiveWire`) et n'est pas compatible avec LG Extended Electricity ni KnoxPower. Il raccorde un bâtiment entier, alimente une zone extérieure depuis une borne et branche chaque appareil sur un disjoncteur, dans un tableau électrique (un même disjoncteur peut alimenter plusieurs appareils). Toutes les recettes d'Extended exigent le niveau 3 d'Électricité, et aussi les raccordements (bâtiment, borne, tableau, disjoncteurs, appareils, agrandissement). Poser un interrupteur crépusculaire n'exige aucun niveau.
 
 - **Bâtiments entiers.** Clic droit sur un onduleur > LiveWire Extended > **Raccorder le bâtiment**. Chaque étage et le sous-sol sont alimentés, même au-delà du rayon de l'onduleur. Un onduleur par bâtiment. Une bande extérieure autour du rez-de-chaussée n'est alimentée que si l'option sandbox « Bande extérieure autour d'un bâtiment » (`BuildingBand`, de 0 à 8 cases) est augmentée ; sa valeur par défaut est 0.
 - **Borne électrique.** Fabriquez une borne électrique (ou trouvez-en avec le matériel d'électricien). Raccordez-la à un onduleur avec du fil électrique, puis réglez sa zone au sol : 16 × 16 cases au maximum, arrondies aux blocs de 8 × 8 que le jeu alimente réellement. Une borne posée dans un bâtiment, ou contre lui, peut aussi raccorder ce bâtiment.
@@ -408,11 +408,11 @@ LiveWire Extended 1.0.0 est un module complémentaire facultatif, livré dans le
 - **Interrupteur crépusculaire.** Posé sur un disjoncteur, il ne ferme ce circuit qu'entre le crépuscule et l'aube.
 - **Maisons précâblées.** Certains bâtiments de la carte ont déjà un tableau, sans étiquettes (option sandbox `HouseBoardPercent`, 30 % par défaut). Trouvez quel disjoncteur alimente quoi.
 - **Cercle de l'onduleur.** Quand Extended est activé, le cercle propre de l'onduleur n'alimente pas les appareils : seuls les bâtiments raccordés et les zones des bornes sont alimentés.
-- **Autres mods.** Les appareils de My Tailor Is Rich (machine à coudre) et de Functional Appliances 2 (machines réglées à une température) suivent leur disjoncteur. La pompe à eau et l'ordinateur de gestion de LiveWire sont pris en charge.
+- **Autres mods.** Les appareils de My Tailor Is Rich (machine à coudre) et de Functional Appliances 2 (machines réglées à une température) suivent leur disjoncteur. La pompe à eau et l'ordinateur de gestion de LiveWire suivent eux aussi leur disjoncteur.
 - **Retrait.** Avant de retirer le mod, un administrateur choisit **Admin : tout remettre en service (avant de retirer le mod)** dans le menu d'un tableau. Les disjoncteurs ne coupent alors plus rien, et LiveWire revient à son propre cercle.
 - **Project Viewpoint.** Les modèles 3D de la borne et des tableaux viennent du mod facultatif `batman_LiveWireViewpoint`.
 
-Options sandbox sur la page **LiveWire Extended** : `BuildingBand` (bande extérieure, 0-8, défaut 0) et `HouseBoardPercent` (part des bâtiments de la carte avec un tableau précâblé, 0-100, défaut 30).
+Options sandbox sur la page **LiveWire Extended** : `BuildingBand` (bande extérieure, 0-8, défaut 0) et `HouseBoardPercent` (part des bâtiments de la carte avec un tableau précâblé, 0-100, défaut 30). L'option sandbox **Niveaux requis** (page LiveWire) désactive aussi les niveaux d'Extended.
 
 ![Recettes de LiveWire Extended](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_fr.png)
 
