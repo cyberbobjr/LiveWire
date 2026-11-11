@@ -334,7 +334,9 @@ end
 
 function Window:clearLocate()
     for _, o in ipairs(self.lit or {}) do
-        if o:getObjectIndex() ~= -1 then o:setHighlighted(false) end
+        -- (false, false): the one-argument form marks the highlight render-once for every player,
+        -- and the engine then drops the board tint put back on the same object.
+        if o:getObjectIndex() ~= -1 then o:setHighlighted(false, false) end
     end
     self.lit, self.locating = {}, nil
 end
