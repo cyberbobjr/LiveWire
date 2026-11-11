@@ -106,7 +106,12 @@ function MP:canPlaceMoveableInternal(_character, _square, _item, _forceTypeObjec
     if ok and _square then
         local model = modelOfSprite(self.spriteName)
         if model and not Placement.check(model, _square) then return false end
-        if not Placement.checkRules(self.spriteName, _square, _character) then return false end
+        local allowed, why = Placement.checkRules(self.spriteName, _square, _character)
+        if not allowed then
+            -- the authority's refusal ends a place action the client allowed: say why
+            if why and isServer() and _character then LiveWire.notify(_character, why, {}, true) end
+            return false
+        end
     end
     return ok
 end

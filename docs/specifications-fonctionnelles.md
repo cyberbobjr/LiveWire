@@ -923,7 +923,9 @@ disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
   sa case : bâtiment de la carte (tous les étages, sous-sol vanilla compris), sous-sol ou maison créés par l'éditeur
   de pièces du jeu (Basement Building), ou construction de joueur close et couverte (tous ses étages empilés), en solo,
   sur le client et sur serveur dédié. Les cases « emptyoutside » (cours, porches) sont dehors ; les pièces sans
-  réseau public (`derelict`) sont dedans. Un coffret vanilla est étanche et non déplaçable : posé par la carte sur une façade, il dessert le
+  réseau public (`derelict`) sont dedans. En MP, le curseur du client accepte toute case sous un toit hors bâtiment de la carte
+  (il n'apprend qu'à la reconnexion qu'une maison de joueur toute neuve est close) ; le serveur juge à la fin de l'action et
+  dit au joueur pourquoi il refuse. Un coffret vanilla est étanche et non déplaçable : posé par la carte sur une façade, il dessert le
   bâtiment de l'autre côté de son mur ; un coffret de façade reste le tableau de sa maison. Un tableau fabriqué dehors
   (mur ouvert après la pose) ne dessert rien et sa fenêtre le dit. Les bâtiments construits par les joueurs ne
   reçoivent pas de tableau de maison.
