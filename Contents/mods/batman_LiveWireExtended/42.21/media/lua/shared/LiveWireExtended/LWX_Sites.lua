@@ -2,8 +2,8 @@
 -- breaker boards: where one may hang, and what it serves. Same answer on a client, in solo
 -- and on a dedicated server, from engine data only (no other mod's API):
 --   1. a room of the map (IsoMetaGrid:getRoomAt, which never returns an "emptyoutside" room,
---      IsoMetaChunk.java:273) gives its building: map houses, vanilla basements merged into
---      their house (Basements.java:502-585), rooms drawn by BuildingRoomsEditor. A derelict
+--      IsoMetaChunk.java:273) gives its building: map houses, a cellar with the house over it
+--      (X.Buildings.houseOf), rooms drawn by BuildingRoomsEditor. A derelict
 --      room (no public grid, IsoGridSquare.isNoPower) stays inside;
 --   2. else, on the ground or above, a closed and roofed world region (IsoWorldRegion
 --      isPlayerRoom) is a player enclosure; the engine has one region per floor, the site
@@ -35,7 +35,7 @@ function S.at(x, y, z)
     local room = getWorld():getMetaGrid():getRoomAt(x, y, z)
     if room and not room:isUserDefined() then
         local def = room:getBuilding()
-        if def then return { kind = "building", def = def, x = x, y = y, z = z } end
+        if def then return { kind = "building", def = X.Buildings.houseOf(def), x = x, y = y, z = z } end
     end
     local region = regionAt(x, y, z)
     if region then return { kind = "enclosure", region = region, x = x, y = y, z = z } end

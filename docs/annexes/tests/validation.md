@@ -1363,3 +1363,14 @@ crépusculaire, bascule d'un tick en multijoueur.
   `runs/20261111-132105-mp-c8618fd95d89` : serveur ok, client ok (abri neuf accepté par le curseur, porche couvert refusé :
   `mapOutside=true`), client reconnecté ok (abri vu comme enceinte). Solo `sp autotest/site42.json` → code 0, 35 PASS,
   `runs/20261111-132417-sp-fe7fbc71b965`. Toujours non testé en jeu : sous-sol vanilla, Basement Building, serveur Linux.
+- Sous-sols (2026-11-11, solo, `sp autotest/basement42.json`, Basement Building 1.6.9 lu dans le Workshop) → code 0,
+  `runs/20261111-133928-sp-05334a8fbabc`. Cave vanilla (`storage` 5 x 7 en z = -1, 10695,10292) : tableau accepté par le
+  curseur vanilla, relié, la cave est desservie ; mais la cave est un bâtiment de carte **distinct** de la maison du dessus
+  (`b:10695,10292` contre `b:10695,10291`) : un tableau de la cave ne dessert pas la maison, et inversement. Aucune cave de la
+  carte n'est fusionnée (544 sur 9976 bâtiments). Cave creusée par Basement Building (`aparosa_BD_Basic.applyHole`, pièce
+  `aparosa_basementdig_derelict`) : lieu reconnu, tableau accepté, relié, cave desservie. Raccourcis : téléportation,
+  creusement par la fonction du mod sans action ni pelle.
+- Cave rattachée à sa maison (2026-11-11, choix de l'utilisateur, `X.Buildings.houseOf` / `group`) : `sp autotest/basement42.json`
+  → code 0, `runs/20261111-144956-sp-1342ae9ef8f6` : cave vanilla `b:10695,10292` vue comme la maison `b:10695,10291`, tableau de
+  la cave relié, cave et rez-de-chaussée desservis ; cave Basement Building en terrain nu : lieu à part ; cave Basement
+  Building creusée sous une maison de la carte (10680,10330,-1) : même lieu que la maison `b:10670,10310`.

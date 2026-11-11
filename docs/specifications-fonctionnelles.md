@@ -920,8 +920,9 @@ disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
 - **Relais** : une borne raccordée posée dans un bâtiment ou contre lui (2 cases) le raccorde, alimenté par son onduleur.
 - **Tableau électrique (D-62)** : un tableau fabriqué, qui n'est pas étanche, ne se pose que sur la face intérieure d'un mur ; sur une face extérieure, le
   curseur de meubles le refuse et affiche la raison en rouge (`Tooltip_LWX_BoardNeedIndoor`). Il dessert le lieu de
-  sa case : bâtiment de la carte (tous les étages, sous-sol vanilla compris), sous-sol ou maison créés par l'éditeur
-  de pièces du jeu (Basement Building), ou construction de joueur close et couverte (tous ses étages empilés), en solo,
+  sa case : bâtiment de la carte (tous les étages, et la cave qui est sous lui : une cave vanilla est un bâtiment à part
+  que le jeu ne fusionne pas, elle compte avec la maison qui la recouvre), sous-sol ou maison créés par l'éditeur
+  de pièces du jeu (Basement Building ; sa cave sous une maison de la carte compte aussi avec elle), ou construction de joueur close et couverte (tous ses étages empilés), en solo,
   sur le client et sur serveur dédié. Les cases « emptyoutside » (cours, porches) sont dehors ; les pièces sans
   réseau public (`derelict`) sont dedans. En MP, le curseur du client accepte toute case sous un toit hors bâtiment de la carte
   (il n'apprend qu'à la reconnexion qu'une maison de joueur toute neuve est close) ; le serveur juge à la fin de l'action et

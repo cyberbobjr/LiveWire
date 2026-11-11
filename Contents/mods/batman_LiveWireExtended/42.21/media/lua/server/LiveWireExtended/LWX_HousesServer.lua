@@ -64,10 +64,11 @@ local function isHeavy(o)
         or instanceof(o, "IsoCombinationWasherDryer") or instanceof(o, "IsoStackedWasherDryer")
 end
 
--- Points of each room: { key = roomDefKey, points = { { key, heavy, x, y, z, adapter } } }.
+-- Points of each room of the building and of the cellars under it (X.Buildings.group):
+-- { key = roomDefKey, points = { { key, heavy, x, y, z, adapter } } }.
 function HS.collect(def)
     local byRoom, order, seen = {}, {}, {}
-    eachSquare(def, function(sq, room)
+    for _, part in ipairs(X.Buildings.group(def)) do eachSquare(part, function(sq, room)
         local rkey = room:getX() .. "," .. room:getY() .. "," .. room:getZ()  -- RoomDef
         local r = byRoom[rkey]
         if not r then
@@ -86,7 +87,7 @@ function HS.collect(def)
                     z = sq:getZ(), adapter = a.id }
             end
         end
-    end)
+    end) end
     return order
 end
 
