@@ -56,8 +56,6 @@ A water pump wired to the inverter keeps the house taps supplied from water barr
 4. **Check the result**: the inverter's right-click menu shows the powered area (a cyan circle on the ground) and opens its screen ([Inverter screen and software](05-inverter-screen-and-software.md)).
 5. **Add storage for the night** (optional): a power bank holding car batteries or deep-cycle batteries, connected the same way ([Equipment](02-equipment.md)).
 
-> Capture à faire : the "Connect to an inverter" menu on a solar panel, with the wire count.
-
 ## Installation
 
 Subscribe to the mod on the Steam Workshop ([Workshop item 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)), or copy `Contents/mods/batman_LiveWire` into your `Zomboid/mods` folder, then enable `batman_LiveWire` (Project Zomboid Build 42.21 or later).

@@ -34,13 +34,13 @@ Il est fixé au premier branchement de l'équipement à un onduleur, d'après le
 
 | Niveau | Rendement |
 |---|---|
-| 3 à 6 | 0,85 |
+| 0 à 6 | 0,85 |
 | 7 à 8 | 0,95 |
 | 9 à 10 | 1,0 |
 
 ## Solaire (100 W)
 
-Courbe en sinus entre l'aube et le crépuscule de la saison. Les nuages laissent 20 % en ciel couvert (facteur × (1 − 0,8 × nuages)). La neige se dépose sur le panneau pendant une chute de neige et fond au-dessus de 0 °C (l'action « Déneiger » l'enlève à la main). Environ 0,94 kWh par jour d'été et 0,60 kWh en hiver (panneau neuf, ciel dégagé).
+Courbe en sinus entre l'aube et le crépuscule de la saison. Les nuages laissent 20 % en ciel couvert (facteur × (1 − 0,8 × nuages)). La neige se dépose sur le panneau pendant une chute de neige et fond au-dessus de 0 °C (l'action « Déneiger » l'enlève à la main). Environ 0,93 kWh par jour d'été et 0,60 kWh en hiver (panneau neuf, ciel dégagé), avant rendement d'installation. Avec le rendement habituel de 0,85 (niveau 3 à 6 d'Électricité), cela fait environ 0,79 kWh et 0,51 kWh. La journée dure environ 14,6 heures au solstice d'été et 9,4 heures au solstice d'hiver (latitude du jeu : 38).
 
 ## Éolien (400 W)
 
@@ -125,9 +125,9 @@ La limite de l'onduleur reste **1 500 W** (4 500 W pour l'armoire onduleur ; les
 
 ## Exemple de dimensionnement
 
-Journée de référence : un frigo-congélateur toute la journée, 10 lumières pendant 6 heures, la télévision pendant 3 heures, plus l'onduleur à vide (20 W). Lumières et télévision servent la nuit. Une nuit d'hiver dure 14 heures.
+Journée de référence : un frigo-congélateur toute la journée, 10 lumières pendant 6 heures, la télévision pendant 3 heures, plus l'onduleur à vide (20 W). Lumières et télévision servent la nuit. Une nuit d'hiver dure 14 heures. La demande du soir exclut la consommation à vide de l'onduleur (20 W) ; l'énergie par jour et la nuit d'hiver l'incluent. Les batteries pour la nuit sont l'énergie de la nuit d'hiver divisée par la capacité nominale d'une batterie neuve, arrondie au-dessus, sans pertes de charge.
 
-| Profil | Demande le soir | Énergie par jour | Nuit d'hiver | Batteries pour la nuit |
+| Profil | Demande le soir (hors à vide) | Énergie par jour | Nuit d'hiver | Batteries pour la nuit |
 |---|---|---|---|---|
 | Ultra-réaliste 1993 | 1 300 W | 11,2 kWh | 9,2 kWh | environ 16 batteries de voiture ou 7 stationnaires |
 | Réaliste 1993 | 810 W | 7,4 kWh | 5,9 kWh | environ 10 batteries de voiture ou 4 stationnaires |
@@ -136,14 +136,18 @@ Journée de référence : un frigo-congélateur toute la journée, 10 lumières 
 
 (Batterie de voiture standard : 0,6 kWh ; batterie stationnaire : 1,5 kWh ; batteries neuves en parfait état.)
 
-Production d'hiver des sources : panneau solaire environ 0,6 kWh/jour, roue à aubes environ 2,9 kWh/jour, éolienne environ 0,7 kWh/jour avec un vent moyen de 25 km/h.
+Production des sources par jour, pour des équipements neufs, ciel dégagé, rendement d'installation de 0,85 (niveau 3 à 6 d'Électricité) et un vent stable de 25 km/h au niveau du sol (58 % de 400 W = 231 W, soit 196 W après rendement) :
 
-| Installation | Été (kWh/jour) | Hiver (kWh/jour) | Suffisant pour |
+- panneau solaire : environ 0,79 kWh en été et 0,51 kWh en hiver ;
+- roue à aubes : environ 2,0 kWh en été (96 W) et 2,4 kWh en automne ou en hiver (120 W) ;
+- éolienne : environ 4,7 kWh, les mêmes dans les deux saisons. Le vent réel varie, et une éolienne ne produit rien sous 10 km/h ni au-dessus de 85 km/h : le rendement réel diffère de ce chiffre à vent stable.
+
+| Installation | Été (kWh/jour) | Hiver (kWh/jour) | Suffisant pour (à comparer à l'énergie par jour ci-dessus) |
 |---|---|---|---|
-| 4 panneaux | 3,8 | 2,4 | Confort |
-| 6 panneaux + 1 éolienne | 6,3 | 4,3 | Valeurs du jeu |
-| 1 roue à aubes + 8 panneaux | 9,8 | 7,7 | Réaliste 1993 |
-| 2 roues à aubes + 9 panneaux | 13,1 | 11,2 | Ultra-réaliste 1993 (tout juste) |
+| 4 panneaux | 3,2 | 2,0 | Confort en été, juste en dessous en hiver (2,1 nécessaires) |
+| 6 panneaux + 1 éolienne | 9,5 | 7,8 | Réaliste 1993 dans les deux saisons |
+| 1 roue à aubes + 8 panneaux | 8,3 | 6,5 | Réaliste 1993 en été, Valeurs du jeu en hiver |
+| 2 roues à aubes + 9 panneaux | 11,0 | 9,5 | Réaliste 1993 dans les deux saisons ; Ultra-réaliste 1993 juste en dessous en été (11,2 nécessaires) |
 
 ## Combien de panneaux ?
 

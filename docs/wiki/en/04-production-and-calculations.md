@@ -34,13 +34,13 @@ Set when the device is first connected to an inverter, from the Electrical level
 
 | Electrical level | Efficiency |
 |---|---|
-| 3-6 | 0.85 |
+| 0-6 | 0.85 |
 | 7-8 | 0.95 |
 | 9-10 | 1.0 |
 
 ## Solar panel (100 W)
 
-Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcast: factor x (1 - 0.8 x clouds). Snow settles on the panel during snowfall and melts above 0 C (use the "Clear the snow" action to remove it by hand). A new panel under a clear sky gives about **0.94 kWh per summer day** and **0.60 kWh in winter**.
+Sine curve between the season's dawn and dusk. Clouds leave 20 % at full overcast: factor x (1 - 0.8 x clouds). Snow settles on the panel during snowfall and melts above 0 C (use the "Clear the snow" action to remove it by hand). A new panel under a clear sky gives about **0.93 kWh per summer day** and **0.60 kWh in winter**, before installation efficiency. With the usual 0.85 (Electrical 3 to 6), that is about **0.79 kWh** and **0.51 kWh**. The day lasts about 14.6 hours at the summer solstice and 9.4 hours at the winter solstice (game latitude 38).
 
 ## Wind turbine (400 W)
 
@@ -130,9 +130,9 @@ The inverter limit stays **1,500 W** (4,500 W for the inverter cabinet; [coupled
 
 ## Sizing example
 
-A reference day: one fridge-freezer all day, 10 lights for 6 hours, the TV for 3 hours, plus the inverter idle (20 W). Lights and TV are used at night. A winter night lasts 14 hours.
+A reference day: one fridge-freezer all day, 10 lights for 6 hours, the TV for 3 hours, plus the inverter idle (20 W). Lights and TV are used at night. A winter night lasts 14 hours. The evening demand leaves out the inverter's 20 W idle draw; the energy per day and the winter night include it. Batteries for the night are the winter-night energy divided by the nominal capacity of a new battery, rounded up, without charge losses.
 
-| Profile | Evening demand | Energy per day | Winter night | Batteries for the night |
+| Profile | Evening demand (without idle) | Energy per day | Winter night | Batteries for the night |
 |---|---|---|---|---|
 | Ultra-realistic 1993 | 1,300 W | 11.2 kWh | 9.2 kWh | about 16 car batteries or 7 deep-cycle |
 | Realistic 1993 | 810 W | 7.4 kWh | 5.9 kWh | about 10 car batteries or 4 deep-cycle |
@@ -141,14 +141,18 @@ A reference day: one fridge-freezer all day, 10 lights for 6 hours, the TV for 3
 
 (Standard car battery: 0.6 kWh; deep-cycle battery: 1.5 kWh; new batteries in full condition.)
 
-Winter production of the sources: solar panel about 0.6 kWh/day, water wheel about 2.9 kWh/day, wind turbine about 0.7 kWh/day with an average 25 km/h wind.
+Production of the sources per day, for new devices, clear sky, installation efficiency 0.85 (Electrical 3 to 6), and a steady 25 km/h wind at ground level (58 % of 400 W = 231 W, or 196 W after efficiency):
 
-| Installation | Summer (kWh/day) | Winter (kWh/day) | Enough for |
+- solar panel: about 0.79 kWh in summer and 0.51 kWh in winter;
+- water wheel: about 2.0 kWh in summer (96 W) and 2.4 kWh in autumn or winter (120 W);
+- wind turbine: about 4.7 kWh, the same in both seasons. Real wind varies, and a turbine gives nothing below 10 km/h or above 85 km/h, so the real yield differs from this steady-wind figure.
+
+| Installation | Summer (kWh/day) | Winter (kWh/day) | Enough for (compared with the energy per day above) |
 |---|---|---|---|
-| 4 solar panels | 3.8 | 2.4 | Comfort |
-| 6 panels + 1 wind turbine | 6.3 | 4.3 | Game values |
-| 1 water wheel + 8 panels | 9.8 | 7.7 | Realistic 1993 |
-| 2 water wheels + 9 panels | 13.1 | 11.2 | Ultra-realistic 1993 (just) |
+| 4 solar panels | 3.2 | 2.0 | Comfort in summer, just short in winter (2.1 needed) |
+| 6 panels + 1 wind turbine | 9.5 | 7.8 | Realistic 1993 in both seasons |
+| 1 water wheel + 8 panels | 8.3 | 6.5 | Realistic 1993 in summer, Game values in winter |
+| 2 water wheels + 9 panels | 11.0 | 9.5 | Realistic 1993 in both seasons; Ultra-realistic 1993 just short in summer (11.2 needed) |
 
 ## How many panels?
 

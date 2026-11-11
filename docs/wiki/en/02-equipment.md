@@ -12,7 +12,7 @@ Every device is a real mod tile, placed like vanilla furniture. Each device reci
 
 | Device | Role | Placement | Electrical level to link |
 |---|---|---|---|
-| Solar panel | Source, 100 W | Outdoors, open sky; a flat roof is fine | 3 |
+| Solar panel | Source, 100 W | Outdoors, under open sky | 3 |
 | Wind turbine | Source, 400 W; the blades turn with the wind | Outdoors; the wind is 15 % stronger per floor, up to the 3rd | 2 |
 | Water wheel | Source, 120 W day and night; the wheel turns with the river | Ground floor, next to a river | 2 |
 | Inverter | Heart of the network, 1,500 W | Any floor tile, indoors included | 3 |
@@ -45,8 +45,10 @@ Effective capacity = nominal x (0.4 + 0.6 x condition / 100) x `BatteryCapacityM
 
 ## Parts
 
-- **Solar cells** (`LiveWire.SolarCell`) are crafted from 5 Electronics Scrap and aluminum at Electrical 3. A calculator dismantled with the vanilla "Dismantle Simple Electronic Item" recipe also gives one solar cell.
+- **Solar cells** (`LiveWire.SolarCell`) are crafted from 5 Electronics Scrap and aluminum at Electrical 3, with a screwdriver and pliers. A calculator dismantled with the vanilla "Dismantle Simple Electronic Item" recipe also gives one solar cell.
 - The **solar panel kit** takes 10 solar cells. See [Recipes](08-recipes.md) for every kit.
+- **Wind turbine blades and mast** have no Electrical level. The blades are made with a screwdriver, snips and a hammer; the mast with a screwdriver, a hammer and a pipe wrench. Both go into the wind turbine kit.
+- The **deep-cycle battery** (`LiveWire.DeepCycleBattery`) is made at Electrical 3 with a screwdriver and pliers, from two car batteries, electric wire and scrap metal.
 
 ## Stack two power banks
 
@@ -68,6 +70,7 @@ Each bank keeps its own container and inverter connection. The LCD's **Bank 1/2*
 - Placing, turning and picking up need a **screwdriver**, but no Electrical level.
 - Connecting a device to an inverter is covered in [Wiring](03-wiring.md).
 - A picked-up device keeps its condition.
+- Turning a device to another facing keeps the same device and its links. Picked up afterwards, it comes back as its own item, with its condition.
 - Solar panel and wind turbine: outdoors, under open sky.
 - Water wheel: river bank, ground floor, next to river water. Lakes, ponds and swimming pools are refused.
 - Water pump: anywhere; its barrels must stand on the 8 squares around it (see [Water Pump](07-water-pump.md)).
@@ -75,9 +78,9 @@ Each bank keeps its own container and inverter connection. The LCD's **Bank 1/2*
 
 ## Dismantling
 
-Every device and kit has a dismantle recipe in the crafting menu. It needs a screwdriver (some recipes also need a hammer or a pipe wrench) and no Electrical level. You get metal parts back, and electronic parts depending on the condition of the item: a worn device gives fewer. A soundproofing or coupling kit fitted on an inverter comes back in full.
+Each device, the coupling kit, the soundproofing kit, the wind turbine blades and mast, and the deep-cycle battery have a dismantle recipe in the crafting menu. They need a screwdriver (some recipes also need a hammer or a pipe wrench) and no Electrical level. You get metal parts back, and electronic parts depending on the condition of the item: a worn device gives fewer. A soundproofing or coupling kit fitted on an inverter comes back in full.
 
-Deep-cycle batteries, wind turbine blades and masts, and solar cells have no dismantle recipe.
+Solar cells cannot be dismantled.
 
 ## See also
 

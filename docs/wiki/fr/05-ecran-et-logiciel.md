@@ -74,11 +74,11 @@ Il montre l'onduleur relié à cet ordinateur, ou à défaut l'onduleur le plus 
 
 ## Bourdonnement de l'onduleur
 
-Un son propre au mod, audible seulement à une case autour d'un onduleur allumé (même étage). Chaque joueur règle son volume dans Options, Mods, LiveWire (0 = coupé, de 0 à 100). Les zombies entendent l'onduleur à 2 cases (option InverterNoiseRadius ; 0 = silencieux).
+Un son propre au mod, audible à environ deux cases d'un onduleur allumé, plus fort tout près de lui. Chaque joueur règle son volume dans Options, Mods, LiveWire (0 = coupé, de 0 à 100). Les zombies entendent l'onduleur à 2 cases (option InverterNoiseRadius ; 0 = silencieux).
 
 ## Kit d'insonorisation
 
-Le kit d'insonorisation (`LiveWire.SoundproofKit`, niveau 2 d'Électricité) se pose sur l'onduleur avec « Insonoriser l'onduleur », et se retire avec « Retirer l'insonorisation » ; le kit est rendu.
+Le kit d'insonorisation (`LiveWire.SoundproofKit`, niveau 2 d'Électricité) se fabrique avec un tournevis et un marteau, puis se pose sur l'onduleur avec « Insonoriser l'onduleur », et se retire avec « Retirer l'insonorisation » ; le kit est rendu.
 
 | Effet | Valeur |
 |---|---|

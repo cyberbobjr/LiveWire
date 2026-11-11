@@ -14,6 +14,7 @@ Devices wear out over time, which lowers their output (see the condition factor 
 | Inverter, inverter cabinet | -1 per 5 days while on | Load above 80 %: wear x 2; each trip without breaker: -3; soundproofed: x 1.25 |
 | Breaker | -1 per 15 days | none |
 | Power bank, alarm | -1 per 30 days | none |
+| Water pump | -1 per 10 days of pumping (it wears only while it runs) | none |
 | Battery | 100 / life cycles per full cycle | Discharge below 20 %: wear doubled; self-discharge 0.2 % per day |
 
 ## Repair, overhaul, recondition
@@ -90,7 +91,7 @@ are unaffected. This does not erase charge or reset condition/cycles.
 Broken equipment is not lost: pick it up (screwdriver) and dismantle it from the crafting
 menu; its electronic parts depend on its condition ([Recipes](08-recipes.md)). Live maintenance risk is enabled by default; see the detailed rules below.
 
-Wind turbines and water wheels need Electrical 2 to link to an inverter; crafting needs 3 and 4 respectively. Placing and picking up need a screwdriver but no Electrical level. Blade and mast recipes need no Electrical level.
+Wind turbines and water wheels need Electrical 2 to link to an inverter; crafting needs 3 and 4 respectively. Placing and picking up need a screwdriver but no Electrical level. Blade and mast recipes need no Electrical level, but they need a screwdriver. Since 2.0.0, the screwdriver is also needed to craft solar cells from scrap, the deep-cycle battery and the soundproofing kit (see [Recipes](08-recipes.md)).
 
 ## Electrical safety and experience
 

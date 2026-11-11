@@ -74,14 +74,14 @@ It shows the inverter linked to that computer, or the nearest inverter in cable 
 
 ## Inverter hum
 
-The inverter makes a hum, a sound of the mod, heard only **one tile around** a switched-on inverter (same floor).
+The inverter makes a hum, a sound of the mod, heard within about **two tiles** of a switched-on inverter, loudest right next to it.
 
 - Each player sets its volume in **Options > Mods > LiveWire** (0 = off).
 - Zombies hear the inverter within 2 tiles (sandbox `InverterNoiseRadius`; 0 = silent).
 
 ## Soundproofing kit
 
-The Soundproofing Kit (`LiveWire.SoundproofKit`, Electrical level 2) is fitted on the inverter with **Soundproof the inverter**. Remove it with **Remove the soundproofing**; the kit is given back.
+The Soundproofing Kit (`LiveWire.SoundproofKit`, Electrical level 2) is made with a screwdriver and a hammer, and fitted on the inverter with **Soundproof the inverter**. Remove it with **Remove the soundproofing**; the kit is given back.
 
 | Effect | Value |
 |---|---|

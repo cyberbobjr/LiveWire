@@ -10,7 +10,7 @@ Chaque équipement est une vraie tuile du mod, posée comme un meuble vanilla. C
 
 | Équipement | Rôle | Pose | Niveau pour brancher |
 |---|---|---|---|
-| Panneau photovoltaïque | Source, 100 W | Dehors, ciel dégagé ; toit plat possible | 3 |
+| Panneau photovoltaïque | Source, 100 W | Dehors, sous ciel dégagé | 3 |
 | Éolienne | Source, 400 W ; les pales tournent avec le vent | Dehors ; le vent est 15 % plus fort par étage, jusqu'au 3e | 2 |
 | Roue à aubes | Source, 120 W jour et nuit ; la roue tourne avec la rivière | Rez-de-chaussée, au bord d'une rivière | 2 |
 | Onduleur | Cœur du réseau, 1 500 W | Toute case de sol, intérieur compris | 3 |
@@ -43,8 +43,10 @@ Capacité effective = nominale × (0,4 + 0,6 × état/100) × BatteryCapacityMul
 
 ## Pièces
 
-- Les **cellules solaires** (`LiveWire.SolarCell`) se fabriquent avec 5 déchets électroniques et de l'aluminium, au niveau 3 d'Électricité. Une calculatrice démontée avec la recette vanilla « Démonter un appareil électronique simple » donne aussi une cellule solaire.
+- Les **cellules solaires** (`LiveWire.SolarCell`) se fabriquent avec 5 déchets électroniques et de l'aluminium, au niveau 3 d'Électricité, avec un tournevis et une pince. Une calculatrice démontée avec la recette vanilla « Démonter un appareil électronique simple » donne aussi une cellule solaire.
 - Le **kit de panneau solaire** demande 10 cellules solaires. Voir [Recettes](08-recettes.md) pour tous les kits.
+- Les **pales et le mât d'éolienne** n'exigent aucun niveau d'Électricité. Les pales se fabriquent avec un tournevis, des cisailles à tôle et un marteau ; le mât avec un tournevis, un marteau et une clé à tuyau. Les deux entrent dans le kit d'éolienne.
+- La **batterie stationnaire** (`LiveWire.DeepCycleBattery`) se fabrique au niveau 3 d'Électricité avec un tournevis et une pince, à partir de deux batteries de voiture, de fil électrique et de ferraille.
 
 ## Superposer deux powerbanks
 
@@ -66,6 +68,7 @@ Chaque banque possède son propre conteneur et son propre branchement à l'ondul
 - Poser, tourner et ramasser demandent un **tournevis**, sans niveau d'Électricité.
 - Brancher un équipement à un onduleur est expliqué dans [Raccordement](03-raccordement.md).
 - Un appareil ramassé garde son état.
+- Tourner un appareil vers une autre orientation garde le même appareil et ses liens. Ramassé ensuite, il revient comme son propre objet, avec son état.
 - Panneau et éolienne : à l'extérieur, sous ciel ouvert.
 - Roue à aubes : berge d'une rivière, rez-de-chaussée, à côté de l'eau de la rivière. Lacs, étangs et piscines sont refusés.
 - Pompe à eau : n'importe où ; ses barils doivent être sur les 8 cases autour d'elle (voir [Pompe à eau](07-pompe-a-eau.md)).
@@ -73,9 +76,9 @@ Chaque banque possède son propre conteneur et son propre branchement à l'ondul
 
 ## Démontage
 
-Chaque équipement et chaque kit a une recette de démontage dans le menu de fabrication. Elle demande un tournevis (certaines recettes demandent aussi un marteau ou une clé à tuyau) et aucun niveau d'Électricité. On récupère des pièces métalliques, et des pièces électroniques selon l'état de l'objet : un équipement usé en rend moins. Un kit d'insonorisation ou de couplage posé sur un onduleur revient en entier.
+Chaque équipement, le kit de couplage, le kit d'insonorisation, les pales et le mât d'éolienne, et la batterie stationnaire ont une recette de démontage dans le menu de fabrication. Elle demande un tournevis (certaines recettes demandent aussi un marteau ou une clé à tuyau) et aucun niveau d'Électricité. On récupère des pièces métalliques, et des pièces électroniques selon l'état de l'objet : un équipement usé en rend moins. Un kit d'insonorisation ou de couplage posé sur un onduleur revient en entier.
 
-Les batteries stationnaires, les pales et le mât d'éolienne, et les cellules solaires n'ont pas de recette de démontage.
+Les cellules solaires ne se démontent pas.
 
 ## Voir aussi
 

@@ -12,6 +12,7 @@
 | Onduleur, armoire onduleur | −1 tous les 5 jours en marche | Charge > 80 % : usure × 2 ; chaque disjonction sans disjoncteur : −3 ; insonorisé : × 1,25 |
 | Disjoncteur | −1 tous les 15 jours | aucun |
 | Powerbank, alarme | −1 tous les 30 jours | aucun |
+| Pompe à eau | −1 tous les 10 jours de pompage (elle ne s'use que pendant qu'elle tourne) | aucun |
 | Batterie | 100 / durée de vie en cycles par cycle complet | Décharge sous 20 % : usure doublée ; autodécharge 0,2 % par jour |
 
 ## Réparation, remise à neuf, reconditionnement
@@ -95,7 +96,7 @@ Un équipement hors d'usage n'est pas perdu : ramassez-le (tournevis) et démont
 depuis le menu d'artisanat ; ses pièces électroniques dépendent de son état
 ([Recettes](08-recettes.md)).
 
-Éoliennes et roues à aubes : branchement au niveau 2 ; fabrication aux niveaux 3 et 4 respectivement. Pose et ramassage au tournevis, sans niveau. Les pales et le mât se fabriquent sans niveau électrique.
+Éoliennes et roues à aubes : branchement au niveau 2 ; fabrication aux niveaux 3 et 4 respectivement. Pose et ramassage au tournevis, sans niveau. Les pales et le mât se fabriquent sans niveau électrique, mais avec un tournevis. Depuis la 2.0.0, le tournevis est aussi requis pour fabriquer les cellules solaires à partir de déchets, la batterie stationnaire et le kit d'insonorisation (voir [Recettes](08-recettes.md)).
 
 ## Sécurité électrique et expérience
 
