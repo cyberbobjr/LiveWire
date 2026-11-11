@@ -5,7 +5,7 @@
     "Tooltip_LWX_EnlargeNone": "Este quadro não pode ser ampliado.",
     "Tooltip_LWX_NoBuilding": "Nenhum edifício ao alcance do inversor.",
     "Tooltip_LWX_AlreadyConnected": "Este edifício já está ligado a um inversor.",
-    "Tooltip_LWX_ConnectBuilding": "Alimenta todos os pisos do edifício em %1, %2, a cave e uma faixa à volta. O jogo alimenta blocos inteiros de 8 x 8: os quadrados próximos desses blocos também recebem energia.",
+    "Tooltip_LWX_ConnectBuilding": "Alimenta todos os pisos do edifício em %1, %2 e a cave. Uma faixa à volta só recebe energia se a opção de sandbox «Faixa exterior à volta de um edifício» estiver acima de 0. O jogo alimenta blocos inteiros de 8 x 8: os quadrados próximos desses blocos também recebem energia.",
     "Tooltip_LWX_NoInverter": "Nenhum inversor ao alcance do cabo.",
     "Tooltip_LWX_TerminalLinked": "Este poste já está ligado.",
     "Tooltip_LWX_TerminalWires": "Usa %1 fio(s) elétrico(s). O poste alimenta então o seu bloco de 8 x 8; defina a zona depois.",

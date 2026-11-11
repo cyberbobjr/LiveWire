@@ -5,7 +5,7 @@
     "Tooltip_LWX_EnlargeNone": "Dieser Sicherungskasten kann nicht vergrößert werden.",
     "Tooltip_LWX_NoBuilding": "Kein Gebäude in Reichweite des Wechselrichters.",
     "Tooltip_LWX_AlreadyConnected": "Dieses Gebäude ist bereits an einen Wechselrichter angeschlossen.",
-    "Tooltip_LWX_ConnectBuilding": "Versorgt alle Stockwerke des Gebäudes bei %1, %2, seinen Keller und einen Streifen darum. Das Spiel versorgt ganze Blöcke von 8 x 8 Feldern: Felder in der Nähe im selben Block bekommen auch Strom.",
+    "Tooltip_LWX_ConnectBuilding": "Versorgt alle Stockwerke des Gebäudes bei %1, %2 und seinen Keller. Ein Streifen darum bekommt nur Strom, wenn die Sandbox-Option „Außenstreifen um ein Gebäude“ über 0 steht. Das Spiel versorgt ganze Blöcke von 8 x 8 Feldern: Felder in der Nähe im selben Block bekommen auch Strom.",
     "Tooltip_LWX_NoInverter": "Kein Wechselrichter in Kabelreichweite.",
     "Tooltip_LWX_TerminalLinked": "Diese Anschlusssäule ist bereits verbunden.",
     "Tooltip_LWX_TerminalWires": "Verbraucht %1 Stromkabel. Die Säule versorgt dann ihren Block von 8 x 8 Feldern; die Zone danach festlegen.",

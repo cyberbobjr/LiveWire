@@ -5,7 +5,7 @@
     "Tooltip_LWX_EnlargeNone": "这个配电箱无法扩展。",
     "Tooltip_LWX_NoBuilding": "逆变器范围内没有建筑.",
     "Tooltip_LWX_AlreadyConnected": "该建筑已接入一台逆变器.",
-    "Tooltip_LWX_ConnectBuilding": "为位于 %1, %2 的建筑的所有楼层, 地下室以及周围一圈供电. 游戏按完整的 8 x 8 区块供电: 同一区块中附近的格子也会通电.",
+    "Tooltip_LWX_ConnectBuilding": "为位于 %1, %2 的建筑的所有楼层和地下室供电. 只有沙盒选项「建筑周围的室外带」大于 0 时, 周围一圈才会通电. 游戏按完整的 8 x 8 区块供电: 同一区块中附近的格子也会通电.",
     "Tooltip_LWX_NoInverter": "电线范围内没有逆变器.",
     "Tooltip_LWX_TerminalLinked": "该电桩已连接.",
     "Tooltip_LWX_TerminalWires": "消耗 %1 根电线. 之后电桩为其 8 x 8 区块供电; 再设置其区域.",

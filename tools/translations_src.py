@@ -447,6 +447,18 @@ add("ContextMenu", "ContextMenu_LW_RenameNetwork", "Rename network", "Renommer l
 add("IG_UI", "IGUI_LW_RenameNetworkPrompt", "Network name (up to %1 characters; leave empty to clear)", "Nom du réseau (%1 caractères maximum ; vide pour effacer)")
 
 
+# Consumer labels: EN and FR here, the other languages in translations_ixx.OTHER_ROWS.
+add('IG_UI', 'IGUI_LW_ConsumerKey_Low', 'Under 50 W', 'Moins de 50 W')
+add('IG_UI', 'IGUI_LW_ConsumerKey_Mid', '50 to 300 W', '50 à 300 W')
+add('IG_UI', 'IGUI_LW_ConsumerKey_High', 'Over 300 W', 'Plus de 300 W')
+add('IG_UI', 'IGUI_LW_ConsumerKey_Off', 'Stopped', "À l'arrêt")
+add('IG_UI', 'IGUI_LW_ConsumerKey_Other', 'Other network', 'Autre réseau')
+add('IG_UI', 'IGUI_LW_ConsumerKey_Grid', 'Public grid', 'Réseau public')
+add('IG_UI', 'IGUI_LW_ConsumerGridHalo', 'Public grid still on', 'Réseau public encore actif')
+add('IG_UI', 'IGUI_LW_ConsumerGridActive', 'Public grid still on: the appliances in white do not draw on the inverter.', "Réseau public encore actif : les appareils en blanc ne consomment pas sur l'onduleur.")
+add('IG_UI', 'IGUI_LW_ConsumerLineGrid', '%1: public grid (%2, %3, %4)', '%1 : réseau public (%2, %3, %4)')
+
+
 def main():
     # Keep the documented python -I invocation able to import the sibling source.
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
