@@ -1,4 +1,4 @@
--- Live Wire in-game test, multiplayer (pz-autotest mp: dedicated server + client 1).
+-- Live Wire in-game test, multiplayer (pzdev mp: dedicated server + client 1).
 -- Server side: installs a network next to the connected player through the real
 -- placement wrapper (ISMoveableSpriteProps:placeMoveableInternal) and the real link
 -- action (LWLinkAction:complete on the authority), fills the power bank, steps the

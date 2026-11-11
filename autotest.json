@@ -1,6 +1,6 @@
-// pz-autotest configuration of Live Wire (.claude/tools/pz-autotest/README.md):
-//   python .claude/tools/pz-autotest/pz_autotest.py sp LiveWire --wait-idle 3600
-//   python .claude/tools/pz-autotest/pz_autotest.py mp LiveWire --clients 1 --wait-idle 3600
+// pzdev configuration of Live Wire (PZDevKit/docs/wiki/fr/01-tests-automatiques.md):
+//   python PZDevKit/pzdev.py sp LiveWire --wait-idle 3600
+//   python PZDevKit/pzdev.py mp LiveWire --clients 1 --wait-idle 3600
 {
   "name": "LiveWire",
   "gameVersion": "42.21",

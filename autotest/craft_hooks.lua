@@ -2,7 +2,7 @@
 -- (player report, 2026-10-21: improvised flashlight and lantern stop at 96 % or stay at
 -- 100 %). Crafts through the same path as the crafting window: HandcraftLogic +
 -- ISHandcraftAction.FromLogic + ISTimedActionQueue, one recipe after the other.
--- Run it with a pz-autotest configuration whose "hooks" points to this file (the
+-- Run it with a pzdev configuration whose "hooks" points to this file (the
 -- project's autotest.json uses lw_hooks.lua); it needs a save with a table or a
 -- counter within 30 tiles of the player.
 local H = {}

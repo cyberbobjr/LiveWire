@@ -1,10 +1,10 @@
--- Live Wire in-game test (pz-autotest, single player).
+-- Live Wire in-game test (pzdev, single player).
 -- 1. Checks through the vanilla furniture code paths (placeMoveable, pickUpMoveable,
 --    rotateMoveable), the real timed action for linking, the real context menus,
 --    and the client visuals (overlays), breaker, alarm, LCD panel, software, range.
 -- 1b. Water pump and parallel inverters (C25); parameter pump=0 skips them.
 -- 2. Then a staged scene with screenshots (Zomboid/Screenshots of the test cache,
---    collected by pz-autotest): lw_01_* to lw_08_*. Parameter shots=0 skips it.
+--    collected by pzdev): lw_01_* to lw_08_*. Parameter shots=0 skips it.
 local H = {}
 local lines, okAll = {}, true
 

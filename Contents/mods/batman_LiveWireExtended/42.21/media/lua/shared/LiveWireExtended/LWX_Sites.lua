@@ -89,6 +89,12 @@ function S.key(site)
     return "e:" .. c[1] .. "," .. c[2] .. "," .. c[3]
 end
 
+-- Is square (x, y, z) an "emptyoutside" part of a map building (yard, porch)? Map data, the
+-- same on every side.
+function S.mapOutside(x, y, z)
+    return getWorld():getMetaGrid():getEmptyOutsideAt(x, y, z) ~= nil
+end
+
 -- Are sites a and b one place?
 function S.same(a, b)
     if not a or not b or a.kind ~= b.kind then return false end

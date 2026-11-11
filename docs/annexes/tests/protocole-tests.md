@@ -40,8 +40,8 @@ et scénarios simulés ; ils ne remplacent pas l'exécution des API Java du jeu.
 ## Campagnes automatisées en jeu
 
 Les hooks et profils sont versionnés dans `autotest/` et `autotest.json`.
-Les lanceurs dépendent de l'outil externe **pz-autotest**, attendu dans
-`../.claude/tools/pz-autotest/` ; cet outil n'est pas fourni par ce dépôt.
+Les lanceurs dépendent de l'outil externe **pzdev**, attendu dans
+`../PZDevKit/` ; cet outil n'est pas fourni par ce dépôt.
 Ils utilisent des caches et des copies de mondes dédiés aux essais.
 
 Depuis la racine du projet, lancer les commandes **une par une**, en attendant
@@ -64,11 +64,11 @@ Pour les campagnes générales et les profils complémentaires, depuis le dossie
 parent du dépôt :
 
 ```powershell
-python .claude/tools/pz-autotest/pz_autotest.py check LiveWire
-python .claude/tools/pz-autotest/pz_autotest.py sp LiveWire --wait-idle 3600
-python .claude/tools/pz-autotest/pz_autotest.py mp LiveWire --clients 1 --wait-idle 3600
-python .claude/tools/pz-autotest/pz_autotest.py sp LiveWire/autotest/fixes.json --wait-idle 3600
-python .claude/tools/pz-autotest/pz_autotest.py mp LiveWire/autotest/fixes.json --wait-idle 3600
+python PZDevKit/pzdev.py check LiveWire
+python PZDevKit/pzdev.py sp LiveWire --wait-idle 3600
+python PZDevKit/pzdev.py mp LiveWire --clients 1 --wait-idle 3600
+python PZDevKit/pzdev.py sp LiveWire/autotest/fixes.json --wait-idle 3600
+python PZDevKit/pzdev.py mp LiveWire/autotest/fixes.json --wait-idle 3600
 ```
 
 Le profil général couvre pose, menus, raccordement, protections, batteries,
@@ -506,7 +506,7 @@ refus de l'action avant consommation si la limite change.
 Scénario ciblé en jeu, depuis le dossier Workshop parent :
 
 ```powershell
-python .claude/tools/pz-autotest/pz_autotest.py sp LiveWire -P vertical=1 -P shots=0 --no-screenshot --wait-idle 3600
+python PZDevKit/pzdev.py sp LiveWire -P vertical=1 -P shots=0 --no-screenshot --wait-idle 3600
 ```
 
 Crée des plateformes dans la copie jetable du monde et utilise les objets réels

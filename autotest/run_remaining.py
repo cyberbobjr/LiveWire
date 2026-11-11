@@ -8,9 +8,9 @@ import shutil
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT.parent / '.claude' / 'tools' / 'pz-autotest'))
-from pzat import core
-from pzat.runner import Env, Options, Runner, client_java_command, server_java_command
+sys.path.insert(0, str(ROOT.parent / 'PZDevKit' / 'cli'))
+from pzdev import core
+from pzdev.launcher import Env, Options, Runner, client_java_command, server_java_command
 
 
 def main():
