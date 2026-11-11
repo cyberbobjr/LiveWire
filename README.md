@@ -252,7 +252,7 @@ Runs day and night, about 2.9 kWh per day. Season factor: spring × 1.2, summer 
 ### Batteries and inverter
 
 - Charging: surplus × 0.90 (charge efficiency); self-discharge 0.2 % per day; when full, extra production is lost (shown as "production lost").
-- The inverter supplies the demand from current production first (× efficiency), then from the batteries. It can only restart when production covers the demand or the batteries hold more than 2 % of their capacity.
+- The inverter supplies the demand from current production first (× efficiency), then from the public grid while it works (sandbox `GridCharging`, inverter inside a building), then from the batteries. It can only restart when production (grid included) covers the demand or the batteries hold more than 2 % of their capacity.
 - Appliance consumption depends on the sandbox `ConsumptionProfile` (below).
 
 ### Appliance consumption

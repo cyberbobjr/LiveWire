@@ -43,6 +43,10 @@ Right-click an inverter > **LiveWire Extended** > **Connect the building**. It n
 - A building is connected to one inverter at most. **Disconnect the building** is in the same menu and shows where the building is.
 - Appliances of the building are then billed by the inverter like the others: consumption, breaker and battery work as usual.
 
+![Connect the building on the inverter menu](../../images/screenshots/connect-building-en.png)
+
+*The inverter menu offers **Connect the building**; its tooltip gives the building's position and explains the 8 x 8 blocks.*
+
 ## Power terminal and zone
 
 The **Power Terminal** brings power outdoors: a vegetable garden, a workshop, a yard, a player-built house.
@@ -50,6 +54,10 @@ The **Power Terminal** brings power outdoors: a vegetable garden, a workshop, a 
 1. **Place it** with the furniture cursor. Placing and picking up need a screwdriver; placing needs no Electrical level.
 2. **Link it to an inverter**: right-click it > **LiveWire Extended** > **Link to an inverter**. It needs Electrical level 3, a screwdriver and electric wire: one wire per 4 squares of cable, within the cable range. Its own 8 x 8 block gets power at once.
 3. **Set the zone**: right-click it > **Set the zone**, then click and drag on the ground. The outline shows the squares the game will really power, rounded to whole 8 x 8 blocks: **green** when the zone is allowed, **red** when it is not. **Apply** keeps the zone.
+
+![Setting the terminal zone](../../images/screenshots/zone-tool-en.png)
+
+*Setting the zone: the green outline shows the squares that will get power, rounded to whole 8 x 8 blocks.*
 
 The zone rules:
 
@@ -129,12 +137,20 @@ If you already stand in reach of the board, the switch happens at once. A breake
 
 **Locate** lights up the appliances of that breaker; **Hide** turns the light off.
 
+![Breaker board window](../../images/screenshots/board-window-en.png)
+
+*The board window: four labelled breakers; the selected Porch breaker runs on a twilight switch (night only).*
+
 While the window is open, the appliances of the board's region are tinted, and a legend explains the colours:
 
 - **red**: wired to no board (no power),
 - **green**: wired to this board,
 - **blue**: its breaker is off or tripped,
 - **grey**: wired to another board.
+
+![Board window open, appliances tinted](../../images/screenshots/board-tint-en.png)
+
+*With the window open, the appliances of the board's region are tinted; the legend sits under the breakers.*
 
 ### Twilight switch
 

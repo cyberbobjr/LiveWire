@@ -53,6 +53,11 @@ A water pump wired to the inverter keeps the house taps supplied from water barr
 1. **Get a source and an inverter.** Ready-made solar panels and inverters turn up in garages, hardware stores and electrician storage ([Loot tables](09-loot-tables.md)). You can also craft them in the **Electrical** category: the solar panel kit and the inverter kit need Electrical 3. Solar cells, the parts of the solar panel kit, are crafted from scrap ([Recipes](08-recipes.md)).
 2. **Place them** with the vanilla furniture cursor. Placing, turning and picking up need a **screwdriver**, but no Electrical level. Connecting each device to the inverter needs a screwdriver, electric wire and the device's own Electrical level (see [Wiring](03-wiring.md)). Solar panels and wind turbines must stand outdoors, a water wheel must stand on the ground floor next to a river, and the inverter can go indoors.
 3. **Connect the source**: right-click it, **LiveWire**, then **Connect to an inverter** (or, from the inverter, **Connect equipment**). It costs 1 electric wire per 4 tiles, rounded up ([Wiring](03-wiring.md)).
+
+   ![Solar panel menu: Connect to an inverter, with the wire count](../../images/screenshots/solar-menu-en.png)
+
+   *The solar panel menu: each inverter in range shows its distance and the wires it costs.*
+
 4. **Check the result**: the inverter's right-click menu shows the powered area (a cyan circle on the ground) and opens its screen ([Inverter screen and software](05-inverter-screen-and-software.md)).
 5. **Add storage for the night** (optional): a power bank holding car batteries or deep-cycle batteries, connected the same way ([Equipment](02-equipment.md)).
 

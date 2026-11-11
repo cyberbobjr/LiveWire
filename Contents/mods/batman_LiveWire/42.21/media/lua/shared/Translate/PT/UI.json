@@ -1,5 +1,5 @@
 {
     "UI_LW_Options_Title": "LiveWire",
     "UI_LW_Options_HumVolume": "Volume do zumbido do inversor (0-100)",
-    "UI_LW_Options_HumVolume_tooltip": "0 = sem zumbido. Só para ti; ouvido a cerca de duas casas à volta de um inversor em funcionamento."
+    "UI_LW_Options_HumVolume_tooltip": "0 = sem som. Só para ti. Também regula o som da bomba de água. Ouve-se a cerca de duas casas à volta de um inversor em funcionamento e a quatro de uma bomba a trabalhar."
 }

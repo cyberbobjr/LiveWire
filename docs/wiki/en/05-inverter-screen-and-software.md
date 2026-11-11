@@ -24,6 +24,10 @@ Right-click the inverter, then **Open the inverter screen**. It is a backlit scr
 
 ![LCD page 1, production and load](../../images/screenshots/onduleur.png)
 
+![LCD page 1 with the MAINS line](../../images/screenshots/inverter-mains-en.png)
+
+*Page 1 while the public grid is on: the MAINS line shows the power drawn from the grid.*
+
 ## Window size and font
 
 The LiveWire windows (inverter, power bank, device, connections, breaker, and the computer's software screen) follow the game's font size. When a window opens, it is enlarged from the size of the Small font and shrunk if needed to fit the screen. A font change applies after the game restarts.
@@ -112,6 +116,10 @@ Avoid aiming or using a construction cursor while clicking.
 A **power bank** has its own LCD: usable charge, available kWh, usable capacity, cold reserve, occupied slots and excess batteries. Previous/next buttons show each battery's charge and condition. It works even when disconnected. Use the native inventory to move batteries. Press **Connections** to open the shared wiring window.
 
 **Show consumers** colours the actual appliances, including lights: green below 50 W, orange through 300 W, red above; blue stopped or unpowered, grey another network, **white** for an appliance the public grid still powers. A **Consumers** window at the top of the screen gives the colour legend; its cross closes the view. While the public grid is on, those appliances draw nothing from the inverter: the character says so when the view opens ("Public grid still on") and the window repeats it in yellow. Hiding clears the colours. Exact watts remain in the software list.
+
+![Show consumers with the public grid still on](../../images/screenshots/consumers-public-grid-en.png)
+
+*Show consumers while the public grid is still on: the Consumers window gives the legend and the warning in yellow.*
 
 ![LCDs and electrical panel](../../images/screenshots/shot7.png)
 

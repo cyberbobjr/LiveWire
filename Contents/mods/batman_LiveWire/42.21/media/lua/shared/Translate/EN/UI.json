@@ -1,5 +1,5 @@
 {
     "UI_LW_Options_Title": "LiveWire",
     "UI_LW_Options_HumVolume": "Inverter hum volume (0-100)",
-    "UI_LW_Options_HumVolume_tooltip": "0 = no hum. Only for you; heard about two tiles around a running inverter."
+    "UI_LW_Options_HumVolume_tooltip": "0 = silent. Only for you. Also sets the water pump sound. Heard about two tiles around a running inverter and four around a running pump."
 }

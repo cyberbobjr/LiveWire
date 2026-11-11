@@ -89,6 +89,10 @@ Sandbox option `GridCharging` is on by default. While the public grid works, an 
 
 A broken inverter does not charge from the grid or the sources. A switched-off inverter still lets its sources charge the batteries.
 
+![Inverter LCD page 3 with the Public grid line](../../images/screenshots/inverter-public-grid-en.png)
+
+*Inverter screen, page 3: the public grid appears as a source next to the solar panel.*
+
 ## Inverter supply order
 
 The inverter supplies the demand from the **current production first** (x efficiency), then from the **public grid** while it works (sandbox `GridCharging`), then from the **batteries**. It can only restart when production (grid included) covers the demand, or when the batteries hold more than 2 % of their capacity. Appliance consumption depends on the sandbox `ConsumptionProfile` (below).

@@ -84,6 +84,10 @@ L'option sandbox `GridCharging` est activée par défaut. Tant que le réseau pu
 
 Un onduleur cassé ne recharge ni depuis le réseau ni depuis les sources. Un onduleur éteint laisse ses sources recharger les batteries.
 
+![Page 3 du LCD de l'onduleur avec la ligne Réseau public](../../images/screenshots/inverter-public-grid-fr.png)
+
+*Écran de l'onduleur, page 3 : le réseau public apparaît comme une source, à côté du panneau solaire.*
+
 ## Ordre d'alimentation de l'onduleur
 
 L'onduleur couvre d'abord la demande avec la production du moment (× rendement), puis avec le réseau public tant qu'il fonctionne (option `GridCharging`), puis avec les batteries. Il ne peut redémarrer que si la production (réseau compris) couvre la demande, ou si les batteries contiennent plus de 2 % de leur capacité. La consommation des appareils dépend de l'option `ConsumptionProfile` (ci-dessous).

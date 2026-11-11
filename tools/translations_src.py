@@ -319,7 +319,7 @@ for k, en, fr in [
 for k, en, fr in [
     ("UI_LW_Options_Title", "LiveWire", "LiveWire"),
     ("UI_LW_Options_HumVolume", "Inverter hum volume (0-100)", "Volume du bourdonnement de l'onduleur (0-100)"),
-    ("UI_LW_Options_HumVolume_tooltip", "0 = no hum. Only for you; heard about two tiles around a running inverter.", "0 = aucun bourdonnement. Pour vous seul ; il s'entend à environ deux cases autour d'un onduleur allumé."),
+    ("UI_LW_Options_HumVolume_tooltip", "0 = silent. Only for you. Also sets the water pump sound. Heard about two tiles around a running inverter and four around a running pump.", "0 = silence. Pour vous seul. Règle aussi le bruit de la pompe à eau. Il s'entend à environ deux cases autour d'un onduleur allumé et quatre autour d'une pompe en marche."),
 ]:
     add("UI", k, en, fr)
 

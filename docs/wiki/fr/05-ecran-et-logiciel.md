@@ -24,6 +24,10 @@ Clic droit sur l'onduleur, puis « Ouvrir l'écran de l'onduleur ». Écran rét
 
 ![Page 1 : production / conso](../../images/screenshots/onduleur.png)
 
+![Page 1 du LCD avec la ligne SECTEUR](../../images/screenshots/inverter-mains-fr.png)
+
+*Page 1 quand le réseau public fonctionne : la ligne SECTEUR montre le courant tiré du réseau.*
+
 ## Taille des fenêtres et police
 
 Les fenêtres LiveWire (onduleur, powerbank, équipement, raccordements, disjoncteur, écran du logiciel de l'ordinateur) suivent la taille de police du jeu. À l'ouverture, une fenêtre est agrandie à partir de la taille de la police « Small », puis réduite si besoin pour tenir à l'écran. Un changement de police s'applique après le redémarrage du jeu.
@@ -109,6 +113,10 @@ Restez à deux cases environ de l'équipement, avec lui en vue, puis faites un c
 Une **powerbank** a son propre LCD : charge utile, kWh disponibles, capacité utile, réserve liée au froid, places occupées et batteries en trop. Les boutons précédent/suivant affichent la charge et l'état de chaque batterie. Ce LCD fonctionne même sans raccordement. L'inventaire vanilla sert à déplacer les batteries. Le bouton **Raccordements** ouvre la fenêtre commune.
 
 **Afficher les consommateurs** teinte directement les appareils, y compris les lumières : vert sous 50 W, orange jusqu'à 300 W, rouge au-dessus ; bleu à l'arrêt ou non alimenté, gris pour un autre réseau, **blanc** pour un appareil encore alimenté par le réseau public. Une fenêtre **Consommateurs**, en haut de l'écran, donne la légende de ces couleurs ; sa croix ferme la vue. Tant que le réseau public fonctionne, ces appareils ne consomment rien sur l'onduleur : le personnage l'annonce à l'ouverture (« Réseau public encore actif ») et la fenêtre le rappelle en jaune. Masquer retire ces teintes. Les watts exacts restent consultables dans la liste du logiciel.
+
+![Afficher les consommateurs, réseau public encore actif](../../images/screenshots/consumers-public-grid-fr.png)
+
+*Afficher les consommateurs quand le réseau public est encore actif : la fenêtre Consommateurs donne la légende et l'avertissement en jaune.*
 
 ![LCD et tableau électrique](../../images/screenshots/shot7.png)
 

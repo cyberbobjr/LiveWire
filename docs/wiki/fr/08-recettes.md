@@ -97,6 +97,10 @@ requis et conservé ; aucun niveau d'Électricité n'est demandé. On récupère
 moins de pièces que la fabrication n'en coûte : fabriquer puis démonter ne crée donc
 jamais de matériaux. Les équipements LiveWire Extended n'ont pas de recette de démontage.
 
+![Démonter un onduleur dans le menu d'artisanat](../../images/screenshots/dismantle-recipe-fr.png)
+
+*Démonter un onduleur dans le menu d'artisanat : le tournevis est conservé, l'onduleur est consommé.*
+
 Les pièces métalliques reviennent toujours. Les pièces électroniques dépendent de
 l'état de l'équipement : le tableau les donne à 100 % ; un équipement à 60 % en
 rend 60 %, arrondi à l'unité inférieure, et un équipement hors d'usage n'en rend

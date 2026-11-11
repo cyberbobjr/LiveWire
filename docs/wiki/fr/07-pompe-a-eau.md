@@ -21,6 +21,10 @@ Des barils d'eau posés au sol peuvent alimenter les points d'eau de toute une m
 3. Raccordez chaque baril : clic droit sur la pompe, puis **Raccorder un baril** ; ou clic droit sur le baril, puis **Baril d'eau**, puis **Pompe à côté de ce baril (1 tuyau)**.
 4. Raccordez les points d'eau avec une clé à tuyau, comme en vanilla (clic droit sur l'évier, puis **Raccorder la plomberie de...**). L'option apparaît dès que la pompe dessert le point d'eau.
 
+![Le menu Raccorder un baril de la pompe](../../images/screenshots/pump-barrels-fr.png)
+
+*Le menu **Raccorder un baril** de la pompe : une ligne par baril posé à côté d'elle.*
+
 ## Fonctionnement
 
 - **Eau uniquement.** Un baril qui contient autre chose (essence, alcool…), même mélangé à de l'eau, est refusé. Un baril vide peut être raccordé ; il sert dès qu'il se remplit.

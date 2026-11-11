@@ -1,7 +1,7 @@
 {
     "Tooltip_LWX_NeedLevel": "電気工学レベル%1が必要です。",
-    "Tooltip_LWX_EnlargeCost": "電気 %1。金属板1枚とネジ4本を使用。ブレーカー、ラベル、機器はそのまま残ります。",
-    "Tooltip_LWX_EnlargeNeedMaterials": "インベントリに金属板1枚とネジ4本が必要です。",
+    "Tooltip_LWX_EnlargeCost": "電気 %1。鋼板 - 小1枚とネジ4本を使用。ブレーカー、ラベル、機器はそのまま残ります。",
+    "Tooltip_LWX_EnlargeNeedMaterials": "インベントリに鋼板 - 小1枚とネジ4本が必要です。",
     "Tooltip_LWX_EnlargeNone": "この分電盤は拡張できません。",
     "Tooltip_LWX_NoBuilding": "インバーターの範囲内に建物がありません。",
     "Tooltip_LWX_AlreadyConnected": "この建物はすでにインバーターに接続されています。",

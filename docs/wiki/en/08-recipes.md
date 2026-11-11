@@ -96,6 +96,10 @@ kept; no Electrical level is needed. You always get back fewer parts than the
 recipe cost, so building and dismantling again never creates materials.
 LiveWire Extended devices have no dismantle recipe.
 
+![Dismantle Inverter in the crafting menu](../../images/screenshots/dismantle-recipe-en.png)
+
+*Dismantle Inverter in the crafting menu: the screwdriver is kept, the inverter is used up.*
+
 The metal parts always come back. The electronic parts depend on the device's
 condition: the table gives them at 100 %; a device at 60 % gives 60 % of them,
 rounded down, and a worn-out device gives none. A soundproofing kit fitted on an

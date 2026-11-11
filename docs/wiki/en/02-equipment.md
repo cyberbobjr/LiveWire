@@ -45,7 +45,7 @@ Effective capacity = nominal x (0.4 + 0.6 x condition / 100) x `BatteryCapacityM
 
 ## Parts
 
-- **Solar cells** (`LiveWire.SolarCell`) are crafted from 5 Electronics Scrap and aluminum at Electrical 3, with a screwdriver and pliers. A calculator dismantled with the vanilla "Dismantle Simple Electronic Item" recipe also gives one solar cell.
+- **Solar cells** (`LiveWire.SolarCell`) are crafted from 5 Scrap Electronics and Aluminum Foil at Electrical 3, with a screwdriver and pliers. A calculator dismantled with the vanilla "Dismantle Simple Electronic Item" recipe also gives one solar cell.
 - The **solar panel kit** takes 10 solar cells. See [Recipes](08-recipes.md) for every kit.
 - **Wind turbine blades and mast** have no Electrical level. The blades are made with a screwdriver, snips and a hammer; the mast with a screwdriver, a hammer and a pipe wrench. Both go into the wind turbine kit.
 - The **deep-cycle battery** (`LiveWire.DeepCycleBattery`) is made at Electrical 3 with a screwdriver and pliers, from two car batteries, electric wire and scrap metal.

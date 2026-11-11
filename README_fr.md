@@ -239,7 +239,7 @@ Exemples : 10 km/h ≈ 15 W, 15 km/h ≈ 50 W, 25 km/h ≈ 231 W.
 
 **Charge des batteries** : surplus × 0,90 (rendement de charge) ; autodécharge 0,2 % par jour ; quand elles sont pleines, l'excédent est perdu (affiché « production perdue »).
 
-**Onduleur** : il couvre d'abord la demande avec la production courante (× rendement), puis avec les batteries ; il ne peut redémarrer que si la production couvre la demande ou si les batteries contiennent plus de 2 % de leur capacité. La consommation des appareils dépend de l'option `ConsumptionProfile` (ci-dessous).
+**Onduleur** : il couvre d'abord la demande avec la production courante (× rendement), puis avec le réseau public tant qu'il fonctionne (option `GridCharging`, onduleur dans un bâtiment), puis avec les batteries ; il ne peut redémarrer que si la production (réseau compris) couvre la demande ou si les batteries contiennent plus de 2 % de leur capacité. La consommation des appareils dépend de l'option `ConsumptionProfile` (ci-dessous).
 
 ### Consommation des appareils
 

@@ -1,7 +1,7 @@
 {
     "Tooltip_LWX_NeedLevel": "Erfordert Elektrotechnik-Stufe %1.",
-    "Tooltip_LWX_EnlargeCost": "Elektrik %1. Verbraucht 1 Blech und 4 Schrauben. Sicherungen, Beschriftungen und Geräte bleiben erhalten.",
-    "Tooltip_LWX_EnlargeNeedMaterials": "Du brauchst 1 Blech und 4 Schrauben im Inventar.",
+    "Tooltip_LWX_EnlargeCost": "Elektrik %1. Verbraucht 1 kleine Stahlplatte und 4 Schrauben. Sicherungen, Beschriftungen und Geräte bleiben erhalten.",
+    "Tooltip_LWX_EnlargeNeedMaterials": "Du brauchst 1 kleine Stahlplatte und 4 Schrauben im Inventar.",
     "Tooltip_LWX_EnlargeNone": "Dieser Sicherungskasten kann nicht vergrößert werden.",
     "Tooltip_LWX_NoBuilding": "Kein Gebäude in Reichweite des Wechselrichters.",
     "Tooltip_LWX_AlreadyConnected": "Dieses Gebäude ist bereits an einen Wechselrichter angeschlossen.",

@@ -43,6 +43,10 @@ Clic droit sur un onduleur > **LiveWire Extended** > **Raccorder le bâtiment**.
 - Un bâtiment n'est raccordé qu'à un onduleur à la fois. **Débrancher le bâtiment** se trouve dans le même menu et indique où est le bâtiment.
 - Les appareils du bâtiment sont ensuite facturés par l'onduleur comme les autres : consommation, disjoncteur et batterie fonctionnent normalement.
 
+![Raccorder le bâtiment dans le menu de l'onduleur](../../images/screenshots/connect-building-fr.png)
+
+*Le menu de l'onduleur propose **Raccorder le bâtiment** ; son infobulle donne la position du bâtiment et explique les blocs de 8 x 8 cases.*
+
 ## Borne électrique et zone
 
 La **borne électrique** amène le courant à l'extérieur : un potager, un atelier, une cour, une maison construite par le joueur.
@@ -50,6 +54,10 @@ La **borne électrique** amène le courant à l'extérieur : un potager, un atel
 1. **Posez-la** avec le curseur de meuble. Poser et ramasser demandent un tournevis ; la pose ne demande aucun niveau d'Électricité.
 2. **Raccordez-la à un onduleur** : clic droit > **LiveWire Extended** > **Raccorder à un onduleur**. Il faut le niveau 3 d'Électricité, un tournevis et du fil électrique : un fil par 4 cases de câble, dans la portée des câbles. Son propre bloc de 8 x 8 cases reçoit le courant immédiatement.
 3. **Réglez la zone** : clic droit > **Régler la zone**, puis cliquez et faites glisser au sol. Le contour montre les cases que le jeu alimentera vraiment, arrondies à des blocs entiers de 8 x 8 : **vert** quand la zone est permise, **rouge** quand elle ne l'est pas. **Appliquer** garde la zone.
+
+![Réglage de la zone de la borne](../../images/screenshots/zone-tool-fr.png)
+
+*Réglage de la zone : le contour vert montre les cases qui recevront le courant, arrondies à des blocs entiers de 8 x 8.*
 
 Les règles de zone :
 
@@ -129,12 +137,20 @@ Si vous êtes déjà à portée du tableau, la manœuvre se fait immédiatement.
 
 **Localiser** allume les appareils de ce disjoncteur ; **Masquer** éteint ce repère.
 
+![Fenêtre du tableau électrique](../../images/screenshots/board-window-fr.png)
+
+*La fenêtre du tableau : quatre disjoncteurs étiquetés ; le disjoncteur Porche sélectionné passe par un interrupteur crépusculaire (nuit seulement).*
+
 Tant que la fenêtre est ouverte, les appareils de la zone du tableau sont teintés, et une légende explique les couleurs :
 
 - **rouge** : raccordé à aucun tableau (pas de courant),
 - **vert** : raccordé à ce tableau,
 - **bleu** : son disjoncteur est coupé ou déclenché,
 - **gris** : raccordé à un autre tableau.
+
+![Fenêtre du tableau ouverte, appareils teintés](../../images/screenshots/board-tint-fr.png)
+
+*Fenêtre ouverte, les appareils de la zone du tableau sont teintés ; la légende se trouve sous les disjoncteurs.*
 
 ### Interrupteur crépusculaire
 

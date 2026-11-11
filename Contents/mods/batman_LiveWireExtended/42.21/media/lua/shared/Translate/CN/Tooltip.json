@@ -1,7 +1,7 @@
 {
     "Tooltip_LWX_NeedLevel": "需要电工 %1 级.",
-    "Tooltip_LWX_EnlargeCost": "电气等级 %1。消耗 1 块金属板和 4 颗螺丝。断路器、标签和用电器保留。",
-    "Tooltip_LWX_EnlargeNeedMaterials": "物品栏中需要 1 块金属板和 4 颗螺丝。",
+    "Tooltip_LWX_EnlargeCost": "电气等级 %1。消耗 1 块小金属板和 4 颗螺丝。断路器、标签和用电器保留。",
+    "Tooltip_LWX_EnlargeNeedMaterials": "物品栏中需要 1 块小金属板和 4 颗螺丝。",
     "Tooltip_LWX_EnlargeNone": "这个配电箱无法扩展。",
     "Tooltip_LWX_NoBuilding": "逆变器范围内没有建筑.",
     "Tooltip_LWX_AlreadyConnected": "该建筑已接入一台逆变器.",

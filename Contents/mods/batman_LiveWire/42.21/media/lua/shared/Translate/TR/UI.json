@@ -1,5 +1,5 @@
 {
     "UI_LW_Options_Title": "LiveWire",
     "UI_LW_Options_HumVolume": "İnvertör uğultusu ses düzeyi (0-100)",
-    "UI_LW_Options_HumVolume_tooltip": "0 = uğultu yok. Yalnızca sizin için; çalışan bir invertörün yaklaşık iki kare çevresinde duyulur."
+    "UI_LW_Options_HumVolume_tooltip": "0 = ses yok. Yalnızca sizin için. Su pompasının sesini de ayarlar. Çalışan bir invertörün yaklaşık iki kare, çalışan bir pompanın yaklaşık dört kare çevresinde duyulur."
 }

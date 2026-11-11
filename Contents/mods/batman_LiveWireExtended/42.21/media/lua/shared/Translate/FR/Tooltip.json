@@ -1,7 +1,7 @@
 {
     "Tooltip_LWX_NeedLevel": "Nécessite le niveau %1 en Électricité.",
-    "Tooltip_LWX_EnlargeCost": "Électricité %1. Consomme 1 plaque de tôle et 4 vis. Disjoncteurs, étiquettes et appareils sont conservés.",
-    "Tooltip_LWX_EnlargeNeedMaterials": "Il faut 1 plaque de tôle et 4 vis dans l'inventaire.",
+    "Tooltip_LWX_EnlargeCost": "Électricité %1. Consomme 1 petite plaque en métal et 4 vis. Disjoncteurs, étiquettes et appareils sont conservés.",
+    "Tooltip_LWX_EnlargeNeedMaterials": "Il faut 1 petite plaque en métal et 4 vis dans l'inventaire.",
     "Tooltip_LWX_EnlargeNone": "Ce tableau ne peut pas être agrandi.",
     "Tooltip_LWX_NoBuilding": "Aucun bâtiment à portée de l'onduleur.",
     "Tooltip_LWX_AlreadyConnected": "Ce bâtiment est déjà raccordé à un onduleur.",

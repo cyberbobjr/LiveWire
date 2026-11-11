@@ -1,7 +1,7 @@
 {
     "Tooltip_LWX_NeedLevel": "Requer nível %1 de Elétrica.",
-    "Tooltip_LWX_EnlargeCost": "Eletricidade %1. Consome 1 chapa e 4 parafusos. Disjuntores, etiquetas e aparelhos são mantidos.",
-    "Tooltip_LWX_EnlargeNeedMaterials": "Precisa de 1 chapa e 4 parafusos no inventário.",
+    "Tooltip_LWX_EnlargeCost": "Eletricidade %1. Consome 1 Chapa de Aço - Pequena e 4 parafusos. Disjuntores, etiquetas e aparelhos são mantidos.",
+    "Tooltip_LWX_EnlargeNeedMaterials": "Precisa de 1 Chapa de Aço - Pequena e 4 parafusos no inventário.",
     "Tooltip_LWX_EnlargeNone": "Este quadro não pode ser ampliado.",
     "Tooltip_LWX_NoBuilding": "Nenhum prédio ao alcance do inversor.",
     "Tooltip_LWX_AlreadyConnected": "Este prédio já está conectado a um inversor.",

@@ -1,5 +1,5 @@
 {
     "UI_LW_Options_Title": "LiveWire",
     "UI_LW_Options_HumVolume": "インバーターのうなり音量(0-100)",
-    "UI_LW_Options_HumVolume_tooltip": "0でうなり音なし。自分だけに聞こえ、動作中のインバーターの約2マス周囲で鳴ります。"
+    "UI_LW_Options_HumVolume_tooltip": "0で無音。自分だけに適用されます。水ポンプの音量もこれで調整します。動作中のインバーターの約2マス周囲、動作中のポンプの約4マス周囲で聞こえます。"
 }

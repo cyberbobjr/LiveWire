@@ -1,5 +1,5 @@
 {
     "UI_LW_Options_Title": "LiveWire",
     "UI_LW_Options_HumVolume": "Lautstärke des Wechselrichter-Brummens (0-100)",
-    "UI_LW_Options_HumVolume_tooltip": "0 = kein Brummen. Nur für dich; man hört es etwa zwei Felder um einen laufenden Wechselrichter."
+    "UI_LW_Options_HumVolume_tooltip": "0 = kein Geräusch. Nur für dich. Regelt auch das Geräusch der Wasserpumpe. Man hört es etwa zwei Felder um einen laufenden Wechselrichter und vier um eine laufende Pumpe."
 }

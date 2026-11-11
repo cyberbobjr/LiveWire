@@ -21,6 +21,10 @@ Barrels of water standing on the ground can run the taps of a whole house. An el
 3. Connect each barrel: right-click the pump, then **Connect a barrel**, or right-click the barrel, then **Water barrel**, then **Pump next to this barrel (1 pipe)**.
 4. Plumb the fixtures with a pipe wrench, the vanilla way (right-click the sink, then **Plumb...**). The option appears once the pump supplies the fixture.
 
+![The pump's Connect a barrel menu](../../images/screenshots/pump-barrels-en.png)
+
+*The pump's **Connect a barrel** menu: one line per barrel standing next to it.*
+
 ## How it works
 
 - **Only water.** A barrel holding anything else (petrol, alcohol...), even mixed with water, is refused. An empty barrel can be connected and is used once it fills up.

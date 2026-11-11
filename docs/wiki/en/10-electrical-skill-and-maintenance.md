@@ -19,9 +19,9 @@ Devices wear out over time, which lowers their output (see the condition factor 
 
 ## Repair, overhaul, recondition
 
-- **Repair**: 1 electronics scrap + 1 electric wire, gains 5 + Electrical level points (up to 90). Failure chance: max(5, 40 - 5 x level) %, halved from level 8. Parts are lost on failure.
-- **Overhaul** (level 3): 4 electronics scrap + 2 electric wires, back to 100.
-- **Recondition a battery** (level 4, or 6 when dead): kept screwdriver, 1 electronics scrap + 1 wire + 0.5 L water; +15 condition, capped at 80, four repairs maximum. See the full battery rules below.
+- **Repair**: 1 Scrap Electronics + 1 Electrical Wire, gains 5 + Electrical level points (up to 90). Failure chance: max(5, 40 - 5 x level) %, halved from level 8. Parts are lost on failure.
+- **Overhaul** (level 3): 4 Scrap Electronics + 2 Electrical Wires, back to 100.
+- **Recondition a battery** (level 4, or 6 when dead): kept screwdriver, 1 Scrap Electronics + 1 Electrical Wire + 0.5 L water; +15 condition, capped at 80, four repairs maximum. See the full battery rules below.
 
 ## Voltage tester
 
