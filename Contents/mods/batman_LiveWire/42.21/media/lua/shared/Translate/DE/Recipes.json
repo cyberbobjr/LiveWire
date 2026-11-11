@@ -26,5 +26,8 @@
     "LWDismantleBatteryAlarm": "Batteriealarm zerlegen",
     "LWDismantleWaterPump": "Wasserpumpe zerlegen",
     "LWDismantleCouplingKit": "Kopplungsset für Wechselrichter zerlegen",
-    "LWDismantleSoundproofKit": "Schalldämmset für Wechselrichter zerlegen"
+    "LWDismantleSoundproofKit": "Schalldämmset für Wechselrichter zerlegen",
+    "LWDismantleWindTurbineBlades": "Windrad-Rotorsatz zerlegen",
+    "LWDismantleWindTurbineMast": "Windradmast zerlegen",
+    "LWDismantleDeepCycleBattery": "Deep-Cycle-Batterie zerlegen"
 }

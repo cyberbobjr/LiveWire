@@ -26,5 +26,8 @@
     "LWDismantleBatteryAlarm": "Dismantle Low Battery Alarm",
     "LWDismantleWaterPump": "Dismantle Water Pump",
     "LWDismantleCouplingKit": "Dismantle Inverter Coupling Kit",
-    "LWDismantleSoundproofKit": "Dismantle Inverter Soundproofing Kit"
+    "LWDismantleSoundproofKit": "Dismantle Inverter Soundproofing Kit",
+    "LWDismantleWindTurbineBlades": "Dismantle Wind Turbine Blades",
+    "LWDismantleWindTurbineMast": "Dismantle Wind Turbine Mast",
+    "LWDismantleDeepCycleBattery": "Dismantle Deep-Cycle Battery"
 }

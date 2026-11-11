@@ -64,7 +64,7 @@ Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de déc
 
 ### 2.4 Recettes (`LiveWire_recipes.txt`, module `LiveWire`, catégorie `Electrical`)
 
-`LWMakeVoltageTester`, `LWDismantleVoltageTester`, `Base.DismantleElectronics` du jeu, non redéfinie : son OnCreate `RecipeCodeOnCreate.dismantleFlashlight` est enveloppé par `LW_Recipes.lua` (effet vanilla, puis une cellule par calculatrice ; une recette redéfinie ajouterait ses entrées à celle du jeu), `LWMakeSolarCellFromScrap`, `LWMakeSolarPanelKit`, `LWMakeInverterKit`, `LWMakeWindTurbineBlades`, `LWMakeWindTurbineMast`, `LWMakeWindTurbineKit`, `LWMakeWaterWheel`, `LWMakePowerBankKit`, `LWMakeBreakerKit`, `LWMakeWaterPump`, `LWMakeCouplingKit`, `LWMakeDeepCycleBattery`, `LWMakeBatteryAlarmKit`, `LWMakeSoundproofKit`. Ingrédients et niveaux : tableau généré [`wiki/fr/_tables.md`](wiki/fr/_tables.md) (`tools/make_doc_tables.py`, données de `tools/make_doc_images.RECIPES`).
+`LWMakeVoltageTester`, `LWDismantleVoltageTester`, `Base.DismantleElectronics` du jeu, non redéfinie : son OnCreate `RecipeCodeOnCreate.dismantleFlashlight` est enveloppé par `LW_Recipes.lua` (effet vanilla, puis une cellule par calculatrice ; une recette redéfinie ajouterait ses entrées à celle du jeu), `LWMakeSolarCellFromScrap`, `LWMakeSolarPanelKit`, `LWMakeInverterKit`, `LWMakeWindTurbineBlades`, `LWMakeWindTurbineMast`, `LWMakeWindTurbineKit`, `LWMakeWaterWheel`, `LWMakePowerBankKit`, `LWMakeBreakerKit`, `LWMakeWaterPump`, `LWMakeCouplingKit`, `LWMakeDeepCycleBattery`, `LWMakeBatteryAlarmKit`, `LWMakeSoundproofKit`, `LWDismantleWindTurbineBlades`, `LWDismantleWindTurbineMast`, `LWDismantleDeepCycleBattery`. Ingrédients et niveaux : tableau généré [`wiki/fr/_tables.md`](wiki/fr/_tables.md) (`tools/make_doc_tables.py`, données de `tools/make_doc_images.RECIPES`).
 
 ### 2.5 Autres scripts
 
@@ -319,7 +319,7 @@ Portée de la zone alimentée : options vanilla `GeneratorTileRange` (20) et `Ge
 | `IG_UI.json` | `IGUI_LW_` (+ `IGUI_ContainerTitle_livewirepowerbank`) | 171 |
 | `ItemName.json` | `Module.Objet` (`LiveWire.*`, `Base.Mov_LiveWire_*`) | 14 |
 | `Moveables.json` | `Live_Wire_*` (noms des tuiles) | 8 |
-| `Recipes.json` | nom de recette (`LWMake*`, `LWDismantle*`) | 14 |
+| `Recipes.json` | nom de recette (`LWMake*`, `LWDismantle*`) | 31 |
 | `Sandbox.json` | `Sandbox_LiveWire_` (+ `Sandbox_LiveWire` pour la page) | 35 |
 | `Tooltip.json` | `Tooltip_LW_` | 39 |
 | `UI.json` | `UI_LW_` | 3 |
@@ -784,6 +784,29 @@ NoBrokenItems ; un `LiveWire.VoltageTester`, mode destroy, ItemCount/ResearchInp
 Sortie unique : un `Base.ElectronicsScrap`. Consommation et synchronisation natives,
 aucun callback ou hook ajouté. Identifiants existants et sauvegardes inchangés.
 Clé de recette traduite `LWDismantleVoltageTester` dans les dix langues.
+
+### Recettes de démontage des pièces intermédiaires — D-64
+
+`LWDismantleWindTurbineBlades` : `DismantleElectrical`, temps 60, catégorie
+Electrical, tags InHandCraft/Electrical, sans niveau requis, 1 XP d'Électricité ;
+tournevis par tag `base:screwdriver` (keep, NoBrokenItems) ; un
+`LiveWire.WindTurbineBlades`, mode destroy. Sorties : `Base.SheetMetal`, `Base.Screws`.
+Pas d'OnCreate ni de partie électronique.
+
+`LWDismantleWindTurbineMast` : même forme, temps 60, 1 XP ; tournevis et clé à tuyau
+(`base:pipewrench`, MayDegradeVeryLight) ; un `LiveWire.WindTurbineMast`, mode destroy.
+Sorties : `Base.MetalPipe`, `Base.MetalBar`, `Base.Screws`. Pas d'OnCreate.
+
+`LWDismantleDeepCycleBattery` : temps 120, 2 XP ; tournevis ; un
+`LiveWire.DeepCycleBattery`, mode destroy ; `Tooltip_LW_Dismantle` et
+`OnCreate = LiveWire.Recipes.onDismantle`. Sortie fixe : `Base.ScrapMetal`.
+`LW_Recipes.lua` ajoute `Base.ElectricWire` (2 au plus) selon l'état de la batterie,
+lu sur l'objet (`getCondition()`, la batterie n'a pas de marque) : entrée
+`LiveWire.Recipes.DISMANTLE`, puis `salvaged`.
+
+Chaque total reste sous sa fabrication (`test_dismantling_always_returns_less_than_the_crafting_recipe`).
+Clés traduites dans les dix langues (`tools/translations_ixx.py`, EN et FR via
+`tools/translations_src.py`).
 
 ## Risque sous tension et XP — règle révisée le 2026-10-25
 

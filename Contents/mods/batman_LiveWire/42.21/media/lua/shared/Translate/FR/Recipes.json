@@ -26,5 +26,8 @@
     "LWDismantleBatteryAlarm": "Démonter une alarme de batterie faible",
     "LWDismantleWaterPump": "Démonter une pompe à eau",
     "LWDismantleCouplingKit": "Démonter un kit de couplage d'onduleurs",
-    "LWDismantleSoundproofKit": "Démonter un kit d'insonorisation d'onduleur"
+    "LWDismantleSoundproofKit": "Démonter un kit d'insonorisation d'onduleur",
+    "LWDismantleWindTurbineBlades": "Démonter un jeu de pales d’éolienne",
+    "LWDismantleWindTurbineMast": "Démonter un mât d’éolienne",
+    "LWDismantleDeepCycleBattery": "Démonter une batterie stationnaire"
 }

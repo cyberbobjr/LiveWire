@@ -669,4 +669,68 @@ module LiveWire
             item 2 Base.RippedSheets,
         }
     }
+
+    /* Intermediate parts (no level, like the devices above). The blades and the mast carry no
+       electronics, so they give back their metal only. The deep-cycle battery gives back its
+       scrap metal, and its electric wire in proportion to its condition (LW_Recipes.lua). */
+
+    craftRecipe LWDismantleWindTurbineBlades
+    {
+        timedAction = DismantleElectrical,
+        time = 60,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:1,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [LiveWire.WindTurbineBlades] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.SheetMetal,
+            item 1 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantleWindTurbineMast
+    {
+        timedAction = DismantleElectrical,
+        time = 60,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:1,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 tags[base:pipewrench] mode:keep flags[MayDegradeVeryLight],
+            item 1 [LiveWire.WindTurbineMast] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.MetalPipe,
+            item 1 Base.MetalBar,
+            item 1 Base.Screws,
+        }
+    }
+
+    craftRecipe LWDismantleDeepCycleBattery
+    {
+        timedAction = DismantleElectrical,
+        time = 120,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LW_Dismantle,
+        OnCreate = LiveWire.Recipes.onDismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [LiveWire.DeepCycleBattery] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.ScrapMetal,
+        }
+    }
 }

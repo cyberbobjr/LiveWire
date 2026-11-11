@@ -705,10 +705,10 @@ def parse_recipes(path):
 BASE_RECIPE_LIST = parse_recipes(BASE_RECIPES)
 EXT_RECIPE_LIST = parse_recipes(EXT_RECIPES)
 RECIPE_SETS = {"base": BASE_RECIPE_LIST, "ext": EXT_RECIPE_LIST}
-# Checks: the scripts hold 16 crafts and 12 dismantling recipes (base), 8 crafts (Extended); every dismantling
+# Checks: the scripts hold 16 crafts and 15 dismantling recipes (base), 8 crafts (Extended); every dismantling
 # recipe needs a screwdriver (the dismantling card states it).
-if [r["kind"] for r in BASE_RECIPE_LIST].count("craft") != 16 or len(BASE_RECIPE_LIST) != 28:
-    raise ValueError("LiveWire_recipes.txt: expected 16 crafts and 12 dismantling recipes")
+if [r["kind"] for r in BASE_RECIPE_LIST].count("craft") != 16 or len(BASE_RECIPE_LIST) != 31:
+    raise ValueError("LiveWire_recipes.txt: expected 16 crafts and 15 dismantling recipes")
 if len(EXT_RECIPE_LIST) != 8 or any(r["kind"] != "craft" for r in EXT_RECIPE_LIST):
     raise ValueError("LiveWireExtended_recipes.txt: expected 8 crafts")
 if not all("Screwdriver" in r["tools"] for r in BASE_RECIPE_LIST if r["kind"] == "dismantle"):

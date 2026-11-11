@@ -2,7 +2,7 @@
 
 # Recettes
 
-Les 28 recettes LiveWire de base sont dans le menu d'artisanat : 16 de fabrication et 12 de démontage. LiveWire Extended ajoute 8 recettes de fabrication, listées dans [LiveWire Extended](14-livewire-extended.md#recettes). Les recettes d'Électricité apparaissent au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes les recettes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
+Les 31 recettes LiveWire de base sont dans le menu d'artisanat : 16 de fabrication et 15 de démontage. LiveWire Extended ajoute 8 recettes de fabrication, listées dans [LiveWire Extended](14-livewire-extended.md#recettes). Les recettes d'Électricité apparaissent au niveau requis ; les pales et le mât sont dans **Métallerie**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes les recettes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
 
 ![Planche illustrée des recettes LiveWire](../../images/diagrams/recipe_book_fr.png)
 
@@ -47,6 +47,9 @@ Le démontage demande de ramasser l'équipement d'abord. Un tournevis en état e
 | Démonter une pompe à eau | Tournevis, clé à tuyau | 200 |
 | Démonter un kit de couplage d'onduleurs | Tournevis | 60 |
 | Démonter un kit d'insonorisation d'onduleur | Tournevis, marteau | 150 |
+| Démonter un jeu de pales d’éolienne | Tournevis | 60 |
+| Démonter un mât d’éolienne | Tournevis, clé à tuyau | 60 |
+| Démonter une batterie stationnaire | Tournevis | 120 |
 
 ## Pales, mât et amplificateurs
 
@@ -106,13 +109,16 @@ onduleur couplé, est rendu entier.
 | Onduleur | 1 petite plaque en métal, 2 vis | 2 amplificateurs, 2 fils, 3 pièces électroniques |
 | Armoire onduleur | 1 plaque en métal, 1 petite plaque en métal, 6 vis | 4 amplificateurs, 5 fils, 6 pièces électroniques |
 | Powerbank | 1 plaque en métal, 2 vis | 2 fils, 1 pièce électronique |
+| Jeu de pales d’éolienne | 1 plaque en métal, 1 vis | — |
+| Mât d’éolienne | 1 tuyau en fer, 1 barre en métal, 1 vis | — |
+| Batterie stationnaire | 1 déchet métallique | 2 fils |
 | Disjoncteur | 1 petite plaque en métal, 1 vis | 1 fil, 1 pièce électronique |
 | Alarme de batterie faible | 1 fil | 1 amplificateur |
 | Pompe à eau (avec une clé à tuyau) | 2 tuyaux en métal, 1 petite plaque en métal, 2 vis | 1 fil, 2 pièces électroniques |
 | Kit de couplage d'onduleurs | 1 amplificateur, 1 fil, 1 pièce électronique | — |
 | Kit d'insonorisation (marteau en plus du tournevis) | 3 planches, 5 clous, 2 tissus déchirés | — |
 
-La batterie stationnaire, le jeu de pales et le mât ne se démontent pas. Un
+La cellule photovoltaïque ne se démonte pas. Un
 équipement hors d'usage se ramasse d'abord (tournevis), puis se démonte comme les autres.
 
 Une calculatrice démontée avec la recette du jeu **Démonter l'objet électronique**

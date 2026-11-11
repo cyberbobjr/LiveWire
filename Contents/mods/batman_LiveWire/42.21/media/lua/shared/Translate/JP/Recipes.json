@@ -26,5 +26,8 @@
     "LWDismantleBatteryAlarm": "低バッテリー警報を分解",
     "LWDismantleWaterPump": "水ポンプを分解",
     "LWDismantleCouplingKit": "インバーター連結キットを分解",
-    "LWDismantleSoundproofKit": "インバーター防音キットを分解"
+    "LWDismantleSoundproofKit": "インバーター防音キットを分解",
+    "LWDismantleWindTurbineBlades": "風車ブレードを分解",
+    "LWDismantleWindTurbineMast": "風車マストを分解",
+    "LWDismantleDeepCycleBattery": "ディープサイクルバッテリーを分解"
 }

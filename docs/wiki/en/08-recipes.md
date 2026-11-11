@@ -2,7 +2,7 @@
 
 # Recipes
 
-The 28 base LiveWire recipes are in the crafting menu: 16 to make and 12 to dismantle. LiveWire Extended adds 8 make recipes, listed in [LiveWire Extended](14-livewire-extended.md#recipes). Electrical recipes appear at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
+The 31 base LiveWire recipes are in the crafting menu: 16 to make and 15 to dismantle. LiveWire Extended adds 8 make recipes, listed in [LiveWire Extended](14-livewire-extended.md#recipes). Electrical recipes appear at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
 
 ![Illustrated recipe board](../../images/diagrams/recipe_book_en.png)
 
@@ -49,6 +49,9 @@ Dismantling needs the device picked up first. A working screwdriver is required 
 | Dismantle Water Pump | Screwdriver, Pipe Wrench | 200 |
 | Dismantle Inverter Coupling Kit | Screwdriver | 60 |
 | Dismantle Inverter Soundproofing Kit | Screwdriver, Hammer | 150 |
+| Dismantle Wind Turbine Blades | Screwdriver | 60 |
+| Dismantle Wind Turbine Mast | Screwdriver, Pipe Wrench | 60 |
+| Dismantle Deep-Cycle Battery | Screwdriver | 120 |
 
 ## Wind turbine parts and amplifiers
 
@@ -106,13 +109,16 @@ inverter, or the coupling kit of a coupled inverter, is given back whole.
 | Inverter | 1 small steel sheet, 2 screws | 2 amplifiers, 2 wires, 3 scrap electronics |
 | Inverter cabinet | 1 steel sheet, 1 small steel sheet, 6 screws | 4 amplifiers, 5 wires, 6 scrap electronics |
 | Power bank | 1 steel sheet, 2 screws | 2 wires, 1 scrap electronics |
+| Wind turbine blade set | 1 steel sheet, 1 screw | — |
+| Wind turbine mast | 1 iron pipe, 1 iron bar, 1 screw | — |
+| Deep-cycle battery | 1 scrap metal | 2 wires |
 | Breaker panel | 1 small steel sheet, 1 screw | 1 wire, 1 scrap electronics |
 | Low battery alarm | 1 wire | 1 amplifier |
 | Water pump (also a pipe wrench) | 2 iron pipes, 1 small steel sheet, 2 screws | 1 wire, 2 scrap electronics |
 | Inverter coupling kit | 1 amplifier, 1 wire, 1 scrap electronics | — |
 | Soundproofing kit (hammer as well as screwdriver) | 3 planks, 5 nails, 2 rags | — |
 
-The deep-cycle battery, the blade set and the mast cannot be dismantled. A broken
+The solar cell cannot be dismantled. A broken
 device is picked up first (screwdriver), then dismantled like any other.
 
 A calculator dismantled with the game's own **Dismantle Simple Electronic Item** recipe

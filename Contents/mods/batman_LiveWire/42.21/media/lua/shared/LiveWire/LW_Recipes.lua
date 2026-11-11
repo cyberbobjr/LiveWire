@@ -37,7 +37,8 @@ end
 -- Dismantling Live Wire equipment (LWDismantle* recipes). The script outputs are the
 -- parts that always survive (metal, screws, sub-assemblies); the electronic parts
 -- below come on top, in proportion to the condition carried by the picked-up item
--- (its mark, LW_Marks.lua; an item without a mark is new: 100). Every total stays
+-- (its mark, LW_Marks.lua; the deep-cycle battery has no mark and uses its own condition;
+-- an item without either is new: 100). Every total stays
 -- below the matching crafting recipe, so a craft/dismantle cycle loses materials,
 -- and a worn device gives fewer parts, so a dismantle/craft cycle is no cheaper than
 -- an overhaul. A fitted soundproofing kit or coupling kit is given back.
@@ -55,6 +56,7 @@ LiveWire.Recipes.DISMANTLE = {
     ["Base.Mov_LiveWire_Breaker"] = { { "Base.ElectricWire", 1 }, { "Base.ElectronicsScrap", 1 } },
     ["Base.Mov_LiveWire_BatteryAlarm"] = { { "Base.Amplifier", 1 } },
     ["Base.Mov_LiveWire_WaterPump"] = { { "Base.ElectricWire", 1 }, { "Base.ElectronicsScrap", 2 } },
+    ["LiveWire.DeepCycleBattery"] = { { "Base.ElectricWire", 2 } },
 }
 
 -- Number of bonus parts for a device at `cond` percent (rounded down).
@@ -101,6 +103,14 @@ if RecipeCodeOnCreate and RecipeCodeOnCreate.dismantleFlashlight and not LiveWir
     end
 end
 
+-- Condition of the dismantled item: its mark when it has one (devices), else the item's own
+-- condition for the deep-cycle battery (no mark). nil means new (salvaged treats it as 100).
+local function conditionOf(item, m)
+    if m.cond ~= nil then return m.cond end
+    if item:getFullType() == "LiveWire.DeepCycleBattery" then return item:getCondition() end
+    return nil
+end
+
 function LiveWire.Recipes.onDismantle(craftRecipeData, character)
     if not character then return end
     local item = dismantled(craftRecipeData:getAllDestroyInputItems())
@@ -108,8 +118,9 @@ function LiveWire.Recipes.onDismantle(craftRecipeData, character)
     if not item then return end
     local m = LiveWire.Marks.raw(item) or {}
     local give = LiveWire.Install.giveItem
+    local cond = conditionOf(item, m)
     for _, part in ipairs(LiveWire.Recipes.DISMANTLE[item:getFullType()]) do
-        for _ = 1, LiveWire.Recipes.salvaged(part[2], m.cond) do give(character, part[1]) end
+        for _ = 1, LiveWire.Recipes.salvaged(part[2], cond) do give(character, part[1]) end
     end
     if m.muf == true then give(character, LiveWire.Defs.SOUNDPROOF_KIT) end
     if m.cpl then give(character, LiveWire.Defs.COUPLING_KIT) end

@@ -195,6 +195,9 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | `LWMakePowerBankKit` | 2 | 2 `ElectronicsScrap`, 3 `ElectricWire`, 1 `SheetMetal`, 4 `Screws` ; [tournevis, pinces] | `Mov_LiveWire_PowerBank` | 8 |
 | `LWMakeBreakerKit` | 3 | 2 `ElectronicsScrap`, 1 `ElectricWire`, 1 `SmallSheetMetal`, 2 `Screws` ; [tournevis] | `Mov_LiveWire_Breaker` | 8 |
 | `LWMakeDeepCycleBattery` | 3 | 2 batteries de voiture (`CarBattery1/2/3` indifférentes), 2 `ElectricWire`, 1 `ScrapMetal` ; [pinces] | `DeepCycleBattery` (charge 0, état = moyenne des deux) | 20 |
+| `LWDismantleWindTurbineBlades` | aucun | 1 `LiveWire.WindTurbineBlades` ; [tournevis] | 1 `SheetMetal`, 1 `Screws` | 1 |
+| `LWDismantleWindTurbineMast` | aucun | 1 `LiveWire.WindTurbineMast` ; [tournevis, clé à tuyau] | 1 `MetalPipe`, 1 `MetalBar`, 1 `Screws` | 1 |
+| `LWDismantleDeepCycleBattery` | aucun | 1 `DeepCycleBattery` ; [tournevis] | 1 `ScrapMetal` ; + 0 à 2 `ElectricWire` selon l'état | 2 |
 
 - **Apprentissage (validé : D-6).** Recettes connues automatiquement à leur niveau (`AutoLearnAny = Electricity:n`, champ vu dans `recipes_traps.txt:99-121`).
 - **Équilibrage.** Les calculatrices sont la porte d'entrée du solaire (10 par panneau) ; au niveau 3, on n'en dépend plus.
@@ -875,6 +878,15 @@ Le testeur LiveWire peut être démonté dans l'artisanat sans niveau requis, av
 un tournevis conservé. Il est consommé et rend un seul déchet électronique.
 Les autres ingrédients de fabrication ne sont pas restitués. Ce complément à
 l'entretien et aux recettes de F32 utilise le même parcours natif autoritaire.
+
+### Démontage des pièces intermédiaires — D-64
+
+Les pales d'éolienne, le mât d'éolienne et la batterie stationnaire se démontent
+dans l'artisanat, sans niveau requis, avec un tournevis conservé (une clé à tuyau
+pour le mât). Les pales rendent une plaque en métal et une vis, le mât un tuyau,
+une barre en métal et une vis, la batterie un déchet métallique et, selon son
+état, jusqu'à deux fils électriques. Chaque recette rend moins que sa fabrication.
+La cellule photovoltaïque reste indémontable.
 
 ### Icônes des recettes
 

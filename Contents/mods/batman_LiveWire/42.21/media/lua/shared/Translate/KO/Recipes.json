@@ -26,5 +26,8 @@
     "LWDismantleBatteryAlarm": "배터리 부족 경보기 분해",
     "LWDismantleWaterPump": "물 펌프 분해",
     "LWDismantleCouplingKit": "인버터 병렬 연결 키트 분해",
-    "LWDismantleSoundproofKit": "인버터 방음 키트 분해"
+    "LWDismantleSoundproofKit": "인버터 방음 키트 분해",
+    "LWDismantleWindTurbineBlades": "풍력 터빈 날개 분해",
+    "LWDismantleWindTurbineMast": "풍력 터빈 기둥 분해",
+    "LWDismantleDeepCycleBattery": "딥사이클 배터리 분해"
 }

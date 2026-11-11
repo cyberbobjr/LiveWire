@@ -26,5 +26,8 @@
     "LWDismantleBatteryAlarm": "Desmontar Alarme de Bateria Baixa",
     "LWDismantleWaterPump": "Desmontar Bomba de água",
     "LWDismantleCouplingKit": "Desmontar Kit de acoplamento de inversores",
-    "LWDismantleSoundproofKit": "Desmontar Kit de Insonorização de Inversor"
+    "LWDismantleSoundproofKit": "Desmontar Kit de Insonorização de Inversor",
+    "LWDismantleWindTurbineBlades": "Desmontar pás eólicas",
+    "LWDismantleWindTurbineMast": "Desmontar mastro eólico",
+    "LWDismantleDeepCycleBattery": "Desmontar bateria de ciclo profundo"
 }

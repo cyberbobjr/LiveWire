@@ -26,5 +26,8 @@
     "LWDismantleBatteryAlarm": "Разобрать: Сигнализация низкого заряда",
     "LWDismantleWaterPump": "Разобрать: Водяной насос",
     "LWDismantleCouplingKit": "Разобрать: Комплект сцепки инверторов",
-    "LWDismantleSoundproofKit": "Разобрать: Комплект звукоизоляции инвертора"
+    "LWDismantleSoundproofKit": "Разобрать: Комплект звукоизоляции инвертора",
+    "LWDismantleWindTurbineBlades": "Разобрать: Лопасти ветряка",
+    "LWDismantleWindTurbineMast": "Разобрать: Мачта ветряка",
+    "LWDismantleDeepCycleBattery": "Разобрать: Аккумулятор глубокого цикла"
 }
