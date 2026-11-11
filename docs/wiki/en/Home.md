@@ -10,7 +10,7 @@
 
 **LiveWire Extended** (version 1.0.0, `batman_LiveWireExtended`) is an optional add-on in the same Workshop item. It connects whole buildings, adds outdoor power terminals and breaker boards where each appliance has its own breaker. See [LiveWire Extended](14-livewire-extended.md).
 
-**LiveWire Viewpoint** (`batman_LiveWireViewpoint`) is another optional mod. It adds 3D models of the devices for Project Zomboid Viewpoint.
+**LiveWire - Viewpoint models** (version 2.0.0, `batman_LiveWireViewpoint`) is another optional mod in the same Workshop item. It adds 3D models of the devices, and of the LiveWire Extended power terminal and breaker boards, for Project Viewpoint; it does nothing without Project Viewpoint.
 
 New here? Start with [Getting started](01-getting-started.md).
 

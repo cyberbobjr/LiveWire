@@ -5,7 +5,11 @@
 Recipes are read from the recipe scripts of both mods (make_doc_images.parse_recipes). Loot weights are read from
 the distribution Lua files of both mods (LiveWire_Distributions.lua, LWX_Distributions.lua); the rolls of each
 vanilla list come from the game's ProceduralDistributions.lua / VehicleDistributions.lua (PZ_SERVER_LUA).
-The chance per selected list is 1 - (1 - W * modifier/100)^rolls, using modifier 0.6 in the examples.
+The chance per selected list is 1 - (1 - W * modifier/100)^rolls. The game takes the modifier from the item's loot
+category (ItemPickerJava.getLootType: DisplayCategory, tags, item type). LiveWire items fall in "Other", except the
+ones whose DisplayCategory maps to another category (read from the item scripts and named in the table); every
+default loot setting is 0.6 at normal rarity, so the tables use 0.6 for every item (an approximation for other
+sandbox settings).
 """
 import os
 import re
@@ -21,7 +25,23 @@ BASE_LOOT = os.path.join(M.BASE_MOD, "lua", "server", "Items", "LiveWire_Distrib
 EXT_LOOT = os.path.join(M.EXT_MOD, "lua", "server", "Items", "LWX_Distributions.lua")
 # The Lua scripts apply EquipmentLootMultiplier (default 5) to every weight, except the management disk (x1).
 LOOT_MULTIPLIER = 5
+# Loot modifier of every category at the default (normal) loot rarity: Other and Mechanics are both 0.6.
 MODIFIER = 0.6
+# DisplayCategory -> loot category of ItemPickerJava.getLootType (only its DisplayCategory branches; an item that
+# matches none of them, like Electronics or Furniture, is "Other"). Values are the vanilla sandbox option keys.
+LOOT_CATEGORY = {
+    "VehicleMaintenance": "MechanicsLootNew", "VehicleMaintenanceWeapon": "MechanicsLootNew",
+    "Material": "MaterialLootNew", "MaterialWeapon": "MaterialLootNew",
+    "Gardening": "FarmingLootNew", "GardeningWeapon": "FarmingLootNew",
+    "Tool": "ToolLootNew", "ToolWeapon": "ToolLootNew",
+    "Cooking": "CookwareLootNew", "CookingWeapon": "CookwareLootNew",
+    "FirstAid": "MedicalLootNew", "FirstAidWeapon": "MedicalLootNew",
+    "Fishing": "SurvivalGearsLootNew", "FishingWeapon": "SurvivalGearsLootNew", "Trapping": "SurvivalGearsLootNew",
+    "Camping": "SurvivalGearsLootNew", "FireSource": "SurvivalGearsLootNew",
+}
+ITEM_SCRIPTS = [os.path.join(mod, "scripts", name) for mod, name in (
+    (M.BASE_MOD, "LiveWire_items.txt"), (M.BASE_MOD, "LiveWire_moveables.txt"),
+    (M.EXT_MOD, "LiveWireExtended_items.txt"), (M.EXT_MOD, "LiveWireExtended_moveables.txt"))]
 WHERE = {
     "EN": {"ElectricianTools": "Electrician's tools", "ToolStoreTools": "Hardware store, tools",
            "ToolStoreMisc": "Hardware store, miscellaneous", "GarageTools": "Garage tool storage",
@@ -64,16 +84,18 @@ WHERE = {
 T = {
     "EN": {"recipe": "Recipe", "in": "Ingredients", "skill": "Skill", "out": "Result", "tools": "Tools (kept)",
            "none": "none", "loot_title": "Ready-made LiveWire equipment",
-           "loot_intro": "Ready-made equipment, at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, a vanilla loot modifier of 0.6, no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate. LiveWire Extended equipment is in the same table.",
-           "item": "Equipment", "list": "Vanilla list", "where": "Where", "w": "Weight (×5)", "r": "Rolls",
-           "c": "≈ chance per container", "furn": "furniture: × 0.6 included", "disk": "needs the Computer Mod",
-           "dec": "."},
+           "loot_intro": "Weights at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, the game's loot modifier at normal rarity (0.6), no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.",
+           "ext_title": "LiveWire Extended equipment", "disk_title": "Management software disk",
+           "item": "Equipment", "list": "Vanilla list", "where": "Where", "w": "Weight (×5)", "w1": "Weight",
+           "r": "Rolls", "c": "≈ chance per container", "cat": "loot setting: %s",
+           "disk": "needs the Computer Mod", "dec": "."},
     "FR": {"recipe": "Recette", "in": "Ingrédients", "skill": "Compétence", "out": "Résultat",
            "tools": "Outils (conservés)", "none": "aucune", "loot_title": "Équipements LiveWire tout faits",
-           "loot_intro": "Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis. Les équipements LiveWire Extended figurent dans le même tableau.",
-           "item": "Équipement", "list": "Liste vanilla", "where": "Où", "w": "Poids (×5)", "r": "Tirages",
-           "c": "≈ chance par conteneur", "furn": "meuble : × 0,6 inclus", "disk": "nécessite le Computer Mod",
-           "dec": ","},
+           "loot_intro": "Poids avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec le modificateur de butin du jeu à rareté normale (0,6), sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.",
+           "ext_title": "Équipements LiveWire Extended", "disk_title": "Disque du logiciel de gestion",
+           "item": "Équipement", "list": "Liste vanilla", "where": "Où", "w": "Poids (×5)", "w1": "Poids",
+           "r": "Tirages", "c": "≈ chance par conteneur", "cat": "réglage de butin : %s",
+           "disk": "nécessite le Computer Mod", "dec": ","},
 }
 
 
@@ -131,19 +153,42 @@ def keyed(body):
     return {k: flat(v) for k, v in re.findall(r'\["([\w.]+)"\]\s*=\s*\{([^{}]*)\}', body)}
 
 
+def loot_categories():
+    """{full type: vanilla sandbox loot option key} for the items whose DisplayCategory is not "Other"."""
+    out = {}
+    for path in ITEM_SCRIPTS:
+        with open(path, encoding="utf-8-sig") as f:
+            src = f.read()
+        module = re.search(r"\bmodule\s+(\w+)", src).group(1)
+        for name, body in re.findall(r"\bitem\s+(\w+)\s*\{([^{}]*)\}", src):
+            m = re.search(r"DisplayCategory\s*=\s*(\w+)", body)
+            if m and m.group(1) in LOOT_CATEGORY:
+                out["%s.%s" % (module, name)] = LOOT_CATEGORY[m.group(1)]
+    return out
+
+
+def category_name(lang, key):
+    """Name of the vanilla loot rarity setting, as the sandbox page shows it."""
+    names = M.load_json(os.path.join(M.GAME_TR, "EN", "Sandbox.json"))
+    names.update(M.load_json(os.path.join(M.GAME_TR, lang, "Sandbox.json")))
+    return names.get("Sandbox_" + key, key.replace("LootNew", ""))
+
+
 def load_loot():
-    """(cells, items): vanilla list weights of solar cells, and per item {list: weight x1} with its multiplier."""
+    """(cells, items): vanilla list weights of solar cells, and per item {list: weight x1} with its multiplier and
+    its group (cell, disk, base, ext)."""
     base = read_lua(BASE_LOOT)
     ext = read_lua(EXT_LOOT)
     cells = flat(lua_block(base, "CELL_LISTS"))
     items = OrderedDict()
 
-    def put(full, lists, mult):
-        entry = items.setdefault(full, {"lists": {}, "mult": mult})
+    def put(full, lists, mult, group="base"):
+        entry = items.setdefault(full, {"lists": {}, "mult": mult, "group": group})
         entry["lists"].update(lists)
-    put("LiveWire.SolarCell", cells, LOOT_MULTIPLIER)
+    put("LiveWire.SolarCell", cells, LOOT_MULTIPLIER, "cell")
     put("Base.Mov_LiveWire_SolarPanel", flat(lua_block(base, "PANEL_LISTS")), LOOT_MULTIPLIER)
-    put("LiveWire.MonitorDisk", flat(lua_block(base, "DISK_LISTS")), 1)  # equipment(...) adds it without the multiplier
+    # equipment(...) adds the disk without the multiplier
+    put("LiveWire.MonitorDisk", flat(lua_block(base, "DISK_LISTS")), 1, "disk")
     for full, lists in keyed(lua_block(base, "EQUIPMENT")).items():
         put(full, lists, LOOT_MULTIPLIER)
     for full, lists in keyed(lua_block(base, "VEHICLE")).items():
@@ -160,7 +205,7 @@ def load_loot():
         vm = re.search(r"vehicle = ([\d.]+)", rest)
         if vm:
             lists["ElectricianTruckBed"] = float(vm.group(1))
-        put(full, lists, LOOT_MULTIPLIER)
+        put(full, lists, LOOT_MULTIPLIER, "ext")
     return cells, items
 
 
@@ -185,6 +230,7 @@ def chance(weight, rolls):
 def cells_md(lang, cells, rolls):
     t = T[lang]
     out = ["| %s | %s | %s | %s | %s |" % (t["list"], t["where"], t["w"], t["r"], t["c"]), "|---|---|---|---|---|"]
+    # cells: every list of the solar cell, shops and crates (CELL_LISTS) and vehicles (VEHICLE)
     for name, base in cells.items():
         weight = base * LOOT_MULTIPLIER
         out.append("| `%s` | %s | %s | %d | %s %% |" % (name, WHERE[lang][name], num(weight, lang, 0),
@@ -192,17 +238,20 @@ def cells_md(lang, cells, rolls):
     return "\n".join(out)
 
 
-def loot_md(lang, items, rolls):
+def loot_md(lang, items, rolls, group, cats):
     t = T[lang]
     item, _, _ = M.names(lang)
-    out = ["| %s | %s | %s | %s | %s | %s |" % (t["item"], t["list"], t["where"], t["w"], t["r"], t["c"]),
+    w = t["w1"] if group == "disk" else t["w"]
+    out = ["| %s | %s | %s | %s | %s | %s |" % (t["item"], t["list"], t["where"], w, t["r"], t["c"]),
            "|---|---|---|---|---|---|"]
     for full, entry in items.items():
+        if entry["group"] != group:
+            continue
         key = M.short(full)
         M.FULL_NAMES.setdefault(key, full)
         note = ""
-        if full.startswith("Base.Mov_"):
-            note = " (%s)" % t["furn"]
+        if full in cats:
+            note = " (%s)" % (t["cat"] % category_name(lang, cats[full]))
         if full == "LiveWire.MonitorDisk":
             note = " (%s)" % t["disk"]
         first = True
@@ -218,8 +267,9 @@ def loot_md(lang, items, rolls):
 
 
 def main():
-    cells, items = load_loot()
+    _, items = load_loot()
     rolls = vanilla_rolls()
+    cats = loot_categories()
     for lang in ("EN", "FR"):
         p = os.path.join(M.ROOT, "docs", "wiki", lang.lower(), "_tables.md")
         crafts = [r for r in M.BASE_RECIPE_LIST if r["kind"] == "craft"]
@@ -228,9 +278,13 @@ def main():
             f.write("<!-- generated by tools/make_doc_tables.py -->\n\n## RECIPES\n\n" + recipes_md(lang, crafts) +
                     "\n\n## DISMANTLING\n\n" + recipes_md(lang, dismantles) +
                     "\n\n## RECIPES EXTENDED\n\n" + recipes_md(lang, M.EXT_RECIPE_LIST) +
-                    "\n\n## CELLS (x5)\n\n" + cells_md(lang, cells, rolls) +
+                    "\n\n## CELLS (x5)\n\n" + cells_md(lang, items["LiveWire.SolarCell"]["lists"], rolls) +
                     "\n\n## LOOT: " + T[lang]["loot_title"] + "\n\n" + T[lang]["loot_intro"] + "\n\n" +
-                    loot_md(lang, items, rolls) + "\n")
+                    loot_md(lang, items, rolls, "base", cats) +
+                    "\n\n## LOOT EXTENDED: " + T[lang]["ext_title"] + "\n\n" +
+                    loot_md(lang, items, rolls, "ext", cats) +
+                    "\n\n## DISK: " + T[lang]["disk_title"] + "\n\n" +
+                    loot_md(lang, items, rolls, "disk", cats) + "\n")
         print("wrote", p)
 
 

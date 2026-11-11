@@ -70,27 +70,15 @@
 | `ElectronicStoreMisc` | Magasin d'électronique, divers | 10 | 4 | 21,9 % |
 | `ToolStoreMetalwork` | Quincaillerie, métallerie | 5 | 4 | 11,5 % |
 | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
+| `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 10 | 4 | 21,9 % |
 
 ## LOOT: Équipements LiveWire tout faits
 
-Équipements tout faits, avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec un modificateur vanilla de 0,6, sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis. Les équipements LiveWire Extended figurent dans le même tableau.
+Poids avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec le modificateur de butin du jeu à rareté normale (0,6), sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
 
 | Équipement | Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
 |---|---|---|---|---|---|
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarCell.png" width="24" height="24"> **Cellule photovoltaïque** | `ElectricianTools` | Outils d'électricien | 15 | 3 | 24,6 % |
-|  | `GarageTools` | Rangement d'outils de garage | 10 | 4 | 21,9 % |
-|  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 10 | 4 | 21,9 % |
-|  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 10 | 4 | 21,9 % |
-|  | `ToolStoreMisc` | Quincaillerie, divers | 10 | 4 | 21,9 % |
-|  | `CrateElectronics` | Caisses d'électronique | 10 | 4 | 21,9 % |
-|  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 10 | 4 | 21,9 % |
-|  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 10 | 4 | 21,9 % |
-|  | `CrateTools` | Caisses d'outils | 5 | 4 | 11,5 % |
-|  | `GarageMetalwork` | Rangement de métallerie de garage | 5 | 4 | 11,5 % |
-|  | `MetalShopTools` | Outils de métallerie | 5 | 4 | 11,5 % |
-|  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 5 | 4 | 11,5 % |
-|  | `CrateMetalwork` | Caisses de métallerie | 5 | 4 | 11,5 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarPanel.png" width="24" height="24"> **Panneau photovoltaïque** (meuble : × 0,6 inclus) | `GarageMetalwork` | Rangement de métallerie de garage | 2,5 | 4 | 5,9 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/SolarPanel.png" width="24" height="24"> **Panneau photovoltaïque** | `GarageMetalwork` | Rangement de métallerie de garage | 2,5 | 4 | 5,9 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 2,5 | 4 | 5,9 % |
 |  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
@@ -102,12 +90,6 @@
 |  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 1,5 | 4 | 3,6 % |
 |  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
 |  | `MetalWelderTruckBed` | Véhicule de métallier, plateau ou coffre | 1,5 | 4 | 3,6 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MonitorDisk.png" width="24" height="24"> **Disque : logiciel de gestion LiveWire** (nécessite le Computer Mod) | `ElectronicStoreComputers` | Magasin d'électronique, informatique | 2 | 1 | 1,2 % |
-|  | `CrateComputer` | Caisses d'informatique | 2 | 4 | 4,7 % |
-|  | `UniversityDesk_Electrical` | Bureau universitaire, électricité | 2 | 4 | 4,7 % |
-|  | `BookstoreComputer` | Librairie, informatique | 1 | 4 | 2,4 % |
-|  | `UniversityDesk_Computer` | Bureau universitaire, informatique | 1 | 4 | 2,4 % |
-|  | `OfficeDesk` | Bureau d'entreprise | 0,3 | 4 | 0,7 % |
 | <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/VoltageTester.png" width="24" height="24"> **Testeur de tension** | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
 |  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 5 | 4 | 11,5 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
@@ -118,14 +100,14 @@
 |  | `ElectricianGloveBox` | Véhicule d'électricien, boîte à gants | 1,5 | 1 | 0,9 % |
 |  | `GarageTools` | Rangement d'outils de garage | 1 | 4 | 2,4 % |
 |  | `CrateTools` | Caisses d'outils | 1 | 4 | 2,4 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/DeepCycleBattery.png" width="24" height="24"> **Batterie stationnaire** | `CarSupplyBatteries` | Magasin de pièces auto, batteries | 10 | 4 | 21,9 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/DeepCycleBattery.png" width="24" height="24"> **Batterie stationnaire** (réglage de butin : Matériel de mécanique) | `CarSupplyBatteries` | Magasin de pièces auto, batteries | 10 | 4 | 21,9 % |
 |  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 5 | 4 | 11,5 % |
 |  | `CrateMechanics` | Caisses de mécanique | 3,5 | 4 | 8,1 % |
 |  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
 |  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
 |  | `CampingStoreGear` | Magasin de camping, matériel | 1,5 | 4 | 3,6 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Inverter.png" width="24" height="24"> **Onduleur** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 2,5 | 3 | 4,4 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Inverter.png" width="24" height="24"> **Onduleur** | `ElectricianTools` | Outils d'électricien | 2,5 | 3 | 4,4 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
 |  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
 |  | `ElectronicStoreMisc` | Magasin d'électronique, divers | 2,5 | 4 | 5,9 % |
@@ -136,7 +118,7 @@
 |  | `ToolStoreMisc` | Quincaillerie, divers | 1 | 4 | 2,4 % |
 |  | `CrateTools` | Caisses d'outils | 1 | 4 | 2,4 % |
 |  | `GarageTools` | Rangement d'outils de garage | 0,5 | 4 | 1,2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Breaker.png" width="24" height="24"> **Disjoncteur** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Breaker.png" width="24" height="24"> **Disjoncteur** | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 5 | 4 | 11,5 % |
 |  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 5 | 4 | 11,5 % |
 |  | `CrateElectronics` | Caisses d'électronique | 3,5 | 4 | 8,1 % |
@@ -148,7 +130,7 @@
 |  | `CrateMetalwork` | Caisses de métallerie | 1,5 | 4 | 3,6 % |
 |  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
 |  | `GarageMetalwork` | Rangement de métallerie de garage | 1,5 | 4 | 3,6 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PowerBank.png" width="24" height="24"> **Powerbank** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 2,5 | 3 | 4,4 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/PowerBank.png" width="24" height="24"> **Powerbank** | `ElectricianTools` | Outils d'électricien | 2,5 | 3 | 4,4 % |
 |  | `MechanicShelfElectric` | Garage automobile, étagère électrique | 2,5 | 4 | 5,9 % |
 |  | `CrateElectronics` | Caisses d'électronique | 2,5 | 4 | 5,9 % |
 |  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 2,5 | 4 | 5,9 % |
@@ -158,7 +140,7 @@
 |  | `GarageTools` | Rangement d'outils de garage | 1 | 4 | 2,4 % |
 |  | `GarageMechanics` | Garage, rangement mécanique | 1 | 4 | 2,4 % |
 |  | `CrateTools` | Caisses d'outils | 1 | 4 | 2,4 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/BatteryAlarm.png" width="24" height="24"> **Alarme de batterie faible** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/BatteryAlarm.png" width="24" height="24"> **Alarme de batterie faible** | `ElectricianTools` | Outils d'électricien | 5 | 3 | 8,7 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 5 | 4 | 11,5 % |
 |  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 5 | 4 | 11,5 % |
 |  | `CrateElectronics` | Caisses d'électronique | 3,5 | 4 | 8,1 % |
@@ -167,7 +149,7 @@
 |  | `CrateTools` | Caisses d'outils | 1,5 | 4 | 3,6 % |
 |  | `GarageTools` | Rangement d'outils de garage | 1,5 | 4 | 3,6 % |
 |  | `GarageMechanics` | Garage, rangement mécanique | 1,5 | 4 | 3,6 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="24" height="24"> **Éolienne** (meuble : × 0,6 inclus) | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WindTurbine.png" width="24" height="24"> **Éolienne** | `WireFactoryElectric` | Usine de câbles, rayon électrique | 2,5 | 4 | 5,9 % |
 |  | `ToolStoreMetalwork` | Quincaillerie, métallerie | 2,5 | 4 | 5,9 % |
 |  | `WireFactoryTools` | Usine de câbles, outils | 2,5 | 4 | 5,9 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 1,5 | 4 | 3,6 % |
@@ -179,7 +161,7 @@
 |  | `MechanicShelfTools` | Garage automobile, outils | 1,5 | 4 | 3,6 % |
 |  | `MetalWelderTruckBed` | Véhicule de métallier, plateau ou coffre | 1,5 | 4 | 3,6 % |
 |  | `GarageMetalwork` | Rangement de métallerie de garage | 1 | 4 | 2,4 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterWheel.png" width="24" height="24"> **Roue à aubes** (meuble : × 0,6 inclus) | `CrateCarpentry` | Caisses de menuiserie | 2,5 | 4 | 5,9 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/WaterWheel.png" width="24" height="24"> **Roue à aubes** | `CrateCarpentry` | Caisses de menuiserie | 2,5 | 4 | 5,9 % |
 |  | `ToolStoreCarpentry` | Quincaillerie, menuiserie | 2,5 | 4 | 5,9 % |
 |  | `CrateFarming` | Caisses de matériel agricole | 2,5 | 4 | 5,9 % |
 |  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 1,5 | 4 | 3,6 % |
@@ -202,7 +184,12 @@
 |  | `CrateFarming` | Caisses de matériel agricole | 3,5 | 4 | 8,1 % |
 |  | `ToolStoreFarming` | Quincaillerie ou magasin extérieur, agriculture | 3,5 | 4 | 8,1 % |
 |  | `GarageMetalwork` | Rangement de métallerie de garage | 3,5 | 4 | 8,1 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Terminal.png" width="24" height="24"> **Borne électrique** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 1,5 | 3 | 2,7 % |
+
+## LOOT EXTENDED: Équipements LiveWire Extended
+
+| Équipement | Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
+|---|---|---|---|---|---|
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Terminal.png" width="24" height="24"> **Borne électrique** | `ElectricianTools` | Outils d'électricien | 1,5 | 3 | 2,7 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 1,5 | 4 | 3,6 % |
 |  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 1,5 | 4 | 3,6 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 1,1 | 4 | 2,5 % |
@@ -231,17 +218,17 @@
 |  | `GarageTools` | Rangement d'outils de garage | 1 | 4 | 2,4 % |
 |  | `CrateTools` | Caisses d'outils | 0,8 | 4 | 1,8 % |
 |  | `GarageMetalwork` | Rangement de métallerie de garage | 0,5 | 4 | 1,2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Panel8.png" width="24" height="24"> **Tableau électrique (8 modules)** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 1 | 3 | 1,8 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Panel8.png" width="24" height="24"> **Tableau électrique (8 modules)** | `ElectricianTools` | Outils d'électricien | 1 | 3 | 1,8 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 1 | 4 | 2,4 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 0,7 | 4 | 1,7 % |
 |  | `CrateElectronics` | Caisses d'électronique | 0,7 | 4 | 1,7 % |
 |  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 0,5 | 4 | 1,2 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Panel16.png" width="24" height="24"> **Tableau électrique (16 modules)** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 0,6 | 3 | 1,1 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Panel16.png" width="24" height="24"> **Tableau électrique (16 modules)** | `ElectricianTools` | Outils d'électricien | 0,6 | 3 | 1,1 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 0,6 | 4 | 1,4 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 0,4 | 4 | 1,0 % |
 |  | `CrateElectronics` | Caisses d'électronique | 0,4 | 4 | 1,0 % |
 |  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 0,2 | 4 | 0,6 % |
-| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Panel24.png" width="24" height="24"> **Tableau électrique (24 modules)** (meuble : × 0,6 inclus) | `ElectricianTools` | Outils d'électricien | 0,3 | 3 | 0,5 % |
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/Panel24.png" width="24" height="24"> **Tableau électrique (24 modules)** | `ElectricianTools` | Outils d'électricien | 0,3 | 3 | 0,5 % |
 |  | `WireFactoryElectric` | Usine de câbles, rayon électrique | 0,3 | 4 | 0,7 % |
 |  | `ToolStoreMisc` | Quincaillerie, divers | 0,2 | 4 | 0,5 % |
 |  | `CrateElectronics` | Caisses d'électronique | 0,2 | 4 | 0,5 % |
@@ -250,3 +237,14 @@
 |  | `ToolStoreMisc` | Quincaillerie, divers | 0,5 | 4 | 1,3 % |
 |  | `CrateElectronics` | Caisses d'électronique | 0,5 | 4 | 1,3 % |
 |  | `ElectricianTruckBed` | Véhicule d'électricien, plateau ou coffre | 0,5 | 4 | 1,2 % |
+
+## DISK: Disque du logiciel de gestion
+
+| Équipement | Liste vanilla | Où | Poids | Tirages | ≈ chance par conteneur |
+|---|---|---|---|---|---|
+| <img src="https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/icons/MonitorDisk.png" width="24" height="24"> **Disque : logiciel de gestion LiveWire** (nécessite le Computer Mod) | `ElectronicStoreComputers` | Magasin d'électronique, informatique | 2 | 1 | 1,2 % |
+|  | `CrateComputer` | Caisses d'informatique | 2 | 4 | 4,7 % |
+|  | `UniversityDesk_Electrical` | Bureau universitaire, électricité | 2 | 4 | 4,7 % |
+|  | `BookstoreComputer` | Librairie, informatique | 1 | 4 | 2,4 % |
+|  | `UniversityDesk_Computer` | Bureau universitaire, informatique | 1 | 4 | 2,4 % |
+|  | `OfficeDesk` | Bureau d'entreprise | 0,3 | 4 | 0,7 % |
