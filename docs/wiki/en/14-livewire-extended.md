@@ -10,6 +10,7 @@
 
 - LiveWire Extended ships in the same Steam Workshop item as LiveWire (ID 3821807453). Subscribe to that item, then enable **LiveWire Extended** in the mod list. It loads after LiveWire.
 - It requires LiveWire (`batman_LiveWire`). Without LiveWire, it does nothing.
+- **Adding it to a world in progress:** inverters no longer have a radius, so on the first start each inverter already placed inside a building gets that building connected (every floor and the basement), as **Connect the building** would. An inverter standing outside, or in a building another inverter already powers, keeps no power until you connect a building or a terminal to it. This happens once per world.
 - Connecting a building, linking the power terminal or a breaker board to an inverter, installing a breaker, wiring an appliance and enlarging a board need **Electrical level 3** and a **screwdriver**. Placing or picking up a terminal or a board needs a screwdriver and no level. Fitting a twilight switch needs a screwdriver and no level; only crafting the switch needs level 3.
 - The sandbox option **Skill requirements** (LiveWire options) also applies to Extended: when it is off, no level is required for the jobs above. The crafting recipes keep their level 3.
 - Mods declared incompatible: see [Incompatible mods](#incompatible-mods).

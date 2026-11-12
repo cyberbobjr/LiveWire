@@ -10,6 +10,7 @@
 
 - LiveWire Extended est livrée dans le même élément du Workshop Steam que LiveWire (identifiant 3821807453). Abonnez-vous à cet élément, puis activez **LiveWire Extended** dans la liste des mods. Elle se charge après LiveWire.
 - Elle demande LiveWire (`batman_LiveWire`). Sans LiveWire, elle ne fait rien.
+- **Ajout à une partie en cours :** les onduleurs n'ont plus de rayon ; au premier démarrage, chaque onduleur déjà posé dans un bâtiment se voit raccorder ce bâtiment (tous les étages et la cave), comme avec **Raccorder le bâtiment**. Un onduleur posé dehors, ou dans un bâtiment qu'un autre onduleur alimente déjà, reste sans courant jusqu'à ce que vous lui raccordiez un bâtiment ou une borne. Cela n'a lieu qu'une fois par monde.
 - Raccorder un bâtiment, raccorder la borne électrique ou un tableau à un onduleur, installer un disjoncteur, raccorder un appareil et agrandir un tableau demandent le **niveau 3 d'Électricité** et un **tournevis**. Poser ou ramasser une borne ou un tableau demande un **tournevis**, sans niveau. Poser un interrupteur crépusculaire demande un tournevis, sans niveau ; seule sa fabrication demande le niveau 3.
 - L'option sandbox **Niveaux requis** (options de LiveWire) s'applique aussi à Extended : désactivée, aucun niveau n'est requis pour les opérations ci-dessus. Les recettes de fabrication gardent leur niveau 3.
 - Mods déclarés incompatibles : voir [Mods incompatibles](#mods-incompatibles).

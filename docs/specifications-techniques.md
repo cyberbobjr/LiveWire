@@ -167,6 +167,7 @@ Champs principaux : `grid`, `rev` (révision croissante : la livraison n'est pas
 |---|---|---|
 | `LiveWire` | Registre de l'autorité : `schema`, `nextId`, `devices`, `grids`, `byPos`, `legacy`, `powerHistory`, `measureXp` | **Jamais** diffusée |
 | `LiveWireAnchors` | `anchors[idOnduleur] = { x, y, z, on, log, log0 }` ; journal public limité à 16 changements, conservé pour compatibilité. Seuls les onduleurs maîtres et indépendants ont une ancre | À tous les clients, uniquement si l'état ou la position change |
+| `LiveWireExtended` (LiveWire Extended) | Données du sous-mod (`inverters[idOnduleur].areas`, tableaux, bornes, points) ; `adopted` vaut vrai une fois faite l'adoption du premier démarrage (D-65, `server/LiveWireExtended/LWX_Adopt.lua`) | Diffusée par `ModData.transmit` à chaque changement de l'autorité |
 
 ### 4.2 Registre, schéma 2
 

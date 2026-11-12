@@ -6,7 +6,7 @@ LiveWire 2.0.0 adds the optional **LiveWire Extended** add-on, dismantling recip
 
 ### LiveWire Extended 1.0.0 — new optional add-on
 
-Extended is a separate mod in the same Workshop item: enable it after LiveWire, or leave it off and LiveWire works as before. Its main jobs need Electrical level 3. Guide: [wiki](https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended).
+Extended is a separate mod in the same Workshop item: enable it after LiveWire, or leave it off and LiveWire works as before. Added to a world in progress, it connects the building of every inverter already placed inside one, so the house keeps its power. Its main jobs need Electrical level 3. Guide: [wiki](https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended).
 
 - **Whole building:** right-click an inverter, then LiveWire Extended > **Connect the building**. Every floor and the basement get power, with no item cost. The building must be within the inverter's reach. The game powers whole 8 x 8 blocks, so nearby squares get power too.
 - **Outdoor strip:** sandbox option **Outdoor strip around a building** (0 to 8 squares, 0 by default) also powers the ground around the building.
