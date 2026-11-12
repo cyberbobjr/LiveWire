@@ -104,7 +104,7 @@ function HS.prewire(record, boardKey, rooms)
     for _, s in ipairs(plan.slots) do
         local t = B.TYPES[s.type]
         local slot = { type = s.type, pos = pos, poles = t.poles, amps = t.amps, volts = t.volts,
-            label = "", off = false, tripped = false, points = {} }
+            label = "", off = false, tripped = false, points = {}, prewired = true }
         for _, key in ipairs(s.points) do
             local p = info[key]
             if p and not points[key] then

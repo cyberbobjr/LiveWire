@@ -90,7 +90,7 @@ A **breaker board** (8, 16 or 24 modules) hangs on an inside wall of a building.
 - Place it with the furniture cursor on an **inside wall**. A closed, roofed room counts as inside.
 - A crafted board is **not weatherproof**. On an outside wall, or on a porch, yard or edge of a map building, the cursor refuses it and says why: *Not weatherproof: hang it on an inside wall of a building (a closed, roofed shelter counts).* Multiplayer clients get the same refusal, except in a fresh roofed player house, where the server makes the decision.
 - The game's own electrical boxes on a facade are weatherproof. They are not moved with the furniture cursor. Where the map has one on a facade, it serves the building on the other side of its wall.
-- **Link to an inverter**: right-click the board > **LiveWire Extended** > **Link to an inverter** (Electrical level 3, electric wire by distance). **Unlink the breaker board** undoes it.
+- **Link to an inverter**: right-click the board > **LiveWire Extended** > **Link to an inverter** (Electrical level 3, electric wire by distance). **Unlink the breaker board** undoes it. Unlinking or picking up a board gives back the breakers and twilight switches you fitted; the prewired breakers of a house board stay with it.
 - Placing and picking up need a screwdriver.
 
 ### Enlarge a board

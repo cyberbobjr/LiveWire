@@ -41,9 +41,24 @@ function PS.link(character, obj, invObj)
     return X.Linked.link(character, obj, invObj)
 end
 
+-- The breakers and twilight switches a player fitted come back when the board leaves its
+-- link (unlinked or picked up). Prewired breakers of a house board stay with the board: a
+-- house board linked again is prewired again (LWX_HousesServer).
+function PS.giveBack(record, character)
+    if not character then return end
+    for _, slot in ipairs(record.slots or {}) do
+        if not slot.prewired then LiveWire.API.giveItem(character, slot.type) end
+        if slot.twilight then LiveWire.API.giveItem(character, X.Breakers.TWILIGHT_ITEM) end
+    end
+end
+P.kind.onPickedUp = PS.giveBack
+
 function PS.unlink(character, obj)
     if not P.isPanel(obj) then return false end
-    return X.Linked.unlink(character, obj)
+    local record = P.recordAt(obj:getSquare())
+    if not X.Linked.unlink(character, obj) then return false end
+    if record then PS.giveBack(record, character) end
+    return true
 end
 
 local function transmit()

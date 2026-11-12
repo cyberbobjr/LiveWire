@@ -22,7 +22,7 @@ Extended is a separate mod in the same Workshop item: enable it after LiveWire, 
 - **Adapters:** My Tailor Is Rich sewing machines, Functional Appliances 2 machines set to a temperature, and LiveWire pumps and computers follow their breaker.
 - **Viewpoint models:** with **LiveWire - Viewpoint models** and Project Viewpoint, the terminal and boards get 3D models.
 - **Not compatible** with LG Extended Electricity or Knox Power.
-- **Removing it:** first, an admin (anyone in solo) runs **Admin: switch every breaker back on (before removing the mod)** from a board's menu: every appliance gets power back. **Admin: breaker boards work again** undoes it. Terminals and boards dismantle in the crafting menu (screwdriver, no level) and give back fewer parts than they cost.
+- **Removing it:** first, an admin (anyone in solo) runs **Admin: switch every breaker back on (before removing the mod)** from a board's menu: every appliance gets power back. **Admin: breaker boards work again** undoes it. Unlinking or picking up a board gives back the breakers and twilight switches you fitted. Terminals and boards dismantle in the crafting menu (screwdriver, no level) and give back fewer parts than they cost.
 
 ### New features
 

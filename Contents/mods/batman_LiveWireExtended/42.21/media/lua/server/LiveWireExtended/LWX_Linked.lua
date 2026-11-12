@@ -3,6 +3,7 @@ if isClient() then return end
 -- (LWX_Link kinds), on the authority. A kind may add:
 --   onLink(record, dev, key)  after the record is stored (a terminal adds its zone)
 --   onForget(record, key)     after the record is dropped (areas, breakers...)
+--   onPickedUp(record, character)  picked up by a player (a board gives its breakers back)
 -- A record also keeps the inverter square (ix, iy, iz) and the wire spent (wires).
 -- The linked object carries a copy of its link in its own ModData (SL.MARK_KEY), so
 -- that a link newer than the saved global ModData can be rebuilt (LWX_Recovery).
@@ -30,7 +31,8 @@ function SL.markObject(obj, record)
     if type(record.slots) == "table" then
         slots = {}
         for i, s in ipairs(record.slots) do
-            slots[i] = { type = s.type, pos = s.pos, poles = s.poles, amps = s.amps, volts = s.volts }
+            slots[i] = { type = s.type, pos = s.pos, poles = s.poles, amps = s.amps, volts = s.volts,
+                prewired = s.prewired }
         end
     end
     obj:getModData()[SL.MARK_KEY] = { inv = record.inv, x = record.x, y = record.y, z = record.z,
@@ -100,7 +102,7 @@ function SL.restore(kind, obj, dev, m)
         record.slots = {}
         for i, s in ipairs(m.slots) do
             record.slots[i] = { type = s.type, pos = s.pos, poles = s.poles, amps = s.amps, volts = s.volts,
-                label = "", off = false, tripped = false, points = {} }
+                label = "", off = false, tripped = false, points = {}, prewired = s.prewired }
         end
     end
     SL.markObject(obj, record)
@@ -153,7 +155,11 @@ if MP and MP.pickUpMoveableInternal then
         local record = sq and L.recordAt(kind, sq)
         if record then wires = SL.wires(record) end
         local r = origPickUp(self, _character, _square, _object, _sprInstance, ...)
-        if wires > 0 and _object:getObjectIndex() == -1 then LiveWire.API.returnWires(_character, wires) end
+        if record and _object:getObjectIndex() == -1 then
+            if wires > 0 then LiveWire.API.returnWires(_character, wires) end
+            -- a kind may give back what was fitted on the object (a board: its breakers)
+            if kind.onPickedUp then kind.onPickedUp(record, _character) end
+        end
         return r
     end
 end
