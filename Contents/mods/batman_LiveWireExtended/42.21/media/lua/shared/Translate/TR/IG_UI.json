@@ -45,7 +45,7 @@
     "IGUI_LWX_State_off": "Kapalı",
     "IGUI_LWX_State_tripped": "Attı: aşırı yük",
     "IGUI_LWX_Rating": "120 V'ta %1 A: en fazla %2 W",
-    "IGUI_LWX_EnlargeTo": "Panoyu büyüt (%1 → %2 modül)",
+    "IGUI_LWX_EnlargeTo": "Panoyu büyüt (%1 -> %2 modül)",
     "IGUI_LWX_Enlarged": "Pano artık %1 modüllü.",
     "IGUI_LWX_LcdLoad": "Yük",
     "IGUI_LWX_LcdCurrent": "Akım",

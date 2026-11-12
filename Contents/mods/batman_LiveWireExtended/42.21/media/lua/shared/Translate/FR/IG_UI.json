@@ -45,7 +45,7 @@
     "IGUI_LWX_State_off": "Coupé",
     "IGUI_LWX_State_tripped": "Déclenché : surcharge",
     "IGUI_LWX_Rating": "%1 A sous 120 V : jusqu'à %2 W",
-    "IGUI_LWX_EnlargeTo": "Agrandir le tableau (%1 → %2 modules)",
+    "IGUI_LWX_EnlargeTo": "Agrandir le tableau (%1 -> %2 modules)",
     "IGUI_LWX_Enlarged": "Le tableau compte maintenant %1 modules.",
     "IGUI_LWX_LcdLoad": "Charge",
     "IGUI_LWX_LcdCurrent": "Intensité",

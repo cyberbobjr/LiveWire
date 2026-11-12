@@ -45,7 +45,7 @@
     "IGUI_LWX_State_off": "Выключен",
     "IGUI_LWX_State_tripped": "Сработал: перегрузка",
     "IGUI_LWX_Rating": "%1 А при 120 В: до %2 Вт",
-    "IGUI_LWX_EnlargeTo": "Расширить щиток (%1 → %2 модулей)",
+    "IGUI_LWX_EnlargeTo": "Расширить щиток (%1 -> %2 модулей)",
     "IGUI_LWX_Enlarged": "Теперь в щитке модулей: %1.",
     "IGUI_LWX_LcdLoad": "Нагрузка",
     "IGUI_LWX_LcdCurrent": "Ток",

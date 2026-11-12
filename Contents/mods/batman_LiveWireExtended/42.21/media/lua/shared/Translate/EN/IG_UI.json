@@ -45,7 +45,7 @@
     "IGUI_LWX_State_off": "Off",
     "IGUI_LWX_State_tripped": "Tripped: overloaded",
     "IGUI_LWX_Rating": "%1 A at 120 V: up to %2 W",
-    "IGUI_LWX_EnlargeTo": "Enlarge the board (%1 → %2 modules)",
+    "IGUI_LWX_EnlargeTo": "Enlarge the board (%1 -> %2 modules)",
     "IGUI_LWX_Enlarged": "The board now has %1 modules.",
     "IGUI_LWX_LcdLoad": "Load",
     "IGUI_LWX_LcdCurrent": "Current",

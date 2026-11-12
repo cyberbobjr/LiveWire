@@ -45,7 +45,7 @@
     "IGUI_LWX_State_off": "Apagado",
     "IGUI_LWX_State_tripped": "Disparado: sobrecarga",
     "IGUI_LWX_Rating": "%1 A a 120 V: hasta %2 W",
-    "IGUI_LWX_EnlargeTo": "Ampliar el cuadro (%1 → %2 módulos)",
+    "IGUI_LWX_EnlargeTo": "Ampliar el cuadro (%1 -> %2 módulos)",
     "IGUI_LWX_Enlarged": "El cuadro tiene ahora %1 módulos.",
     "IGUI_LWX_LcdLoad": "Carga",
     "IGUI_LWX_LcdCurrent": "Intensidad",

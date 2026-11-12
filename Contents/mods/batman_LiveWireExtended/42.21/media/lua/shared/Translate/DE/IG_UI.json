@@ -45,7 +45,7 @@
     "IGUI_LWX_State_off": "Aus",
     "IGUI_LWX_State_tripped": "Ausgelöst: überlastet",
     "IGUI_LWX_Rating": "%1 A bei 120 V: bis %2 W",
-    "IGUI_LWX_EnlargeTo": "Sicherungskasten vergrößern (%1 → %2 Module)",
+    "IGUI_LWX_EnlargeTo": "Sicherungskasten vergrößern (%1 -> %2 Module)",
     "IGUI_LWX_Enlarged": "Der Sicherungskasten hat jetzt %1 Module.",
     "IGUI_LWX_LcdLoad": "Last",
     "IGUI_LWX_LcdCurrent": "Stromstärke",

@@ -95,7 +95,7 @@ A **breaker board** (8, 16 or 24 modules) hangs on an inside wall of a building.
 
 ### Enlarge a board
 
-A board you placed grows in place, from 8 to 16 and then 24 modules. Right-click it > **Enlarge the board (8 → 16 modules)**. The menu shows the next size: a 16-module board offers 16 → 24. Enlarging needs Electrical level 3, a screwdriver, **1 Steel Sheet - Small** and **4 Screws** in your inventory. Breakers, labels and appliances are kept. The game's own wall boxes cannot be enlarged, and a 24-module board cannot grow further.
+A board you placed grows in place, from 8 to 16 and then 24 modules. Right-click it > **Enlarge the board (8 -> 16 modules)**. The menu shows the next size: a 16-module board offers 16 -> 24. Enlarging needs Electrical level 3, a screwdriver, **1 Steel Sheet - Small** and **4 Screws** in your inventory. Breakers, labels and appliances are kept. The game's own wall boxes cannot be enlarged, and a 24-module board cannot grow further.
 
 ### Breakers: 15, 20 and 30 A
 

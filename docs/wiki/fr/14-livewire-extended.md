@@ -95,7 +95,7 @@ Un **tableau électrique** (8, 16 ou 24 modules) s'accroche sur un mur intérieu
 
 ### Agrandir un tableau
 
-Un tableau que vous avez posé s'agrandit sur place, de 8 à 16 puis 24 modules. Clic droit sur le tableau > **Agrandir le tableau (8 → 16 modules)**. Le menu affiche la taille suivante : un tableau de 16 modules propose 16 → 24. Il faut le niveau 3 d'Électricité, un tournevis, **1 petite plaque en métal** et **4 vis** dans l'inventaire. Les disjoncteurs, les étiquettes et les appareils sont conservés. Les boîtes électriques du jeu ne s'agrandissent pas, et un tableau de 24 modules ne grandit plus.
+Un tableau que vous avez posé s'agrandit sur place, de 8 à 16 puis 24 modules. Clic droit sur le tableau > **Agrandir le tableau (8 -> 16 modules)**. Le menu affiche la taille suivante : un tableau de 16 modules propose 16 -> 24. Il faut le niveau 3 d'Électricité, un tournevis, **1 petite plaque en métal** et **4 vis** dans l'inventaire. Les disjoncteurs, les étiquettes et les appareils sont conservés. Les boîtes électriques du jeu ne s'agrandissent pas, et un tableau de 24 modules ne grandit plus.
 
 ### Disjoncteurs : 15, 20 et 30 A
 

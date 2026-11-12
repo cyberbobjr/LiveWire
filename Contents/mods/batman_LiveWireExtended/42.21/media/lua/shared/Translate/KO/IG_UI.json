@@ -45,7 +45,7 @@
     "IGUI_LWX_State_off": "꺼짐",
     "IGUI_LWX_State_tripped": "트립: 과부하",
     "IGUI_LWX_Rating": "%1 A, 120 V: 최대 %2 W",
-    "IGUI_LWX_EnlargeTo": "배전반 확장 (모듈 %1 → %2개)",
+    "IGUI_LWX_EnlargeTo": "배전반 확장 (모듈 %1 -> %2개)",
     "IGUI_LWX_Enlarged": "배전반에 모듈 %1개가 되었습니다.",
     "IGUI_LWX_LcdLoad": "부하",
     "IGUI_LWX_LcdCurrent": "전류",

@@ -45,7 +45,7 @@
     "IGUI_LWX_State_off": "分闸",
     "IGUI_LWX_State_tripped": "已跳闸：过载",
     "IGUI_LWX_Rating": "%1 A，120 V：最高 %2 W",
-    "IGUI_LWX_EnlargeTo": "扩展配电箱（%1 → %2 个模块）",
+    "IGUI_LWX_EnlargeTo": "扩展配电箱（%1 -> %2 个模块）",
     "IGUI_LWX_Enlarged": "配电箱现在有 %1 个模块。",
     "IGUI_LWX_LcdLoad": "负载",
     "IGUI_LWX_LcdCurrent": "电流",
