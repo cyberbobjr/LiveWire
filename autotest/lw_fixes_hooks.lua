@@ -128,6 +128,10 @@ local function authorityStart(player)
     if isServer() then S.gen:transmitCompleteItemToClients() end
     S.gen:setConnected(true); S.gen:setFuel(50)
     S.backup=LiveWire.Backup.register(S.gen,S.grid)
+    -- C28: record the messages the backup sends near the generator (notifyNear wrapped for the check).
+    S.notes={}
+    local notifyNear=LiveWire.notifyNear
+    LiveWire.notifyNear=function(x,y,z,r,key,...) S.notes[#S.notes+1]=key; return notifyNear(x,y,z,r,key,...) end
     check("C09 manual stop/start respected; restore preserves manual stop",function()
         local B,d,g=LiveWire.Backup,S.backup,S.gen
         B.step(d,0.01,1/60)
@@ -150,6 +154,13 @@ local function authorityStart(player)
         S.gen:setActivated(false)
         LiveWire.Backup.step(S.backup,0.01,1/60)
         return good
+    end)
+    check("C28 manual mode told once, automatic resume confirmed",function()
+        local manual,auto=0,0
+        for _,k in ipairs(S.notes) do
+            if k=="IGUI_LW_BackupManual" then manual=manual+1 elseif k=="IGUI_LW_BackupAuto" then auto=auto+1 end
+        end
+        return manual==1 and auto==1,"manual="..manual.." auto="..auto.." notes="..table.concat(S.notes,",")
     end)
     check("C23 hourly purge keeps active daily XP cooldown",function()
         LiveWire.Xp.awardLimited(player,"fixes:daily",1,24)

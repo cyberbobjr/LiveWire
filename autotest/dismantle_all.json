@@ -1,0 +1,6 @@
+{
+  "name": "LiveWire-dismantle-all", "gameVersion": "42.22",
+  "mods": [{"path": "../Contents/mods/batman_LiveWire"}, {"path": "../Contents/mods/batman_LiveWireExtended"}],
+  "hooks": "lw_dismantle_all_hooks.lua", "runsDir": "../runs",
+  "sp": {"save": "2026-10-17_17-50-04", "gameMode": "Sandbox", "saveMods": "replace", "timeoutSec": 900, "startDelaySec": 5}
+}

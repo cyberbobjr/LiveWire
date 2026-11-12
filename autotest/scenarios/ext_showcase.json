@@ -1,0 +1,24 @@
+{
+ "name": "LiveWire-Extended",
+ "gameVersion": "42.22",
+ "mods": [
+  {
+   "path": "../../Contents/mods/batman_LiveWire"
+  },
+  {
+   "path": "../../Contents/mods/batman_LiveWireExtended"
+  }
+ ],
+ "hooks": "../lw_ext_hooks.lua",
+ "runsDir": "../../runs",
+ "params": {
+  "case": "showcase"
+ },
+ "sp": {
+  "save": "2026-10-17_17-50-04",
+  "gameMode": "Sandbox",
+  "saveMods": "replace",
+  "timeoutSec": 420,
+  "startDelaySec": 5
+ }
+}

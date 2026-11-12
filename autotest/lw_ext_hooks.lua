@@ -1157,6 +1157,20 @@ function DONE.showcase()
         if not slot and now - S.at < 15000 then return false end
         rec(slot ~= nil and slot.amps == 30, "breaker dropped on module " .. tostring(S.dropped) .. " installed there",
             slot and slot.type)
+        -- a twilight switch dragged from the inventory onto that breaker (window's drop handler)
+        local tw = S.player:getInventory():AddItem(X.Breakers.TWILIGHT_ITEM)
+        ISMouseDrag.dragging = { tw }
+        local mx, my = S.win:moduleRect(S.dropped)
+        S.win:onMouseUp((mx + 10) * S.win.lwK, (my + 40) * S.win.lwK)
+        ISMouseDrag.dragging = nil
+        S.phase, S.at = "twilight", now
+        return false
+    end
+    if S.phase == "twilight" then
+        local slot = X.Breakers.slotAt(S.record, S.dropped)
+        if not (slot and slot.twilight) and now - S.at < 15000 then return false end
+        rec(slot ~= nil and slot.twilight == true, "twilight switch dropped on module " .. tostring(S.dropped) .. " fitted",
+            slot and tostring(slot.twilight))
         S.win.selected = 1
         S.win:prerender()
         S.win:onLocate()
@@ -1172,6 +1186,14 @@ function DONE.showcase()
     if S.phase == "wall" and now - S.at > 1500 then
         shot("lwx_peek_locate_no_window")
         S.win:close()
+        -- unlinking the board gives back the breaker and the twilight switch fitted on it (direct call)
+        local inv = S.player:getInventory()
+        local b0, t0 = inv:getCountTypeRecurse("LiveWire.Breaker30"), inv:getCountTypeRecurse("LiveWire.TwilightSwitch")
+        rec(X.Panels.unlink(S.player, S.board), "board unlinked")
+        rec(inv:getCountTypeRecurse("LiveWire.Breaker30") == b0 + 1 and inv:getCountTypeRecurse("LiveWire.TwilightSwitch") == t0 + 1,
+            "unlinking gives the fitted breaker and twilight switch back",
+            string.format("30 A %d -> %d, twilight %d -> %d", b0, inv:getCountTypeRecurse("LiveWire.Breaker30"),
+                t0, inv:getCountTypeRecurse("LiveWire.TwilightSwitch")))
         S.phase = "end"
         rec(getLuaDebuggerErrorCount() == S.errors, "no Lua error", getLuaDebuggerErrorCount() - S.errors)
         return true
@@ -1832,6 +1854,101 @@ function DONE.consumers()
         S.phase = "end"
     end
     return S.phase == "end" or not S.phase
+end
+
+-- ---------------------------------------------------------------- pickup (B4)
+-- Every facing of the terminal and the boards gives its own moveable item (tile CustomItem),
+-- then a terminal facing east is placed and picked up by the vanilla moveable code (direct
+-- calls of placeMoveableInternal / pickUpMoveableInternal, not the furniture cursor).
+local PICKUP = { { "Base.Mov_LiveWire_Terminal", { 0, 1, 2, 3 } }, { "Base.Mov_LiveWire_Panel8", { 8, 9 } },
+    { "Base.Mov_LiveWire_Panel16", { 10, 11 } }, { "Base.Mov_LiveWire_Panel24", { 12, 13 } } }
+function START.pickup()
+    untouchable(S.player); clearZombies()
+    for _, e in ipairs(PICKUP) do
+        for _, i in ipairs(e[2]) do
+            local name = "batman_livewireext_01_" .. i
+            local props = ISMoveableSpriteProps.new(getSprite(name))
+            local item = props:instanceItem(name)
+            rec(props.customItem == e[1] and item and item:getFullType() == e[1], "tile " .. i .. " gives " .. e[1],
+                tostring(props.customItem) .. " / " .. tostring(item and item:getFullType()))
+        end
+    end
+    local sq = freeGround(math.floor(S.player:getX()) + 3, math.floor(S.player:getY()))
+    if not sq then rec(false, "free square for the terminal"); return end
+    local name = "batman_livewireext_01_1"
+    local props = ISMoveableSpriteProps.new(getSprite(name))
+    local obj = props:placeMoveableInternal(S.player, sq, props:instanceItem(name), name)
+    rec(obj ~= nil, "terminal facing east placed", name)
+    if not obj then return end
+    local inv = S.player:getInventory()
+    local before = inv:getCountTypeRecurse("Base.Mov_LiveWire_Terminal")
+    props:pickUpMoveableInternal(S.player, sq, obj, nil, name, true, false)
+    rec(inv:getCountTypeRecurse("Base.Mov_LiveWire_Terminal") == before + 1, "picked up as Power Terminal",
+        before .. " -> " .. inv:getCountTypeRecurse("Base.Mov_LiveWire_Terminal"))
+    rec(inv:getCountTypeRecurse("Moveables.batman_livewireext_01_1") == 0, "no generic moveable item")
+    rec(getLuaDebuggerErrorCount() == S.errors, "no Lua error", getLuaDebuggerErrorCount() - S.errors)
+end
+function DONE.pickup() return true end
+
+-- ---------------------------------------------------------------- adopt (C9, D-65)
+-- An inverter inside a two-floor house, with no area: the first-start adoption (re-armed here,
+-- as the world already ran it on its first minute) connects the house; every loaded room
+-- square of every floor gets power.
+local function setupAdopt(def)
+    S.def = def
+    local spot
+    for _, sq in ipairs(roomSquares(def)) do
+        if sq:getZ() == 0 and sq:isFree(false) and not LiveWire.Marks.firstOnSquare(sq) then spot = sq; break end
+    end
+    if not spot then rec(false, "free room square for the inverter"); S.phase = "end"; return end
+    local inv = place(spot, 12)
+    if not inv then rec(false, "inverter placed"); S.phase = "end"; return end
+    S.inv = inv
+    holdPower(inv)
+    S.squares = roomSquares(def)
+    rec(X.Data.entry(inv.id) == nil, "the new inverter has no area yet")
+    X.Data.table().adopted = nil
+    Events.EveryOneMinute.Remove(X.Adopt.tick)
+    Events.EveryOneMinute.Add(X.Adopt.tick)
+    S.phase, S.at = "waiting", getTimestampMs()
+end
+
+function START.adopt()
+    untouchable(S.player); clearZombies()
+    local def = findHouse()
+    if not def then rec(false, "two-floor house within 600 squares"); S.phase = "end"; return end
+    if loaded(def, 24) then setupAdopt(def); return end
+    local p = S.player
+    p:setX(def:getX() - 4); p:setY(def:getY() + math.floor(def:getH() / 2))
+    p:setLastX(p:getX()); p:setLastY(p:getY())
+    S.adoptDef, S.phase, S.at = def, "travel", getTimestampMs()
+end
+
+function DONE.adopt()
+    clearZombies()
+    local now = getTimestampMs()
+    if S.phase == "travel" then
+        if loaded(S.adoptDef, 24) and now - S.at > 1500 then setupAdopt(S.adoptDef)
+        elseif now - S.at > 60000 then rec(false, "house squares loaded after moving"); S.phase = "end" end
+        return S.phase == "end"
+    end
+    if S.phase == "waiting" then
+        if X.Data.entry(S.inv.id) then
+            rec(X.Data.table().adopted == true, "adoption ran once and was recorded", now - S.at .. " ms")
+            S.phase, S.at = "adopted", now
+        elseif now - S.at > 60000 then
+            rec(false, "the house of the inverter was connected within 60 s"); S.phase = "end"
+        end
+        return S.phase == "end"
+    end
+    if S.phase == "adopted" and now - S.at > 1500 then
+        local after, floors = unpowered(S.squares)
+        rec(after == 0, "every loaded room square of every floor powered", string.format("%d unpowered of %d (floors %s)",
+            after, #S.squares, floors))
+        rec(getLuaDebuggerErrorCount() == S.errors, "no Lua error", getLuaDebuggerErrorCount() - S.errors)
+        S.phase = "end"
+    end
+    return S.phase == "end"
 end
 
 function H.start(ctx)
