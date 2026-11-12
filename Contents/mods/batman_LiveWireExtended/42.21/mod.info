@@ -6,6 +6,6 @@ loadModAfter=\batman_LiveWire
 incompatible=\LGExtendedElectricity,\KnoxPower
 poster=poster.png
 versionMin=42.21
-modversion=2.0.1
+modversion=2.0.2
 pack=batman_livewireext_01
 tiledef=batman_livewireext_01 7175

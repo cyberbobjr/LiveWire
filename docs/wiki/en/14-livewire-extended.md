@@ -2,7 +2,7 @@
 
 # LiveWire Extended (optional add-on)
 
-**LiveWire Extended** (`batman_LiveWireExtended`, version 2.0.1) is an optional add-on for LiveWire. It needs LiveWire. It adds four ways to bring power where the base mod cannot: a whole building connected to one inverter, an outdoor power terminal with its own zone, breaker boards where each appliance is wired to a breaker (one breaker can feed several appliances), and the breakers, labels and twilight switches that go with them. With the add-on, an inverter powers only what is connected to it, and no longer a radius around itself. Without it, LiveWire works as before.
+**LiveWire Extended** (`batman_LiveWireExtended`, version 2.0.2) is an optional add-on for LiveWire. It needs LiveWire. It adds four ways to bring power where the base mod cannot: a whole building connected to one inverter, an outdoor power terminal with its own zone, breaker boards where each appliance is wired to a breaker (one breaker can feed several appliances), and the breakers, labels and twilight switches that go with them. With the add-on, an inverter powers only what is connected to it, and no longer a radius around itself. Without it, LiveWire works as before.
 
 ![Diagram: without a board, with a board, outdoor terminal](../../images/diagrams/diagram_extended_en.png)
 

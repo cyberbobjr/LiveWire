@@ -4,7 +4,7 @@
 
 This page is for mod authors who want their mod to work with LiveWire: add a battery or a power source, read the state of a network, or build an add-on like LiveWire Extended. Players do not need it.
 
-Everything below is the public API of LiveWire 2.0.1 (`LiveWire.API` version 1, revision 5). It lives in `media/lua/shared/LiveWire/LW_API.lua` of `batman_LiveWire`: the file is short and every function has a comment.
+Everything below is the public API of LiveWire 2.0.2 (`LiveWire.API` version 1, revision 5). It lives in `media/lua/shared/LiveWire/LW_API.lua` of `batman_LiveWire`: the file is short and every function has a comment.
 
 ## How LiveWire works, in short
 

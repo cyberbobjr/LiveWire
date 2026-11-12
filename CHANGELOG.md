@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.2 — 2026-11-12
+
+### Fixes
+
+- **LiveWire Extended, enlarging a board:** the menu read "Enlarge the board (8 ? 16 modules)" because the game font has no arrow sign; it now reads "(8 -> 16 modules)" in every language.
+- **LiveWire Extended, breaker labels:** **Label** in the board window made the player walk to the board even when it was already in reach, sometimes around a wall and out of the house. The label is now written where the player stands, as the levers already did.
+
 ## 2.0.1 — 2026-11-12
 
 ### Fixes
