@@ -377,12 +377,14 @@ BOARD_PROPS = {"GroupName": "LiveWire Extended", "IsMoveAble": "", "MoveType": "
 
 
 def tile_props(i: int) -> dict:
+    # CustomItem: picking up any facing gives the object's own moveable item, not a generic
+    # Moveables.<sprite> item (ISMoveableSpriteProps.instanceItem).
     if i < 4:
-        return {**TERMINAL_PROPS, "Facing": FACING_NAMES[i]}
+        return {**TERMINAL_PROPS, "Facing": FACING_NAMES[i], "CustomItem": "Base.Mov_LiveWire_Terminal"}
     for first, modules in ((8, 8), (10, 16), (12, 24)):
         if i in (first, first + 1):
             return {**BOARD_PROPS, "CustomName": f"Board{modules}", "PickUpWeight": str(10 + modules // 8 * 10),
-                    "Facing": FACING_NAMES[i - first]}
+                    "Facing": FACING_NAMES[i - first], "CustomItem": f"Base.Mov_LiveWire_Panel{modules}"}
     return {}
 
 
