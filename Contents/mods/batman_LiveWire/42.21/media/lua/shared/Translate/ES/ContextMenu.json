@@ -24,7 +24,6 @@
     "ContextMenu_LW_LinkedDeviceAt": "%1, a %2 casillas",
     "ContextMenu_LW_NothingToLink": "Nada que conectar a menos de %1 casillas",
     "ContextMenu_LW_NothingLinked": "Ningún equipo conectado",
-    "ContextMenu_LW_Members": "%1 equipo(s) conectado(s)",
     "ContextMenu_LW_Repair": "Reparar",
     "ContextMenu_LW_Overhaul": "Revisión completa",
     "ContextMenu_LW_ClearSnow": "Quitar la nieve",

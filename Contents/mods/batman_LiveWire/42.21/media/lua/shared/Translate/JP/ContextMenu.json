@@ -24,7 +24,6 @@
     "ContextMenu_LW_LinkedDeviceAt": "%1、%2マス先",
     "ContextMenu_LW_NothingToLink": "%1マス以内に接続できる機器なし",
     "ContextMenu_LW_NothingLinked": "接続された機器なし",
-    "ContextMenu_LW_Members": "接続機器 %1 台",
     "ContextMenu_LW_Repair": "修理する",
     "ContextMenu_LW_Overhaul": "オーバーホール",
     "ContextMenu_LW_ClearSnow": "雪をかく",

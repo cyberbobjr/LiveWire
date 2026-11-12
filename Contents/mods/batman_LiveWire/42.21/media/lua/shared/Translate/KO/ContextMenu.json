@@ -24,7 +24,6 @@
     "ContextMenu_LW_LinkedDeviceAt": "%1, %2 타일 거리",
     "ContextMenu_LW_NothingToLink": "%1 타일 안에 연결할 것이 없음",
     "ContextMenu_LW_NothingLinked": "연결된 기기 없음",
-    "ContextMenu_LW_Members": "연결된 기기 %1개",
     "ContextMenu_LW_Repair": "수리",
     "ContextMenu_LW_Overhaul": "전면 정비",
     "ContextMenu_LW_ClearSnow": "눈 치우기",

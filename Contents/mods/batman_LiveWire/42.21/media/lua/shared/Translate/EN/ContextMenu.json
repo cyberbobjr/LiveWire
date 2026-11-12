@@ -26,7 +26,6 @@
     "ContextMenu_LW_LinkedDeviceAt": "%1, %2 tiles away",
     "ContextMenu_LW_NothingToLink": "Nothing to connect within %1 tiles",
     "ContextMenu_LW_NothingLinked": "No equipment connected",
-    "ContextMenu_LW_Members": "%1 equipment connected",
     "ContextMenu_LW_Repair": "Repair",
     "ContextMenu_LW_Overhaul": "Overhaul",
     "ContextMenu_LW_ClearSnow": "Clear the snow",

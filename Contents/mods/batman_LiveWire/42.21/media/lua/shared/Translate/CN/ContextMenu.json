@@ -24,7 +24,6 @@
     "ContextMenu_LW_LinkedDeviceAt": "%1, 距离 %2 格",
     "ContextMenu_LW_NothingToLink": "%1 格内没有可连接的设备",
     "ContextMenu_LW_NothingLinked": "没有连接设备",
-    "ContextMenu_LW_Members": "已连接 %1 台设备",
     "ContextMenu_LW_Repair": "修理",
     "ContextMenu_LW_Overhaul": "大修",
     "ContextMenu_LW_ClearSnow": "清除积雪",

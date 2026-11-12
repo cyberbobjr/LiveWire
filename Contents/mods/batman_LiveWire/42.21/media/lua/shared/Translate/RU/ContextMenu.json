@@ -24,7 +24,6 @@
     "ContextMenu_LW_LinkedDeviceAt": "%1, в %2 клетках",
     "ContextMenu_LW_NothingToLink": "Нечего подключать в радиусе %1 клеток",
     "ContextMenu_LW_NothingLinked": "Оборудование не подключено",
-    "ContextMenu_LW_Members": "Подключено оборудования: %1",
     "ContextMenu_LW_Repair": "Починить",
     "ContextMenu_LW_Overhaul": "Капремонт",
     "ContextMenu_LW_ClearSnow": "Убрать снег",
