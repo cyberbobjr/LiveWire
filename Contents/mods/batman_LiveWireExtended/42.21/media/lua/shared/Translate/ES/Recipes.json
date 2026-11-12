@@ -6,5 +6,9 @@
     "LWXMakeBreaker15": "Fabricar disyuntor de 15 A",
     "LWXMakeBreaker20": "Fabricar disyuntor de 20 A",
     "LWXMakeBreaker30": "Fabricar disyuntor de 30 A",
-    "LWXMakeTwilightSwitch": "Fabricar interruptor crepuscular para disyuntor"
+    "LWXMakeTwilightSwitch": "Fabricar interruptor crepuscular para disyuntor",
+    "LWXDismantleTerminal": "Desmontar poste eléctrico",
+    "LWXDismantlePanel8": "Desmontar cuadro eléctrico (8 módulos)",
+    "LWXDismantlePanel16": "Desmontar cuadro eléctrico (16 módulos)",
+    "LWXDismantlePanel24": "Desmontar cuadro eléctrico (24 módulos)"
 }

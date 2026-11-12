@@ -2,7 +2,7 @@
 
 # Recettes
 
-Les 31 recettes LiveWire de base sont dans le menu d'artisanat : 16 de fabrication et 15 de démontage. LiveWire Extended ajoute 8 recettes de fabrication, listées dans [LiveWire Extended](14-livewire-extended.md#recettes). Les recettes d'Électricité apparaissent au niveau requis ; les pales et le mât sont dans **Travail des métaux**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes les recettes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
+Les 31 recettes LiveWire de base sont dans le menu d'artisanat : 16 de fabrication et 15 de démontage. LiveWire Extended ajoute 8 recettes de fabrication et 4 de démontage, listées dans [LiveWire Extended](14-livewire-extended.md#recettes). Les recettes d'Électricité apparaissent au niveau requis ; les pales et le mât sont dans **Travail des métaux**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes les recettes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
 
 ![Planche illustrée des recettes LiveWire](../../images/diagrams/recipe_book_fr.png)
 
@@ -95,7 +95,7 @@ Chaque équipement et kit LiveWire de base se démonte depuis le menu d'artisana
 d'abord l'équipement, puis démontez-le depuis l'inventaire. Un tournevis en état est
 requis et conservé ; aucun niveau d'Électricité n'est demandé. On récupère toujours
 moins de pièces que la fabrication n'en coûte : fabriquer puis démonter ne crée donc
-jamais de matériaux. Les équipements LiveWire Extended n'ont pas de recette de démontage.
+jamais de matériaux. Les bornes et tableaux de LiveWire Extended se démontent de la même façon (voir [Recettes Extended](#recettes-extended)).
 
 ![Démonter un onduleur dans le menu d'artisanat](../../images/screenshots/dismantle-recipe-fr.png)
 
@@ -132,7 +132,7 @@ donne aussi une cellule photovoltaïque.
 
 ## Recettes Extended
 
-LiveWire Extended ajoute huit recettes de fabrication, toutes au niveau 3 d'Électricité et toutes avec un tournevis. Leurs ingrédients sont listés dans [LiveWire Extended](14-livewire-extended.md#recettes).
+LiveWire Extended ajoute huit recettes de fabrication, toutes au niveau 3 d'Électricité et toutes avec un tournevis, et quatre recettes de démontage sans niveau (borne et tableaux). Leurs ingrédients sont listés dans [LiveWire Extended](14-livewire-extended.md#recettes).
 
 | Recette | Résultat | Durée |
 |---|---|---|
@@ -144,6 +144,10 @@ LiveWire Extended ajoute huit recettes de fabrication, toutes au niveau 3 d'Éle
 | Fabriquer un disjoncteur 20 A | Disjoncteur 20 A | 100 |
 | Fabriquer un disjoncteur 30 A | Disjoncteur 30 A | 120 |
 | Fabriquer un interrupteur crépusculaire pour disjoncteur | Interrupteur crépusculaire pour disjoncteur | 130 |
+| Démonter une borne électrique | Pièces | 130 |
+| Démonter un tableau électrique (8 modules) | Pièces | 90 |
+| Démonter un tableau électrique (16 modules) | Pièces | 110 |
+| Démonter un tableau électrique (24 modules) | Pièces | 130 |
 
 ## Voir aussi
 

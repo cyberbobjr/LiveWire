@@ -33,5 +33,6 @@
     "Tooltip_LWX_TwilightItem": "Kendi başına bir pano modülü değildir: tornavidayla, bir sigorta panosunda zaten takılı olan bir sigortaya takın.\nGece sigorta açık kalır ve elektrik akar; gündüz kapanır ve devreyi keser.\nAlacakaranlık ve şafak mevsimlere göre değişir.",
     "Tooltip_LWX_NoTwilightItem": "Alacakaranlık anahtarınız yok.",
     "Tooltip_LWX_ModuleTaken": "Bu modül boş değil.",
-    "Tooltip_LWX_NeedTester": "Voltaj Test Cihazı gerekir (geri kalır)."
+    "Tooltip_LWX_NeedTester": "Voltaj Test Cihazı gerekir (geri kalır).",
+    "Tooltip_LWX_Dismantle": "Yapımında harcanandan daha az parça geri verir."
 }

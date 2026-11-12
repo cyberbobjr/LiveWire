@@ -33,5 +33,6 @@
     "Tooltip_LWX_TwilightItem": "Ce n'est pas un module de tableau à part : il se pose au tournevis sur un disjoncteur déjà installé dans un tableau électrique.\nLa nuit, le disjoncteur reste fermé et le courant passe ; le jour, il s'ouvre et coupe le circuit.\nLe crépuscule et l'aube suivent les saisons.",
     "Tooltip_LWX_NoTwilightItem": "Vous n'avez pas d'interrupteur crépusculaire.",
     "Tooltip_LWX_ModuleTaken": "Ce module n'est pas libre.",
-    "Tooltip_LWX_NeedTester": "Nécessite un testeur de tension (conservé)."
+    "Tooltip_LWX_NeedTester": "Nécessite un testeur de tension (conservé).",
+    "Tooltip_LWX_Dismantle": "Rend moins de pièces que sa fabrication."
 }

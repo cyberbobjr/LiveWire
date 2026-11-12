@@ -6,5 +6,9 @@
     "LWXMakeBreaker15": "制作断路器 15 A",
     "LWXMakeBreaker20": "制作断路器 20 A",
     "LWXMakeBreaker30": "制作断路器 30 A",
-    "LWXMakeTwilightSwitch": "制作断路器光控开关"
+    "LWXMakeTwilightSwitch": "制作断路器光控开关",
+    "LWXDismantleTerminal": "拆解供电端子",
+    "LWXDismantlePanel8": "拆解配电箱 (8 个模块)",
+    "LWXDismantlePanel16": "拆解配电箱 (16 个模块)",
+    "LWXDismantlePanel24": "拆解配电箱 (24 个模块)"
 }

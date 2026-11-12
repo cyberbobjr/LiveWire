@@ -322,7 +322,7 @@ LiveWire has 31 recipes: 16 craft devices and parts, 15 dismantle them. They are
 
 *Illustrated recipe board.*
 
-Ingredients, tools, levels and times for the base recipes: [Recipes](https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes). The eight [LiveWire Extended](#livewire-extended) recipes list their ingredients on the [LiveWire Extended](https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended) wiki page, and their times on the Recipes page.
+Ingredients, tools, levels and times for the base recipes: [Recipes](https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes). The twelve [LiveWire Extended](#livewire-extended) recipes (eight to make, four to dismantle) list their ingredients on the [LiveWire Extended](https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended) wiki page, and their times on the Recipes page.
 
 ## Loot tables
 

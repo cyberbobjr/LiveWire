@@ -6,5 +6,9 @@
     "LWXMakeBreaker15": "ブレーカー 15 A を作る",
     "LWXMakeBreaker20": "ブレーカー 20 A を作る",
     "LWXMakeBreaker30": "ブレーカー 30 A を作る",
-    "LWXMakeTwilightSwitch": "ブレーカー用夕暮れスイッチを作る"
+    "LWXMakeTwilightSwitch": "ブレーカー用夕暮れスイッチを作る",
+    "LWXDismantleTerminal": "給電ポールを分解",
+    "LWXDismantlePanel8": "分電盤 (8 モジュール) を分解",
+    "LWXDismantlePanel16": "分電盤 (16 モジュール) を分解",
+    "LWXDismantlePanel24": "分電盤 (24 モジュール) を分解"
 }

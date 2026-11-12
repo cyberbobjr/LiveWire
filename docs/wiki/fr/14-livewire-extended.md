@@ -32,7 +32,14 @@ Les recettes demandent le niveau 3 d'Électricité et un tournevis. Les durées 
 | Fabriquer un disjoncteur 30 A | 3 pièces électroniques, 2 fils électriques, 3 vis |
 | Fabriquer un interrupteur crépusculaire pour disjoncteur | 2 pièces électroniques, 1 fil électrique, 1 vis |
 
-Les appareils Extended n'ont pas de recette de démontage : on les ramasse au tournevis.
+Ramassez une borne ou un tableau au tournevis, puis démontez-le dans le menu d'artisanat (tournevis conservé, sans niveau d'Électricité). Vous récupérez moins de pièces que sa fabrication n'en coûte. Les disjoncteurs et interrupteurs crépusculaires se retirent du tableau dans l'inventaire et n'ont pas de recette de démontage.
+
+| Recette | Résultat | Durée |
+|---|---|---|
+| Démonter une borne électrique | 1 tuyau en fer, 1 petite plaque en métal, 1 fil électrique, 2 vis | 130 |
+| Démonter un tableau électrique (8 modules) | 1 petite plaque en métal, 1 fil électrique, 2 vis | 90 |
+| Démonter un tableau électrique (16 modules) | 2 petites plaques en métal, 1 fil électrique, 2 vis | 110 |
+| Démonter un tableau électrique (24 modules) | 3 petites plaques en métal, 1 fil électrique, 2 vis | 130 |
 
 ## Raccorder tout un bâtiment
 

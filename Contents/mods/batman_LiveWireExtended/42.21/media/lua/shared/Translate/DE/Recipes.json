@@ -6,5 +6,9 @@
     "LWXMakeBreaker15": "Schutzschalter 15 A herstellen",
     "LWXMakeBreaker20": "Schutzschalter 20 A herstellen",
     "LWXMakeBreaker30": "Schutzschalter 30 A herstellen",
-    "LWXMakeTwilightSwitch": "Dämmerungsschalter für Schutzschalter herstellen"
+    "LWXMakeTwilightSwitch": "Dämmerungsschalter für Schutzschalter herstellen",
+    "LWXDismantleTerminal": "Anschlusssäule zerlegen",
+    "LWXDismantlePanel8": "Sicherungskasten (8 Module) zerlegen",
+    "LWXDismantlePanel16": "Sicherungskasten (16 Module) zerlegen",
+    "LWXDismantlePanel24": "Sicherungskasten (24 Module) zerlegen"
 }

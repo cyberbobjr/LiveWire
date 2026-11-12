@@ -6,5 +6,9 @@
     "LWXMakeBreaker15": "15 A Sigorta Yap",
     "LWXMakeBreaker20": "20 A Sigorta Yap",
     "LWXMakeBreaker30": "30 A Sigorta Yap",
-    "LWXMakeTwilightSwitch": "Sigorta Alacakaranlık Anahtarı Yap"
+    "LWXMakeTwilightSwitch": "Sigorta Alacakaranlık Anahtarı Yap",
+    "LWXDismantleTerminal": "Güç Terminalini Sök",
+    "LWXDismantlePanel8": "Sigorta Panosunu Sök (8 modül)",
+    "LWXDismantlePanel16": "Sigorta Panosunu Sök (16 modül)",
+    "LWXDismantlePanel24": "Sigorta Panosunu Sök (24 modül)"
 }

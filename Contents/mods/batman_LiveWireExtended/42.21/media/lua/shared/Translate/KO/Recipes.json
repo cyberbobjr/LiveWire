@@ -6,5 +6,9 @@
     "LWXMakeBreaker15": "차단기 15 A 만들기",
     "LWXMakeBreaker20": "차단기 20 A 만들기",
     "LWXMakeBreaker30": "차단기 30 A 만들기",
-    "LWXMakeTwilightSwitch": "차단기용 조도 스위치 만들기"
+    "LWXMakeTwilightSwitch": "차단기용 조도 스위치 만들기",
+    "LWXDismantleTerminal": "전력 기둥 분해",
+    "LWXDismantlePanel8": "배전반 (8 모듈) 분해",
+    "LWXDismantlePanel16": "배전반 (16 모듈) 분해",
+    "LWXDismantlePanel24": "배전반 (24 모듈) 분해"
 }

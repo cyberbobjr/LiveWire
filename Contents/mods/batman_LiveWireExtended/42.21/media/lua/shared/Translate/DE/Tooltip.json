@@ -33,5 +33,6 @@
     "Tooltip_LWX_TwilightItem": "Kein eigenes Modul im Kasten: Er wird mit einem Schraubenzieher auf einen Schutzschalter gesetzt, der schon in einem Sicherungskasten steckt.\nNachts bleibt der Schutzschalter geschlossen und der Strom fließt; tagsüber öffnet er und unterbricht den Stromkreis.\nAbenddämmerung und Morgengrauen folgen den Jahreszeiten.",
     "Tooltip_LWX_NoTwilightItem": "Du hast keinen Dämmerungsschalter.",
     "Tooltip_LWX_ModuleTaken": "Dieses Modul ist nicht frei.",
-    "Tooltip_LWX_NeedTester": "Erfordert einen Spannungsprüfer (bleibt erhalten)."
+    "Tooltip_LWX_NeedTester": "Erfordert einen Spannungsprüfer (bleibt erhalten).",
+    "Tooltip_LWX_Dismantle": "Gibt weniger Teile zurück, als die Herstellung gekostet hat."
 }

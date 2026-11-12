@@ -308,7 +308,7 @@ LiveWire compte 31 recettes : 16 pour fabriquer les appareils et les pièces, 15
 
 *Planche illustrée des recettes LiveWire.*
 
-Ingrédients, outils, niveaux et durées des recettes de base : [Recettes](https://github.com/cyberbobjr/LiveWire/wiki/FR-08-recettes). Les huit recettes de [LiveWire Extended](#livewire-extended) ont leurs ingrédients sur la page [LiveWire Extended](https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended) du wiki, et leurs durées sur la page Recettes.
+Ingrédients, outils, niveaux et durées des recettes de base : [Recettes](https://github.com/cyberbobjr/LiveWire/wiki/FR-08-recettes). Les douze recettes de [LiveWire Extended](#livewire-extended) (huit de fabrication, quatre de démontage) ont leurs ingrédients sur la page [LiveWire Extended](https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended) du wiki, et leurs durées sur la page Recettes.
 
 ## Tables de butin
 

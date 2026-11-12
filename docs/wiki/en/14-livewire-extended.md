@@ -32,7 +32,14 @@ Recipes are at Electrical level 3, each with a screwdriver. Times are the recipe
 | Make Breaker 30 A | 3 Scrap Electronics, 2 Electrical Wire, 3 Screws |
 | Make Breaker Twilight Switch | 2 Scrap Electronics, 1 Electrical Wire, 1 Screws |
 
-LiveWire Extended devices have no dismantle recipe: pick them up with a screwdriver instead.
+Pick a terminal or a board up with a screwdriver, then dismantle it in the crafting menu (screwdriver kept, no Electrical level). You get back fewer parts than it cost. Breakers and twilight switches are removed from the board into your inventory and have no dismantle recipe.
+
+| Recipe | Result | Time |
+|---|---|---|
+| Dismantle Power Terminal | 1 Iron Pipe, 1 Steel Sheet - Small, 1 Electrical Wire, 2 Screws | 130 |
+| Dismantle Breaker Board (8 modules) | 1 Steel Sheet - Small, 1 Electrical Wire, 2 Screws | 90 |
+| Dismantle Breaker Board (16 modules) | 2 Steel Sheet - Small, 1 Electrical Wire, 2 Screws | 110 |
+| Dismantle Breaker Board (24 modules) | 3 Steel Sheet - Small, 1 Electrical Wire, 2 Screws | 130 |
 
 ## Connect a whole building
 

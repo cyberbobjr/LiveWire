@@ -6,5 +6,9 @@
     "LWXMakeBreaker15": "Сделать автомат 15 А",
     "LWXMakeBreaker20": "Сделать автомат 20 А",
     "LWXMakeBreaker30": "Сделать автомат 30 А",
-    "LWXMakeTwilightSwitch": "Сделать сумеречный выключатель для автомата"
+    "LWXMakeTwilightSwitch": "Сделать сумеречный выключатель для автомата",
+    "LWXDismantleTerminal": "Разобрать: Электроколонка",
+    "LWXDismantlePanel8": "Разобрать: Электрощиток (8 модулей)",
+    "LWXDismantlePanel16": "Разобрать: Электрощиток (16 модулей)",
+    "LWXDismantlePanel24": "Разобрать: Электрощиток (24 модуля)"
 }

@@ -33,5 +33,6 @@
     "Tooltip_LWX_TwilightItem": "分電盤の独立したモジュールではありません。分電盤に取り付け済みのブレーカーにスクリュードライバーで取り付けます。\n夜はブレーカーが閉じたままで電気が流れ、昼は開いて回路を切ります。\n夕暮れと夜明けは季節によって変わります。",
     "Tooltip_LWX_NoTwilightItem": "夕暮れスイッチを持っていません。",
     "Tooltip_LWX_ModuleTaken": "このモジュールは空いていません。",
-    "Tooltip_LWX_NeedTester": "検電器が必要です (消費しません)。"
+    "Tooltip_LWX_NeedTester": "検電器が必要です (消費しません)。",
+    "Tooltip_LWX_Dismantle": "製作に使った部品より少なく戻ります。"
 }

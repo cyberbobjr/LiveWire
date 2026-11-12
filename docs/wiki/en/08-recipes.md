@@ -2,7 +2,7 @@
 
 # Recipes
 
-The 31 base LiveWire recipes are in the crafting menu: 16 to make and 15 to dismantle. LiveWire Extended adds 8 make recipes, listed in [LiveWire Extended](14-livewire-extended.md#recipes). Electrical recipes appear at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
+The 31 base LiveWire recipes are in the crafting menu: 16 to make and 15 to dismantle. LiveWire Extended adds 8 make recipes and 4 dismantle recipes, listed in [LiveWire Extended](14-livewire-extended.md#recipes). Electrical recipes appear at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
 
 ![Illustrated recipe board](../../images/diagrams/recipe_book_en.png)
 
@@ -94,7 +94,7 @@ Every base LiveWire device and kit can be dismantled from the crafting menu
 first, then dismantle it from your inventory. A working screwdriver is required and
 kept; no Electrical level is needed. You always get back fewer parts than the
 recipe cost, so building and dismantling again never creates materials.
-LiveWire Extended devices have no dismantle recipe.
+LiveWire Extended terminals and boards dismantle the same way (see [Extended recipes](#extended-recipes)).
 
 ![Dismantle Inverter in the crafting menu](../../images/screenshots/dismantle-recipe-en.png)
 
@@ -130,7 +130,7 @@ also gives a solar cell.
 
 ## Extended recipes
 
-LiveWire Extended adds eight make recipes, all at Electrical 3 and all with a screwdriver. Their ingredients are listed in [LiveWire Extended](14-livewire-extended.md#recipes).
+LiveWire Extended adds eight make recipes, all at Electrical 3 and all with a screwdriver, and four dismantle recipes with no level (terminal and boards). Their ingredients are listed in [LiveWire Extended](14-livewire-extended.md#recipes).
 
 | Recipe | Result | Time |
 |---|---|---|
@@ -142,6 +142,10 @@ LiveWire Extended adds eight make recipes, all at Electrical 3 and all with a sc
 | Make Breaker 20 A | Breaker 20 A | 100 |
 | Make Breaker 30 A | Breaker 30 A | 120 |
 | Make Breaker Twilight Switch | Breaker Twilight Switch | 130 |
+| Dismantle Power Terminal | Parts | 130 |
+| Dismantle Breaker Board (8 modules) | Parts | 90 |
+| Dismantle Breaker Board (16 modules) | Parts | 110 |
+| Dismantle Breaker Board (24 modules) | Parts | 130 |
 
 ## See also
 

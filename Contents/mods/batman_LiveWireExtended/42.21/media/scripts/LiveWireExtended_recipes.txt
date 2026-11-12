@@ -190,4 +190,93 @@ module LiveWire
             item 1 LiveWire.TwilightSwitch,
         }
     }
+
+    craftRecipe LWXDismantleTerminal
+    {
+        timedAction = DismantleElectrical,
+        Icon = LWXTerminal,
+        time = 130,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LWX_Dismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_Terminal] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.MetalPipe,
+            item 1 Base.SmallSheetMetal,
+            item 1 Base.ElectricWire,
+            item 2 Base.Screws,
+        }
+    }
+
+    craftRecipe LWXDismantlePanel8
+    {
+        timedAction = DismantleElectrical,
+        Icon = LWXPanel,
+        time = 90,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LWX_Dismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_Panel8] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.SmallSheetMetal,
+            item 1 Base.ElectricWire,
+            item 2 Base.Screws,
+        }
+    }
+
+    craftRecipe LWXDismantlePanel16
+    {
+        timedAction = DismantleElectrical,
+        Icon = LWXPanel,
+        time = 110,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LWX_Dismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_Panel16] mode:destroy,
+        }
+        outputs
+        {
+            item 2 Base.SmallSheetMetal,
+            item 1 Base.ElectricWire,
+            item 2 Base.Screws,
+        }
+    }
+
+    craftRecipe LWXDismantlePanel24
+    {
+        timedAction = DismantleElectrical,
+        Icon = LWXPanel,
+        time = 130,
+        Tags = InHandCraft;Electrical,
+        category = Electrical,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LWX_Dismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [Base.Mov_LiveWire_Panel24] mode:destroy,
+        }
+        outputs
+        {
+            item 3 Base.SmallSheetMetal,
+            item 1 Base.ElectricWire,
+            item 2 Base.Screws,
+        }
+    }
 }

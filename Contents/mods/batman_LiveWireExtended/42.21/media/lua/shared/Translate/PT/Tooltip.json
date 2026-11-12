@@ -33,5 +33,6 @@
     "Tooltip_LWX_TwilightItem": "Não é um módulo próprio do quadro: instala-se com uma chave de fendas num disjuntor já montado num quadro elétrico.\nÀ noite o disjuntor fica fechado e a corrente passa; de dia abre-se e corta o circuito.\nO anoitecer e o amanhecer seguem as estações.",
     "Tooltip_LWX_NoTwilightItem": "Não tem nenhum interruptor crepuscular.",
     "Tooltip_LWX_ModuleTaken": "Este módulo não está livre.",
-    "Tooltip_LWX_NeedTester": "Requer um testador de tensão (mantém-se)."
+    "Tooltip_LWX_NeedTester": "Requer um testador de tensão (mantém-se).",
+    "Tooltip_LWX_Dismantle": "Devolve menos peças do que custou."
 }

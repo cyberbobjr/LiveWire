@@ -33,5 +33,6 @@
     "Tooltip_LWX_TwilightItem": "배전반의 별도 모듈이 아닙니다. 배전반에 이미 설치된 차단기에 스크류드라이버로 설치합니다.\n밤에는 차단기가 닫힌 채로 전기가 흐르고, 낮에는 열려 회로를 끊습니다.\n해 질 녘과 새벽은 계절에 따라 바뀝니다.",
     "Tooltip_LWX_NoTwilightItem": "조도 스위치가 없습니다.",
     "Tooltip_LWX_ModuleTaken": "이 모듈은 비어 있지 않습니다.",
-    "Tooltip_LWX_NeedTester": "전압 테스터가 필요합니다 (소모되지 않음)."
+    "Tooltip_LWX_NeedTester": "전압 테스터가 필요합니다 (소모되지 않음).",
+    "Tooltip_LWX_Dismantle": "제작에 든 부품보다 적게 돌려받습니다."
 }

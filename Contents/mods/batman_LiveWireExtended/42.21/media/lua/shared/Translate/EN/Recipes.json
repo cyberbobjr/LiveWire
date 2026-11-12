@@ -6,5 +6,9 @@
     "LWXMakeBreaker15": "Make Breaker 15 A",
     "LWXMakeBreaker20": "Make Breaker 20 A",
     "LWXMakeBreaker30": "Make Breaker 30 A",
-    "LWXMakeTwilightSwitch": "Make Breaker Twilight Switch"
+    "LWXMakeTwilightSwitch": "Make Breaker Twilight Switch",
+    "LWXDismantleTerminal": "Dismantle Power Terminal",
+    "LWXDismantlePanel8": "Dismantle Breaker Board (8 modules)",
+    "LWXDismantlePanel16": "Dismantle Breaker Board (16 modules)",
+    "LWXDismantlePanel24": "Dismantle Breaker Board (24 modules)"
 }
