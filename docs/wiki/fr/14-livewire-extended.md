@@ -2,7 +2,7 @@
 
 # LiveWire Extended (extension optionnelle)
 
-**LiveWire Extended** (`batman_LiveWireExtended`, version 1.0.0) est une extension optionnelle de LiveWire. Elle demande LiveWire. Elle ajoute quatre moyens d'amener le courant là où le mod de base ne peut pas aller : un bâtiment entier raccordé à un onduleur, une borne électrique extérieure avec sa propre zone, des tableaux électriques où chaque appareil est branché sur un disjoncteur (un même disjoncteur peut alimenter plusieurs appareils), et les disjoncteurs, étiquettes et interrupteurs crépusculaires qui vont avec. Avec l'extension, un onduleur n'alimente que ce qui est raccordé à lui, et plus un rayon autour de lui. Sans elle, LiveWire fonctionne comme avant.
+**LiveWire Extended** (`batman_LiveWireExtended`, version 2.0.1) est une extension optionnelle de LiveWire. Elle demande LiveWire. Elle ajoute quatre moyens d'amener le courant là où le mod de base ne peut pas aller : un bâtiment entier raccordé à un onduleur, une borne électrique extérieure avec sa propre zone, des tableaux électriques où chaque appareil est branché sur un disjoncteur (un même disjoncteur peut alimenter plusieurs appareils), et les disjoncteurs, étiquettes et interrupteurs crépusculaires qui vont avec. Avec l'extension, un onduleur n'alimente que ce qui est raccordé à lui, et plus un rayon autour de lui. Sans elle, LiveWire fonctionne comme avant.
 
 ![Schéma : sans tableau, avec tableau, borne extérieure](../../images/diagrams/diagram_extended_fr.png)
 

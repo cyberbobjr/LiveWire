@@ -16,5 +16,6 @@
 - [Multijoueur](12-multijoueur.md)
 - [FAQ](13-faq.md)
 - [LiveWire Extended](14-livewire-extended.md)
+- [Développeurs : l'API](15-developpeurs.md)
 
 [English](../en/Home.md)

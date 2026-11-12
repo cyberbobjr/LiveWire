@@ -6,11 +6,11 @@
 
 ![LiveWire](../../images/screenshots/shot4.png)
 
-**LiveWire** (version 2.0.0, mod id `batman_LiveWire`, [Workshop item 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)) is a Project Zomboid **Build 42.21** mod (it runs on Build 42.22). It adds solar panels, wind turbines and water wheels, batteries in a power bank, an inverter that powers the house, and a water pump that feeds the taps from water barrels. The Electrical skill becomes a trade.
+**LiveWire** (version 2.0.1, mod id `batman_LiveWire`, [Workshop item 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)) is a Project Zomboid **Build 42.21** mod (it runs on Build 42.22). It adds solar panels, wind turbines and water wheels, batteries in a power bank, an inverter that powers the house, and a water pump that feeds the taps from water barrels. The Electrical skill becomes a trade.
 
-**LiveWire Extended** (version 1.0.0, `batman_LiveWireExtended`) is an optional add-on in the same Workshop item. It connects whole buildings, adds outdoor power terminals and breaker boards where each appliance has its own breaker. See [LiveWire Extended](14-livewire-extended.md).
+**LiveWire Extended** (version 2.0.1, `batman_LiveWireExtended`) is an optional add-on in the same Workshop item. It connects whole buildings, adds outdoor power terminals and breaker boards where each appliance has its own breaker. See [LiveWire Extended](14-livewire-extended.md).
 
-**LiveWire - Viewpoint models** (version 2.0.0, `batman_LiveWireViewpoint`) is another optional mod in the same Workshop item. It adds 3D models of the devices, and of the LiveWire Extended power terminal and breaker boards, for Project Viewpoint; it does nothing without Project Viewpoint.
+**LiveWire - Viewpoint models** (version 2.0.1, `batman_LiveWireViewpoint`) is another optional mod in the same Workshop item. It adds 3D models of the devices, and of the LiveWire Extended power terminal and breaker boards, for Project Viewpoint; it does nothing without Project Viewpoint.
 
 New here? Start with [Getting started](01-getting-started.md).
 
@@ -34,6 +34,7 @@ New here? Start with [Getting started](01-getting-started.md).
 - [Multiplayer](12-multiplayer.md): dedicated servers and multiplayer rules.
 - [FAQ](13-faq.md): common questions.
 - [LiveWire Extended](14-livewire-extended.md): the optional add-on: whole buildings, outdoor terminals and breaker boards.
+- [Developers](15-developers.md): the LiveWire API for mod authors, how it works and examples.
 
 ---
 
