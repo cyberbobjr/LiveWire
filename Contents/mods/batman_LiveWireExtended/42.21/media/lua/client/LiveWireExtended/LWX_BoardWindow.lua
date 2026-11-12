@@ -343,7 +343,13 @@ function Window:onLabel()
     local box = ISTextBox:new(0, 0, 320, 140, getText("IGUI_LWX_LabelPrompt", tostring(slot.pos)), slot.label or "",
         nil, function(_, b)
             if b.internal == "OK" then
-                queue(me, LWXBreakerAction:new(me.player, me.board, nil, slot.pos, "label", b.parent.entry:getText()))
+                local action = LWXBreakerAction:new(me.player, me.board, nil, slot.pos, "label", b.parent.entry:getText())
+                -- Already in reach: written where the player stands, as the lever (no walk around a wall).
+                if LWXBreakerAction.inReach(me.player, me.board) then
+                    ISTimedActionQueue.add(action)
+                else
+                    queue(me, action)
+                end
             end
         end)
     box:initialise()
