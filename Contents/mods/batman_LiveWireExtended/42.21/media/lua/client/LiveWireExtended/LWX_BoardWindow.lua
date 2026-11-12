@@ -1,7 +1,7 @@
 -- LiveWire Extended: window of a breaker board (D-36, E19, redrawn E23, D-54). The board is drawn
 -- with the enclosure kit of Live Wire (LiveWire.Enclosure, obtained from LiveWire.API): the same
 -- enclosure, lid and LCD block as the Live Wire breaker window, 8, 16 or 24 modules in rows of 8
--- on DIN rails, each module drawn with its lever, its calibre plate (15 A blue, 20 A yellow,
+-- on DIN rails (longer rows when the screen is too short: X.Panel.gridColumns), each module drawn with its lever, its calibre plate (15 A blue, 20 A yellow,
 -- 30 A green) and a label strip. Click an empty module to install a breaker you carry there;
 -- click a lever to switch it (or reset it after a trip); click a breaker to see its circuit on
 -- the LCD: load in W and A against its rating, energy, and buttons Label, Locate, twilight
@@ -64,10 +64,12 @@ end
 
 local function kwh(v) return string.format("%.1f kWh", v) end
 
--- Layout of the window for a board of `size` modules at factor k, reference units. Returns the
--- kit's layout (L) and the grid origin, its height and the LCD width.
-local function layoutAt(k, size, compact, help)
+-- Layout of the window for a board of `size` modules in rows of `cols` (8 unless the screen is
+-- too short, X.Panel.gridColumns) at factor k, reference units. Returns the kit's layout (L) and
+-- the grid origin, its height and the LCD width.
+local function layoutAt(k, size, compact, help, cols)
     help = help or HELP_KEYS
+    cols = cols or 8
     local K = kit()
     local tm = getTextManager()
     local fr = tm:getFontHeight(UIFont.Small) / k
@@ -77,8 +79,8 @@ local function layoutAt(k, size, compact, help)
     local fl = tm:getFontHeight(K.lcdFont()) / k
     local screen = K.measureAt(k, K.lcdFont())
     local lsH = math.max(23, math.ceil(fr + 4))
-    local rows = math.max(1, math.floor(size / 8))
-    local gridW = 8 * MOD_W + 7 * GAP
+    local rows = math.max(1, math.ceil(size / cols))
+    local gridW = cols * MOD_W + (cols - 1) * GAP
     local gridH = rows * (MOD_H + LABEL_GAP + lsH) + (rows - 1) * ROW_GAP
     local lcdW = LCD_MIN_W
     for i = 1, #LCD_KEYS do
@@ -97,7 +99,7 @@ local function layoutAt(k, size, compact, help)
     for _, key in ipairs(help) do lines = lines + #K.wrap(getText(key), base.inW, measure) end
     spec.hintLines = lines
     local L = K.layout(spec)
-    L.lsH, L.rows, L.gridW, L.gridH, L.lcdW = lsH, rows, gridW, gridH, lcdW
+    L.lsH, L.rows, L.cols, L.gridW, L.gridH, L.lcdW = lsH, rows, cols, gridW, gridH, lcdW
     L.gx = L.recessX + 14 + lcdW + 20
     L.gy = L.recessY + 14 + math.floor((L.innerH - gridH) / 2)
     L.helpKeys = help
@@ -112,7 +114,8 @@ end
 -- Module at position `pos` (top-left of its breaker body, reference units).
 function Window:moduleRect(pos)
     local L = self.L
-    local row, col = math.floor((pos - 1) / 8), (pos - 1) % 8
+    local cols = L.cols or 8
+    local row, col = math.floor((pos - 1) / cols), (pos - 1) % cols
     return L.gx + col * (MOD_W + GAP), L.gy + row * (MOD_H + LABEL_GAP + L.lsH + ROW_GAP)
 end
 
@@ -161,7 +164,7 @@ function Window:drawBoard(record)
     K.frame(self, L, getText("IGUI_LWX_BoardTitle", tostring(record.size), tostring(B.usedModules(record))),
         getText("IGUI_LW_BoardBrand"))
     for r = 0, L.rows - 1 do
-        local _, ry = self:moduleRect(r * 8 + 1)
+        local _, ry = self:moduleRect(r * (L.cols or 8) + 1)
         K.rect(self, L.gx - 6, ry + MOD_H / 2 - 13, L.gridW + 12, 26, C.rail)
         K.border(self, L.gx - 6, ry + MOD_H / 2 - 13, L.gridW + 12, 26, C.light)
     end
@@ -519,13 +522,22 @@ function Window.open(player, board)
     local UI = LiveWire.UIScale
     local K = kit()
     local help = helpKeys(record)
-    local k = K.twoPass(function(kk)
-        local L = layoutAt(kk, size, false, help)
-        return L.W, L.H
-    end, UI.factor, UI.fontScale())
     local core = getCore()
-    local compact = K.needsCompact(layoutAt(k, size, false, help).H, k, core:getScreenHeight(), UI.MARGIN)
-    local L = layoutAt(k, size, compact, help)
+    local sw, sh = core:getScreenWidth(), core:getScreenHeight()
+    -- Factor, lid and layout for rows of `cols` modules (R2, R6).
+    local function sized(cols)
+        local kk = K.twoPass(function(f)
+            local L0 = layoutAt(f, size, false, help, cols)
+            return L0.W, L0.H
+        end, UI.factor, UI.fontScale())
+        local compact = K.needsCompact(layoutAt(kk, size, false, help, cols).H, kk, sh, UI.MARGIN)
+        return kk, layoutAt(kk, size, compact, help, cols)
+    end
+    local cols = X.Panel.gridColumns(size, function(c)
+        local kk, L0 = sized(c)
+        return UI.px(L0.W, kk) <= sw - 2 * UI.MARGIN, UI.px(L0.H, kk) <= sh - 2 * UI.MARGIN
+    end)
+    local k, L = sized(cols)
     local x, y, w, h = UI.fit(getPlayerScreenLeft(player:getPlayerNum()) + 120,
         getPlayerScreenTop(player:getPlayerNum()) + 60, UI.px(L.W, k), UI.px(L.H, k))
     local win = Window:new(x, y, w, h)

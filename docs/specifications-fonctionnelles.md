@@ -960,7 +960,8 @@ disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
   (`20261109-225105-sp-703b84481559`) et multijoueur (`20261112-000557-mp-af6a0f2ed83c`).
 - **Fenêtre du tableau (D-54)** : même coffret et même dessin que le disjoncteur de Live Wire (§ 11, F28). L'en-tête
   indique « Tableau électrique : N modules occupés sur M », la plaque du fabricant est « legrand ». La grille montre 8, 16
-  ou 24 modules, en rangées de 8 sur rails DIN ; chaque module a son levier, sa bande et sa plaque de calibre (15 A bleu,
+  ou 24 modules, en rangées de 8 sur rails DIN (sur un écran trop bas pour la police choisie, par exemple un Steam Deck
+  en 1280 × 800 avec une police de 33 px, des rangées plus longues : 24 modules sur 2 rangées de 12, 16 sur une seule) ; chaque module a son levier, sa bande et sa plaque de calibre (15 A bleu,
   20 A jaune, 30 A vert). Sans sélection, l'afficheur donne le total du tableau et les boutons sont visibles mais grisés ;
   avec un disjoncteur sélectionné, il donne sa charge, son intensité et son énergie du jour. Si la fenêtre ne tient pas à
   l'écran, elle passe sans capot.

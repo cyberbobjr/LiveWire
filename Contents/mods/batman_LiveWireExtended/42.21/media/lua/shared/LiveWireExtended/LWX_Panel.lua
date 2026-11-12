@@ -86,6 +86,24 @@ function P.checkLink(character, obj, invObj)
     return L.check(character, obj, invObj)
 end
 
+-- ---------------------------------------------------------------- window grid
+-- Modules per row in the board window. Rows of 8 as on a real board; when the window does not
+-- fit the screen height (small screen with a large font: Steam Deck 1280 x 800 at 33 px), fewer
+-- and longer rows, as long as the window still fits the width (24 -> 2 rows of 12, 16 -> 1 row).
+-- fits(cols) answers fitsWidth, fitsHeight for the window laid out with that many columns.
+-- Nothing fits: the fewest rows that still fit the width, rows of 8 when even those do not.
+function P.gridColumns(size, fits)
+    local rows = math.max(1, math.ceil(size / 8))
+    local best = 8
+    for r = rows, 1, -1 do
+        local cols = r == rows and 8 or math.ceil(size / r)
+        local okW, okH = fits(cols)
+        if okW and okH then return cols end
+        if okW then best = cols end
+    end
+    return best
+end
+
 -- ---------------------------------------------------------------- enlargement (D-55)
 -- A board the player placed (batman_livewireext_01 tiles) grows in place: 8 -> 16 -> 24
 -- modules. The next size is the tile two indices on (same face: even indices south, odd east).

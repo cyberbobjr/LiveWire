@@ -1392,3 +1392,10 @@ crépusculaire, bascule d'un tick en multijoueur.
   code 0, 31 PASS, `runs/20261112-095433-mp-95979e6f9442` : cave vanilla rattachée à la maison du dessus, tableau accepté,
   relié, cave et rez-de-chaussée desservis et alimentés vus du client ; caves Basement Building en terrain nu (lieu à part,
   desservie) et sous une maison (même lieu) ; 0 erreur Lua. Toujours non testé : serveur dédié Linux.
+- Rangées plus longues sur un écran bas (2026-11-12, `X.Panel.gridColumns`) : avant correction, en 1280 × 800 avec la police
+  33 px (`fontSize=4`, cas d'un Steam Deck), la fenêtre de 24 modules dépassait l'écran et coupait les boutons
+  (`runs/20261112-103714-sp-bc4389c103ca`). Après : `pzdev.py sp autotest/ext_h6.json`, code 0, 22 PASS, 2 rangées de 12, aide
+  et boutons visibles en 1280 × 800 (`runs/20261112-104335-sp-74725f7f3227`) et en 1280 × 720 (`runs/20261112-104616-sp-9dca316efa80`) ;
+  rangées de 8 inchangées en 1920 × 1080 avec la police habituelle (`runs/20261112-104455-sp-317a22383e45`). Glisser-déposer
+  d'un disjoncteur sur un tableau de 24 modules en 1280 × 800 : `pzdev.py sp autotest/ext.json -P case=showcase -P board=12`,
+  code 0, `runs/20261112-104749-sp-cc47674dabee`, posé sur le module visé (5), 0 erreur Lua.

@@ -910,7 +910,11 @@ n'est chargé que sur le client (`isServer()` : retour immédiat).
   sur rails, boutons en bas du coffret, texte d'aide. Propre à chaque fenêtre :
   - disjoncteur de Live Wire : taille de référence 750 × 477 (`Panel.BASE`), en-tête « Tableau électrique »
     (`IGUI_LW_BoardTitle`), LCD des lignes éclairage, équipements et total ;
-  - tableau d'Extended : taille de la grille selon `record.size` (8, 16 ou 24 modules, `X.Panel.SIZES`), en-tête
+  - tableau d'Extended : taille de la grille selon `record.size` (8, 16 ou 24 modules, `X.Panel.SIZES`), rangées de 8
+    sauf si la fenêtre ne tient pas en hauteur : `X.Panel.gridColumns(size, fits)` (fonction pure, testée par
+    `tests/test_extended_board_window.py`) essaie 8 colonnes, puis moins de rangées plus longues (24 → 12, 16 → 16) tant
+    que la largeur tient ; `fits` refait le facteur (R2) et le choix du capot (R6) pour chaque essai, à l'ouverture
+    seulement (R8) ; `moduleRect`, le clic et les rails suivent `L.cols`. En-tête
     « Tableau électrique : N modules occupés sur M » (`IGUI_LWX_BoardTitle`), boutons Étiquette, Localiser,
     crépusculaire et Retirer, glisser-déposer d'un disjoncteur sur un module vide, LCD du disjoncteur sélectionné
     ou du total (`IGUI_LWX_Lcd*`), nom du réseau par `API.gridName` (abonnement `API.subscribeInverter` à l'ouverture).
