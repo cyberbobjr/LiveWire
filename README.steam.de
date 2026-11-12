@@ -4,6 +4,24 @@
 
 Der Strom ist endgültig weg, aber das Licht muss nicht ausgehen. Baue deine eigene Stromversorgung: Solarmodule, Windturbinen und Wasserräder speisen einen Wechselrichter, der das Haus um ihn herum versorgt, mit Batterien für die Nacht. Jedes Gerät hat eine Elektrotechnik-Stufe, und deine Stufe verbessert die Anlage.
 
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+
+[h2]LiveWire Extended (optionale Erweiterung)[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Ein ganzes Gebäude anschließen[/url]: jede Etage und der Keller. Optionaler Streifen drumherum: Sandbox-Option Außenstreifen um ein Gebäude (Standard 0).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Stromanschluss im Freien[/url]: versorgt eine gezeichnete Zone von bis zu 16 x 16 Feldern.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sicherungskästen[/url]: Schutzschalter mit 15, 20 oder 30 A, einer pro Stromkreis, der mehrere Geräte versorgen kann.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Dämmerungsschalter für Schutzschalter[/url]: auf einem Schutzschalter hält er diesen Stromkreis von der Dämmerung bis zum Morgengrauen an.
+[*]Manche Häuser der Karte haben bereits einen vorverdrahteten, unbeschrifteten Sicherungskasten.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_de.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_de.png[/img]
+
+Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity oder Knox Power. Zum sicheren Entfernen schaltet ein Admin zuerst alle Schutzschalter über das Menü eines Kastens wieder ein.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_de.png[/img]
 
 [h2]So funktioniert es[/h2]
@@ -57,23 +75,6 @@ Batterien bei Elektrotechnik 1, 3 und 5 prüfen, für mehr Details. Arbeiten unt
 
 Der Server prüft jede Aktion; Schaltungswahl und Gerätezustände werden gespeichert und synchronisiert. Schließe beide Stromkreise, bevor du den Mod deaktivierst.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Mehrspieler-Anleitung[/url]
-
-[h2]LiveWire Extended (optionale Erweiterung)[/h2]
-
-Bringt Strom über den Kreis des Wechselrichters hinaus:
-[list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Ein ganzes Gebäude anschließen[/url]: jede Etage und der Keller. Ein Streifen drumherum nur, wenn die Sandbox-Option Außenstreifen um ein Gebäude über 0 liegt (Standard 0).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Stromanschluss im Freien[/url]: versorgt eine gezeichnete Zone von bis zu 16 x 16 Feldern.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sicherungskästen[/url]: Schutzschalter mit 15, 20 oder 30 A, einer pro Stromkreis, der mehrere Geräte versorgen kann.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Dämmerungsschalter für Schutzschalter[/url]: auf einem Schutzschalter hält er diesen Stromkreis von der Dämmerung bis zum Morgengrauen an, je nach Jahreszeit.
-[*]Manche Häuser der Karte haben bereits einen vorverdrahteten, unbeschrifteten Sicherungskasten.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_de.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_de.png[/img]
-
-Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity oder Knox Power. Zum sicheren Entfernen schaltet ein Admin zuerst alle Schutzschalter über das Menü eines Kastens wieder ein.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
 
 [h2]Project Viewpoint-Modelle[/h2]
 

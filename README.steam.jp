@@ -4,6 +4,24 @@
 
 送電網は戻りませんが、明かりまで消す必要はありません。ソーラーパネル、風力発電機、水車がインバーターを動かし、インバーターが周囲の家に給電します。夜はバッテリーで備えます。各機器に電気工学レベルがあり、高いほど設備が良くなります。
 
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+
+[h2]LiveWire Extended（任意の追加MOD）[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]建物全体を接続[/url]：全階と地下室。周囲の帯はサンドボックス設定「建物周囲の屋外帯」（初期値0）。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]屋外の電源端子[/url]：16 x 16マスまでの指定ゾーンに給電。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]分電盤[/url]：15・20・30 Aのブレーカーを回路ごとに1つ（1つで複数の家電に給電可）。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]ブレーカー用夕暮れスイッチ[/url]：ブレーカーに付けると、夕暮れから夜明けまで通電。
+[*]マップの一部の家には配線済み・ラベルなしの分電盤があります。
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_jp.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_jp.png[/img]
+
+MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Powerとは非互換。外す前に、管理者が分電盤のメニューから全ブレーカーを入れ直します。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_jp.png[/img]
 
 [h2]仕組み[/h2]
@@ -57,23 +75,6 @@
 
 サーバーが全操作を検証し、回路の選択と家電の状態を保存・同期。MOD無効化の前に両方の回路を閉じること。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]マルチプレイガイド[/url]
-
-[h2]LiveWire Extended（任意の追加MOD）[/h2]
-
-インバーターの範囲外へ給電：
-[list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]建物全体を接続[/url]：全階と地下室。周囲の帯はサンドボックス設定「建物周囲の屋外帯」が0より大きい場合のみ（初期値0）。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]屋外の電源端子[/url]：16 x 16マスまでの指定ゾーンに給電。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]分電盤[/url]：15・20・30 Aのブレーカーを回路ごとに1つ（1つで複数の家電に給電可）。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]ブレーカー用夕暮れスイッチ[/url]：ブレーカーに付けると、季節に応じて夕暮れから夜明けまで通電。
-[*]マップの一部の家には配線済み・ラベルなしの分電盤があります。
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_jp.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_jp.png[/img]
-
-MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Powerとは非互換。外す前に、管理者が分電盤のメニューから全ブレーカーを入れ直します。
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
 
 [h2]Project Viewpointモデル[/h2]
 

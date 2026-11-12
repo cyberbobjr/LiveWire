@@ -4,6 +4,24 @@
 
 전력망은 끊겼지만 불까지 꺼질 필요는 없습니다. 태양광 패널, 풍력 터빈, 물레방아가 인버터를 가동하고, 인버터가 주변 집에 전기를 공급합니다. 밤에는 배터리로 버팁니다. 모든 장치에는 전기공학 레벨이 있고, 레벨이 높을수록 설비가 좋아집니다.
 
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+
+[h2]LiveWire Extended (선택 확장)[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]건물 전체 연결[/url]: 모든 층과 지하실. 건물 주변 띠는 샌드박스 옵션 '건물 주변 외부 띠' (기본값 0).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]야외 전원 단자[/url]: 그려 둔 16 x 16칸까지의 구역에 전기 공급.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]배전반[/url]: 15, 20, 30 A 차단기를 회로마다 하나. 차단기 하나로 여러 가전에 공급 가능.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]차단기용 조도 스위치[/url]: 차단기에 설치하면 해질녘부터 새벽까지 그 회로를 켬.
+[*]맵의 일부 집에는 배선이 끝난, 라벨 없는 배전반이 이미 있습니다.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ko.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ko.png[/img]
+
+모드 목록에서 LiveWire 뒤에 켜세요. LG Extended Electricity, Knox Power와는 호환되지 않습니다. 안전하게 제거하려면 관리자가 먼저 배전반 메뉴에서 모든 차단기를 다시 켭니다.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]전체 가이드[/url]
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ko.png[/img]
 
 [h2]작동 방식[/h2]
@@ -57,23 +75,6 @@
 
 서버가 모든 행동을 검증하고, 회로 선택과 가전 상태를 저장·동기화합니다. 모드를 끄기 전에 두 회로를 닫으세요.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]멀티플레이 가이드[/url]
-
-[h2]LiveWire Extended (선택 확장)[/h2]
-
-인버터 범위 밖으로 전기 공급:
-[list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]건물 전체 연결[/url]: 모든 층과 지하실. 건물 주변 띠는 샌드박스 옵션 '건물 주변 외부 띠'가 0보다 클 때만 (기본값 0).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]야외 전원 단자[/url]: 그려 둔 16 x 16칸까지의 구역에 전기 공급.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]배전반[/url]: 15, 20, 30 A 차단기를 회로마다 하나. 차단기 하나로 여러 가전에 전기를 공급할 수 있습니다.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]차단기용 조도 스위치[/url]: 차단기에 설치하면 계절에 맞춰 해질녘부터 새벽까지 그 회로를 켬.
-[*]맵의 일부 집에는 배선이 끝난, 라벨 없는 배전반이 이미 있습니다.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ko.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ko.png[/img]
-
-모드 목록에서 LiveWire 뒤에 켜세요. LG Extended Electricity, Knox Power와는 호환되지 않습니다. 안전하게 제거하려면 관리자가 먼저 배전반 메뉴에서 모든 차단기를 다시 켭니다.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]전체 가이드[/url]
 
 [h2]Project Viewpoint 모델[/h2]
 

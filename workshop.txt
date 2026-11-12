@@ -7,6 +7,24 @@ description=[b]Build 42.21+ · Singleplayer & Multiplayer[/b]
 description=
 description=The power is out for good, but the lights do not have to be. Build your own off-grid electricity: solar panels, wind turbines and water wheels feed an inverter that powers the house around it, with batteries for the night. Every device has an Electrical level, and your level makes the installation better.
 description=
+description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+description=
+description=[h2]LiveWire Extended (optional add-on)[/h2]
+description=
+description=[list]
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor and the basement. Optional strip around it: sandbox option Outdoor strip around a building (0 by default).
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Outdoor power terminal[/url]: powers a drawn zone of up to 16 x 16 squares.
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Breaker boards[/url]: 15, 20 or 30 A breakers, one per circuit; a breaker can feed several appliances.
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Breaker Twilight Switch[/url]: fitted on a breaker, it keeps that circuit on from dusk to dawn.
+description=[*]Some map houses already have a prewired, unlabelled breaker board.
+description=[/list]
+description=
+description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_en.png[/img]
+description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_en.png[/img]
+description=
+description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. To remove it safely, an admin first switches every breaker back on from a board's menu.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
+description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 description=
 description=[h2]How it works[/h2]
@@ -60,23 +78,6 @@ description=[h2]Multiplayer[/h2]
 description=
 description=The server checks every action; circuit choices and appliance states are saved and synchronised. Close both circuits before disabling the mod.
 description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Multiplayer guide[/url]
-description=
-description=[h2]LiveWire Extended (optional add-on)[/h2]
-description=
-description=Carries power beyond the inverter's circle:
-description=[list]
-description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor and the basement. A strip around the building only if the sandbox option Outdoor strip around a building is above 0 (0 by default).
-description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Outdoor power terminal[/url]: powers a drawn zone of up to 16 x 16 squares.
-description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Breaker boards[/url]: 15, 20 or 30 A breakers, one per circuit; a breaker can feed several appliances.
-description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Breaker Twilight Switch[/url]: fitted on a breaker, it keeps that circuit on from dusk to dawn, following the seasons.
-description=[*]Some map houses already have a prewired, unlabelled breaker board.
-description=[/list]
-description=
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_en.png[/img]
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_en.png[/img]
-description=
-description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. To remove it safely, an admin first switches every breaker back on from a board's menu.
-description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
 description=
 description=[h2]Project Viewpoint models[/h2]
 description=

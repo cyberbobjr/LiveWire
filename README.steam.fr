@@ -4,6 +4,24 @@
 
 Le courant ne reviendra plus, mais les lumières peuvent rester allumées. Produisez votre électricité hors réseau : panneaux solaires, éoliennes et roues à aubes alimentent un onduleur qui fait tourner la maison autour de lui, avec des batteries pour la nuit. Chaque appareil a un niveau d'Électricité, et votre niveau améliore l'installation.
 
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+
+[h2]LiveWire Extended (extension optionnelle)[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#raccorder-tout-un-bâtiment]Raccorder un bâtiment entier[/url] : chaque étage et le sous-sol. Bande autour en option : option sandbox Bande extérieure autour d'un bâtiment (0 par défaut).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#borne-électrique-et-zone]Borne électrique extérieure[/url] : alimente une zone tracée jusqu'à 16 x 16 cases.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#tableaux-électriques]Tableaux électriques[/url] : disjoncteurs de 15, 20 ou 30 A, un par circuit, qui peut alimenter plusieurs appareils.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#interrupteur-crépusculaire]Interrupteur crépusculaire pour disjoncteur[/url] : posé sur un disjoncteur, il laisse ce circuit allumé du crépuscule à l'aube.
+[*]Certaines maisons de la carte ont déjà un tableau précâblé, sans étiquette.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_fr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_fr.png[/img]
+
+Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extended Electricity et Knox Power. Avant de le retirer, un admin remet tous les disjoncteurs depuis le menu d'un tableau.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended]Guide complet[/url]
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_fr.png[/img]
 
 [h2]Fonctionnement[/h2]
@@ -57,23 +75,6 @@ Testez les batteries aux niveaux 1, 3 et 5 pour plus de détails. Le travail sou
 
 Le serveur contrôle chaque action ; les choix de circuits et les états des appareils sont sauvegardés et synchronisés. Refermez les deux circuits avant de désactiver le mod.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-12-multijoueur]Guide multijoueur[/url]
-
-[h2]LiveWire Extended (extension optionnelle)[/h2]
-
-Porte le courant au-delà du cercle de l'onduleur :
-[list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#raccorder-tout-un-bâtiment]Raccorder un bâtiment entier[/url] : chaque étage et le sous-sol. Une bande autour seulement si l'option sandbox Bande extérieure autour d'un bâtiment dépasse 0 (0 par défaut).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#borne-électrique-et-zone]Borne électrique extérieure[/url] : alimente une zone tracée jusqu'à 16 x 16 cases.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#tableaux-électriques]Tableaux électriques[/url] : disjoncteurs de 15, 20 ou 30 A, un par circuit, qui peut alimenter plusieurs appareils.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended#interrupteur-crépusculaire]Interrupteur crépusculaire pour disjoncteur[/url] : posé sur un disjoncteur, il laisse ce circuit allumé du crépuscule à l'aube, selon la saison.
-[*]Certaines maisons de la carte ont déjà un tableau précâblé, sans étiquette.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_fr.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_fr.png[/img]
-
-Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extended Electricity et Knox Power. Pour le retirer sans risque, un admin remet d'abord tous les disjoncteurs depuis le menu d'un tableau.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended]Guide complet[/url]
 
 [h2]Modèles Project Viewpoint[/h2]
 

@@ -4,6 +4,24 @@
 
 A energia acabou de vez, mas as luzes não precisam apagar. Construa sua própria eletricidade fora da rede: painéis solares, turbinas eólicas e rodas d'água alimentam um inversor, que abastece a casa ao redor. Adicione baterias para a noite. Cada aparelho tem um nível de Elétrica, e o seu nível melhora a instalação.
 
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+
+[h2]LiveWire Extended (complemento opcional)[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Conectar um prédio inteiro[/url]: cada andar e o porão. Uma faixa em volta do prédio só se a opção sandbox Faixa externa em volta de um prédio for maior que 0 (0 por padrão).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Terminal de energia externo[/url]: alimenta uma zona desenhada de até 16 x 16 casas.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Quadros elétricos[/url]: disjuntores de 15, 20 ou 30 A, um por circuito; um disjuntor pode alimentar vários aparelhos.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disjuntor[/url]: montado em um disjuntor, mantém esse circuito ligado do anoitecer ao amanhecer.
+[*]Algumas casas do mapa já têm um quadro pré-fiado, sem etiquetas.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ptbr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ptbr.png[/img]
+
+Ative-o na lista de mods, depois do LiveWire. Não é compatível com LG Extended Electricity nem com Knox Power. Para remover com segurança, um admin primeiro religa todos os disjuntores pelo menu de um quadro.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guia completo[/url]
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ptbr.png[/img]
 
 [h2]Como funciona[/h2]
@@ -57,23 +75,6 @@ Teste as baterias em Elétrica 1, 3 e 5 para mais detalhes. Trabalhar com a rede
 
 O servidor verifica cada ação; as escolhas de circuitos e os estados dos aparelhos são salvos e sincronizados. Feche os dois circuitos antes de desativar o mod.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Guia multijogador[/url]
-
-[h2]LiveWire Extended (complemento opcional)[/h2]
-
-Leva a energia além do círculo do inversor:
-[list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Conectar um prédio inteiro[/url]: cada andar e o porão. Uma faixa em volta do prédio só se a opção sandbox Faixa externa em volta de um prédio for maior que 0 (0 por padrão).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Terminal de energia externo[/url]: alimenta uma zona desenhada de até 16 x 16 casas.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Quadros elétricos[/url]: disjuntores de 15, 20 ou 30 A, um por circuito; um disjuntor pode alimentar vários aparelhos.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disjuntor[/url]: montado em um disjuntor, mantém esse circuito ligado do anoitecer ao amanhecer, conforme a estação.
-[*]Algumas casas do mapa já têm um quadro pré-fiado, sem etiquetas.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ptbr.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ptbr.png[/img]
-
-Ative-o na lista de mods, depois do LiveWire. Não é compatível com LG Extended Electricity nem com Knox Power. Para remover com segurança, um admin primeiro religa todos os disjuntores pelo menu de um quadro.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guia completo[/url]
 
 [h2]Modelos Project Viewpoint[/h2]
 

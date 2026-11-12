@@ -4,6 +4,24 @@
 
 电网断了就断了，但灯不必跟着熄灭。自建离网电力：太阳能板、风力涡轮机和水轮机为逆变器供电，逆变器再带动周围的房屋，夜里靠电池撑住。每台设备都有电工等级要求，你的等级越高，安装效果越好。
 
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+
+[h2]LiveWire Extended（可选扩展）[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]接入整栋建筑[/url]：每一层和地下室。只有沙盒选项「建筑周围的室外带」大于 0（默认 0）时，建筑周围一圈才会通电。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]户外供电端子[/url]：为最多 16 x 16 格的划定区域供电。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]配电箱[/url]：15、20 或 30 A 断路器，每条回路一个；一个断路器可为多台电器供电。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]断路器光控开关[/url]：装在断路器上，使该回路从黄昏到黎明通电。
+[*]地图上有些房屋已经装有预先接线、没有标签的配电箱。
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_cn.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_cn.png[/img]
+
+在模组列表中放在 LiveWire 之后启用。与 LG Extended Electricity 和 Knox Power 不兼容。安全移除前，管理员先在配电箱菜单中重新合上所有断路器。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完整指南[/url]
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_cn.png[/img]
 
 [h2]工作原理[/h2]
@@ -57,23 +75,6 @@
 
 服务器会检查每个操作；电路选择和电器状态会被保存并同步。禁用模组前请先关闭两条电路。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]多人指南[/url]
-
-[h2]LiveWire Extended（可选扩展）[/h2]
-
-将电力送到逆变器范围之外：
-[list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]接入整栋建筑[/url]：每一层和地下室。只有沙盒选项「建筑周围的室外带」大于 0（默认 0）时，建筑周围一圈才会通电。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]户外供电端子[/url]：为最多 16 x 16 格的划定区域供电。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]配电箱[/url]：15、20 或 30 A 断路器，每条回路一个；一个断路器可为多台电器供电。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]断路器光控开关[/url]：装在断路器上，使该回路从黄昏到黎明通电，随季节变化。
-[*]地图上有些房屋已经装有预先接线、没有标签的配电箱。
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_cn.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_cn.png[/img]
-
-在模组列表中放在 LiveWire 之后启用。与 LG Extended Electricity 和 Knox Power 不兼容。安全移除前，管理员先在配电箱菜单中重新合上所有断路器。
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完整指南[/url]
 
 [h2]Project Viewpoint 模型[/h2]
 

@@ -4,6 +4,24 @@
 
 La red eléctrica se fue para siempre, pero las luces no tienen por qué apagarse. Produce tu electricidad fuera de la red: paneles solares, aerogeneradores y ruedas hidráulicas alimentan un inversor que da corriente a la casa que lo rodea, con baterías para la noche. Cada aparato tiene un nivel de Electrónica, y tu nivel mejora la instalación.
 
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+
+[h2]LiveWire Extended (complemento opcional)[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Conectar un edificio entero[/url]: cada planta y el sótano. Franja alrededor opcional: opción sandbox Franja exterior alrededor de un edificio (0 por defecto).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Terminal de corriente exterior[/url]: alimenta una zona dibujada de hasta 16 x 16 casillas.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Cuadros eléctricos[/url]: disyuntores de 15, 20 o 30 A, uno por circuito; un disyuntor puede alimentar varios aparatos.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disyuntor[/url]: montado en un disyuntor, mantiene ese circuito encendido del anochecer al amanecer.
+[*]Algunas casas del mapa ya tienen un cuadro precableado, sin etiquetas.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_es.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_es.png[/img]
+
+Actívalo en la lista de mods, después de LiveWire. No es compatible con LG Extended Electricity ni con Knox Power. Para quitarlo sin riesgo, un admin primero vuelve a encender todos los disyuntores desde el menú de un cuadro.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guía completa[/url]
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_es.png[/img]
 
 [h2]Cómo funciona[/h2]
@@ -57,23 +75,6 @@ Prueba las baterías en Electrónica 1, 3 y 5 para ver más detalles. El trabajo
 
 El servidor comprueba cada acción; las elecciones de circuitos y los estados de los aparatos se guardan y sincronizan. Cierra ambos circuitos antes de desactivar el mod.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Guía multijugador[/url]
-
-[h2]LiveWire Extended (complemento opcional)[/h2]
-
-Lleva la corriente más allá del círculo del inversor:
-[list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Conectar un edificio entero[/url]: cada planta y el sótano. Una franja alrededor del edificio solo si la opción sandbox Franja exterior alrededor de un edificio es mayor que 0 (0 por defecto).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Terminal de corriente exterior[/url]: alimenta una zona dibujada de hasta 16 x 16 casillas.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Cuadros eléctricos[/url]: disyuntores de 15, 20 o 30 A, uno por circuito; un disyuntor puede alimentar varios aparatos.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disyuntor[/url]: montado en un disyuntor, mantiene ese circuito encendido del anochecer al amanecer, según la estación.
-[*]Algunas casas del mapa ya tienen un cuadro precableado, sin etiquetas.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_es.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_es.png[/img]
-
-Actívalo en la lista de mods, después de LiveWire. No es compatible con LG Extended Electricity ni con Knox Power. Para quitarlo sin riesgo, un admin primero vuelve a encender todos los disyuntores desde el menú de un cuadro.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guía completa[/url]
 
 [h2]Modelos de Project Viewpoint[/h2]
 

@@ -4,6 +4,23 @@
 
 Электросеть пропала навсегда, но свет можно сохранить. Солнечные панели, ветряки и водяные колёса питают инвертор, который снабжает дом. Уровень Электрики улучшает установку.
 
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
+
+[h2]LiveWire Extended (дополнение, необязательно)[/h2]
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Всё здание[/url]: этажи и подвал; полоса вокруг: опция «Полоса вокруг здания» (по умолчанию 0).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Наружная клемма[/url]: зона до 16 x 16 клеток.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Электрощитки[/url]: автоматы 15, 20, 30 А, один на цепь из нескольких приборов.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Сумеречный выключатель для автомата[/url]: включает цепь от заката до рассвета.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ru.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ru.png[/img]
+
+Включите после LiveWire. Несовместимо с LG Extended Electricity и Knox Power.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Руководство[/url]
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ru.png[/img]
 
 [h2]Как это работает[/h2]
@@ -57,21 +74,6 @@
 
 Сервер проверяет каждое действие. Перед отключением мода закройте обе цепи.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Мультиплеер[/url]
-
-[h2]LiveWire Extended (дополнение, необязательно)[/h2]
-
-[list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Всё здание[/url]: этажи и подвал; полоса вокруг, только если опция «Полоса вокруг здания» больше 0 (по умолчанию 0).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Наружная клемма[/url]: зона до 16 x 16 клеток.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Электрощитки[/url]: автоматы 15, 20, 30 А, один на цепь из нескольких приборов.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Сумеречный выключатель для автомата[/url]: держит цепь автомата включённой от заката до рассвета, по сезону.
-[/list]
-
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ru.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ru.png[/img]
-
-Включите после LiveWire. Несовместимо с LG Extended Electricity и Knox Power.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Руководство[/url]
 
 [h2]Модели Project Viewpoint[/h2]
 
