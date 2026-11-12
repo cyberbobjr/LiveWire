@@ -141,8 +141,7 @@ function Panel:createChildren()
     self.equipmentButton.tooltip = getText("IGUI_LW_CircuitEquipment")
     self.mainButton = control(mx + 285, 74, "main", true)
     self.mainButton.tooltip = getText("IGUI_LW_BoardMain")
-    LiveWire.UIKit.button(self, L.W - 14 - L.closeS, (L.headH - L.closeS) / 2, L.closeS, L.closeS, "x",
-        Panel.onButton, "close", k)
+    E.closeButton(self, L, Panel.onButton, "close", k)
     E.cellButton(self, L, 1, getText("IGUI_LW_Connections"), Panel.onButton, "links")
     self.hintLines, self.hintKey = nil, nil
 end

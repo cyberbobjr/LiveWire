@@ -495,8 +495,7 @@ end
 function Window:createChildren()
     ISPanel.createChildren(self)
     local K, L = kit(), self.L
-    LiveWire.UIKit.button(self, L.W - 14 - L.closeS, (L.headH - L.closeS) / 2, L.closeS, L.closeS, "x",
-        Window.close, "close", self.lwK)
+    K.closeButton(self, L, Window.close, "close", self.lwK)
     self.btn = {}
     local fns = { lever = Window.onLever, label = Window.onLabel, locate = Window.onLocate,
         twilight = Window.onTwilight, remove = Window.onRemove }

@@ -903,7 +903,7 @@ n'est chargé que sur le client (`isServer()` : retour immédiat).
   fenêtre `LW_UIScale.factor`, puis contenu à ce facteur, abaissé une fois si la fenêtre ne tient pas), `needsCompact`
   (R6), `grid`, `layout` (positions de toutes les pièces, en unités de référence 1080p).
 - Dessin : `frame` (fond crème, capot fumé, charnières, plaque, renfoncement, en-tête), `lcd` (bloc LCD, `LiveWire.Lcd`,
-  D-56), `module` (levier, bande et plaque de calibre), `tieBar`, `plate`, `cellButton` et `setLook` (bouton, grisé
+  D-56), `module` (levier, bande et plaque de calibre), `plate`, `closeButton` (croix de l'en-tête), `cellButton` et `setLook` (bouton, grisé
   sans sélection). Tout est multiplié par `ui.lwK` (`LW_UIKit`).
 - R8 : les tailles se calculent à l'ouverture et au changement de contenu, jamais à chaque image.
 - Commun aux deux fenêtres : en-tête, afficheur LCD, capot et plaque du fabricant (« legrand »), grille de modules

@@ -377,6 +377,12 @@ function E.cellButton(ui, L, index, title, onclick, internal)
     return b
 end
 
+-- Close button "x" at the right of the header (L.W, L.headH, L.closeS), scale k.
+function E.closeButton(ui, L, onclick, internal, k)
+    return LiveWire.UIKit.button(ui, L.W - 14 - L.closeS, (L.headH - L.closeS) / 2, L.closeS, L.closeS, "x",
+        onclick, internal, k)
+end
+
 -- Enabled or greyed button (the mockup's dim state: a fainter border, the title greyed).
 function E.setLook(b, enabled)
     b:setEnable(enabled)
