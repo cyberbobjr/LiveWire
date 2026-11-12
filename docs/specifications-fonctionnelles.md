@@ -685,7 +685,7 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 - Jusqu'à 3 onduleurs esclaves couplés à un onduleur maître (4 par réseau), avec un kit de couplage (`LiveWire.CouplingKit`, Électricité 3) et du fil électrique.
 - Capacité du réseau = somme des onduleurs en service (6 000 W au plus) ; une seule batterie de stockage et une seule zone alimentée, celle du maître.
 - Chaque onduleur garde son interrupteur et son usure ; un esclave éteint ou en panne baisse la capacité, et le réseau disjoncte si la demande dépasse alors la capacité. Un esclave ne disjoncte pas seul : on réarme le maître.
-- « Découpler » rend un esclave indépendant et rend le kit (pas le fil).
+- « Découpler » rend un esclave indépendant et rend le kit. Ramasser un esclave rend son kit ; ramasser un maître découple ses esclaves et rend un kit par esclave. Un onduleur détruit ne rend rien.
 - Deux onduleurs indépendants dont les zones se chevauchent ne comptent plus deux fois un appareil : il est compté par l'onduleur allumé le plus proche.
 
 ### 10.3 Logiciel dans le Computer Mod (F22)

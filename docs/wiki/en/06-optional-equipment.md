@@ -27,7 +27,7 @@ Real off-grid systems get more power by adding identical inverters in parallel, 
 - The slave must have no equipment of its own. A master takes at most 3 slaves.
 - One network, one battery bank, one powered area (the master's). Capacity = sum of the inverters in service (1,500 W per inverter, 4,500 W per inverter cabinet; both can be coupled together). Each switched-on inverter uses its idle consumption (20 W, 60 W for a cabinet) and wears as usual.
 - A slave that is switched off or broken does not count. If the demand then exceeds what is left, the breaker (or the master) trips. Each slave has its own On/Off switch; reset on the master or the breaker.
-- **Uncouple** on the slave makes it independent again, and the kit is given back. Picking up a master frees its slaves.
+- **Uncouple** on the slave makes it independent again, and the kit is given back. Picking up a slave also gives its kit back; picking up a master frees its slaves and gives back one kit per slave.
 - The LCD Status page and the software show "Coupled: n / total in service" and the total capacity.
 - Two independent inverters whose areas overlap do not count the same appliances twice: each appliance is counted by the nearest switched-on inverter.
 

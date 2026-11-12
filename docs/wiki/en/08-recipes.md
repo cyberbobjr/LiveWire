@@ -103,7 +103,8 @@ LiveWire Extended terminals and boards dismantle the same way (see [Extended rec
 The metal parts always come back. The electronic parts depend on the device's
 condition: the table gives them at 100 %; a device at 60 % gives 60 % of them,
 rounded down, and a worn-out device gives none. A soundproofing kit fitted on an
-inverter, or the coupling kit of a coupled inverter, is given back whole.
+inverter is given back whole (the coupling kit comes back as soon as you pick up
+a coupled inverter).
 
 | Equipment | Always | Electronic parts at 100 % |
 |---|---|---|

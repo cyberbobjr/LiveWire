@@ -78,7 +78,7 @@ Each bank keeps its own container and inverter connection. The LCD's **Bank 1/2*
 
 ## Dismantling
 
-Each device, the coupling kit, the soundproofing kit, the wind turbine blades and mast, and the deep-cycle battery have a dismantle recipe in the crafting menu. They need a screwdriver (some recipes also need a hammer or a pipe wrench) and no Electrical level. You get metal parts back, and electronic parts depending on the condition of the item: a worn device gives fewer. A soundproofing or coupling kit fitted on an inverter comes back in full.
+Each device, the coupling kit, the soundproofing kit, the wind turbine blades and mast, and the deep-cycle battery have a dismantle recipe in the crafting menu. They need a screwdriver (some recipes also need a hammer or a pipe wrench) and no Electrical level. You get metal parts back, and electronic parts depending on the condition of the item: a worn device gives fewer. A soundproofing kit fitted on an inverter comes back in full.
 
 Solar cells cannot be dismantled.
 

@@ -27,7 +27,7 @@ Dans une vraie installation autonome, on gagne de la puissance en ajoutant des o
 - L'esclave ne doit avoir aucun équipement raccordé. Un maître accepte au plus 3 esclaves.
 - Un seul réseau, un seul parc de batteries, une seule zone alimentée (celle du maître). Capacité = somme des onduleurs en service (1 500 W par onduleur, 4 500 W par armoire onduleur ; les deux se couplent entre eux). Chaque onduleur allumé consomme sa part à vide (20 W, 60 W pour une armoire) et s'use comme d'habitude.
 - Un esclave éteint ou cassé ne compte pas : si la demande dépasse alors ce qui reste, le disjoncteur (ou le maître) saute. Chaque esclave a son interrupteur ; on réarme sur le maître ou sur le disjoncteur.
-- **Découpler** sur l'esclave le rend de nouveau indépendant (le kit est rendu). Ramasser un maître libère ses esclaves.
+- **Découpler** sur l'esclave le rend de nouveau indépendant (le kit est rendu). Ramasser un esclave rend aussi son kit ; ramasser un maître libère ses esclaves et rend un kit par esclave.
 - La page État de l'écran LCD et le logiciel affichent « Couplés : n / total en service » et la capacité totale.
 - Deux onduleurs indépendants dont les zones se recouvrent ne comptent pas deux fois les mêmes appareils : chaque appareil est compté par l'onduleur allumé le plus proche.
 

@@ -41,7 +41,8 @@ end
 -- an item without either is new: 100). Every total stays
 -- below the matching crafting recipe, so a craft/dismantle cycle loses materials,
 -- and a worn device gives fewer parts, so a dismantle/craft cycle is no cheaper than
--- an overhaul. A fitted soundproofing kit or coupling kit is given back.
+-- an overhaul. A fitted soundproofing kit is given back (a coupling kit comes back
+-- when the coupled inverter is picked up, LW_Devices.lua Devices.remove).
 LiveWire.Recipes.DISMANTLE = {
     ["Base.Mov_LiveWire_SolarPanel"] = { { "LiveWire.SolarCell", 8 }, { "Base.ElectricWire", 1 } },
     ["Base.Mov_LiveWire_WindTurbine"] = { { "Base.Amplifier", 2 }, { "Base.ElectricWire", 2 },
@@ -123,5 +124,4 @@ function LiveWire.Recipes.onDismantle(craftRecipeData, character)
         for _ = 1, LiveWire.Recipes.salvaged(part[2], cond) do give(character, part[1]) end
     end
     if m.muf == true then give(character, LiveWire.Defs.SOUNDPROOF_KIT) end
-    if m.cpl then give(character, LiveWire.Defs.COUPLING_KIT) end
 end

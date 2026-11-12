@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.3 — 2026-11-12
+
+### Fixes
+
+- **Coupled inverters:** picking up a coupled inverter or inverter cabinet now gives the coupling kit back, as Uncouple does. Before, the kit was lost on every move, because the inverter is placed again uncoupled. Picking up a master inverter also gives back one kit for each inverter coupled to it. Dismantling an inverter no longer gives a coupling kit, since it comes back when you pick the inverter up.
+
 ## 2.0.2 — 2026-11-12
 
 ### Fixes

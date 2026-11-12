@@ -104,8 +104,8 @@ jamais de matériaux. Les bornes et tableaux de LiveWire Extended se démontent 
 Les pièces métalliques reviennent toujours. Les pièces électroniques dépendent de
 l'état de l'équipement : le tableau les donne à 100 % ; un équipement à 60 % en
 rend 60 %, arrondi à l'unité inférieure, et un équipement hors d'usage n'en rend
-aucune. Un kit d'insonorisation monté sur un onduleur, ou le kit de couplage d'un
-onduleur couplé, est rendu entier.
+aucune. Un kit d'insonorisation monté sur un onduleur est rendu entier (le kit de
+couplage revient dès qu'on ramasse un onduleur couplé).
 
 | Équipement | Toujours | Pièces électroniques à 100 % |
 |---|---|---|

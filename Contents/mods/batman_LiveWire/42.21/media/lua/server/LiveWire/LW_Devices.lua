@@ -528,11 +528,13 @@ function Devices.beforePickUp(obj)
 end
 
 -- Remove a device from the registry (picked up or destroyed). `character`: the
--- player who picked it up, who gets back the wire of the links it undoes.
+-- player who picked it up, who gets back the wire of the links it undoes and the
+-- coupling kit of each coupling it undoes (a slave: its own; a master: one per slave).
 function Devices.remove(id, character)
     local dev = R().device(id)
     if not dev then return end
     local wires = character and Devices.removalWires(dev) or 0
+    local kits = 0
     -- A slave has no anchor of its own unless an add-on keeps its zone (D-45).
     if dev.role == "inverter" and (not dev.coupled or LiveWire.Coupling.slaveKeepsZone()) then
         LiveWire.Sim.updateAnchor(dev, false)
@@ -546,6 +548,7 @@ function Devices.remove(id, character)
         -- Only a master uncouples its slaves (a removed slave owns no grid).
         if not dev.coupled then slaves = R().slaves(grid) end
     end
+    if character and dev.role == "inverter" then kits = dev.coupled and 1 or #slaves end
     if dev.role == "pump" and LiveWire.Pump then LiveWire.Pump.forget(dev) end
     R().removeDevice(dev.id)
     LiveWire.Demand.invalidate(dev.id)
@@ -564,6 +567,7 @@ function Devices.remove(id, character)
         LiveWire.notify(character, "IGUI_LW_DevicesDisconnected", { tostring(#members) }, true)
     end
     Devices.returnWires(character, wires)
+    if kits > 0 then LiveWire.Install.giveItems(character, LiveWire.Defs.COUPLING_KIT, kits) end
 end
 
 function Devices.onPickedUp(id, character)

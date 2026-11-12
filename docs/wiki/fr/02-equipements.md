@@ -76,7 +76,7 @@ Chaque banque possède son propre conteneur et son propre branchement à l'ondul
 
 ## Démontage
 
-Chaque équipement, le kit de couplage, le kit d'insonorisation, les pales et le mât d'éolienne, et la batterie stationnaire ont une recette de démontage dans le menu de fabrication. Elle demande un tournevis (certaines recettes demandent aussi un marteau ou une clé à tuyau) et aucun niveau d'Électricité. On récupère des pièces métalliques, et des pièces électroniques selon l'état de l'objet : un équipement usé en rend moins. Un kit d'insonorisation ou de couplage posé sur un onduleur revient en entier.
+Chaque équipement, le kit de couplage, le kit d'insonorisation, les pales et le mât d'éolienne, et la batterie stationnaire ont une recette de démontage dans le menu de fabrication. Elle demande un tournevis (certaines recettes demandent aussi un marteau ou une clé à tuyau) et aucun niveau d'Électricité. On récupère des pièces métalliques, et des pièces électroniques selon l'état de l'objet : un équipement usé en rend moins. Un kit d'insonorisation posé sur un onduleur revient en entier.
 
 Les cellules solaires ne se démontent pas.
 
