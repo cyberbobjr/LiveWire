@@ -102,12 +102,8 @@ Mod listesinde LiveWire'dan sonra etkinleştirin. LG Extended Electricity ve Kno
 
 [h2]Belgeler[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · Kaynak kodu: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · Kaynak kodu: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
-[h2]Discord[/h2]
-
-Soru, hata bildirimi veya fikir mi var? Discord'a katılın:
-[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]Yapay zekâ hakkında bir not[/h2]
 
@@ -121,3 +117,9 @@ Modu beğendiniz mi? Bir kahve, yeni özelliklerin ve çevirilerin finansmanına
 [h2]Katkıda bulunanlar[/h2]
 
 batmanfr tarafından oluşturuldu. İnvertör kabini modeli: PewPewCricket. Özgün kod, karolar ve sesler; başka modlardan içerik alınmadı.
+
+[h2]Resmî eklentiler[/h2]
+
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: eşlenen invertörler kendi güç alanlarını korur.
+[/list]

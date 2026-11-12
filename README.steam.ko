@@ -102,12 +102,8 @@ Extended와 모델은 LiveWire가 필요하며 그 뒤에 켭니다.
 
 [h2]문서[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 위키[/url] · 소스 코드: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 위키[/url] · 소스 코드: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
-[h2]Discord[/h2]
-
-질문, 버그 제보, 아이디어가 있나요? Discord에 들어오세요:
-[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]AI에 대한 한마디[/h2]
 
@@ -121,3 +117,9 @@ Extended와 모델은 LiveWire가 필요하며 그 뒤에 켭니다.
 [h2]크레딧[/h2]
 
 제작: batmanfr. 인버터 캐비닛 모델: PewPewCricket. 독자적인 코드, 타일, 사운드이며 다른 모드의 콘텐츠는 사용하지 않았습니다.
+
+[h2]공식 애드온[/h2]
+
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: 병렬 연결된 인버터가 각자의 전력 구역을 유지합니다.
+[/list]

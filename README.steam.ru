@@ -29,7 +29,6 @@ Extended и модели требуют LiveWire, включённый рань�
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_ru.png[/img]
 
-Установка: отвёртка, без уровня. Подключение: панели и инверторы с 3 уровня, ветряки и колёса со 2.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-02-equipment]Оборудование[/url]
 
 [h2]Выработка[/h2]
@@ -92,7 +91,7 @@ Extended и модели требуют LiveWire, включённый рань�
 [hr][/hr]
 [h1]3. Модели Viewpoint[/h1]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: мод LiveWire - Viewpoint models с 3D-моделями приборов.
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url]: мод LiveWire - Viewpoint models с 3D-моделями приборов.
 
 [hr][/hr]
 [h2]Совместимость[/h2]
@@ -101,11 +100,8 @@ Extended и модели требуют LiveWire, включённый рань�
 
 [h2]Документация[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Вики LiveWire[/url] · Исходный код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Вики LiveWire[/url] · Исходный код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
-[h2]Discord[/h2]
-
-[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]Пара слов об ИИ[/h2]
 
@@ -119,3 +115,9 @@ Extended и модели требуют LiveWire, включённый рань�
 [h2]Авторы[/h2]
 
 Создал batmanfr. Модель шкафа инвертора: PewPewCricket. Оригинальный код, тайлы и звуки; контент из других модов не использован.
+
+[h2]Официальные дополнения[/h2]
+
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: сцепленные инверторы сохраняют свою зону.
+[/list]

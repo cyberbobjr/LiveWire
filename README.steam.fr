@@ -93,7 +93,7 @@ Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extende
 [hr][/hr]
 [h1]3. Modèles Viewpoint[/h1]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b] : cet objet contient aussi le mod facultatif LiveWire - Viewpoint models, avec les modèles 3D de tous les équipements. À activer seulement avec Project Viewpoint.
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url] : cet objet contient aussi le mod facultatif LiveWire - Viewpoint models, avec les modèles 3D de tous les équipements.
 
 [hr][/hr]
 [h2]Compatibilité[/h2]
@@ -102,12 +102,8 @@ Compatible avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725
 
 [h2]Documentation[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-Home]Wiki LiveWire[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-Home]Wiki LiveWire[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
-[h2]Discord[/h2]
-
-Questions, bugs ou idées ? Rejoignez le Discord :
-[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]Un mot sur l'IA[/h2]
 
@@ -121,3 +117,9 @@ Vous aimez le mod ? Un café aide à financer de nouvelles fonctions et des trad
 [h2]Crédits[/h2]
 
 Créé par batmanfr. Modèle de l'armoire onduleur : PewPewCricket. Code, tuiles et sons originaux ; aucun contenu repris d'autres mods.
+
+[h2]Extensions officielles[/h2]
+
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url] : les onduleurs couplés gardent leur propre zone alimentée.
+[/list]

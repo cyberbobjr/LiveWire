@@ -105,12 +105,8 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 
 [h2]文档[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 维基[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 维基[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
-[h2]Discord[/h2]
-
-有问题、错误报告或想法？加入 Discord：
-[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]关于 AI 的说明[/h2]
 
@@ -124,3 +120,9 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 [h2]致谢[/h2]
 
 由 batmanfr 创建。逆变器柜模型由 PewPewCricket 提供。原创代码、瓦片和声音；未使用其他模组的内容。
+
+[h2]官方扩展[/h2]
+
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: 并联的逆变器各自保留供电区域。
+[/list]

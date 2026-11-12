@@ -12,7 +12,7 @@ description=
 description=[h2]One subscription, three mods[/h2]
 description=[list]
 description=[*][b]LiveWire[/b] (required): generate, store and distribute your own power. Part 1.
-description=[*][b]LiveWire Extended[/b] (optional, [b]new in 2.0[/b]): power whole buildings through breaker boards, room by room. Part 2.
+description=[*][b]LiveWire Extended[/b] (optional, new in 2.0): power whole buildings through breaker boards, room by room. Part 2.
 description=[*][b]LiveWire - Viewpoint models[/b] (optional): 3D models, only if you use Project Viewpoint.
 description=[/list]
 description=Extended and the models need LiveWire, enabled before them.
@@ -99,17 +99,16 @@ description=
 description=[hr][/hr]
 description=[h1]3. Viewpoint models[/h1]
 description=
-description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url] users: enable LiveWire - Viewpoint models for 3D models of every device, Extended included.
+description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url]: 3D models of every device, Extended included.
 description=
 description=[hr][/hr]
 description=[h2]Compatibility[/h2]
 description=
-description=Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Original creation, not meant to run with other power-system mods. Licence MIT.
+description=Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Not meant to run with other power-system mods. Licence MIT.
 description=
 description=[h2]Documentation & Discord[/h2]
 description=
-description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
-description=Questions, bug reports or ideas? [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 description=
 description=[h2]A note on AI[/h2]
 description=
@@ -123,5 +122,11 @@ description=
 description=[h2]Credits[/h2]
 description=
 description=Created by batmanfr. Inverter cabinet model by PewPewCricket. Original code, tiles and sounds; no content taken from other mods.
+description=
+description=[h2]Official add-ons[/h2]
+description=
+description=[list]
+description=[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: coupled inverters keep their own powered area.
+description=[/list]
 tags=Build 42;Skills
 visibility=public

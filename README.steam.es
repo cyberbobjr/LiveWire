@@ -102,12 +102,8 @@ Compatible con [url=https://steamcommunity.com/sharedfiles/filedetails/?id=37254
 
 [h2]Documentación[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Wiki de LiveWire[/url] · Código fuente: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Wiki de LiveWire[/url] · Código fuente: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
-[h2]Discord[/h2]
-
-¿Preguntas, errores o ideas? Únete al Discord:
-[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]Una nota sobre la IA[/h2]
 
@@ -121,3 +117,9 @@ Soy desarrollador desde hace años e hice mods mucho antes de que existieran los
 [h2]Créditos[/h2]
 
 Creado por batmanfr. Modelo del armario inversor: PewPewCricket. Código, baldosas y sonidos originales; no se ha tomado contenido de otros mods.
+
+[h2]Complementos oficiales[/h2]
+
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: los inversores acoplados conservan su propia zona alimentada.
+[/list]

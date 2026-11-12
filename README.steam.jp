@@ -93,7 +93,7 @@ MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Power
 [hr][/hr]
 [h1]3. Viewpoint モデル[/h1]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：全機器の3Dモデルを含むMOD「LiveWire - Viewpoint models」が含まれます。Project Viewpointを使う場合のみ有効にしてください。
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url]：全機器の3Dモデルを含むMOD「LiveWire - Viewpoint models」が含まれます。
 
 [hr][/hr]
 [h2]互換性[/h2]
@@ -102,12 +102,8 @@ MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Power
 
 [h2]ドキュメント[/h2]
 
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · ソースコード：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · ソースコード：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
-[h2]Discord[/h2]
-
-質問、不具合報告、アイデアはこちら：
-[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]AIについて[/h2]
 
@@ -121,3 +117,9 @@ MODを気に入っていただけましたか？コーヒー1杯が新機能や�
 [h2]クレジット[/h2]
 
 作成：batmanfr。インバーターキャビネットのモデル：PewPewCricket。オリジナルのコード、タイル、サウンド。他のMODの素材は使用していません。
+
+[h2]公式アドオン[/h2]
+
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: 連結したインバーターがそれぞれの給電範囲を保持。
+[/list]
