@@ -217,7 +217,7 @@ module LiveWire
     craftRecipe LWXDismantlePanel8
     {
         timedAction = DismantleElectrical,
-        Icon = LWXPanel,
+        Icon = LWXPanel8,
         time = 90,
         Tags = InHandCraft;Electrical,
         category = Electrical,
@@ -239,7 +239,7 @@ module LiveWire
     craftRecipe LWXDismantlePanel16
     {
         timedAction = DismantleElectrical,
-        Icon = LWXPanel,
+        Icon = LWXPanel16,
         time = 110,
         Tags = InHandCraft;Electrical,
         category = Electrical,
@@ -261,7 +261,7 @@ module LiveWire
     craftRecipe LWXDismantlePanel24
     {
         timedAction = DismantleElectrical,
-        Icon = LWXPanel,
+        Icon = LWXPanel24,
         time = 130,
         Tags = InHandCraft;Electrical,
         category = Electrical,

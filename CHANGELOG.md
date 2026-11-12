@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1 — 2026-11-12
+
+### Fixes
+
+- **Breaker boards:** the 8, 16 and 24 module boards each have their own icon in the inventory and the crafting menu, showing one, two or three rows of breakers. They all looked like the 16 module board.
+
 ## 2.0.0 — 2026-11-12
 
 LiveWire 2.0.0 adds the optional **LiveWire Extended** add-on, dismantling recipes and fixes. The mod is now called **LiveWire** in every text you see in game (it was "Live Wire"). Saves and servers are not affected.

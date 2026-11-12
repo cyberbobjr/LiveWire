@@ -464,6 +464,168 @@ EXT = {
                    "· plusieurs tableaux dans un bâtiment : chaque appareil sur l'un d'eux",
         "c_zone": "tracée autour de la borne,\njusqu'à 16 x 16 cases",
     },
+    "DE": {
+        "title": "LIVEWIRE EXTENDED · SO BEKOMMT EIN GEBÄUDE STROM",
+        "a": "OHNE KASTEN", "b": "MIT KASTEN (optional)", "c": "IM FREIEN",
+        "inverter": "WECHSELRICHTER", "house": "GEBÄUDE", "board": "SICHERUNGSKASTEN", "terminal": "ANSCHLUSSSÄULE",
+        "zone": "ZONE", "points": "ANGESCHLOSSENE GERÄTE", "wire": "Stromkabel",
+        "a_link": "Gebäude anschließen",
+        "a_house": "Jedes Gerät hat Strom,\nkeine Verkabelung nötig",
+        "a_note": "Eine Überlast löst das ganze Netz aus",
+        "b_board": "8, 16 oder 24 Module\nan einer Innenwand\ndes Gebäudes",
+        "b_breakers": "Schutzschalter\n15 / 20 / 30 A",
+        "b_points": "Räume (Licht) und Geräte,\njedes an einem Schutzschalter",
+        "b_rules": "Der ganze Strom läuft über den Kasten:\n"
+                   "· ein Gerät ohne Schutzschalter hat keinen Strom\n"
+                   "· ein Kasten ohne Schutzschalter schaltet das ganze Gebäude ab\n"
+                   "· ein überlasteter Schutzschalter löst allein aus, der Rest bleibt an\n"
+                   "· mehrere Kästen in einem Gebäude: jedes Gerät an einem davon",
+        "c_zone": "um die Säule gezogen,\nbis zu 16 x 16 Felder",
+    },
+    "ES": {
+        "title": "LIVEWIRE EXTENDED · CÓMO RECIBE CORRIENTE UN EDIFICIO",
+        "a": "SIN CUADRO", "b": "CON CUADRO (opcional)", "c": "EXTERIOR",
+        "inverter": "INVERSOR", "house": "EDIFICIO", "board": "CUADRO ELÉCTRICO", "terminal": "POSTE ELÉCTRICO",
+        "zone": "ZONA", "points": "APARATOS CABLEADOS", "wire": "cable eléctrico",
+        "a_link": "Conectar el edificio",
+        "a_house": "Todos los aparatos tienen corriente,\nsin cableado",
+        "a_note": "Una sobrecarga hace saltar toda la red",
+        "b_board": "8, 16 o 24 módulos\ncolgado en una pared interior\ndel edificio",
+        "b_breakers": "disyuntores\n15 / 20 / 30 A",
+        "b_points": "Habitaciones (luces) y aparatos,\ncada uno en un disyuntor",
+        "b_rules": "Toda la corriente pasa por el cuadro:\n"
+                   "· un aparato sin disyuntor no tiene corriente\n"
+                   "· un cuadro sin disyuntores corta todo el edificio\n"
+                   "· un disyuntor sobrecargado salta solo, el resto sigue encendido\n"
+                   "· varios cuadros en un edificio: cada aparato en uno de ellos",
+        "c_zone": "trazada alrededor del poste,\nhasta 16 x 16 casillas",
+    },
+    "PTBR": {
+        "title": "LIVEWIRE EXTENDED · COMO UM PRÉDIO RECEBE ENERGIA",
+        "a": "SEM QUADRO", "b": "COM QUADRO (opcional)", "c": "AO AR LIVRE",
+        "inverter": "INVERSOR", "house": "PRÉDIO", "board": "QUADRO ELÉTRICO", "terminal": "POSTE ELÉTRICO",
+        "zone": "ZONA", "points": "APARELHOS LIGADOS", "wire": "fio elétrico",
+        "a_link": "Conectar o prédio",
+        "a_house": "Todos os aparelhos têm energia,\nsem fiação",
+        "a_note": "Uma sobrecarga desarma a rede inteira",
+        "b_board": "8, 16 ou 24 módulos\npreso numa parede interna\ndo prédio",
+        "b_breakers": "disjuntores\n15 / 20 / 30 A",
+        "b_points": "Cômodos (luzes) e aparelhos,\ncada um num disjuntor",
+        "b_rules": "Toda a energia passa pelo quadro:\n"
+                   "· um aparelho sem disjuntor fica sem energia\n"
+                   "· um quadro sem disjuntores corta o prédio inteiro\n"
+                   "· um disjuntor sobrecarregado desarma sozinho, o resto continua\n"
+                   "· vários quadros num prédio: cada aparelho em um deles",
+        "c_zone": "traçada em volta do poste,\naté 16 x 16 casas",
+    },
+    "PT": {
+        "title": "LIVEWIRE EXTENDED · COMO UM EDIFÍCIO RECEBE ENERGIA",
+        "a": "SEM QUADRO", "b": "COM QUADRO (opcional)", "c": "NO EXTERIOR",
+        "inverter": "INVERSOR", "house": "EDIFÍCIO", "board": "QUADRO ELÉTRICO", "terminal": "POSTE ELÉTRICO",
+        "zone": "ZONA", "points": "APARELHOS LIGADOS", "wire": "fio elétrico",
+        "a_link": "Ligar o edifício",
+        "a_house": "Todos os aparelhos têm energia,\nsem cablagem",
+        "a_note": "Uma sobrecarga dispara a rede inteira",
+        "b_board": "8, 16 ou 24 módulos\nnuma parede interior\ndo edifício",
+        "b_breakers": "disjuntores\n15 / 20 / 30 A",
+        "b_points": "Divisões (luzes) e aparelhos,\ncada um num disjuntor",
+        "b_rules": "Toda a energia passa pelo quadro:\n"
+                   "· um aparelho sem disjuntor fica sem energia\n"
+                   "· um quadro sem disjuntores corta o edifício inteiro\n"
+                   "· um disjuntor sobrecarregado dispara sozinho, o resto continua\n"
+                   "· vários quadros num edifício: cada aparelho num deles",
+        "c_zone": "traçada à volta do poste,\naté 16 x 16 casas",
+    },
+    "RU": {
+        "title": "LIVEWIRE EXTENDED · КАК ЗДАНИЕ ПОЛУЧАЕТ ТОК",
+        "a": "БЕЗ ЩИТКА", "b": "СО ЩИТКОМ (необязательно)", "c": "НА УЛИЦЕ",
+        "inverter": "ИНВЕРТОР", "house": "ЗДАНИЕ", "board": "ЭЛЕКТРОЩИТОК", "terminal": "ЭЛЕКТРОКОЛОНКА",
+        "zone": "ЗОНА", "points": "ПОДКЛЮЧЁННЫЕ ПРИБОРЫ", "wire": "провода",
+        "a_link": "Подключить здание",
+        "a_house": "Все приборы под током,\nбез проводки",
+        "a_note": "Перегрузка отключает всю сеть",
+        "b_board": "8, 16 или 24 модуля\nна внутренней стене\nздания",
+        "b_breakers": "автоматы\n15 / 20 / 30 А",
+        "b_points": "Комнаты (свет) и приборы,\nкаждый на своём автомате",
+        "b_rules": "Весь ток идёт через щиток:\n"
+                   "· прибор без автомата остаётся без тока\n"
+                   "· щиток без автоматов обесточивает всё здание\n"
+                   "· перегруженный автомат отключается один, остальное работает\n"
+                   "· несколько щитков в здании: каждый прибор на одном из них",
+        "c_zone": "вокруг колонки,\nдо 16 x 16 клеток",
+    },
+    "CN": {
+        "title": "LIVEWIRE EXTENDED · 建筑如何通电",
+        "a": "不用配电箱", "b": "使用配电箱（可选）", "c": "户外",
+        "inverter": "逆变器", "house": "建筑", "board": "配电箱", "terminal": "供电端子",
+        "zone": "区域", "points": "已接线的电器", "wire": "电线",
+        "a_link": "接入建筑",
+        "a_house": "所有电器都有电，\n无需接线",
+        "a_note": "过载会跳开整个电网",
+        "b_board": "8、16 或 24 个模块\n挂在建筑的\n内墙上",
+        "b_breakers": "断路器\n15 / 20 / 30 A",
+        "b_points": "房间（照明）和电器，\n各接一个断路器",
+        "b_rules": "所有电力都经过配电箱：\n"
+                   "· 没有接断路器的电器没有电\n"
+                   "· 没有断路器的配电箱会切断整栋建筑\n"
+                   "· 过载的断路器单独跳闸，其余照常\n"
+                   "· 一栋建筑有多个配电箱：每台电器接其中一个",
+        "c_zone": "围绕端子划定，\n最多 16 x 16 格",
+    },
+    "JP": {
+        "title": "LIVEWIRE EXTENDED · 建物に電気が届くしくみ",
+        "a": "分電盤なし", "b": "分電盤あり（任意）", "c": "屋外",
+        "inverter": "インバーター", "house": "建物", "board": "分電盤", "terminal": "給電ポール",
+        "zone": "ゾーン", "points": "配線済みの家電", "wire": "電線",
+        "a_link": "建物を接続",
+        "a_house": "すべての家電に給電、\n配線は不要",
+        "a_note": "過負荷でネットワーク全体が落ちる",
+        "b_board": "8・16・24 モジュール\n建物の内壁に\n取り付け",
+        "b_breakers": "ブレーカー\n15 / 20 / 30 A",
+        "b_points": "部屋（照明）と家電、\nそれぞれ1つのブレーカーに配線",
+        "b_rules": "電気はすべて分電盤を通る：\n"
+                   "· ブレーカーにつながっていない家電は電気なし\n"
+                   "· ブレーカーのない分電盤は建物全体を止める\n"
+                   "· 過負荷のブレーカーだけが落ち、ほかはそのまま\n"
+                   "· 1つの建物に複数の分電盤：家電はそのどれか1つに",
+        "c_zone": "ポールの周りに指定、\n最大 16 x 16 マス",
+    },
+    "KO": {
+        "title": "LIVEWIRE EXTENDED · 건물에 전기가 들어가는 방식",
+        "a": "배전반 없이", "b": "배전반 사용 (선택)", "c": "야외",
+        "inverter": "인버터", "house": "건물", "board": "배전반", "terminal": "전력 기둥",
+        "zone": "구역", "points": "배선된 가전", "wire": "전선",
+        "a_link": "건물 연결",
+        "a_house": "모든 가전에 전기 공급,\n배선 필요 없음",
+        "a_note": "과부하 시 네트워크 전체 차단",
+        "b_board": "8, 16, 24 모듈\n건물 내벽에\n설치",
+        "b_breakers": "차단기\n15 / 20 / 30 A",
+        "b_points": "방(조명)과 가전,\n각각 차단기 하나에 배선",
+        "b_rules": "모든 전기는 배전반을 거칩니다:\n"
+                   "· 차단기에 배선되지 않은 가전은 전기 없음\n"
+                   "· 차단기 없는 배전반은 건물 전체를 끊음\n"
+                   "· 과부하 차단기만 내려가고 나머지는 유지\n"
+                   "· 한 건물에 배전반이 여러 개: 가전마다 그중 하나에 배선",
+        "c_zone": "기둥 주변에 지정,\n최대 16 x 16칸",
+    },
+    "TR": {
+        "title": "LIVEWIRE EXTENDED · BİR BİNA NASIL ELEKTRİK ALIR",
+        "a": "PANOSUZ", "b": "PANOYLA (isteğe bağlı)", "c": "DIŞARIDA",
+        "inverter": "İNVERTÖR", "house": "BİNA", "board": "SİGORTA PANOSU", "terminal": "GÜÇ TERMİNALİ",
+        "zone": "BÖLGE", "points": "BAĞLI CİHAZLAR", "wire": "elektrik kablosu",
+        "a_link": "Binayı bağla",
+        "a_house": "Her cihazda elektrik var,\nkablolama gerekmez",
+        "a_note": "Aşırı yük tüm şebekeyi attırır",
+        "b_board": "8, 16 veya 24 modül\nbinanın bir iç\nduvarına asılı",
+        "b_breakers": "sigortalar\n15 / 20 / 30 A",
+        "b_points": "Odalar (ışıklar) ve cihazlar,\nher biri bir sigortaya bağlı",
+        "b_rules": "Tüm elektrik panodan geçer:\n"
+                   "· sigortaya bağlı olmayan cihazda elektrik yoktur\n"
+                   "· sigortasız bir pano tüm binayı keser\n"
+                   "· aşırı yüklenen sigorta tek başına atar, gerisi çalışır\n"
+                   "· bir binada birden fazla pano: her cihaz birine bağlı",
+        "c_zone": "terminalin çevresine çizilir,\nen fazla 16 x 16 kare",
+    },
 }
 
 
@@ -738,7 +900,7 @@ def parse_recipes(path):
             outs.append((int(m.group(1)), key))
         if not ins or not outs:
             raise ValueError("%s: no inputs or outputs parsed" % name)
-        recipes.append({"name": name, "kind": "dismantle" if name.startswith("LWDismantle") else "craft",
+        recipes.append({"name": name, "kind": "dismantle" if name.startswith(("LWDismantle", "LWXDismantle")) else "craft",
                         "level": int(lvl.group(1)) if lvl else None, "ins": ins, "tools": tools, "outs": outs})
     return recipes
 
@@ -746,12 +908,12 @@ def parse_recipes(path):
 BASE_RECIPE_LIST = parse_recipes(BASE_RECIPES)
 EXT_RECIPE_LIST = parse_recipes(EXT_RECIPES)
 RECIPE_SETS = {"base": BASE_RECIPE_LIST, "ext": EXT_RECIPE_LIST}
-# Checks: the scripts hold 16 crafts and 15 dismantling recipes (base), 8 crafts (Extended); every dismantling
+# Checks: the scripts hold 16 crafts and 15 dismantling recipes (base), 8 crafts and 4 dismantling (Extended); every dismantling
 # recipe needs a screwdriver (the dismantling card states it).
 if [r["kind"] for r in BASE_RECIPE_LIST].count("craft") != 16 or len(BASE_RECIPE_LIST) != 31:
     raise ValueError("LiveWire_recipes.txt: expected 16 crafts and 15 dismantling recipes")
-if len(EXT_RECIPE_LIST) != 8 or any(r["kind"] != "craft" for r in EXT_RECIPE_LIST):
-    raise ValueError("LiveWireExtended_recipes.txt: expected 8 crafts")
+if [r["kind"] for r in EXT_RECIPE_LIST].count("craft") != 8 or len(EXT_RECIPE_LIST) != 12:
+    raise ValueError("LiveWireExtended_recipes.txt: expected 8 crafts and 4 dismantling recipes")
 if not all("Screwdriver" in r["tools"] for r in BASE_RECIPE_LIST if r["kind"] == "dismantle"):
     raise ValueError("a dismantling recipe does not need a screwdriver")
 
@@ -1023,12 +1185,7 @@ def collect_icons():
             copies[m.group(1)] = os.path.join(base_tex, f)
     for f in os.listdir(ext_tex):
         m = re.fullmatch(r"Item_LWX(\w+)\.png", f)
-        if not m:
-            continue
-        if m.group(1) == "Panel":  # one texture for the 8, 16 and 24 module boards
-            for n in (8, 16, 24):
-                copies["Panel%d" % n] = os.path.join(ext_tex, f)
-        else:
+        if m:
             copies[m.group(1)] = os.path.join(ext_tex, f)
     for key, src in sorted(copies.items()):
         dst = os.path.join(ICONS, key + ".png")

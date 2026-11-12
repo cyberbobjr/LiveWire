@@ -11,7 +11,7 @@ Contract with the Lua code (LWX_Terminal.lua, LWX_Panel.lua): never renumber the
   10-11 breaker board, 16 modules        S E
   12-13 breaker board, 24 modules        S E
   14-15 reserved (blank)
-Item icons (64 x 64, media/textures): Item_LWXTerminal, Item_LWXPanel, Item_LWXBreaker15/20/30,
+Item icons (64 x 64, media/textures): Item_LWXTerminal, Item_LWXPanel8/16/24, Item_LWXBreaker15/20/30,
 Item_LWXTwilightSwitch.
 
 1. Render, headless:
@@ -19,6 +19,8 @@ Item_LWXTwilightSwitch.
        blender -b --factory-startup -P source/tiles/build_extended_tiles.py -- <cells-dir>
 2. Style and package (Python with Pillow + pzforge):
        python source/tiles/build_extended_tiles.py package <cells-dir> <project-root>
+   Icons only (tile pack untouched): render with `-- <cells-dir> icons`, then
+       python source/tiles/build_extended_tiles.py icons <cells-dir> <project-root>
 3. Depth map (skill pz-blender-assets, scripts/build_depthmap.py):
        blender -b --factory-startup -P <skill>/scripts/build_depthmap.py -- source/tiles/build_extended_tiles.py depth.json
        python <skill>/scripts/build_depthmap.py depth.json <ext>/common/media/texturepacks/batman_livewireext_01.pack
@@ -255,7 +257,10 @@ ICONS = [
     ("LWXBreaker30", build_breaker_item("30", 1), 0.16),
     ("LWXTwilightSwitch", build_twilight_item, 0.19),
     ("LWXTerminal", build_terminal, 2.3),
-    ("LWXPanel", None, 0.85),   # board of 16 modules, built off its wall
+    # Boards, built off their wall: an int is the number of modules (one icon per board size).
+    ("LWXPanel8", 8, 1.2),
+    ("LWXPanel16", 16, 1.2),
+    ("LWXPanel24", 24, 1.2),
 ]
 
 
@@ -292,8 +297,8 @@ def render_icon(scene, subject, mats, name, fn, span, out: Path) -> None:
     """Perspective 3/4 view, transparent, Standard view transform, 256 px (scaled to 64 on packaging)."""
     clear_subject(subject)
     k = Kit(subject, mats)
-    if fn is None:  # the board, away from its wall and centred
-        build_board(16)(k.empty("icon_board", (0, -(0.5 - LW.WALL_GAP - 0.05), -BOARD_Z)))
+    if isinstance(fn, int):  # a board of fn modules, away from its wall and centred
+        build_board(fn)(k.empty("icon_board", (0, -(0.5 - LW.WALL_GAP - 0.05), -BOARD_Z)))
     else:
         fn(k)
     bpy.context.view_layer.update()
@@ -425,6 +430,13 @@ def package(cells_dir: Path, project: Path) -> None:
     tdefs.write(media / f"{SHEET}.tiles")
     (media / "tileGeometry.txt").write_text("tileGeometry\n{\n    VERSION = 2,\n}\n", encoding="ascii")
     sheet.image().save(HERE / f"{SHEET}_sheet.png")
+    print(f"packed {len(images)} sprites into {media}")
+    package_icons(cells_dir, project)
+
+
+def package_icons(cells_dir: Path, project: Path) -> None:
+    """Item icons only: never touches the tile pack or the .tiles file."""
+    from PIL import Image
     icons = project / "Contents" / "mods" / MOD_ID / "42.21" / "media" / "textures"
     icons.mkdir(parents=True, exist_ok=True)
     for name, _, _ in ICONS:
@@ -435,13 +447,13 @@ def package(cells_dir: Path, project: Path) -> None:
         square = Image.new("RGBA", (side, side), (0, 0, 0, 0))
         square.paste(img, ((side - img.width) // 2, (side - img.height) // 2))
         square.resize((64, 64), Image.LANCZOS).save(icons / f"Item_{name}.png")
-    print(f"packed {len(images)} sprites, {len(ICONS)} icons into {media} and {icons}")
+    print(f"packed {len(ICONS)} icons into {icons}")
 
 
 if __name__ == "__main__":
     if bpy is None:
-        if len(sys.argv) != 4 or sys.argv[1] != "package":
-            raise SystemExit("usage: python build_extended_tiles.py package <cells-dir> <project-root>")
-        package(Path(sys.argv[2]), Path(sys.argv[3]))
+        if len(sys.argv) != 4 or sys.argv[1] not in ("package", "icons"):
+            raise SystemExit("usage: python build_extended_tiles.py package|icons <cells-dir> <project-root>")
+        (package if sys.argv[1] == "package" else package_icons)(Path(sys.argv[2]), Path(sys.argv[3]))
     else:
         main()

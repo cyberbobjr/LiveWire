@@ -21,7 +21,7 @@ module Base
     {
         DisplayCategory = Furniture,
         ItemType = base:moveable,
-        Icon = LWXPanel,
+        Icon = LWXPanel8,
         Weight = 2.0,
         WorldObjectSprite = batman_livewireext_01_8,
     }
@@ -33,7 +33,7 @@ module Base
     {
         DisplayCategory = Furniture,
         ItemType = base:moveable,
-        Icon = LWXPanel,
+        Icon = LWXPanel16,
         Weight = 3.0,
         WorldObjectSprite = batman_livewireext_01_10,
     }
@@ -45,7 +45,7 @@ module Base
     {
         DisplayCategory = Furniture,
         ItemType = base:moveable,
-        Icon = LWXPanel,
+        Icon = LWXPanel24,
         Weight = 4.0,
         WorldObjectSprite = batman_livewireext_01_12,
     }
