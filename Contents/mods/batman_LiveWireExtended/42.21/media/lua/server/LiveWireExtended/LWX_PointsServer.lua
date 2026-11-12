@@ -9,8 +9,6 @@ local X = LiveWire.Extended
 local PT, Ad, B, P = X.Points, X.Adapters, X.Breakers, X.Panel
 local PS = X.Panels
 
-Ad.isCut = function(o) return PT.blocked(o) end
-
 local function transmit()
     X.Data.touch()
     if isServer() then ModData.transmit(X.DATA_KEY) end

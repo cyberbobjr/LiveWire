@@ -7,13 +7,14 @@
 require "LiveWire/LW_CircuitProvider"
 require "LiveWireExtended/LWX_Adapters"
 require "LiveWireExtended/LWX_ModAdapters"
+require "LiveWireExtended/LWX_Points"
 
 local X = LiveWire.Extended
 
 local provider = {}
 
--- A native appliance: is it cut by a breaker of Extended?
-provider.blocked = function(o) return X.Adapters.isCut(o) end
+-- A native appliance: is it cut by a breaker of Extended? Live Wire asks on the authority.
+provider.blocked = function(o) return X.Points.blocked(o) end
 
 -- A Live Wire pump or management computer (registry device `dev`).
 provider.deviceBlocked = function(dev)

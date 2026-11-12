@@ -4,7 +4,6 @@ if isClient() then return end
 -- restored backup). The object carries a copy of its link (LWX_Linked.markObject);
 -- Live Wire's chunk discovery walk shows every loaded object to RC.visit. The copy is
 -- refreshed every ten minutes so that later breakers are kept too.
-require "LiveWire/LW_Circuits"
 require "LiveWireExtended/LWX_Linked"
 require "LiveWireExtended/LWX_Inverters"
 

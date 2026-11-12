@@ -35,11 +35,6 @@ E.MODULE = { w = MOD_W, h = MOD_H, gap = MOD_GAP }
 -- Pure functions (reference units; `measure(s)` gives the width of s in reference units)
 -------------------------------------------------------------------------------
 
--- R1: height of a row that carries text: the reference, or the real font height / k plus a margin.
-function E.textHeight(ref, fontPx, k, margin)
-    return math.max(ref, math.ceil(fontPx / k + margin))
-end
-
 -- R5: number of equal button columns, 5 then 3, 2, 1: the widest title must fit in a column.
 function E.columns(avail, widest, gap)
     local choices = { 5, 3, 2 }
@@ -275,12 +270,6 @@ function E.module(ui, x, y, state, band, main)
     rect(ui, x + 7, ty, MOD_W - 14, 21, lever)
     rect(ui, x + 7, ty, MOD_W - 14, 3, main and C.orange or C.edge)
     for i = 1, 3 do rect(ui, x + 11, ty + 9 + i * 3, MOD_W - 22, 1, C.ink, 0.5) end
-end
-
--- Bar joining the levers of the poles of one circuit (n modules wide), at the lever state.
-function E.tieBar(ui, x, y, n, state)
-    local fy = state == "on" and 38 or state == "off" and 68 or 53
-    rect(ui, x + 12, y + fy, n * MOD_W - 24, 4, E.C.ink)
 end
 
 -- Font of the text shown on a screen (D-56): the windows size their LCD with it.

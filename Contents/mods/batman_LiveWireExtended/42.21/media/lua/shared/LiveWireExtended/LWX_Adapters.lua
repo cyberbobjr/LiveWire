@@ -86,25 +86,6 @@ local function live(o)
 end
 Ad.live = live
 
--- ---------------------------------------------------------------- cut state
--- cuts[identity] = true while the point's breaker is open. Session table here; the
--- persistent state of points and breakers replaces Ad.isCutKey (E17).
-Ad.cuts = {}
-function Ad.isCutKey(key) return Ad.cuts[key] == true end
-function Ad.isCut(o)
-    local key = Ad.identity(o)
-    return key ~= nil and Ad.isCutKey(key)
-end
-
--- Cut or restore a point on the authority, whatever its adapter.
-function Ad.set(o, off)
-    local a = Ad.find(o)
-    if not a then return false end
-    Ad.cuts[Ad.identity(o)] = off and true or nil
-    a.apply(o, off)
-    return true
-end
-
 -- ---------------------------------------------------------------- vanilla families
 local pieceList
 

@@ -213,9 +213,3 @@ function Batteries.restore(bank)
         end
     end
 end
-
--- A power bank cannot be dismantled while it holds items.
-function Batteries.isEmpty(obj)
-    local c = obj and obj:getContainer()
-    return c == nil or c:getItems():size() == 0
-end

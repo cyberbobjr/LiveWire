@@ -897,8 +897,7 @@ celle du tableau d'Extended (`client/LiveWireExtended/LWX_BoardWindow.lua`) : `L
 (`client/LiveWire/LW_Enclosure.lua`), obtenu par `LiveWire.API.enclosure()` (tableau de l'API ci-dessus). Le module
 n'est chargé que sur le client (`isServer()` : retour immédiat).
 
-- Fonctions pures, sans dessin, testées hors jeu (`tests/test_enclosure.py`) : `textHeight` (R1, hauteur d'un texte :
-  référence ou police réelle / k + marge, la plus grande), `columns` (R5 : 5, puis 3, 2, 1 colonnes), `abbreviate`
+- Fonctions pures, sans dessin, testées hors jeu (`tests/test_enclosure.py`) : `columns` (R5 : 5, puis 3, 2, 1 colonnes), `abbreviate`
   (R3), `wrap` (R4), `plateText` (R7 : « 30 A », puis « 30 »), `twoPass` (R2 : contenu à l'échelle 1, facteur de
   fenêtre `LW_UIScale.factor`, puis contenu à ce facteur, abaissé une fois si la fenêtre ne tient pas), `needsCompact`
   (R6), `grid`, `layout` (positions de toutes les pièces, en unités de référence 1080p).
