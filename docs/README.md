@@ -23,6 +23,7 @@ Le projet livre trois mods dans le même objet Workshop (Project Zomboid Build 4
 | [`wiki/`](wiki/) | Source du wiki GitHub : [anglais](wiki/en/Home.md), [français](wiki/fr/Home.md) |
 | [`images/`](images/) | Images de la documentation, du README, du wiki et de la page Steam |
 | [`annexes/`](annexes/) | Références de conception, notes moteur et validation |
+| [`ADR/`](ADR/README.md) | Décisions d'architecture en cours (ADR-001 : dette relevée par l'audit de la 2.0.0, à corriger après la publication) et leurs plans dans [`ADR-plans/`](ADR-plans/) |
 
 ## Wiki
 
