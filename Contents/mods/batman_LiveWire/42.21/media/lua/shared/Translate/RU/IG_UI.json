@@ -262,5 +262,9 @@
     "IGUI_LW_DeviceReleased": "Тормоз ветряка отпущен",
     "IGUI_LW_DeviceWiring": "Выберите инвертор для этого устройства",
     "IGUI_LW_Model_InverterCabinet": "Инверторный шкаф",
-    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - ИНВЕРТОРНЫЙ ШКАФ 4500 Вт"
+    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - ИНВЕРТОРНЫЙ ШКАФ 4500 Вт",
+    "IGUI_LW_DevicesDisconnected": "Инвертор снят: отключено устройств: %1. Подключите их к инвертору заново.",
+    "IGUI_LW_State_disabled": "отключено (настройки сервера)",
+    "IGUI_LW_DeviceHydroFactors": "Сезон x%1, износ x%2, КПД x%3",
+    "IGUI_LW_DeviceSetting": "Настройка сервера: x%1"
 }

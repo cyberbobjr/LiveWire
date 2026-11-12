@@ -262,5 +262,9 @@
     "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - ARMOIRE ONDULEUR 4500 W",
     "IGUI_LW_App_Tab_Consumers_Short": "Consommateurs",
     "IGUI_LW_App_Tab_Forecast_Short": "Prévisions",
-    "IGUI_LW_App_Tab_Events_Short": "Événements"
+    "IGUI_LW_App_Tab_Events_Short": "Événements",
+    "IGUI_LW_DevicesDisconnected": "Onduleur retiré : %1 appareil(s) débranché(s). Raccordez-les de nouveau à un onduleur.",
+    "IGUI_LW_State_disabled": "à l'arrêt (réglages du serveur)",
+    "IGUI_LW_DeviceHydroFactors": "Saison x%1, usure x%2, rendement x%3",
+    "IGUI_LW_DeviceSetting": "Réglage du serveur : x%1"
 }

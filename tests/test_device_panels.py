@@ -52,6 +52,41 @@ class DevicePanels(unittest.TestCase):
         assert(LiveWire.DeviceView.snapshot(inv)==nil)
         ''')
 
+    def test_source_view_says_why_a_wheel_gives_nothing_and_its_factors(self):
+        # Issue #4: 0 W with nothing telling why; the factors of a water wheel.
+        self.world()
+        self.lua.execute('''
+        local d=device('WaterWheel');d.pOut=0;d.cond=60;d.eff=0.85
+        local s=LiveWire.DeviceView.snapshot(d)
+        assert(s.state=='idle' and s.setting==1)
+        assert(math.abs(s.wear-0.8)<1e-9 and s.eff==0.85 and s.season~=nil)
+        local old=LiveWire.Config.get
+        LiveWire.Config.get=function(k) if k=='HydroMultiplier' then return 0 end return old(k) end
+        s=LiveWire.DeviceView.snapshot(d)
+        assert(s.state=='disabled' and s.setting==0,'server setting at 0')
+        LiveWire.Config.get=old
+        local sun=device('SolarPanel');sun.pOut=0
+        s=LiveWire.DeviceView.snapshot(sun)
+        assert(s.season==nil and s.state=='idle','no seasonal factor for the sun')
+        ''')
+
+    def test_wheel_rows_show_the_factors_and_a_server_setting(self):
+        self.helper.lcd_fixture()
+        self.load('client/LiveWire/LW_DevicePanel.lua')
+        self.lua.execute('''
+        local P=LiveWire.DevicePanel
+        local function rows(extra)
+            local s={cond=60,kind='hydro',w=0,nominal=120,state='on',season=0.8,wear=0.8,eff=0.85,setting=1}
+            for k,v in pairs(extra) do s[k]=v end
+            return table.concat(P.lines({obj={mark={id='d1'}},data=s}),'|')
+        end
+        local r=rows({})
+        assert(string.find(r,'IGUI_LW_DeviceHydroFactors:0.80,0.80,0.85',1,true),r)
+        assert(not string.find(r,'IGUI_LW_DeviceSetting',1,true))
+        r=rows({setting=0,state='disabled'})
+        assert(string.find(r,'IGUI_LW_DeviceSetting:0.00',1,true) and string.find(r,'IGUI_LW_State_disabled',1,true),r)
+        ''')
+
     def test_pump_view_uses_own_measured_flow_without_consuming_water(self):
         self.world()
         self.lua.execute('''

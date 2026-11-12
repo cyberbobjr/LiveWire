@@ -63,17 +63,20 @@ local function chance(probability)
 end
 
 -- Behaviour of each source kind (D-50); a new kind is one entry here and one in Defs.SOURCE_FIELDS.
---   raw(src, def, w, t0, h)  production factor before nominal power, condition and efficiency
+--   raw(src, def, w, t0, h)  production factor before nominal power, condition, efficiency
+--                            and the server setting
+--   setting                  sandbox multiplier of the kind (LiveWire.Config key)
 --   weather(src, def, w, h)  ageing by the weather (snow, dirt), every step
 --   storm(src, def, w, h)    storm damage, only with the StormDamage option
 --   brakable                 the player can brake it: a braked source produces nothing
 Sim.sourceKinds = {
     solar = {
+        setting = "SolarMultiplier",
         raw = function(src, _def, w, t0, h)
             local facing, shift = Physics.solarFacing(src.facing, LiveWire.Config.get("SolarOrientation"))
             local sw = { dawn = w.dawn + shift, dusk = w.dusk + shift }
             return Physics.solarFactor(solarMean(t0, h, sw), w.clouds, src.snow or 0)
-                * LiveWire.Config.get("SolarMultiplier") * facing
+                * facing
                 * (1 - (LiveWire.Config.get("SolarDirt") and (src.dirt or 0) or 0))
         end,
         weather = function(src, _def, w, h)
@@ -96,9 +99,9 @@ Sim.sourceKinds = {
     },
     wind = {
         brakable = true,
+        setting = "WindMultiplier",
         raw = function(src, _def, w)
             return Physics.windFactor(Physics.windAtHeight(w.windKph, src.z))
-                * LiveWire.Config.get("WindMultiplier")
         end,
         storm = function(src, _def, w, h)
             if Physics.windAtHeight(w.windKph, src.z) > Physics.WIND_CUT_OUT
@@ -109,8 +112,9 @@ Sim.sourceKinds = {
         end,
     },
     hydro = {
+        setting = "HydroMultiplier",
         raw = function(_src, _def, w)
-            return Physics.hydroFactor(w.month) * LiveWire.Config.get("HydroMultiplier")
+            return Physics.hydroFactor(w.month)
         end,
     },
 }
@@ -121,12 +125,20 @@ local function braked(src, def)
     return kind ~= nil and kind.brakable == true and src.brake == true
 end
 
+-- Efficiency of a source whose mark has none.
+Sim.DEFAULT_SOURCE_EFF = 0.85
+
+-- Server multiplier of a source kind (1 for a kind without one).
+function Sim.settingOf(kind)
+    return kind and kind.setting and LiveWire.Config.get(kind.setting) or 1
+end
+
 local function sourceRaw(src, def, w, t0, h)
     if (src.cond or 0) <= 0 then return 0 end
     if braked(src, def) then return 0 end
     local kind = Sim.sourceKinds[def.kind]
-    local factor = kind and kind.raw(src, def, w, t0, h) or 0
-    return def.nominalW * factor * Physics.conditionFactor(src.cond) * (src.eff or 0.85)
+    local factor = kind and kind.raw(src, def, w, t0, h) * Sim.settingOf(kind) or 0
+    return def.nominalW * factor * Physics.conditionFactor(src.cond) * (src.eff or Sim.DEFAULT_SOURCE_EFF)
 end
 Sim.sourceRaw = sourceRaw
 

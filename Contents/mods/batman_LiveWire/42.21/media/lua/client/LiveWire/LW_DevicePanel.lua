@@ -104,6 +104,15 @@ function Panel:lines()
                 rows[#rows+1]=getText(f.row,math.floor(s[f.field]*100+0.5))
             end
         end
+        -- Factors of the rated power (issue #4): season, wear and efficiency of a water
+        -- wheel; a server setting other than x1 for every source.
+        if s.season and s.wear and s.eff then
+            rows[#rows+1]=getText("IGUI_LW_DeviceHydroFactors",string.format("%.2f",s.season),
+                string.format("%.2f",s.wear),string.format("%.2f",s.eff))
+        end
+        if s.setting and s.setting~=1 then
+            rows[#rows+1]=getText("IGUI_LW_DeviceSetting",string.format("%.2f",s.setting))
+        end
     end
     return rows
 end

@@ -262,5 +262,9 @@
     "IGUI_LW_DeviceReleased": "Windradbremse gelöst",
     "IGUI_LW_DeviceWiring": "Wechselrichter für dieses Gerät wählen",
     "IGUI_LW_Model_InverterCabinet": "Wechselrichterschrank",
-    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - WECHSELRICHTERSCHRANK 4500 W"
+    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - WECHSELRICHTERSCHRANK 4500 W",
+    "IGUI_LW_DevicesDisconnected": "Wechselrichter entfernt: %1 Gerät(e) getrennt. Verbinde sie erneut mit einem Wechselrichter.",
+    "IGUI_LW_State_disabled": "aus (Servereinstellungen)",
+    "IGUI_LW_DeviceHydroFactors": "Jahreszeit x%1, Verschleiß x%2, Wirkungsgrad x%3",
+    "IGUI_LW_DeviceSetting": "Servereinstellung: x%1"
 }

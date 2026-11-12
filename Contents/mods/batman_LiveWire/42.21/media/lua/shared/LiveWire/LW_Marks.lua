@@ -66,6 +66,15 @@ function Marks.findOnSquare(sq, id)
     return nil
 end
 
+-- True when the square (x, y, z) is loaded and holds no object marked `id` (picked up
+-- or destroyed). An unloaded square says nothing: false. A rotation keeps the object.
+function Marks.goneAt(id, x, y, z)
+    local cell = getCell()
+    local sq = cell and cell:getGridSquare(x, y, z)
+    if not sq then return false end
+    return Marks.findOnSquare(sq, id) == nil
+end
+
 -- First of our device objects on a square (any id).
 function Marks.firstOnSquare(sq)
     if not sq then return nil end

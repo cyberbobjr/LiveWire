@@ -12,6 +12,9 @@ View.KEYS = { { "IGUI_LW_ConsumerKey_Low", { 0.2, 1, 0.2 } }, { "IGUI_LW_Consume
     { "IGUI_LW_ConsumerKey_High", { 1, 0.2, 0.2 } }, { "IGUI_LW_ConsumerKey_Off", { 0.3, 0.6, 1 } },
     { "IGUI_LW_ConsumerKey_Other", { 0.5, 0.5, 0.5 } }, { "IGUI_LW_ConsumerKey_Grid", { 1, 1, 1 } } }
 local PAD, SWATCH, COLS = 10, 12, 3
+View.HIDE_DISTANCE = 60
+View.GONE_CHECK_MS = 500  -- how often an open view checks that its inverter is still there
+View.lastCheck = 0
 View.highlights = {}
 -- The OnTick handler exists only while the view is open.
 local watching = false
@@ -43,7 +46,7 @@ function View.hide()
     View.legend = nil
     if legend then legend:removeFromUIManager() end
     if View.element then View.element:removeFromUIManager() end
-    View.element, View.inverter = nil, nil
+    View.element, View.inverter, View.at = nil, nil, nil
     unwatch()
 end
 function View.show(id, mode)
@@ -51,6 +54,7 @@ function View.show(id, mode)
     View.hide()
     View.inverter, View.mode, View.lastSubscribe = id, mode, 0
     View.lastHighlight = -1000
+    View.lastCheck = getTimestampMs()
     watch()
     if mode=="consumers" and LiveWire.PumpView then LiveWire.PumpView.hide() end
     View.gridTold = false
@@ -195,12 +199,32 @@ function Legend:render()
         self:drawText(getText("IGUI_LW_ConsumerGridActive"), PAD, y0 + rows * step + 2, 1, 0.85, 0.2, 1, UIFont.Small)
     end
 end
+-- Square of the open view's inverter: its anchor, else the origin of its last snapshot,
+-- else the last one known (a removed inverter may lose both, solo first).
+local function inverterSquare()
+    local a = LiveWire.Anchor.table()[View.inverter]
+    if not a then
+        local snap = LiveWire.Client.snapshot(View.inverter)
+        a = snap and snap.origin
+    end
+    if a then View.at = { x = a.x, y = a.y, z = a.z } end
+    return View.at
+end
+
 onTick = function()
     if not View.inverter then return end
     local p = getPlayer()
-    local a = LiveWire.Anchor.table()[View.inverter]
-    if not p or p:isDead() or (a and (p:getX() - a.x)^2 + (p:getY() - a.y)^2 > 60^2) then View.hide(); return end
+    local a = inverterSquare()
+    if not p or p:isDead() or (a and (p:getX() - a.x)^2 + (p:getY() - a.y)^2 > View.HIDE_DISTANCE^2) then
+        View.hide(); return
+    end
     local now = getTimestampMs()
+    -- The inverter picked up or destroyed: the view and its highlights go with it. In
+    -- multiplayer the last snapshot stays on the client, so the snapshot cannot tell.
+    if now - View.lastCheck >= View.GONE_CHECK_MS then
+        View.lastCheck = now
+        if a and LiveWire.Marks.goneAt(View.inverter, a.x, a.y, a.z) then View.hide(); return end
+    end
     if View.mode=="consumers" and now-View.lastHighlight>=1000 then
         View.lastHighlight=now;View.refreshHighlights()
     end

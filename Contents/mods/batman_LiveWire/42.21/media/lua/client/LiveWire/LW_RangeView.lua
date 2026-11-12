@@ -4,7 +4,8 @@
 -- (when within the vertical range, else the inverter's floor) by isoToScreenX/Y at
 -- every frame. A 1 x 1 UI element hosts the drawing (it draws outside its own
 -- bounds and never takes the mouse). Floor highlights were tried first and could
--- not be seen in game. Hidden when the player walks far away.
+-- not be seen in game. Hidden when the player walks far away
+-- or when the inverter is picked up or destroyed.
 -- With a coverage provider (LW_Coverage, D-32), the 8 x 8 blocks it adds on the
 -- player's floor are outlined too: the engine powers them whole.
 if isServer() then return end
@@ -21,6 +22,8 @@ RV.HIDE_DISTANCE = 60
 RV.SEGMENTS = 96
 RV.COLOR = { r = 0.25, g = 0.9, b = 1.0, a = 0.9 }
 RV.PUMP_COLOR = { r = 0.30, g = 0.55, b = 1.0, a = 0.9 }
+RV.GONE_CHECK_MS = 500  -- how often an open view checks that its inverter is still there
+RV.lastCheck = 0
 
 RV.inverterId = nil
 RV.center = nil       -- { x, y, z }
@@ -149,6 +152,7 @@ function RV.show(inverterId, x, y, z, opts)
     RV.inverterId = inverterId
     RV.center = { x = x, y = y, z = z }
     RV.opts = opts
+    RV.lastCheck = getTimestampMs()
     local el = Overlay:new()
     el:initialise()
     el:addToUIManager()
@@ -162,6 +166,14 @@ onTick = function()
     if not RV.center then return end
     local player = getPlayer()
     if not player then return end
-    local dx, dy = player:getX() - RV.center.x, player:getY() - RV.center.y
-    if dx * dx + dy * dy > RV.HIDE_DISTANCE * RV.HIDE_DISTANCE then RV.hide() end
+    local c = RV.center
+    local dx, dy = player:getX() - c.x, player:getY() - c.y
+    if dx * dx + dy * dy > RV.HIDE_DISTANCE * RV.HIDE_DISTANCE then RV.hide(); return end
+    -- The inverter picked up or destroyed: its circle goes with it (a custom circle,
+    -- opts, belongs to its caller). Checked GONE_CHECK_MS apart, not every frame.
+    if RV.opts then return end
+    local now = getTimestampMs()
+    if now - RV.lastCheck < RV.GONE_CHECK_MS then return end
+    RV.lastCheck = now
+    if LiveWire.Marks.goneAt(RV.inverterId, c.x, c.y, c.z) then RV.hide() end
 end

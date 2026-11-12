@@ -262,5 +262,9 @@
     "IGUI_LW_DeviceReleased": "Freio eólico liberado",
     "IGUI_LW_DeviceWiring": "Escolha o inversor para este equipamento",
     "IGUI_LW_Model_InverterCabinet": "Gabinete inversor",
-    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - GABINETE INVERSOR 4500 W"
+    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - GABINETE INVERSOR 4500 W",
+    "IGUI_LW_DevicesDisconnected": "Inversor removido: %1 equipamento(s) desconectado(s). Conecte-os novamente a um inversor.",
+    "IGUI_LW_State_disabled": "desligado (configurações do servidor)",
+    "IGUI_LW_DeviceHydroFactors": "Estação x%1, desgaste x%2, eficiência x%3",
+    "IGUI_LW_DeviceSetting": "Configuração do servidor: x%1"
 }

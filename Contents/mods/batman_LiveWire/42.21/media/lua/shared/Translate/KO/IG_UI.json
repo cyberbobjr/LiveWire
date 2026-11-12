@@ -262,5 +262,9 @@
     "IGUI_LW_DeviceReleased": "풍력 브레이크 해제",
     "IGUI_LW_DeviceWiring": "이 장비의 인버터를 선택하세요",
     "IGUI_LW_Model_InverterCabinet": "인버터 캐비닛",
-    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - 인버터 캐비닛 4500 W"
+    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - 인버터 캐비닛 4500 W",
+    "IGUI_LW_DevicesDisconnected": "인버터 제거됨: 장비 %1개의 연결이 끊어졌습니다. 다시 인버터에 연결하세요.",
+    "IGUI_LW_State_disabled": "꺼짐 (서버 설정)",
+    "IGUI_LW_DeviceHydroFactors": "계절 x%1, 마모 x%2, 효율 x%3",
+    "IGUI_LW_DeviceSetting": "서버 설정: x%1"
 }

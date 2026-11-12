@@ -262,5 +262,9 @@
     "IGUI_LW_DeviceReleased": "风机制动已释放",
     "IGUI_LW_DeviceWiring": "为此设备选择逆变器",
     "IGUI_LW_Model_InverterCabinet": "逆变器柜",
-    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - 逆变器柜 4500 W"
+    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - 逆变器柜 4500 W",
+    "IGUI_LW_DevicesDisconnected": "逆变器已移除：%1 台设备已断开。请重新将它们连接到逆变器。",
+    "IGUI_LW_State_disabled": "已停用 (服务器设置)",
+    "IGUI_LW_DeviceHydroFactors": "季节 x%1，磨损 x%2，效率 x%3",
+    "IGUI_LW_DeviceSetting": "服务器设置：x%1"
 }

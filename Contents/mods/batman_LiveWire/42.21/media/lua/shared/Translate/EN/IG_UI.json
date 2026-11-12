@@ -262,5 +262,9 @@
     "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - INVERTER CABINET 4500 W",
     "IGUI_LW_App_Tab_Consumers_Short": "Consumers",
     "IGUI_LW_App_Tab_Forecast_Short": "Forecast",
-    "IGUI_LW_App_Tab_Events_Short": "Events"
+    "IGUI_LW_App_Tab_Events_Short": "Events",
+    "IGUI_LW_DevicesDisconnected": "Inverter removed: %1 device(s) disconnected. Link them again to an inverter.",
+    "IGUI_LW_State_disabled": "off (server settings)",
+    "IGUI_LW_DeviceHydroFactors": "Season x%1, wear x%2, efficiency x%3",
+    "IGUI_LW_DeviceSetting": "Server setting: x%1"
 }

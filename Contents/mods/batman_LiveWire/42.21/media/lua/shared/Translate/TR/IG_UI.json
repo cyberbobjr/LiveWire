@@ -262,5 +262,9 @@
     "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - İNVERTÖR DOLABI 4500 W",
     "IGUI_LW_App_Tab_Consumers_Short": "Tüketiciler",
     "IGUI_LW_App_Tab_Forecast_Short": "Tahmin",
-    "IGUI_LW_App_Tab_Events_Short": "Olaylar"
+    "IGUI_LW_App_Tab_Events_Short": "Olaylar",
+    "IGUI_LW_DevicesDisconnected": "İnvertör kaldırıldı: %1 cihazın bağlantısı kesildi. Onları yeniden bir invertöre bağlayın.",
+    "IGUI_LW_State_disabled": "kapalı (sunucu ayarları)",
+    "IGUI_LW_DeviceHydroFactors": "Mevsim x%1, aşınma x%2, verim x%3",
+    "IGUI_LW_DeviceSetting": "Sunucu ayarı: x%1"
 }

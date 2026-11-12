@@ -22,6 +22,14 @@ function View.snapshot(dev)
         for _, f in ipairs(LiveWire.Defs.SOURCE_FIELDS[def.kind] or {}) do
             if not f.flag then s[f.field] = dev[f.field] or f.default end
         end
+        -- Why it gives what it gives (issue #4): a server setting at 0 stops the kind,
+        -- wear and efficiency apply to every source, a water wheel follows the season.
+        local Sim, Physics = LiveWire.Sim, LiveWire.Physics
+        s.setting = Sim.settingOf(Sim.sourceKinds[def.kind])
+        if healthy and grid and s.setting <= 0 then s.state = "disabled" end
+        s.wear = Physics.conditionFactor(dev.cond or 0)
+        s.eff = dev.eff or Sim.DEFAULT_SOURCE_EFF
+        if def.kind == "hydro" then s.season = Physics.hydroFactor(getGameTime():getMonth()) end
     elseif dev.role == "pump" then
         local inv = grid and R.device(grid.inverter)
         local supplied = healthy and grid and grid.powered and not grid.equipmentOff

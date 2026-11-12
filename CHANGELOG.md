@@ -45,6 +45,8 @@ Extended is a separate mod in the same Workshop item: enable it after LiveWire, 
 - **Backup generator:** when you switch it on or off by hand, nearby players are told it is in manual mode and how to resume (LiveWire > Backup generator > **Resume automatic backup**); a message confirms it.
 - **Windows follow the game's font size** (inverter, power bank, device, connection, breaker and software screens) and stay on screen.
 - **Screens:** shortened text on the LCD ends with "..." instead of a symbol the screen cannot show.
+- **Moving an inverter:** picking it up now tells you how many devices it disconnected. Placing it again does not reconnect them: link them again.
+- **Device screen:** a water wheel shows what its output depends on (season, wear, efficiency). A source stopped because a server set its multiplier to 0 says so, and a server multiplier other than x1 is shown.
 
 ### Fixes
 
@@ -57,6 +59,7 @@ Extended is a separate mod in the same Workshop item: enable it after LiveWire, 
 - **42.22 servers:** a shock during live work drops both held items instead of failing.
 - **42.22:** toaster and coffee machine windows close when their appliance loses power, as with vanilla generators.
 - **Hum volume option:** the tooltip gives the right ranges: 2 tiles (inverter), 4 (pump).
+- **Picked-up inverter:** its powered-area circle and its consumers or connections view close, and the appliances lose their colour, instead of staying on screen until you walked away or reloaded.
 
 ## 1.7.2 — 2026-11-07
 

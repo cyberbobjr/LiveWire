@@ -262,5 +262,9 @@
     "IGUI_LW_DeviceReleased": "風車ブレーキ解除",
     "IGUI_LW_DeviceWiring": "この機器のインバーターを選択",
     "IGUI_LW_Model_InverterCabinet": "インバーター盤",
-    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - インバーター盤 4500 W"
+    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - インバーター盤 4500 W",
+    "IGUI_LW_DevicesDisconnected": "インバーターを撤去しました：%1 台の機器が切断されました。もう一度インバーターに接続してください。",
+    "IGUI_LW_State_disabled": "停止 (サーバー設定)",
+    "IGUI_LW_DeviceHydroFactors": "季節 x%1、摩耗 x%2、効率 x%3",
+    "IGUI_LW_DeviceSetting": "サーバー設定：x%1"
 }

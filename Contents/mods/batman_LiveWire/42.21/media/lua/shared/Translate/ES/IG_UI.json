@@ -262,5 +262,9 @@
     "IGUI_LW_DeviceReleased": "Freno eólico liberado",
     "IGUI_LW_DeviceWiring": "Elige un inversor para este equipo",
     "IGUI_LW_Model_InverterCabinet": "Armario inversor",
-    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - ARMARIO INVERSOR 4500 W"
+    "IGUI_LW_LCD_BrandCabinet": "LIVEWIRE - ARMARIO INVERSOR 4500 W",
+    "IGUI_LW_DevicesDisconnected": "Inversor retirado: %1 equipo(s) desconectado(s). Vuelve a conectarlos a un inversor.",
+    "IGUI_LW_State_disabled": "apagado (ajustes del servidor)",
+    "IGUI_LW_DeviceHydroFactors": "Estación x%1, desgaste x%2, rendimiento x%3",
+    "IGUI_LW_DeviceSetting": "Ajuste del servidor: x%1"
 }

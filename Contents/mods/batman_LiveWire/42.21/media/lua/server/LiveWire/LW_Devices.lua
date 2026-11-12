@@ -558,6 +558,11 @@ function Devices.remove(id, character)
     end
     if grid and R().grid(grid.id) then LiveWire.Sim.refresh(grid) end
     LiveWire.log("removed " .. tostring(dev.model) .. " " .. id)
+    -- Placing the inverter again does not link them back: say so (issue #4, a wheel
+    -- left at 0 W after its inverter was moved).
+    if character and #members > 0 then
+        LiveWire.notify(character, "IGUI_LW_DevicesDisconnected", { tostring(#members) }, true)
+    end
     Devices.returnWires(character, wires)
 end
 

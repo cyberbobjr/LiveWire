@@ -1423,6 +1423,7 @@ ensuite), sauvegarde 42.21 convertie sur la copie en cache. Lanceur `python PZDe
 | Tableau 24 modules en 1280 × 720 (dernier commit d'affichage) | `sp LiveWire/autotest/ext_h6.json` | 0 | 22 PASS | `runs/20261112-124406-sp-48fdbbe32734` |
 | Bâtiment raccordé en MP, client et client reconnecté | `mp LiveWire/autotest/ext_h6.json --clients 1 --client-run` | 0 | serveur, client et reconnexion OK | `runs/20261112-133135-mp-37df68ad6867` |
 | Tableaux, agrandissement, caves en MP | `mp LiveWire/autotest/ext_board.json --clients 1 --client-run` | 0 | serveur et client OK | `runs/20261112-131034-mp-88de19185344` |
+| Tickets GitHub #3 et #4 : onduleur ramassé avec cercle et vue réseau ouverts (fermés en 516 ms), joueur prévenu d'un appareil débranché, facteurs de la roue et multiplicateur à 0 sur l'écran | `sp LiveWire/autotest/issues.json` | 0 | 12 PASS | `runs/20261112-145205-sp-f5aca7cacbde` |
 
 Corrections de scénarios : `lw_fixes_hooks.lua` visait encore 42.21 et comptait un seul message de mode manuel alors que
 le scénario passe deux fois en manuel ; `lw_ext_mp_hooks.lua` ne donnait pas de tournevis, exigé pour raccorder un
@@ -1431,3 +1432,9 @@ bâtiment depuis D-59. Raccourcis : objets posés et ramassés par les fonctions
 `X.Panels.unlink`, recettes lancées par `HandcraftLogic` sans ouvrir la fenêtre d'artisanat. Non testés en jeu :
 modèles Viewpoint, serveur dédié Linux, deux clients ou plus, adaptateur FA2 en variante 42.22, ramassage d'un tableau
 garni (couvert hors jeu par `tests/test_extended_breakers.py`).
+
+Tickets #3 et #4 : un premier passage (`runs/20261112-145008-sp-fa8be6625d98`, code 1) a montré qu'en solo la vue
+réseau perdait la case de l'onduleur ramassé (ancre et instantané disparus) ; elle garde depuis la dernière case connue.
+Roue à eau inscrite au registre par `Registry.link` (pas de rivière), écran lu par `DeviceView.snapshot` et
+`DevicePanel.lines`. La fermeture de la vue réseau en multijoueur (instantané conservé par le client) n'est couverte
+que hors jeu (`tests/test_tick_subscribers.py`).
