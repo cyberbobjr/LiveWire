@@ -1374,3 +1374,21 @@ crépusculaire, bascule d'un tick en multijoueur.
   → code 0, `runs/20261111-144956-sp-1342ae9ef8f6` : cave vanilla `b:10695,10292` vue comme la maison `b:10695,10291`, tableau de
   la cave relié, cave et rez-de-chaussée desservis ; cave Basement Building en terrain nu : lieu à part ; cave Basement
   Building creusée sous une maison de la carte (10680,10330,-1) : même lieu que la maison `b:10670,10310`.
+- Tableau en MP (2026-11-11, premier passage du scénario) : `pzdev.py mp autotest/ext_board.json --clients 1 --client-run`
+  → code 0, `summary=LiveWire Extended boards server + client`, `runs/20261111-221152-mp-2f9c9dbbcb28` : tableau relié,
+  disjoncteur 20 A, frigo raccordé qui refroidit et frigo non raccordé coupé vus par le client ; disjoncteur coupé : les deux
+  coupés ; après l'action admin de retrait (`X.Release.run`) : les deux refroidissent ; 0 erreur Lua sur le serveur.
+- Agrandissement en MP (2026-11-12, même scénario complété) : code 0, 29 PASS, `runs/20261112-000557-mp-af6a0f2ed83c` : le
+  client agrandit par l'entrée du menu (marche puis action), l'autorité agrandit à 16 puis 24 modules ; serveur et client
+  voient la taille et la tuile (10, 12), le disjoncteur et le raccordement sont gardés, les matériaux consommés.
+- Retrait d'Extended (2026-11-12, après D-62) : `python autotest/run_ext_removed.py` → 2/2 phases, code 0,
+  `runs/20261112-000412-sp-c33da4cb60fa` puis `runs/20261112-000502-sp-97383b602a5c` (`summary=LiveWire Extended removed`) :
+  sous-mod absent, disque de l'onduleur alimenté (6/6), rien au-delà (0 sur 123), 0 erreur Lua.
+- Fenêtre du tableau en grande police (2026-11-12, option `fontSize=4`, 33 px) : `PZAT_OPTIONS="width=1920;height=1080;fontSize=4"
+  pzdev.py sp autotest/ext_h6.json` → code 0, `summary=LiveWire Extended h6board`, `runs/20261112-001548-sp-43433bc452e1` :
+  fenêtre sans capot, entière à 8, 16 et 24 modules, aide et boutons visibles. Limite : en 1280 × 720 avec la même police
+  (`runs/20261112-001402-sp-7ee54038f280`), la fenêtre de 24 modules dépasse le bas de l'écran (aide et boutons coupés).
+- Caves en MP (2026-11-12, `pzdev.py mp autotest/basement_mp.json --clients 1 --client-run`, Basement Building 3806513504) →
+  code 0, 31 PASS, `runs/20261112-095433-mp-95979e6f9442` : cave vanilla rattachée à la maison du dessus, tableau accepté,
+  relié, cave et rez-de-chaussée desservis et alimentés vus du client ; caves Basement Building en terrain nu (lieu à part,
+  desservie) et sous une maison (même lieu) ; 0 erreur Lua. Toujours non testé : serveur dédié Linux.

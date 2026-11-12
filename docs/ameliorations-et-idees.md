@@ -91,7 +91,7 @@ validation hors jeu et contrôles manuels restants dans le
 | I19 | Bascule avec un générateur vanilla | ⬜ Proposée |  |
 | I20 | Couper l'alarme au tableau électrique | ⬜ Proposée |  |
 | I21 | Disjoncteur : circuits lumières et équipements | ✅ Publié en 1.6.0 | GUI à leviers, quatre combinaisons, services natifs arrêtés, choix persistants ; validation détaillée dans le bilan |
-| I22 | Câbler les appareils consommateurs | ⬜ Décidée (D-31 à D-34), pas commencée | Sous-mod LiveWire Extended : bâtiment entier, relais, borne et zone extérieure, lampadaires ; [plan](annexes/plans/livewire-extended.md) |
+| I22 | Câbler les appareils consommateurs | 🟡 Réalisée dans LiveWire Extended 1.0.0, pas encore publiée | Sous-mod LiveWire Extended : bâtiment entier, relais, borne et zone extérieure, tableaux et disjoncteurs ; lampadaires reportés (E9) ; [plan](annexes/plans/livewire-extended.md) |
 | I23 | Compatibilité caméra de surveillance | ⬜ À creuser | Sous-mod de compatibilité avec le mod Workshop 3825788212 |
 | I24 | Démonter les équipements depuis l'inventaire | ✅ Réalisée, non publiée | 11 recettes, rendement inférieur au coût, pièces électroniques selon l'état, kits rendus ; voir avancement |
 | I25 | Robinet extérieur sur la pompe | ⬜ Proposée | Demande joueur ; complète I16 |

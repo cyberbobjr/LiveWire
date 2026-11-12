@@ -769,6 +769,12 @@ La validation reste limitée aux preuves consignées dans le bilan de tests.
   Fenêtre ouverte (D-60) : appareils de la région desservie teintés — rouge non raccordé
   (sans courant), vert ce tableau, bleu disjoncteur ouvert, gris autre tableau du bâtiment ;
   un module sans appareil a son étiquette orange et « Aucun appareil raccordé ».
+  Rendu commun « coffret dessiné » (D-54) : le disjoncteur est un coffret crème à capot fumé, avec une plaque du
+  fabricant « legrand », un renfoncement, un rail avec ses modules à droite et l'afficheur LCD à gauche ; le texte
+  d'aide et les boutons sont dans le coffret. Le tableau d'Extended (§ 16) prend le même coffret et le même dessin.
+  Taille de référence 750 × 477 px à taille de police normale (454 px avant), largeur inchangée. Les textes trop
+  longs sont abrégés avec « … » (texte complet en infobulle). La fenêtre s'adapte à la taille de police et au
+  facteur d'échelle de l'interface, et passe sans capot si elle ne tient pas à l'écran.
 
 **I18** : API publique v1 pour les extensions, dans les
 [contrats techniques](specifications-techniques.md#api-publique-v1). Elle n'expose
@@ -944,6 +950,20 @@ disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
   bâtiment de l'autre côté de son mur ; un coffret de façade reste le tableau de sa maison. Un tableau fabriqué dehors
   (mur ouvert après la pose) ne dessert rien et sa fenêtre le dit. Les bâtiments construits par les joueurs ne
   reçoivent pas de tableau de maison.
+- **Agrandissement sur place (D-55)** : un tableau posé par le joueur passe de 8 à 16 modules, puis de 16 à 24, sans être
+  démonté. Clic droit sur le tableau > « Agrandir le tableau (8 → 16 modules) » ; le menu affiche la taille suivante.
+  Conditions : Électricité niveau 3, un tournevis gardé dans l'inventaire, et **1 petite plaque en métal** et **4 vis**
+  consommées. Le tableau garde sa place et son orientation ; disjoncteurs, étiquettes, appareils raccordés et
+  raccordement à l'onduleur sont conservés, et les nouveaux modules sont vides. Un tableau de 24 modules ne propose plus
+  l'action, et un coffret électrique du jeu (8 modules) ne s'agrandit pas. Si une condition manque, l'action est grisée et
+  le menu dit laquelle. Le serveur refait les mêmes contrôles avant de consommer quoi que ce soit. Preuves en jeu : solo
+  (`20261109-225105-sp-703b84481559`) et multijoueur (`20261112-000557-mp-af6a0f2ed83c`).
+- **Fenêtre du tableau (D-54)** : même coffret et même dessin que le disjoncteur de Live Wire (§ 11, F28). L'en-tête
+  indique « Tableau électrique : N modules occupés sur M », la plaque du fabricant est « legrand ». La grille montre 8, 16
+  ou 24 modules, en rangées de 8 sur rails DIN ; chaque module a son levier, sa bande et sa plaque de calibre (15 A bleu,
+  20 A jaune, 30 A vert). Sans sélection, l'afficheur donne le total du tableau et les boutons sont visibles mais grisés ;
+  avec un disjoncteur sélectionné, il donne sa charge, son intensité et son énergie du jour. Si la fenêtre ne tient pas à
+  l'écran, elle passe sans capot.
 - **Affichage** : contour des blocs ajoutés dans « Afficher la portée », lignes des zones sur la page 4 de l'écran.
 - **Retrait** : décocher le sous-mod ramène au disque au chargement suivant de la zone, sans courant résiduel ; les
   données de Live Wire ne changent pas. Incompatible avec LG Extended Electricity.

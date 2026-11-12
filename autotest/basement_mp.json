@@ -1,0 +1,13 @@
+{
+  "name": "LiveWire-Extended-Basements-MP", "gameVersion": "42.21",
+  "mods": [
+    {"path": "../Contents/mods/batman_LiveWire"},
+    {"path": "../Contents/mods/batman_LiveWireExtended"},
+    {"workshop": "3806513504", "id": "aparosa_BasementDig"}
+  ],
+  "hooks": "lw_ext_basement_mp_hooks.lua", "runsDir": "../runs",
+  "server": {"serverName": "lwxcellar_pzat_srv", "port": 17415, "timeoutSec": 420},
+  "mp": {"serverName": "lwxcellar_pzat_mp", "port": 17417, "spawn": "10697,10294,0",
+    "clients": 1, "clientXmx": "4096m", "serverRun": true, "clientRun": true,
+    "timeoutSec": 1200, "joinTimeoutSec": 300, "ini": {"AntiCheatPermission": "4"}}
+}

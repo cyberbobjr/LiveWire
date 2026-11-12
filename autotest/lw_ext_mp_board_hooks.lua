@@ -2,7 +2,9 @@
 -- board in the spawn house, links it to an inverter it places, installs a breaker and wires
 -- one two-tile fridge to it, and places a second, unwired fridge (D-37). The client
 -- reports what ITS copies show: board record received, wired fridge cooling, unwired one
--- cut; then breaker off (wired fridge cut), on again, and the admin release (both cool).
+-- cut; then the client enlarges the board in place twice through the real timed action
+-- (D-55: 8 -> 16 -> 24, breaker and wiring kept, authority consumes the materials); then
+-- breaker off (wired fridge cut), and the admin release (both cool).
 -- server mode (no player): the sub-mod loads and registers its providers.
 local H = { server = {}, client = {} }
 local S = { lines = {}, ok = true }
@@ -118,7 +120,8 @@ function H.server.start(ctx)
     local board = place(p, boardSq, X.Terminal.SHEET .. "_8")
     p:getInventory():AddItems("Base.ElectricWire", 30)
     if p:getInventory():getCountTypeRecurse("LiveWire.VoltageTester") == 0 then p:getInventory():AddItem("LiveWire.VoltageTester") end  -- needed to wire (Extended)
-    p:getInventory():AddItem("Base.Screwdriver")
+    local tool = p:getInventory():AddItem("Base.Screwdriver")
+    sendAddItemToContainer(p:getInventory(), tool)  -- the client's timed action checks it too
     p:getInventory():AddItem("LiveWire.Breaker20")
     rec(X.Panels.link(p, board, invObj), "board linked to the inverter")
     rec(X.Panels.installBreaker(p, board, "LiveWire.Breaker20"), "20 A breaker installed")
@@ -134,12 +137,46 @@ function H.server.start(ctx)
     return true
 end
 
-local STEPS = { "on", "off", "released" }
+-- Materials of one enlargement (1 small sheet, 4 screws), given by the authority and sent to
+-- the client's copy of the inventory.
+local function giveEnlargeMaterials()
+    local inv = S.player:getInventory()
+    for _, item in ipairs(X.Panel.ENLARGE_COST.items) do
+        for _ = 1, item[2] do sendAddItemToContainer(inv, inv:AddItem(item[1])) end
+    end
+end
+
+local function materialsLeft()
+    local n = 0
+    for _, item in ipairs(X.Panel.ENLARGE_COST.items) do n = n + LiveWire.API.countType(S.player, item[1]) end
+    return n
+end
+
+local function serverGrown(size, tile)
+    local sq = S.board:getSquare()
+    local board = X.Panel.onSquare(sq)
+    local record = X.Panel.recordAt(sq)
+    rec(record ~= nil and record.size == size, "server: board record at " .. size .. " modules", record and record.size)
+    rec(board ~= nil and X.Panel.tileIndex(board) == tile, "server: tile of " .. size .. " modules", board and X.Panel.tileIndex(board))
+    rec(record ~= nil and #record.slots == 1 and record.slots[1] ~= nil, "server: breaker kept after enlargement", record and #record.slots)
+    rec(materialsLeft() == 0, "server: enlargement materials consumed", materialsLeft())
+    if board then S.board = board end
+end
+
+local STEPS = { "on", "grow16", "grow24", "off", "released" }
 function H.server.done(ctx)
     if not S.step then return true end
     if getTimestampMs() - S.at > 240000 then rec(false, "client checks received", S.step); return true end
     if not S.checked[S.step] then return false end
     if S.step == "on" then
+        giveEnlargeMaterials()
+        S.step = "grow16"
+    elseif S.step == "grow16" then
+        serverGrown(16, 10)
+        giveEnlargeMaterials()
+        S.step = "grow24"
+    elseif S.step == "grow24" then
+        serverGrown(24, 12)
         X.Panels.setBreaker(S.player, S.board, 1, true)
         S.step = "off"
     elseif S.step == "off" then
@@ -192,7 +229,29 @@ function H.client.start(ctx)
     return true
 end
 
-local EXPECT = { on = { 2, 0 }, off = { 0, 0 }, released = { 2, 2 } }
+-- Enlargement by the client: the real timed action (the menu's path), completed by the
+-- authority. Returns true once the client's copy shows the new size, or after 60 s.
+local GROW = { grow16 = { 16, 10 }, grow24 = { 24, 12 } }
+local function clientGrow(step, bsq)
+    local want = GROW[step]
+    local board = X.Panel.onSquare(bsq)
+    if not C.queued then
+        if not board then rec(false, "client " .. step .. ": board seen"); return true end
+        X.Menu.onEnlarge(getPlayer(), board)  -- the context menu entry: walk to the board, then the action
+        C.queued, C.qat = true, getTimestampMs()
+        return false
+    end
+    local record = X.Panel.recordAt(bsq)
+    local grown = record ~= nil and record.size == want[1] and board ~= nil and X.Panel.tileIndex(board) == want[2]
+    if not grown and getTimestampMs() - C.qat < 60000 then return false end
+    rec(record ~= nil and record.size == want[1], "client " .. step .. ": board record at " .. want[1] .. " modules", record and record.size)
+    rec(board ~= nil and X.Panel.tileIndex(board) == want[2], "client " .. step .. ": tile of " .. want[1] .. " modules",
+        board and X.Panel.tileIndex(board))
+    C.queued = nil
+    return true
+end
+
+local EXPECT = { on = { 2, 0 }, grow16 = { 2, 0 }, grow24 = { 2, 0 }, off = { 0, 0 }, released = { 2, 2 } }
 function H.client.done(ctx)
     if not C.cmd then
         if getTimestampMs() - C.t0 > 300000 then rec(false, "server scene received"); return true end
@@ -201,6 +260,7 @@ function H.client.done(ctx)
     if getTimestampMs() - C.at < 4000 then return false end
     local step, scene = C.cmd.step, C.cmd.scene
     local bsq = getCell():getGridSquare(scene.board.x, scene.board.y, scene.board.z)
+    if GROW[step] and not clientGrow(step, bsq) then return false end
     local record = bsq and X.Panel.recordAt(bsq)
     local w, l = cooling(scene.wired), cooling(scene.loose)
     local want = EXPECT[step]

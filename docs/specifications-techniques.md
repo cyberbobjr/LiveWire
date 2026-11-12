@@ -76,6 +76,17 @@ Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de déc
 
 `LWLinkAction` (raccorder, consomme le fil), `LWCoupleAction` (coupler un esclave), `LWLinkBarrelAction` (raccorder un baril, consomme un `Base.MetalPipe`), `LWRepairAction`, `LWInspectAction`, `LWMuffleAction` (insonoriser), `LWClearSnowAction`, `LWMeasureAction` (testeur), `LWReconditionAction`. Leur `complete()` s'exécute sur l'autorité et revérifie distance, niveau et objets.
 
+LiveWire Extended ajoute `LWXEnlargeAction` (`shared/LiveWireExtended/TimedActions/LWX_TimedActions.lua`, base `LWBaseAction`,
+durée 300, sujet `target`, orientation vers l'objet ; D-55). Son `complete()` appelle `X.Panels.enlarge`
+(`server/LiveWireExtended/LWX_Panels.lua`, `PS.enlarge`), qui revérifie `P.enlargeCheck` (`shared/LiveWireExtended/LWX_Panel.lua` :
+tournevis, niveau `X.LEVEL` = 3, `P.ENLARGE_COST` = 1 `Base.SmallSheetMetal` et 4 `Base.Screws`), consomme les matériaux
+(`LiveWire.API.consume`), pose la tuile `batman_livewireext_01_<indice + 2>` (`setSpriteFromName`, puis
+`transmitUpdatedSpriteToClients` sur serveur dédié) et met `record.size` à jour avant de transmettre. `P.enlargedIndex` :
+tuiles 8-9 vers 10-11 (8 vers 16 modules), tuiles 10-11 vers 12-13 (16 vers 24), rien au-delà de `P.MAX_SIZE` = 24. Les
+coffrets vanilla `industry_02_*` ne portent pas de tuile `batman_livewireext_01` : ils n'ont pas l'action. `record.size` se relit
+de la tuile au raccordement (`kind.onLink` → `P.size`), donc une reconstruction (`X.Recovery`, `SL.restore`) garde la
+taille agrandie.
+
 ## 3. Commandes réseau
 
 Module `"LiveWire"` (`LW_Protocol.lua`). Client → serveur par `sendClientCommand` (`LW_ClientState.lua`, `Client.send`), traitées par `OnClientCommand` dans `server/LiveWire/LW_Commands.lua`.
@@ -527,6 +538,7 @@ Tests : `tests/test_api_submods.py`.
 | `API.showRange(id, x, y, z, opts)`, `API.hideRange()`, `API.rangeShown(id)`, `API.rangeColor()` | révision 3, client : afficher, masquer, tester (`nil` : une vue quelconque) la zone d'un onduleur, couleur de la ligne (copie) ; `false`/`nil` sur un serveur |
 | `API.onRangeView(fn)` | révision 3 : `fn(id, affichée)` à l'ouverture ou à la fermeture de la vue de zone d'un onduleur (pas d'une pompe ni d'un cercle `opts`) ; appelable depuis n'importe quel fichier, une même fonction n'est gardée qu'une fois ; `false` si `fn` n'est pas une fonction |
 | `API.addPlacementRule(rule)` | révision 4, D-62 : `rule(nomTuile, case, personnage)` rend `nil` (tuile non concernée), `true`, ou `false` et une clé de traduction ; consultée pour toute tuile par `canPlaceMoveableInternal` (client et autorité) et affichée en rouge dans le panneau du curseur ; un refus de l'autorité est envoyé au joueur (`LiveWire.notify`). Inscription au chargement des Lua (`false` après `OnInitGlobalModData` ou si `rule` n'est pas une fonction ; la même fonction n'est gardée qu'une fois). Tests : `tests/test_placement_rules.py` |
+| `API.enclosure()` | D-54 (mise à jour de D-47, 2026-11-09) : rend le module `LiveWire.Enclosure` (`client/LiveWire/LW_Enclosure.lua`) lui-même, non une copie, pour le dessin des fenêtres de coffret. `nil` sur serveur dédié, où le module n'est pas chargé. Appelé à l'ouverture d'une fenêtre seulement ; le module ne touche à aucun état de jeu |
 
 [Preuves et portée exactes des circuits](annexes/recherches/circuits-42-21.md) :
 adaptateurs natifs, reprise des choix, pièces, recouvrements et migration additive.
@@ -874,7 +886,34 @@ encre 0.05/0.11/0.20. Onduleur éteint : fond 0.16/0.19/0.14, texte d'attente 0.
 0.55/0.05/0.02. Cadre 0.06/0.07/0.06 et reflet blanc à 16 % sur 2 px en haut de chaque écran. Texte d'écran en
 `LiveWire.Client.lcdFont()` (`UIFont.Code`, `UIFont.Small` en CN, JP, KO, TH) ; le texte imprimé sur la façade du
 tableau reste en `UIFont.Small`. Lignes trop longues : défilement aller-retour à 40 px/s de référence avec une
-pause de 1,2 s à chaque bout (batterie, appareil, onduleur) ; abrégées avec « … » sur le tableau (D-54).
+pause de 1,2 s à chaque bout (batterie, appareil, onduleur) ; sur le LCD du tableau, abrégées avec « ... » en ASCII
+(`Lcd.ELLIPSIS`, la police d'écran n'a pas le caractère « … ») ; le texte imprimé sur la façade du tableau est abrégé
+avec « … » (`LW_Enclosure.lua`, D-54).
+
+### Fenêtres de coffret : kit commun (D-54)
+
+Une seule fabrique de dessin pour la fenêtre du disjoncteur de Live Wire (`client/LiveWire/LW_BreakerPanel.lua`) et
+celle du tableau d'Extended (`client/LiveWireExtended/LWX_BoardWindow.lua`) : `LiveWire.Enclosure`
+(`client/LiveWire/LW_Enclosure.lua`), obtenu par `LiveWire.API.enclosure()` (tableau de l'API ci-dessus). Le module
+n'est chargé que sur le client (`isServer()` : retour immédiat).
+
+- Fonctions pures, sans dessin, testées hors jeu (`tests/test_enclosure.py`) : `textHeight` (R1, hauteur d'un texte :
+  référence ou police réelle / k + marge, la plus grande), `columns` (R5 : 5, puis 3, 2, 1 colonnes), `abbreviate`
+  (R3), `wrap` (R4), `plateText` (R7 : « 30 A », puis « 30 »), `twoPass` (R2 : contenu à l'échelle 1, facteur de
+  fenêtre `LW_UIScale.factor`, puis contenu à ce facteur, abaissé une fois si la fenêtre ne tient pas), `needsCompact`
+  (R6), `grid`, `layout` (positions de toutes les pièces, en unités de référence 1080p).
+- Dessin : `frame` (fond crème, capot fumé, charnières, plaque, renfoncement, en-tête), `lcd` (bloc LCD, `LiveWire.Lcd`,
+  D-56), `module` (levier, bande et plaque de calibre), `tieBar`, `plate`, `cellButton` et `setLook` (bouton, grisé
+  sans sélection). Tout est multiplié par `ui.lwK` (`LW_UIKit`).
+- R8 : les tailles se calculent à l'ouverture et au changement de contenu, jamais à chaque image.
+- Commun aux deux fenêtres : en-tête, afficheur LCD, capot et plaque du fabricant (« legrand »), grille de modules
+  sur rails, boutons en bas du coffret, texte d'aide. Propre à chaque fenêtre :
+  - disjoncteur de Live Wire : taille de référence 750 × 477 (`Panel.BASE`), en-tête « Tableau électrique »
+    (`IGUI_LW_BoardTitle`), LCD des lignes éclairage, équipements et total ;
+  - tableau d'Extended : taille de la grille selon `record.size` (8, 16 ou 24 modules, `X.Panel.SIZES`), en-tête
+    « Tableau électrique : N modules occupés sur M » (`IGUI_LWX_BoardTitle`), boutons Étiquette, Localiser,
+    crépusculaire et Retirer, glisser-déposer d'un disjoncteur sur un module vide, LCD du disjoncteur sélectionné
+    ou du total (`IGUI_LWX_Lcd*`), nom du réseau par `API.gridName` (abonnement `API.subscribeInverter` à l'ouverture).
 
 ### Fermeture des panneaux et retrait différé
 
