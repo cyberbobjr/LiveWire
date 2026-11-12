@@ -51,6 +51,7 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 | F32 | Éolienne en trois étapes, amplificateurs, branchement éolienne/roue au niveau 2 (pose sans niveau) | § 15 |
 | F31 | Butin d’équipements réglable, lieux élargis | § 14 |
 | F30 | Deux powerbanks superposées, conteneurs et raccordements distincts | § 13 |
+| F33 | LiveWire Extended (module facultatif) : bâtiment entier, borne et zone, tableaux et disjoncteurs | § 16 |
 
 ---
 
@@ -923,14 +924,19 @@ Le libellé français du débit utilise « d'eau » avec apostrophe simple, comp
 avec la police LCD. Aucun nouveau éclairage du sol, bruit, consommation ou
 traitement par image n'est ajouté.
 
-## 16. LiveWire Extended, module facultatif (F33, D-31 à D-34)
+## 16. LiveWire Extended, module facultatif (F33, D-31 à D-65)
 
 Mod `batman_LiveWireExtended`, livré avec Live Wire, qui le requiert. Sans lui, la couverture d'un onduleur reste le
-disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
+disque de D-12. **Avec lui, aucun onduleur n'a de disque (D-44)** : le courant n'arrive que dans les bâtiments
+raccordés et les zones des bornes. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
+
+- **Ajout à une partie en cours (D-65)** : une fois par monde, au premier démarrage, l'autorité raccorde à chaque
+  onduleur déjà posé le lieu de sa case (bâtiment de la carte avec ses caves, ou enceinte de joueur chargée). Un
+  onduleur dehors, ou dans un lieu déjà alimenté par un autre, reste à raccorder par le joueur.
 
 - **Bâtiment entier** : sur l'onduleur, « Raccorder le bâtiment » (Électricité 3, tournevis, sans fil, D-59) alimente tous les
   étages, le sous-sol et une bande extérieure (`LiveWireExtended.BuildingBand`, 0 à 8, défaut 0 depuis le 2026-11-09) du bâtiment où se
-  trouve l'onduleur, sinon du plus proche que son disque atteint. Arrondi aux blocs de 8 × 8 cases du moteur. Un
+  trouve l'onduleur, sinon du plus proche à portée de raccordement. Arrondi aux blocs de 8 × 8 cases du moteur. Un
   bâtiment par onduleur au plus ; facture, disjoncteur, délestage et attribution à l'onduleur allumé le plus proche
   inchangés. Sur serveur dédié, les constructions des joueurs n'ont pas de `BuildingDef` : la borne les couvre.
 - **Borne extérieure** : objet posable (pose et ramassage au tournevis), recette niveau 3, butin. Raccordée à un
@@ -966,6 +972,11 @@ disque de D-12. Guide joueur : [wiki](wiki/fr/14-livewire-extended.md).
   avec un disjoncteur sélectionné, il donne sa charge, son intensité et son énergie du jour. Si la fenêtre ne tient pas à
   l'écran, elle passe sans capot.
 - **Affichage** : contour des blocs ajoutés dans « Afficher la portée », lignes des zones sur la page 4 de l'écran.
-- **Retrait** : décocher le sous-mod ramène au disque au chargement suivant de la zone, sans courant résiduel ; les
-  données de Live Wire ne changent pas. Incompatible avec LG Extended Electricity.
+- **Démontage (2026-11-12)** : borne et tableaux de 8, 16 et 24 modules se démontent dans l'artisanat, au tournevis
+  conservé, sans niveau ; chaque recette rend moins que sa fabrication. Disjoncteurs et interrupteurs crépusculaires
+  se retirent du tableau dans l'inventaire, sans recette de démontage.
+- **Retrait** : avant de décocher le sous-mod, un administrateur (tout joueur en solo) remet tous les disjoncteurs en
+  service depuis le menu d'un tableau (E23) ; décocher le sous-mod ramène ensuite au disque au chargement suivant de la
+  zone, sans courant résiduel ; les données de Live Wire ne changent pas. Incompatible avec LG Extended Electricity et
+  Knox Power (D-40).
 - **Lampadaires** : reportés (décision du 2026-11-08).

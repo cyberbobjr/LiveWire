@@ -15,7 +15,7 @@ automatisés) vivent dans le fichier d'instructions unique du dossier de dévelo
   et la classe de base `LWBaseAction` des actions (D-49) (et les `require` de ces modules). Tout autre besoin devient une fonction de `LiveWire.API`, qui délègue aux
   modules internes et ne rend que des copies détachées ; la base ne connaît pas Extended. Il ne modifie ni
   `GeneratorTileRange` ni `GeneratorVerticalPowerRange`, range ses données sous sa
-  propre clé ModData `LiveWireExtended` et se déclare `incompatible=\LGExtendedElectricity`. Lua sous
+  propre clé ModData `LiveWireExtended` et se déclare `incompatible=\LGExtendedElectricity,\KnoxPower` (D-40). Lua sous
   `LiveWireExtended/LWX_*.lua`, sous-table `LiveWire.Extended`, clés de traduction `*_LWX_*`.
 - Objets des deux mods, mêmes règles : un appareil posable est `Base.Mov_LiveWire_<Nom>` (`module Base`, fichier
   `*_moveables.txt`), un objet d'inventaire `LiveWire.<Nom>` (`module LiveWire`, `*_items.txt`), une recette en

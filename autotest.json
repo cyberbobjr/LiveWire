@@ -3,7 +3,7 @@
 //   python PZDevKit/pzdev.py mp LiveWire --clients 1 --wait-idle 3600
 {
   "name": "LiveWire",
-  "gameVersion": "42.21",
+  "gameVersion": "42.22",
   "mods": [
     {"path": "Contents/mods/batman_LiveWire"}
   ],

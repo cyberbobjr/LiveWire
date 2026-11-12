@@ -1363,6 +1363,12 @@ crépusculaire, bascule d'un tick en multijoueur.
   `runs/20261111-132105-mp-c8618fd95d89` : serveur ok, client ok (abri neuf accepté par le curseur, porche couvert refusé :
   `mapOutside=true`), client reconnecté ok (abri vu comme enceinte). Solo `sp autotest/site42.json` → code 0, 35 PASS,
   `runs/20261111-132417-sp-fe7fbc71b965`. Toujours non testé en jeu : sous-sol vanilla, Basement Building, serveur Linux.
+  **Limite connue (2026-11-12)** : dans ce scénario, le contrôle « vue de l'abri côté client » avant reconnexion est un
+  simple relevé (`info`, `autotest/lw_ext_site_mp_hooks.lua` vers la ligne 322), pas une assertion : le client ne
+  reçoit pas la mise à jour des régions d'un abri tout neuf (mesuré : `IsoRegions.getSquareFlags` = sol seul pendant
+  90 s). Le code 0 ne prouve donc pas que le client voit l'abri comme une enceinte avant de se reconnecter ; seul le
+  passage après reconnexion le vérifie. Le jeu fait juger l'autorité à la fin de l'action (D-62), donc le joueur n'est
+  pas bloqué, mais son curseur peut accepter une pose que le serveur refusera.
 - Sous-sols (2026-11-11, solo, `sp autotest/basement42.json`, Basement Building 1.6.9 lu dans le Workshop) → code 0,
   `runs/20261111-133928-sp-05334a8fbabc`. Cave vanilla (`storage` 5 x 7 en z = -1, 10695,10292) : tableau accepté par le
   curseur vanilla, relié, la cave est desservie ; mais la cave est un bâtiment de carte **distinct** de la maison du dessus

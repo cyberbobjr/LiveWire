@@ -1,6 +1,6 @@
 # LiveWire — documentation
 
-Version **2.0.0** (non publiée, datée du 2026-11-11) : module complémentaire facultatif LiveWire Extended 1.0.0, recettes de démontage, recharge sur le réseau public, traduction turque et correctifs. Voir le [changelog](../CHANGELOG.md) et le [journal des décisions](decisions.md).
+Version **2.0.0** (non publiée, datée du 2026-11-12) : module complémentaire facultatif LiveWire Extended 1.0.0, recettes de démontage, recharge sur le réseau public, traduction turque et correctifs. Voir le [changelog](../CHANGELOG.md) et le [journal des décisions](decisions.md).
 
 Le projet livre trois mods dans le même objet Workshop (Project Zomboid Build 42.21 et 42.22) :
 

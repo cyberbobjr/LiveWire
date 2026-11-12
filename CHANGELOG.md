@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 — 2026-11-11
+## 2.0.0 — 2026-11-12
 
 LiveWire 2.0.0 adds the optional **LiveWire Extended** add-on, dismantling recipes and fixes. The mod is now called **LiveWire** in every text you see in game (it was "Live Wire"). Saves and servers are not affected.
 
