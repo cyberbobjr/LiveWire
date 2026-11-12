@@ -191,7 +191,8 @@ function HS.handle(def)
     done[key] = true
     local existing, marked
     eachSquare(def, function(sq)
-        if sq:getModData()[HS.SQUARE_MARK] then marked = true end
+        -- hasModData first: getModData would create an empty table on every square of the building
+        if sq:hasModData() and sq:getModData()[HS.SQUARE_MARK] then marked = true end
         local o = P.onSquare(sq)
         if o and not existing then existing = o end
     end)
