@@ -64,7 +64,7 @@ validation hors jeu et contrôles manuels restants dans le
 | C25 | Tests pompe, relais, couplage et MP | ✅ Terminé | SP 3/3 phases ; MP 3/3 phases, 2 clients ; droits ordinaires couverts séparément | Outil hors mod | `b242a36` | — |
 | C26 | README : limite des frigos dépassée par la 1.0.1 | ✅ Corrigé | README EN et FR relus | 1.5.0 | `21cc584` | — |
 | C27 | Fenêtres trop petites en 4K | ✅ Corrigé | Hors jeu ; SP pz-autotest 16/16 (géométrie, police 1x et échelle forcée 2) | non publié | voir avancement | Vérifier à l'œil en 4K avec grande police, CN/JP/KO |
-| C28 | Mode manuel du secours invisible | ✅ Corrigé | Hors jeu (message unique, reprise) ; en jeu à faire | non publié | `6e57e9b` | Vérifier en jeu le message et l'écran (SP, MP) |
+| C28 | Mode manuel du secours invisible | ✅ Corrigé | Hors jeu ; en jeu SP et MP le 2026-11-12 (un message par passage en manuel, reprise confirmée) | non publié | `6e57e9b` | — |
 
 ### Idées de fonctionnalités
 

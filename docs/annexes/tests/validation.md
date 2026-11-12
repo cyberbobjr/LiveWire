@@ -1405,3 +1405,29 @@ crépusculaire, bascule d'un tick en multijoueur.
   rangées de 8 inchangées en 1920 × 1080 avec la police habituelle (`runs/20261112-104455-sp-317a22383e45`). Glisser-déposer
   d'un disjoncteur sur un tableau de 24 modules en 1280 × 800 : `pzdev.py sp autotest/ext.json -P case=showcase -P board=12`,
   code 0, `runs/20261112-104749-sp-cc47674dabee`, posé sur le module visé (5), 0 erreur Lua.
+
+## Audit avant publication de la 2.0.0 — 2026-11-12
+
+Jeu 42.22.2 (`version=42.22.2 3d39148846` dans les journaux), commit du mod `c4d4bb8` (seuls les scénarios ont changé
+ensuite), sauvegarde 42.21 convertie sur la copie en cache. Lanceur `python PZDevKit/pzdev.py`, depuis le dossier Workshop.
+
+| Contrôle | Commande | Code | Résultat | Dossier |
+|---|---|---|---|---|
+| B4 : chaque orientation de la borne et des tableaux rend son objet ; borne ramassée = `Base.Mov_LiveWire_Terminal` | `sp LiveWire/autotest/scenarios/ext_pickup.json` | 0 | 15 PASS | `runs/20261112-141746-sp-889273fa0075` |
+| C9 / D-65 : adoption d'un onduleur posé dans une maison de deux étages | `sp LiveWire/autotest/scenarios/ext_adopt.json` | 0 | 129 cases sur 2 étages alimentées | `runs/20261112-141829-sp-dd4ab7916e19` |
+| Démontage : 14 recettes de la base (D-64 compris) et 4 d'Extended, niveau 0 | `sp LiveWire/autotest/dismantle_all.json` | 0 | 19/19 PASS | `runs/20261112-141917-sp-3ef7cbbe32ce` |
+| Tableau : glisser-déposer d'un disjoncteur puis d'un crépusculaire ; débrancher rend tous les disjoncteurs et le crépusculaire | `sp LiveWire/autotest/scenarios/ext_showcase.json` | 0 | 16 PASS | `runs/20261112-131844-sp-dc48ae2285e6` |
+| Consommateurs et réseau public (D-63) | `sp LiveWire/autotest/scenarios/ext_consumers.json` | 0 | 9 PASS | `runs/20261112-124156-sp-8afc24ea239c` |
+| Correctifs, dont C28 (un message par passage en manuel, confirmation de reprise) | `sp LiveWire/autotest/fixes.json` | 0 | 16/16 PASS | `runs/20261112-130805-sp-5dabc013074d` |
+| Même scénario en multijoueur (serveur dédié + 1 client) | `mp LiveWire/autotest/fixes.json --clients 1 --client-run` | 0 | serveur 16/16, client 7/7 | `runs/20261112-132011-mp-2c4b9b9e71fe` |
+| Tableau 24 modules en 1280 × 720 (dernier commit d'affichage) | `sp LiveWire/autotest/ext_h6.json` | 0 | 22 PASS | `runs/20261112-124406-sp-48fdbbe32734` |
+| Bâtiment raccordé en MP, client et client reconnecté | `mp LiveWire/autotest/ext_h6.json --clients 1 --client-run` | 0 | serveur, client et reconnexion OK | `runs/20261112-133135-mp-37df68ad6867` |
+| Tableaux, agrandissement, caves en MP | `mp LiveWire/autotest/ext_board.json --clients 1 --client-run` | 0 | serveur et client OK | `runs/20261112-131034-mp-88de19185344` |
+
+Corrections de scénarios : `lw_fixes_hooks.lua` visait encore 42.21 et comptait un seul message de mode manuel alors que
+le scénario passe deux fois en manuel ; `lw_ext_mp_hooks.lua` ne donnait pas de tournevis, exigé pour raccorder un
+bâtiment depuis D-59. Raccourcis : objets posés et ramassés par les fonctions vanilla (`placeMoveableInternal`,
+`pickUpMoveableInternal`), adoption réarmée sur un monde où elle avait déjà eu lieu, débranchement par
+`X.Panels.unlink`, recettes lancées par `HandcraftLogic` sans ouvrir la fenêtre d'artisanat. Non testés en jeu :
+modèles Viewpoint, serveur dédié Linux, deux clients ou plus, adaptateur FA2 en variante 42.22, ramassage d'un tableau
+garni (couvert hors jeu par `tests/test_extended_breakers.py`).
