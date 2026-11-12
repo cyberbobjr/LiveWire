@@ -1187,13 +1187,23 @@ function DONE.showcase()
         shot("lwx_peek_locate_no_window")
         S.win:close()
         -- unlinking the board gives back the breaker and the twilight switch fitted on it (direct call)
-        local inv = S.player:getInventory()
-        local b0, t0 = inv:getCountTypeRecurse("LiveWire.Breaker30"), inv:getCountTypeRecurse("LiveWire.TwilightSwitch")
+        -- every slot of the board: its breaker item, plus a twilight switch where one is fitted
+        local inv, want = S.player:getInventory(), {}
+        for _, slot in ipairs(S.record.slots or {}) do
+            if not slot.prewired then want[slot.type] = (want[slot.type] or 0) + 1 end
+            if slot.twilight then want["LiveWire.TwilightSwitch"] = (want["LiveWire.TwilightSwitch"] or 0) + 1 end
+        end
+        local before = {}
+        for t in pairs(want) do before[t] = inv:getCountTypeRecurse(t) end
         rec(X.Panels.unlink(S.player, S.board), "board unlinked")
-        rec(inv:getCountTypeRecurse("LiveWire.Breaker30") == b0 + 1 and inv:getCountTypeRecurse("LiveWire.TwilightSwitch") == t0 + 1,
-            "unlinking gives the fitted breaker and twilight switch back",
-            string.format("30 A %d -> %d, twilight %d -> %d", b0, inv:getCountTypeRecurse("LiveWire.Breaker30"),
-                t0, inv:getCountTypeRecurse("LiveWire.TwilightSwitch")))
+        local bad, got = {}, {}
+        for t, n in pairs(want) do
+            local d = inv:getCountTypeRecurse(t) - before[t]
+            got[#got + 1] = t .. " +" .. d
+            if d ~= n then bad[#bad + 1] = t .. " +" .. d .. " (want +" .. n .. ")" end
+        end
+        rec(#bad == 0 and #got > 0, "unlinking gives every fitted breaker and twilight switch back",
+            table.concat(#bad > 0 and bad or got, ", "))
         S.phase = "end"
         rec(getLuaDebuggerErrorCount() == S.errors, "no Lua error", getLuaDebuggerErrorCount() - S.errors)
         return true

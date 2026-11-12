@@ -42,9 +42,9 @@ local function authorityStart(player)
     S.player=player
     S.errors=getLuaDebuggerErrorCount()
     local R=LiveWire.Registry
-    check("runtime target 42.21",function()
+    check("runtime target 42.22",function()
         local version=tostring(getCore():getVersionNumber())
-        return string.find(version,"42.21",1,true)~=nil,version
+        return string.find(version,"42.22",1,true)~=nil,version
     end)
     player:setPerkLevelDebug(Perks.Electricity,10)
     local origin=player:getCurrentSquare()
@@ -155,12 +155,10 @@ local function authorityStart(player)
         LiveWire.Backup.step(S.backup,0.01,1/60)
         return good
     end)
-    check("C28 manual mode told once, automatic resume confirmed",function()
-        local manual,auto=0,0
-        for _,k in ipairs(S.notes) do
-            if k=="IGUI_LW_BackupManual" then manual=manual+1 elseif k=="IGUI_LW_BackupAuto" then auto=auto+1 end
-        end
-        return manual==1 and auto==1,"manual="..manual.." auto="..auto.." notes="..table.concat(S.notes,",")
+    -- The C09 checks switch to manual, resume, then stop by hand again: told once per switch.
+    check("C28 each switch to manual told once, automatic resume confirmed",function()
+        local seq=table.concat(S.notes,",")
+        return seq=="IGUI_LW_BackupManual,IGUI_LW_BackupAuto,IGUI_LW_BackupManual",seq
     end)
     check("C23 hourly purge keeps active daily XP cooldown",function()
         LiveWire.Xp.awardLimited(player,"fixes:daily",1,24)
