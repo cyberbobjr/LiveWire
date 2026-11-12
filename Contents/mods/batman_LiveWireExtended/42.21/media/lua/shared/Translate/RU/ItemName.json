@@ -3,8 +3,8 @@
     "Base.Mov_LiveWire_Panel8": "Электрощиток (8 модулей)",
     "Base.Mov_LiveWire_Panel16": "Электрощиток (16 модулей)",
     "Base.Mov_LiveWire_Panel24": "Электрощиток (24 модуля)",
-    "LiveWire.Breaker15": "Автомат 15 A",
-    "LiveWire.Breaker20": "Автомат 20 A",
-    "LiveWire.Breaker30": "Автомат 30 A",
+    "LiveWire.Breaker15": "Автомат 15 А",
+    "LiveWire.Breaker20": "Автомат 20 А",
+    "LiveWire.Breaker30": "Автомат 30 А",
     "LiveWire.TwilightSwitch": "Сумеречный выключатель для автомата"
 }

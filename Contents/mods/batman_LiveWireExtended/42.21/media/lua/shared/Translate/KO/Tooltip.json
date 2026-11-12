@@ -1,6 +1,6 @@
 {
     "Tooltip_LWX_NeedLevel": "전기공학 %1 레벨이 필요합니다.",
-    "Tooltip_LWX_EnlargeCost": "전기 %1. 작은 금속판 1장과 나사 4개를 사용합니다. 차단기, 이름표, 가전은 유지됩니다.",
+    "Tooltip_LWX_EnlargeCost": "전기공학 %1. 작은 금속판 1장과 나사 4개를 사용합니다. 차단기, 이름표, 가전은 유지됩니다.",
     "Tooltip_LWX_EnlargeNeedMaterials": "인벤토리에 작은 금속판 1장과 나사 4개가 필요합니다.",
     "Tooltip_LWX_EnlargeNone": "이 배전반은 확장할 수 없습니다.",
     "Tooltip_LWX_NoBuilding": "인버터 범위 안에 건물이 없습니다.",

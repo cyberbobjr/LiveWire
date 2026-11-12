@@ -15,7 +15,7 @@
     "IGUI_LWX_LCD_More": "+ ещё зон: %1",
     "IGUI_LWX_PanelLinked": "Электрощиток подключён. Установите автоматы, чтобы подключить приборы.",
     "IGUI_LWX_PanelUnlinked": "Электрощиток отключён.",
-    "IGUI_LWX_BreakerInstalled": "Автомат установлен: %1 A, %2 V.",
+    "IGUI_LWX_BreakerInstalled": "Автомат установлен: %1 А, %2 В.",
     "IGUI_LWX_BreakerRemoved": "Автомат снят.",
     "IGUI_LWX_PointConnected": "Подключено к модулю %1.",
     "IGUI_LWX_PointDisconnected": "Отсоединено от своего автомата.",

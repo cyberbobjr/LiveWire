@@ -29,7 +29,7 @@
     "IGUI_LWX_Locate": "Orten",
     "IGUI_LWX_LeverReset": "RESET",
     "IGUI_LWX_BoardTitle": "Sicherungskasten: %2 von %1 Modulen belegt",
-    "IGUI_LWX_BoardEmpty": "Noch kein Schutzschalter. Baue einen mit einem Schraubendreher ein.",
+    "IGUI_LWX_BoardEmpty": "Noch kein Schutzschalter. Baue einen mit einem Schraubenzieher ein.",
     "IGUI_LWX_ModuleName": "Modul %1",
     "IGUI_LWX_LabelWritten": "Beschriftung gespeichert.",
     "IGUI_LWX_TwilightFitted": "Dämmerungsschalter an Modul %1 angebracht.",

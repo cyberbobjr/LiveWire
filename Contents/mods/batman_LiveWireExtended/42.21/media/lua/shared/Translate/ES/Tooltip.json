@@ -1,6 +1,6 @@
 {
     "Tooltip_LWX_NeedLevel": "Requiere nivel %1 de Electrónica.",
-    "Tooltip_LWX_EnlargeCost": "Electricidad %1. Gasta 1 chapa metálica pequeña y 4 tornillos. Los disyuntores, las etiquetas y los aparatos se conservan.",
+    "Tooltip_LWX_EnlargeCost": "Electrónica %1. Gasta 1 chapa metálica pequeña y 4 tornillos. Los disyuntores, las etiquetas y los aparatos se conservan.",
     "Tooltip_LWX_EnlargeNeedMaterials": "Necesitas 1 chapa metálica pequeña y 4 tornillos en el inventario.",
     "Tooltip_LWX_EnlargeNone": "Este cuadro no se puede ampliar.",
     "Tooltip_LWX_NoBuilding": "No hay ningún edificio al alcance del inversor.",

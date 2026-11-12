@@ -51,7 +51,7 @@ Una bomba de agua (Electrónica 3) alimenta los sanitarios conectados a 15 casil
 [h2]Electrónica y seguridad[/h2]
 
 Prueba las baterías en Electrónica 1, 3 y 5 para ver más detalles. El trabajo con corriente tiene riesgo de descarga, activado por defecto: 50 % en nivel 0, 0 % en nivel 6 o más. Apaga primero el inversor maestro; abrir un disyuntor no aísla.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Habilidad de Electricidad y mantenimiento[/url]
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-10-electrical-skill-and-maintenance]Habilidad de Electrónica y mantenimiento[/url]
 
 [h2]Multijugador[/h2]
 
