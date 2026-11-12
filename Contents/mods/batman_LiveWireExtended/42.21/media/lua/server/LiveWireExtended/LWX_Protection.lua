@@ -44,10 +44,10 @@ function PR.check()
         for _, slot in ipairs(r.slots or {}) do
             local load = math.floor((loads[boardKey .. "#" .. slot.pos] or 0) + 0.5)
             if slot.load ~= load then slot.load, any = load, true end  -- shown by the board window
-            B.meterAdd(slot, load, now)  -- energy of the interval, before a trip (E24)
-            any = true
+            -- Energy of the interval, before a trip (E24); sent only when the figures changed.
+            if B.meterAdd(slot, load, now) then any = true end
             if not slot.off and not slot.tripped and load > B.capacityW(slot) then
-                slot.tripped = true
+                slot.tripped, any = true, true
                 PR.lastTrip = { board = boardKey, pos = slot.pos, load = load }
                 PT.applySlot(slot)
                 LiveWire.notifyNear(r.x, r.y, r.z, 20, "IGUI_LWX_BreakerTripped", { tostring(slot.pos) })

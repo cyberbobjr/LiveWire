@@ -159,21 +159,25 @@ B.METER_DAYS = 60   -- as Live Wire's power history
 -- Add the energy of `loadW` since the last update to the breaker's meter; a new day
 -- closes the previous one (the interval counts on the day it ends on, as a meter read
 -- every ten minutes). slot.meter = { day, kwh, at, days = { { day, kwh } } }.
+-- Returns true when the shown figures changed (new meter, energy added or a new day).
 function B.meterAdd(slot, loadW, nowH)
     local day = math.floor(nowH / 24)
     local m = slot.meter
     if not m then
         slot.meter = { day = day, kwh = 0, at = nowH, days = {} }
-        return
+        return true
     end
     local dt = math.max(0, nowH - (m.at or nowH))
-    m.kwh = m.kwh + loadW * dt / 1000
+    local added = loadW * dt / 1000
+    m.kwh = m.kwh + added
     m.at = nowH
     if day ~= m.day then
         m.days[#m.days + 1] = { day = m.day, kwh = m.kwh }
         while #m.days > B.METER_DAYS do table.remove(m.days, 1) end
         m.day, m.kwh = day, 0
+        return true
     end
+    return added > 0
 end
 
 -- { today, yesterday, week } in kWh (week = today and the six previous days).

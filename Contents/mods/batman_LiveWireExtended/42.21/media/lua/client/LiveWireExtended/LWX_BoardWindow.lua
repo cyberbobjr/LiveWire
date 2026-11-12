@@ -103,6 +103,11 @@ local function layoutAt(k, size, compact, help, cols)
     L.gx = L.recessX + 14 + lcdW + 20
     L.gy = L.recessY + 14 + math.floor((L.innerH - gridH) / 2)
     L.helpKeys = help
+    -- Wrapped once here (R8), drawn each frame.
+    L.helpLines = {}
+    for _, key in ipairs(help) do
+        for _, line in ipairs(K.wrap(getText(key), L.inW, measure)) do L.helpLines[#L.helpLines + 1] = line end
+    end
     return L
 end
 
@@ -210,11 +215,9 @@ function Window:drawBoard(record)
         self:lcdContent(record), L.fr)
     if not self.selected then
         local y = L.hintY
-        for _, key in ipairs(L.helpKeys) do
-            for _, line in ipairs(K.wrap(getText(key), L.inW, K.measureAt(self.lwK, UIFont.Small))) do
-                K.text(self, line, L.inX, y, L.inW, C.ink)
-                y = y + L.lineH
-            end
+        for _, line in ipairs(L.helpLines) do
+            K.text(self, line, L.inX, y, L.inW, C.ink)
+            y = y + L.lineH
         end
     end
     K.hintScrews(self, L)
@@ -286,20 +289,33 @@ end
 
 -- Buttons stay visible; without a selection they are greyed (the window keeps its size).
 -- A title too long for its column is abbreviated, the full text in its tooltip (R3).
+-- Titles are measured again only when what they show changes (R8); the inventory is counted
+-- for the twilight button at most every TWILIGHT_CHECK_MS.
+local TWILIGHT_CHECK_MS = 500
 function Window:refreshButtons(record)
     local K, L = kit(), self.L
     local slot = self.selected and B.slotAt(record, self.selected)
-    local measure = K.measureAt(self.lwK, UIFont.Small)
-    for i, key in ipairs(BUTTONS) do
-        local b = self.btn[key]
-        local full = self:titleOf(key, slot)
-        local shown = K.abbreviate(full, L.cells[i].w - 14, measure)
-        b:setTitle(shown)
-        b.tooltip = shown ~= full and full or nil
-        K.setLook(b, slot ~= nil)
+    local sig = table.concat({ tostring(L), tostring(self.selected), tostring(self.locating), tostring(X.Data.rev),
+        slot and slotState(slot) or "", slot and tostring(slot.twilight) or "" }, "|")
+    if sig ~= self.buttonsSig then
+        self.buttonsSig = sig
+        local measure = K.measureAt(self.lwK, UIFont.Small)
+        for i, key in ipairs(BUTTONS) do
+            local b = self.btn[key]
+            local full = self:titleOf(key, slot)
+            local shown = K.abbreviate(full, L.cells[i].w - 14, measure)
+            b:setTitle(shown)
+            b.tooltip = shown ~= full and full or nil
+            K.setLook(b, slot ~= nil)
+        end
     end
     if slot then
-        K.setLook(self.btn.twilight, slot.twilight == true or LiveWire.API.countType(self.player, B.TWILIGHT_ITEM) > 0)
+        local now = getTimestampMs()
+        if not self.twilightCheckedAt or now - self.twilightCheckedAt >= TWILIGHT_CHECK_MS then
+            self.twilightCheckedAt = now
+            self.hasTwilightItem = LiveWire.API.countType(self.player, B.TWILIGHT_ITEM) > 0
+        end
+        K.setLook(self.btn.twilight, slot.twilight == true or self.hasTwilightItem)
     end
 end
 
@@ -497,6 +513,7 @@ function Window:createChildren()
     local K, L = kit(), self.L
     K.closeButton(self, L, Window.close, "close", self.lwK)
     self.btn = {}
+    self.buttonsSig = nil
     local fns = { lever = Window.onLever, label = Window.onLabel, locate = Window.onLocate,
         twilight = Window.onTwilight, remove = Window.onRemove }
     for i, key in ipairs(BUTTONS) do
