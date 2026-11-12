@@ -6,21 +6,16 @@ Der Strom ist endgültig weg, aber das Licht muss nicht ausgehen. Baue deine eig
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
 
-[h2]LiveWire Extended (optionale Erweiterung)[/h2]
-
+[h2]Ein Abo, drei Mods[/h2]
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Ein ganzes Gebäude anschließen[/url]: jede Etage und der Keller. Optionaler Streifen drumherum: Sandbox-Option Außenstreifen um ein Gebäude (Standard 0).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Stromanschluss im Freien[/url]: versorgt eine gezeichnete Zone von bis zu 16 x 16 Feldern.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sicherungskästen[/url]: Schutzschalter mit 15, 20 oder 30 A, einer pro Stromkreis, der mehrere Geräte versorgen kann.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Dämmerungsschalter für Schutzschalter[/url]: auf einem Schutzschalter hält er diesen Stromkreis von der Dämmerung bis zum Morgengrauen an.
-[*]Manche Häuser der Karte haben bereits einen vorverdrahteten, unbeschrifteten Sicherungskasten.
+[*][b]LiveWire[/b] (erforderlich): eigenen Strom erzeugen, speichern und verteilen. Teil 1.
+[*][b]LiveWire Extended[/b] (optional, [b]neu in 2.0[/b]): ganze Gebäude über Sicherungskästen versorgen, Raum für Raum. Teil 2.
+[*][b]LiveWire - Viewpoint models[/b] (optional): 3D-Modelle, nur mit Project Viewpoint.
 [/list]
+Extended und die Modelle brauchen LiveWire, davor aktiviert.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_de.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_de.png[/img]
-
-Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity oder Knox Power. Zum sicheren Entfernen schaltet ein Admin zuerst alle Schutzschalter über das Menü eines Kastens wieder ein.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
+[hr][/hr]
+[h1]1. LiveWire, die Basis-Mod[/h1]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_de.png[/img]
 
@@ -41,17 +36,14 @@ Platzieren: Schraubenzieher, keine Stufe. Anschluss: Solarmodule und Wechselrich
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_de.png[/img]
 
-Die Ausrichtung zählt: Süd 100 %, Ost und West 85 %, Nord 55 %. Wolken, Schnee und Schmutz senken die Leistung; Regen reinigt die Module. Wind liefert ab 10 km/h, mit voller Leistung von 30 bis 85 km/h. Das Wasserrad produziert Tag und Nacht.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Produktion und Berechnungen[/url]
 
 [h2]Verkabelung & Kopplung[/h2]
 
-Rechtsklick auf ein Gerät > LiveWire > Mit einem Wechselrichter verbinden. Ein Kabel kostet 1 Stromkabel pro 4 Felder, Reichweite 12. Mehr als 1.500 W nötig? Koppele einen zweiten Wechselrichter (An einen Wechselrichter koppeln, 1 Kopplungsset für Wechselrichter): ein Netz umfasst 4 Wechselrichter, 6.000 W.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Verkabelungs-Anleitung[/url]
 
 [h2]Wechselrichter-Bildschirm & Verwaltungssoftware[/h2]
 
-Der Wechselrichter-Bildschirm steuert Beleuchtung, Geräte und Hauptschalter und zeigt die Watt jedes Stromkreises. LiveWire Monitor ergänzt Verbraucher, Kabelansichten, eine Drei-Tages-Prognose und die letzten 30 Ereignisse auf einem versorgten Verwaltungscomputer.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]Bildschirm und Software[/url]
 
 [h2]Wasserpumpe[/h2]
@@ -76,10 +68,34 @@ Batterien bei Elektrotechnik 1, 3 und 5 prüfen, für mehr Details. Arbeiten unt
 Der Server prüft jede Aktion; Schaltungswahl und Gerätezustände werden gespeichert und synchronisiert. Schließe beide Stromkreise, bevor du den Mod deaktivierst.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Mehrspieler-Anleitung[/url]
 
-[h2]Project Viewpoint-Modelle[/h2]
+[hr][/hr]
+[h1]2. LiveWire Extended, die optionale Erweiterung[/h1]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_extended_de.png[/img]
+
+Bringt den Strom des Wechselrichters in ganze Gebäude und Außenzonen. Die Hauptarbeiten brauchen Elektrotechnik 3.
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Ein ganzes Gebäude anschließen[/url]: jede Etage und der Keller. Optionaler Streifen drumherum: Sandbox-Option Außenstreifen um ein Gebäude (Standard 0).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Stromanschluss im Freien[/url]: versorgt eine gezeichnete Zone von bis zu 16 x 16 Feldern.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sicherungskästen[/url]: Schutzschalter mit 15, 20 oder 30 A, einer pro Stromkreis, der mehrere Geräte versorgen kann.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Dämmerungsschalter für Schutzschalter[/url]: auf einem Schutzschalter hält er diesen Stromkreis von der Dämmerung bis zum Morgengrauen an.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_de.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_de.png[/img]
+
+[h2]Aktivieren und entfernen[/h2]
+
+Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity oder Knox Power. Zum sicheren Entfernen schaltet ein Admin zuerst alle Schutzschalter über das Menü eines Kastens wieder ein.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
+
+[hr][/hr]
+[h1]3. Viewpoint-Modelle[/h1]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieser Eintrag enthält auch den optionalen Mod LiveWire - Viewpoint models mit 3D-Modellen aller Geräte. Nur mit Project Viewpoint aktivieren.
 
+[hr][/hr]
 [h2]Kompatibilität[/h2]
 
 Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Eigenständige Schöpfung, nicht für andere Strom-Mods gedacht. Lizenz MIT.

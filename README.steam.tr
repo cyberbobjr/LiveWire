@@ -6,21 +6,16 @@ Elektrik şebekesi sonsuza dek gitti, ama ışıkların sönmesi gerekmez. Kendi
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
 
-[h2]LiveWire Extended (isteğe bağlı eklenti)[/h2]
-
+[h2]Tek abonelik, üç mod[/h2]
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Tüm binayı bağlama[/url]: her kat ve bodrum. Çevresindeki şerit isteğe bağlı: sandbox seçeneği Binanın çevresindeki dış şerit (varsayılan 0).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Dış mekân güç terminali[/url]: çizilen en fazla 16 x 16 karelik bir bölgeye güç verir.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sigorta panoları[/url]: 15, 20 veya 30 A sigortalar, devre başına bir tane, birden fazla cihazı besleyebilir.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Sigorta Alacakaranlık Anahtarı[/url]: bir sigortaya takılır, o devreyi alacakaranlıktan şafağa kadar açık tutar.
-[*]Haritadaki bazı evlerde etiketsiz, önceden kablolanmış bir sigorta panosu bulunur.
+[*][b]LiveWire[/b] (gerekli): kendi elektriğini üret, depola ve dağıt. Bölüm 1.
+[*][b]LiveWire Extended[/b] (isteğe bağlı, [b]2.0'da yeni[/b]): sigorta panolarıyla tüm binaya oda oda elektrik ver. Bölüm 2.
+[*][b]LiveWire - Viewpoint models[/b] (isteğe bağlı): 3D modeller, yalnızca Project Viewpoint ile.
 [/list]
+Extended ve modeller LiveWire gerektirir, ondan sonra etkinleştirilir.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_tr.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_tr.png[/img]
-
-Mod listesinde LiveWire'dan sonra etkinleştirin. LG Extended Electricity ve Knox Power ile uyumlu değildir. Kaldırmadan önce bir yönetici pano menüsünden tüm sigortaları yeniden açar.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Tam kılavuz[/url]
+[hr][/hr]
+[h1]1. LiveWire, temel mod[/h1]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_tr.png[/img]
 
@@ -41,17 +36,14 @@ Yerleştirme: tornavida, seviye gerekmez. Bağlantı: güneş panelleri ve inver
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_tr.png[/img]
 
-Güneş paneli yönü önemlidir: güney %100, doğu ve batı %85, kuzey %55. Bulut, kar ve kir üretimi düşürür; yağmur panelleri temizler. Rüzgâr türbini 10 km/sa'den itibaren üretir, 30–85 km/sa arasında tam güce ulaşır. Su çarkı gece ve gündüz üretir.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Üretim ve hesaplamalar[/url]
 
 [h2]Kablolama ve eşleme[/h2]
 
-Bir cihaza sağ tıklayın > LiveWire > Bir invertöre bağla. Kablo her 4 karede 1 Elektrik Kablosu harcar, menzil 12. 1.500 W'tan fazlası mı lazım? İkinci bir invertörü eşleyin (Bir invertörle eşle, 1 İnvertör Eşleme Kiti): bir ağda 4 invertör, 6.000 W.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Kablolama kılavuzu[/url]
 
 [h2]İnvertör ekranı ve yönetim yazılımı[/h2]
 
-İnvertör ekranı aydınlatmayı, ekipmanı ve ana şalterleri açıp kapatır; her devrenin wattını gösterir. LiveWire Monitor tüketicileri, kablo görünümlerini, üç günlük üretim tahminini ve son 30 olayı, enerjili bir yönetim bilgisayarında ekler.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]Ekran ve yazılım[/url]
 
 [h2]Su pompası[/h2]
@@ -76,10 +68,34 @@ Bataryaları Elektrikçilik 1, 3 ve 5'te test etmek daha fazla ayrıntı verir. 
 Sunucu her eylemi denetler; devre seçimleri ve cihaz durumları kaydedilir ve senkronize edilir. Modu devre dışı bırakmadan önce iki devreyi de kapatın.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Çok oyunculu kılavuzu[/url]
 
-[h2]Project Viewpoint modelleri[/h2]
+[hr][/hr]
+[h1]2. LiveWire Extended, isteğe bağlı eklenti[/h1]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_extended_tr.png[/img]
+
+İnvertörün elektriğini tüm binalara ve dış bölgelere taşır. Ana işler Elektrik 3 gerektirir.
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Tüm binayı bağlama[/url]: her kat ve bodrum. Çevresindeki şerit isteğe bağlı: sandbox seçeneği Binanın çevresindeki dış şerit (varsayılan 0).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Dış mekân güç terminali[/url]: çizilen en fazla 16 x 16 karelik bir bölgeye güç verir.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Sigorta panoları[/url]: 15, 20 veya 30 A sigortalar, devre başına bir tane, birden fazla cihazı besleyebilir.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Sigorta Alacakaranlık Anahtarı[/url]: bir sigortaya takılır, o devreyi alacakaranlıktan şafağa kadar açık tutar.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_tr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_tr.png[/img]
+
+[h2]Etkinleştirme ve kaldırma[/h2]
+
+Mod listesinde LiveWire'dan sonra etkinleştirin. LG Extended Electricity ve Knox Power ile uyumlu değildir. Kaldırmadan önce bir yönetici pano menüsünden tüm sigortaları yeniden açar.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Tam kılavuz[/url]
+
+[hr][/hr]
+[h1]3. Viewpoint modelleri[/h1]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Bu öğe, her cihazın 3D modellerini içeren isteğe bağlı LiveWire - Viewpoint models modunu da içerir. Yalnızca Project Viewpoint ile etkinleştirin.
 
+[hr][/hr]
 [h2]Uyumluluk[/h2]
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] ve [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] ile uyumlu (isteğe bağlı). Özgün çalışma; diğer elektrik sistemi modlarıyla kullanım için tasarlanmadı. Lisans MIT.

@@ -6,20 +6,16 @@
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
 
-[h2]LiveWire Extended (дополнение, необязательно)[/h2]
-
+[h2]Одна подписка, три мода[/h2]
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Всё здание[/url]: этажи и подвал; полоса вокруг: опция «Полоса вокруг здания» (по умолчанию 0).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Наружная клемма[/url]: зона до 16 x 16 клеток.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Электрощитки[/url]: автоматы 15, 20, 30 А, один на цепь из нескольких приборов.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Сумеречный выключатель для автомата[/url]: включает цепь от заката до рассвета.
+[*][b]LiveWire[/b] (обязателен): производите, храните и распределяйте свой ток. Часть 1.
+[*][b]LiveWire Extended[/b] (необязателен, [b]новое в 2.0[/b]): ток во всё здание через электрощитки, комната за комнатой. Часть 2.
+[*][b]LiveWire - Viewpoint models[/b] (необязателен): 3D-модели, только с Project Viewpoint.
 [/list]
+Extended и модели требуют LiveWire, включённый раньше них.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ru.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ru.png[/img]
-
-Включите после LiveWire. Несовместимо с LG Extended Electricity и Knox Power.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Руководство[/url]
+[hr][/hr]
+[h1]1. LiveWire, базовый мод[/h1]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ru.png[/img]
 
@@ -40,17 +36,14 @@
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ru.png[/img]
 
-Юг 100 %, восток и запад 85 %, север 55 %. Облака и снег снижают выработку. Ветер: от 10 км/ч, полная мощность от 30 до 85 км/ч. Колесо работает днём и ночью.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Выработка[/url]
 
 [h2]Проводка и сцепка[/h2]
 
-ПКМ по прибору > LiveWire > Подключить к инвертору. 1 провод на 4 клетки, дальность 12. Больше 1 500 Вт? Сцепите второй инвертор: до 4 инверторов, 6 000 Вт.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Проводка[/url]
 
 [h2]Экран инвертора и программа управления[/h2]
 
-Экран показывает ватты каждой цепи. LiveWire Monitor добавляет потребителей, прогноз и журнал.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]Экран и программа[/url]
 
 [h2]Водяной насос[/h2]
@@ -62,7 +55,6 @@
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_ru.png[/img]
 
-16 рецептов крафта и 15 разборки (отвёртка): разбирается всё, кроме солнечной ячейки.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-08-recipes]Рецепты[/url]
 
 [h2]Электрика и безопасность[/h2]
@@ -72,13 +64,37 @@
 
 [h2]Мультиплеер[/h2]
 
-Сервер проверяет каждое действие. Перед отключением мода закройте обе цепи.
+Перед отключением мода закройте обе цепи.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Мультиплеер[/url]
 
-[h2]Модели Project Viewpoint[/h2]
+[hr][/hr]
+[h1]2. LiveWire Extended, дополнение[/h1]
 
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: мод LiveWire - Viewpoint models с 3D-моделями приборов. Включайте его только с Project Viewpoint.
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_extended_ru.png[/img]
 
+Доводит ток инвертора до целых зданий и уличных зон. Основные работы требуют Электрику 3.
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Всё здание[/url]: этажи и подвал; полоса вокруг: опция «Полоса вокруг здания» (по умолчанию 0).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Наружная клемма[/url]: зона до 16 x 16 клеток.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Электрощитки[/url]: автоматы 15, 20, 30 А, один на цепь из нескольких приборов.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Сумеречный выключатель для автомата[/url]: включает цепь от заката до рассвета.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ru.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ru.png[/img]
+
+[h2]Включение и удаление[/h2]
+
+Включите после LiveWire. Несовместимо с LG Extended Electricity и Knox Power.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Руководство[/url]
+
+[hr][/hr]
+[h1]3. Модели Viewpoint[/h1]
+
+[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: мод LiveWire - Viewpoint models с 3D-моделями приборов.
+
+[hr][/hr]
 [h2]Совместимость[/h2]
 
 Совместим с [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]. Лицензия MIT.
@@ -89,7 +105,6 @@
 
 [h2]Discord[/h2]
 
-Вопросы, баги или идеи? Присоединяйтесь к Discord:
 [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 
 [h2]Пара слов об ИИ[/h2]

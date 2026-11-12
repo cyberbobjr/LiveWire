@@ -5,31 +5,26 @@ description=[h1]LiveWire - Electrical Skill Overhaul[/h1]
 description=
 description=[b]Build 42.21+ · Singleplayer & Multiplayer[/b]
 description=
-description=The power is out for good, but the lights do not have to be. Build your own off-grid electricity: solar panels, wind turbines and water wheels feed an inverter that powers the house around it, with batteries for the night. Every device has an Electrical level, and your level makes the installation better.
+description=The power is out for good, but the lights do not have to be. Build your own off-grid electricity: solar panels, wind turbines and water wheels feed an inverter that powers the house around it, with batteries for the night.
 description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
 description=
-description=[h2]LiveWire Extended (optional add-on)[/h2]
-description=
+description=[h2]One subscription, three mods[/h2]
 description=[list]
-description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor and the basement. Optional strip around it: sandbox option Outdoor strip around a building (0 by default).
-description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Outdoor power terminal[/url]: powers a drawn zone of up to 16 x 16 squares.
-description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Breaker boards[/url]: 15, 20 or 30 A breakers, one per circuit; a breaker can feed several appliances.
-description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Breaker Twilight Switch[/url]: fitted on a breaker, it keeps that circuit on from dusk to dawn.
-description=[*]Some map houses already have a prewired, unlabelled breaker board.
+description=[*][b]LiveWire[/b] (required): generate, store and distribute your own power. Part 1.
+description=[*][b]LiveWire Extended[/b] (optional, [b]new in 2.0[/b]): power whole buildings through breaker boards, room by room. Part 2.
+description=[*][b]LiveWire - Viewpoint models[/b] (optional): 3D models, only if you use Project Viewpoint.
 description=[/list]
+description=Extended and the models need LiveWire, enabled before them.
 description=
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_en.png[/img]
-description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_en.png[/img]
-description=
-description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. To remove it safely, an admin first switches every breaker back on from a board's menu.
-description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
+description=[hr][/hr]
+description=[h1]1. LiveWire, the base mod[/h1]
 description=
 description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_en.png[/img]
 description=
 description=[h2]How it works[/h2]
 description=
-description=Solar 100 W, wind 400 W, water wheel 120 W. An inverter powers appliances within 20 tiles and ±3 floors, up to 1,500 W, with no cable per appliance. Surplus goes into power banks.
+description=Solar 100 W, wind 400 W, water wheel 120 W. An inverter powers appliances within 20 tiles and ±3 floors, up to 1,500 W, with no cable per appliance. Surplus goes into power banks. Every device has an Electrical level, and your level makes the installation better.
 description=While the public grid works, an inverter inside a building also draws up to a fifth of its power from the mains (sandbox option GridCharging, on by default).
 description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-01-getting-started]Getting started[/url]
 description=
@@ -79,22 +74,42 @@ description=
 description=The server checks every action; circuit choices and appliance states are saved and synchronised. Close both circuits before disabling the mod.
 description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Multiplayer guide[/url]
 description=
-description=[h2]Project Viewpoint models[/h2]
+description=[hr][/hr]
+description=[h1]2. LiveWire Extended, the optional add-on[/h1]
 description=
-description=[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: this item also contains the optional mod LiveWire - Viewpoint models, with 3D models of every device. Enable it only if you use Project Viewpoint.
+description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_extended_en.png[/img]
 description=
+description=Carries the inverter's power to whole buildings and outdoor zones. Main jobs need Electrical 3.
+description=
+description=[list]
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor and the basement. Optional strip around it: sandbox option Outdoor strip around a building (0 by default).
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Outdoor power terminal[/url]: powers a drawn zone of up to 16 x 16 squares.
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Breaker boards[/url]: 15, 20 or 30 A breakers, one per circuit. Some map houses have one prewired.
+description=[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Breaker Twilight Switch[/url]: fitted on a breaker, it keeps that circuit on from dusk to dawn.
+description=[/list]
+description=
+description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_en.png[/img]
+description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_en.png[/img]
+description=
+description=[h2]Enable and remove[/h2]
+description=
+description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. To remove it safely, an admin first switches every breaker back on from a board's menu.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
+description=
+description=[hr][/hr]
+description=[h1]3. Viewpoint models[/h1]
+description=
+description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url] users: enable LiveWire - Viewpoint models for 3D models of every device, Extended included.
+description=
+description=[hr][/hr]
 description=[h2]Compatibility[/h2]
 description=
 description=Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Original creation, not meant to run with other power-system mods. Licence MIT.
 description=
-description=[h2]Documentation[/h2]
+description=[h2]Documentation & Discord[/h2]
 description=
 description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url]
-description=
-description=[h2]Discord[/h2]
-description=
-description=Questions, bug reports or ideas? Join the Discord:
-description=[url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
+description=Questions, bug reports or ideas? [url=https://discord.gg/QEsBya7hUA]https://discord.gg/QEsBya7hUA[/url]
 description=
 description=[h2]A note on AI[/h2]
 description=

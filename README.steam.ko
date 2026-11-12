@@ -6,21 +6,16 @@
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
 
-[h2]LiveWire Extended (선택 확장)[/h2]
-
+[h2]구독 하나, 모드 셋[/h2]
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]건물 전체 연결[/url]: 모든 층과 지하실. 건물 주변 띠는 샌드박스 옵션 '건물 주변 외부 띠' (기본값 0).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]야외 전원 단자[/url]: 그려 둔 16 x 16칸까지의 구역에 전기 공급.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]배전반[/url]: 15, 20, 30 A 차단기를 회로마다 하나. 차단기 하나로 여러 가전에 공급 가능.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]차단기용 조도 스위치[/url]: 차단기에 설치하면 해질녘부터 새벽까지 그 회로를 켬.
-[*]맵의 일부 집에는 배선이 끝난, 라벨 없는 배전반이 이미 있습니다.
+[*][b]LiveWire[/b] (필수): 전기를 직접 생산, 저장, 분배. 1부.
+[*][b]LiveWire Extended[/b] (선택, [b]2.0 신규[/b]): 배전반으로 건물 전체에 방마다 전기 공급. 2부.
+[*][b]LiveWire - Viewpoint models[/b] (선택): 3D 모델, Project Viewpoint 사용 시에만.
 [/list]
+Extended와 모델은 LiveWire가 필요하며 그 뒤에 켭니다.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ko.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ko.png[/img]
-
-모드 목록에서 LiveWire 뒤에 켜세요. LG Extended Electricity, Knox Power와는 호환되지 않습니다. 안전하게 제거하려면 관리자가 먼저 배전반 메뉴에서 모든 차단기를 다시 켭니다.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]전체 가이드[/url]
+[hr][/hr]
+[h1]1. LiveWire 기본 모드[/h1]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ko.png[/img]
 
@@ -41,17 +36,14 @@
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ko.png[/img]
 
-태양광 패널은 방향에 따라 다릅니다: 남쪽 100%, 동쪽·서쪽 85%, 북쪽 55%. 구름, 눈, 먼지는 출력을 낮추고 비는 패널을 씻어 줍니다. 풍력은 10 km/h부터 발전하고 30~85 km/h에서 최대 출력입니다. 물레방아는 밤낮으로 발전합니다.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]발전과 계산[/url]
 
 [h2]배선과 연결[/h2]
 
-장치를 우클릭해 LiveWire > 인버터에 연결을 선택합니다. 케이블은 4칸마다 전선 1개, 최대 12칸. 1,500 W를 넘으면 두 번째 인버터를 병렬 연결합니다 (인버터에 병렬 연결, 인버터 병렬 연결 키트 1개): 한 네트워크에 최대 4대, 6,000 W.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]배선 가이드[/url]
 
 [h2]인버터 화면과 관리 소프트웨어[/h2]
 
-화면에서 조명, 장비, 주 차단기를 켜고 끄며 회로별 와트를 봅니다. LiveWire Monitor는 전원이 들어온 관리용 컴퓨터에서 소비 장치, 케이블 보기, 3일 예측, 최근 30개의 이벤트를 보여 줍니다.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]화면과 소프트웨어[/url]
 
 [h2]물 펌프[/h2]
@@ -76,10 +68,34 @@
 서버가 모든 행동을 검증하고, 회로 선택과 가전 상태를 저장·동기화합니다. 모드를 끄기 전에 두 회로를 닫으세요.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]멀티플레이 가이드[/url]
 
-[h2]Project Viewpoint 모델[/h2]
+[hr][/hr]
+[h1]2. LiveWire Extended 선택 확장[/h1]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_extended_ko.png[/img]
+
+인버터의 전기를 건물 전체와 야외 구역으로 보냅니다. 주요 작업에는 전기 기술 3이 필요합니다.
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]건물 전체 연결[/url]: 모든 층과 지하실. 건물 주변 띠는 샌드박스 옵션 '건물 주변 외부 띠' (기본값 0).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]야외 전원 단자[/url]: 그려 둔 16 x 16칸까지의 구역에 전기 공급.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]배전반[/url]: 15, 20, 30 A 차단기를 회로마다 하나. 차단기 하나로 여러 가전에 공급 가능.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]차단기용 조도 스위치[/url]: 차단기에 설치하면 해질녘부터 새벽까지 그 회로를 켬.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ko.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ko.png[/img]
+
+[h2]켜기와 제거[/h2]
+
+모드 목록에서 LiveWire 뒤에 켜세요. LG Extended Electricity, Knox Power와는 호환되지 않습니다. 안전하게 제거하려면 관리자가 먼저 배전반 메뉴에서 모든 차단기를 다시 켭니다.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]전체 가이드[/url]
+
+[hr][/hr]
+[h1]3. Viewpoint 모델[/h1]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: 모든 장치의 3D 모델을 담은 LiveWire - Viewpoint models 모드가 포함되어 있습니다. Project Viewpoint를 쓸 때만 켜세요.
 
+[hr][/hr]
 [h2]호환성[/h2]
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 및 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]와 호환. 라이선스 MIT.

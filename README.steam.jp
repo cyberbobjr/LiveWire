@@ -6,21 +6,16 @@
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
 
-[h2]LiveWire Extended（任意の追加MOD）[/h2]
-
+[h2]1つの購読で3つのMOD[/h2]
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]建物全体を接続[/url]：全階と地下室。周囲の帯はサンドボックス設定「建物周囲の屋外帯」（初期値0）。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]屋外の電源端子[/url]：16 x 16マスまでの指定ゾーンに給電。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]分電盤[/url]：15・20・30 Aのブレーカーを回路ごとに1つ（1つで複数の家電に給電可）。
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]ブレーカー用夕暮れスイッチ[/url]：ブレーカーに付けると、夕暮れから夜明けまで通電。
-[*]マップの一部の家には配線済み・ラベルなしの分電盤があります。
+[*][b]LiveWire[/b]（必須）：自分で発電・蓄電・配電。第1部。
+[*][b]LiveWire Extended[/b]（任意、[b]2.0の新要素[/b]）：分電盤で建物全体に部屋ごとに給電。第2部。
+[*][b]LiveWire - Viewpoint models[/b]（任意）：3Dモデル。Project Viewpoint使用時のみ。
 [/list]
+ExtendedとモデルはLiveWireが必要で、その後に有効化。
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_jp.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_jp.png[/img]
-
-MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Powerとは非互換。外す前に、管理者が分電盤のメニューから全ブレーカーを入れ直します。
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
+[hr][/hr]
+[h1]1. LiveWire 本体[/h1]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_jp.png[/img]
 
@@ -41,17 +36,14 @@ MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Power
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_jp.png[/img]
 
-太陽光は向き次第：南100%、東と西85%、北55%。曇り、雪、汚れで低下し、雨がパネルを洗います。風力は10 km/hから発電し、30〜85 km/hで最大出力。水車は昼も夜も発電します。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]発電と計算[/url]
 
 [h2]配線と連結[/h2]
 
-機器を右クリックし、LiveWire > インバーターに接続。ケーブルは4マスごとに電線1本、最大12マス。1,500 W超なら2台目を連結（インバーターに連結、インバーター連結キット1個）：1つのネットワークに最大4台、6,000 W。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]配線ガイド[/url]
 
 [h2]インバーター画面と管理ソフト[/h2]
 
-画面で照明・機器・主幹レバーを切り替え、回路ごとのワット数を表示。LiveWire Monitorは給電中の管理用コンピューターで消費機器、ケーブル表示、3日予測、直近30件のイベントを表示。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]画面とソフト[/url]
 
 [h2]水ポンプ[/h2]
@@ -76,10 +68,34 @@ MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Power
 サーバーが全操作を検証し、回路の選択と家電の状態を保存・同期。MOD無効化の前に両方の回路を閉じること。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]マルチプレイガイド[/url]
 
-[h2]Project Viewpointモデル[/h2]
+[hr][/hr]
+[h1]2. LiveWire Extended（任意の追加MOD）[/h1]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_extended_jp.png[/img]
+
+インバーターの電力を建物全体と屋外ゾーンへ。主な作業には電気工学レベル3が必要。
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]建物全体を接続[/url]：全階と地下室。周囲の帯はサンドボックス設定「建物周囲の屋外帯」（初期値0）。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]屋外の電源端子[/url]：16 x 16マスまでの指定ゾーンに給電。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]分電盤[/url]：15・20・30 Aのブレーカーを回路ごとに1つ（1つで複数の家電に給電可）。
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]ブレーカー用夕暮れスイッチ[/url]：ブレーカーに付けると、夕暮れから夜明けまで通電。
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_jp.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_jp.png[/img]
+
+[h2]有効化と削除[/h2]
+
+MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Powerとは非互換。外す前に、管理者が分電盤のメニューから全ブレーカーを入れ直します。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
+
+[hr][/hr]
+[h1]3. Viewpoint モデル[/h1]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：全機器の3Dモデルを含むMOD「LiveWire - Viewpoint models」が含まれます。Project Viewpointを使う場合のみ有効にしてください。
 
+[hr][/hr]
 [h2]互換性[/h2]
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url]および[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]と互換。ライセンスはMIT。

@@ -6,21 +6,16 @@ A energia acabou de vez, mas as luzes não precisam apagar. Construa sua própri
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/art/extended_banner.png[/img]
 
-[h2]LiveWire Extended (complemento opcional)[/h2]
-
+[h2]Uma inscrição, três mods[/h2]
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Conectar um prédio inteiro[/url]: cada andar e o porão. Uma faixa em volta do prédio só se a opção sandbox Faixa externa em volta de um prédio for maior que 0 (0 por padrão).
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Terminal de energia externo[/url]: alimenta uma zona desenhada de até 16 x 16 casas.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Quadros elétricos[/url]: disjuntores de 15, 20 ou 30 A, um por circuito; um disjuntor pode alimentar vários aparelhos.
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disjuntor[/url]: montado em um disjuntor, mantém esse circuito ligado do anoitecer ao amanhecer.
-[*]Algumas casas do mapa já têm um quadro pré-fiado, sem etiquetas.
+[*][b]LiveWire[/b] (obrigatório): produza, armazene e distribua sua energia. Parte 1.
+[*][b]LiveWire Extended[/b] (opcional, [b]novo na 2.0[/b]): alimente prédios inteiros com quadros elétricos, cômodo por cômodo. Parte 2.
+[*][b]LiveWire - Viewpoint models[/b] (opcional): modelos 3D, só com Project Viewpoint.
 [/list]
+O Extended e os modelos precisam do LiveWire, ativado antes.
 
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ptbr.png[/img]
-[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ptbr.png[/img]
-
-Ative-o na lista de mods, depois do LiveWire. Não é compatível com LG Extended Electricity nem com Knox Power. Para remover com segurança, um admin primeiro religa todos os disjuntores pelo menu de um quadro.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guia completo[/url]
+[hr][/hr]
+[h1]1. LiveWire, o mod base[/h1]
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_ptbr.png[/img]
 
@@ -41,17 +36,14 @@ Colocar exige uma chave de fenda, sem nível. Conexão: painéis solares e inver
 
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/production_ptbr.png[/img]
 
-A orientação solar importa: sul 100%, leste e oeste 85%, norte 55%. Nuvens, neve e sujeira reduzem a produção; a chuva limpa os painéis. A turbina produz a partir de 10 km/h, com potência total de 30 a 85 km/h. A roda d'água produz de dia e de noite.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-04-production-and-calculations]Produção e cálculos[/url]
 
 [h2]Fiação e acoplamento[/h2]
 
-Clique com o botão direito em um aparelho, depois em LiveWire, depois em Conectar a um inversor. Um cabo custa 1 fio a cada 4 casas, alcance 12. Precisa de mais de 1.500 W? Acople um segundo inversor (Acoplar a um inversor, 1 kit de acoplamento de inversores): uma rede comporta 4 inversores, 6.000 W.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-03-wiring]Guia de fiação[/url]
 
 [h2]Tela do inversor e software de gestão[/h2]
 
-A tela do inversor controla iluminação, equipamentos e alavancas principais, e mostra os watts de cada circuito. O LiveWire Monitor acrescenta consumidores, visões de cabos, previsão de três dias e os últimos 30 eventos, em um computador de gestão com energia.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-screen-and-software]Tela e software[/url]
 
 [h2]Bomba d'água[/h2]
@@ -76,10 +68,34 @@ Teste as baterias em Elétrica 1, 3 e 5 para mais detalhes. Trabalhar com a rede
 O servidor verifica cada ação; as escolhas de circuitos e os estados dos aparelhos são salvos e sincronizados. Feche os dois circuitos antes de desativar o mod.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-12-multiplayer]Guia multijogador[/url]
 
-[h2]Modelos Project Viewpoint[/h2]
+[hr][/hr]
+[h1]2. LiveWire Extended, o complemento opcional[/h1]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/diagram_extended_ptbr.png[/img]
+
+Leva a energia do inversor a prédios inteiros e zonas externas. As tarefas principais exigem Elétrica 3.
+
+[list]
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Conectar um prédio inteiro[/url]: cada andar e o porão. Uma faixa em volta do prédio só se a opção sandbox Faixa externa em volta de um prédio for maior que 0 (0 por padrão).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Terminal de energia externo[/url]: alimenta uma zona desenhada de até 16 x 16 casas.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Quadros elétricos[/url]: disjuntores de 15, 20 ou 30 A, um por circuito; um disjuntor pode alimentar vários aparelhos.
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disjuntor[/url]: montado em um disjuntor, mantém esse circuito ligado do anoitecer ao amanhecer.
+[/list]
+
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ptbr.png[/img]
+[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ptbr.png[/img]
+
+[h2]Ativar e remover[/h2]
+
+Ative-o na lista de mods, depois do LiveWire. Não é compatível com LG Extended Electricity nem com Knox Power. Para remover com segurança, um admin primeiro religa todos os disjuntores pelo menu de um quadro.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guia completo[/url]
+
+[hr][/hr]
+[h1]3. Modelos Viewpoint[/h1]
 
 [b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este item também contém o mod opcional LiveWire - Viewpoint models, com modelos 3D de todos os aparelhos. Ative-o apenas se usar o Project Viewpoint.
 
+[hr][/hr]
 [h2]Compatibilidade[/h2]
 
 Compatível com [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] e [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionais). Criação original, não feita para rodar junto com outros mods de sistemas elétricos. Licença MIT.
