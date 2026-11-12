@@ -10,7 +10,7 @@ The power is out for good, but the lights do not have to be. Build your own off-
 [list]
 [*][b]LiveWire[/b] (required): generate, store and distribute your own power. Part 1.
 [*][b]LiveWire Extended[/b] (optional, new in 2.0): power whole buildings through breaker boards, room by room. Part 2.
-[*][b]LiveWire - Viewpoint models[/b] (optional): 3D models, only if you use Project Viewpoint.
+[*][b]LiveWire - Viewpoint models[/b] (optional): 3D models, only if you use [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url].
 [/list]
 Extended and the models need LiveWire, enabled before them.
 
@@ -94,11 +94,6 @@ Enable it in the mod list, after LiveWire. Not compatible with LG Extended Elect
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
 
 [hr][/hr]
-[h1]3. Viewpoint models[/h1]
-
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url]: 3D models of every device, Extended included.
-
-[hr][/hr]
 [h2]Compatibility[/h2]
 
 Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Not meant to run with other power-system mods. Licence MIT.
@@ -121,7 +116,5 @@ Enjoying the mod? A coffee helps fund new features and translations.
 Created by batmanfr. Inverter cabinet model by PewPewCricket. Original code, tiles and sounds; no content taken from other mods.
 
 [h2]Official add-ons[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: coupled inverters keep their own powered area.
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b]: coupled inverters keep their own powered area.

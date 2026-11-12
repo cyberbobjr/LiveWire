@@ -10,7 +10,7 @@ Le courant ne reviendra plus, mais les lumières peuvent rester allumées. Produ
 [list]
 [*][b]LiveWire[/b] (obligatoire) : produisez, stockez et distribuez votre courant. Partie 1.
 [*][b]LiveWire Extended[/b] (facultatif, [b]nouveau en 2.0[/b]) : alimentez des bâtiments entiers par des tableaux électriques, pièce par pièce. Partie 2.
-[*][b]LiveWire - Viewpoint models[/b] (facultatif) : modèles 3D, seulement avec Project Viewpoint.
+[*][b]LiveWire - Viewpoint models[/b] (facultatif) : modèles 3D, seulement avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url].
 [/list]
 Extended et les modèles ont besoin de LiveWire, activé avant eux.
 
@@ -91,11 +91,6 @@ Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extende
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended]Guide complet[/url]
 
 [hr][/hr]
-[h1]3. Modèles Viewpoint[/h1]
-
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url] : cet objet contient aussi le mod facultatif LiveWire - Viewpoint models, avec les modèles 3D de tous les équipements.
-
-[hr][/hr]
 [h2]Compatibilité[/h2]
 
 Compatible avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs). Création originale, non prévue avec d'autres mods de système électrique. Licence MIT.
@@ -119,7 +114,5 @@ Vous aimez le mod ? Un café aide à financer de nouvelles fonctions et des trad
 Créé par batmanfr. Modèle de l'armoire onduleur : PewPewCricket. Code, tuiles et sons originaux ; aucun contenu repris d'autres mods.
 
 [h2]Extensions officielles[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url] : les onduleurs couplés gardent leur propre zone alimentée.
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b] : les onduleurs couplés gardent leur propre zone alimentée.

@@ -10,7 +10,7 @@ La red eléctrica se fue para siempre, pero las luces no tienen por qué apagars
 [list]
 [*][b]LiveWire[/b] (obligatorio): genera, almacena y distribuye tu propia corriente. Parte 1.
 [*][b]LiveWire Extended[/b] (opcional, [b]nuevo en 2.0[/b]): alimenta edificios enteros con cuadros eléctricos, habitación por habitación. Parte 2.
-[*][b]LiveWire - Viewpoint models[/b] (opcional): modelos 3D, solo con Project Viewpoint.
+[*][b]LiveWire - Viewpoint models[/b] (opcional): modelos 3D, solo con [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url].
 [/list]
 Extended y los modelos necesitan LiveWire, activado antes.
 
@@ -91,11 +91,6 @@ Actívalo en la lista de mods, después de LiveWire. No es compatible con LG Ext
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guía completa[/url]
 
 [hr][/hr]
-[h1]3. Modelos Viewpoint[/h1]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: este elemento incluye también el mod opcional LiveWire - Viewpoint models, con modelos 3D de todos los aparatos. Actívalo solo si usas Project Viewpoint.
-
-[hr][/hr]
 [h2]Compatibilidad[/h2]
 
 Compatible con [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] y [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionales). Creación original, no pensada para otros mods de sistemas eléctricos. Licencia MIT.
@@ -119,7 +114,5 @@ Soy desarrollador desde hace años e hice mods mucho antes de que existieran los
 Creado por batmanfr. Modelo del armario inversor: PewPewCricket. Código, baldosas y sonidos originales; no se ha tomado contenido de otros mods.
 
 [h2]Complementos oficiales[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: los inversores acoplados conservan su propia zona alimentada.
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b]: los inversores acoplados conservan su propia zona alimentada.

@@ -10,7 +10,7 @@
 [list]
 [*][b]LiveWire[/b] (обязателен): производите, храните и распределяйте свой ток. Часть 1.
 [*][b]LiveWire Extended[/b] (необязателен, [b]новое в 2.0[/b]): ток во всё здание через электрощитки, комната за комнатой. Часть 2.
-[*][b]LiveWire - Viewpoint models[/b] (необязателен): 3D-модели, только с Project Viewpoint.
+[*][b]LiveWire - Viewpoint models[/b] (необязателен): 3D-модели, только с [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url].
 [/list]
 Extended и модели требуют LiveWire, включённый раньше них.
 
@@ -89,11 +89,6 @@ Extended и модели требуют LiveWire, включённый рань�
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Руководство[/url]
 
 [hr][/hr]
-[h1]3. Модели Viewpoint[/h1]
-
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url]: мод LiveWire - Viewpoint models с 3D-моделями приборов.
-
-[hr][/hr]
 [h2]Совместимость[/h2]
 
 Совместим с [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]. Лицензия MIT.
@@ -117,7 +112,5 @@ Extended и модели требуют LiveWire, включённый рань�
 Создал batmanfr. Модель шкафа инвертора: PewPewCricket. Оригинальный код, тайлы и звуки; контент из других модов не использован.
 
 [h2]Официальные дополнения[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: сцепленные инверторы сохраняют свою зону.
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b]: сцепленные инверторы сохраняют свою зону.

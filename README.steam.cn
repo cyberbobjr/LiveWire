@@ -10,7 +10,7 @@
 [list]
 [*][b]LiveWire[/b]（必需）：自己发电、储电和配电。见第 1 部分。
 [*][b]LiveWire Extended[/b]（可选，[b]2.0 新增[/b]）：通过配电箱为整栋建筑逐个房间供电。见第 2 部分。
-[*][b]LiveWire - Viewpoint models[/b]（可选）：3D 模型，仅在使用 Project Viewpoint 时启用。
+[*][b]LiveWire - Viewpoint models[/b]（可选）：3D 模型，仅在使用 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url] 时启用。
 [/list]
 Extended 和模型都需要 LiveWire，并在它之后启用。
 
@@ -94,11 +94,6 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完整指南[/url]
 
 [hr][/hr]
-[h1]3. Viewpoint 模型[/h1]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]：包含为所有设备提供 3D 模型的可选模组 LiveWire - Viewpoint models。仅在使用 Project Viewpoint 时启用。
-
-[hr][/hr]
 [h2]兼容性[/h2]
 
 兼容 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（可选）。原创作品，不应与其他电力系统模组同时使用。许可证 MIT。
@@ -122,7 +117,5 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 由 batmanfr 创建。逆变器柜模型由 PewPewCricket 提供。原创代码、瓦片和声音；未使用其他模组的内容。
 
 [h2]官方扩展[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: 并联的逆变器各自保留供电区域。
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b]: 并联的逆变器各自保留供电区域。

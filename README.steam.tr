@@ -10,7 +10,7 @@ Elektrik şebekesi sonsuza dek gitti, ama ışıkların sönmesi gerekmez. Kendi
 [list]
 [*][b]LiveWire[/b] (gerekli): kendi elektriğini üret, depola ve dağıt. Bölüm 1.
 [*][b]LiveWire Extended[/b] (isteğe bağlı, [b]2.0'da yeni[/b]): sigorta panolarıyla tüm binaya oda oda elektrik ver. Bölüm 2.
-[*][b]LiveWire - Viewpoint models[/b] (isteğe bağlı): 3D modeller, yalnızca Project Viewpoint ile.
+[*][b]LiveWire - Viewpoint models[/b] (isteğe bağlı): 3D modeller, yalnızca [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url] ile.
 [/list]
 Extended ve modeller LiveWire gerektirir, ondan sonra etkinleştirilir.
 
@@ -91,11 +91,6 @@ Mod listesinde LiveWire'dan sonra etkinleştirin. LG Extended Electricity ve Kno
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Tam kılavuz[/url]
 
 [hr][/hr]
-[h1]3. Viewpoint modelleri[/h1]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Bu öğe, her cihazın 3D modellerini içeren isteğe bağlı LiveWire - Viewpoint models modunu da içerir. Yalnızca Project Viewpoint ile etkinleştirin.
-
-[hr][/hr]
 [h2]Uyumluluk[/h2]
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] ve [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] ile uyumlu (isteğe bağlı). Özgün çalışma; diğer elektrik sistemi modlarıyla kullanım için tasarlanmadı. Lisans MIT.
@@ -119,7 +114,5 @@ Modu beğendiniz mi? Bir kahve, yeni özelliklerin ve çevirilerin finansmanına
 batmanfr tarafından oluşturuldu. İnvertör kabini modeli: PewPewCricket. Özgün kod, karolar ve sesler; başka modlardan içerik alınmadı.
 
 [h2]Resmî eklentiler[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: eşlenen invertörler kendi güç alanlarını korur.
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b]: eşlenen invertörler kendi güç alanlarını korur.

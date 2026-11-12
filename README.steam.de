@@ -10,7 +10,7 @@ Der Strom ist endgültig weg, aber das Licht muss nicht ausgehen. Baue deine eig
 [list]
 [*][b]LiveWire[/b] (erforderlich): eigenen Strom erzeugen, speichern und verteilen. Teil 1.
 [*][b]LiveWire Extended[/b] (optional, [b]neu in 2.0[/b]): ganze Gebäude über Sicherungskästen versorgen, Raum für Raum. Teil 2.
-[*][b]LiveWire - Viewpoint models[/b] (optional): 3D-Modelle, nur mit Project Viewpoint.
+[*][b]LiveWire - Viewpoint models[/b] (optional): 3D-Modelle, nur mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url].
 [/list]
 Extended und die Modelle brauchen LiveWire, davor aktiviert.
 
@@ -91,11 +91,6 @@ Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended El
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
 
 [hr][/hr]
-[h1]3. Viewpoint-Modelle[/h1]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: Dieser Eintrag enthält auch den optionalen Mod LiveWire - Viewpoint models mit 3D-Modellen aller Geräte. Nur mit Project Viewpoint aktivieren.
-
-[hr][/hr]
 [h2]Kompatibilität[/h2]
 
 Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Eigenständige Schöpfung, nicht für andere Strom-Mods gedacht. Lizenz MIT.
@@ -119,7 +114,5 @@ Dir gefällt der Mod? Ein Kaffee hilft, neue Funktionen und Übersetzungen zu fi
 Erstellt von batmanfr. Modell des Wechselrichter-Schranks von PewPewCricket. Originalcode, Kacheln und Sounds; keine Inhalte aus anderen Mods übernommen.
 
 [h2]Offizielle Erweiterungen[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: gekoppelte Wechselrichter behalten ihre eigene versorgte Zone.
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b]: gekoppelte Wechselrichter behalten ihre eigene versorgte Zone.

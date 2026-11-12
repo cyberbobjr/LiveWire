@@ -10,7 +10,7 @@
 [list]
 [*][b]LiveWire[/b]（必須）：自分で発電・蓄電・配電。第1部。
 [*][b]LiveWire Extended[/b]（任意、[b]2.0の新要素[/b]）：分電盤で建物全体に部屋ごとに給電。第2部。
-[*][b]LiveWire - Viewpoint models[/b]（任意）：3Dモデル。Project Viewpoint使用時のみ。
+[*][b]LiveWire - Viewpoint models[/b]（任意）：3Dモデル。[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url]使用時のみ。
 [/list]
 ExtendedとモデルはLiveWireが必要で、その後に有効化。
 
@@ -91,11 +91,6 @@ MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Power
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
 
 [hr][/hr]
-[h1]3. Viewpoint モデル[/h1]
-
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url]：全機器の3Dモデルを含むMOD「LiveWire - Viewpoint models」が含まれます。
-
-[hr][/hr]
 [h2]互換性[/h2]
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url]および[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]と互換。ライセンスはMIT。
@@ -119,7 +114,5 @@ MODを気に入っていただけましたか？コーヒー1杯が新機能や�
 作成：batmanfr。インバーターキャビネットのモデル：PewPewCricket。オリジナルのコード、タイル、サウンド。他のMODの素材は使用していません。
 
 [h2]公式アドオン[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: 連結したインバーターがそれぞれの給電範囲を保持。
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b]: 連結したインバーターがそれぞれの給電範囲を保持。

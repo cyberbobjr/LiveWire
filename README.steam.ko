@@ -10,7 +10,7 @@
 [list]
 [*][b]LiveWire[/b] (필수): 전기를 직접 생산, 저장, 분배. 1부.
 [*][b]LiveWire Extended[/b] (선택, [b]2.0 신규[/b]): 배전반으로 건물 전체에 방마다 전기 공급. 2부.
-[*][b]LiveWire - Viewpoint models[/b] (선택): 3D 모델, Project Viewpoint 사용 시에만.
+[*][b]LiveWire - Viewpoint models[/b] (선택): 3D 모델, [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url] 사용 시에만.
 [/list]
 Extended와 모델은 LiveWire가 필요하며 그 뒤에 켭니다.
 
@@ -91,11 +91,6 @@ Extended와 모델은 LiveWire가 필요하며 그 뒤에 켭니다.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]전체 가이드[/url]
 
 [hr][/hr]
-[h1]3. Viewpoint 모델[/h1]
-
-[b][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3809306528]Project Viewpoint[/url][/b]: 모든 장치의 3D 모델을 담은 LiveWire - Viewpoint models 모드가 포함되어 있습니다. Project Viewpoint를 쓸 때만 켜세요.
-
-[hr][/hr]
 [h2]호환성[/h2]
 
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 및 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]와 호환. 라이선스 MIT.
@@ -119,7 +114,5 @@ Extended와 모델은 LiveWire가 필요하며 그 뒤에 켭니다.
 제작: batmanfr. 인버터 캐비닛 모델: PewPewCricket. 독자적인 코드, 타일, 사운드이며 다른 모드의 콘텐츠는 사용하지 않았습니다.
 
 [h2]공식 애드온[/h2]
-
-[list]
-[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: 병렬 연결된 인버터가 각자의 전력 구역을 유지합니다.
-[/list]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
+[b]LiveWire: Coupled Inverter Zones[/b]: 병렬 연결된 인버터가 각자의 전력 구역을 유지합니다.
