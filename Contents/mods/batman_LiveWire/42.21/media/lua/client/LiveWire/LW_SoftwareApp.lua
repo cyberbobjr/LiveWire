@@ -86,6 +86,7 @@ end
 
 function App:close()
     self.detailSnapshot, self.detailRows, self.detailTab = nil, nil, nil
+    self.summarySnapshot, self.summaryCache = nil, nil
     if isClient() and self.inverterId then
         LiveWire.Client.send(LiveWire.Protocol.C_UNSUBSCRIBE, { inverter = self.inverterId })
     end
@@ -388,8 +389,14 @@ function App:details(snap)
     local rows = {}
     if self.tab == "consumers" then
         for _, r in ipairs(snap.consumers or {}) do
-            rows[#rows + 1] = r.grid and T("IGUI_LW_ConsumerLineGrid", T("IGUI_LW_Appliance_" .. r.cat), r.x, r.y, r.z)
-                or T("IGUI_LW_ConsumerLine", T("IGUI_LW_Appliance_" .. r.cat), r.w, r.x, r.y, r.z)
+            -- An appliance of another mod may name itself and add lines (ADR-002 D07).
+            local info = r.info
+            local name = T(info and info.name or "IGUI_LW_Appliance_" .. r.cat)
+            rows[#rows + 1] = r.grid and T("IGUI_LW_ConsumerLineGrid", name, r.x, r.y, r.z)
+                or T("IGUI_LW_ConsumerLine", name, r.w, r.x, r.y, r.z)
+            for _, line in ipairs(info and info.lines or {}) do
+                rows[#rows + 1] = "    " .. T(line[1], unpack(line, 2))
+            end
         end
     elseif self.tab == "events" then
         for i = #(snap.events or {}), 1, -1 do
@@ -478,6 +485,22 @@ function App:drawHistory(ui, x, y, w, h, snap)
     end
 end
 
+-- Totals of the consumers of other mods (ADR-002 D08): a title row when named, then its
+-- lines (indented under a title). Translated here: the server only sends keys.
+function App:summaryRows(snap)
+    if self.summarySnapshot == snap and self.summaryCache then return self.summaryCache end
+    local rows = {}
+    for _, s in ipairs(snap.consumerSummaries or {}) do
+        local indent = ""
+        if s.name then rows[#rows + 1] = T(s.name); indent = "    " end
+        for _, line in ipairs(s.lines or {}) do
+            rows[#rows + 1] = indent .. T(line[1], unpack(line, 2))
+        end
+    end
+    self.summarySnapshot, self.summaryCache = snap, rows -- drawn every frame: translate once
+    return rows
+end
+
 function App:drawEquipment(ui, x, y, w, h, snap)
     local cy = card(ui, x, y, w, h, T("IGUI_LW_Options"))
     local nameH = fh(UIFont.Small) + 10
@@ -522,7 +545,14 @@ function App:drawEquipment(ui, x, y, w, h, snap)
         text(ui, T("IGUI_LW_App_Pumps", tostring(snap.pumps.n), tostring(snap.pumps.flow)), x + 10, cy, C.text)
         cy = cy + fh(UIFont.Small) + 4
     end
-    if not snap.breaker and not snap.alarm and not bk and not snap.computer and not snap.pumps then
+    local summaries = self:summaryRows(snap)
+    for i = 1, #summaries do
+        if cy > y + h - 18 then break end
+        text(ui, summaries[i], x + 10, cy, C.text, UIFont.Small, w - 20)
+        cy = cy + fh(UIFont.Small) + 4
+    end
+    if not snap.breaker and not snap.alarm and not bk and not snap.computer and not snap.pumps
+        and #summaries == 0 then
         text(ui, T("IGUI_LW_None"), x + 10, cy, C.dim)
     end
 end

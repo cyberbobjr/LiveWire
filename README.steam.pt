@@ -48,7 +48,7 @@ Colocar exige uma chave de fendas, sem nível. Ligação: painéis solares e inv
 
 [h2]Bomba d'água[/h2]
 
-Uma bomba d'água (Eletricidade 3) abastece os sanitários ligados a 15 casas, a partir de até 8 coletores de chuva ou barris [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacentes.
+Uma bomba d'água (Eletricidade 3) abastece os sanitários ligados a 15 casas, a partir de até 8 coletores de chuva ou barris [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacentes. Em breve passará para um mod próprio, LiveWater.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Guia da bomba[/url]
 
 [h2]Receitas[/h2]
@@ -100,9 +100,10 @@ Compatível com [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Wiki do LiveWire[/url] · Código-fonte: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]Uma nota sobre IA[/h2]
+[h2]Para criadores de mods[/h2]
 
-Sou desenvolvedor há anos e criava mods muito antes dos agentes de código existirem, muitas vezes às custas do tempo com a família. Uso abertamente o Claude Code e o Codex: cada funcionalidade continua sendo discutida, projetada e planejada, não “vibe coded” às cegas. A IA veio para ficar; escolhi me adaptar em vez de resistir. Obrigado a todos que se levantaram contra os ataques pessoais.
+Uma API permite que as máquinas elétricas de outros mods retirem energia do LiveWire: faturadas pelo inversor, cortadas pelos seus circuitos e mostradas no software de gestão.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]Guia do programador (EN)[/url]
 
 [h2]Apoie o projeto[/h2]
 

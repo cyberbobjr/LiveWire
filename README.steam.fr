@@ -48,7 +48,7 @@ Poser demande un tournevis, sans niveau. Raccordement : panneaux solaires et ond
 
 [h2]Pompe à eau[/h2]
 
-La pompe à eau (Électricité 3) alimente les sanitaires raccordés à 15 cases, depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum.
+La pompe à eau (Électricité 3) alimente les sanitaires raccordés à 15 cases, depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum. Elle passera bientôt dans son propre mod, LiveWater.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-07-pompe-a-eau]Guide de la pompe[/url]
 
 [h2]Recettes[/h2]
@@ -100,9 +100,10 @@ Compatible avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-Home]Wiki LiveWire[/url] · Code source : [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]Un mot sur l'IA[/h2]
+[h2]Pour les développeurs de mods[/h2]
 
-Je suis développeur depuis des années et je créais des mods bien avant les agents de code, souvent au détriment du temps passé en famille. J'utilise ouvertement Claude Code et Codex : chaque fonctionnalité est toujours discutée, conçue et planifiée, pas « vibe codée » à l'aveugle. L'IA est là pour rester ; j'ai choisi de m'adapter plutôt que de résister. Merci à tous ceux qui ont pris ma défense face aux attaques personnelles.
+Une API permet aux machines électriques d'autres mods de tirer leur courant de LiveWire : facturées par l'onduleur, coupées par ses circuits et affichées dans le logiciel de gestion.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/FR-15-developpeurs]Guide développeur[/url]
 
 [h2]Soutenir le projet[/h2]
 

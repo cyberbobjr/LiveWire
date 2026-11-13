@@ -48,7 +48,7 @@ Yerleştirme: tornavida, seviye gerekmez. Bağlantı: güneş panelleri ve inver
 
 [h2]Su pompası[/h2]
 
-Su pompası (Elektrikçilik 3), en fazla 8 bitişik yağmur toplayıcısından veya [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] varillerinden, 15 kare içindeki tesisatlı donanımlara su verir.
+Su pompası (Elektrikçilik 3), en fazla 8 bitişik yağmur toplayıcısından veya [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] varillerinden, 15 kare içindeki tesisatlı donanımlara su verir. Yakında kendi modu olan LiveWater'a taşınacak.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Su pompası kılavuzu[/url]
 
 [h2]Tarifler[/h2]
@@ -100,9 +100,10 @@ Mod listesinde LiveWire'dan sonra etkinleştirin. LG Extended Electricity ve Kno
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · Kaynak kodu: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]Yapay zekâ hakkında bir not[/h2]
+[h2]Mod geliştiricileri için[/h2]
 
-Yıllardır geliştiriciyim ve kodlama ajanları çıkmadan çok önce mod yapıyordum; çoğu zaman ailemle geçireceğim zamanın pahasına. Claude Code ve Codex'i açıkça kullanıyorum: her özellik hâlâ tartışılıyor, tasarlanıyor ve planlanıyor; körü körüne "vibe coded" değil. Yapay zekâ burada kalacak; direnmek yerine uyum sağlamayı seçtim. Kişisel saldırılara karşı duran herkese teşekkür ederim.
+Bir API, diğer modların elektrikli makinelerinin LiveWire'dan güç çekmesini sağlar: invertör tarafından hesaplanır, devreleri tarafından kesilir ve yönetim yazılımında gösterilir.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]Geliştirici kılavuzu (EN)[/url]
 
 [h2]Projeyi destekleyin[/h2]
 

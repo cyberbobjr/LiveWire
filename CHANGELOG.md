@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.0 — 2026-11-13
+
+### New
+
+- **Machines from other mods:** an API lets other mods register their electric machines with LiveWire. They are billed by the inverter like vanilla appliances, cut by the lighting and equipment circuits and by Extended breakers, listed by "Show consumers", and shown in the management software with their own data. A developer guide is on the wiki.
+
+### Fixes
+
+- **Inverter and water pump hum:** the hum could no longer be heard, even right next to a running inverter. Both devices play their own hum again, at the same volume and range as before. The pump still hums only while it is pumping water.
+
 ## 2.0.3 — 2026-11-12
 
 ### Fixes

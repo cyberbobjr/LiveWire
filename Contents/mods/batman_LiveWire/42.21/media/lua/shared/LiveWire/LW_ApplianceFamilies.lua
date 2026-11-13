@@ -3,6 +3,7 @@
 -- consumption profiles (profile) and the restore step (activation) treat it. Pure data and
 -- lookups: no timed action is touched here, so any module may require it.
 -- LiveWire.Appliances.FAMILIES is this same table (see LW_Appliances).
+require "LiveWire/LW_Consumers"
 LiveWire = LiveWire or {}
 local Fam = {}
 LiveWire.ApplianceFamilies = Fam
@@ -33,19 +34,34 @@ end
 local function hasFuelAmount(o)
     return (o:getSprite() and o:getSprite():getProperties():has(IsoPropertyType.FUEL_AMOUNT)) and true or false
 end
+-- Appliances of other mods registered through LiveWire.API.registerConsumer (ADR-002).
+local function isConsumer(o) return LiveWire.Consumers.of(o) ~= nil end
+local function consumerCategory(o)
+    local c = LiveWire.Consumers.of(o)
+    return c and c.category or "other"
+end
+local function consumerCircuit(o)
+    local c = LiveWire.Consumers.of(o)
+    return c and c.circuit or "equipment"
+end
 -- IsoObjectChange name sent with the state change; resolved when applied (global set by the engine).
 local function comboChange(o) return o:isModeWasher() and "WASHER_STATE" or "DRYER_STATE" end
 
 -- Entry: class (string) or match (function(o) -> boolean), then
 --   kind        panel kind saved in ModData (nil: not handled by the panel)
---   category    inverter interface family (nil: reported as "other")
+--   category    inverter interface family, or function(o) -> family (nil: reported as "other")
+--   circuit     panel circuit that cuts it: "light", or function(o) -> circuit (nil: "equipment")
+--   stateless   true: no on/off state of its own is saved or restored (Live Wire only bills it)
 --   profile     key of Consumption.PROFILES, or function(o, t) -> W or nil (nil: engine value)
 --   activation  steps { get, set, field, change (name or function(o) -> name), sync }: getter and
 --               setter of the on/off state, saved field ("on" or "dry"); nil: handled by apply itself
 -- The first matching entry wins; the real classes are unrelated siblings of IsoObject, so only the
--- container and sprite tests at the end depend on the order.
+-- container and sprite tests at the end depend on the order. A registered consumer comes first:
+-- its mod's declaration replaces whatever the engine says about the object.
 Fam.list = {
-    { class = "IsoLightSwitch", kind = "light", category = "light", profile = "light" },
+    { match = isConsumer, kind = "consumer", category = consumerCategory, circuit = consumerCircuit,
+      stateless = true },
+    { class = "IsoLightSwitch", kind = "light", category = "light", profile = "light", circuit = "light" },
     { class = "IsoTelevision", kind = "media", category = "tv", profile = "tv" },
     { class = "IsoRadio", kind = "media", category = "radio", profile = "radio" },
     { class = "IsoStove", kind = "stove", category = "stove", profile = stoveWatts,
@@ -64,7 +80,7 @@ Fam.list = {
     { class = "IsoCarBatteryCharger", kind = "charger", category = "charger", profile = "charger",
       activation = { { get = "isActivated", set = "setActivated", field = "on", sync = true } } },
     { match = hasFridgeContainer, kind = "fridge", category = "fridge", profile = fridgeWatts },
-    { match = hasFuelAmount, kind = "fuel" },
+    { match = hasFuelAmount, kind = "fuel", stateless = true },
 }
 
 -- First family of an object that declares `field` ("kind", "category" or "profile"), or nil.
@@ -92,4 +108,16 @@ function Fam.ofKind(kind)
         if list[i].kind == kind then return list[i] end
     end
     return nil
+end
+
+-- Value of a family field that may be a function of the object (category, circuit).
+function Fam.value(family, field, o)
+    local v = family and family[field]
+    if type(v) == "function" then return v(o) end
+    return v
+end
+
+-- Panel circuit of an object of family `kind`: "light" or "equipment".
+function Fam.circuit(o, kind)
+    return Fam.value(Fam.ofKind(kind), "circuit", o) or "equipment"
 end

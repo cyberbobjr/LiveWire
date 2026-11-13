@@ -7,6 +7,10 @@ local A = {}
 LiveWire.Appliances = A
 A.FAMILIES = LiveWire.ApplianceFamilies.list -- the same table: extensions append to it
 local KEY = "LiveWireCircuit"
+local function stateless(kind)
+    local family = LiveWire.ApplianceFamilies.ofKind(kind)
+    return family ~= nil and family.stateless == true
+end
 function A.saved(o) return o and o:hasModData() and o:getModData()[KEY] or nil end
 function A.kind(o)
     -- Shared actions also receive inventory radios, vehicle parts and fluid items.
@@ -56,7 +60,7 @@ function A.capture(o, grid)
             local c = o:getContainerByIndex(i)
             if c:isFridge() or c:isFreezer() then s.types[tostring(i)] = c:getType() end
         end
-    elseif kind ~= "fuel" then s.on = o:isActivated() end
+    elseif not stateless(kind) then s.on = o:isActivated() end
     s.syncPending = true
     o:getModData()[KEY] = s
     return s
@@ -114,7 +118,7 @@ function A.apply(o, s, off)
         -- initial OFF choice too, even when no setter call was necessary.
         if changed or s.syncPending then syncService(o, s, off) end
         if not off and d:getIsTurnedOn() ~= s.on then return false end
-    elseif k ~= "fuel" then
+    elseif not stateless(k) then
         local family = LiveWire.ApplianceFamilies.ofKind(k)
         local steps = family and family.activation or GENERIC_STEPS
         for i = 1, #steps do

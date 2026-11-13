@@ -2,9 +2,9 @@
 
 # Développeurs : l'API de LiveWire
 
-Cette page s'adresse aux auteurs de mods qui veulent faire fonctionner leur mod avec LiveWire : ajouter une batterie ou une source d'énergie, lire l'état d'un réseau, ou écrire une extension comme LiveWire Extended. Les joueurs n'en ont pas besoin.
+Cette page s'adresse aux auteurs de mods qui veulent faire fonctionner leur mod avec LiveWire : ajouter une batterie ou une source d'énergie, faire consommer un appareil, lire l'état d'un réseau, ou écrire une extension comme LiveWire Extended. Les joueurs n'en ont pas besoin.
 
-Tout ce qui suit est l'API publique de LiveWire 2.0.2 (`LiveWire.API` version 1, révision 5). Elle se trouve dans `media/lua/shared/LiveWire/LW_API.lua` de `batman_LiveWire` : le fichier est court et chaque fonction y est commentée (en anglais).
+Tout ce qui suit est l'API publique de LiveWire 2.0.3 (`LiveWire.API` version 1, révision 6 ; la révision 6 ajoute les consommateurs des autres mods). Elle se trouve dans `media/lua/shared/LiveWire/LW_API.lua` de `batman_LiveWire` : le fichier est court et chaque fonction y est commentée (en anglais).
 
 ## Le fonctionnement de LiveWire, en bref
 
@@ -44,6 +44,7 @@ require "LiveWire/LW_API"
 |---|---|---|
 | `registerBattery(fullType, kWh, lifeCycles)` | shared | Une nouvelle batterie pour les powerbanks. L'objet doit être `ItemType = base:drainable`, `ConditionMax = 100`, `KeepOnDeplete = true`. |
 | `registerSource(model, definition)` | shared | Une nouvelle source solaire, éolienne ou hydraulique (voir l'exemple 2). |
+| `registerConsumer(id, definition)` | shared | Un appareil de votre mod que le jeu ne compte pas tire son courant de LiveWire (révision 6, voir l'exemple 7). |
 | `registerDebugKitItem(fullType, count)` | shared | Ajoute votre objet au kit de débogage de LiveWire (menu de débogage admin). |
 | `addPlacementRule(rule)` | shared | `rule(spriteName, square, character)` rend `nil` (pas ma tuile), `true`, ou `false, cléInfobulle` : contrôlée par le curseur de meuble et par le serveur. |
 | `registerSoftwareLines(fn)` | client | `fn(inverterId)` rend des lignes traduites pour l'onglet Maison du logiciel de gestion. Un seul fournisseur (LiveWire Extended l'utilise). |
@@ -60,7 +61,10 @@ require "LiveWire/LW_API"
 | `gridName(id)` | les deux | Le nom du réseau (`""` sans nom), ou `nil`. |
 | `anchors()` | les deux | Toutes les zones alimentées connues de ce côté : `{ [inverterId] = { x, y, z, on } }`. |
 | `mark(obj)`, `markOnSquare(sq, id)` | les deux | La marque LiveWire d'un objet posé (`id`, `model`…), ou l'objet portant cet id sur une case. |
-| `watts(obj)`, `applianceKind(obj)`, `applianceCut(obj)` | les deux | Consommation d'un appareil en W, sa famille (`"light"`, `"fridge"`…), et s'il est coupé par un circuit. |
+| `watts(obj)`, `applianceKind(obj)`, `applianceCut(obj)` | les deux | Consommation d'un appareil en W, sa famille (`"light"`, `"fridge"`… `"consumer"` pour un appareil inscrit), et s'il est coupé par un circuit. |
+| `consumer(obj)` | les deux | Id du consommateur inscrit que cet objet posé représente, ou `nil` (révision 6). |
+| `consumerPowered(obj)` | les deux | `true` quand un consommateur inscrit a du courant (LiveWire, générateur ou réseau public) et qu'aucun circuit ni disjoncteur ne le coupe (révision 6). |
+| `estimateWatts(w)` | les deux | `w` W avec `PowerScale` et le profil de consommation appliqués. |
 | `inventoryIds()`, `eachBilled(invId, fn)` | serveur | Les onduleurs qui ont mesuré des appareils, et `fn(objet, watts)` pour chaque appareil facturé à l'un d'eux. |
 | `writable()`, `deviceKnown(id)` | les deux | Le registre est-il prêt et modifiable ici ? Cet id est-il un appareil LiveWire ? |
 | `LiveWire.Config.get(name)` | les deux | Une option sandbox de LiveWire, par exemple `LinkRange` ou `GridCharging`. |
@@ -236,13 +240,95 @@ if not ok then print("MyMod: coupling refused: " .. tostring(why)) end
 
 Avec une portée supérieure à ce que trouve un balayage de cases, fournissez aussi `inverters(sq)`, qui rend les onduleurs atteignables sous la forme `{ obj, dist }`, du plus proche au plus loin.
 
+### 7. Faire consommer votre appareil (révision 6)
+
+Le jeu ne sait qu'un objet consomme de l'électricité que si sa classe Java le dit (lampes, frigos, cuisinières…). Un appareil dont l'électricité est gérée par votre propre code Lua est invisible pour un générateur vanilla comme pour LiveWire. Déclarez-le, et LiveWire le facture comme un appareil vanilla : écrans de l'onduleur, « Afficher les consommateurs », circuits du panneau et disjoncteurs de LiveWire Extended.
+
+```lua
+-- media/lua/shared/MyMod/MyMod_LiveWire.lua
+local function register()
+    local API = LiveWire and LiveWire.API
+    if not (API and (API.revision or 0) >= 6) then return end
+    local ok, why = API.registerConsumer("MyModPump", {
+        -- exact sprite names; for a multi-tile object, the sprite of ONE piece only
+        sprites = { "mymod_pumps_01_0", "mymod_pumps_01_1", "mymod_pumps_01_2", "mymod_pumps_01_3" },
+        -- W while running, 0 when off (LiveWire applies PowerScale and the consumption profile)
+        powerConsumption = function(o) return MyMod.isRunning(o) and 250 or 0 end,
+        -- optional: refines a sprite also used by a non-electric version
+        couldBePowered = function(o) return MyMod.isElectric(o) end,
+        category = "other",      -- optional: light, tv, radio, stove, laundry, charger, fridge, other
+        circuit = "equipment",   -- optional: "equipment" or "light" (panel circuit that cuts it)
+        -- optional: what the management software shows (called on the server, translated by the client)
+        display = function(o)
+            return { name = "IGUI_MyMod_Pump",
+                lines = { { "IGUI_MyMod_PumpFlow", string.format("%.1f", MyMod.flow(o)) } } }
+        end,
+        -- optional: one total per network, Equipment tab (called on the server, translated by the client)
+        summary = function(objects)
+            local running, flow = 0, 0
+            for _, o in ipairs(objects) do
+                if MyMod.isRunning(o) then running, flow = running + 1, flow + MyMod.flow(o) end
+            end
+            return { lines = { { "IGUI_MyMod_PumpsSummary", running, #objects, string.format("%.0f", flow) } } }
+        end,
+    })
+    if not ok then print("MyMod: LiveWire refused the pump: " .. tostring(why)) end
+end
+Events.OnInitWorld.Add(register)
+```
+
+Puis interrogez LiveWire avant que la machine travaille (des deux côtés ; LiveWire n'éteint jamais votre appareil et ne vous rappelle pas) :
+
+```lua
+if LiveWire and LiveWire.API.consumerPowered and not LiveWire.API.consumerPowered(pump) then
+    return -- no current, or cut by a circuit or a breaker
+end
+```
+
+Règles de `registerConsumer(id, definition)` :
+
+| Champ | Obligatoire | Règle |
+|---|---|---|
+| `id` | oui | `^[%a][%w_]*$`, 64 caractères au plus, unique |
+| `sprites` | oui | 1 à 256 noms de sprites exacts, sans doublon ; un sprite n'appartient qu'à un consommateur |
+| `powerConsumption(o)` | oui | W en marche, 0 à l'arrêt ; une valeur non numérique, négative ou NaN compte 0 |
+| `couldBePowered(o)` | non | appelée seulement pour un objet portant un de vos sprites ; `true` = c'est l'appareil |
+| `category` | non | `"light"`, `"tv"`, `"radio"`, `"stove"`, `"laundry"`, `"charger"`, `"fridge"` ou `"other"` (défaut) |
+| `circuit` | non | `"equipment"` (défaut) ou `"light"` |
+| `display(o)` | non | `{ name = clé, lines = { { clé, arg1, … }, … } }` : clés `^[%w_]+$` de 64 caractères au plus, prises dans vos propres traductions, 0 à 4 lignes, 0 à 4 arguments par ligne (chaînes de 32 caractères au plus, ou nombres affichés tels quels). Toute autre réponse, ou `nil`, garde la ligne habituelle. Même rendu sur l'écran de l'ordinateur LiveWire et dans la fenêtre du Computer Mod |
+| `summary(objects)` | non | un total par réseau, affiché dans l'onglet Équipements : appelée une fois par instantané avec un nouveau tableau de vos appareils que le réseau dessert (à l'arrêt compris, ceux du réseau public exclus) ; même réponse que `display`, 2 lignes au plus ; toute autre réponse, ou `nil`, n'affiche rien |
+
+Refus : `"registration_closed"`, `"invalid_definition"`, `"duplicate_consumer"`, `"duplicate_sprite"`. La définition est recopiée : la modifier après l'inscription n'a aucun effet.
+
+Détails du contrat :
+
+- **Quand inscrire :** dans un fichier `shared`, pendant le chargement des fichiers Lua ou dans `Events.OnInitWorld`, pour que le serveur et chaque client inscrivent les mêmes consommateurs. Après `OnInitGlobalModData`, la réponse est `false, "registration_closed"`.
+- **`o`** est toujours l'objet posé (`IsoObject`) reconnu par l'un de vos sprites.
+- **Meuble de plusieurs cases :** ne nommez le sprite que d'**une** pièce (ou laissez `couldBePowered` n'en accepter qu'une), sinon il est facturé une fois par pièce.
+- **`powerConsumption(o)`** est lue sur le serveur à chaque mesure de la zone (toutes les 10 minutes de jeu, et après un changement) : gardez-la rapide et sans effet de bord.
+- **`consumerPowered(obj)`** marche des deux côtés. Sur le serveur, elle lit les circuits ; sur un client, la coupure synchronisée par le serveur. LiveWire n'éteint jamais votre appareil : interrogez-le au démarrage de la machine et à chaque étape de son travail.
+- **`display(o)`** s'exécute sur le serveur, seulement quand LiveWire construit l'instantané d'un réseau : quand un joueur ouvre l'écran d'un onduleur, puis toutes les 10 minutes de jeu tant qu'il reste abonné et proche, lors d'un `gridAt` et d'une inspection d'appareil. Seulement pour vos appareils de cette liste (200 lignes au plus). Gardez-la rapide et sans effet de bord.
+- **`summary(objects)`** s'exécute sur le serveur aux mêmes moments que `display`, une fois par instantané pour chaque consommateur qui a au moins un appareil sur ce réseau (zone du maître, plus celles des onduleurs couplés quand un add-on les leur laisse). Ses lignes s'affichent dans l'onglet Équipements, sous les équipements de LiveWire, dans l'ordre d'inscription.
+- **Traductions de `display` :** le client traduit `name` et chaque ligne avec `getText(clé, args…)` ; les clés doivent donc figurer dans les fichiers de traduction de votre mod (`media/lua/shared/Translate/FR/IG_UI.json` pour les clés `IGUI_`), par exemple :
+
+```json
+{
+    "IGUI_MyMod_Pump": "Pompe de jardin",
+    "IGUI_MyMod_PumpFlow": "Débit : %1 L/h"
+}
+```
+
+- **Retrait :** un appareil retiré sort de la facture à la mesure suivante ; vous n'avez rien à appeler.
+- **Sans LiveWire :** testez `LiveWire and LiveWire.API and (LiveWire.API.revision or 0) >= 6` et gardez votre propre contrôle de courant (par exemple `ItemContainer.isObjectPowered(obj, true)`).
+
 ## Liste de contrôle multijoueur
 
-- Enregistrez dans `shared`, pour que le serveur et chaque client connaissent les mêmes batteries, sources et règles.
+- Enregistrez dans `shared`, pour que le serveur et chaque client connaissent les mêmes batteries, sources, consommateurs et règles.
+- La fonction `display` d'un consommateur s'exécute sur le serveur : rendez des clés de traduction, jamais du texte traduit.
 - Lisez le registre (`gridAt`, `inverter`, `eachBilled`…) sur le serveur seulement ; envoyez les résultats aux clients par vos propres commandes.
 - Ne modifiez jamais la ModData de LiveWire : rangez vos données sous votre propre clé, comme LiveWire Extended (`LiveWireExtended`).
 - Testez sur un serveur dédié : certaines fonctions répondent `nil` sur un client, c'est voulu.
 
 ## Questions
 
-Posez-les sur le [Discord](https://discord.gg/QEsBya7hUA) ou ouvrez un ticket sur [GitHub](https://github.com/cyberbobjr/LiveWire/issues). S'il vous manque une fonction, demandez-la plutôt que de lire les modules internes de LiveWire : c'est ainsi que les révisions 2 à 5 ont été ajoutées.
+Posez-les sur le [Discord](https://discord.gg/QEsBya7hUA) ou ouvrez un ticket sur [GitHub](https://github.com/cyberbobjr/LiveWire/issues). S'il vous manque une fonction, demandez-la plutôt que de lire les modules internes de LiveWire : c'est ainsi que les révisions 2 à 6 ont été ajoutées.

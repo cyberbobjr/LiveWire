@@ -2,9 +2,9 @@
 
 # For developers: the LiveWire API
 
-This page is for mod authors who want their mod to work with LiveWire: add a battery or a power source, read the state of a network, or build an add-on like LiveWire Extended. Players do not need it.
+This page is for mod authors who want their mod to work with LiveWire: add a battery or a power source, make an appliance draw power, read the state of a network, or build an add-on like LiveWire Extended. Players do not need it.
 
-Everything below is the public API of LiveWire 2.0.2 (`LiveWire.API` version 1, revision 5). It lives in `media/lua/shared/LiveWire/LW_API.lua` of `batman_LiveWire`: the file is short and every function has a comment.
+Everything below is the public API of LiveWire 2.0.3 (`LiveWire.API` version 1, revision 6; revision 6 adds the consumers of other mods). It lives in `media/lua/shared/LiveWire/LW_API.lua` of `batman_LiveWire`: the file is short and every function has a comment.
 
 ## How LiveWire works, in short
 
@@ -44,6 +44,7 @@ require "LiveWire/LW_API"
 |---|---|---|
 | `registerBattery(fullType, kWh, lifeCycles)` | shared | A new battery for power banks. The item must be `ItemType = base:drainable`, `ConditionMax = 100`, `KeepOnDeplete = true`. |
 | `registerSource(model, definition)` | shared | A new solar, wind or water source (see example 2). |
+| `registerConsumer(id, definition)` | shared | An appliance of your mod that the game does not count draws power from LiveWire (revision 6, see example 7). |
 | `registerDebugKitItem(fullType, count)` | shared | Adds your item to LiveWire's debug kit (admin debug menu). |
 | `addPlacementRule(rule)` | shared | `rule(spriteName, square, character)` returns `nil` (not my tile), `true`, or `false, tooltipKey`: checked by the furniture cursor and by the server. |
 | `registerSoftwareLines(fn)` | client | `fn(inverterId)` returns translated lines for the House tab of the management software. One provider only (LiveWire Extended uses it). |
@@ -60,7 +61,10 @@ require "LiveWire/LW_API"
 | `gridName(id)` | both | The network name (`""` when unnamed), or `nil`. |
 | `anchors()` | both | Every powered zone known on this side: `{ [inverterId] = { x, y, z, on } }`. |
 | `mark(obj)`, `markOnSquare(sq, id)` | both | The LiveWire mark of a placed object (`id`, `model`...), or the object with that id on a square. |
-| `watts(obj)`, `applianceKind(obj)`, `applianceCut(obj)` | both | Draw of an appliance in W, its family (`"light"`, `"fridge"`...), and whether a circuit cuts it. |
+| `watts(obj)`, `applianceKind(obj)`, `applianceCut(obj)` | both | Draw of an appliance in W, its family (`"light"`, `"fridge"`... `"consumer"` for a registered one), and whether a circuit cuts it. |
+| `consumer(obj)` | both | Id of the registered consumer this placed object is, or `nil` (revision 6). |
+| `consumerPowered(obj)` | both | `true` when a registered consumer has current (LiveWire, generator or public grid) and no circuit or breaker cuts it (revision 6). |
+| `estimateWatts(w)` | both | `w` W with `PowerScale` and the consumption profile applied. |
 | `inventoryIds()`, `eachBilled(invId, fn)` | server | Inverters that measured appliances, and `fn(object, watts)` for each appliance billed to one. |
 | `writable()`, `deviceKnown(id)` | both | Is the registry ready and writable here? Is this id a LiveWire device? |
 | `LiveWire.Config.get(name)` | both | A LiveWire sandbox option, for example `LinkRange` or `GridCharging`. |
@@ -234,13 +238,95 @@ if not ok then print("MyMod: coupling refused: " .. tostring(why)) end
 
 With a range beyond what a square scan finds, also give `inverters(sq)`, which returns the reachable inverters as `{ obj, dist }`, nearest first.
 
+### 7. Make your appliance draw power (revision 6)
+
+The game only knows that an object uses electricity when its Java class says so (lights, fridges, stoves...). An appliance whose power is handled by your own Lua code is invisible to a vanilla generator and to LiveWire. Declare it, and LiveWire bills it like a vanilla appliance: inverter screens, "Show consumers", panel circuits and LiveWire Extended breakers.
+
+```lua
+-- media/lua/shared/MyMod/MyMod_LiveWire.lua
+local function register()
+    local API = LiveWire and LiveWire.API
+    if not (API and (API.revision or 0) >= 6) then return end
+    local ok, why = API.registerConsumer("MyModPump", {
+        -- exact sprite names; for a multi-tile object, the sprite of ONE piece only
+        sprites = { "mymod_pumps_01_0", "mymod_pumps_01_1", "mymod_pumps_01_2", "mymod_pumps_01_3" },
+        -- W while running, 0 when off (LiveWire applies PowerScale and the consumption profile)
+        powerConsumption = function(o) return MyMod.isRunning(o) and 250 or 0 end,
+        -- optional: refines a sprite also used by a non-electric version
+        couldBePowered = function(o) return MyMod.isElectric(o) end,
+        category = "other",      -- optional: light, tv, radio, stove, laundry, charger, fridge, other
+        circuit = "equipment",   -- optional: "equipment" or "light" (panel circuit that cuts it)
+        -- optional: what the management software shows (called on the server, translated by the client)
+        display = function(o)
+            return { name = "IGUI_MyMod_Pump",
+                lines = { { "IGUI_MyMod_PumpFlow", string.format("%.1f", MyMod.flow(o)) } } }
+        end,
+        -- optional: one total per network, Equipment tab (called on the server, translated by the client)
+        summary = function(objects)
+            local running, flow = 0, 0
+            for _, o in ipairs(objects) do
+                if MyMod.isRunning(o) then running, flow = running + 1, flow + MyMod.flow(o) end
+            end
+            return { lines = { { "IGUI_MyMod_PumpsSummary", running, #objects, string.format("%.0f", flow) } } }
+        end,
+    })
+    if not ok then print("MyMod: LiveWire refused the pump: " .. tostring(why)) end
+end
+Events.OnInitWorld.Add(register)
+```
+
+Then ask LiveWire before the machine works (both sides; LiveWire never switches your appliance off, and does not call you back):
+
+```lua
+if LiveWire and LiveWire.API.consumerPowered and not LiveWire.API.consumerPowered(pump) then
+    return -- no current, or cut by a circuit or a breaker
+end
+```
+
+Rules of `registerConsumer(id, definition)`:
+
+| Field | Required | Rule |
+|---|---|---|
+| `id` | yes | `^[%a][%w_]*$`, at most 64 characters, unique |
+| `sprites` | yes | 1 to 256 exact sprite names, no duplicates; a sprite belongs to one consumer only |
+| `powerConsumption(o)` | yes | W while running, 0 when off; a non-number, negative or NaN value counts 0 |
+| `couldBePowered(o)` | no | called only for objects with one of your sprites; `true` = it is the appliance |
+| `category` | no | `"light"`, `"tv"`, `"radio"`, `"stove"`, `"laundry"`, `"charger"`, `"fridge"` or `"other"` (default) |
+| `circuit` | no | `"equipment"` (default) or `"light"` |
+| `display(o)` | no | `{ name = key, lines = { { key, arg1, ... }, ... } }`: keys `^[%w_]+$` of at most 64 characters from your own translations, 0 to 4 lines, 0 to 4 arguments per line (strings of at most 32 characters, or numbers shown as given). Anything else, or `nil`, keeps the usual row. Shown the same on LiveWire's computer screen and inside the Computer Mod window |
+| `summary(objects)` | no | one total per network, shown in the Equipment tab: called once per snapshot with a new array of your appliances the network serves (idle ones included, those on the public grid excluded); same answer as `display` with at most 2 lines; anything else, or `nil`, shows nothing |
+
+Refusals: `"registration_closed"`, `"invalid_definition"`, `"duplicate_consumer"`, `"duplicate_sprite"`. The definition is copied: changing it after registration does nothing.
+
+Contract details:
+
+- **When to register:** in a `shared` file, while Lua files load or in `Events.OnInitWorld`, so the server and every client register the same consumers. After `OnInitGlobalModData` the answer is `false, "registration_closed"`.
+- **`o`** is always the placed world object (`IsoObject`) found by one of your sprites.
+- **Multi-tile furniture:** name the sprite of **one** piece only (or let `couldBePowered` accept one piece), otherwise it is billed once per piece.
+- **`powerConsumption(o)`** is read on the server each time LiveWire measures the zone (every 10 in-game minutes, and after a change): keep it fast, without side effects.
+- **`consumerPowered(obj)`** works on both sides. On the server it reads the circuits; on a client it reads the cut the server synchronised. LiveWire never switches your appliance off: ask it when your machine starts, and at each step of its work.
+- **`display(o)`** runs on the server, only when LiveWire builds the snapshot of a network: when a player opens an inverter screen, then every 10 in-game minutes while that player stays subscribed and nearby, on `gridAt`, and on an appliance inspection. Only for your appliances in that list (at most 200 rows). Keep it fast, without side effects.
+- **`summary(objects)`** runs on the server at the same moments as `display`, once per snapshot for each consumer with at least one appliance on that network (master's zone, plus coupled inverters' zones when an add-on keeps them). Its lines appear in the Equipment tab, under LiveWire's own equipment, in registration order.
+- **Translations of `display`:** the client translates `name` and each line with `getText(key, args...)`, so the keys must be in your mod's translation files (`media/lua/shared/Translate/EN/IG_UI.json` for `IGUI_` keys), for example:
+
+```json
+{
+    "IGUI_MyMod_Pump": "Garden pump",
+    "IGUI_MyMod_PumpFlow": "Flow: %1 L/h"
+}
+```
+
+- **Removal:** a removed appliance leaves the bill at the next measurement; you have nothing to call.
+- **Without LiveWire:** test `LiveWire and LiveWire.API and (LiveWire.API.revision or 0) >= 6` and keep your own power check (for example `ItemContainer.isObjectPowered(obj, true)`).
+
 ## Multiplayer checklist
 
-- Register in `shared`, so the server and every client know the same batteries, sources and rules.
+- Register in `shared`, so the server and every client know the same batteries, sources, consumers and rules.
+- A consumer's `display` runs on the server: return translation keys, never translated text.
 - Read the registry (`gridAt`, `inverter`, `eachBilled`...) on the server only; send results to clients with your own commands.
 - Never change LiveWire's ModData yourself: keep your data under your own key, like LiveWire Extended does (`LiveWireExtended`).
 - Test on a dedicated server: some functions answer `nil` on a client by design.
 
 ## Questions
 
-Ask on the [Discord](https://discord.gg/QEsBya7hUA) or open an issue on [GitHub](https://github.com/cyberbobjr/LiveWire/issues). If you need something the API does not offer, ask for a new function rather than reading LiveWire's internal modules: that is how revisions 2 to 5 were added.
+Ask on the [Discord](https://discord.gg/QEsBya7hUA) or open an issue on [GitHub](https://github.com/cyberbobjr/LiveWire/issues). If you need something the API does not offer, ask for a new function rather than reading LiveWire's internal modules: that is how revisions 2 to 6 were added.

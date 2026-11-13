@@ -651,7 +651,8 @@ class ApplianceScope(unittest.TestCase):
                 if (t == 'fridge' and s.fridge) or (t == 'freezer' and s.freezer) then return {} end
             end
             o.getSprite = function(s)
-                return {getProperties = function() return {has = function() return s.fuel == true end} end}
+                return {getName = function() return nil end,
+                    getProperties = function() return {has = function() return s.fuel == true end} end}
             end
             o.getCanBeModified = function() return false end
             o.getUseBattery = function() return false end

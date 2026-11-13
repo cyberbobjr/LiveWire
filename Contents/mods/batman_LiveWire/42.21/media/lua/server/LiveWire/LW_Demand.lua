@@ -131,7 +131,8 @@ local function collect(job, cell, x, y, z)
     local objs = sq:getObjects()
     for i = 0, objs:size() - 1 do
         local o = objs:get(i)
-        if o:couldBePoweredByGenerator() or (LiveWire.Appliances and LiveWire.Appliances.saved(o)) then
+        if o:couldBePoweredByGenerator() or (LiveWire.Appliances and LiveWire.Appliances.saved(o))
+            or LiveWire.Consumers.of(o) then
             job.list[#job.list + 1] = o
         end
     end
@@ -195,8 +196,8 @@ end
 function Demand.category(o)
     local saved = LiveWire.Appliances and LiveWire.Appliances.saved(o)
     if saved and saved.category then return saved.category end
-    local family = LiveWire.ApplianceFamilies.of(o, "category")
-    return family and family.category or "other"
+    local Fam = LiveWire.ApplianceFamilies
+    return Fam.value(Fam.of(o, "category"), "category", o) or "other"
 end
 
 -- Several independent inverters whose areas overlap: count each appliance once, on
@@ -371,6 +372,25 @@ function Demand.each(inv, fn)
     end
 end
 
+-- fn(object) for every appliance inverter `inv` serves in its last measurement, idle ones
+-- included, those still fed by the public grid excluded (ADR-002 D08).
+function Demand.eachServed(inv, fn)
+    local entry = Demand.inventories[inv.id]
+    if not entry or not entry.measured or not entry.readings then return end
+    for i, o in ipairs(entry.objects) do
+        if entry.readings[i] ~= nil and entry.owners[i] and o:getObjectIndex() ~= -1 then fn(o) end
+    end
+end
+
+-- Same for a whole network: the master's zone, plus each coupled inverter in service when an
+-- add-on lets them keep a zone (the perimeter of Demand.measureGrid).
+function Demand.eachServedOfGrid(grid, inv, fn)
+    Demand.eachServed(inv, fn)
+    if not grid or not LiveWire.Coupling.slaveKeepsZone() then return end
+    local _, list = LiveWire.Inverters.inService(grid)
+    for i = 1, #list do Demand.eachServed(list[i], fn) end
+end
+
 -- Ids of the inverters that have an appliance list (a new array, D-48).
 function Demand.ids()
     local out = {}
@@ -453,7 +473,8 @@ function Demand.consumers(inv)
         out[i] = { x = r.x, y = r.y, z = r.z, cat = r.cat, w = served and r.w or 0, grid = r.grid,
             objectIndex = o and o:getObjectIndex() or -1, sprite = sprite and sprite:getName(),
             requestedW = math.floor((r.requested or r.w) + 0.5), served = served == true, owned = r.owned,
-            circuitOff = LiveWire.Appliances and LiveWire.Appliances.blocked(o) or false }
+            circuitOff = LiveWire.Appliances and LiveWire.Appliances.blocked(o) or false,
+            info = o and LiveWire.Consumers.info(LiveWire.Consumers.of(o), o) or nil }
     end
     return out
 end
@@ -462,7 +483,7 @@ end
 -- through the placement wrapper).
 local function onObjectChanged(obj)
     if not obj or not obj.getSquare or not obj.couldBePoweredByGenerator then return end
-    if not obj:couldBePoweredByGenerator() then return end
+    if not obj:couldBePoweredByGenerator() and not LiveWire.Consumers.of(obj) then return end
     Demand.invalidateAt(obj:getSquare())
 end
 

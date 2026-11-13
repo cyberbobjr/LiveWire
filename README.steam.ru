@@ -47,7 +47,7 @@ Extended и модели требуют LiveWire, включённый рань�
 
 [h2]Водяной насос[/h2]
 
-Насос (Электрика 3) питает сантехнику в 15 клетках от 8 соседних дождевых сборников или бочек [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
+Насос (Электрика 3) питает сантехнику в 15 клетках от 8 соседних дождевых сборников или бочек [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]. Скоро он переедет в отдельный мод LiveWater.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Насос[/url]
 
 [h2]Рецепты[/h2]
@@ -98,9 +98,10 @@ Extended и модели требуют LiveWire, включённый рань�
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Вики LiveWire[/url] · Исходный код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]Пара слов об ИИ[/h2]
+[h2]Для авторов модов[/h2]
 
-Я разработчик уже много лет и делал моды задолго до появления агентов для кода, часто в ущерб времени с семьёй. Я открыто использую Claude Code и Codex: каждая функция по-прежнему обсуждается, проектируется и планируется, а не пишется «на вайбе» вслепую. ИИ здесь надолго; я решил адаптироваться, а не сопротивляться. Спасибо всем, кто встал на защиту от личных нападок.
+API позволяет электрическим машинам других модов брать энергию из LiveWire: их потребление учитывает инвертор, их отключают его цепи, и они видны в программе управления.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]Руководство разработчика (EN)[/url]
 
 [h2]Поддержать проект[/h2]
 

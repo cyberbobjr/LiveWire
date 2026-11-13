@@ -225,6 +225,10 @@ function Sim.snapshot(grid)
         snap.events[#snap.events + 1] = { t = e.t, tod = e.tod, key = e.key, args = args }
     end
     snap.consumers = LiveWire.Demand.consumers and LiveWire.Demand.consumers(inv) or {}
+    -- Totals of the consumers of other mods on this network (ADR-002 D08).
+    snap.consumerSummaries = LiveWire.Consumers.summaries(function(fn)
+        if LiveWire.Demand.eachServedOfGrid then LiveWire.Demand.eachServedOfGrid(grid, inv, fn) end
+    end)
     snap.links = {}
     for id in pairs(grid.members) do
         local d = R.device(id)

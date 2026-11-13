@@ -83,14 +83,16 @@ function Circuits.owner(o)
     end
     return best and R.grid(best.grid) or nil
 end
-local function panelOpen(g, kind)
-    return g and (kind == "light" and g.lightsOff == true or kind ~= "light" and g.equipmentOff == true) or false
+local function panelOpen(g, o, kind)
+    if not g then return false end
+    if LiveWire.ApplianceFamilies.circuit(o, kind) == "light" then return g.lightsOff == true end
+    return g.equipmentOff == true
 end
 -- The panel circuits of I21, then a registered provider (LW_CircuitProvider), which can
 -- only cut more.
 local function blocked(o, g, kind)
     if not kind then return false end
-    return panelOpen(g, kind) or LiveWire.CircuitProvider.blocked(o, kind, g)
+    return panelOpen(g, o, kind) or LiveWire.CircuitProvider.blocked(o, kind, g)
 end
 -- Same test for an object whose family `kind` is already known (nil: not an appliance).
 function Circuits.blockedAs(o, kind)

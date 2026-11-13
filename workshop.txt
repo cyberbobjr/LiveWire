@@ -54,7 +54,7 @@ description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-05-inverter-scre
 description=
 description=[h2]Water pump[/h2]
 description=
-description=A water pump (Electrical 3) feeds plumbed fixtures within 15 tiles, from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
+description=A water pump (Electrical 3) feeds plumbed fixtures within 15 tiles, from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]. It will soon move to its own mod, LiveWater.
 description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Water pump guide[/url]
 description=
 description=[h2]Recipes[/h2]
@@ -105,9 +105,10 @@ description=[h2]Documentation & Discord[/h2]
 description=
 description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · Source code: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 description=
-description=[h2]A note on AI[/h2]
+description=[h2]For mod developers[/h2]
 description=
-description=I've been a developer for years and made mods long before coding agents existed, often at the expense of time with my family. I openly use Claude Code and Codex: every feature is still discussed, designed and planned, not blindly "vibe coded". AI is here to stay; I chose to adapt rather than resist. Thank you to everyone who stood up against the personal attacks.
+description=An API lets the electric machines of other mods draw power from LiveWire: billed by the inverter, cut by its circuits and shown in the management software.
+description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]Developer guide[/url]
 description=
 description=[h2]Support the project[/h2]
 description=

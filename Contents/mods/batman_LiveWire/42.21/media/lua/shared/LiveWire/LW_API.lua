@@ -2,8 +2,9 @@
 require "LiveWire/LW_Defs"
 require "LiveWire/LW_Coverage"
 require "LiveWire/LW_Extension"
+require "LiveWire/LW_Consumers"
 LiveWire = LiveWire or {}
-local API = { version = 1, revision = 5 }
+local API = { version = 1, revision = 6 }
 LiveWire.API = API
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -459,4 +460,39 @@ function API.debugKitItems()
     local out = {}
     for i = 1, #debugKit do out[i] = { debugKit[i][1], debugKit[i][2] } end
     return out
+end
+
+-- ---------------------------------------------------------------- consumers of other mods (revision 6, ADR-002)
+-- An appliance the engine does not bill (couldBePoweredByGenerator() false or
+-- getGeneratorPowerConsumption() 0) declares itself, from a shared Lua file, while files load:
+--   LiveWire.API.registerConsumer("MyMachine", {
+--       sprites = { "mymod_machines_0", ... },      -- exact sprite names (required)
+--       powerConsumption = function(o) return W end, -- W while running, 0 when off (required)
+--       couldBePowered = function(o) return bool end,-- optional: refines a shared sprite
+--       category = "other",                          -- optional: light, tv, radio, stove, laundry,
+--                                                    --   charger, fridge or other
+--       circuit = "equipment",                       -- optional: "light" or "equipment"
+--       display = function(o) return info end,       -- optional: its rows in the Consumers tab
+--       summary = function(objects) return info end })-- optional: network total, Equipment tab
+-- info = { name = key, lines = { { key, arg, ... } } }: translation keys of the mod, translated by
+-- the client (4 lines for display, 2 for summary; see LW_Consumers.lua and ADR-002).
+-- Live Wire bills it (PowerScale and the consumption profile applied) and its panel circuits or
+-- breakers may cut it; it never touches the appliance itself. A multi-tile appliance names the
+-- sprite of one piece only. Returns true, or false and "registration_closed",
+-- "invalid_definition", "duplicate_consumer", "duplicate_sprite".
+function API.registerConsumer(id, definition) return LiveWire.Consumers.register(id, definition) end
+
+-- Id of the registered consumer world object `obj` is, or nil.
+function API.consumer(obj)
+    local c = LiveWire.Consumers.of(obj)
+    return c and c.id or nil
+end
+
+-- Does the registered consumer `obj` really have current? True when its square is powered (Live
+-- Wire, generator or public grid, as ItemContainer.isObjectPowered) and no circuit or breaker cuts
+-- it; false otherwise and for an object that is not a registered consumer. Both sides: a client
+-- reads the synchronised cut. Ask it when the machine is used; there is no callback.
+function API.consumerPowered(obj)
+    if not LiveWire.Consumers.of(obj) or not obj:getSquare() then return false end
+    return ItemContainer.isObjectPowered(obj, true) and not LiveWire.Appliances.blockedAs(obj, "consumer")
 end

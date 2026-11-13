@@ -48,7 +48,7 @@ ExtendedとモデルはLiveWireが必要で、その後に有効化。
 
 [h2]水ポンプ[/h2]
 
-水ポンプ（電気工学3）は、隣接する最大8個の雨水収集器や [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] から、15マス以内の配管済み設備に給水します。
+水ポンプ（電気工学3）は、隣接する最大8個の雨水収集器や [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] から、15マス以内の配管済み設備に給水します。水ポンプはまもなく独立したMOD「LiveWater」に移ります。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]水ポンプガイド[/url]
 
 [h2]レシピ[/h2]
@@ -100,9 +100,10 @@ MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Power
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · ソースコード：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]AIについて[/h2]
+[h2]MOD開発者の方へ[/h2]
 
-私は長年開発に携わり、コーディングエージェントが登場するずっと前からMODを作ってきました。家族との時間を犠牲にすることも少なくありません。Claude CodeやCodexを公然と使っていますが、すべての機能は依然として議論・設計・計画されており、盲目的に「バイブコーディング」しているわけではありません。AIは今後も続きます。私は抵抗するより適応することを選びました。個人への攻撃に立ち向かってくれた皆さんに感謝します。
+APIにより、他MODの電気機械がLiveWireから電力を得られます。インバーターが課金し、その回路で遮断でき、管理ソフトに表示されます。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]開発者ガイド（英語）[/url]
 
 [h2]プロジェクトを支援[/h2]
 

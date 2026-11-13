@@ -68,7 +68,7 @@ Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de déc
 
 ### 2.5 Autres scripts
 
-- `LiveWire_sounds.txt` (module `Base`) : `LiveWireInverterHum` utilise l'événement vanilla `Object/CarBatteryCharger/Running` (distances min/max 1/2) ; `LiveWirePumpHum`, `Object/ClothingWasher/Running` (1/4). Les noms des sons et le réglage de volume Live Wire sont conservés. Le mixage des effets, la spatialisation et l'atténuation sont natifs ; aucun contrôle Lua de distance ou d'étage. `LW_Hum.sync` adapte seulement les marques marche/arrêt et insonorisation, depuis la découverte et la réconciliation visuelle existantes (environ 1 s pour une marque modifiée). Suppression, déchargement et fin de session nettoient les boucles. Le bip garde un OnTick temporaire pendant ses trois secondes, retiré après le dernier bip.
+- `LiveWire_sounds.txt` (module `Base`) : `LiveWireInverterHum` joue le fichier du mod `media/sound/LiveWireInverterHum.ogg` (volume 0,045, distances min/max 1/2) ; `LiveWirePumpHum`, `media/sound/LiveWirePumpHum.ogg` (0,05, 1/4), produits par `source/sound/make_hum.sh` et `make_pump.sh`. Les événements vanilla `Object/CarBatteryCharger/Running` et `Object/ClothingWasher/Running`, utilisés du 2026-11-02 au 2026-11-13, jouaient (`isPlaying` vrai) mais restaient inaudibles en jeu, même au volume 1,0 et sans distance imposée (constaté en jeu par l'utilisateur, 2026-11-13). Le réglage de volume Live Wire est conservé. Le mixage des effets, la spatialisation et l'atténuation sont natifs ; aucun contrôle Lua de distance ou d'étage. `LW_Hum.sync` adapte seulement les marques marche/arrêt et insonorisation, depuis la découverte et la réconciliation visuelle existantes (environ 1 s pour une marque modifiée). Suppression, déchargement et fin de session nettoient les boucles. Le bip garde un OnTick temporaire pendant ses trois secondes, retiré après le dernier bip.
 - `LiveWire_models.txt` : modèles au sol provisoires des objets d'inventaire (`media/models_X/LiveWire/*.glb`).
 - Butin : `media/lua/server/Items/LiveWire_Distributions.lua` (listes `ProceduralDistributions`) ; le disque `MonitorDisk` n'est ajouté que si le Computer Mod est actif. Tableau des chances : [`wiki/fr/09-tables-de-butin.md`](wiki/fr/09-tables-de-butin.md).
 
@@ -495,8 +495,8 @@ commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau
   autre mod qui remplacerait délibérément leurs fonctions ; ils ne font pas
   partie du contrat d'extension.
 - Raisons d'enregistrement stables : `registration_closed`, `invalid_definition`,
-  `duplicate_type`, `duplicate_model`, `duplicate_sprite`. `API.version=1` ; `API.revision=5`
-  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage). `registerBattery`, `registerSource`, `battery`, `source`,
+  `duplicate_type`, `duplicate_model`, `duplicate_sprite`, `duplicate_consumer`. `API.version=1` ; `API.revision=6`
+  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage ; révision 6 : consommateurs des autres mods, ADR-002). `registerBattery`, `registerSource`, `battery`, `source`,
   `gridAt` sont inchangées.
 
 ### API publique : services pour sous-mods (révision 2, D-47, 2026-11-09)
@@ -615,6 +615,34 @@ schéma de sauvegarde et aucun appel au ramasse-miettes dans le mod de productio
 
 
 ## Contrats du complément d'interface local
+
+### API publique : consommateurs des autres mods (révision 6, ADR-002, 2026-11-13)
+
+Un appareil que le moteur ne compte pas (`couldBePoweredByGenerator()` faux ou `getGeneratorPowerConsumption()` nul)
+est déclaré par son mod ; contrat complet, arguments et exemple : [ADR-002](ADR/002-api-consommateurs.md#contrat-de-lapi-révision-6),
+wiki développeurs (exemple 7). Registre `shared/LiveWire/LW_Consumers.lua` (index par nom de sprite, scellé à
+`OnInitGlobalModData`) ; famille `consumer` en tête de `LW_ApplianceFamilies` (`stateless`, `category` et `circuit`
+fonctions de l'objet). Aucun abonnement à un événement : le recensement existant de `LW_Demand` liste aussi les objets
+inscrits, `OnObjectAboutToBeRemoved` les invalide. Tests : `tests/test_api_consumers.py`.
+
+| Fonction | Rôle |
+|---|---|
+| `API.registerConsumer(id, définition)` | shared, avant `OnInitGlobalModData` : `sprites` (1 à 256 noms exacts), `powerConsumption(o)` (W en marche, 0 à l'arrêt), facultatifs `couldBePowered(o)`, `category`, `circuit` (`equipment`/`light`), `display(o)`, `summary(objects)`. `true`, ou `false` et `registration_closed`, `invalid_definition`, `duplicate_consumer`, `duplicate_sprite` |
+| `API.consumer(obj)` | id du consommateur inscrit qui reconnaît l'objet posé, ou `nil` |
+| `API.consumerPowered(obj)` | les deux côtés : `ItemContainer.isObjectPowered(obj, true)` et aucune coupure (circuits du panneau, fournisseur de circuits ; sur un client, coupure lue dans la ModData `LiveWireCircuit` synchronisée) ; `false` pour un objet non inscrit |
+
+- Facturation : `Consumption.watts` lit d'abord le consommateur (valeur moteur remplacée), applique
+  `Consumption.estimate` (`PowerScale`, facteur du profil) et rend 0 quand l'appareil est coupé ; Live Wire n'appelle
+  jamais de méthode d'état de l'objet (`capture`/`apply` sans champ `on`).
+- Coupure : `Circuits.panelOpen` suit `ApplianceFamilies.circuit(o, kind)` (`light` pour les lampes et les consommateurs
+  `circuit = "light"`, `equipment` sinon).
+- Affichage (D07) : `Demand.consumers` joint `info = { name, lines }` à la ligne d'un objet inscrit qui a `display` ;
+  copie bornée (`Consumers.info`) : clés `^[%w_]+$` de 64 caractères au plus, 4 lignes, 4 arguments (chaîne de 32
+  caractères au plus ou nombre). `LW_SoftwareApp` (écran Live Wire et fenêtre du Computer Mod) traduit le nom à la place
+  de la famille et ajoute les lignes en retrait dans l'onglet « Consommateurs ».
+- Résumé par réseau (D08) : `Sim.snapshot` joint `consumerSummaries = { { id, name, lines }, ... }` (ordre d'inscription) ; `Consumers.summaries` groupe par consommateur les objets que `Demand.eachServedOfGrid` parcourt (zone du maître et des couplés en service si `Coupling.slaveKeepsZone`, lectures non nulles, appareils possédés, réseau public exclu), appelle `summary(objects)` une fois par consommateur présent et garde une copie bornée à 2 lignes. `App:summaryRows` traduit une fois par instantané ; affichage dans l'onglet « Équipements ».
+- Extended : `LWX_CircuitProvider.extraWatts` ignore un objet inscrit (pas de double facture) ; son adaptateur vanilla
+  reconnaît la famille `consumer` comme tout appareil (`API.applianceKind`).
 
 ### Wattmètre du tableau (F28)
 

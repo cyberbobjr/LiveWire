@@ -1,8 +1,11 @@
 module Base
 {
-    /* Native events: spatialization, virtualization and the SFX mixer belong to
-       the game. Keep mod sound names so existing per-sound settings still apply.
-       Distance overrides are integers in GameSoundScript.LoadClip (Build 42.21). */
+    /* Mod hums (source/sound/make_hum.sh, make_pump.sh), played locally while a
+       device runs (LW_Hum.lua). The native car battery charger event replaced
+       them on 2026-11-02 but stayed inaudible in game, even at full volume and
+       without a range override: the mod files are back. FMOD handles distance
+       through distanceMin/distanceMax. Those values are integers
+       (GameSoundScript.LoadClip): a decimal value is a script load error. */
 
     sound LiveWireInverterHum
     {
@@ -11,10 +14,10 @@ module Base
         is3D = true,
         clip
         {
-            event = Object/CarBatteryCharger/Running,
+            file = media/sound/LiveWireInverterHum.ogg,
             distanceMin = 1,
             distanceMax = 2,
-            volume = 0.12,
+            volume = 0.045,
         }
     }
 
@@ -25,10 +28,10 @@ module Base
         is3D = true,
         clip
         {
-            event = Object/ClothingWasher/Running,
+            file = media/sound/LiveWirePumpHum.ogg,
             distanceMin = 1,
             distanceMax = 4,
-            volume = 0.15,
+            volume = 0.05,
         }
     }
 }

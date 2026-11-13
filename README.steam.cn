@@ -51,7 +51,7 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 
 [h2]水泵[/h2]
 
-水泵（电工 3 级）可从最多 8 个相邻的雨水收集器或 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 取水，为 15 格内接通水管的设备供水。
+水泵（电工 3 级）可从最多 8 个相邻的雨水收集器或 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 取水，为 15 格内接通水管的设备供水。水泵即将移至独立模组 LiveWater。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]水泵指南[/url]
 
 [h2]配方[/h2]
@@ -103,9 +103,10 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 维基[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]关于 AI 的说明[/h2]
+[h2]致模组开发者[/h2]
 
-我做开发多年，早在编程代理出现之前就做过模组，常常以牺牲陪伴家人的时间为代价。我公开使用 Claude Code 和 Codex：每个功能仍然经过讨论、设计和规划，而不是盲目地“氛围编程”。AI 会一直存在；我选择适应而不是抵抗。感谢所有在人身攻击面前挺身而出的人。
+通过 API，其他模组的电器可以从 LiveWire 取电：由逆变器计费、受其回路切断，并显示在管理软件中。
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]开发者指南（英文）[/url]
 
 [h2]支持本项目[/h2]
 

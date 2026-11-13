@@ -48,7 +48,7 @@ Platzieren: Schraubenzieher, keine Stufe. Anschluss: Solarmodule und Wechselrich
 
 [h2]Wasserpumpe[/h2]
 
-Eine Wasserpumpe (Elektrotechnik 3) versorgt Sanitäranlagen im Umkreis von 15 Feldern, aus bis zu 8 angrenzenden Regensammlern oder [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url].
+Eine Wasserpumpe (Elektrotechnik 3) versorgt Sanitäranlagen im Umkreis von 15 Feldern, aus bis zu 8 angrenzenden Regensammlern oder [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]. Sie zieht bald in einen eigenen Mod um: LiveWater.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Wasserpumpen-Anleitung[/url]
 
 [h2]Rezepte[/h2]
@@ -100,9 +100,10 @@ Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=37254
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire-Wiki[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]Ein Wort zu KI[/h2]
+[h2]Für Mod-Entwickler[/h2]
 
-Ich bin seit Jahren Entwickler und habe Mods lange vor den Code-Agenten gebaut, oft auf Kosten der Zeit mit meiner Familie. Ich nutze offen Claude Code und Codex: Jede Funktion wird weiterhin besprochen, entworfen und geplant, nicht blind „vibe-codiert“. KI ist gekommen, um zu bleiben; ich habe mich entschieden, mich anzupassen statt Widerstand zu leisten. Danke an alle, die sich gegen die persönlichen Angriffe gestellt haben.
+Über eine API beziehen elektrische Maschinen anderer Mods Strom aus LiveWire: vom Wechselrichter abgerechnet, von seinen Stromkreisen abgeschaltet und in der Verwaltungssoftware angezeigt.
+[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]Entwicklerhandbuch (EN)[/url]
 
 [h2]Projekt unterstützen[/h2]
 

@@ -36,6 +36,8 @@ provider.extraWatts = function(inv)
         local r = a and boards[p.board]
         if r and inv and r.inv == inv.id then
             local o = PT.objectsOf(key, p)[1]
+            -- A consumer its own mod registered (ADR-002) is already billed by Live Wire.
+            if o and LiveWire.API.consumer(o) then o = nil end
             local d = o and a.watts(o) or 0
             if d > 0 then w, n = w + d, n + 1 end
         end

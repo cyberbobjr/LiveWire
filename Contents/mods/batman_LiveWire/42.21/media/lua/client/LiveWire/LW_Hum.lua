@@ -1,4 +1,4 @@
--- Live Wire: device state selects native sound events. The world updates the
+-- Live Wire: device state selects the hum sounds (LiveWire_sounds.txt). The world updates the
 -- emitters; FMOD handles distance, attenuation, occlusion and the SFX volume.
 -- Visuals already reconciles loaded device marks: no separate scan or OnTick.
 if isServer() then return end
@@ -42,7 +42,6 @@ function Hum.start(obj, volume, sound)
     -- Local playback: playSound would broadcast a loop without a matching MP stop.
     local ref = em:playSoundImpl(sound, false, nil)
     if not ref or ref == 0 then return end
-    if sound == Hum.PUMP_SOUND then em:setParameterValueByName(ref, "ClothingWasherLoaded", 0) end
     em:setVolume(ref, volume)
     Hum.active[obj] = { em = em, id = ref, sound = sound, volume = volume }
 end

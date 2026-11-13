@@ -6,6 +6,7 @@
 -- Sources and rationale: docs/specifications-fonctionnelles.md, section 5.3.
 
 require "LiveWire/LW_ApplianceFamilies"
+require "LiveWire/LW_Consumers"
 LiveWire = LiveWire or {}
 
 local Consumption = {}
@@ -79,6 +80,16 @@ end
 -- Draw in W of an appliance, 0 when it is off; includes LiveWire.PowerScale.
 -- `profile` is optional (read once by the caller for a whole scan).
 function Consumption.watts(o, profile, beforeCircuit)
+    -- Appliance of another mod (ADR-002): its declared draw replaces the engine value. Live
+    -- Wire never switches it off, so a cut one bills 0 W here.
+    local consumer = LiveWire.Consumers.of(o)
+    if consumer then
+        if not beforeCircuit and LiveWire.Appliances and LiveWire.Appliances.blockedAs(o, "consumer") then
+            return 0
+        end
+        local w = LiveWire.Consumers.rawWatts(consumer, o)
+        return w > 0 and Consumption.estimate(w) or 0
+    end
     -- Fuel pumps have no native activation flag. Their actual dispensing actions
     -- are refused on both peers, including partial transfers and completion.
     if not beforeCircuit and LiveWire.Appliances and LiveWire.Appliances.kind(o) == "fuel"
