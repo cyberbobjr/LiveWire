@@ -44,6 +44,14 @@ local function dropSlotPoints(slot)
     return dropped
 end
 
+-- Wire spent on dropped points (`wires` is recorded at wiring time; prewired house circuits
+-- and points wired before it was recorded cost nothing to give back).
+local function wiresOf(points)
+    local n = 0
+    for _, p in pairs(points) do n = n + (tonumber(p and p.wires) or 0) end
+    return n
+end
+
 function PT.connect(character, o, boardObj, pos)
     local ok, why, arg1, arg2 = PT.checkConnect(character, o, boardObj, pos)
     if not ok then
@@ -58,7 +66,7 @@ function PT.connect(character, o, boardObj, pos)
     local slot = B.slotAt(record, tonumber(pos))
     local key = Ad.identity(o)
     PT.table()[key] = { board = boardKey, pos = slot.pos, x = sq:getX(), y = sq:getY(), z = sq:getZ(),
-        adapter = Ad.find(o).id }
+        adapter = Ad.find(o).id, wires = wires }
     slot.points = slot.points or {}
     slot.points[key] = true
     LiveWire.API.awardXp(character, "lwx:" .. key, PT.XP, 24)
@@ -79,6 +87,8 @@ function PT.disconnect(character, o)
     transmit()
     PT.apply(o)
     LiveWire.notify(character, "IGUI_LWX_PointDisconnected", {})
+    -- the wire of the point comes back to the player who unwires it
+    LiveWire.API.returnWires(character, wiresOf({ p }))
     X.log("point " .. key .. " unwired")
     return true
 end
@@ -112,11 +122,13 @@ function PS.setBreaker(character, boardObj, pos, off)
     return true
 end
 
--- A breaker leaves its board: its points are unwired.
+-- A breaker leaves its board: its points are unwired, their wire goes to the player.
 local previousRemoved = PS.onBreakerRemoved
 PS.onBreakerRemoved = function(record, slot, character)
     if previousRemoved then previousRemoved(record, slot, character) end
-    applyKeys(dropSlotPoints(slot))
+    local dropped = dropSlotPoints(slot)
+    LiveWire.API.returnWires(character, wiresOf(dropped))
+    applyKeys(dropped)
 end
 
 -- A board is linked or forgotten: regions change; a forgotten board unwires its points.
@@ -131,6 +143,9 @@ P.kind.onForget = function(record, key)
     for _, slot in ipairs(record.slots or {}) do
         for k, p in pairs(dropSlotPoints(slot)) do dropped[k] = p end
     end
+    -- kept on the detached record: PS.giveBack returns it to the player who unlinks or picks
+    -- up the board (a destroyed board loses it)
+    record.pointWires = wiresOf(dropped)
     PT.regionsChanged()
     applyKeys(dropped)
 end

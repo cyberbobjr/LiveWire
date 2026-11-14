@@ -50,6 +50,8 @@ function PS.giveBack(record, character)
         if not slot.prewired then LiveWire.API.giveItem(character, slot.type) end
         if slot.twilight then LiveWire.API.giveItem(character, X.Breakers.TWILIGHT_ITEM) end
     end
+    -- the wire of the appliances wired to its breakers (LWX_PointsServer, onForget)
+    LiveWire.API.returnWires(character, record.pointWires)
 end
 P.kind.onPickedUp = PS.giveBack
 

@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "需要电子废料和电线。",
     "Tooltip_LW_NeedWire": "需要 %1 根电线。",
     "Tooltip_LW_NeedWater": "需要半升水。",
+    "Tooltip_LW_NeedCleaningCloth": "需要一块抹布、海绵、洗碗布或毛巾。",
+    "Tooltip_LW_PanelAlreadyClean": "这块面板已经很干净了。",
     "Tooltip_LW_NeedOutdoor": "必须放置在户外，露天之下。",
     "Tooltip_LW_NeedWaterSide": "必须放置在岸边，靠近水源。",
     "Tooltip_LW_NoInverterInRange": "电缆范围内没有逆变器。",

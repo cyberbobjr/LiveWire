@@ -166,7 +166,7 @@ There is **no limit**: productions add up (100 W nominal each). The 1,500 W limi
 
 With the sandbox option `SolarOrientation` on (the default), south gives 100 %, east and west 85 % (with an earlier or later peak), and north 55 %. Inspect a panel to read its facing, dirt and snow. The `SolarDirt` option adds slow dust build-up (faster in autumn); rain helps wash it off.
 
-Two actions clean a panel. **Clean panel** uses a rag and 0.5 L of water and removes dirt and snow. **Clear the snow** removes only the snow.
+Two actions clean a panel. **Clean panel** uses a rag, a sponge, a dish cloth or a towel (kept) and 0.5 L of water and removes dirt and snow. **Clear the snow** removes only the snow.
 
 A braked wind turbine has a blinking connection lamp.
 

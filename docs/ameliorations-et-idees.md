@@ -938,3 +938,29 @@ Version 1.6.4 publiée depuis `82ddcef`, tag `v1.6.4`, avec la note du changelog
 Envoi principal et neuf traductions confirmés ; onze captures Steam inchangées ;
 bloc `Workshop ID / Mod ID` vérifié en fin de description anglaise ; objet public
 et lisible anonymement. Limite de validation inchangée : aucun test en jeu.
+
+
+## Correctif — retours Steam du 2026-11-14 (nettoyage, menu du tableau, fil des appareils)
+
+Trois retours de joueurs sur la page Steam, tous corrigés sur demande de l'utilisateur.
+
+- **Nettoyage des panneaux.** « Nettoyer le panneau » n'acceptait qu'un chiffon
+  (`Base.RippedSheets`) ; avec une éponge ou un torchon, le personnage marchait jusqu'au
+  panneau puis l'action s'annulait sans rien dire. Désormais, tout objet que le jeu
+  utilise pour laver les taches (étiquette `CleanStains`, non cassé) convient aussi ;
+  l'option est grisée avec la raison (outil, eau, panneau déjà propre)
+  (`LWCleanPanelAction.canClean`).
+- **Menu d'installation d'un disjoncteur sous la fenêtre du tableau.** Il est maintenant
+  ouvert au relâchement du clic (`LWX_BoardWindow.lua`, `Window:onMouseUp`). Cause dans
+  la note moteur NM-67.
+- **Fil des appareils raccordés à un disjoncteur.** Il n'était jamais rendu, contrairement
+  à la spécification (`specifications-fonctionnelles.md`, retour du fil). Le nombre de fils
+  est enregistré au raccordement (`points[clé].wires`) et rendu au débranchement, au retrait
+  du disjoncteur et au débranchement ou ramassage du tableau ; un tableau détruit le perd.
+  Les raccordements antérieurs n'ont pas ce nombre et ne rendent rien (aucun abus possible).
+
+Vérifications : `tools/check_mod.py` OK ; les 60 fichiers de tests hors jeu réussis, dont
+`tests/test_clean_panel.py` (nouveau) et quatre nouveaux tests dans
+`tests/test_extended_points.py`. **Aucun test en jeu** : l'ordre d'affichage du menu
+n'est pas couvert par les tests hors jeu.
+

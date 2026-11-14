@@ -117,6 +117,8 @@ for k, en, fr in [
     ("Tooltip_LW_NeedParts", "Requires electronics scrap and electric wire.", "Il faut des déchets électroniques et du fil électrique."),
     ("Tooltip_LW_NeedWire", "Requires %1 electric wire(s).", "Il faut %1 fil(s) électrique(s)."),
     ("Tooltip_LW_NeedWater", "Requires half a litre of water.", "Il faut un demi-litre d'eau."),
+    ("Tooltip_LW_NeedCleaningCloth", "Requires a rag, a sponge, a dish cloth or a towel.", "Il faut un chiffon, une éponge, un torchon ou une serviette."),
+    ("Tooltip_LW_PanelAlreadyClean", "This panel is already clean.", "Ce panneau est déjà propre."),
     ("Tooltip_LW_NeedOutdoor", "Must be placed outdoors, under the open sky.", "Doit être posé dehors, à ciel ouvert."),
     ("Tooltip_LW_NeedWaterSide", "Must be placed on the bank, next to water.", "Doit être posée sur la berge, au bord de l'eau."),
     ("Tooltip_LW_NoInverterInRange", "No inverter within cable range.", "Aucun onduleur à portée de câble."),

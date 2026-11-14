@@ -161,7 +161,7 @@ Il n'y a pas de limite : les productions s'additionnent (100 W nominaux chacun).
 
 Avec l'option sandbox `SolarOrientation` activée (par défaut), le sud donne 100 %, l'est et l'ouest 85 % (avec un pic de production plus tôt ou plus tard), et le nord 55 %. L'inspection d'un panneau indique son orientation, sa saleté et sa neige. L'option `SolarDirt` ajoute une lente accumulation de poussière (plus rapide en automne) ; la pluie aide à la nettoyer.
 
-Deux actions nettoient un panneau. **Nettoyer le panneau** utilise un chiffon et 0,5 L d'eau, et retire la saleté et la neige. **Déneiger** retire seulement la neige.
+Deux actions nettoient un panneau. **Nettoyer le panneau** utilise un chiffon, une éponge, un torchon ou une serviette (conservés) et 0,5 L d'eau, et retire la saleté et la neige. **Déneiger** retire seulement la neige.
 
 Une éolienne freinée a un voyant de connexion qui clignote.
 

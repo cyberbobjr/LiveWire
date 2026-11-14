@@ -120,7 +120,7 @@ Two ways to start:
 - **From the board**: the board window or menu > **Wire an appliance**. The list is grouped by room (**Outside** for appliances with no room), then by appliance (with its distance), then by breaker module. Only appliances of the building the board serves are listed.
 - **From the appliance**: right-click it > **Wire to a breaker board**, then the board, then the module.
 
-An appliance already wired shows **Unwire from module N** in its menu. A multi-tile appliance counts as one appliance. A room and its wall switches count as one lighting point.
+An appliance already wired shows **Unwire from module N** in its menu; unwiring gives back the electric wire it took. Removing a breaker, or disconnecting or picking up its board, also gives back the wire of the appliances wired to it (a destroyed board loses it). A multi-tile appliance counts as one appliance. A room and its wall switches count as one lighting point.
 
 Once a board serves its building, **every appliance of that building that is wired to no breaker has no current**. The building's other appliances follow their breaker. Without a served building, nothing changes.
 

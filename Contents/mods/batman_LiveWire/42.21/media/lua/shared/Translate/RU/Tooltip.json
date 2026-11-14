@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "Требуются электронные детали и электрические провода.",
     "Tooltip_LW_NeedWire": "Требуется электрических проводов: %1.",
     "Tooltip_LW_NeedWater": "Требуется поллитра воды.",
+    "Tooltip_LW_NeedCleaningCloth": "Требуется тряпка, губка, кухонное полотенце или полотенце.",
+    "Tooltip_LW_PanelAlreadyClean": "Эта панель уже чистая.",
     "Tooltip_LW_NeedOutdoor": "Ставится на улице, под открытым небом.",
     "Tooltip_LW_NeedWaterSide": "Ставится на берегу, рядом с водой.",
     "Tooltip_LW_NoInverterInRange": "Нет инвертора в пределах дальности кабеля.",

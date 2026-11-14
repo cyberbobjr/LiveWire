@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "Requer sucata eletrônica e fio elétrico.",
     "Tooltip_LW_NeedWire": "Requer %1 fio(s) elétrico(s).",
     "Tooltip_LW_NeedWater": "Requer meio litro de água.",
+    "Tooltip_LW_NeedCleaningCloth": "Requer um trapo, uma esponja, um pano de prato ou uma toalha.",
+    "Tooltip_LW_PanelAlreadyClean": "Este painel já está limpo.",
     "Tooltip_LW_NeedOutdoor": "Deve ser colocado do lado de fora, sob o céu aberto.",
     "Tooltip_LW_NeedWaterSide": "Deve ser colocado na margem, ao lado da água.",
     "Tooltip_LW_NoInverterInRange": "Nenhum inversor no alcance dos cabos.",

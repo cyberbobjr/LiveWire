@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "Requiere chatarra electrónica y cable eléctrico.",
     "Tooltip_LW_NeedWire": "Requiere %1 cable(s) eléctrico(s).",
     "Tooltip_LW_NeedWater": "Requiere medio litro de agua.",
+    "Tooltip_LW_NeedCleaningCloth": "Requiere un trapo, una esponja, un paño de cocina o una toalla.",
+    "Tooltip_LW_PanelAlreadyClean": "Este panel ya está limpio.",
     "Tooltip_LW_NeedOutdoor": "Debe colocarse al aire libre, bajo el cielo abierto.",
     "Tooltip_LW_NeedWaterSide": "Debe colocarse en la orilla, junto al agua.",
     "Tooltip_LW_NoInverterInRange": "Ningún inversor al alcance del cable.",

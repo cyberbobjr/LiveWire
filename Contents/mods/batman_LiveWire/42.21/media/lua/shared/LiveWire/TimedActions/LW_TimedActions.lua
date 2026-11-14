@@ -765,11 +765,32 @@ LWCleanPanelAction = LWBaseAction:derive("LWCleanPanelAction")
 LWCleanPanelAction.duration = 180
 LWCleanPanelAction.subject = "target"
 LWCleanPanelAction.facing = true
+
+local function notBroken(item) return not item:isBroken() end
+
+-- A rag, or what the game cleans stains with (sponge, dish cloth, towel, mop: tag CleanStains).
+local function hasCleaningCloth(character)
+    return I().countType(character, "Base.RippedSheets") > 0
+        or character:getInventory():containsTagEvalRecurse(ItemTag.CLEAN_STAINS, notBroken)
+end
+
+-- Can `character` clean panel `obj`? ok, or false and the translation key of the reason
+-- (the menu greys the option with it instead of an action that cancels itself).
+function LWCleanPanelAction.canClean(character, obj)
+    local m = LiveWire.Marks.get(obj)
+    if m and (tonumber(m.dirt) or 0) <= 0 and (tonumber(m.snow) or 0) <= 0 then
+        return false, "Tooltip_LW_PanelAlreadyClean"
+    end
+    if not hasCleaningCloth(character) then return false, "Tooltip_LW_NeedCleaningCloth" end
+    if not waterSource(character) then return false, "Tooltip_LW_NeedWater" end
+    return true
+end
+
 function LWCleanPanelAction:isValid()
     local m = LiveWire.Marks.get(self.target)
     local def = m and LiveWire.Defs.devices[m.model]
     return objectStillThere(self.target) and def and def.kind == "solar"
-        and I().countType(self.character, "Base.RippedSheets") > 0 and waterSource(self.character) ~= nil
+        and hasCleaningCloth(self.character) and waterSource(self.character) ~= nil
 end
 function LWCleanPanelAction:start() self:setActionAnim("Loot") end
 function LWCleanPanelAction:complete()

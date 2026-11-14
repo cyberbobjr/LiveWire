@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "Il faut des déchets électroniques et du fil électrique.",
     "Tooltip_LW_NeedWire": "Il faut %1 fil(s) électrique(s).",
     "Tooltip_LW_NeedWater": "Il faut un demi-litre d'eau.",
+    "Tooltip_LW_NeedCleaningCloth": "Il faut un chiffon, une éponge, un torchon ou une serviette.",
+    "Tooltip_LW_PanelAlreadyClean": "Ce panneau est déjà propre.",
     "Tooltip_LW_NeedOutdoor": "Doit être posé dehors, à ciel ouvert.",
     "Tooltip_LW_NeedWaterSide": "Doit être posée sur la berge, au bord de l'eau.",
     "Tooltip_LW_NoInverterInRange": "Aucun onduleur à portée de câble.",

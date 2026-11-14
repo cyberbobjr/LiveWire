@@ -488,7 +488,9 @@ Menu.providers = {
     end,
     solar = function(menu, player, obj)
         menu:addOption(getText("ContextMenu_LW_ClearSnow"), player, Menu.onClearSnow, obj)
-        menu:addOption(getText("ContextMenu_LW_CleanPanel"), player, Menu.onCleanPanel, obj)
+        local clean = menu:addOption(getText("ContextMenu_LW_CleanPanel"), player, Menu.onCleanPanel, obj)
+        local ok, why = LWCleanPanelAction.canClean(player, obj)
+        if not ok then tip(clean, why) end
     end,
     wind = function(menu, _player, _obj, mark)
         local key = mark.br and "ContextMenu_LW_ReleaseBrake" or "ContextMenu_LW_ApplyBrake"

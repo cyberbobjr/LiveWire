@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "Elektronik Hurda ve Elektrik Kablosu gerekir.",
     "Tooltip_LW_NeedWire": "%1 Elektrik Kablosu gerekir.",
     "Tooltip_LW_NeedWater": "Yarım litre su gerekir.",
+    "Tooltip_LW_NeedCleaningCloth": "Bir bez parçası, sünger, bulaşık bezi veya havlu gerekir.",
+    "Tooltip_LW_PanelAlreadyClean": "Bu panel zaten temiz.",
     "Tooltip_LW_NeedOutdoor": "Dışarıya, açık gökyüzünün altına yerleştirilmelidir.",
     "Tooltip_LW_NeedWaterSide": "Kıyıya, suyun yanına yerleştirilmelidir.",
     "Tooltip_LW_NoInverterInRange": "Kablo menzilinde invertör yok.",

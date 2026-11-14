@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "電子廃材と電線が必要です。",
     "Tooltip_LW_NeedWire": "電線%1本が必要です。",
     "Tooltip_LW_NeedWater": "水0.5Lが必要です。",
+    "Tooltip_LW_NeedCleaningCloth": "布切れ、スポンジ、ふきん、またはタオルが必要です。",
+    "Tooltip_LW_PanelAlreadyClean": "このパネルはすでにきれいです。",
     "Tooltip_LW_NeedOutdoor": "屋外の、空が見える場所に設置してください。",
     "Tooltip_LW_NeedWaterSide": "水辺の岸、水に隣接する場所に設置してください。",
     "Tooltip_LW_NoInverterInRange": "電線の届く範囲にインバーターがありません。",

@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "Erfordert Elektronikschrott und Stromkabel.",
     "Tooltip_LW_NeedWire": "Erfordert %1 Stromkabel.",
     "Tooltip_LW_NeedWater": "Erfordert einen halben Liter Wasser.",
+    "Tooltip_LW_NeedCleaningCloth": "Erfordert einen Lappen, einen Schwamm, ein Spültuch oder ein Handtuch.",
+    "Tooltip_LW_PanelAlreadyClean": "Dieses Modul ist bereits sauber.",
     "Tooltip_LW_NeedOutdoor": "Muss im Freien, unter freiem Himmel, platziert werden.",
     "Tooltip_LW_NeedWaterSide": "Muss am Ufer neben Wasser platziert werden.",
     "Tooltip_LW_NoInverterInRange": "Kein Wechselrichter in Kabelreichweite.",

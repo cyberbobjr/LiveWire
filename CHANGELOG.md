@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.1 — 2026-11-14
+
+Thanks to Grawingen and Ulysses for reporting these on the Workshop page!
+
+### Fixes
+
+- **Cleaning solar panels:** a sponge, a dish cloth, a towel or a mop now cleans a panel too, not only a rag (still with 0.5 L of water). When something is missing, or the panel is already clean, the option is greyed out and says why, instead of the character walking to the panel and doing nothing.
+- **LiveWire Extended, installing a breaker:** the breaker menu opened behind the board window when you clicked an empty module, so the window had to be moved aside. It now opens on top.
+- **LiveWire Extended, wire back from appliances:** unwiring an appliance from a breaker now gives back the electric wire it took, as unlinking a device from an inverter does. Removing a breaker, or disconnecting or picking up its board, also gives back the wire of the appliances wired to it. Appliances wired before this update give no wire back.
+
 ## 2.1.0 — 2026-11-13
 
 ### New

@@ -4,6 +4,8 @@
     "Tooltip_LW_NeedParts": "전기 회로 부속과 전선이 필요합니다.",
     "Tooltip_LW_NeedWire": "전선 %1개가 필요합니다.",
     "Tooltip_LW_NeedWater": "물 0.5리터가 필요합니다.",
+    "Tooltip_LW_NeedCleaningCloth": "헝겊, 스펀지, 행주 또는 수건이 필요합니다.",
+    "Tooltip_LW_PanelAlreadyClean": "이 패널은 이미 깨끗합니다.",
     "Tooltip_LW_NeedOutdoor": "야외, 하늘이 트인 곳에 설치해야 합니다.",
     "Tooltip_LW_NeedWaterSide": "강둑에, 물가 옆에 설치해야 합니다.",
     "Tooltip_LW_NoInverterInRange": "전선 연결 범위 안에 인버터가 없습니다.",

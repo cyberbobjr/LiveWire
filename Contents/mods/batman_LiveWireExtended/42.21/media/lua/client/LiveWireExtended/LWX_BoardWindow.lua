@@ -470,11 +470,23 @@ function Window:dropTwilight(x, y)
     return true
 end
 
--- Drop a dragged breaker on an empty module: install it there.
+-- Drop a dragged breaker on an empty module: install it there. A click on an empty module
+-- opens the install menu here, on release: opened on the press, the menu is raised in the
+-- same frame as the window (onFocus) and the engine keeps their old order, the window on top.
 function Window:onMouseUp(x, y)
+    local pressed = self.pressedModule
+    self.pressedModule = nil
     if self:draggedTwilight() then return self:dropTwilight(x, y) end
     local item = self:draggedBreaker()
-    if not item then return ISPanel.onMouseUp(self, x, y) end
+    if not item then
+        local pos = pressed and self:hit(x, y)
+        local record = pos and pos == pressed and self:record()
+        if record and not B.slotAt(record, pos) then
+            self:installMenu(pos)
+            return true
+        end
+        return ISPanel.onMouseUp(self, x, y)
+    end
     local num = self.player:getPlayerNum()
     getPlayerInventory(num).render3DItems = {}
     getPlayerLoot(num).render3DItems = {}
@@ -492,13 +504,14 @@ function Window:onMouseUp(x, y)
 end
 
 function Window:onMouseDown(x, y)
+    self.pressedModule = nil
     local pos, onLever = self:hit(x, y)
     if not pos then return ISPanel.onMouseDown(self, x, y) end
     local record = self:record()
     local slot = record and B.slotAt(record, pos)
     if not slot then
         self.selected = nil
-        self:installMenu(pos)
+        self.pressedModule = pos  -- the install menu opens on release (onMouseUp)
         return true
     end
     self.selected = slot.pos

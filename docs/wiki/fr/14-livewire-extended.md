@@ -120,7 +120,7 @@ Deux façons de commencer :
 - **Depuis le tableau** : la fenêtre ou le menu du tableau > **Raccorder un appareil**. La liste est groupée par pièce (**Extérieur** pour les appareils sans pièce), puis par appareil (avec sa distance), puis par module. Seuls les appareils du bâtiment que dessert le tableau sont proposés.
 - **Depuis l'appareil** : clic droit sur l'appareil > **Raccorder au tableau**, puis le tableau, puis le module.
 
-Un appareil déjà raccordé affiche **Débrancher du module N** dans son menu. Un appareil à plusieurs cases compte pour un seul appareil. Une pièce et ses interrupteurs muraux forment un seul point d'éclairage.
+Un appareil déjà raccordé affiche **Débrancher du module N** dans son menu ; le débrancher rend le fil électrique qu'il a coûté. Retirer un disjoncteur, ou débrancher ou ramasser son tableau, rend aussi le fil des appareils qui y sont raccordés (un tableau détruit le perd). Un appareil à plusieurs cases compte pour un seul appareil. Une pièce et ses interrupteurs muraux forment un seul point d'éclairage.
 
 Dès qu'un tableau dessert son bâtiment, **chaque appareil de ce bâtiment qui n'est raccordé à aucun disjoncteur n'a pas de courant**. Les autres appareils suivent leur disjoncteur. Sans bâtiment desservi, rien ne change.
 
