@@ -5,16 +5,15 @@ module LiveWire
         Base,
     }
 
-    /* Recipes learnt automatically at their required level (decision D-6).
+    /* Recipes open at their required level through SkillRequired only (decision D-6): no
+       NeedToBeLearn, because a dedicated server never auto-learns a recipe already in reach.
        Recipe names are the keys of Recipes.json. */
 
     craftRecipe LWMakeVoltageTester
     {
         timedAction = MakingElectrical,
         time = 80,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:1,
-        AutoLearnAny = Electricity:1,
         xpAward = Electricity:5,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -54,9 +53,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 100,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:4,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -77,9 +74,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 270,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:15,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -103,9 +98,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 340,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:25,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -130,9 +123,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 470,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:35,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -201,9 +192,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 160,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:30,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -228,9 +217,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 400,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:4,
-        AutoLearnAny = Electricity:4,
         xpAward = Electricity:30,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -255,9 +242,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 200,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:2,
-        AutoLearnAny = Electricity:2,
         xpAward = Electricity:8,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -280,9 +265,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 130,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:8,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -304,9 +287,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 270,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:15,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -330,9 +311,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 130,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:8,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -353,9 +332,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 270,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:3,
-        AutoLearnAny = Electricity:3,
         xpAward = Electricity:20,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -378,9 +355,7 @@ module LiveWire
     {
         timedAction = MakingElectrical,
         time = 100,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:2,
-        AutoLearnAny = Electricity:2,
         xpAward = Electricity:5,
         Tags = AnySurfaceCraft,
         category = Electrical,
@@ -401,9 +376,7 @@ module LiveWire
     {
         timedAction = Making,
         time = 200,
-        NeedToBeLearn = true,
         SkillRequired = Electricity:2,
-        AutoLearnAny = Electricity:2,
         xpAward = Electricity:5,
         Tags = AnySurfaceCraft,
         category = Electrical,

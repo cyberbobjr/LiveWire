@@ -200,7 +200,7 @@ Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translat
 | `LWDismantleWindTurbineMast` | aucun | 1 `LiveWire.WindTurbineMast` ; [tournevis, clé à tuyau] | 1 `MetalPipe`, 1 `MetalBar`, 1 `Screws` | 1 |
 | `LWDismantleDeepCycleBattery` | aucun | 1 `DeepCycleBattery` ; [tournevis] | 1 `ScrapMetal` ; + 0 à 2 `ElectricWire` selon l'état | 2 |
 
-- **Apprentissage (validé : D-6).** Recettes connues automatiquement à leur niveau (`AutoLearnAny = Electricity:n`, champ vu dans `recipes_traps.txt:99-121`).
+- **Apprentissage (validé : D-6).** Recettes ouvertes dès leur niveau par `SkillRequired = Electricity:n` seul, sans `NeedToBeLearn` ni `AutoLearnAny` (2.1.2). En multijoueur, l'apprentissage automatique au chargement du monde ne se fait que sur le client (`IsoWorld.java:2277`) ; le serveur, qui valide le craft (`CraftRecipeManager.isValidRecipeForCharacter`), ne l'apprend qu'au gain de niveau suivant et refusait le craft sans message.
 - **Équilibrage.** Les calculatrices sont la porte d'entrée du solaire (10 par panneau) ; au niveau 3, on n'en dépend plus.
 - **Butin.** Cellules photovoltaïques : garages, ateliers, électriciens (`GarageTools`, `CrateTools`, `GarageMetalwork`, `MechanicShelfElectric`, `ElectricianTools`, `MetalShopTools`, `WireFactoryElectric`, `ToolStoreMisc`). Panneaux tout faits, plus rares : garages, ateliers, quincailleries (`GarageTools`, `CrateTools`, `GarageMetalwork`, `ToolStoreMisc`, `ToolStoreTools`). Disque du logiciel (Computer Mod seulement) : magasins et caisses d'informatique, bureaux.
 

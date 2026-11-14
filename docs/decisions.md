@@ -57,7 +57,7 @@ limites de validation sont dans le [bilan](annexes/tests/validation.md).
 | D-3 | Raccordement | Explicite, par menu, en consommant du fil électrique (1 fil pour 4 cases, portée 12) |
 | D-4 | Batteries | Rangées dans une **powerbank** qui s'ouvre comme une caisse (4 batteries comptées). Plus de batterie au sol. Choix de l'utilisateur, le 2026-10-17 : « rangement ouvrable », préféré à des emplacements gérés par menu et à une capacité fixe. Depuis 0.1.1, le conteneur vient de la tuile (`container = livewirepowerbank`, capacité 50) : le jeu le crée et le marque exploré à la pose, donc sans butin |
 | D-5 | Échelle d'énergie | 1 unité de consommation moteur par heure = 1 000 W (option `PowerScale`) ; c'est le profil « valeurs du jeu » de D-28 |
-| D-6 | Apprentissage des recettes | Automatique au niveau requis |
+| D-6 | Apprentissage des recettes | Automatique au niveau requis ; depuis 2.1.2 (2026-11-14), `SkillRequired` seul, sans `NeedToBeLearn`/`AutoLearnAny` : un serveur dédié n'apprenait pas la recette et refusait le craft en silence |
 | D-7 | Propriété en multijoueur | Installations communes, règles de safehouse vanilla |
 | D-8 | Bruit de l'onduleur | Zombies : rayon 2 (option `InverterNoiseRadius`). Joueurs : ronronnement de réfrigérateur vanilla **`FridgeHumA`**, choisi par l'utilisateur, joué localement |
 | D-9 | Sans joueur dans la zone | Tout continue (option `SimulateUnloaded`, vraie par défaut) |

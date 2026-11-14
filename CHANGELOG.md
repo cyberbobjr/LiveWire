@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.2 — 2026-11-14
+
+Thanks to Helios for reporting this on the Workshop page!
+
+### Fixes
+
+- **Crafting on a server:** some players could not craft LiveWire items (voltage tester, kits, LiveWire Extended parts). The recipe was listed and the action played to the end, but nothing was made and nothing was used up. It happened when the character already had the required Electrical level, for example when LiveWire was added to a running server. Every recipe is now available as soon as you have its Electrical level, on every server, with no need to learn it first.
+
 ## 2.1.1 — 2026-11-14
 
 Thanks to Grawingen and Ulysses for reporting these on the Workshop page!
