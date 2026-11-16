@@ -1,10 +1,10 @@
 # Changelog
 
-## Unreleased
+## 2.1.3 — 2026-11-16
 
 ### Fixes
 
-- **Equipment broken by hits:** a few hits of a weapon or of zombies could destroy a solar panel, wind turbine, water wheel, inverter, power bank, water pump or LiveWire Extended terminal, and it vanished without a trace. Placed equipment is now much sturdier (a sledgehammer needs about 55 hits), and a destroyed one leaves its metal parts and screws on the ground, as when you dismantle it. Equipment already placed in your world gets the new sturdiness when its area loads.
+- **Equipment broken by hits:** on servers, a single hit of a weapon or of a zombie could destroy a solar panel, wind turbine, water wheel, inverter, power bank, water pump or LiveWire Extended terminal, and it vanished without a trace. Placed equipment is now much sturdier (a sledgehammer needs about 55 hits), and a destroyed one leaves its metal parts and screws on the ground, as when you dismantle it. Equipment already placed in your world gets the new sturdiness when its area loads.
 
 ## 2.1.2 — 2026-11-14
 
