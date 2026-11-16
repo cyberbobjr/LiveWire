@@ -16,7 +16,7 @@ LUA = os.path.join(ROOT, "Contents", "mods", "batman_LiveWire", "42.21", "media"
 
 FILES = [
     "shared/LiveWire/LW_Core.lua", "shared/LiveWire/LW_EventBus.lua", "shared/LiveWire/LW_Defs.lua", "shared/LiveWire/LW_Config.lua",
-    "shared/LiveWire/LW_Extension.lua", "shared/LiveWire/LW_Coupling.lua", "shared/LiveWire/LW_Consumers.lua",
+    "shared/LiveWire/LW_Extension.lua", "shared/LiveWire/LW_Wreckage.lua", "shared/LiveWire/LW_Coupling.lua", "shared/LiveWire/LW_Consumers.lua",
     "shared/LiveWire/LW_ApplianceFamilies.lua",
     "shared/LiveWire/LW_Consumption.lua", "shared/LiveWire/LW_Physics.lua", "shared/LiveWire/LW_Marks.lua", "shared/LiveWire/LW_Protocol.lua",
     "shared/LiveWire/LW_SquareScan.lua", "shared/LiveWire/LW_Coverage.lua", "shared/LiveWire/LW_CircuitProvider.lua",
@@ -32,6 +32,7 @@ FILES = [
     "server/LiveWire/LW_Circuits.lua", "server/LiveWire/LW_Inverters.lua", "server/LiveWire/LW_Simulation.lua",
     "server/LiveWire/LW_Backup.lua", "server/LiveWire/LW_Computer.lua", "server/LiveWire/LW_Alarm.lua",
     "server/LiveWire/LW_DeviceView.lua", "server/LiveWire/LW_Commands.lua", "server/LiveWire/LW_Devices.lua",
+    "server/LiveWire/LW_Sturdy.lua",
     "server/LiveWire/LW_Pump.lua", "server/LiveWire/LW_PumpRelays.lua", "server/LiveWire/LW_PumpTransfer.lua",
 ]
 
@@ -93,6 +94,10 @@ function addSound() end
 function sendServerCommand() end
 function getTimestampMs() return 0 end
 function getOnlinePlayers() return nil end
+-- Every item script exists (tests needing a missing one replace it).
+function getScriptManager() return { FindItem = function() return {} end } end
+-- Engine global; a double is an IsoThumpable etc. only when it says so (tests may replace it).
+function instanceof(o, cls) return type(o) == "table" and o.cls == cls end
 IsoPlayer = { getPlayers = function() return nil end }
 function print() end
 """

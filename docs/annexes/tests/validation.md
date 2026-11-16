@@ -1438,3 +1438,15 @@ réseau perdait la case de l'onduleur ramassé (ancre et instantané disparus) ;
 Roue à eau inscrite au registre par `Registry.link` (pas de rivière), écran lu par `DeviceView.snapshot` et
 `DevicePanel.lines`. La fermeture de la vue réseau en multijoueur (instantané conservé par le client) n'est couverte
 que hors jeu (`tests/test_tick_subscribers.py`).
+
+## Équipement solide et débris — signalement Steam du 2026-11-16
+
+| Passage | Commande | Code | Résultat | Dossier dans `runs/` |
+|---|---|---|---|---|
+| Pompe posée sur le serveur dédié (42.22.2) avec 3 000 PV, terminal LiveWire Extended à 3 000 PV, pompe détruite au 300e coup de clé à molette (10 par coup), tuyaux x2, petite tôle et vis x2 au sol, appareil retiré du registre ; le client voit la pompe disparue et les pièces au sol | `mp LiveWire/autotest/sturdy_mp.json --clients 1 --client-run` | 0 | serveur 13 PASS, client 4 PASS, aucune erreur Lua | `runs/20261116-111907-mp-b80f3823603a` |
+
+Raccourcis : objets posés par `placeMoveableInternal` sur le serveur ; coups donnés par `IsoThumpable.WeaponHit` sur le
+serveur, l'appel que fait le serveur pour chaque coup reçu d'un client (`PlayerHitObjectPacket.process`), et non par un
+vrai coup du personnage client ; retrait du registre par deux appels directs de `Devices.validate`. Couverts hors jeu
+seulement (`tests/test_wreckage.py`) : relèvement des appareils déjà posés au parcours des chunks, destruction par des
+zombies. Non testé : serveur dédié Linux.

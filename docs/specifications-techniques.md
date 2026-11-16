@@ -495,8 +495,8 @@ commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau
   autre mod qui remplacerait délibérément leurs fonctions ; ils ne font pas
   partie du contrat d'extension.
 - Raisons d'enregistrement stables : `registration_closed`, `invalid_definition`,
-  `duplicate_type`, `duplicate_model`, `duplicate_sprite`, `duplicate_consumer`. `API.version=1` ; `API.revision=6`
-  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage ; révision 6 : consommateurs des autres mods, ADR-002). `registerBattery`, `registerSource`, `battery`, `source`,
+  `duplicate_type`, `duplicate_model`, `duplicate_sprite`, `duplicate_consumer`. `API.version=1` ; `API.revision=7`
+  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage ; révision 6 : consommateurs des autres mods, ADR-002 ; révision 7 : `registerWreckage(itemType, parts)`, équipement solide d'un sous-mod rendu robuste et laissant `parts` à sa destruction, voir `LW_Wreckage.lua` ; raisons `registration_closed`, `invalid_definition`, `duplicate_type`). `registerBattery`, `registerSource`, `battery`, `source`,
   `gridAt` sont inchangées.
 
 ### API publique : services pour sous-mods (révision 2, D-47, 2026-11-09)

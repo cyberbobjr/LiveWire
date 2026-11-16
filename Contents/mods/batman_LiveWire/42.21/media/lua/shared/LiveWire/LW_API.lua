@@ -3,8 +3,9 @@ require "LiveWire/LW_Defs"
 require "LiveWire/LW_Coverage"
 require "LiveWire/LW_Extension"
 require "LiveWire/LW_Consumers"
+require "LiveWire/LW_Wreckage"
 LiveWire = LiveWire or {}
-local API = { version = 1, revision = 6 }
+local API = { version = 1, revision = 7 }
 LiveWire.API = API
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -496,3 +497,11 @@ function API.consumerPowered(obj)
     if not LiveWire.Consumers.of(obj) or not obj:getSquare() then return false end
     return ItemContainer.isObjectPowered(obj, true) and not LiveWire.Appliances.blockedAs(obj, "consumer")
 end
+
+-- ---------------------------------------------------------------- sturdy equipment (revision 7)
+-- A placeable moveable item of a sub-mod whose tile is solid (an IsoThumpable once placed)
+-- gets Live Wire's health and, once destroyed by weapons or zombies, leaves `parts` on its
+-- square (list of { fullType, count }, at most 50 items): register it while files load,
+-- before OnInitGlobalModData. The tile must name the item in its CustomItem property.
+-- Returns true, or false and "registration_closed", "invalid_definition", "duplicate_type".
+function API.registerWreckage(itemType, parts) return LiveWire.Wreckage.register(itemType, parts) end

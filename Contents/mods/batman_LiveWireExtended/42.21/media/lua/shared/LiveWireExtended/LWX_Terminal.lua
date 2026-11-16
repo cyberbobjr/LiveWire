@@ -13,6 +13,12 @@ T.kind = L.register({ name = "terminal", field = "terminals", sprites = SPRITES,
     linkedKey = "Tooltip_LWX_TerminalLinked", linkedNote = "IGUI_LWX_TerminalLinked",
     unlinkedNote = "IGUI_LWX_TerminalUnlinked" })
 
+-- Sturdy like the base equipment; once destroyed it leaves the script outputs of
+-- LWXDismantleTerminal (tests/test_wreckage.py).
+local sturdy, why = LiveWire.API.registerWreckage("Base.Mov_LiveWire_Terminal", {
+    { "Base.MetalPipe", 1 }, { "Base.SmallSheetMetal", 1 }, { "Base.ElectricWire", 1 }, { "Base.Screws", 2 } })
+if not sturdy then print("LiveWire Extended: terminal wreckage not registered (" .. tostring(why) .. ")") end
+
 T.key = L.key
 function T.isTerminal(obj) return L.kindOf(obj) == T.kind end
 function T.onSquare(sq) return L.objectOn(T.kind, sq) end
