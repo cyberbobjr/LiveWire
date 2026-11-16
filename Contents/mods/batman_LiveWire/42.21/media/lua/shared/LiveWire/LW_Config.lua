@@ -21,6 +21,7 @@ local DEFAULTS = {
     LinkRange = 12,
     LinkVerticalRange = 3,
     PumpRange = 15,
+    PumpTankSize = 1,
     WirePerTiles = 4,
     StormDamage = false,
     SolarOrientation = true,
@@ -61,6 +62,13 @@ function Config.verticalRange()
     local opt = opts and opts:getOptionByName("GeneratorVerticalPowerRange")
     if opt then return opt:getValue() end
     return 3
+end
+
+-- Litres of the relay tank a water pump keeps above each plumbed fixture, from the
+-- PumpTankSize enum (1 = 25 L, the former fixed size). Unknown values give 25 L.
+Config.PUMP_TANK_LITRES = { 25, 80, 150, 300 }
+function Config.pumpTankLitres()
+    return Config.PUMP_TANK_LITRES[Config.get("PumpTankSize")] or Config.PUMP_TANK_LITRES[1]
 end
 
 -- Required Electrical level, or 0 when skill gates are disabled.

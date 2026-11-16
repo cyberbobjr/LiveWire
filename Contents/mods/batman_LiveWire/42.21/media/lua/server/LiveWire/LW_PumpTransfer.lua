@@ -127,19 +127,32 @@ function Pump.feedsPlumbedFixture(x, y, z)
     return false
 end
 
+-- A relay saved with another size than the PumpTankSize option takes the option's size.
+-- A smaller size loses the water above it (FluidContainer.setCapacity scales every fluid
+-- down). sync() sends the whole FluidContainer, capacity included (IsoObject.syncFluidContainerSend).
+local function resizeRelay(relay, fc, key, litres)
+    if math.abs(fc:getCapacity() - litres) <= Defs.PUMP_FLUID_EPSILON then return end
+    fc:setCapacity(litres)
+    relay:sync()
+    Pump.relaySynced[key] = fc:getAmount()
+end
+
 -- Loaded relays of the pump that feed a plumbed fixture, with their free capacity, and
--- the total. Water already in an unused relay stays there.
+-- the total. Water already in an unused relay stays there. Each loaded relay of a pump in
+-- service is first brought to the PumpTankSize option's size.
 function Pump.needsOf(dev)
     local list, total = {}, 0
     local keys = {}
     for key in pairs(dev.relays) do keys[#keys + 1] = key end
     table.sort(keys)
+    local litres = LiveWire.Config.pumpTankLitres()
     for i = 1, #keys do
         local r = dev.relays[keys[i]]
         local relay = Pump.findRelay(r.x, r.y, r.z)
         local mark = relay and relay:getModData()[Defs.RELAY_KEY]
         if mark and mark.pump == dev.id then
             local fc = relay:getFluidContainer()
+            resizeRelay(relay, fc, keys[i], litres)
             local need = fc:getFreeCapacity()
             if need > Defs.PUMP_FLUID_EPSILON and Pump.feedsPlumbedFixture(r.x, r.y, r.z) then
                 list[#list + 1] = { obj = relay, fc = fc, need = need, key = keys[i], before = fc:getAmount() }

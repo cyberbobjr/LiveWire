@@ -53,5 +53,11 @@
     "Sandbox_LiveWire_SolarOrientation_tooltip": "Panelin baktığı yön, üretimi ve en yüksek üretim saatini değiştirir.",
     "Sandbox_LiveWire_SolarDirt_tooltip": "Panellerde toz birikir. Yağmur ve elle temizleme tozu giderir.",
     "Sandbox_LiveWire_BatteryCold_tooltip": "Soğuk, dış mekândaki bankalarda kullanılabilir kapasiteyi düşürür. Rezerv, buzlar çözülünce geri gelir.",
-    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Varsayılan olarak açık. Elektrik çarpma riski: Elektrikçilik 0'da 50%%, 6'da sıfıra iner. Tornavidayı tutan eli yakar ve eldeki eşyaları düşürür. Ana invertörü kapatın: ana şalter bakımı güvenli hâle getirmez."
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Varsayılan olarak açık. Elektrik çarpma riski: Elektrikçilik 0'da 50%%, 6'da sıfıra iner. Tornavidayı tutan eli yakar ve eldeki eşyaları düşürür. Ana invertörü kapatın: ana şalter bakımı güvenli hâle getirmez.",
+    "Sandbox_LiveWire_PumpTankSize": "Su noktası başına pompa tankı",
+    "Sandbox_LiveWire_PumpTankSize_tooltip": "Su pompasının bağlı her lavabo, küvet, duş veya tuvaletin üstünde tuttuğu görünmez tankın hacmi. Daha büyük bir tank duş veya banyo için daha fazla su hazır tutar. Küçültülürse yeni hacmin üstündeki su kaybolur.",
+    "Sandbox_LiveWire_PumpTankSize_option1": "25 L",
+    "Sandbox_LiveWire_PumpTankSize_option2": "80 L",
+    "Sandbox_LiveWire_PumpTankSize_option3": "150 L",
+    "Sandbox_LiveWire_PumpTankSize_option4": "300 L"
 }

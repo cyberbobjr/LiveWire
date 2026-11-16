@@ -668,7 +668,7 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 
 - Appareil posé `WaterPump`, Électricité 3 (fabrication et pose), raccordé à l'onduleur au fil électrique comme une source.
 - Barils : collecteurs d'eau de pluie vanilla ou barils d'un mod (tout objet à fluide d'au moins 20 L), posés sur une des 8 cases voisines de la pompe, même étage ; 8 barils au plus ; 1 tuyau `Base.MetalPipe` consommé par baril, rendu au débranchement.
-- Réservoirs relais invisibles de 25 L posés au-dessus des éviers, baignoires, douches et toilettes raccordés à moins de `PumpRange` cases (15 par défaut) et à 3 étages au plus : la plomberie vanilla y puise ; les robinets se raccordent à la clé à tuyau comme en vanilla.
+- Réservoirs relais invisibles de 25 L (option `PumpTankSize` : 25, 80, 150 ou 300 L) posés au-dessus des éviers, baignoires, douches et toilettes raccordés à moins de `PumpRange` cases (15 par défaut) et à 3 étages au plus : la plomberie vanilla y puise ; les robinets se raccordent à la clé à tuyau comme en vanilla.
 - Seuls les relais qui alimentent un point d'eau déjà raccordé (clé à tuyau) sont remplis : un relais vide suffit à proposer « Raccorder », et l'eau des barils ne part pas dans les éviers non raccordés ni dans ceux des maisons voisines. Un point d'eau raccordé est alimenté dès la minute de jeu suivante. L'eau déjà présente dans un relais devenu inutile y reste.
 - Consommation 250 W seulement pendant le pompage, débit 5 L par minute de jeu au plus ; arrêt quand tous les relais utiles sont pleins. Seule l'eau est déplacée ; l'eau croupie d'un baril sort propre au robinet (comportement vanilla).
 - Aucun débit n'est accumulé au repos. En cas de chevauchement, la pompe raccordée

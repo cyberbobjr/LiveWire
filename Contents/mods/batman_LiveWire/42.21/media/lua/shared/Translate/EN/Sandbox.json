@@ -53,5 +53,11 @@
     "Sandbox_LiveWire_SolarOrientation_tooltip": "Panel facing changes output and peak production time.",
     "Sandbox_LiveWire_SolarDirt_tooltip": "Dust accumulates on panels. Rain and manual cleaning remove it.",
     "Sandbox_LiveWire_BatteryCold_tooltip": "Cold reduces accessible capacity in outdoor banks. The reserve returns on thawing.",
-    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Enabled by default. Shock risk: 50%% at Electrical 0, falling to zero at 6. Burns the screwdriver hand and drops held items. Switch off the master inverter: the main breaker does not make maintenance safe."
+    "Sandbox_LiveWire_LiveWorkRisk_tooltip": "Enabled by default. Shock risk: 50%% at Electrical 0, falling to zero at 6. Burns the screwdriver hand and drops held items. Switch off the master inverter: the main breaker does not make maintenance safe.",
+    "Sandbox_LiveWire_PumpTankSize": "Water pump tank per fixture",
+    "Sandbox_LiveWire_PumpTankSize_tooltip": "Size of the invisible tank the water pump keeps above each plumbed sink, bath, shower or toilet. A larger tank keeps more water ready for a shower or a bath. Lowering it loses the water above the new size.",
+    "Sandbox_LiveWire_PumpTankSize_option1": "25 L",
+    "Sandbox_LiveWire_PumpTankSize_option2": "80 L",
+    "Sandbox_LiveWire_PumpTankSize_option3": "150 L",
+    "Sandbox_LiveWire_PumpTankSize_option4": "300 L"
 }

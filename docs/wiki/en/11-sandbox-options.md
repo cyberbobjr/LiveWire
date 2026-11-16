@@ -21,6 +21,7 @@ Server and game settings are on two pages of the sandbox options: **LiveWire** f
 | Cable range | `LinkRange` | 12 | 4–30 | Maximum cable distance in tiles between a device and its inverter |
 | Cable vertical range | `LinkVerticalRange` | 3 | 0–10 | Maximum floor difference for equipment connections and inverter coupling; 0 = same floor |
 | Water pump range | `PumpRange` | 15 | 5–30 | Radius around a water pump where its taps are supplied |
+| Water pump tank per fixture | `PumpTankSize` | 25 L | 25, 80, 150 or 300 L | Invisible tank the pump keeps above each plumbed fixture; a shower or a bath can need more than 25 L. Lowering it loses the water above the new size |
 | Tiles per electric wire | `WirePerTiles` | 4 | 0–20 | Tiles per electric wire; 0 = free cabling |
 | Storm damage | `StormDamage` | off | — | Thunderstorms and very strong winds damage solar panels and wind turbines |
 | Electrical experience | `XPMultiplier` | 1 | 0–10 | Experience given by LiveWire actions |

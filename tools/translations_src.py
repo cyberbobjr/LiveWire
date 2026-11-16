@@ -331,6 +331,9 @@ SANDBOX = [
     ("PumpRange", "Water pump range", "Portée de la pompe à eau",
      "Radius in tiles around a water pump where its sinks, showers, baths and toilets are supplied.",
      "Rayon en cases autour d'une pompe à eau dans lequel ses éviers, douches, baignoires et toilettes sont alimentés."),
+    ("PumpTankSize", "Water pump tank per fixture", "Réservoir de la pompe par point d'eau",
+     "Size of the invisible tank the water pump keeps above each plumbed sink, bath, shower or toilet. A larger tank keeps more water ready for a shower or a bath. Lowering it loses the water above the new size.",
+     "Taille du réservoir invisible que la pompe à eau garde au-dessus de chaque évier, baignoire, douche ou toilette raccordé. Un réservoir plus grand garde plus d'eau prête pour une douche ou un bain. Le réduire perd l'eau au-delà de la nouvelle taille."),
     ("WirePerTiles", "Tiles per electric wire", "Cases par fil électrique",
      "One electric wire is used per this many tiles of cable. 0 = free cabling.", "Un fil électrique est utilisé pour ce nombre de cases de câble. 0 = câblage gratuit."),
     ("StormDamage", "Storm damage", "Dégâts d'orage",
@@ -358,6 +361,9 @@ for i, en, fr in [
     (4, "Comfort", "Confort"),
 ]:
     add("Sandbox", "Sandbox_LiveWire_ConsumptionProfile_option%d" % i, en, fr)
+# Values of the PumpTankSize enum (litres, LiveWire.Config.PUMP_TANK_LITRES).
+for i, litres in enumerate((25, 80, 150, 300), 1):
+    add("Sandbox", "Sandbox_LiveWire_PumpTankSize_option%d" % i, "%d L" % litres, "%d L" % litres)
 
 
 # Water pump (1.2.0): items, recipe, menus, tooltips, software line.

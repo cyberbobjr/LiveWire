@@ -26,8 +26,10 @@ class Remaining(unittest.TestCase):
                     for i=#objects,1,-1 do if objects[i]==o then table.remove(objects,i) end end end}
         end
         local function fluid(amount,capacity)
-            return {amount=amount,getAmount=function(s) return s.amount end,
-                getFreeCapacity=function(s) return capacity-s.amount end,
+            return {amount=amount,capacity=capacity,getAmount=function(s) return s.amount end,
+                getCapacity=function(s) return s.capacity end,
+                setCapacity=function(s,c) s.capacity=c;s.amount=math.min(s.amount,c) end,
+                getFreeCapacity=function(s) return s.capacity-s.amount end,
                 getSpecificFluidAmount=function() return 0 end,
                 removeFluid=function(s,n) s.amount=s.amount-n end,
                 addFluid=function(s,_,n) s.amount=s.amount+n end}
@@ -95,6 +97,33 @@ class Remaining(unittest.TestCase):
         assert(RF.amount==20 and BF.amount==45)
         ''')
 
+    def test_the_tank_size_option_sets_the_litres_of_each_relay(self):
+        self.pump_scene()
+        self.run_lua('''
+        local P,C=LiveWire.Pump,LiveWire.Config
+        assert(C.pumpTankLitres()==25,'25 L by default')
+        for i,l in ipairs({25,80,150,300}) do
+            SandboxVars={LiveWire={PumpTankSize=i}}
+            assert(C.pumpTankLitres()==l)
+        end
+        SandboxVars={LiveWire={PumpTankSize=9}}
+        assert(C.pumpTankLitres()==25,'an unknown value falls back to 25 L')
+        SandboxVars=nil
+        P.maintain(NEAR)
+        RF.amount=25
+        P.step(NEAR)
+        assert(RF.capacity==25 and BF.amount==50 and NEAR.state=="idle")
+        SandboxVars={LiveWire={PumpTankSize=3}}
+        P.step(NEAR)
+        assert(RF.capacity==150,'a saved relay takes the new size')
+        assert(RF.amount==30 and BF.amount==45 and NEAR.state=="running")
+        SandboxVars={LiveWire={PumpTankSize=1}}
+        RF.amount=100
+        P.step(NEAR)
+        assert(RF.capacity==25 and RF.amount==25 and BF.amount==45,'a smaller size keeps 25 L')
+        SandboxVars=nil
+        ''')
+
     def test_only_relays_feeding_a_plumbed_fixture_are_filled(self):
         self.run_lua('''
         local function list(t) return {size=function() return #t end,get=function(_,i) return t[i+1] end} end
@@ -111,8 +140,10 @@ class Remaining(unittest.TestCase):
         end
         getCell=function() return {getGridSquare=function(_,x,y,z) return squares[LiveWire.posKey(x,y,z)] end} end
         local function fluid(amount,capacity)
-            return {amount=amount,getAmount=function(s) return s.amount end,
-                getFreeCapacity=function(s) return capacity-s.amount end,
+            return {amount=amount,capacity=capacity,getAmount=function(s) return s.amount end,
+                getCapacity=function(s) return s.capacity end,
+                setCapacity=function(s,c) s.capacity=c;s.amount=math.min(s.amount,c) end,
+                getFreeCapacity=function(s) return s.capacity-s.amount end,
                 getSpecificFluidAmount=function() return 0 end,
                 removeFluid=function(s,n) s.amount=s.amount-n end,
                 addFluid=function(s,_,n) s.amount=s.amount+n end}

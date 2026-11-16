@@ -79,6 +79,13 @@ option LiveWire.PumpRange
     page = LiveWire, translation = LiveWire_PumpRange,
 }
 
+option LiveWire.PumpTankSize
+{
+    type = enum, numValues = 4, default = 1,
+    page = LiveWire, translation = LiveWire_PumpTankSize,
+    valueTranslation = LiveWire_PumpTankSize,
+}
+
 option LiveWire.WirePerTiles
 {
     type = integer, min = 0, max = 20, default = 4,

@@ -169,7 +169,6 @@ Defs.ALARM_REPEAT_HOURS = 2
 Defs.RELAY_SPRITE = Defs.SHEET .. "_76"   -- transparent tile, never in spriteToModel
 Defs.RELAY_KEY = "LiveWireRelay"          -- ModData of a relay: { pump = deviceId }
 Defs.BARREL_KEY = "LiveWireBarrel"        -- ModData of a linked barrel: { pump = deviceId }
-Defs.RELAY_LITRES = 25                    -- capacity of one relay tank
 Defs.PUMP_LITRES_PER_MINUTE = 5           -- flow of one pump
 Defs.PUMP_BUDGET_MAX = Defs.PUMP_LITRES_PER_MINUTE -- no idle flow credits
 Defs.PUMP_BARREL_RANGE = 1                -- the barrel must stand next to the pump (8 neighbouring squares), same floor

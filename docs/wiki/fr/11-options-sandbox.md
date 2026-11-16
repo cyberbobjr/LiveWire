@@ -21,6 +21,7 @@ Les réglages du jeu et du serveur sont sur deux pages des options sandbox : **L
 | Portée des câbles | `LinkRange` | 12 | 4–30 | Distance maximale de câble, en cases, entre un appareil et son onduleur |
 | Portée verticale des câbles | `LinkVerticalRange` | 3 | 0–10 | Différence d'étage maximale pour les raccordements d'appareils et le couplage d'onduleurs ; 0 = même étage |
 | Portée de la pompe à eau | `PumpRange` | 15 | 5–30 | Rayon autour d'une pompe à eau où ses robinets sont alimentés |
+| Réservoir de la pompe par point d'eau | `PumpTankSize` | 25 L | 25, 80, 150 ou 300 L | Réservoir invisible que la pompe garde au-dessus de chaque point d'eau raccordé ; une douche ou un bain peut demander plus de 25 L. Le réduire perd l'eau au-delà de la nouvelle taille |
 | Cases par fil électrique | `WirePerTiles` | 4 | 0–20 | Cases par fil électrique ; 0 = câblage gratuit |
 | Dégâts d'orage | `StormDamage` | désactivé | — | Les orages et les vents très forts endommagent les panneaux et les éoliennes |
 | Expérience d'électricité | `XPMultiplier` | 1 | 0–10 | Expérience donnée par les actions LiveWire |

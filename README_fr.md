@@ -198,7 +198,7 @@ Un appareil posé comme les autres, branché à l'onduleur au niveau 3. Elle pom
 
 - Raccordez la pompe à l'onduleur avec du fil électrique, comme pour tout appareil.
 - Raccordez chaque baril d'eau (récupérateur d'eau de pluie vanilla, ou baril du mod facultatif Useful Barrels) avec un **tuyau en métal** (`Base.MetalPipe`, rendu au débranchement). Le baril doit être à côté de la pompe : l'une de ses 8 cases voisines, au même étage. Jusqu'à 8 barils par pompe. Seul un baril qui contient de l'eau (ou vide) peut être raccordé.
-- Au-dessus de chaque évier, baignoire, douche ou toilette raccordé, situé dans une pièce à **15 cases** au plus de la pompe (option `PumpRange`, de 5 à 30) et jusqu'à 3 étages au-dessus ou en dessous, la pompe garde un réservoir relais invisible de 25 L. La plomberie vanilla y prend l'eau : raccordez le point d'eau avec la clé anglaise comme d'habitude (« Raccorder la plomberie de… »).
+- Au-dessus de chaque évier, baignoire, douche ou toilette raccordé, situé dans une pièce à **15 cases** au plus de la pompe (option `PumpRange`, de 5 à 30) et jusqu'à 3 étages au-dessus ou en dessous, la pompe garde un réservoir relais invisible de 25 L (option `PumpTankSize` : 25, 80, 150 ou 300 L). La plomberie vanilla y prend l'eau : raccordez le point d'eau avec la clé anglaise comme d'habitude (« Raccorder la plomberie de… »).
 - Aucun relais n'est posé au-dessus d'un robinet qui a déjà une autre source d'eau (baril vanilla à l'étage, eau courante, autre mod).
 - Tant que le réseau a du courant, la pompe remplit les relais depuis ses barils, à 5 L par minute de jeu au plus. Elle consomme 250 W seulement en pompant, et s'arrête quand tous les robinets sont pleins. Un léger bourdonnement de moteur s'entend à 4,5 cases pendant la marche ; les zombies l'entendent à 2 cases.
 - Seule l'eau est déplacée ; la pluie remplit toujours les barils comme avant. L'eau croupie sort propre au robinet, comme en vanilla.
@@ -383,6 +383,7 @@ Page « LiveWire » des options sandbox. Les options de LiveWire Extended figure
 | `LinkRange` | 12 | 4-30 | Distance de câble maximale |
 | `LinkVerticalRange` | 3 | 0-10 | Écart maximal en étages pour les raccordements et couplages ; 0 = même étage |
 | `PumpRange` | 15 | 5-30 | Rayon autour d'une pompe à eau dans lequel ses robinets sont alimentés |
+| `PumpTankSize` | 25 L | 25, 80, 150, 300 L | Réservoir invisible qu'une pompe à eau garde au-dessus de chaque point d'eau raccordé |
 | `WirePerTiles` | 4 | 0-20 | Cases par fil électrique ; 0 = câblage gratuit |
 | `SolarOrientation` | activé | — | L'orientation modifie le rendement solaire : sud 100 %, est/ouest 85 %, nord 55 % |
 | `SolarDirt` | activé | — | La saleté réduit la production ; pluie et nettoyage l'enlèvent |

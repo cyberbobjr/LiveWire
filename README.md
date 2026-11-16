@@ -206,7 +206,7 @@ A consumer placed like the other devices, linked to the inverter at level 3. It 
 
 - Link the pump to the inverter with electric wire, as for any device.
 - Link each water barrel (vanilla rain collector, or a barrel of the optional mod Useful Barrels) with one **iron pipe** (`Base.MetalPipe`, given back when the barrel is disconnected). The barrel must stand next to the pump: one of its 8 neighbouring squares, same floor. Up to 8 barrels per pump. Only a barrel holding water (or empty) can be connected.
-- Above each plumbed sink, bath, shower or toilet inside a room within **15 tiles** of the pump (sandbox `PumpRange`, 5-30) and up to 3 floors up or down, the pump keeps an invisible relay tank of 25 L. Vanilla plumbing takes the water from it: connect the tap with the pipe wrench as usual ("Plumb...").
+- Above each plumbed sink, bath, shower or toilet inside a room within **15 tiles** of the pump (sandbox `PumpRange`, 5-30) and up to 3 floors up or down, the pump keeps an invisible relay tank of 25 L (sandbox `PumpTankSize`: 25, 80, 150 or 300 L). Vanilla plumbing takes the water from it: connect the tap with the pipe wrench as usual ("Plumb...").
 - No relay is placed above a tap that already has another water source (vanilla barrel above, running water, another mod).
 - While the network has power, the pump refills the relays from its barrels, at 5 L per game minute at most. It draws 250 W only while pumping, and stops when every tap is full. A light motor hum is heard within 4.5 tiles while it runs; zombies hear it within 2 tiles.
 - Only water is moved, and the rain keeps filling the barrels as before. Tainted water comes out clean at the tap, as in vanilla.
@@ -397,6 +397,7 @@ Page **LiveWire**. Options of LiveWire Extended are on its own page, see [LiveWi
 | `LinkRange` | 12 | 4-30 | Maximum cable distance |
 | `LinkVerticalRange` | 3 | 0-10 | Maximum floor difference for equipment connections and inverter coupling; 0 = same floor |
 | `PumpRange` | 15 | 5-30 | Radius around a water pump where its taps are supplied |
+| `PumpTankSize` | 25 L | 25, 80, 150, 300 L | Invisible tank a water pump keeps above each plumbed fixture |
 | `WirePerTiles` | 4 | 0-20 | Tiles per electric wire; 0 = free cabling |
 | `SolarOrientation` | true | — | Direction affects solar yield: south 100%, east/west 85%, north 55% |
 | `SolarDirt` | true | — | Dirt reduces solar production; rain and cleaning remove it |

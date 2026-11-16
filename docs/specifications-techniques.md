@@ -308,6 +308,7 @@ leurs données sans fin ; l'adoption client (`LW_Adopt.lua`) ne voit que les obj
 | `LiveWire.LinkRange` | integer | 12 | 4-30 | Distance horizontale maximale appareil-onduleur |
 | `LiveWire.LinkVerticalRange` | integer | 3 | 0-10 | Écart maximal en étages, au-dessus ou au-dessous, pour les raccordements et couplages ; 0 = même étage |
 | `LiveWire.PumpRange` | integer | 15 | 5-30 | Rayon des robinets alimentés par une pompe |
+| `LiveWire.PumpTankSize` | enum | 1 (25 L) | 1-4 : 25, 80, 150, 300 L | Capacité de chaque réservoir relais (`Config.pumpTankLitres()`). Appliquée à la pose et, pour un relais déjà posé, par `Pump.needsOf` à la minute suivante où sa pompe travaille ; une réduction perd l'eau au-delà (`FluidContainer.setCapacity`) |
 | `LiveWire.WirePerTiles` | integer | 4 | 0-20 | Un fil électrique par N cases de câble (0 = gratuit) |
 | `LiveWire.StormDamage` | boolean | false | — | Orages et vents très forts abîment panneaux et éoliennes |
 | `LiveWire.XPMultiplier` | double | 1,0 | 0-10 | Expérience donnée par les actions Live Wire |

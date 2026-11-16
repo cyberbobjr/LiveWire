@@ -43,7 +43,7 @@ function Pump.placeRelay(dev, x, y, z)
     relay:setIsDismantable(false)
     relay:setCanBarricade(false)
     local fc = ComponentType.FluidContainer:CreateComponent()
-    fc:setCapacity(Defs.RELAY_LITRES)
+    fc:setCapacity(LiveWire.Config.pumpTankLitres())
     fc:setContainerName("LiveWireRelay")
     GameEntityFactory.AddComponent(relay, true, fc)
     relay:getModData()[Defs.RELAY_KEY] = { pump = dev.id }
