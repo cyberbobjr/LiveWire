@@ -32,6 +32,7 @@
     "Tooltip_LW_BarrelOtherPump": "Bu varil zaten başka bir pompaya bağlı.",
     "Tooltip_LW_PumpFull": "Bir pompa en fazla %1 varil alır.",
     "Tooltip_LW_NeedPipe": "Metal Boru gerekir.",
+    "Tooltip_LW_TapPump": "Bu musluk bir su pompasına bağlı ve yalnızca pompa çalışırken su alır. Su yokken oyun onu bu menüde artık göstermez.",
     "Tooltip_LW_AlreadyCoupled": "Bu invertör zaten eşlenmiş.",
     "Tooltip_LW_MasterIsSlave": "O invertörün kendisi eşlenmiş: onun ana invertörünü seçin.",
     "Tooltip_LW_NeedCouplingKit": "İnvertör eşleme kiti gerekir.",

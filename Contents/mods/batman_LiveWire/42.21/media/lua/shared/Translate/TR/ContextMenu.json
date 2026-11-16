@@ -59,6 +59,8 @@
     "ContextMenu_LW_PumpState_nopower": "Durdu: elektrik yok",
     "ContextMenu_LW_PumpState_nobarrel": "Durdu: varillerde su yok",
     "ContextMenu_LW_PumpState_broken": "Arızalı",
+    "ContextMenu_LW_TapPump": "Pompadan su: %1",
+    "ContextMenu_LW_TapPumpUnknown": "Pompadan su: pompa görüş dışında",
     "ContextMenu_LW_Debug_RemoveRelays": "Tüm su rölelerini kaldır",
     "ContextMenu_LW_Debug_EnablePumps": "Su pompalarını yeniden etkinleştir",
     "ContextMenu_LW_ShowTaps": "Beslenen muslukları göster",

@@ -4,6 +4,7 @@
 
 ### Improvements
 
+- **Sink plumbed to a water pump:** a plumbed sink, bath or shower only has water while its pump runs, and the game hid it from the menu as soon as it was empty, with no explanation. Right-click it: the LiveWire menu now shows the state of the pump that supplies it, for example "Water from the pump: Stopped: no power". Fixtures that are not plumbed to a pump show nothing new.
 - **Water pump tank size:** new sandbox option "Water pump tank per fixture" (25 L by default, 80, 150 or 300 L). The pump stopped once the 25 L tank above a fixture was full, too little for a long shower or a bath. Tanks already placed take the new size the next time their pump runs; lowering it loses the water above the new size.
 
 ## 2.1.3 — 2026-11-16

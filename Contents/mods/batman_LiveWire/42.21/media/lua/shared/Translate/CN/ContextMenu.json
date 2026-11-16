@@ -59,6 +59,8 @@
     "ContextMenu_LW_PumpState_nopower": "已停止：没有电力",
     "ContextMenu_LW_PumpState_nobarrel": "已停止：水桶里没有水",
     "ContextMenu_LW_PumpState_broken": "故障",
+    "ContextMenu_LW_TapPump": "水泵供水：%1",
+    "ContextMenu_LW_TapPumpUnknown": "水泵供水：水泵不在视野内",
     "ContextMenu_LW_Debug_RemoveRelays": "移除所有水中继器",
     "ContextMenu_LW_Debug_EnablePumps": "重新启用水泵",
     "ContextMenu_LW_ShowTaps": "显示供水的水龙头",

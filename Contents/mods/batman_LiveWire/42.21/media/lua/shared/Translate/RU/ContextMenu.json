@@ -59,6 +59,8 @@
     "ContextMenu_LW_PumpState_nopower": "Остановлен: нет питания",
     "ContextMenu_LW_PumpState_nobarrel": "Остановлен: в бочках нет воды",
     "ContextMenu_LW_PumpState_broken": "Неисправен",
+    "ContextMenu_LW_TapPump": "Вода от насоса: %1",
+    "ContextMenu_LW_TapPumpUnknown": "Вода от насоса: насос вне видимости",
     "ContextMenu_LW_Debug_RemoveRelays": "Удалить все водяные реле",
     "ContextMenu_LW_Debug_EnablePumps": "Снова включить водяные насосы",
     "ContextMenu_LW_ShowTaps": "Показать питаемые краны",

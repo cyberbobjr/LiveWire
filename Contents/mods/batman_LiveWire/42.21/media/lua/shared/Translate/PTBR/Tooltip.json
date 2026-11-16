@@ -32,6 +32,7 @@
     "Tooltip_LW_BarrelOtherPump": "Este barril já está conectado a outra bomba.",
     "Tooltip_LW_PumpFull": "Uma bomba aceita no máximo %1 barris.",
     "Tooltip_LW_NeedPipe": "É preciso um tubo de ferro.",
+    "Tooltip_LW_TapPump": "Esta torneira está conectada a uma bomba d'água e só tem água enquanto a bomba funciona. Sem água, o jogo não a mostra mais neste menu.",
     "Tooltip_LW_AlreadyCoupled": "Este inversor já está acoplado.",
     "Tooltip_LW_MasterIsSlave": "Esse inversor já está acoplado: escolha o mestre dele.",
     "Tooltip_LW_NeedCouplingKit": "É preciso um kit de acoplamento de inversores.",

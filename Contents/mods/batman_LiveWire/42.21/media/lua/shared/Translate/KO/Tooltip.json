@@ -32,6 +32,7 @@
     "Tooltip_LW_BarrelOtherPump": "이 물통은 이미 다른 펌프에 연결되어 있습니다.",
     "Tooltip_LW_PumpFull": "펌프 하나에는 최대 %1개의 물통을 연결할 수 있습니다.",
     "Tooltip_LW_NeedPipe": "금속 파이프가 필요합니다.",
+    "Tooltip_LW_TapPump": "이 수도꼭지는 물 펌프에 연결되어 있어 펌프가 작동할 때만 물이 나옵니다. 물이 없으면 게임은 이 메뉴에 수도꼭지를 표시하지 않습니다.",
     "Tooltip_LW_AlreadyCoupled": "이 인버터는 이미 병렬 연결되어 있습니다.",
     "Tooltip_LW_MasterIsSlave": "이 인버터는 이미 병렬 연결되어 있습니다: 마스터 인버터를 선택하세요.",
     "Tooltip_LW_NeedCouplingKit": "인버터 병렬 연결 키트가 필요합니다.",

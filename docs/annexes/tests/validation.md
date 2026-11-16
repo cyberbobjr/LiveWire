@@ -1450,3 +1450,18 @@ serveur, l'appel que fait le serveur pour chaque coup reçu d'un client (`Player
 vrai coup du personnage client ; retrait du registre par deux appels directs de `Devices.validate`. Couverts hors jeu
 seulement (`tests/test_wreckage.py`) : relèvement des appareils déjà posés au parcours des chunks, destruction par des
 zombies. Non testé : serveur dédié Linux.
+
+## Évier raccordé à une pompe sans courant — signalement Steam du 2026-11-16
+
+| Passage | Commande | Code | Résultat | Dossier dans `runs/` |
+|---|---|---|---|---|
+| Évier raccordé alors que l'onduleur est éteint : pompe en état `nopower`, évier vide (le menu vanilla ne le liste plus), vrai clic droit client : menu LiveWire « Eau de la pompe : À l'arrêt : pas de courant » ; onduleur rallumé : 10 L pompés, évier rempli, menu à l'état réel de la pompe (« pas d'eau dans les barils », baril vidé) | `mp LiveWire/autotest/plumb_mp.json --clients 1 --client-run` | 0 | serveur et client PASS, aucune erreur Lua | `runs/20261116-184354-mp-fbbc3e4902c7` |
+
+Un premier passage (`runs/20261116-184142-mp-8b80ff08ca91`, code 1) attendait l'état « en marche » une fois le courant
+revenu, alors que la pompe avait déjà vidé le baril de 10 L : le menu disait à juste titre « pas d'eau dans les barils ».
+Le scénario compare depuis la ligne du menu à l'état de la pompe sur le serveur. Raccourcis : appareils posés par
+`placeMoveableInternal`, courant et onduleur réglés par affectation, minutes de pompe appelées directement
+(`Pump.step`), raccordement par `ISPlumbItem:complete` sur le serveur, menu ouvert par
+`ISWorldObjectContextMenu.createMenu` avec l'évier seul comme objet cliqué. Couverts hors jeu seulement
+(`tests/test_tap_pump.py`) : pompe hors de la zone chargée, relais sans ses données sur le client, point d'eau alimenté
+par un baril vanilla. Non testé : serveur dédié Linux.

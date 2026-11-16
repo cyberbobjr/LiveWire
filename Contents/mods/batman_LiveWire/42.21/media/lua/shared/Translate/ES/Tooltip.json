@@ -32,6 +32,7 @@
     "Tooltip_LW_BarrelOtherPump": "Este barril ya está conectado a otra bomba.",
     "Tooltip_LW_PumpFull": "Una bomba admite como máximo %1 barriles.",
     "Tooltip_LW_NeedPipe": "Hace falta un tubo metálico.",
+    "Tooltip_LW_TapPump": "Este grifo está conectado a una bomba de agua y solo tiene agua mientras la bomba funciona. Sin agua, el juego ya no lo muestra en este menú.",
     "Tooltip_LW_AlreadyCoupled": "Este inversor ya está acoplado.",
     "Tooltip_LW_MasterIsSlave": "Ese inversor está acoplado a su vez: elija su maestro.",
     "Tooltip_LW_NeedCouplingKit": "Necesita un kit de acoplamiento de inversores.",

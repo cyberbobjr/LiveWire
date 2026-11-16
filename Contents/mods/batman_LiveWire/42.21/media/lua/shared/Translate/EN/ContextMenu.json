@@ -59,6 +59,8 @@
     "ContextMenu_LW_PumpState_nopower": "Stopped: no power",
     "ContextMenu_LW_PumpState_nobarrel": "Stopped: no water in the barrels",
     "ContextMenu_LW_PumpState_broken": "Out of order",
+    "ContextMenu_LW_TapPump": "Water from the pump: %1",
+    "ContextMenu_LW_TapPumpUnknown": "Water from the pump: pump out of sight",
     "ContextMenu_LW_Debug_RemoveRelays": "Remove every water relay",
     "ContextMenu_LW_Debug_EnablePumps": "Enable the water pumps again",
     "ContextMenu_LW_ShowTaps": "Show the supplied taps",

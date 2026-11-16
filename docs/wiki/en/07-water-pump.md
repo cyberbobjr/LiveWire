@@ -42,6 +42,7 @@ Barrels of water standing on the ground can run the taps of a whole house. An el
 - Right-click the pump, then **Show the supplied taps**: a blue circle shows the range, and the supplied fixtures, the connected barrels and the pump are highlighted in blue. Fixtures in range that are not plumbed yet are highlighted in grey: they get no water until you plumb them. **Hide the supplied taps** turns the display off.
 - A **blue light** shows on the pump when it is powered, even idle or without a linked fixture. It turns off without power or with the equipment/main circuit open.
 - The pump menu shows its state: pumping, stopped (every tap full), no power, no water in the barrels, out of order.
+- A plumbed fixture only has water while its pump runs, and the game no longer lists it in the menu while it is empty. Right-click it: the **LiveWire** menu shows the state of the pump that supplies it (**Water from the pump: Stopped: no power**, for example). A fixture that is not plumbed to a pump shows nothing.
 - The management software (Equipment tab) shows the number of pumps in service and their flow in litres per hour.
 
 Click the pump for its **individual LCD**: pump condition, measured water flow in L/h and consumption in W. Reading it moves no water. **Connections** selects this pump's inverter; barrel actions keep their usual menus. See [individual screens and wiring](06-optional-equipment.md#individual-lcds-and-inverter-selection).

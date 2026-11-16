@@ -32,6 +32,7 @@
     "Tooltip_LW_BarrelOtherPump": "This barrel is already connected to another pump.",
     "Tooltip_LW_PumpFull": "A pump takes at most %1 barrels.",
     "Tooltip_LW_NeedPipe": "Needs an Iron Pipe.",
+    "Tooltip_LW_TapPump": "This tap is plumbed to a water pump and only gets water while the pump runs. Without water, the game no longer lists the tap in this menu.",
     "Tooltip_LW_AlreadyCoupled": "This inverter is already coupled.",
     "Tooltip_LW_MasterIsSlave": "That inverter is itself coupled: choose its master.",
     "Tooltip_LW_NeedCouplingKit": "Needs an inverter coupling kit.",

@@ -32,6 +32,7 @@
     "Tooltip_LW_BarrelOtherPump": "Ce baril est déjà raccordé à une autre pompe.",
     "Tooltip_LW_PumpFull": "Une pompe accepte au plus %1 barils.",
     "Tooltip_LW_NeedPipe": "Il faut un tuyau en métal.",
+    "Tooltip_LW_TapPump": "Ce robinet est raccordé à une pompe à eau et n'a de l'eau que quand la pompe tourne. Sans eau, le jeu ne le propose plus dans ce menu.",
     "Tooltip_LW_AlreadyCoupled": "Cet onduleur est déjà couplé.",
     "Tooltip_LW_MasterIsSlave": "Cet onduleur est lui-même couplé : choisissez son maître.",
     "Tooltip_LW_NeedCouplingKit": "Il faut un kit de couplage d'onduleurs.",

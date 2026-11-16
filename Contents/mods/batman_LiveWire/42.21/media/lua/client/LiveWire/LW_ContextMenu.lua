@@ -553,6 +553,19 @@ local function addVanillaOptions(root, player, obj, kind)
     addLinkOptions(menu, player, obj, kind, mark and mark.id)
 end
 
+-- A tap plumbed to a water pump: the state of that pump, why the tap has water or not.
+local function addTapState(menu, pump)
+    local mark = pump and LiveWire.Marks.get(pump)
+    local text = getText("ContextMenu_LW_TapPumpUnknown")
+    if mark then
+        text = getText("ContextMenu_LW_TapPump", getText("ContextMenu_LW_PumpState_" .. (mark.st or "idle")))
+    end
+    local o = disabled(menu, text)
+    local t = ISWorldObjectContextMenu.addToolTip()
+    t.description = getText("Tooltip_LW_TapPump")
+    o.toolTip = t
+end
+
 local function onFillWorld(playerNum, context, worldobjects, test)
     if test and ISWorldObjectContextMenu.Test then return true end
     local player = getSpecificPlayer(playerNum)
@@ -565,7 +578,7 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     -- Vanilla generators and computers only when they are connected or an
     -- inverter is in range, so that their vanilla menus are not cluttered.
     -- Water barrels: only when linked, or a pump is next to them.
-    local devices, vanilla, barrels, seen = {}, {}, {}, {}
+    local devices, vanilla, barrels, taps, seen = {}, {}, {}, {}, {}
     local function addObj(o)
         if not o or seen[o] then return end
         local kind = I().linkKind(o)
@@ -580,6 +593,13 @@ local function onFillWorld(playerNum, context, worldobjects, test)
                 and (LiveWire.Barrels.mark(o) ~= nil or #I().pumpsInRange(o:getSquare()) > 0) then
             seen[o] = true
             barrels[#barrels + 1] = o
+        elseif not kind and o:getSquare() then
+            -- A tap plumbed to a pump: vanilla hides it while it has no water.
+            local fed, pump = LiveWire.Barrels.supplyingPump(o)
+            if fed then
+                seen[o] = true
+                taps[#taps + 1] = { obj = o, pump = pump }
+            end
         end
     end
     for _, o in ipairs(worldobjects) do addObj(o) end
@@ -588,13 +608,14 @@ local function onFillWorld(playerNum, context, worldobjects, test)
 
     local hasTester = player:getInventory():getCountTypeRecurse("LiveWire.VoltageTester") > 0
     local debug = LiveWire.Debug.allowed(player)
-    if #devices == 0 and #vanilla == 0 and #barrels == 0 and not hasTester and not debug then return end
+    if #devices == 0 and #vanilla == 0 and #barrels == 0 and #taps == 0 and not hasTester and not debug then return end
     if test then return ISWorldObjectContextMenu.setTest() end
 
     local root = context:addOption(getText("ContextMenu_LW_Root"), worldobjects, nil)
     local sub = ISContextMenu:getNew(context)
     context:addSubMenu(root, sub)
 
+    for i = 1, #taps do addTapState(sub, taps[i].pump) end
     if hasTester then
         sub:addOption(getText("ContextMenu_LW_Measure"), player, Menu.onMeasure, sq)
     end

@@ -155,6 +155,55 @@ function Barrels.pumpsInRange(sq)
     return out
 end
 
+-- True when `src` is a pump relay. A client may not have received the relay ModData
+-- yet: the relay tile is enough (vanilla barrels have other sprites).
+function Barrels.isPumpRelay(src)
+    if Barrels.isRelay(src) then return true end
+    local spr = src and src.getSprite and src:getSprite()
+    return spr ~= nil and spr:getName() == LiveWire.Defs.RELAY_SPRITE
+end
+
+-- Plumbed fixture `obj` (sink, bath...) fed by a water pump: returns true and the pump
+-- object, or true and nil when the pump is not on a loaded square. Returns false when
+-- `obj` is not plumbed, or draws its water from another source (vanilla barrel above).
+-- The source is the one vanilla uses (IsoObject.FindExternalWaterSource); the pump is
+-- searched in the area it serves (PumpRange, Config.verticalRange, LW_PumpRelays.lua).
+function Barrels.supplyingPump(obj)
+    if not obj or not obj.getUsesExternalWaterSource or not obj:getUsesExternalWaterSource() then
+        return false
+    end
+    local sq = obj:getSquare()
+    local src = sq and IsoObject.FindExternalWaterSource(sq)
+    if not src or not Barrels.isPumpRelay(src) then return false end
+    local m = Barrels.isRelay(src) and src:getModData()[LiveWire.Defs.RELAY_KEY] or nil
+    local id = type(m) == "table" and m.pump or nil
+    local range = LiveWire.Config.get("PumpRange")
+    local r, floors = math.floor(range), LiveWire.Config.verticalRange()
+    local cell = getCell()
+    local x0, y0, z0 = sq:getX(), sq:getY(), sq:getZ()
+    local best, bestD2
+    for z = math.max(-32, z0 - floors), math.min(31, z0 + floors) do
+        for x = x0 - r, x0 + r do
+            for y = y0 - r, y0 + r do
+                local d2 = (x - x0) * (x - x0) + (y - y0) * (y - y0)
+                local s = d2 <= range * range and cell:getGridSquare(x, y, z)
+                local objs = s and s:getObjects()
+                if objs then
+                    for i = 0, objs:size() - 1 do
+                        local o = objs:get(i)
+                        if Barrels.isPump(o) then
+                            -- Relay id unknown on this client: the nearest pump.
+                            if id ~= nil and LiveWire.Marks.get(o).id == id then return true, o end
+                            if id == nil and (not bestD2 or d2 < bestD2) then best, bestD2 = o, d2 end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return true, best
+end
+
 -- Can `character` link `barrel` to `pumpObj`? Returns true, or false, key, arg.
 function Barrels.checkBarrelLink(character, barrel, pumpObj)
     if not Barrels.isPump(pumpObj) then return false, "Tooltip_LW_Invalid" end
