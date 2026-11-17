@@ -32,14 +32,22 @@ end
 -- the floor (their sprite has no name) do not.
 local FLOORISH = { "floors_", "blends_" }
 local WALL_FLAGS = { "WallN", "WallNTrans", "WallNW", "WallNWTrans", "WallW", "WallWTrans" }
+-- Openings: garage door panels and double doors also carry WallN/WallW (so getWall returns
+-- them), and a door frame is a wall piece even with no door in it (archway).
+local OPENING_FLAGS = { "doorN", "doorW", "GarageDoor", "DoubleDoor", "DoorWallN", "DoorWallNTrans",
+                        "DoorWallW", "DoorWallWTrans", "windowN", "windowW", "WindowN", "WindowW" }
 
-local function isWallPiece(spr)
+local function hasFlag(spr, flags)
     local props = spr and spr:getProperties()
     if not props then return false end
-    for _, f in ipairs(WALL_FLAGS) do
+    for _, f in ipairs(flags) do
         if props:has(f) then return true end
     end
     return false
+end
+
+local function isWallPiece(spr)
+    return hasFlag(spr, WALL_FLAGS)
 end
 
 function H.bareWall(sq)
@@ -48,6 +56,7 @@ function H.bareWall(sq)
     local floor, west, objs = sq:getFloor(), sq:getWall(false), sq:getObjects()
     for i = 0, objs:size() - 1 do
         local o = objs:get(i)
+        if hasFlag(o:getSprite(), OPENING_FLAGS) then return false end
         if o ~= floor and o ~= north and o ~= west then
             local spr = o:getSprite()
             local name = spr and spr:getName() or ""

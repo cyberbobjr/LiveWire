@@ -1,10 +1,14 @@
 # Changelog
 
-## Unreleased
+## 2.1.6 — 2026-11-17
 
 ### Improvements
 
 - **Crafting menu:** every LiveWire and LiveWire Extended recipe now sits in its own **LiveWire** tab of the crafting menu, including the wind turbine blade set and mast that were hidden in Metalworking and all the dismantling recipes.
+
+### Fixes
+
+- **LiveWire Extended, house breaker boards:** a board added to a map house could hang on a garage door or a double door, or in a doorway without a door. Boards now only go on a plain section of wall. Boards already placed in your world stay where they are; one on a door can be picked up with a screwdriver.
 
 ## 2.1.5 — 2026-11-17
 
