@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.5 — 2026-11-17
+
+### Fixes
+
+- **Project Viewpoint:** since Project Viewpoint 0.1.7, the LiveWire 3D models could stay invisible in first-person view, the sprites showing instead. The "LiveWire - Viewpoint models" add-on is now registered the way the new Project Viewpoint add-on manager expects.
+
 ## 2.1.4 — 2026-11-17
 
 ### Improvements
