@@ -98,11 +98,6 @@ Extended и модели требуют LiveWire, включённый рань�
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Вики LiveWire[/url] · Исходный код: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]Для авторов модов[/h2]
-
-API позволяет электрическим машинам других модов брать энергию из LiveWire: их потребление учитывает инвертор, их отключают его цепи, и они видны в программе управления.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]Руководство разработчика (EN)[/url]
-
 [h2]Поддержать проект[/h2]
 
 Нравится мод? Чашка кофе помогает финансировать новые функции и переводы.
@@ -115,3 +110,6 @@ API позволяет электрическим машинам других м
 [h2]Официальные дополнения[/h2]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
 [b]LiveWire: Coupled Inverter Zones[/b]: сцепленные инверторы сохраняют свою зону.
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/[/img][/url]
+[b]LiveWire Compatibility[/b]: машины других модов (Artel, Machinery...) питаются от LiveWire.

@@ -103,11 +103,6 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire 维基[/url] · 源代码：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]致模组开发者[/h2]
-
-通过 API，其他模组的电器可以从 LiveWire 取电：由逆变器计费、受其回路切断，并显示在管理软件中。
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]开发者指南（英文）[/url]
-
 [h2]支持本项目[/h2]
 
 喜欢这个模组吗？一杯咖啡有助于资助新功能和翻译。
@@ -120,3 +115,6 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 [h2]官方扩展[/h2]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
 [b]LiveWire: Coupled Inverter Zones[/b]: 并联的逆变器各自保留供电区域。
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/[/img][/url]
+[b]LiveWire Compatibility[/b]: 其他模组的机器（Artel、Machinery...）使用 LiveWire 的电力。

@@ -100,11 +100,6 @@ Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=37254
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire-Wiki[/url] · Quellcode: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]Für Mod-Entwickler[/h2]
-
-Über eine API beziehen elektrische Maschinen anderer Mods Strom aus LiveWire: vom Wechselrichter abgerechnet, von seinen Stromkreisen abgeschaltet und in der Verwaltungssoftware angezeigt.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]Entwicklerhandbuch (EN)[/url]
-
 [h2]Projekt unterstützen[/h2]
 
 Dir gefällt der Mod? Ein Kaffee hilft, neue Funktionen und Übersetzungen zu finanzieren.
@@ -117,3 +112,6 @@ Erstellt von batmanfr. Modell des Wechselrichter-Schranks von PewPewCricket. Ori
 [h2]Offizielle Erweiterungen[/h2]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
 [b]LiveWire: Coupled Inverter Zones[/b]: gekoppelte Wechselrichter behalten ihre eigene versorgte Zone.
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/[/img][/url]
+[b]LiveWire Compatibility[/b]: Maschinen anderer Mods (Artel, Machinery...) beziehen Strom von LiveWire.

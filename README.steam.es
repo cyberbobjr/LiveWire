@@ -100,11 +100,6 @@ Compatible con [url=https://steamcommunity.com/sharedfiles/filedetails/?id=37254
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]Wiki de LiveWire[/url] · Código fuente: [url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]Para desarrolladores de mods[/h2]
-
-Una API permite que las máquinas eléctricas de otros mods tomen energía de LiveWire: facturadas por el inversor, cortadas por sus circuitos y mostradas en el software de gestión.
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]Guía para desarrolladores (EN)[/url]
-
 [h2]Apoya el proyecto[/h2]
 
 ¿Te gusta el mod? Un café ayuda a financiar nuevas funciones y traducciones.
@@ -117,3 +112,6 @@ Creado por batmanfr. Modelo del armario inversor: PewPewCricket. Código, baldos
 [h2]Complementos oficiales[/h2]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
 [b]LiveWire: Coupled Inverter Zones[/b]: los inversores acoplados conservan su propia zona alimentada.
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/[/img][/url]
+[b]LiveWire Compatibility[/b]: las máquinas de otros mods (Artel, Machinery...) consumen la energía de LiveWire.

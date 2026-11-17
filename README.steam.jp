@@ -100,11 +100,6 @@ MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Power
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-Home]LiveWire wiki[/url] · ソースコード：[url=https://github.com/cyberbobjr/LiveWire]GitHub[/url] · [url=https://discord.gg/QEsBya7hUA]Discord[/url]
 
 
-[h2]MOD開発者の方へ[/h2]
-
-APIにより、他MODの電気機械がLiveWireから電力を得られます。インバーターが課金し、その回路で遮断でき、管理ソフトに表示されます。
-[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-15-developers]開発者ガイド（英語）[/url]
-
 [h2]プロジェクトを支援[/h2]
 
 MODを気に入っていただけましたか？コーヒー1杯が新機能や翻訳の資金になります。
@@ -117,3 +112,6 @@ MODを気に入っていただけましたか？コーヒー1杯が新機能や�
 [h2]公式アドオン[/h2]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
 [b]LiveWire: Coupled Inverter Zones[/b]: 連結したインバーターがそれぞれの給電範囲を保持。
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/[/img][/url]
+[b]LiveWire Compatibility[/b]: 他MODの機械（Artel、Machinery...）がLiveWireの電力を使用。
