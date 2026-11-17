@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Improvements
+
+- **Crafting menu:** every LiveWire and LiveWire Extended recipe now sits in its own **LiveWire** tab of the crafting menu, including the wind turbine blade set and mast that were hidden in Metalworking and all the dismantling recipes.
+
 ## 2.1.5 — 2026-11-17
 
 ### Fixes

@@ -12,6 +12,9 @@ No. One source and one inverter is the minimal system. Without batteries the hou
 **What is the minimum setup?**
 One source (solar panel 100 W, wind turbine 400 W or water wheel 120 W) and one inverter, linked by electric wire. Every powered appliance within 20 tiles and 3 floors of the inverter is then powered, with no per-appliance wiring. See [Equipment](02-equipment.md).
 
+**Where are the LiveWire recipes?**
+All of them, LiveWire Extended included, are in the **LiveWire** tab of the crafting menu: devices, parts such as the wind turbine blade set and mast, and every dismantling recipe. See [Recipes](08-recipes.md).
+
 **Which Electrical level do I need for what?**
 Placing and picking up need a screwdriver, but no level. The level applies to linking to an inverter: power bank, low battery alarm, backup generator, wind turbine and water wheel: level 2; solar panel, breaker panel, inverter and inverter cabinet (the first link puts it into service), coupling, water pump and management computer (with load shedding): level 3. Crafting: voltage tester level 1; power bank, low battery alarm and soundproofing kit level 2; water wheel level 4; every other device and kit, the deep-cycle battery and solar cells from scrap level 3. Wind turbine blades and masts, and every dismantling recipe, need no level. Overhauling a device needs level 3. Reading a tester (powered or not) needs no level. See [Electrical skill and maintenance](10-electrical-skill-and-maintenance.md) and [Recipes](08-recipes.md).
 

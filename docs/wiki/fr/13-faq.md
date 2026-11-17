@@ -12,6 +12,9 @@ Non. Une source et un onduleur forment le système minimal. Sans batteries, la m
 **Quelle est la configuration minimale ?**
 Une source (panneau solaire 100 W, éolienne 400 W ou roue à aubes 120 W) et un onduleur, reliés par du fil électrique. Tout appareil alimenté à moins de 20 cases et 3 étages de l'onduleur reçoit alors le courant, sans câblage par appareil. Voir [Équipements](02-equipements.md).
 
+**Où sont les recettes LiveWire ?**
+Toutes, LiveWire Extended compris, sont dans l'onglet **LiveWire** du menu d'artisanat : appareils, pièces comme les pales et le mât d'éolienne, et toutes les recettes de démontage. Voir [Recettes](08-recettes.md).
+
 **Quel niveau d'Électricité faut-il pour quoi ?**
 La pose et le ramassage demandent un tournevis, mais aucun niveau. Le niveau sert au raccordement à un onduleur : powerbank, alarme de batterie faible, générateur de secours, éolienne et roue à aubes : niveau 2 ; panneau photovoltaïque, disjoncteur, onduleur et armoire onduleur (le premier branchement la met en service), couplage, pompe à eau et ordinateur de gestion (avec délestage) : niveau 3. Fabrication : testeur de tension niveau 1 ; powerbank, alarme de batterie faible et kit d'insonorisation niveau 2 ; roue à aubes niveau 4 ; tous les autres appareils et kits, la batterie stationnaire et les cellules à partir de pièces électroniques niveau 3. Les pales et mâts d'éolienne, ainsi que toutes les recettes de démontage, ne demandent aucun niveau. La remise à neuf d'un appareil demande le niveau 3. Lire un testeur (alimenté ou non) ne demande aucun niveau. Voir [Compétence Électricité et entretien](10-competence-electricite-et-entretien.md) et [Recettes](08-recettes.md).
 

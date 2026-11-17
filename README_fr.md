@@ -302,7 +302,7 @@ Le nombre de panneaux n'est pas limité : les productions s'additionnent (100 W 
 
 ## Recettes
 
-LiveWire compte 31 recettes : 16 pour fabriquer les appareils et les pièces, 15 pour les démonter. Elles sont dans le menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât sont dans **Travail des métaux**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur. Démonter un appareil rend des pièces ; les pièces électroniques dépendent de son état. Seules les cellules photovoltaïques ne se démontent pas.
+LiveWire compte 31 recettes : 16 pour fabriquer les appareils et les pièces, 15 pour les démonter. Elles sont toutes dans l'onglet **LiveWire** du menu d'artisanat. Les recettes d'Électricité se débloquent automatiquement au niveau requis ; les pales et le mât ne demandent aucun niveau d'Électricité. Les outils sont conservés (certains peuvent s'user). Toutes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur. Démonter un appareil rend des pièces ; les pièces électroniques dépendent de son état. Seules les cellules photovoltaïques ne se démontent pas.
 
 ![Planche illustrée des recettes LiveWire](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_fr.png)
 

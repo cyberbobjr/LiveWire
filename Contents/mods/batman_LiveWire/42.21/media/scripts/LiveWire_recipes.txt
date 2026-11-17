@@ -16,7 +16,7 @@ module LiveWire
         SkillRequired = Electricity:1,
         xpAward = Electricity:5,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -36,7 +36,7 @@ module LiveWire
         timedAction = DismantleElectrical,
         time = 60,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:2,
         inputs
         {
@@ -56,7 +56,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:4,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -77,7 +77,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:15,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -101,7 +101,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:25,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -126,7 +126,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:35,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -150,7 +150,7 @@ module LiveWire
         timedAction = Making,
         time = 120,
         Tags = AnySurfaceCraft,
-        category = Metalworking,
+        category = LiveWire,
         xpAward = Electricity:2,
         inputs
         {
@@ -171,7 +171,7 @@ module LiveWire
         timedAction = Making,
         time = 120,
         Tags = AnySurfaceCraft,
-        category = Metalworking,
+        category = LiveWire,
         xpAward = Electricity:2,
         inputs
         {
@@ -195,7 +195,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:30,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -220,7 +220,7 @@ module LiveWire
         SkillRequired = Electricity:4,
         xpAward = Electricity:30,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -245,7 +245,7 @@ module LiveWire
         SkillRequired = Electricity:2,
         xpAward = Electricity:8,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -268,7 +268,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:8,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -290,7 +290,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:15,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -314,7 +314,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:8,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -335,7 +335,7 @@ module LiveWire
         SkillRequired = Electricity:3,
         xpAward = Electricity:20,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         OnCreate = LiveWire.Recipes.onDeepCycleBattery,
         inputs
         {
@@ -358,7 +358,7 @@ module LiveWire
         SkillRequired = Electricity:2,
         xpAward = Electricity:5,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -379,7 +379,7 @@ module LiveWire
         SkillRequired = Electricity:2,
         xpAward = Electricity:5,
         Tags = AnySurfaceCraft,
-        category = Electrical,
+        category = LiveWire,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],
@@ -405,7 +405,7 @@ module LiveWire
         Icon = LiveWireSolarPanel,
         time = 200,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:5,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -427,7 +427,7 @@ module LiveWire
         Icon = LiveWireWindTurbine,
         time = 150,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:6,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -450,7 +450,7 @@ module LiveWire
         Icon = LiveWireWaterWheel,
         time = 250,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:6,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -474,7 +474,7 @@ module LiveWire
         Icon = LiveWireInverter,
         time = 200,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:5,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -496,7 +496,7 @@ module LiveWire
         Icon = LiveWireInverterCabinet,
         time = 300,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:8,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -519,7 +519,7 @@ module LiveWire
         Icon = LiveWirePowerBank,
         time = 120,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:3,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -541,7 +541,7 @@ module LiveWire
         Icon = LiveWireBreaker,
         time = 80,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:2,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -563,7 +563,7 @@ module LiveWire
         Icon = LiveWireBatteryAlarm,
         time = 60,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:2,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -584,7 +584,7 @@ module LiveWire
         Icon = LiveWireWaterPump,
         time = 200,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:5,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,
@@ -607,7 +607,7 @@ module LiveWire
         timedAction = DismantleElectrical,
         time = 60,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:2,
         inputs
         {
@@ -627,7 +627,7 @@ module LiveWire
         timedAction = Making,
         time = 150,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:1,
         inputs
         {
@@ -652,7 +652,7 @@ module LiveWire
         timedAction = DismantleElectrical,
         time = 60,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:1,
         inputs
         {
@@ -671,7 +671,7 @@ module LiveWire
         timedAction = DismantleElectrical,
         time = 60,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:1,
         inputs
         {
@@ -692,7 +692,7 @@ module LiveWire
         timedAction = DismantleElectrical,
         time = 120,
         Tags = InHandCraft;Electrical,
-        category = Electrical,
+        category = LiveWire,
         xpAward = Electricity:2,
         Tooltip = Tooltip_LW_Dismantle,
         OnCreate = LiveWire.Recipes.onDismantle,

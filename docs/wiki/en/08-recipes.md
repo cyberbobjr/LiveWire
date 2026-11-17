@@ -2,7 +2,7 @@
 
 # Recipes
 
-The 31 base LiveWire recipes are in the crafting menu: 16 to make and 15 to dismantle. LiveWire Extended adds 8 make recipes and 4 dismantle recipes, listed in [LiveWire Extended](14-livewire-extended.md#recipes). Electrical recipes appear at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
+The 31 base LiveWire recipes are in the **LiveWire** tab of the crafting menu: 16 to make and 15 to dismantle. LiveWire Extended adds 8 make recipes and 4 dismantle recipes, listed in [LiveWire Extended](14-livewire-extended.md#recipes). LiveWire Extended recipes are in the same tab. Electrical recipes appear at their required level; the blade set and mast need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling.
 
 ![Illustrated recipe board](../../images/diagrams/recipe_book_en.png)
 

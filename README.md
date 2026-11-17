@@ -316,7 +316,7 @@ There is no limit on the number of solar panels; productions add up (100 W nomin
 
 ## Recipes
 
-LiveWire has 31 recipes: 16 craft devices and parts, 15 dismantle them. They are in the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast are in **Metalworking** and need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling. Dismantling a device gives back parts; electronic parts depend on its condition. Only solar cells cannot be dismantled.
+LiveWire has 31 recipes: 16 craft devices and parts, 15 dismantle them. They are all in the **LiveWire** tab of the crafting menu. Electrical recipes unlock automatically at their required level; the blade set and mast need no Electrical level. Tools are kept (some can wear). Every recipe awards Electrical XP, including blades, masts and tester dismantling. Dismantling a device gives back parts; electronic parts depend on its condition. Only solar cells cannot be dismantled.
 
 ![Illustrated recipe board](https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_en.png)
 

@@ -2,7 +2,7 @@
 
 # Recettes
 
-Les 31 recettes LiveWire de base sont dans le menu d'artisanat : 16 de fabrication et 15 de démontage. LiveWire Extended ajoute 8 recettes de fabrication et 4 de démontage, listées dans [LiveWire Extended](14-livewire-extended.md#recettes). Les recettes d'Électricité apparaissent au niveau requis ; les pales et le mât sont dans **Travail des métaux**, sans niveau d'Électricité requis. Les outils sont conservés (certains peuvent s'user). Toutes les recettes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
+Les 31 recettes LiveWire de base sont dans l'onglet **LiveWire** du menu d'artisanat : 16 de fabrication et 15 de démontage. LiveWire Extended ajoute 8 recettes de fabrication et 4 de démontage, listées dans [LiveWire Extended](14-livewire-extended.md#recettes). Les recettes de LiveWire Extended sont dans le même onglet. Les recettes d'Électricité apparaissent au niveau requis ; les pales et le mât ne demandent aucun niveau d'Électricité. Les outils sont conservés (certains peuvent s'user). Toutes les recettes donnent de l'XP d'Électricité, y compris pales, mât et démontage du testeur.
 
 ![Planche illustrée des recettes LiveWire](../../images/diagrams/recipe_book_fr.png)
 

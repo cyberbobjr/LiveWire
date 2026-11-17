@@ -62,7 +62,9 @@ Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inv
 
 Constantes : rendement de charge 0,90 ; autodécharge 0,2 %/jour ; seuil de décharge profonde 20 % ; redémarrage à 2 % du stock ; lissage des sources τ = 0,5 h ; perte d'état à la disjonction sans disjoncteur 3 ; forte charge au-delà de 80 % ; usure ×1,25 d'un onduleur insonorisé. Rendement d'installation (niveau de celui qui branche, D-29) : 0,85 (niveau < 7), 0,95 (7-8), 1,0 (9-10). Échec de réparation : `max(5, 40 − 5 × niveau)` %, divisé par deux dès le niveau 8.
 
-### 2.4 Recettes (`LiveWire_recipes.txt`, module `LiveWire`, catégorie `Electrical`)
+### 2.4 Recettes (`LiveWire_recipes.txt`, module `LiveWire`, catégorie `LiveWire`)
+
+Toutes les recettes de LiveWire et de LiveWire Extended sont en `category = LiveWire` : un onglet propre dans la fenêtre d'artisanat, nommé par la clé `IGUI_CraftingCategories_LiveWire` (`IG_UI.json` de la base, 11 langues ; `ISWidgetRecipeCategories.lua:100`).
 
 `LWMakeVoltageTester`, `LWDismantleVoltageTester`, `Base.DismantleElectronics` du jeu, non redéfinie : son OnCreate `RecipeCodeOnCreate.dismantleFlashlight` est enveloppé par `LW_Recipes.lua` (effet vanilla, puis une cellule par calculatrice ; une recette redéfinie ajouterait ses entrées à celle du jeu), `LWMakeSolarCellFromScrap`, `LWMakeSolarPanelKit`, `LWMakeInverterKit`, `LWMakeWindTurbineBlades`, `LWMakeWindTurbineMast`, `LWMakeWindTurbineKit`, `LWMakeWaterWheel`, `LWMakePowerBankKit`, `LWMakeBreakerKit`, `LWMakeWaterPump`, `LWMakeCouplingKit`, `LWMakeDeepCycleBattery`, `LWMakeBatteryAlarmKit`, `LWMakeSoundproofKit`, `LWDismantleWindTurbineBlades`, `LWDismantleWindTurbineMast`, `LWDismantleDeepCycleBattery`. Ingrédients et niveaux : tableau généré [`wiki/fr/_tables.md`](wiki/fr/_tables.md) (`tools/make_doc_tables.py`, données de `tools/make_doc_images.RECIPES`).
 
@@ -785,7 +787,7 @@ dans les événements. 13 couples véhicule. Un véhicule déjà apparu n'est pa
 - Objets normaux : `LiveWire.WindTurbineBlades` (jeu de trois pales, poids 4,1),
   `LiveWire.WindTurbineMast` (4,6). Représentations vanilla temporaires :
   SheetMetal/MetalSheet et SteelRod_Full/SteelRod.
-- Recettes `LWMakeWindTurbineBlades` et `LWMakeWindTurbineMast` en Metalworking,
+- Recettes `LWMakeWindTurbineBlades` et `LWMakeWindTurbineMast` dans la catégorie LiveWire,
   sans niveau requis, avec 2 XP d'Électricité chacune. Assemblage : niveau 3/30 XP éolienne,
   4/30 XP roue ; deux `Base.Amplifier` dans chaque recette. Démontage vanilla des
   haut-parleurs intégralement conservé, sans hook ni recette dédiée.

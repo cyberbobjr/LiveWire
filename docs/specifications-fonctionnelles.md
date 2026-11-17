@@ -19,7 +19,7 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 
 | ID | Fonctionnalité | Section |
 |---|---|---|
-| F01 | Objets d'inventaire et recettes (catégorie Électricité) | § 2.1, 2.2, 2.5 |
+| F01 | Objets d'inventaire et recettes (catégorie LiveWire) | § 2.1, 2.2, 2.5 |
 | F02 | Appareils posés : panneau, éolienne, roue à aubes, onduleur, powerbank | § 2.3 |
 | F03 | Équipements optionnels : disjoncteur, alarme de batterie faible, kit d'insonorisation, générateur de secours, ordinateur de gestion | § 2.4 |
 | F04 | Production solaire | § 3.1, 3.2 |
@@ -179,7 +179,7 @@ Le système de base reste **source → onduleur → maison**, avec une **batteri
 
 ### 2.5 Recettes
 
-Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translator.java:561-569`). Toutes sont en `category = Electrical`, avec l'action `MakingElectrical`, comme `MakeTimer` (`recipes_traps.txt:99-121`).
+Les noms de recette sont les clés de `Recipes.json` (`java/zombie/core/Translator.java:561-569`). Toutes sont en `category = LiveWire` (onglet propre au mod), avec l'action `MakingElectrical`, comme `MakeTimer` (`recipes_traps.txt:99-121`).
 
 | Recette | Niv. | Entrées (outils conservés entre crochets) | Sortie | XP |
 |---|---|---|---|---|

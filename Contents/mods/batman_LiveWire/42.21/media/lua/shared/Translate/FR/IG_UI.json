@@ -1,4 +1,5 @@
 {
+    "IGUI_CraftingCategories_LiveWire": "LiveWire",
     "IGUI_LW_Model_SolarPanel": "Panneau photovoltaïque",
     "IGUI_LW_Model_WindTurbine": "Éolienne",
     "IGUI_LW_Model_WaterWheel": "Roue à aubes",
