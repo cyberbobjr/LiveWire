@@ -110,8 +110,7 @@ Compatible con [url=https://steamcommunity.com/sharedfiles/filedetails/?id=37254
 Creado por batmanfr. Modelo del armario inversor: PewPewCricket. Código, baldosas y sonidos originales; no se ha tomado contenido de otros mods.
 
 [h2]Complementos oficiales[/h2]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
-[b]LiveWire: Coupled Inverter Zones[/b]: los inversores acoplados conservan su propia zona alimentada.
-
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/[/img][/url]
-[b]LiveWire Compatibility[/b]: las máquinas de otros mods (Artel, Machinery...) consumen la energía de LiveWire.
+[table]
+[tr][td][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/?imw=128&impolicy=Letterbox[/img][/td][td][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: los inversores acoplados conservan su propia zona alimentada.[/td][/tr]
+[tr][td][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/?imw=128&impolicy=Letterbox[/img][/td][td][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996]LiveWire Compatibility[/url]: las máquinas de otros mods (Artel, Machinery...) consumen la energía de LiveWire.[/td][/tr]
+[/table]

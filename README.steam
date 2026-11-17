@@ -51,7 +51,7 @@ The inverter screen switches lighting, equipment and main levers, and shows the 
 
 [h2]Water pump[/h2]
 
-A water pump (Electrical 3) feeds plumbed fixtures within 15 tiles, from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]. It will soon move to its own mod, LiveWater.
+A water pump (Electrical 3) feeds plumbed fixtures within 15 tiles, from up to 8 adjacent rain collectors or [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]. It will soon move to its own mod.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Water pump guide[/url]
 
 [h2]Recipes[/h2]
@@ -79,7 +79,7 @@ The server checks every action; circuit choices and appliance states are saved a
 Carries the inverter's power to whole buildings and outdoor zones. Main jobs need Electrical 3.
 
 [list]
-[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor and the basement. Optional strip around it: sandbox option Outdoor strip around a building (0 by default).
+[*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#connect-a-whole-building]Connect a whole building[/url]: every floor and the basement. Outdoor strip around it: sandbox option (0 by default).
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#power-terminal-and-zone]Outdoor power terminal[/url]: powers a drawn zone of up to 16 x 16 squares.
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#breaker-boards]Breaker boards[/url]: 15, 20 or 30 A breakers, one per circuit. Some map houses have one prewired.
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Breaker Twilight Switch[/url]: fitted on a breaker, it keeps that circuit on from dusk to dawn.
@@ -112,8 +112,7 @@ Enjoying the mod? A coffee helps fund new features and translations.
 Created by batmanfr. Inverter cabinet model by PewPewCricket. Original code, tiles and sounds; no content taken from other mods.
 
 [h2]Official add-ons[/h2]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
-[b]LiveWire: Coupled Inverter Zones[/b]: coupled inverters keep their own powered area.
-
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/[/img][/url]
-[b]LiveWire Compatibility[/b]: machines from other mods (Artel, Machinery...) draw LiveWire power.
+[table]
+[tr][td][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/?imw=128&impolicy=Letterbox[/img][/td][td][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: each coupled inverter keeps its own area.[/td][/tr]
+[tr][td][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/?imw=128&impolicy=Letterbox[/img][/td][td][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996]LiveWire Compatibility[/url]: other mods' machines (Artel, Machinery...) run on LiveWire.[/td][/tr]
+[/table]

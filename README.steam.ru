@@ -108,8 +108,7 @@ Extended и модели требуют LiveWire, включённый рань�
 Создал batmanfr. Модель шкафа инвертора: PewPewCricket. Оригинальный код, тайлы и звуки; контент из других модов не использован.
 
 [h2]Официальные дополнения[/h2]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/[/img][/url]
-[b]LiveWire: Coupled Inverter Zones[/b]: сцепленные инверторы сохраняют свою зону.
-
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/[/img][/url]
-[b]LiveWire Compatibility[/b]: машины других модов (Artel, Machinery...) питаются от LiveWire.
+[table]
+[tr][td][img]https://images.steamusercontent.com/ugc/16930462161418125124/B953282438017BEAE9D37ECA1A7E18B0E15F9669/?imw=128&impolicy=Letterbox[/img][/td][td][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3830945476]LiveWire: Coupled Inverter Zones[/url]: сцепленные инверторы сохраняют свою зону.[/td][/tr]
+[tr][td][img]https://images.steamusercontent.com/ugc/12559167063358867607/4C16576D01FCE3A0381F072F423D3ADADDECF06B/?imw=128&impolicy=Letterbox[/img][/td][td][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3839733996]LiveWire Compatibility[/url]: машины других модов (Artel, Machinery...) питаются от LiveWire.[/td][/tr]
+[/table]
