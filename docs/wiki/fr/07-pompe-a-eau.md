@@ -59,7 +59,13 @@ La pompe ne s'use que pendant qu'elle tourne (1 point d'état par 10 jours de po
 
 ## Avant de retirer le mod
 
-Lancez d'abord l'action de debug ou d'administration **Retirer tous les relais d'eau** (clic droit, puis LiveWire ; mode debug en solo, admin en multijoueur), puis sauvegardez. L'action arrête aussi toutes les pompes, pour qu'aucun réservoir ne revienne. Les réservoirs des zones non chargées sont retirés au prochain chargement de leur zone, tant que le mod est encore installé. Pour réutiliser les pompes sans retirer le mod, lancez l'action de debug **Réactiver les pompes à eau**.
+Lancez d'abord l'action de debug ou d'administration **Retirer tous les relais d'eau**, puis sauvegardez :
+
+1. **En solo :** l'action n'apparaît que si le jeu tourne en mode debug. Dans Steam, clic droit sur Project Zomboid > Propriétés > Général > Options de lancement, ajoutez `-debug`, puis lancez le jeu et chargez la partie. **En multijoueur :** un administrateur s'en charge, sans `-debug`.
+2. Clic droit n'importe où sur le sol, puis **LiveWire > Debug > Retirer tous les relais d'eau**.
+3. Sauvegardez, puis retirez le mod (et l'option de lancement `-debug`).
+
+L'action arrête aussi toutes les pompes, pour qu'aucun réservoir ne revienne. Les réservoirs des zones non chargées sont retirés au prochain chargement de leur zone, tant que le mod est encore installé. Pour réutiliser les pompes sans retirer le mod, lancez l'action de debug **Réactiver les pompes à eau**.
 
 ## Voir aussi
 

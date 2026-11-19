@@ -2,7 +2,7 @@
 
 # Getting started
 
-**LiveWire** (`batman_LiveWire`) is a Project Zomboid **Build 42.21** mod (it runs on Build 42.22). It turns the Electrical skill into a trade: solar panels, wind turbines and water wheels produce silent power, and an **inverter** placed in your house powers every appliance around it, with no fuel and no fumes. Batteries stored in a **power bank** keep the surplus for the night.
+**LiveWire** (`batman_LiveWire`) is a Project Zomboid **Build 42.22** mod. It turns the Electrical skill into a trade: solar panels, wind turbines and water wheels produce silent power, and an **inverter** placed in your house powers every appliance around it, with no fuel and no fumes. Batteries stored in a **power bank** keep the surplus for the night.
 
 The mod works in single player, on a dedicated server and in multiplayer. The server decides everything, so the rules are the same for every player.
 
@@ -63,7 +63,7 @@ A water pump wired to the inverter keeps the house taps supplied from water barr
 
 ## Installation
 
-Subscribe to the mod on the Steam Workshop ([Workshop item 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)), or copy `Contents/mods/batman_LiveWire` into your `Zomboid/mods` folder, then enable `batman_LiveWire` (Project Zomboid Build 42.21 or later).
+Subscribe to the mod on the Steam Workshop ([Workshop item 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)), or copy `Contents/mods/batman_LiveWire` into your `Zomboid/mods` folder, then enable `batman_LiveWire` (Project Zomboid Build 42.22 or later).
 
 [LiveWire Extended](14-livewire-extended.md) is an optional add-on in the same Workshop item. Enable `batman_LiveWireExtended` to use it. The Computer Mod (3725497089) and Laptop Mod (3798992436) are optional. The source code is at https://github.com/cyberbobjr/LiveWire.
 

@@ -1,6 +1,6 @@
 [h1]LiveWire - Refonte de la compétence Électricité[/h1]
 
-[b]Build 42.21+ · Solo et multijoueur[/b]
+[b]Build 42.22 · Solo et multijoueur[/b]
 
 Le courant ne reviendra plus, mais les lumières peuvent rester allumées. Produisez votre électricité hors réseau : panneaux solaires, éoliennes et roues à aubes alimentent un onduleur qui fait tourner la maison autour de lui, avec des batteries pour la nuit. Chaque appareil a un niveau d'Électricité, et votre niveau améliore l'installation.
 

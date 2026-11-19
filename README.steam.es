@@ -1,6 +1,6 @@
 [h1]LiveWire - Renovación de la habilidad de Electrónica[/h1]
 
-[b]Build 42.21+ · Un jugador y multijugador[/b]
+[b]Build 42.22 · Un jugador y multijugador[/b]
 
 La red eléctrica se fue para siempre, pero las luces no tienen por qué apagarse. Produce tu electricidad fuera de la red: paneles solares, aerogeneradores y ruedas hidráulicas alimentan un inversor que da corriente a la casa que lo rodea, con baterías para la noche. Cada aparato tiene un nivel de Electrónica, y tu nivel mejora la instalación.
 

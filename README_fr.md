@@ -4,7 +4,7 @@
 
 **La compétence Électricité devient un métier : panneaux, éoliennes et roues à aubes alimentent toute la maison, sans carburant ni fumées.**
 
-Project Zomboid Build 42.21 et versions ultérieures · LiveWire 2.0.0 · LiveWire Extended 1.0.0 · id des mods `batman_LiveWire` et `batman_LiveWireExtended` · EN/FR · licence MIT
+Project Zomboid Build 42.22 et versions ultérieures · LiveWire 2.0.0 · LiveWire Extended 1.0.0 · id des mods `batman_LiveWire` et `batman_LiveWireExtended` · EN/FR · licence MIT
 
 [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453) · [Wiki](https://github.com/cyberbobjr/LiveWire/wiki/FR-Home) · Questions, bugs, idées : [Discord](https://discord.gg/QEsBya7hUA) · Notes de version : [CHANGELOG.md](CHANGELOG.md)
 
@@ -204,7 +204,7 @@ Un appareil posé comme les autres, branché à l'onduleur au niveau 3. Elle pom
 - Seule l'eau est déplacée ; la pluie remplit toujours les barils comme avant. L'eau croupie sort propre au robinet, comme en vanilla.
 - Clic droit sur la pompe > **Afficher les points d'eau alimentés** : un cercle bleu montre la portée, et les robinets alimentés, les barils raccordés et la pompe sont surlignés en bleu ; les robinets à portée non raccordés apparaissent en gris. Un voyant bleu s'allume sur la pompe lorsqu'elle est alimentée, même au repos.
 - Plusieurs pompes par réseau. L'onglet Équipements du logiciel affiche le nombre de pompes en service et leur débit (L/h), rien d'autre.
-- **Avant de retirer le mod**, lancez l'action de débogage « Retirer tous les relais d'eau » (menu LiveWire > Débogage, avec les droits d'administrateur en multijoueur), sinon les tuiles invisibles des relais restent dans la sauvegarde. L'action arrête aussi toutes les pompes jusqu'à l'action de débogage « Réactiver les pompes à eau ».
+- **Avant de retirer le mod**, lancez l'action de débogage « Retirer tous les relais d'eau » (clic droit sur le sol, puis LiveWire > Debug), puis sauvegardez. En solo, le menu Debug n'apparaît que si le jeu est lancé avec `-debug` (Steam > Propriétés > Général > Options de lancement) ; en multijoueur, un administrateur s'en charge. Sinon les tuiles invisibles des relais restent dans la sauvegarde. L'action arrête aussi toutes les pompes jusqu'à l'action de débogage « Réactiver les pompes à eau ».
 
 ## Tables de calcul
 

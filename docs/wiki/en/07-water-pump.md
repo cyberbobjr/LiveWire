@@ -59,7 +59,13 @@ The pump wears only while it runs (1 condition point per 10 days of pumping) and
 
 ## Before removing the mod
 
-Run the debug or admin action **Remove every water relay** first (right-click, then LiveWire; debug mode in single player, admin in multiplayer), then save. The action also stops every pump, so that no tank comes back. Tanks in areas that are not loaded are removed the next time their area loads, while the mod is still installed. To use the pumps again without removing the mod, run the debug action **Enable the water pumps again**.
+Run the debug or admin action **Remove every water relay** first, then save:
+
+1. **Single player:** the action only shows when the game runs in debug mode. In Steam, right-click Project Zomboid > Properties > General > Launch Options, add `-debug`, then start the game and load the save. **Multiplayer:** an administrator does it, no `-debug` needed.
+2. Right-click the ground anywhere, then **LiveWire > Debug > Remove every water relay**.
+3. Save the game, then remove the mod (and the `-debug` launch option).
+
+The action also stops every pump, so that no tank comes back. Tanks in areas that are not loaded are removed the next time their area loads, while the mod is still installed. To use the pumps again without removing the mod, run the debug action **Enable the water pumps again**.
 
 ## See also
 

@@ -2,7 +2,7 @@
 
 # FAQ
 
-Réponses courtes sur LiveWire (`batman_LiveWire`, Project Zomboid Build 42.21 et versions ultérieures). Le mod est publié sur le [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Pour les détails, suivez les liens vers les pages correspondantes.
+Réponses courtes sur LiveWire (`batman_LiveWire`, Project Zomboid Build 42.22 et versions ultérieures). Le mod est publié sur le [Workshop Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453). Pour les détails, suivez les liens vers les pages correspondantes.
 
 ## Démarrage
 

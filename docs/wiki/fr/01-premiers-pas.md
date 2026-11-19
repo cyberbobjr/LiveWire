@@ -2,7 +2,7 @@
 
 # Premiers pas
 
-**LiveWire** (`batman_LiveWire`) est un mod pour Project Zomboid, Build 42.21 (il fonctionne aussi en Build 42.22). La compétence Électricité devient un vrai métier : panneaux photovoltaïques, éoliennes et roues à aubes produisent un courant silencieux. Un onduleur placé dans la maison alimente tous les appareils alentour, sans carburant ni fumées. Des batteries rangées dans une powerbank stockent le surplus pour la nuit.
+**LiveWire** (`batman_LiveWire`) est un mod pour Project Zomboid, Build 42.22. La compétence Électricité devient un vrai métier : panneaux photovoltaïques, éoliennes et roues à aubes produisent un courant silencieux. Un onduleur placé dans la maison alimente tous les appareils alentour, sans carburant ni fumées. Des batteries rangées dans une powerbank stockent le surplus pour la nuit.
 
 Le mod fonctionne en solo, sur un serveur dédié et en multijoueur. Le serveur décide de tout, donc les règles sont les mêmes pour chaque joueur.
 
@@ -63,7 +63,7 @@ Une pompe à eau raccordée à l'onduleur alimente les points d'eau de la maison
 
 ## Installation
 
-Abonnez-vous au mod sur le Workshop Steam ([objet Workshop 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)), ou copiez `Contents/mods/batman_LiveWire` dans `Zomboid/mods`, puis activez `batman_LiveWire` (Build 42.21 ou suivante).
+Abonnez-vous au mod sur le Workshop Steam ([objet Workshop 3821807453](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453)), ou copiez `Contents/mods/batman_LiveWire` dans `Zomboid/mods`, puis activez `batman_LiveWire` (Build 42.22 ou suivante).
 
 [LiveWire Extended](14-livewire-extended.md) est un module facultatif du même objet Workshop : activez `batman_LiveWireExtended` pour l'utiliser. Le Computer Mod (3725497089) et le Laptop Mod (3798992436) sont facultatifs ; leur intégration est décrite dans [Écran et logiciel](05-ecran-et-logiciel.md).
 

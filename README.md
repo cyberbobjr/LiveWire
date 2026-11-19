@@ -4,7 +4,7 @@
 
 **The Electrical skill becomes a trade: silent solar, wind and water power for your whole house, with no fuel and no fumes.**
 
-Project Zomboid Build 42.21 and later · LiveWire 2.0.0 · LiveWire Extended 1.0.0 · mod ids `batman_LiveWire` and `batman_LiveWireExtended` · EN/FR · MIT licence
+Project Zomboid Build 42.22 and later · LiveWire 2.0.0 · LiveWire Extended 1.0.0 · mod ids `batman_LiveWire` and `batman_LiveWireExtended` · EN/FR · MIT licence
 
 [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3821807453) · [Wiki](https://github.com/cyberbobjr/LiveWire/wiki/EN-Home) · Questions, bug reports, ideas: [Discord](https://discord.gg/QEsBya7hUA) · Release notes: [CHANGELOG.md](CHANGELOG.md)
 
@@ -212,7 +212,7 @@ A consumer placed like the other devices, linked to the inverter at level 3. It 
 - Only water is moved, and the rain keeps filling the barrels as before. Tainted water comes out clean at the tap, as in vanilla.
 - Right-click the pump > **Show the supplied taps**: a blue circle shows the range, and the supplied taps, the connected barrels and the pump are highlighted in blue; taps in range that are not plumbed yet are shown in grey. The pump has a blue light whenever powered, including while idle.
 - Several pumps per network. The software Equipment tab shows the number of pumps in service and their flow (L/h), nothing else.
-- **Before removing the mod**, run the debug action "Remove every water relay" (LiveWire menu > Debug, with administrator rights in multiplayer), otherwise the invisible relay tiles stay in the saved world. The action also stops every pump until the debug action "Enable the water pumps again".
+- **Before removing the mod**, run the debug action "Remove every water relay" (right-click the ground, then LiveWire > Debug), then save. In single player the Debug menu only shows when the game runs with `-debug` (Steam > Properties > General > Launch Options); in multiplayer an administrator runs it. Otherwise the invisible relay tiles stay in the saved world. The action also stops every pump until the debug action "Enable the water pumps again".
 
 ## Calculations
 
