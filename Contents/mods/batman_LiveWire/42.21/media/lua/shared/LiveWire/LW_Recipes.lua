@@ -60,6 +60,25 @@ LiveWire.Recipes.DISMANTLE = {
     ["LiveWire.DeepCycleBattery"] = { { "Base.ElectricWire", 2 } },
 }
 
+-- Making a water pump (LWMakeWaterPump) while LiveWater is active (ADR-003): its pump
+-- replaces ours. Pumps already placed, their barrels and relays keep working, and
+-- dismantling stays open. OnTest runs on every input item, on the server too
+-- (CraftRecipe.java:1027-1046, CraftRecipeManager.java:685): it is the authority.
+function LiveWire.Recipes.waterPumpAvailable()
+    return not LiveWire.Compat.liveWater()
+end
+
+function LiveWire.Recipes.onTestWaterPump(item, character)
+    return LiveWire.Recipes.waterPumpAvailable()
+end
+
+-- OnAddToMenu filter of the crafting window, "show all" included. The window looks it
+-- up with a raw read of the global table (callLuaBool, LuaManager.java:4802-4804),
+-- which does not follow dots: a plain global name is required.
+function LiveWireWaterPumpInMenu(params)
+    return LiveWire.Recipes.waterPumpAvailable()
+end
+
 -- Number of bonus parts for a device at `cond` percent (rounded down).
 function LiveWire.Recipes.salvaged(count, cond)
     cond = tonumber(cond) or 100

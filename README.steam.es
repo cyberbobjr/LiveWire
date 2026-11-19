@@ -48,7 +48,7 @@ Colocar requiere un destornillador, sin nivel. Conexión: paneles solares e inve
 
 [h2]Bomba de agua[/h2]
 
-Una bomba de agua (Electrónica 3) alimenta los sanitarios conectados a 15 casillas, desde hasta 8 recolectores de lluvia o barriles [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adyacentes. Pronto pasará a su propio mod, LiveWater.
+Una bomba de agua (Electrónica 3) alimenta los sanitarios conectados a 15 casillas, desde hasta 8 recolectores de lluvia o barriles [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adyacentes. Con LiveWater, la bomba de LiveWater la sustituye; las ya colocadas siguen funcionando.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Guía de la bomba[/url]
 
 [h2]Recetas[/h2]

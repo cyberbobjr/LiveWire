@@ -48,7 +48,7 @@ Poser demande un tournevis, sans niveau. Raccordement : panneaux solaires et ond
 
 [h2]Pompe à eau[/h2]
 
-La pompe à eau (Électricité 3) alimente les sanitaires raccordés à 15 cases, depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum. Elle passera bientôt dans son propre mod, LiveWater.
+La pompe à eau (Électricité 3) alimente les sanitaires raccordés à 15 cases, depuis 8 collecteurs de pluie ou barils [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] adjacents au maximum. Avec LiveWater, la pompe de LiveWater la remplace ; celles déjà posées continuent de marcher.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-07-pompe-a-eau]Guide de la pompe[/url]
 
 [h2]Recettes[/h2]

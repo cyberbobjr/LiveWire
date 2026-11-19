@@ -629,3 +629,10 @@ ils ne valident pas automatiquement l'ensemble des mécanismes décrits ici.
 - Mesure en jeu : sur serveur dédié, pour trois tuiles portant `CustomItem` (onduleur, panneau solaire, pompe), `rawWeight` vaut 0, donc `getObjectHealth()` 0 : l'objet est posé avec 0/0 point de vie et disparaît au premier coup de clé à molette (santé -10, objet retiré). Scénario `sturdy_mp.json`, code 0, `runs/20261116-112630-mp-9d8189cc3616`. Le poids d'instance (`getActualWeight`) lu par la branche `CustomItem` vaut donc 0 sur le serveur ; cause exacte dans le Java non établie (hypothèse).
 - Conséquence : un équipement solide de mod, posé comme un meuble, tombe en quelques coups (au premier sur serveur dédié s'il porte `CustomItem`) et disparaît sans rien rendre. Live Wire relève ses points de vie à la pose et au parcours des chunks, et dépose ses pièces dans `OnDestroyIsoThumpable` (`LW_Sturdy.lua`). Signalé par un joueur sur Steam le 2026-11-16.
 
+
+## 69. `OnAddToMenu` d'une recette : nom de fonction global simple, sans point
+- Build : 42.22 — Date : 2026-11-19 — Statut : confirmé statiquement ; non vérifié en jeu
+- Mesure 1 : la fenêtre d'artisanat filtre chaque recette par `callLuaBool(recipe:getOnAddToMenu(), { player, recipe, shouldShowAll })` (`ISRecipeScrollingListBox.lua:344-348`, `ISTiledIconPanel.lua:193-197`) ; `false` retire la recette de la liste, « tout afficher » compris.
+- Mesure 2 : le `callLuaBool` global appelé depuis Lua lit la fonction par `env.rawget(func)` (`LuaManager.java:4802-4804`), sans suivre les points ; une valeur `A.B.c` ne trouve rien et la recette disparaît toujours. `OnTest`, lui, passe par `LuaManager.getFunctionObject`, qui suit les points (`CraftRecipe.java:1027-1046`, `LuaManager.java:1390-1405`).
+- Mesure 3 : `OnTest` est appelé pour chaque objet d'entrée (`CraftRecipeManager.java:685`), sur le serveur aussi : c'est lui qui interdit vraiment la fabrication, `OnAddToMenu` ne fait que masquer.
+- Conséquence : `LWMakeWaterPump` utilise `OnAddToMenu = LiveWireWaterPumpInMenu` (global simple) et `OnTest = LiveWire.Recipes.onTestWaterPump` (ADR-003).

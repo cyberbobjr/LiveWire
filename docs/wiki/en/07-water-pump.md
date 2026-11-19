@@ -67,6 +67,10 @@ Run the debug or admin action **Remove every water relay** first, then save:
 
 The action also stops every pump, so that no tank comes back. Tanks in areas that are not loaded are removed the next time their area loads, while the mod is still installed. To use the pumps again without removing the mod, run the debug action **Enable the water pumps again**.
 
+## With LiveWater
+
+LiveWater is the sibling water mod: its own pump draws from a lake, a well or a barrel and sends the water through pipes to the house and the garden. When LiveWater is active, the LiveWire water pump recipe disappears from the crafting menu, so only one water pump is offered. Pumps already placed or in your inventory, their barrels and the fixtures they supply keep working, and they can still be picked up and dismantled.
+
 ## See also
 
 [Equipment](02-equipment.md) - [Wiring](03-wiring.md) - [Recipes](08-recipes.md) - [Sandbox Options](11-sandbox-options.md) - [Multiplayer](12-multiplayer.md)

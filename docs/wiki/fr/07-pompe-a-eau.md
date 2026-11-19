@@ -67,6 +67,10 @@ Lancez d'abord l'action de debug ou d'administration **Retirer tous les relais d
 
 L'action arrête aussi toutes les pompes, pour qu'aucun réservoir ne revienne. Les réservoirs des zones non chargées sont retirés au prochain chargement de leur zone, tant que le mod est encore installé. Pour réutiliser les pompes sans retirer le mod, lancez l'action de debug **Réactiver les pompes à eau**.
 
+## Avec LiveWater
+
+LiveWater est le mod frère consacré à l'eau : sa propre pompe puise dans un lac, un puits ou un baril et envoie l'eau par des tuyaux jusqu'à la maison et au potager. Quand LiveWater est actif, la recette de la pompe à eau de LiveWire disparaît du menu d'artisanat : une seule pompe à eau est proposée. Les pompes déjà posées ou dans l'inventaire, leurs barils et les appareils qu'elles alimentent continuent de marcher, et se ramassent et se démontent toujours.
+
 ## Voir aussi
 
 [Équipements](02-equipements.md) - [Raccordement](03-raccordement.md) - [Recettes](08-recettes.md) - [Options sandbox](11-options-sandbox.md) - [Multijoueur](12-multijoueur.md)

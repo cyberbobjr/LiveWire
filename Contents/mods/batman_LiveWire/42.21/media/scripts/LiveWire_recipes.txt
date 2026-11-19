@@ -291,6 +291,8 @@ module LiveWire
         xpAward = Electricity:15,
         Tags = AnySurfaceCraft,
         category = LiveWire,
+        OnTest = LiveWire.Recipes.onTestWaterPump,
+        OnAddToMenu = LiveWireWaterPumpInMenu,
         inputs
         {
             item 1 tags[base:screwdriver] mode:keep flags[Prop1],

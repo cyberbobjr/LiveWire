@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.8 — 2026-11-19
+
+### Improvements
+
+- **Water pump and LiveWater:** when the water mod LiveWater is active, the LiveWire water pump recipe is no longer offered, so the crafting menu shows a single water pump, LiveWater's. Pumps already placed or in your inventory, their barrels and the fixtures they supply keep working, and they can still be picked up and dismantled.
+
 ## 2.1.7 — 2026-11-19
 
 ### Improvements

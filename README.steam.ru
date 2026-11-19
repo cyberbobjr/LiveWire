@@ -47,7 +47,7 @@ Extended и модели требуют LiveWire, включённый рань�
 
 [h2]Водяной насос[/h2]
 
-Насос (Электрика 3) питает сантехнику в 15 клетках от 8 соседних дождевых сборников или бочек [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]. Скоро он переедет в отдельный мод LiveWater.
+Насос (Электрика 3) питает сантехнику в 15 клетках от 8 соседних дождевых сборников или бочек [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url]. С LiveWater его заменяет насос LiveWater; уже установленные продолжают работать.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Насос[/url]
 
 [h2]Рецепты[/h2]

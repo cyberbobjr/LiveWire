@@ -27,6 +27,16 @@ function Compat.computerMod()
     return Compat.isModActive("ComputerModkum")
 end
 
+-- LiveWater (id batman_LiveWater), the sibling water mod: its own pump replaces
+-- ours in the crafting menu (ADR-003). The mod list does not change during a game,
+-- and the crafting menu asks for every recipe at each refresh: read it once.
+local liveWaterActive  -- nil: not read yet.
+
+function Compat.liveWater()
+    if liveWaterActive == nil then liveWaterActive = Compat.isModActive("batman_LiveWater") end
+    return liveWaterActive
+end
+
 -- Register a LoadChunk handler that must run inside the engine's own event call,
 -- never a frame later. The engine purges our generator positions in the middle of
 -- IsoChunk.doLoadGridsquare -- for the arriving chunk AND its neighbours within

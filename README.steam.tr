@@ -48,7 +48,7 @@ Yerleştirme: tornavida, seviye gerekmez. Bağlantı: güneş panelleri ve inver
 
 [h2]Su pompası[/h2]
 
-Su pompası (Elektrikçilik 3), en fazla 8 bitişik yağmur toplayıcısından veya [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] varillerinden, 15 kare içindeki tesisatlı donanımlara su verir. Yakında kendi modu olan LiveWater'a taşınacak.
+Su pompası (Elektrikçilik 3), en fazla 8 bitişik yağmur toplayıcısından veya [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] varillerinden, 15 kare içindeki tesisatlı donanımlara su verir. LiveWater varken yerini LiveWater pompası alır; kurulu olanlar çalışmaya devam eder.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]Su pompası kılavuzu[/url]
 
 [h2]Tarifler[/h2]

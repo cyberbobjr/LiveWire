@@ -51,7 +51,7 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 
 [h2]水泵[/h2]
 
-水泵（电工 3 级）可从最多 8 个相邻的雨水收集器或 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 取水，为 15 格内接通水管的设备供水。水泵即将移至独立模组 LiveWater。
+水泵（电工 3 级）可从最多 8 个相邻的雨水收集器或 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] 取水，为 15 格内接通水管的设备供水。装有 LiveWater 时由其水泵取代；已放置的照常工作。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]水泵指南[/url]
 
 [h2]配方[/h2]

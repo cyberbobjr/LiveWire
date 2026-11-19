@@ -679,6 +679,7 @@ Conception et justification détaillées : [`annexes/conception/choix-et-extensi
 - Bourdonnement de moteur entendu à 4,5 cases ; bruit pour les zombies à 2 cases.
 - Menu « Afficher les robinets alimentés » (points d'eau raccordés en bleu, points d'eau à portée non raccordés en gris) ; voyant bleu tant qu'au moins un robinet est alimenté.
 - Action de debug et d'administration « Retirer tous les relais d'eau », à lancer avant de retirer le mod.
+- Avec le mod LiveWater actif (`batman_LiveWater`), la recette `LWMakeWaterPump` est masquée du menu d'artisanat et refusée ; les pompes existantes, leurs barils et leurs relais continuent de marcher, ramassage et démontage compris ([ADR-003](ADR/termines/003-pompe-a-eau-et-livewater.md)).
 
 ### 10.2 Onduleurs en parallèle (F21, version 1.3.0)
 

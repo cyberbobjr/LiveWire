@@ -48,7 +48,7 @@ ExtendedとモデルはLiveWireが必要で、その後に有効化。
 
 [h2]水ポンプ[/h2]
 
-水ポンプ（電気工学3）は、隣接する最大8個の雨水収集器や [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] から、15マス以内の配管済み設備に給水します。水ポンプはまもなく独立したMOD「LiveWater」に移ります。
+水ポンプ（電気工学3）は、隣接する最大8個の雨水収集器や [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3436537035]Useful Barrels[/url] から、15マス以内の配管済み設備に給水します。LiveWater導入時はそのポンプに置き換わり、設置済みのものは動き続けます。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-07-water-pump]水ポンプガイド[/url]
 
 [h2]レシピ[/h2]
