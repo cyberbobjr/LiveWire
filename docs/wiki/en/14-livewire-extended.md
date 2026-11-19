@@ -32,7 +32,7 @@ Recipes are at Electrical level 3, each with a screwdriver. Times are the recipe
 | Make Breaker 30 A | 3 Scrap Electronics, 2 Electrical Wire, 3 Screws |
 | Make Breaker Twilight Switch | 2 Scrap Electronics, 1 Electrical Wire, 1 Screws |
 
-Pick a terminal or a board up with a screwdriver, then dismantle it in the crafting menu (screwdriver kept, no Electrical level). You get back fewer parts than it cost. Breakers and twilight switches are removed from the board into your inventory and have no dismantle recipe.
+Pick a terminal or a board up with a screwdriver, then dismantle it in the crafting menu (screwdriver kept, no Electrical level). You get back fewer parts than it cost. Breakers are removed from the board into your inventory, then dismantled the same way; twilight switches have no dismantle recipe.
 
 | Recipe | Result | Time |
 |---|---|---|
@@ -90,7 +90,7 @@ A **breaker board** (8, 16 or 24 modules) hangs on an inside wall of a building.
 - Place it with the furniture cursor on an **inside wall**. A closed, roofed room counts as inside.
 - A crafted board is **not weatherproof**. On an outside wall, or on a porch, yard or edge of a map building, the cursor refuses it and says why: *Not weatherproof: hang it on an inside wall of a building (a closed, roofed shelter counts).* Multiplayer clients get the same refusal, except in a fresh roofed player house, where the server makes the decision.
 - The game's own electrical boxes on a facade are weatherproof. They are not moved with the furniture cursor. Where the map has one on a facade, it serves the building on the other side of its wall.
-- **Link to an inverter**: right-click the board > **LiveWire Extended** > **Link to an inverter** (Electrical level 3, electric wire by distance). **Unlink the breaker board** undoes it. Unlinking or picking up a board gives back the breakers and twilight switches you fitted; the prewired breakers of a house board stay with it.
+- **Link to an inverter**: right-click the board > **LiveWire Extended** > **Link to an inverter** (Electrical level 3, electric wire by distance). **Unlink the breaker board** undoes it. Unlinking or picking up a board gives back all its breakers and twilight switches, the prewired breakers of a house board included; that house is not prewired again.
 - Placing and picking up need a screwdriver.
 
 ### Enlarge a board

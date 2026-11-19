@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "Du hast keinen Schutzschalter dieser Art.",
     "Tooltip_LWX_BoardFull": "Kein freier Platz im Kasten für diesen Schutzschalter.",
     "Tooltip_LWX_PanelNotLinked": "Verbinde den Sicherungskasten zuerst mit einem Wechselrichter.",
-    "Tooltip_LWX_BreakerRating": "%1 A bei %2 V: bis zu %3 W auf seinem Stromkreis.",
+    "Tooltip_LWX_BreakerRating": "%1 A bei %2 V: bis zu %3 W auf seinem Stromkreis. Der Verbrauch der Geräte folgt der Sandbox-Option Verbrauchsprofil: Mit Spielwerte löst ein Schutzschalter fast nie aus, wähle Realistisch 1993 oder Ultrarealistisch 1993 für echte Lasten.",
     "Tooltip_LWX_NotAnAppliance": "Dieses Objekt verbraucht keinen Strom.",
     "Tooltip_LWX_NoBreakerThere": "Kein Schutzschalter in diesem Modul.",
     "Tooltip_LWX_PointConnected": "Bereits an einen Schutzschalter angeschlossen.",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "Du hast keinen Dämmerungsschalter.",
     "Tooltip_LWX_ModuleTaken": "Dieses Modul ist nicht frei.",
     "Tooltip_LWX_NeedTester": "Erfordert einen Spannungsprüfer (bleibt erhalten).",
-    "Tooltip_LWX_Dismantle": "Gibt weniger Teile zurück, als die Herstellung gekostet hat."
+    "Tooltip_LWX_Dismantle": "Gibt weniger Teile zurück, als die Herstellung gekostet hat.",
+    "Tooltip_LWX_PointDraw": "Mit dem aktuellen Verbrauchsprofil zieht dieses Gerät im Betrieb %1 W (%2 A bei 120 V): Ein %3-A-Schutzschalter reicht für es allein.",
+    "Tooltip_LWX_PointDrawTooMuch": "Mit dem aktuellen Verbrauchsprofil zieht dieses Gerät im Betrieb %1 W (%2 A bei 120 V): mehr, als ein 30-A-Schutzschalter tragen kann."
 }

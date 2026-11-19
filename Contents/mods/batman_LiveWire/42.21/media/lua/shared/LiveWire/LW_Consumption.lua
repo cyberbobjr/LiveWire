@@ -18,7 +18,7 @@ Consumption.ENGINE = 3
 -- W while on, per appliance kind. `nil` = engine value x 1000 (x `otherFactor`).
 Consumption.PROFILES = {
     [1] = { light = 100, radio = 40, tv = 120, fridge = 130, fridgeFreezer = 180,
-            stove = 3000, microwave = 1500, washer = 700, dryer = 5000, comboDryer = 3000,
+            stove = 3000, microwave = 1500, washer = 700, dryer = 3500, comboDryer = 3000,
             charger = 250, otherFactor = 1 },
     [2] = { light = 60, radio = 20, tv = 80, fridge = 90, fridgeFreezer = 130,
             stove = 2000, microwave = 1100, washer = 500, dryer = 3000, comboDryer = 2000,
@@ -101,6 +101,54 @@ function Consumption.watts(o, profile, beforeCircuit)
     profile = profile or Consumption.profile()
     if profile == Consumption.ENGINE then return p * 1000 * scale end
     return profileWatts(o, p, Consumption.PROFILES[profile]) * scale
+end
+
+-- W while on of each profile key at the engine values (profile 3), read in the 42.22
+-- engine: an appliance that is off reports 0, so the rated draw cannot ask it.
+-- IsoStove 0.09, IsoClothingWasher/Dryer/CombinationWasherDryer 0.09, IsoStackedWasherDryer
+-- 0.9 per machine, IsoObject fridge 0.08 / fridge-freezer 0.13, IsoTelevision 0.03,
+-- IsoRadio 0.01, IsoLightSwitch 0.002, IsoCarBatteryCharger 0.05, piped fuel 0.03.
+Consumption.ENGINE_ON = { light = 2, radio = 10, tv = 30, fridge = 80, fridgeFreezer = 130,
+    stove = 90, microwave = 90, washer = 90, dryer = 90, comboDryer = 90, charger = 50,
+    stackedWasher = 900, stackedDryer = 900, gas = 30 }
+
+-- Profile keys an appliance draws from when it runs flat out (a stacked washer-dryer: both
+-- machines), or nil for an object that is not a vanilla appliance.
+local function ratedKeys(o)
+    if o:getPipedFuelAmount() > 0 then return { "gas" } end
+    local family = LiveWire.ApplianceFamilies.of(o, "profile")
+    if not family then return nil end
+    local kind = family.kind
+    if kind == "stove" then return { o:isMicrowave() and "microwave" or "stove" } end
+    if kind == "stacked" then return { "stackedWasher", "stackedDryer" } end
+    if kind == "combo" then return { o:isModeDryer() and "comboDryer" or "washer" } end
+    if kind == "fridge" then
+        local both = o:getContainerByType("fridge") and o:getContainerByType("freezer")
+        return { both and "fridgeFreezer" or "fridge" }
+    end
+    if kind == "media" then return { family.category } end
+    if type(family.profile) == "string" then return { family.profile } end
+    return nil
+end
+
+-- Draw in W of an appliance while it runs, on or off now, under the sandbox profile
+-- (PowerScale included): what a breaker must carry for it. nil when it is unknown
+-- (an appliance of another mod that is off).
+function Consumption.ratedWatts(o)
+    if LiveWire.Consumers.of(o) then
+        local w = Consumption.watts(o, nil, true)
+        return w > 0 and w or nil
+    end
+    local keys = ratedKeys(o)
+    if not keys then return nil end
+    local t = Consumption.PROFILES[Consumption.profile()]
+    local w = 0
+    for i = 1, #keys do
+        local k = keys[i]
+        local own = k ~= "gas" and (t[k] or (k == "stackedWasher" and t.washer) or (k == "stackedDryer" and t.dryer))
+        w = w + (own or Consumption.ENGINE_ON[k] * t.otherFactor)
+    end
+    return w * (LiveWire.Config.get("PowerScale") or 1)
 end
 
 -- Draw in W of a load the engine reports as 0 and that a sub-mod estimates (`w` W at the

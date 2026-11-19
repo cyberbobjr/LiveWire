@@ -682,7 +682,7 @@ def scenario_consumption_profiles():
     check(near(W("light", 2), 60) and near(W("ff", 2), 130) and near(W("freezer", 2), 90), "realistic 1993")
     check(near(W("stove", 2), 2000) and near(W("micro", 2), 1100), "realistic cooker and microwave")
     check(near(W("stacked", 2), 3500) and near(W("combo", 2), 2000), "realistic laundry by function")
-    check(near(W("light", 1), 100) and near(W("stacked", 1), 5700), "ultra-realistic 1993")
+    check(near(W("light", 1), 100) and near(W("stacked", 1), 4200), "ultra-realistic 1993")
     check(near(W("stacked", 4), 90) and near(W("ff", 4), 65), "comfort halves and fixes the stacked laundry")
     check(near(W("piped", 2), 30) and near(W("modded", 2), 200) and near(W("modded", 4), 100),
           "gas and unknown appliances keep the engine value")
@@ -692,8 +692,30 @@ def scenario_consumption_profiles():
     check(near(W("light"), 2), "an unknown profile falls back to the game values")
 
 
+
+def scenario_rated_watts():
+    # The draw a breaker must carry, on or off now, under the sandbox profile.
+    lua = make()
+    lua.execute(CONSUMPTION)
+    lua.execute("""APPS.stoveOff = (function() local o = APPS.stove; o.p = 0; return o end)()
+        APPS.stackedOff = APPS.stacked; APPS.stackedOff.p = 0
+        APPS.stackedOff.washerOn = false; APPS.stackedOff.dryerOn = false
+        function RW(name) return LiveWire.Consumption.ratedWatts(APPS[name]) end""")
+    RW = lua.globals().RW
+    near = lambda a, b: abs(a - b) < 1e-6
+    check(near(RW("stoveOff"), 90) and near(RW("lightOff"), 2) and near(RW("stackedOff"), 1800),
+          "rated draw at the game values, appliance off")
+    lua.execute('SandboxVars = { LiveWire = { ConsumptionProfile = 1 } }')
+    check(near(RW("stoveOff"), 3000) and near(RW("stackedOff"), 4200) and near(RW("micro"), 1500),
+          "rated draw at ultra-realistic 1993")
+    lua.execute('SandboxVars = { LiveWire = { ConsumptionProfile = 2, PowerScale = 2 } }')
+    check(near(RW("stoveOff"), 4000) and near(RW("piped"), 60), "profile and PowerScale apply to the rated draw")
+    check(RW("modded") is None, "an appliance of no known family has no rated draw")
+
+
 def main():
     scenario_consumption_profiles()
+    scenario_rated_watts()
     scenario_slave_capacity()
     scenario_cabinet_capacity()
     scenario_slave_breaks()

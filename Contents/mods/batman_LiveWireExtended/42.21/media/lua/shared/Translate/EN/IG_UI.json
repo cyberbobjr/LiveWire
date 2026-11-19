@@ -58,5 +58,6 @@
     "IGUI_LWX_TwilightFitBtn": "Twilight switch",
     "IGUI_LWX_TwilightRemoveBtn": "Remove twilight",
     "IGUI_LWX_Remove": "Remove",
-    "IGUI_LWX_InstallHere": "Install in module %1:"
+    "IGUI_LWX_InstallHere": "Install in module %1:",
+    "IGUI_LWX_BreakersBack": "%1 breakers given back."
 }

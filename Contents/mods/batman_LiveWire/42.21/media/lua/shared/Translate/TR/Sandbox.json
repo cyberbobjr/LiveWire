@@ -5,7 +5,7 @@
     "Sandbox_LiveWire_PowerScale": "Güç ölçeği",
     "Sandbox_LiveWire_PowerScale_tooltip": "Her cihazın tüketimini, tüketim profilinin üzerine ek olarak çarpar (1 = değişiklik yok).",
     "Sandbox_LiveWire_ConsumptionProfile": "Tüketim profili",
-    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Açık cihazların çektiği güç. Oyun değerleri: motorun kendi değerleri (lamba 2 W, buzdolabı-dondurucu 130 W). Gerçekçi 1993: dönemin ortalama ev tüketimleri (lamba 60 W, televizyon 80 W, ocak 2.000 W). Çok gerçekçi 1993: daha eski, daha çok tüketen cihazlar (lamba 100 W, ocak 3.000 W, kurutma makinesi 5.000 W). Konfor: oyun değerlerinin yarısı.",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Açık cihazların çektiği güç. Oyun değerleri: motorun kendi değerleri (lamba 2 W, buzdolabı-dondurucu 130 W). Gerçekçi 1993: dönemin ortalama ev tüketimleri (lamba 60 W, televizyon 80 W, ocak 2.000 W). Çok gerçekçi 1993: daha eski, daha çok tüketen cihazlar (lamba 100 W, ocak 3.000 W, kurutma makinesi 3.500 W). Konfor: oyun değerlerinin yarısı.",
     "Sandbox_LiveWire_SolarMultiplier": "Güneş üretimi",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Güneş paneli üretiminin çarpanı.",
     "Sandbox_LiveWire_WindMultiplier": "Rüzgâr üretimi",

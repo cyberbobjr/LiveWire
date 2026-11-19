@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "No tienes ningún disyuntor de este tipo.",
     "Tooltip_LWX_BoardFull": "No hay sitio libre en el cuadro para este disyuntor.",
     "Tooltip_LWX_PanelNotLinked": "Conecta primero el cuadro eléctrico a un inversor.",
-    "Tooltip_LWX_BreakerRating": "%1 A a %2 V: hasta %3 W en su circuito.",
+    "Tooltip_LWX_BreakerRating": "%1 A a %2 V: hasta %3 W en su circuito. El consumo de los aparatos depende de la opción de partida Perfil de consumo: con Valores del juego un disyuntor casi nunca salta; elige Realista 1993 o Ultrarrealista 1993 para cargas reales.",
     "Tooltip_LWX_NotAnAppliance": "Este objeto no consume corriente.",
     "Tooltip_LWX_NoBreakerThere": "No hay ningún disyuntor en este módulo.",
     "Tooltip_LWX_PointConnected": "Ya está cableado a un disyuntor.",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "No tienes ningún interruptor crepuscular.",
     "Tooltip_LWX_ModuleTaken": "Este módulo no está libre.",
     "Tooltip_LWX_NeedTester": "Requiere un comprobador de tensión (se conserva).",
-    "Tooltip_LWX_Dismantle": "Devuelve menos piezas de las que costó."
+    "Tooltip_LWX_Dismantle": "Devuelve menos piezas de las que costó.",
+    "Tooltip_LWX_PointDraw": "Con el perfil de consumo actual, este aparato consume %1 W en marcha (%2 A a 120 V): un disyuntor de %3 A le basta por sí solo.",
+    "Tooltip_LWX_PointDrawTooMuch": "Con el perfil de consumo actual, este aparato consume %1 W en marcha (%2 A a 120 V): más de lo que aguanta un disyuntor de 30 A."
 }

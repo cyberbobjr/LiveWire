@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "Não tem nenhum disjuntor deste tipo.",
     "Tooltip_LWX_BoardFull": "Não há lugar livre no quadro para este disjuntor.",
     "Tooltip_LWX_PanelNotLinked": "Ligue primeiro o quadro elétrico a um inversor.",
-    "Tooltip_LWX_BreakerRating": "%1 A a %2 V: até %3 W no seu circuito.",
+    "Tooltip_LWX_BreakerRating": "%1 A a %2 V: até %3 W no seu circuito. O consumo dos aparelhos depende da opção de jogo Perfil de consumo: com Valores do jogo um disjuntor quase nunca dispara; escolha Realista 1993 ou Ultrarrealista 1993 para cargas reais.",
     "Tooltip_LWX_NotAnAppliance": "Este objeto não consome corrente.",
     "Tooltip_LWX_NoBreakerThere": "Nenhum disjuntor neste módulo.",
     "Tooltip_LWX_PointConnected": "Já está cablado a um disjuntor.",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "Não tem nenhum interruptor crepuscular.",
     "Tooltip_LWX_ModuleTaken": "Este módulo não está livre.",
     "Tooltip_LWX_NeedTester": "Requer um testador de tensão (mantém-se).",
-    "Tooltip_LWX_Dismantle": "Devolve menos peças do que custou."
+    "Tooltip_LWX_Dismantle": "Devolve menos peças do que custou.",
+    "Tooltip_LWX_PointDraw": "Com o perfil de consumo atual, este aparelho consome %1 W em funcionamento (%2 A a 120 V): um disjuntor de %3 A basta só para ele.",
+    "Tooltip_LWX_PointDrawTooMuch": "Com o perfil de consumo atual, este aparelho consome %1 W em funcionamento (%2 A a 120 V): mais do que um disjuntor de 30 A aguenta."
 }

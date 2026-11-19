@@ -58,5 +58,6 @@
     "IGUI_LWX_TwilightFitBtn": "夕暮れスイッチ",
     "IGUI_LWX_TwilightRemoveBtn": "夕暮れスイッチを外す",
     "IGUI_LWX_Remove": "取り外す",
-    "IGUI_LWX_InstallHere": "モジュール %1 に取り付け："
+    "IGUI_LWX_InstallHere": "モジュール %1 に取り付け：",
+    "IGUI_LWX_BreakersBack": "ブレーカーを %1 個返却しました。"
 }

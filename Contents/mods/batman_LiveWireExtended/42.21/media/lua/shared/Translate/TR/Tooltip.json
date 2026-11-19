@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "Bu türde sigortanız yok.",
     "Tooltip_LWX_BoardFull": "Panoda bu sigorta için boş yer yok.",
     "Tooltip_LWX_PanelNotLinked": "Önce sigorta panosunu bir invertöre bağlayın.",
-    "Tooltip_LWX_BreakerRating": "%2 V'ta %1 A: devresinde en fazla %3 W.",
+    "Tooltip_LWX_BreakerRating": "%2 V'ta %1 A: devresinde en fazla %3 W. Cihazların tüketimi sandbox seçeneği Tüketim profili'ne bağlıdır: Oyun değerleri ile sigorta neredeyse hiç atmaz; gerçek yükler için Gerçekçi 1993 veya Çok gerçekçi 1993 seçin.",
     "Tooltip_LWX_NotAnAppliance": "Bu nesne akım çekmez.",
     "Tooltip_LWX_NoBreakerThere": "Bu modülde sigorta yok.",
     "Tooltip_LWX_PointConnected": "Zaten bir sigortaya kablolu.",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "Alacakaranlık anahtarınız yok.",
     "Tooltip_LWX_ModuleTaken": "Bu modül boş değil.",
     "Tooltip_LWX_NeedTester": "Voltaj Test Cihazı gerekir (geri kalır).",
-    "Tooltip_LWX_Dismantle": "Yapımında harcanandan daha az parça geri verir."
+    "Tooltip_LWX_Dismantle": "Yapımında harcanandan daha az parça geri verir.",
+    "Tooltip_LWX_PointDraw": "Geçerli tüketim profiliyle bu cihaz çalışırken %1 W çeker (120 V'ta %2 A): tek başına %3 A sigorta yeterlidir.",
+    "Tooltip_LWX_PointDrawTooMuch": "Geçerli tüketim profiliyle bu cihaz çalışırken %1 W çeker (120 V'ta %2 A): 30 A sigortanın taşıyabileceğinden fazla."
 }

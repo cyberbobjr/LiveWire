@@ -10,5 +10,8 @@
     "LWXDismantleTerminal": "Démonter une borne électrique",
     "LWXDismantlePanel8": "Démonter un tableau électrique (8 modules)",
     "LWXDismantlePanel16": "Démonter un tableau électrique (16 modules)",
-    "LWXDismantlePanel24": "Démonter un tableau électrique (24 modules)"
+    "LWXDismantlePanel24": "Démonter un tableau électrique (24 modules)",
+    "LWXDismantleBreaker15": "Démonter un disjoncteur 15 A",
+    "LWXDismantleBreaker20": "Démonter un disjoncteur 20 A",
+    "LWXDismantleBreaker30": "Démonter un disjoncteur 30 A"
 }

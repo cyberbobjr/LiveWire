@@ -10,5 +10,8 @@
     "LWXDismantleTerminal": "Dismantle Power Terminal",
     "LWXDismantlePanel8": "Dismantle Breaker Board (8 modules)",
     "LWXDismantlePanel16": "Dismantle Breaker Board (16 modules)",
-    "LWXDismantlePanel24": "Dismantle Breaker Board (24 modules)"
+    "LWXDismantlePanel24": "Dismantle Breaker Board (24 modules)",
+    "LWXDismantleBreaker15": "Dismantle Breaker 15 A",
+    "LWXDismantleBreaker20": "Dismantle Breaker 20 A",
+    "LWXDismantleBreaker30": "Dismantle Breaker 30 A"
 }

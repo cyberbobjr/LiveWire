@@ -126,6 +126,9 @@ P.kind.onLink = function(record, dev, key, obj)
     local house = obj and obj:hasModData() and obj:getModData()[HS.HOUSE_KEY]
     if not house then return end
     record.house = house
+    -- its prewired breakers were already given back to a player (LWX_Panels, giveBack)
+    local drained = X.Data.table().drainedHouses
+    if drained and drained[house] then return end
     -- the site the board serves (inside, or across the wall of a weatherproof box) is that house
     local site = P.siteOf(record)
     if not site or site.kind ~= "building" or X.Sites.key(site) ~= house then return end

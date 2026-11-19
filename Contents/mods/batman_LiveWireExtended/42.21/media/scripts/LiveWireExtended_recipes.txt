@@ -263,4 +263,67 @@ module LiveWire
             item 2 Base.Screws,
         }
     }
+
+    craftRecipe LWXDismantleBreaker15
+    {
+        timedAction = DismantleElectrical,
+        Icon = LWXBreaker15,
+        time = 60,
+        Tags = InHandCraft;Electrical,
+        category = LiveWire,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LWX_Dismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [LiveWire.Breaker15] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.ElectronicsScrap,
+        }
+    }
+
+    craftRecipe LWXDismantleBreaker20
+    {
+        timedAction = DismantleElectrical,
+        Icon = LWXBreaker20,
+        time = 70,
+        Tags = InHandCraft;Electrical,
+        category = LiveWire,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LWX_Dismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [LiveWire.Breaker20] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.ElectronicsScrap,
+            item 1 Base.Screws,
+        }
+    }
+
+    craftRecipe LWXDismantleBreaker30
+    {
+        timedAction = DismantleElectrical,
+        Icon = LWXBreaker30,
+        time = 80,
+        Tags = InHandCraft;Electrical,
+        category = LiveWire,
+        xpAward = Electricity:2,
+        Tooltip = Tooltip_LWX_Dismantle,
+        inputs
+        {
+            item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+            item 1 [LiveWire.Breaker30] mode:destroy,
+        }
+        outputs
+        {
+            item 1 Base.ElectronicsScrap,
+            item 1 Base.ElectricWire,
+            item 1 Base.Screws,
+        }
+    }
 }

@@ -10,5 +10,8 @@
     "LWXDismantleTerminal": "Anschlusssäule zerlegen",
     "LWXDismantlePanel8": "Sicherungskasten (8 Module) zerlegen",
     "LWXDismantlePanel16": "Sicherungskasten (16 Module) zerlegen",
-    "LWXDismantlePanel24": "Sicherungskasten (24 Module) zerlegen"
+    "LWXDismantlePanel24": "Sicherungskasten (24 Module) zerlegen",
+    "LWXDismantleBreaker15": "Schutzschalter 15 A zerlegen",
+    "LWXDismantleBreaker20": "Schutzschalter 20 A zerlegen",
+    "LWXDismantleBreaker30": "Schutzschalter 30 A zerlegen"
 }

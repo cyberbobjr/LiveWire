@@ -10,5 +10,8 @@
     "LWXDismantleTerminal": "Desmontar poste elétrico",
     "LWXDismantlePanel8": "Desmontar quadro elétrico (8 módulos)",
     "LWXDismantlePanel16": "Desmontar quadro elétrico (16 módulos)",
-    "LWXDismantlePanel24": "Desmontar quadro elétrico (24 módulos)"
+    "LWXDismantlePanel24": "Desmontar quadro elétrico (24 módulos)",
+    "LWXDismantleBreaker15": "Desmontar disjuntor de 15 A",
+    "LWXDismantleBreaker20": "Desmontar disjuntor de 20 A",
+    "LWXDismantleBreaker30": "Desmontar disjuntor de 30 A"
 }

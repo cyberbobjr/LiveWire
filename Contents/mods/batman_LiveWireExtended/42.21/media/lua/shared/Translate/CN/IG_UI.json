@@ -58,5 +58,6 @@
     "IGUI_LWX_TwilightFitBtn": "光控开关",
     "IGUI_LWX_TwilightRemoveBtn": "拆下光控开关",
     "IGUI_LWX_Remove": "拆下",
-    "IGUI_LWX_InstallHere": "安装到模块 %1："
+    "IGUI_LWX_InstallHere": "安装到模块 %1：",
+    "IGUI_LWX_BreakersBack": "已归还 %1 个断路器。"
 }

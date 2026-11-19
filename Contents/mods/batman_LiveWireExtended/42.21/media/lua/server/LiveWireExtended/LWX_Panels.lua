@@ -41,15 +41,25 @@ function PS.link(character, obj, invObj)
     return X.Linked.link(character, obj, invObj)
 end
 
--- The breakers and twilight switches a player fitted come back when the board leaves its
--- link (unlinked or picked up). Prewired breakers of a house board stay with the board: a
--- house board linked again is prewired again (LWX_HousesServer).
+-- Every breaker and twilight switch of the board comes back when the board leaves its
+-- link (unlinked or picked up), the prewired breakers of a house board too. Their house is
+-- then drained: its board is never prewired again (LWX_HousesServer), so that unlinking
+-- and linking again cannot make breakers out of nothing.
 function PS.giveBack(record, character)
     if not character then return end
+    local n, drained = 0, false
     for _, slot in ipairs(record.slots or {}) do
-        if not slot.prewired then LiveWire.API.giveItem(character, slot.type) end
+        LiveWire.API.giveItem(character, slot.type)
+        n = n + 1
+        if slot.prewired then drained = true end
         if slot.twilight then LiveWire.API.giveItem(character, X.Breakers.TWILIGHT_ITEM) end
     end
+    if drained and record.house then
+        local t = X.Data.table()
+        t.drainedHouses = t.drainedHouses or {}
+        t.drainedHouses[record.house] = true
+    end
+    if n > 0 then LiveWire.notify(character, "IGUI_LWX_BreakersBack", { tostring(n) }) end
     -- the wire of the appliances wired to its breakers (LWX_PointsServer, onForget)
     LiveWire.API.returnWires(character, record.pointWires)
 end

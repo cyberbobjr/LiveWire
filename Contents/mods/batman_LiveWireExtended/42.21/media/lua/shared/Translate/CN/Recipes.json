@@ -10,5 +10,8 @@
     "LWXDismantleTerminal": "拆解供电端子",
     "LWXDismantlePanel8": "拆解配电箱 (8 个模块)",
     "LWXDismantlePanel16": "拆解配电箱 (16 个模块)",
-    "LWXDismantlePanel24": "拆解配电箱 (24 个模块)"
+    "LWXDismantlePanel24": "拆解配电箱 (24 个模块)",
+    "LWXDismantleBreaker15": "拆解断路器 15 A",
+    "LWXDismantleBreaker20": "拆解断路器 20 A",
+    "LWXDismantleBreaker30": "拆解断路器 30 A"
 }

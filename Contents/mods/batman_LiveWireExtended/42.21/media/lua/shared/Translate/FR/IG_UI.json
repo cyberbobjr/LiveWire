@@ -58,5 +58,6 @@
     "IGUI_LWX_TwilightFitBtn": "Crépusculaire",
     "IGUI_LWX_TwilightRemoveBtn": "Retirer le crépusculaire",
     "IGUI_LWX_Remove": "Retirer",
-    "IGUI_LWX_InstallHere": "Installer dans le module %1 :"
+    "IGUI_LWX_InstallHere": "Installer dans le module %1 :",
+    "IGUI_LWX_BreakersBack": "%1 disjoncteurs rendus."
 }

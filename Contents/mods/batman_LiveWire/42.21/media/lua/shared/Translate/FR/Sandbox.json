@@ -5,7 +5,7 @@
     "Sandbox_LiveWire_PowerScale": "Échelle de puissance",
     "Sandbox_LiveWire_PowerScale_tooltip": "Multiplie la consommation de chaque appareil, en plus du profil de consommation (1 = aucun changement).",
     "Sandbox_LiveWire_ConsumptionProfile": "Profil de consommation",
-    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Puissance consommée par les appareils allumés. Valeurs du jeu : celles du moteur (lumière 2 W, réfrigérateur-congélateur 130 W). Réaliste 1993 : consommations moyennes d'un foyer de l'époque (lumière 60 W, télévision 80 W, cuisinière 2 000 W). Ultra-réaliste 1993 : appareils plus anciens et plus gourmands (lumière 100 W, cuisinière 3 000 W, sèche-linge 5 000 W). Confort : la moitié des valeurs du jeu.",
+    "Sandbox_LiveWire_ConsumptionProfile_tooltip": "Puissance consommée par les appareils allumés. Valeurs du jeu : celles du moteur (lumière 2 W, réfrigérateur-congélateur 130 W). Réaliste 1993 : consommations moyennes d'un foyer de l'époque (lumière 60 W, télévision 80 W, cuisinière 2 000 W). Ultra-réaliste 1993 : appareils plus anciens et plus gourmands (lumière 100 W, cuisinière 3 000 W, sèche-linge 3 500 W). Confort : la moitié des valeurs du jeu.",
     "Sandbox_LiveWire_SolarMultiplier": "Production solaire",
     "Sandbox_LiveWire_SolarMultiplier_tooltip": "Multiplicateur de la production des panneaux photovoltaïques.",
     "Sandbox_LiveWire_WindMultiplier": "Production éolienne",

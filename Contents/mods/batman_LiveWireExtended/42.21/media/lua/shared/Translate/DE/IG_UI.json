@@ -58,5 +58,6 @@
     "IGUI_LWX_TwilightFitBtn": "Dämmerungsschalter",
     "IGUI_LWX_TwilightRemoveBtn": "Dämmerungsschalter entfernen",
     "IGUI_LWX_Remove": "Ausbauen",
-    "IGUI_LWX_InstallHere": "In Modul %1 einbauen:"
+    "IGUI_LWX_InstallHere": "In Modul %1 einbauen:",
+    "IGUI_LWX_BreakersBack": "%1 Schutzschalter zurückgegeben."
 }

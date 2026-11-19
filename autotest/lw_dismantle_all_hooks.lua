@@ -30,6 +30,10 @@ local RECIPES = {
       { ["Base.SmallSheetMetal"] = 2, ["Base.ElectricWire"] = 1, ["Base.Screws"] = 2 } },
     { "LWXDismantlePanel24", "Base.Mov_LiveWire_Panel24",
       { ["Base.SmallSheetMetal"] = 3, ["Base.ElectricWire"] = 1, ["Base.Screws"] = 2 } },
+    { "LWXDismantleBreaker15", "LiveWire.Breaker15", { ["Base.ElectronicsScrap"] = 1 } },
+    { "LWXDismantleBreaker20", "LiveWire.Breaker20", { ["Base.ElectronicsScrap"] = 1, ["Base.Screws"] = 1 } },
+    { "LWXDismantleBreaker30", "LiveWire.Breaker30",
+      { ["Base.ElectronicsScrap"] = 1, ["Base.ElectricWire"] = 1, ["Base.Screws"] = 1 } },
 }
 local state = { i = 0, phase = "next", t0 = 0 }
 local LIMIT_MS = 90000

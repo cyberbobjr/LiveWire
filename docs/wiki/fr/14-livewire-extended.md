@@ -32,7 +32,7 @@ Les recettes demandent le niveau 3 d'Électricité et un tournevis. Les durées 
 | Fabriquer un disjoncteur 30 A | 3 pièces électroniques, 2 fils électriques, 3 vis |
 | Fabriquer un interrupteur crépusculaire pour disjoncteur | 2 pièces électroniques, 1 fil électrique, 1 vis |
 
-Ramassez une borne ou un tableau au tournevis, puis démontez-le dans le menu d'artisanat (tournevis conservé, sans niveau d'Électricité). Vous récupérez moins de pièces que sa fabrication n'en coûte. Les disjoncteurs et interrupteurs crépusculaires se retirent du tableau dans l'inventaire et n'ont pas de recette de démontage.
+Ramassez une borne ou un tableau au tournevis, puis démontez-le dans le menu d'artisanat (tournevis conservé, sans niveau d'Électricité). Vous récupérez moins de pièces que sa fabrication n'en coûte. Les disjoncteurs se retirent du tableau dans l'inventaire, puis se démontent de la même façon ; les interrupteurs crépusculaires n'ont pas de recette de démontage.
 
 | Recette | Résultat | Durée |
 |---|---|---|
@@ -90,7 +90,7 @@ Un **tableau électrique** (8, 16 ou 24 modules) s'accroche sur un mur intérieu
 - Posez-le avec le curseur de meuble sur un **mur intérieur**. Une pièce fermée et couverte compte comme intérieur.
 - Un tableau fabriqué n'est **pas étanche**. Sur un mur extérieur, un perron, une cour ou le bord d'un bâtiment de la carte, le curseur le refuse et dit pourquoi : *Pas étanche : à accrocher sur un mur intérieur d'un bâtiment (un abri fermé et couvert compte).* Les clients multijoueur voient le même refus, sauf dans une maison de joueur fraîchement construite, fermée et couverte, où c'est le serveur qui décide.
 - Les boîtes électriques du jeu, posées sur une façade, sont étanches. Le curseur de meuble ne les déplace pas. Quand la carte en place une sur une façade, elle dessert le bâtiment de l'autre côté de son mur.
-- **Raccorder à un onduleur** : clic droit sur le tableau > **LiveWire Extended** > **Raccorder à un onduleur** (niveau 3 d'Électricité, fil électrique selon la distance). **Débrancher le tableau** annule le raccordement. Débrancher ou ramasser un tableau rend les disjoncteurs et interrupteurs crépusculaires que vous y avez posés ; les disjoncteurs précâblés d'un tableau de maison restent avec lui.
+- **Raccorder à un onduleur** : clic droit sur le tableau > **LiveWire Extended** > **Raccorder à un onduleur** (niveau 3 d'Électricité, fil électrique selon la distance). **Débrancher le tableau** annule le raccordement. Débrancher ou ramasser un tableau rend tous ses disjoncteurs et interrupteurs crépusculaires, y compris les disjoncteurs précâblés d'un tableau de maison ; cette maison ne sera plus précâblée.
 - Poser et ramasser demandent un tournevis.
 
 ### Agrandir un tableau

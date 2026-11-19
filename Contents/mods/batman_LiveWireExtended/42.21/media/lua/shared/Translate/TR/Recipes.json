@@ -10,5 +10,8 @@
     "LWXDismantleTerminal": "Güç Terminalini Sök",
     "LWXDismantlePanel8": "Sigorta Panosunu Sök (8 modül)",
     "LWXDismantlePanel16": "Sigorta Panosunu Sök (16 modül)",
-    "LWXDismantlePanel24": "Sigorta Panosunu Sök (24 modül)"
+    "LWXDismantlePanel24": "Sigorta Panosunu Sök (24 modül)",
+    "LWXDismantleBreaker15": "15 A Sigortayı Sök",
+    "LWXDismantleBreaker20": "20 A Sigortayı Sök",
+    "LWXDismantleBreaker30": "30 A Sigortayı Sök"
 }

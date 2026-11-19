@@ -58,5 +58,6 @@
     "IGUI_LWX_TwilightFitBtn": "조도 스위치",
     "IGUI_LWX_TwilightRemoveBtn": "조도 스위치 제거",
     "IGUI_LWX_Remove": "제거",
-    "IGUI_LWX_InstallHere": "모듈 %1에 설치:"
+    "IGUI_LWX_InstallHere": "모듈 %1에 설치:",
+    "IGUI_LWX_BreakersBack": "차단기 %1개를 돌려받았습니다."
 }

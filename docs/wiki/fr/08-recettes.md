@@ -132,7 +132,7 @@ donne aussi une cellule photovoltaïque.
 
 ## Recettes Extended
 
-LiveWire Extended ajoute huit recettes de fabrication, toutes au niveau 3 d'Électricité et toutes avec un tournevis, et quatre recettes de démontage sans niveau (borne et tableaux). Leurs ingrédients sont listés dans [LiveWire Extended](14-livewire-extended.md#recettes).
+LiveWire Extended ajoute huit recettes de fabrication, toutes au niveau 3 d'Électricité et toutes avec un tournevis, et sept recettes de démontage sans niveau (borne, tableaux et disjoncteurs). Leurs ingrédients sont listés dans [LiveWire Extended](14-livewire-extended.md#recettes).
 
 | Recette | Résultat | Durée |
 |---|---|---|

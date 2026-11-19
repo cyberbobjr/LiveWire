@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "You have no breaker of this kind.",
     "Tooltip_LWX_BoardFull": "No free place on the board for this breaker.",
     "Tooltip_LWX_PanelNotLinked": "Link the breaker board to an inverter first.",
-    "Tooltip_LWX_BreakerRating": "%1 A at %2 V: up to %3 W on its circuit.",
+    "Tooltip_LWX_BreakerRating": "%1 A at %2 V: up to %3 W on its circuit. Appliance draws follow the sandbox option Consumption profile: with Game values breakers almost never trip, choose Realistic 1993 or Ultra-realistic 1993 for real loads.",
     "Tooltip_LWX_NotAnAppliance": "This object draws no current.",
     "Tooltip_LWX_NoBreakerThere": "No breaker in this module.",
     "Tooltip_LWX_PointConnected": "Already wired to a breaker.",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "You have no twilight switch.",
     "Tooltip_LWX_ModuleTaken": "This module is not free.",
     "Tooltip_LWX_NeedTester": "Requires a voltage tester (kept).",
-    "Tooltip_LWX_Dismantle": "Gives back fewer parts than it cost."
+    "Tooltip_LWX_Dismantle": "Gives back fewer parts than it cost.",
+    "Tooltip_LWX_PointDraw": "With the current consumption profile, this appliance draws %1 W when running (%2 A at 120 V): a %3 A breaker is enough for it alone.",
+    "Tooltip_LWX_PointDrawTooMuch": "With the current consumption profile, this appliance draws %1 W when running (%2 A at 120 V): more than a 30 A breaker can carry."
 }

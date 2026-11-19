@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.1.7 — 2026-11-19
+
+### Improvements
+
+- **LiveWire Extended, breakers:** breakers of 15, 20 and 30 A can now be dismantled in the crafting menu (screwdriver kept, fewer parts than they cost).
+- **LiveWire Extended, wiring an appliance to a breaker:** the tooltip of each breaker now shows what the appliance draws when running under your sandbox consumption profile, in watts and amps, and the breaker size it needs on its own (15, 20 or 30 A), even when the appliance is switched off.
+- **LiveWire Extended, breaker rating tooltip:** it now explains that appliance draws follow the sandbox option "Consumption profile". With "Game values", appliances draw so little that a breaker almost never trips; choose "Realistic 1993" or "Ultra-realistic 1993" for real loads.
+- **Ultra-realistic 1993 consumption profile:** the clothes dryer now draws 3,500 W instead of 5,000 W, so it can run on a 30 A breaker.
+
+### Fixes
+
+- **LiveWire Extended, moving a breaker board:** the prewired breakers of a house board were lost when the board was picked up or unlinked. Every breaker of the board now goes back to your inventory, with a message telling how many came back. A house whose breakers were given back is not prewired again.
+
 ## 2.1.6 — 2026-11-17
 
 ### Improvements

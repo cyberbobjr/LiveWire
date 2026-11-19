@@ -269,8 +269,24 @@ function Menu.onPoint(player, appliance, board, pos, disconnect)
     queueNear(player, appliance:getSquare(), LWXPointAction:new(player, appliance, board, pos, disconnect))
 end
 
+-- What appliance `o` asks of a breaker under the sandbox consumption profile: its draw while
+-- it runs, in W and in A, and the smallest breaker that carries it. nil when unknown.
+function Menu.drawHint(o)
+    local w = LiveWire.API.ratedWatts(o)
+    if not w or w <= 0 then return nil end
+    local B = X.Breakers
+    local volts = B.TYPES[B.ORDER[1]].volts
+    local watts, amps = tostring(math.floor(w + 0.5)), string.format("%.1f", w / volts)
+    for _, fullType in ipairs(B.ORDER) do
+        local t = B.TYPES[fullType]
+        if B.capacityW(t) >= w then return getText("Tooltip_LWX_PointDraw", watts, amps, tostring(t.amps)) end
+    end
+    return getText("Tooltip_LWX_PointDrawTooMuch", watts, amps)
+end
+
 -- One option per breaker of `record` (board object `board`) for appliance `o`.
 local function addSlotOptions(menu, player, o, board, record)
+    local draw = Menu.drawHint(o)
     for _, slot in ipairs(record.slots or {}) do
         local opt = menu:addOption(Menu.slotLabel(slot), player, Menu.onPoint, o, board, slot.pos, false)
         local ok, why, a1, a2 = X.Points.checkConnect(player, o, board, slot.pos)
@@ -279,6 +295,7 @@ local function addSlotOptions(menu, player, o, board, record)
             if a2 then opt.toolTip.description = getText(why, a1, a2) end
         else
             hint(opt, "Tooltip_LWX_PointWires", tostring(why))
+            if draw then opt.toolTip.description = opt.toolTip.description .. " <LINE> " .. draw end
         end
     end
 end

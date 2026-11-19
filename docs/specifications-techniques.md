@@ -499,7 +499,7 @@ commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau
   partie du contrat d'extension.
 - Raisons d'enregistrement stables : `registration_closed`, `invalid_definition`,
   `duplicate_type`, `duplicate_model`, `duplicate_sprite`, `duplicate_consumer`. `API.version=1` ; `API.revision=7`
-  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage ; révision 6 : consommateurs des autres mods, ADR-002 ; révision 7 : `registerWreckage(itemType, parts)`, équipement solide d'un sous-mod rendu robuste et laissant `parts` à sa destruction, voir `LW_Wreckage.lua` ; raisons `registration_closed`, `invalid_definition`, `duplicate_type`). `registerBattery`, `registerSource`, `battery`, `source`,
+  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage ; révision 6 : consommateurs des autres mods, ADR-002 ; révision 7 : `registerWreckage(itemType, parts)`, équipement solide d'un sous-mod rendu robuste et laissant `parts` à sa destruction, voir `LW_Wreckage.lua` ; raisons `registration_closed`, `invalid_definition`, `duplicate_type` ; révision 8 : `ratedWatts(obj)`). `registerBattery`, `registerSource`, `battery`, `source`,
   `gridAt` sont inchangées.
 
 ### API publique : services pour sous-mods (révision 2, D-47, 2026-11-09)
@@ -532,6 +532,7 @@ Tests : `tests/test_api_submods.py`.
 | `API.awardXp(ch, clé, xp, heures)` | XP d'Électricité limitée par (joueur, clé) |
 | `API.estimateWatts(w)` | consommation estimée d'une charge que le moteur ne compte pas, `PowerScale` et facteur du profil appliqués (`Consumption.estimate`) |
 | `API.watts(obj)`, `API.applianceKind(obj)`, `API.applianceCut(obj)` | consommation, famille et coupure d'un appareil posé |
+| `API.ratedWatts(obj)` | consommation d'un appareil posé en marche, même éteint, selon le profil de consommation et `PowerScale` (`Consumption.ratedWatts`, valeurs moteur 42.22 relevées dans `Consumption.ENGINE_ON`) ; `nil` si inconnue |
 | `API.mark(obj)`, `API.markOnSquare(sq, id)`, `API.model(nom)` | marque (copie), objet marqué d'une case, définition d'un modèle (copie) |
 | `API.pumpId(obj)`, `API.computerId(obj)` | id de la pompe ou du lien d'ordinateur que porte l'objet |
 | `API.registerSoftwareLines(fn)` | **un seul** fournisseur (type fonction validé ; un second, différent, est refusé : `false, "already_registered"` ; `false, "invalid_provider"` si ce n'est pas une fonction) de lignes pour la page « Maison » du logiciel de l'onduleur (client). Remplace le champ `SoftwareApp.houseProvider` |

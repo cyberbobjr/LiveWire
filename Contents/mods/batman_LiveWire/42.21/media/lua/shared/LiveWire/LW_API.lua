@@ -5,7 +5,7 @@ require "LiveWire/LW_Extension"
 require "LiveWire/LW_Consumers"
 require "LiveWire/LW_Wreckage"
 LiveWire = LiveWire or {}
-local API = { version = 1, revision = 7 }
+local API = { version = 1, revision = 8 }
 LiveWire.API = API
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -505,3 +505,8 @@ end
 -- before OnInitGlobalModData. The tile must name the item in its CustomItem property.
 -- Returns true, or false and "registration_closed", "invalid_definition", "duplicate_type".
 function API.registerWreckage(itemType, parts) return LiveWire.Wreckage.register(itemType, parts) end
+
+-- ---------------------------------------------------------------- rated draw (revision 8)
+-- Draw in W of a placed appliance while it runs, even when it is off now, under the sandbox
+-- consumption profile (PowerScale included); nil when unknown.
+function API.ratedWatts(obj) return LiveWire.Consumption.ratedWatts(obj) end

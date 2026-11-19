@@ -434,9 +434,9 @@ Les trois batteries vanilla ont le même `UseDelta`, donc ces capacités sont un
 | Cuisinière électrique (0,09) | 3 000 W | 2 000 W | 90 W | 45 W |
 | Micro-ondes (0,09, `IsoStove:isMicrowave`) | 1 500 W | 1 100 W | 90 W | 45 W |
 | Lave-linge (0,09) | 700 W | 500 W | 90 W | 45 W |
-| Sèche-linge (0,09) | 5 000 W | 3 000 W | 90 W | 45 W |
+| Sèche-linge (0,09) | 3 500 W | 3 000 W | 90 W | 45 W |
 | Lave-linge séchant, lavage / séchage (0,09, `isModeDryer`) | 700 / 3 000 W | 500 / 2 000 W | 90 W | 45 W |
-| Lave-linge + sèche-linge superposés, par moitié en marche (0,9 chacune) | 700 + 5 000 W | 500 + 3 000 W | 900 + 900 W | 45 + 45 W |
+| Lave-linge + sèche-linge superposés, par moitié en marche (0,9 chacune) | 700 + 3 500 W | 500 + 3 000 W | 900 + 900 W | 45 + 45 W |
 | Chargeur de batterie de voiture (0,05) | 250 W | 150 W | 50 W | 25 W |
 | Appareil au gaz (`getPipedFuelAmount() > 0`, 0,03) et appareils d'autres mods | valeur moteur × 1 000 | idem | idem | moitié |
 

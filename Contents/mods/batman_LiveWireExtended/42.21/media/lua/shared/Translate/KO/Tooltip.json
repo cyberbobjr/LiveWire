@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "이 종류의 차단기가 없습니다.",
     "Tooltip_LWX_BoardFull": "배전반에 이 차단기를 설치할 빈자리가 없습니다.",
     "Tooltip_LWX_PanelNotLinked": "먼저 배전반을 인버터에 연결하세요.",
-    "Tooltip_LWX_BreakerRating": "%1 A, %2 V: 회로에 최대 %3 W.",
+    "Tooltip_LWX_BreakerRating": "%1 A, %2 V: 회로에 최대 %3 W. 가전 소비 전력은 샌드박스 옵션 '소비 전력 프로필'을 따릅니다. '게임 값'에서는 차단기가 거의 내려가지 않으니 실제 부하를 원하면 '현실적 1993' 또는 '초현실적 1993'을 선택하세요.",
     "Tooltip_LWX_NotAnAppliance": "이 물체는 전류를 쓰지 않습니다.",
     "Tooltip_LWX_NoBreakerThere": "이 모듈에는 차단기가 없습니다.",
     "Tooltip_LWX_PointConnected": "이미 차단기에 배선되어 있습니다.",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "조도 스위치가 없습니다.",
     "Tooltip_LWX_ModuleTaken": "이 모듈은 비어 있지 않습니다.",
     "Tooltip_LWX_NeedTester": "전압 테스터가 필요합니다 (소모되지 않음).",
-    "Tooltip_LWX_Dismantle": "제작에 든 부품보다 적게 돌려받습니다."
+    "Tooltip_LWX_Dismantle": "제작에 든 부품보다 적게 돌려받습니다.",
+    "Tooltip_LWX_PointDraw": "현재 소비 전력 프로필에서 이 가전은 작동 중 %1 W(120 V에서 %2 A)를 씁니다. 단독이라면 %3 A 차단기로 충분합니다.",
+    "Tooltip_LWX_PointDrawTooMuch": "현재 소비 전력 프로필에서 이 가전은 작동 중 %1 W(120 V에서 %2 A)를 씁니다. 30 A 차단기로도 감당할 수 없습니다."
 }

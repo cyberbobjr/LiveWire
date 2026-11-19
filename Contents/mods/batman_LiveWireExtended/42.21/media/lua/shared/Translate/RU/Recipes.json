@@ -10,5 +10,8 @@
     "LWXDismantleTerminal": "Разобрать: Электроколонка",
     "LWXDismantlePanel8": "Разобрать: Электрощиток (8 модулей)",
     "LWXDismantlePanel16": "Разобрать: Электрощиток (16 модулей)",
-    "LWXDismantlePanel24": "Разобрать: Электрощиток (24 модуля)"
+    "LWXDismantlePanel24": "Разобрать: Электрощиток (24 модуля)",
+    "LWXDismantleBreaker15": "Разобрать автомат 15 А",
+    "LWXDismantleBreaker20": "Разобрать автомат 20 А",
+    "LWXDismantleBreaker30": "Разобрать автомат 30 А"
 }

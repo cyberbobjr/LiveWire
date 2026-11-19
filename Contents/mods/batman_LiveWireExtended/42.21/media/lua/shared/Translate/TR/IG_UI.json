@@ -58,5 +58,6 @@
     "IGUI_LWX_TwilightFitBtn": "Alacakaranlık anahtarı",
     "IGUI_LWX_TwilightRemoveBtn": "Alacakaranlığı çıkar",
     "IGUI_LWX_Remove": "Çıkar",
-    "IGUI_LWX_InstallHere": "%1. modüle tak:"
+    "IGUI_LWX_InstallHere": "%1. modüle tak:",
+    "IGUI_LWX_BreakersBack": "%1 sigorta geri verildi."
 }

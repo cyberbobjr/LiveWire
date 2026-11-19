@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "你没有这种断路器。",
     "Tooltip_LWX_BoardFull": "配电箱上没有空位安装此断路器。",
     "Tooltip_LWX_PanelNotLinked": "请先将配电箱连接到逆变器。",
-    "Tooltip_LWX_BreakerRating": "%1 A, %2 V: 其回路最高 %3 W.",
+    "Tooltip_LWX_BreakerRating": "%1 A, %2 V: 其回路最高 %3 W. 电器耗电取决于沙盒选项“耗电方案”：使用“游戏数值”时断路器几乎不会跳闸；选择“写实 1993”或“极度写实 1993”以获得真实负载。",
     "Tooltip_LWX_NotAnAppliance": "该物体不耗电。",
     "Tooltip_LWX_NoBreakerThere": "此模块中没有断路器。",
     "Tooltip_LWX_PointConnected": "已接线到断路器。",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "你没有光控开关。",
     "Tooltip_LWX_ModuleTaken": "该模块已被占用。",
     "Tooltip_LWX_NeedTester": "需要电压测试器 (不消耗).",
-    "Tooltip_LWX_Dismantle": "返还的零件少于制作消耗。"
+    "Tooltip_LWX_Dismantle": "返还的零件少于制作消耗。",
+    "Tooltip_LWX_PointDraw": "按当前耗电方案，此电器运行时耗电 %1 W（120 V 下 %2 A）：单独使用 %3 A 断路器即可。",
+    "Tooltip_LWX_PointDrawTooMuch": "按当前耗电方案，此电器运行时耗电 %1 W（120 V 下 %2 A）：超出 30 A 断路器的承载能力。"
 }

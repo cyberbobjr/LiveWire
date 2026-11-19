@@ -131,7 +131,7 @@ also gives a solar cell.
 
 ## Extended recipes
 
-LiveWire Extended adds eight make recipes, all at Electrical 3 and all with a screwdriver, and four dismantle recipes with no level (terminal and boards). Their ingredients are listed in [LiveWire Extended](14-livewire-extended.md#recipes).
+LiveWire Extended adds eight make recipes, all at Electrical 3 and all with a screwdriver, and seven dismantle recipes with no level (terminal, boards and breakers). Their ingredients are listed in [LiveWire Extended](14-livewire-extended.md#recipes).
 
 | Recipe | Result | Time |
 |---|---|---|

@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "Vous n'avez pas de disjoncteur de ce type.",
     "Tooltip_LWX_BoardFull": "Plus de place sur le tableau pour ce disjoncteur.",
     "Tooltip_LWX_PanelNotLinked": "Raccordez d'abord le tableau à un onduleur.",
-    "Tooltip_LWX_BreakerRating": "%1 A sous %2 V : jusqu'à %3 W sur son circuit.",
+    "Tooltip_LWX_BreakerRating": "%1 A sous %2 V : jusqu'à %3 W sur son circuit. La consommation des appareils dépend de l'option de partie Profil de consommation : avec Valeurs du jeu, un disjoncteur ne saute presque jamais ; choisissez Réaliste 1993 ou Ultra-réaliste 1993 pour des charges réelles.",
     "Tooltip_LWX_NotAnAppliance": "Cet objet ne consomme pas de courant.",
     "Tooltip_LWX_NoBreakerThere": "Aucun disjoncteur dans ce module.",
     "Tooltip_LWX_PointConnected": "Déjà raccordé à un disjoncteur.",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "Vous n'avez pas d'interrupteur crépusculaire.",
     "Tooltip_LWX_ModuleTaken": "Ce module n'est pas libre.",
     "Tooltip_LWX_NeedTester": "Nécessite un testeur de tension (conservé).",
-    "Tooltip_LWX_Dismantle": "Rend moins de pièces que sa fabrication."
+    "Tooltip_LWX_Dismantle": "Rend moins de pièces que sa fabrication.",
+    "Tooltip_LWX_PointDraw": "Avec le profil de consommation actuel, cet appareil consomme %1 W en marche (%2 A sous 120 V) : un disjoncteur %3 A lui suffit à lui seul.",
+    "Tooltip_LWX_PointDrawTooMuch": "Avec le profil de consommation actuel, cet appareil consomme %1 W en marche (%2 A sous 120 V) : plus qu'un disjoncteur 30 A ne peut supporter."
 }

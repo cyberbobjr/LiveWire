@@ -17,7 +17,7 @@
     "Tooltip_LWX_NoBreakerItem": "この種類のブレーカーを持っていません。",
     "Tooltip_LWX_BoardFull": "分電盤にこのブレーカーを付ける空きがありません。",
     "Tooltip_LWX_PanelNotLinked": "まず分電盤をインバーターに接続してください。",
-    "Tooltip_LWX_BreakerRating": "%1 A、%2 V: 回路に最大 %3 W。",
+    "Tooltip_LWX_BreakerRating": "%1 A、%2 V: 回路に最大 %3 W。 家電の消費電力はサンドボックス設定「消費電力プロファイル」で決まります。「ゲームの値」ではブレーカーはほぼ落ちません。実際の負荷には「リアル 1993」か「超リアル 1993」を選んでください。",
     "Tooltip_LWX_NotAnAppliance": "この物体は電流を消費しません。",
     "Tooltip_LWX_NoBreakerThere": "このモジュールにブレーカーがありません。",
     "Tooltip_LWX_PointConnected": "すでにブレーカーに配線されています。",
@@ -34,5 +34,7 @@
     "Tooltip_LWX_NoTwilightItem": "夕暮れスイッチを持っていません。",
     "Tooltip_LWX_ModuleTaken": "このモジュールは空いていません。",
     "Tooltip_LWX_NeedTester": "検電器が必要です (消費しません)。",
-    "Tooltip_LWX_Dismantle": "製作に使った部品より少なく戻ります。"
+    "Tooltip_LWX_Dismantle": "製作に使った部品より少なく戻ります。",
+    "Tooltip_LWX_PointDraw": "現在の消費電力プロファイルでは、この家電は稼働中 %1 W（120 V で %2 A）を消費します。単独なら %3 A のブレーカーで足ります。",
+    "Tooltip_LWX_PointDrawTooMuch": "現在の消費電力プロファイルでは、この家電は稼働中 %1 W（120 V で %2 A）を消費します。30 A のブレーカーでも耐えられません。"
 }

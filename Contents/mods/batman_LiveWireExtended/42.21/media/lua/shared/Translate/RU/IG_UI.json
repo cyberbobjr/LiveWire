@@ -58,5 +58,6 @@
     "IGUI_LWX_TwilightFitBtn": "Сумеречный",
     "IGUI_LWX_TwilightRemoveBtn": "Снять сумеречный",
     "IGUI_LWX_Remove": "Снять",
-    "IGUI_LWX_InstallHere": "Установить в модуль %1:"
+    "IGUI_LWX_InstallHere": "Установить в модуль %1:",
+    "IGUI_LWX_BreakersBack": "Возвращено автоматов: %1."
 }
