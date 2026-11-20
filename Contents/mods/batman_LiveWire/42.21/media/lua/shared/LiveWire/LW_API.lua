@@ -5,7 +5,7 @@ require "LiveWire/LW_Extension"
 require "LiveWire/LW_Consumers"
 require "LiveWire/LW_Wreckage"
 LiveWire = LiveWire or {}
-local API = { version = 1, revision = 8 }
+local API = { version = 1, revision = 9 }
 LiveWire.API = API
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -474,7 +474,10 @@ end
 --                                                    --   charger, fridge or other
 --       circuit = "equipment",                       -- optional: "light" or "equipment"
 --       display = function(o) return info end,       -- optional: its rows in the Consumers tab
---       summary = function(objects) return info end })-- optional: network total, Equipment tab
+--       summary = function(objects) return info end, -- optional: network total, Equipment tab
+--       link = { level = 2 } })                      -- optional (revision 9, ADR-004): wired to an
+--                                                    --   inverter by electric wire (Electrical level
+--                                                    --   0..10), like Live Wire's own devices
 -- info = { name = key, lines = { { key, arg, ... } } }: translation keys of the mod, translated by
 -- the client (4 lines for display, 2 for summary; see LW_Consumers.lua and ADR-002).
 -- Live Wire bills it (PowerScale and the consumption profile applied) and its panel circuits or
@@ -489,13 +492,57 @@ function API.consumer(obj)
     return c and c.id or nil
 end
 
--- Does the registered consumer `obj` really have current? True when its square is powered (Live
--- Wire, generator or public grid, as ItemContainer.isObjectPowered) and no circuit or breaker cuts
--- it; false otherwise and for an object that is not a registered consumer. Both sides: a client
--- reads the synchronised cut. Ask it when the machine is used; there is no callback.
+-- Link mark of the consumer `obj` wired to an inverter, or nil: checked against the registry on
+-- the authority (a stale mark is ignored), the synchronised mark on a client.
+local function consumerMark(obj)
+    if LiveWire.isAuthority() and LiveWire.LinkedConsumers then
+        local _, m = LiveWire.LinkedConsumers.deviceOf(obj)
+        return m
+    end
+    return LiveWire.Consumers.linkable(obj) and LiveWire.Install.markOf(obj, "consumer") or nil
+end
+
+-- Does the registered consumer `obj` really have current? Wired to an inverter (revision 9): when
+-- that inverter supplies it (network powered, inverter on, its circuit and breakers closed), wherever
+-- it stands. Otherwise: when its square is powered (Live Wire, generator or public grid, as
+-- ItemContainer.isObjectPowered). In both cases no circuit or breaker may cut it. False for an object
+-- that is not a registered consumer. Both sides: a client reads the synchronised state and cut. Ask
+-- it when the machine is used; there is no callback.
 function API.consumerPowered(obj)
     if not LiveWire.Consumers.of(obj) or not obj:getSquare() then return false end
-    return ItemContainer.isObjectPowered(obj, true) and not LiveWire.Appliances.blockedAs(obj, "consumer")
+    local m = consumerMark(obj)
+    local supplied
+    if not m then
+        supplied = ItemContainer.isObjectPowered(obj, true)
+    elseif LiveWire.isAuthority() then
+        local dev = LiveWire.LinkedConsumers.deviceOf(obj)
+        supplied = LiveWire.LinkedConsumers.powered(dev, LiveWire.Registry.grid(dev.grid))
+    else
+        supplied = m.pw == true
+    end
+    return supplied and not LiveWire.Appliances.blockedAs(obj, "consumer")
+end
+
+-- Revision 9: id of the inverter the consumer `obj` is wired to, or nil (not wired, or not a
+-- registered consumer). Both sides.
+function API.consumerLink(obj)
+    if not LiveWire.Consumers.of(obj) then return nil end
+    local m = consumerMark(obj)
+    return m and m.inverter or nil
+end
+
+-- Revision 9: is the consumer wired to an inverter at square x, y, z supplied? Reads the
+-- registry, so it answers for an unloaded square too. nil when no wired consumer stands there,
+-- and always on a client (no registry there).
+function API.consumerLinkPowered(x, y, z)
+    local R, LC = LiveWire.Registry, LiveWire.LinkedConsumers
+    if not LiveWire.isAuthority() or not R or not R.ready or not LC then return nil end
+    local list = R.devicesAt(x, y, z)
+    for i = 1, #list do
+        local dev = list[i]
+        if dev.role == "consumer" and dev.grid then return LC.powered(dev, R.grid(dev.grid)) end
+    end
+    return nil
 end
 
 -- ---------------------------------------------------------------- sturdy equipment (revision 7)

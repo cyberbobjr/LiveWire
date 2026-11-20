@@ -61,9 +61,7 @@ function Pump.step(dev)
     if Pump.checkBarrels(dev) then LiveWire.Devices.syncMark(dev) end
 
     local grid = dev.grid and R().grid(dev.grid)
-    local inv = grid and R().device(grid.inverter)
-    local powered = grid ~= nil and grid.powered == true and not grid.equipmentOff and inv ~= nil and inv.state == "on"
-        and not LiveWire.CircuitProvider.deviceBlocked(dev)
+    local powered = LiveWire.Inverters.supplies(grid, dev, "equipment")
     if (dev.cond or 0) <= 0 then return setState(dev, "broken") end
     if not hasAny(dev.barrels) then return setState(dev, "nobarrel") end
     if not powered then return setState(dev, "nopower") end

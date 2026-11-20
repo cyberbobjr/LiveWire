@@ -49,7 +49,7 @@ Chaque appareil est une tuile de la feuille `batman_livewire_01` ; l'objet d'inv
 | `WaterPump` | `Base.Mov_LiveWire_WaterPump` | `pump` | 72, 4 | 250 W, 5 L/min | 3 | 20 | 10 |
 
 - Tuile `batman_livewire_01_76` : réservoir relais transparent de la pompe (`Defs.RELAY_SPRITE`), jamais reconnu comme appareil.
-- Objets vanilla raccordés (rôles du registre sans tuile du mod) : générateur vanilla en secours (`role = "backup"`, modèle `BackupGenerator`, niveau 2) et ordinateur de bureau vanilla de gestion (`role = "computer"`, modèle `ManagementComputer`, niveau 3 pour le branchement ; délestage sans niveau requis).
+- Objets vanilla raccordés (rôles du registre sans tuile du mod) : générateur vanilla en secours (`role = "backup"`, modèle `BackupGenerator`, niveau 2), ordinateur de bureau vanilla de gestion (`role = "computer"`, modèle `ManagementComputer`, niveau 3 pour le branchement ; délestage sans niveau requis) et consommateur d'un autre mod inscrit avec `link` (`role = "consumer"`, modèle = id du consommateur, niveau `link.level`, nombre illimité par réseau ; champs `x, y, z, wires, level, lastW, nameKey`, ADR-004). Sortes de lien : table `Install.LINK_KINDS` (`test`, `key`, `level`, `single`, `service`, `name`), rôles des membres `Registry.MEMBER_ROLES`.
 
 ### 2.3 Batteries reconnues (`Defs.batteries`)
 
@@ -255,6 +255,7 @@ Exemple commenté (schéma 1) et explication des champs : [`architecture.md`](ar
 | Batterie dans une powerbank | `LiveWireCycles` | Nombre de cycles (lu par le serveur seulement) ; charge = utilisations de l'objet, usure = état |
 | Générateur vanilla de secours | `LiveWireBackup` | `{ id, inverter, manual }` |
 | Ordinateur vanilla de gestion | `LiveWireComputer` | `{ id, inverter }` |
+| Consommateur d'un autre mod relié par fil (ADR-004) | `LiveWireLink` (hors `movableData`) | `{ id, inverter, pw }` : `pw` = alimenté par l'onduleur, réécrit par la simulation quand il change ; marque périmée (appareil inconnu, autre case) ignorée par l'autorité et effacée quand un meuble est posé sur sa case |
 | Réservoir relais de la pompe | `LiveWireRelay` | `{ pump = idAppareil }` |
 | Baril raccordé | `LiveWireBarrel` | `{ pump = idAppareil, x, y, z }` ; anciennes marques sans position validées puis complétées sur l'autorité ; une position ou appartenance invalide libère le baril |
 | Borne ou tableau de LiveWire Extended raccordé | `LiveWireExtendedLink` (hors `movableData`) | `{ inv, x, y, z, ix, iy, iz, wires, slots, prewired }` : copie du raccordement (disjoncteurs sans étiquettes ni points), écrite au raccordement et toutes les dix minutes, effacée au débranchement (§ 4.5) |
@@ -498,8 +499,8 @@ commandes d'onduleur acceptent un joueur proche d'un onduleur couplé du réseau
   autre mod qui remplacerait délibérément leurs fonctions ; ils ne font pas
   partie du contrat d'extension.
 - Raisons d'enregistrement stables : `registration_closed`, `invalid_definition`,
-  `duplicate_type`, `duplicate_model`, `duplicate_sprite`, `duplicate_consumer`. `API.version=1` ; `API.revision=7`
-  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage ; révision 6 : consommateurs des autres mods, ADR-002 ; révision 7 : `registerWreckage(itemType, parts)`, équipement solide d'un sous-mod rendu robuste et laissant `parts` à sa destruction, voir `LW_Wreckage.lua` ; raisons `registration_closed`, `invalid_definition`, `duplicate_type` ; révision 8 : `ratedWatts(obj)`). `registerBattery`, `registerSource`, `battery`, `source`,
+  `duplicate_type`, `duplicate_model`, `duplicate_sprite`, `duplicate_consumer`. `API.version=1` ; `API.revision=9`
+  (services pour sous-mods, ci-dessous ; révision 3 : réseau et vue de zone, D-57 ; révision 5 : kit de débogage ; révision 6 : consommateurs des autres mods, ADR-002 ; révision 7 : `registerWreckage(itemType, parts)`, équipement solide d'un sous-mod rendu robuste et laissant `parts` à sa destruction, voir `LW_Wreckage.lua` ; raisons `registration_closed`, `invalid_definition`, `duplicate_type` ; révision 8 : `ratedWatts(obj)` ; révision 9 : champ `link` de `registerConsumer`, `consumerLink(obj)`, `consumerLinkPowered(x, y, z)`, ADR-004). `registerBattery`, `registerSource`, `battery`, `source`,
   `gridAt` sont inchangées.
 
 ### API publique : services pour sous-mods (révision 2, D-47, 2026-11-09)
@@ -633,7 +634,9 @@ inscrits, `OnObjectAboutToBeRemoved` les invalide. Tests : `tests/test_api_consu
 |---|---|
 | `API.registerConsumer(id, définition)` | shared, avant `OnInitGlobalModData` : `sprites` (1 à 256 noms exacts), `powerConsumption(o)` (W en marche, 0 à l'arrêt), facultatifs `couldBePowered(o)`, `category`, `circuit` (`equipment`/`light`), `display(o)`, `summary(objects)`. `true`, ou `false` et `registration_closed`, `invalid_definition`, `duplicate_consumer`, `duplicate_sprite` |
 | `API.consumer(obj)` | id du consommateur inscrit qui reconnaît l'objet posé, ou `nil` |
-| `API.consumerPowered(obj)` | les deux côtés : `ItemContainer.isObjectPowered(obj, true)` et aucune coupure (circuits du panneau, fournisseur de circuits ; sur un client, coupure lue dans la ModData `LiveWireCircuit` synchronisée) ; `false` pour un objet non inscrit |
+| `API.consumerPowered(obj)` | les deux côtés : `ItemContainer.isObjectPowered(obj, true)` et aucune coupure (circuits du panneau, fournisseur de circuits ; sur un client, coupure lue dans la ModData `LiveWireCircuit` synchronisée) ; `false` pour un objet non inscrit. Révision 9 : un objet relié suit son onduleur (`LinkedConsumers.powered` sur l'autorité, `pw` de `LiveWireLink` sur un client) au lieu de la case |
+| `API.consumerLink(obj)` | révision 9, les deux : id de l'onduleur relié (marque validée par le registre sur l'autorité, marque synchronisée sur un client), ou `nil` |
+| `API.consumerLinkPowered(x, y, z)` | révision 9, autorité : règle d'alimentation du consommateur relié de cette case lue au registre (case déchargée comprise) ; `nil` sans consommateur relié et sur un client |
 
 - Facturation : `Consumption.watts` lit d'abord le consommateur (valeur moteur remplacée), applique
   `Consumption.estimate` (`PowerScale`, facteur du profil) et rend 0 quand l'appareil est coupé ; Live Wire n'appelle
@@ -647,6 +650,27 @@ inscrits, `OnObjectAboutToBeRemoved` les invalide. Tests : `tests/test_api_consu
 - Résumé par réseau (D08) : `Sim.snapshot` joint `consumerSummaries = { { id, name, lines }, ... }` (ordre d'inscription) ; `Consumers.summaries` groupe par consommateur les objets que `Demand.eachServedOfGrid` parcourt (zone du maître et des couplés en service si `Coupling.slaveKeepsZone`, lectures non nulles, appareils possédés, réseau public exclu), appelle `summary(objects)` une fois par consommateur présent et garde une copie bornée à 2 lignes. `App:summaryRows` traduit une fois par instantané ; affichage dans l'onglet « Équipements ».
 - Extended : `LWX_CircuitProvider.extraWatts` ignore un objet inscrit (pas de double facture) ; son adaptateur vanilla
   reconnaît la famille `consumer` comme tout appareil (`API.applianceKind`).
+
+### Consommateurs reliés par fil (révision 9, ADR-004, 2026-11-20)
+
+- Contrat : `registerConsumer(id, { ..., link = { level = 0..10 } })` (entier, sinon `invalid_definition`) ; sorte
+  `consumer` de `Install.LINK_KINDS` (`Consumers.linkable`), donc `checkLink` (portée du câble, niveau `link.level`,
+  tournevis, fil) et `objectsInRange` inchangés. Branchement par `LWLinkAction.linkVanilla`, débranchement par la
+  commande `unlink` existante (`Registry.forgetVanilla`, table rôle → module) ; aucune commande réseau nouvelle.
+- Service d'autorité `server/LiveWire/LW_LinkedConsumers.lua` : `register`, `forget`, `find`, `deviceOf`, `gridOf`,
+  `powered`, `demandW`, `refreshMarks`, `eachLoaded`. Règle d'alimentation commune aux appareils reliés
+  `Inverters.supplies(grid, dev, circuit)` (réseau alimenté, principal fermé, onduleur maître allumé, circuit du
+  panneau fermé, aucun disjoncteur de sous-mod `deviceBlocked`), aussi utilisée par la pompe (`Pump.step`,
+  `Devices` et `DeviceView`).
+- Facturation : `Sim.stepGrid` ajoute `LinkedConsumers.demandW` (consommation réelle si chargé et alimenté, `lastW` si
+  déchargé, 0 sinon) à la demande du pas ; `grid.linkedW` et `grid.linkedApps` (par catégorie du consommateur) sont
+  ajoutés à `snapshot.demand` et `snapshot.appliances`, et au test de surcharge du réarmement. `Demand.measure` ignore un
+  objet relié (aucune double facture) ; `Demand.consumers` le liste comme servi par son onduleur et
+  `Demand.eachServedOfGrid` le donne aux résumés. `Circuits.owner` rend le réseau relié.
+- Ramassage (hors rotation, `_forceAllow` du vanilla) d'un objet relié : événement `LINKED_PICKED_UP`, fil rendu,
+  appareil oublié. Un objet relié disparu est retiré après deux contrôles (`syncLinkedVanilla`, toutes les sortes).
+- Client : nom affiché `Install.linkName` (nom `display(o).name` du mod traduit, sinon nom de meuble de la tuile).
+  Tests : `tests/test_linked_consumers.py`.
 
 ### Wattmètre du tableau (F28)
 

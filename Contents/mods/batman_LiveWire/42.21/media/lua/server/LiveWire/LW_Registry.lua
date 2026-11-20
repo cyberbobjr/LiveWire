@@ -273,6 +273,12 @@ function Registry.uncouple(slave)
     LiveWire.Events.emit(LiveWire.Events.TOPOLOGY_CHANGED)
 end
 
+-- Translation key naming `dev` in the journal: its own name key (a consumer of another mod,
+-- LW_LinkedConsumers), else its model.
+function Registry.nameKey(dev)
+    return dev.nameKey or ("IGUI_LW_Model_" .. tostring(dev.model))
+end
+
 function Registry.link(dev, grid)
     local already = dev.grid == grid.id and grid.members[dev.id]
     if dev.grid and dev.grid ~= grid.id then Registry.unlink(dev) end
@@ -281,7 +287,7 @@ function Registry.link(dev, grid)
     grid.members[dev.id] = true
     if not already then
         LiveWire.Events.emit(LiveWire.Events.JOURNAL_ENTRY, grid, "IGUI_LW_Event_State",
-            { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Connected" })
+            { Registry.nameKey(dev), "IGUI_LW_Event_Connected" })
     end
 end
 
@@ -295,7 +301,7 @@ function Registry.unlink(dev)
     if g then g.members[dev.id] = nil end
     if g then
         LiveWire.Events.emit(LiveWire.Events.JOURNAL_ENTRY, g, "IGUI_LW_Event_State",
-            { "IGUI_LW_Model_" .. dev.model, "IGUI_LW_Event_Disconnected" })
+            { Registry.nameKey(dev), "IGUI_LW_Event_Disconnected" })
     end
     dev.grid = nil
     dev.wires = nil
@@ -314,10 +320,14 @@ local function eachMember(grid, fn)
     end
 end
 
--- Members of a grid by role: { source, storage, option, backup, computer, pump }, each
--- a list sorted by id (empty when the grid has none). Inverters are not members.
+-- Roles a network member can have (inverters are not members).
+Registry.MEMBER_ROLES = { "source", "storage", "option", "backup", "computer", "pump", "consumer" }
+
+-- Members of a grid by role: one list per Registry.MEMBER_ROLES entry, each sorted by id
+-- (empty when the grid has none).
 function Registry.members(grid)
-    local out = { source = {}, storage = {}, option = {}, backup = {}, computer = {}, pump = {} }
+    local out = {}
+    for i = 1, #Registry.MEMBER_ROLES do out[Registry.MEMBER_ROLES[i]] = {} end
     eachMember(grid, function(dev)
         local list = out[dev.role]
         if list then list[#list + 1] = dev end
@@ -334,16 +344,20 @@ function Registry.membersByRole(grid, role)
     return out
 end
 
--- Vanilla objects (generator, computer) only exist in the registry through their
--- link: dropping the link removes them and clears the ModData left on the object.
+-- Authority module of a role of LiveWire.Install.LINK_KINDS (generator, computer, linked
+-- consumer), or nil for any other role.
+local function linkService(role)
+    local spec = role and LiveWire.Install.LINK_KINDS[role]
+    return spec and LiveWire[spec.service] or nil
+end
+
+-- Objects that are not ours (generator, computer, consumer of another mod) only exist in
+-- the registry through their link: dropping the link removes them and clears the ModData
+-- left on the object. False for any other device.
 function Registry.forgetVanilla(dev)
-    if dev.role == "backup" and LiveWire.Backup then
-        LiveWire.Backup.forget(dev)
-    elseif dev.role == "computer" and LiveWire.Computer then
-        LiveWire.Computer.forget(dev)
-    else
-        return false
-    end
+    local service = linkService(dev.role)
+    if not service then return false end
+    service.forget(dev)
     return true
 end
 
@@ -369,7 +383,7 @@ function Registry.dropGrid(g)
         local m = data().devices[mid]
         if m then
             m.grid, m.wires = nil, nil
-            if m.role == "backup" or m.role == "computer" then vanilla[#vanilla + 1] = m end
+            if linkService(m.role) then vanilla[#vanilla + 1] = m end
         end
     end
     data().grids[g.id] = nil

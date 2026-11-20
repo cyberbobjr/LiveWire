@@ -9,7 +9,8 @@
 --           placeMoveableInternal (server in MP);
 --   pickup: pickUpMoveable -> pickUpMoveableInternal, which copies movableData
 --           into the item before removing the object (:1400-1404, :1491-1494);
---   rotate: rotateMoveable = pickUpMoveable then placeMoveable on the same square.
+--   rotate: rotateMoveable = pickUpMoveable then placeMoveable on the same square
+--           (pickUpMoveableInternal then gets _forceAllow = true, named _rotating here).
 
 require "Moveables/ISMoveableSpriteProps"
 require "LiveWire/LW_Stack"
@@ -167,14 +168,20 @@ end
 local origPickUp = MP.pickUpMoveableInternal
 function MP:pickUpMoveableInternal(_character, _square, _object, _sprInstance, _spriteName, _createItem, _rotating, ...)
     if _object and not _sprInstance and not LiveWire.Stack.canMove(_object) then return nil end
-    local id = nil
+    local id, linked = nil, nil
     if _object and not _sprInstance and authority() and LiveWire.Defs.modelOfObject(_object) then
         -- Called directly, not through the bus: the id it returns is used below.
         id = LiveWire.Devices.beforePickUp(_object)
+    elseif _object and not _sprInstance and not _rotating and authority() and LiveWire.LinkedConsumers then
+        -- A consumer of another mod wired to an inverter (ADR-004); a rotation keeps its link.
+        local dev = LiveWire.LinkedConsumers.deviceOf(_object)
+        linked = dev and dev.id
     end
     local r = origPickUp(self, _character, _square, _object, _sprInstance, _spriteName, _createItem, _rotating, ...)
     if id and _object:getObjectIndex() == -1 then
         LiveWire.Events.emit(LiveWire.Events.DEVICE_PICKED_UP, id, _character)
+    elseif linked and _object:getObjectIndex() == -1 then
+        LiveWire.Events.emit(LiveWire.Events.LINKED_PICKED_UP, linked, _character)
     end
     return r
 end

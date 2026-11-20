@@ -37,8 +37,7 @@ local function name(obj)
         end
         return label
     end
-    return getText(LiveWire.Install.linkKind(obj)=="backup"
-        and "IGUI_LW_Model_BackupGenerator" or "IGUI_LW_Model_ManagementComputer")
+    return LiveWire.Install.linkName(obj)
 end
 local function live(obj) return obj and obj:getSquare() and obj:getObjectIndex()~=-1 end
 local function button(self,x,w,key,action)

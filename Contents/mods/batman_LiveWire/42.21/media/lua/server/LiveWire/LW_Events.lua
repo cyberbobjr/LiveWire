@@ -37,7 +37,7 @@ function Journal.capture(grid)
                 elseif type(state) == "string" then
                     local dev = id == "inverter" and inv or R.device(id)
                     local stateKey = dev and dev.role == "backup" and "IGUI_LW_Backup_" or "IGUI_LW_State_"
-                    Journal.add(grid, "IGUI_LW_Event_State", { dev and "IGUI_LW_Model_" .. dev.model or id,
+                    Journal.add(grid, "IGUI_LW_Event_State", { dev and R.nameKey(dev) or id,
                         stateKey .. state })
                 end
             end

@@ -36,11 +36,11 @@ local function modelName(model)
     return getText("IGUI_LW_Model_" .. tostring(model))
 end
 
--- Display name of a linkable object (our device, vanilla generator or computer).
+-- Display name of a linkable object (our device, or one of LiveWire.Install.LINK_KINDS:
+-- vanilla generator or computer, consumer of another mod).
 local function objectName(entry)
     if entry.kind == "device" then return modelName(LiveWire.Marks.get(entry.obj).model) end
-    if entry.kind == "backup" then return getText("IGUI_LW_Model_BackupGenerator") end
-    return getText("IGUI_LW_Model_ManagementComputer")
+    return I().linkName(entry.obj)
 end
 
 -- Inverter id an object is connected to, from its mark (sent by the server).
@@ -531,12 +531,11 @@ local function addDeviceOptions(root, player, obj)
     if LiveWire.DebugMenu then LiveWire.DebugMenu.fillDevice(menu, player, mark.id) end
 end
 
--- Options for a vanilla generator (backup power) or desktop computer (management).
+-- Options for an object of LiveWire.Install.LINK_KINDS: vanilla generator (backup power),
+-- desktop computer (management) or consumer of another mod.
 local function addVanillaOptions(root, player, obj, kind)
     local mark = I().vanillaMark(obj)
-    local title = "IGUI_LW_Model_BackupGenerator"
-    if kind == "computer" then title = "IGUI_LW_Model_ManagementComputer" end
-    local opt = root:addOption(getText(title), nil, nil)
+    local opt = root:addOption(I().linkName(obj), nil, nil)
     local menu = ISContextMenu:getNew(root)
     root:addSubMenu(opt, menu)
     if kind == "backup" and mark then
@@ -575,8 +574,8 @@ local function onFillWorld(playerNum, context, worldobjects, test)
     if not sq then return end
 
     -- Our devices among the clicked objects and on the clicked square.
-    -- Vanilla generators and computers only when they are connected or an
-    -- inverter is in range, so that their vanilla menus are not cluttered.
+    -- Vanilla generators, computers and linkable consumers of other mods only when they
+    -- are connected or an inverter is in range, so that their own menus are not cluttered.
     -- Water barrels: only when linked, or a pump is next to them.
     local devices, vanilla, barrels, taps, seen = {}, {}, {}, {}, {}
     local function addObj(o)

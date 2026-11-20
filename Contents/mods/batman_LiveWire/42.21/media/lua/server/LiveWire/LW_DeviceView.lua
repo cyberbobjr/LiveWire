@@ -31,9 +31,7 @@ function View.snapshot(dev)
         s.eff = dev.eff or Sim.DEFAULT_SOURCE_EFF
         if def.kind == "hydro" then s.season = Physics.hydroFactor(getGameTime():getMonth()) end
     elseif dev.role == "pump" then
-        local inv = grid and R.device(grid.inverter)
-        local supplied = healthy and grid and grid.powered and not grid.equipmentOff
-            and not grid.mainOff and inv and inv.state == "on"
+        local supplied = healthy and LiveWire.Inverters.supplies(grid, dev, "equipment")
             and not (LiveWire.Pump and LiveWire.Pump.disabled())
         if healthy and not supplied then s.state = "nopower" end
         local measured = supplied and (dev.state == "running" or dev.state == "idle")

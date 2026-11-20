@@ -17,11 +17,13 @@
 --                                                      (LW_Demand)
 --   SQUARE_CHANGED           (square)                  furniture was placed on a square, any
 --                                                      side (LW_PumpRelays, LW_PumpView,
---                                                      LW_FridgeAging)
+--                                                      LW_FridgeAging, LW_LinkedConsumers)
 --   DEVICE_PLACED            (character, square, sprite)  one of our tiles was placed, authority
 --                                                      only (LW_Devices)
 --   DEVICE_PICKED_UP         (id, character)           one of our tiles was picked up, authority
 --                                                      only (LW_Devices)
+--   LINKED_PICKED_UP         (id, character)           a consumer of another mod wired to an inverter
+--                                                      was picked up, authority only (LW_LinkedConsumers)
 --   ROTATION_STARTED         ()                        one of our tiles starts being rotated, authority
 --                                                      only: a pickup now is a rotation (LW_Devices)
 --   ROTATION_ENDED           ()                        the rotation is over (LW_Devices)
@@ -47,7 +49,8 @@ LiveWire.Events = Events
 
 local NAMES = {
     "REGISTRY_RESET", "TOPOLOGY_CHANGED", "GRID_RELEASED", "JOURNAL_ENTRY", "INVERTER_REMOVED",
-    "SQUARE_CHANGED", "DEVICE_PLACED", "DEVICE_PICKED_UP", "ROTATION_STARTED", "ROTATION_ENDED",
+    "SQUARE_CHANGED", "DEVICE_PLACED", "DEVICE_PICKED_UP", "LINKED_PICKED_UP", "ROTATION_STARTED",
+    "ROTATION_ENDED",
     "COVERAGE_CHANGED", "SQUARE_OBJECTS_CHANGED",
     "ANCHOR_CHANGING", "ANCHOR_VISUALS", "CHUNK_LOADED",
 }

@@ -4,7 +4,7 @@
 
 Cette page s'adresse aux auteurs de mods qui veulent faire fonctionner leur mod avec LiveWire : ajouter une batterie ou une source d'énergie, faire consommer un appareil, lire l'état d'un réseau, ou écrire une extension comme LiveWire Extended. Les joueurs n'en ont pas besoin.
 
-Tout ce qui suit est l'API publique de LiveWire 2.0.3 (`LiveWire.API` version 1, révision 6 ; la révision 6 ajoute les consommateurs des autres mods). Elle se trouve dans `media/lua/shared/LiveWire/LW_API.lua` de `batman_LiveWire` : le fichier est court et chaque fonction y est commentée (en anglais).
+Tout ce qui suit est l'API publique de LiveWire 2.0.3 (`LiveWire.API` version 1, révision 9 ; la révision 6 ajoute les consommateurs des autres mods, la révision 9 permet de les relier à un onduleur). Elle se trouve dans `media/lua/shared/LiveWire/LW_API.lua` de `batman_LiveWire` : le fichier est court et chaque fonction y est commentée (en anglais).
 
 ## Le fonctionnement de LiveWire, en bref
 
@@ -63,7 +63,9 @@ require "LiveWire/LW_API"
 | `mark(obj)`, `markOnSquare(sq, id)` | les deux | La marque LiveWire d'un objet posé (`id`, `model`…), ou l'objet portant cet id sur une case. |
 | `watts(obj)`, `applianceKind(obj)`, `applianceCut(obj)` | les deux | Consommation d'un appareil en W, sa famille (`"light"`, `"fridge"`… `"consumer"` pour un appareil inscrit), et s'il est coupé par un circuit. |
 | `consumer(obj)` | les deux | Id du consommateur inscrit que cet objet posé représente, ou `nil` (révision 6). |
-| `consumerPowered(obj)` | les deux | `true` quand un consommateur inscrit a du courant (LiveWire, générateur ou réseau public) et qu'aucun circuit ni disjoncteur ne le coupe (révision 6). |
+| `consumerPowered(obj)` | les deux | `true` quand un consommateur inscrit a du courant et qu'aucun circuit ni disjoncteur ne le coupe (révision 6). Relié à un onduleur (révision 9) : quand cet onduleur l'alimente ; sinon selon sa case (LiveWire, générateur ou réseau public). |
+| `consumerLink(obj)` | les deux | Id de l'onduleur auquel un consommateur inscrit est relié, ou `nil` (révision 9). |
+| `consumerLinkPowered(x, y, z)` | serveur | Le consommateur relié à un onduleur sur cette case est-il alimenté ? Lit le registre, donc répond aussi pour une case déchargée ; `nil` quand aucun consommateur relié ne s'y trouve, et toujours sur un client (révision 9). |
 | `estimateWatts(w)` | les deux | `w` W avec `PowerScale` et le profil de consommation appliqués. |
 | `inventoryIds()`, `eachBilled(invId, fn)` | serveur | Les onduleurs qui ont mesuré des appareils, et `fn(objet, watts)` pour chaque appareil facturé à l'un d'eux. |
 | `writable()`, `deviceKnown(id)` | les deux | Le registre est-il prêt et modifiable ici ? Cet id est-il un appareil LiveWire ? |
@@ -295,6 +297,7 @@ Règles de `registerConsumer(id, definition)` :
 | `couldBePowered(o)` | non | appelée seulement pour un objet portant un de vos sprites ; `true` = c'est l'appareil |
 | `category` | non | `"light"`, `"tv"`, `"radio"`, `"stove"`, `"laundry"`, `"charger"`, `"fridge"` ou `"other"` (défaut) |
 | `circuit` | non | `"equipment"` (défaut) ou `"light"` |
+| `link` | non | révision 9 : `{ level = 0..10 }` (un entier), l'appareil se relie à un onduleur par fil électrique ; `level` est le niveau d'Électricité exigé pour le brancher. Voir « Relié à un onduleur » ci-dessous |
 | `display(o)` | non | `{ name = clé, lines = { { clé, arg1, … }, … } }` : clés `^[%w_]+$` de 64 caractères au plus, prises dans vos propres traductions, 0 à 4 lignes, 0 à 4 arguments par ligne (chaînes de 32 caractères au plus, ou nombres affichés tels quels). Toute autre réponse, ou `nil`, garde la ligne habituelle. Même rendu sur l'écran de l'ordinateur LiveWire et dans la fenêtre du Computer Mod |
 | `summary(objects)` | non | un total par réseau, affiché dans l'onglet Équipements : appelée une fois par instantané avec un nouveau tableau de vos appareils que le réseau dessert (à l'arrêt compris, ceux du réseau public exclus) ; même réponse que `display`, 2 lignes au plus ; toute autre réponse, ou `nil`, n'affiche rien |
 
@@ -320,6 +323,20 @@ Détails du contrat :
 
 - **Retrait :** un appareil retiré sort de la facture à la mesure suivante ; vous n'avez rien à appeler.
 - **Sans LiveWire :** testez `LiveWire and LiveWire.API and (LiveWire.API.revision or 0) >= 6` et gardez votre propre contrôle de courant (par exemple `ItemContainer.isObjectPowered(obj, true)`).
+
+**Relié à un onduleur (révision 9).** Avec `link = { level = 2 }` dans la définition, les joueurs relient votre appareil à un onduleur LiveWire comme les appareils de LiveWire : « Raccorder à un onduleur » et « Débrancher de l'onduleur » dans le menu LiveWire de l'objet, « Raccorder un équipement » sur l'onduleur, et la fenêtre « Raccordements ». Mêmes règles : portée du câble (`LinkRange`, `LinkVerticalRange`) même hors de la zone alimentée, tournevis, fil électrique selon la distance et niveau d'Électricité `level` (relevé au niveau de l'onduleur tant qu'il n'est pas en service). Un réseau en accepte autant qu'on veut.
+
+- **Courant et facture :** relié, l'appareil est alimenté par cet onduleur seulement, où qu'il soit : réseau alimenté, onduleur allumé, son circuit (`circuit`) et ses disjoncteurs fermés. Il est facturé à cet onduleur seulement (jamais une seconde fois par la zone d'un onduleur) : sa consommation réelle (`powerConsumption`) tant que sa case est chargée, la dernière mesurée quand elle est déchargée. Ses circuits de tableau sont ceux de son onduleur.
+- **Lecture :** `consumerPowered(obj)` suit le lien (le registre sur le serveur, l'état synchronisé par le serveur sur un client). `consumerLink(obj)` donne l'id de l'onduleur ; `consumerLinkPowered(x, y, z)` répond sur le serveur pour une case déchargée.
+- **Stockage :** le lien vit dans la ModData de l'objet sous la clé `LiveWireLink` (`{ id, inverter, pw }`), l'appareil dans le registre de LiveWire. N'écrivez pas cette clé. Une marque restée sur un objet déplacé est ignorée et effacée.
+- **Ramasser l'objet ou le débrancher** rend le fil ; le tourner garde le lien.
+- **Sans le champ, ou sans LiveWire,** rien ne change : l'appareil garde le courant de sa case.
+
+```lua
+if LiveWire and (LiveWire.API.revision or 0) >= 9 then
+    local onduleur = LiveWire.API.consumerLink(pump) -- nil s'il n'est pas relié
+end
+```
 
 ## Liste de contrôle multijoueur
 

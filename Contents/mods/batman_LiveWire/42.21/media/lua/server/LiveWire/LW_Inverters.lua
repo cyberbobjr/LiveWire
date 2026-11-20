@@ -72,3 +72,20 @@ function Inverters.idleW(grid)
     end
     return w
 end
+
+-- Does network `grid` supply a device wired to its inverter (a pump, a linked consumer of
+-- another mod)? The network is powered and its main switch closed, the master inverter is
+-- on (the simulation turns a worn-out one to "broken"), the panel circuit `circuit` ("light"
+-- or "equipment") is closed and no sub-mod breaker cuts `dev` (LW_CircuitProvider). One rule
+-- for every wired device.
+function Inverters.supplies(grid, dev, circuit)
+    if not grid or grid.powered ~= true or grid.mainOff then return false end
+    if circuit == "light" then
+        if grid.lightsOff then return false end
+    elseif grid.equipmentOff then
+        return false
+    end
+    local inv = LiveWire.Registry.device(grid.inverter)
+    if not inv or inv.state ~= "on" then return false end
+    return not LiveWire.CircuitProvider.deviceBlocked(dev)
+end

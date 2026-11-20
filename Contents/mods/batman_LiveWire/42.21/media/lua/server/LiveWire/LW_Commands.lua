@@ -309,12 +309,13 @@ handlers[P.C_UNLINK_BARREL] = guarded(deviceIn("pump"), function(player, args, d
 end)
 
 -- Same overload test as the simulation trip (LW_Simulation.lua stepGrid): house
--- demand plus the pumps against the capacity in service. Returns the notification
--- arguments when the master would trip again at once, nil otherwise.
+-- demand plus the pumps and the linked consumers (ADR-004) against the capacity in
+-- service. Returns the notification arguments when the master would trip again at once,
+-- nil otherwise.
 local function overload(inv, grid)
     local demand = LiveWire.Demand.measureGrid(grid, inv) or (grid and grid.demand) or 0
     if grid then grid.demand = demand end
-    local total = demand + (grid and grid.pumpW or 0)
+    local total = demand + (grid and grid.pumpW or 0) + (grid and grid.linkedW or 0)
     local def = LiveWire.Defs.devices[inv.model]
     local cap = grid and LiveWire.Inverters.capacityW(grid) or (def and def.maxW)
     if cap and total > cap then

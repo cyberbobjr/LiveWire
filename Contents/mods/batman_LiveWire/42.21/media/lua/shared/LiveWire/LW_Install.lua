@@ -4,6 +4,8 @@
 -- barrels in LiveWire.Barrels (LW_Barrels.lua); every name they had here still works.
 require "LiveWire/LW_Inventory"
 require "LiveWire/LW_Barrels"
+require "LiveWire/LW_Defs"
+require "LiveWire/LW_Consumers"
 
 LiveWire = LiveWire or {}
 
@@ -60,30 +62,86 @@ function Install.isComputer(obj)
     return name ~= nil and string.find(name, "Computer") ~= nil
 end
 
--- What kind of link `obj` takes: "device" (ours), "backup" (vanilla generator),
--- "computer" (vanilla desktop computer), or nil.
+-- Objects that are not ours but can be wired to an inverter (ADR-004 D06). Each kind is
+-- also the registry role of its device. A kind gives:
+--   test(obj)  -> is `obj` of this kind?
+--   key        -> ModData key of the link mark left on the object ({ id, inverter, ... })
+--   level(obj) -> Electrical level the wiring needs
+--   single     -> one per network (true) or any number
+--   service    -> name of the authority module (LiveWire.<service>) that has
+--                 register(obj, grid, level), forget(dev) and find(dev)
+--   name(obj)  -> name shown to the player (client menus)
+-- Added in order with Install.addLinkKind; the first kind whose test matches wins.
+Install.LINK_KINDS = {}
+local linkOrder = {}
+
+function Install.addLinkKind(kind, spec)
+    if not Install.LINK_KINDS[kind] then linkOrder[#linkOrder + 1] = kind end
+    spec.kind = kind
+    Install.LINK_KINDS[kind] = spec
+end
+
+-- The kinds in their test order (a new array).
+function Install.linkKinds()
+    local out = {}
+    for i = 1, #linkOrder do out[i] = linkOrder[i] end
+    return out
+end
+
+Install.addLinkKind("backup", {
+    test = function(obj) return instanceof(obj, "IsoGenerator") end,
+    key = LiveWire.Defs.BACKUP_KEY, single = true, service = "Backup",
+    level = function() return LiveWire.Defs.BACKUP_LEVEL end,
+    name = function() return getText("IGUI_LW_Model_BackupGenerator") end,
+})
+Install.addLinkKind("computer", {
+    test = function(obj) return Install.isComputer(obj) end,
+    key = LiveWire.Defs.COMPUTER_KEY, single = true, service = "Computer",
+    level = function() return LiveWire.Defs.COMPUTER_LEVEL end,
+    name = function() return getText("IGUI_LW_Model_ManagementComputer") end,
+})
+Install.addLinkKind("consumer", {
+    test = function(obj) return LiveWire.Consumers.linkable(obj) ~= nil end,
+    key = LiveWire.Defs.LINK_KEY, single = false, service = "LinkedConsumers",
+    level = function(obj)
+        local entry = LiveWire.Consumers.linkable(obj)
+        return entry and entry.link.level or 0
+    end,
+    name = function(obj) return LiveWire.Consumers.displayName(obj) end,
+})
+
+-- What kind of link `obj` takes: "device" (ours), one of Install.LINK_KINDS, or nil.
 function Install.linkKind(obj)
     if not obj then return nil end
     if LiveWire.Marks.isOurs(obj) then return "device" end
-    if instanceof(obj, "IsoGenerator") then return "backup" end
-    if Install.isComputer(obj) then return "computer" end
+    for i = 1, #linkOrder do
+        if Install.LINK_KINDS[linkOrder[i]].test(obj) then return linkOrder[i] end
+    end
     return nil
 end
 
--- Mark left by a link on a vanilla object ({ id, inverter? }), or nil.
-function Install.vanillaMark(obj)
-    local kind = Install.linkKind(obj)
-    local key
-    if kind == "backup" then key = LiveWire.Defs.BACKUP_KEY
-    elseif kind == "computer" then key = LiveWire.Defs.COMPUTER_KEY
-    else return nil end
-    local m = obj:getModData()[key]
+-- Mark left on `obj` by a link of kind `kind` ({ id, inverter?, ... }), or nil.
+function Install.markOf(obj, kind)
+    local spec = Install.LINK_KINDS[kind or ""]
+    if not spec then return nil end
+    local m = obj:getModData()[spec.key]
     if type(m) == "table" and type(m.id) == "string" then return m end
     return nil
 end
 
+-- Mark left by a link on an object that is not ours ({ id, inverter?, ... }), or nil.
+function Install.vanillaMark(obj)
+    return Install.markOf(obj, Install.linkKind(obj))
+end
+
+-- Name shown to the player for a linkable object that is not ours, or nil.
+function Install.linkName(obj)
+    local spec = Install.LINK_KINDS[Install.linkKind(obj) or ""]
+    return spec and spec.name(obj) or nil
+end
+
 -- linked to inverterObj? Returns true, nil, wires; or false, key, arg1, arg2.
--- `target` is one of our devices, a vanilla generator or a vanilla computer.
+-- `target` is one of our devices or an object of one of Install.LINK_KINDS.
 function Install.checkLink(character, target, inverterObj)
     if not target or not inverterObj then return false, "Tooltip_LW_Invalid" end
     local im = LiveWire.Marks.get(inverterObj)
@@ -105,7 +163,7 @@ function Install.checkLink(character, target, inverterObj)
     end
     local kind = Install.linkKind(target)
     if not kind then return false, "Tooltip_LW_Invalid" end
-    local need = 0
+    local need
     if kind == "device" then
         local tm = LiveWire.Marks.get(target)
         local tdef = LiveWire.Defs.devices[tm.model]
@@ -115,8 +173,7 @@ function Install.checkLink(character, target, inverterObj)
     else
         local vm = Install.vanillaMark(target)
         if vm and vm.inverter == im.id then return false, "Tooltip_LW_AlreadyLinked" end
-        if kind == "backup" then need = LiveWire.Defs.BACKUP_LEVEL
-        elseif kind == "computer" then need = LiveWire.Defs.COMPUTER_LEVEL end
+        need = Install.LINK_KINDS[kind].level(target)
     end
     -- Wiring is screwdriver work (pump-to-barrel hoses excepted: LWLinkBarrelAction).
     if not Install.screwdriver(character) then return false, "Tooltip_LW_NeedScrewdriver" end
@@ -174,7 +231,7 @@ function Install.checkCouple(character, slaveObj, masterObj)
 end
 
 -- Our devices of role `role` (or any role when nil) and, when `vanilla` is true,
--- the vanilla generators and desktop computers, within link range of `sq`
+-- the objects of Install.LINK_KINDS (generators, computers, linkable consumers), within link range of `sq`
 -- (loaded squares only). Returns a list of { obj, dist, kind }, nearest first.
 -- Used by the menus; the authority re-checks the chosen pair (checkLink).
 function Install.objectsInRange(sq, wantRole, vanilla)

@@ -57,9 +57,7 @@ local function stateOf(dev)
         return dev.state or "off", (g and g.powered == true and dev.state == "on") or false
     end
     if dev.role == "pump" then
-        local inv = g and R().device(g.inverter)
-        local powered = g and g.powered == true and not g.mainOff and not g.equipmentOff
-            and (dev.cond or 0) > 0 and inv and inv.state == "on" and (inv.cond or 0) > 0
+        local powered = (dev.cond or 0) > 0 and LiveWire.Inverters.supplies(g, dev, "equipment")
             and not (LiveWire.Pump and LiveWire.Pump.disabled())
         return dev.state or "idle", powered == true
     end

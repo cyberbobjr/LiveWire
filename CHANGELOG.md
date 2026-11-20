@@ -5,6 +5,7 @@
 ### New features
 
 - **Voltage tester lists every appliance:** from Electrical 2, measuring a tile now lists each electric appliance on it with its name and draw, or "off", including the machines of other mods (for example through LiveWire Compatibility). Any tile of a large appliance can be measured.
+- **Other mods' devices on electric wire:** devices of other mods, such as LiveWater's water pump, can now be connected to an inverter with electric wire, like LiveWire's own equipment, even outside the powered area.
 
 ## 2.1.8 — 2026-11-19
 

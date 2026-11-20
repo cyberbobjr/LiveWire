@@ -32,12 +32,19 @@ local function validSprites(list)
     return true
 end
 
+-- Optional `link = { level = 0..10 }` (ADR-004): the consumer is wired to an inverter.
+local function validLink(v)
+    if v == nil then return true end
+    local level = type(v) == "table" and v.level
+    return type(level) == "number" and level % 1 == 0 and level >= 0 and level <= 10
+end
+
 -- true, or false and "registration_closed", "invalid_definition", "duplicate_consumer",
 -- "duplicate_sprite". The definition is copied field by field: later changes by the caller
 -- have no effect.
 function Consumers.register(id, d)
     if LiveWire.Extension.isSealed() then return false, "registration_closed" end
-    if not validId(id) or type(d) ~= "table" or not validSprites(d.sprites)
+    if not validId(id) or type(d) ~= "table" or not validSprites(d.sprites) or not validLink(d.link)
         or type(d.powerConsumption) ~= "function"
         or (d.couldBePowered ~= nil and type(d.couldBePowered) ~= "function")
         or (d.display ~= nil and type(d.display) ~= "function")
@@ -52,7 +59,7 @@ function Consumers.register(id, d)
     end
     local entry = { id = id, powerConsumption = d.powerConsumption, couldBePowered = d.couldBePowered,
         category = d.category or "other", circuit = d.circuit or "equipment", display = d.display,
-        summary = d.summary }
+        summary = d.summary, link = d.link and { level = d.link.level } or nil }
     byId[id] = entry
     order[#order + 1] = entry
     count = count + 1
@@ -69,6 +76,33 @@ function Consumers.of(o)
     if not entry then return nil end
     if entry.couldBePowered and entry.couldBePowered(o) ~= true then return nil end
     return entry
+end
+
+-- Registration entry of consumer id `id`, or nil.
+function Consumers.get(id)
+    return byId[id]
+end
+
+-- Registration entry of world object `o` when its consumer can be wired to an inverter, or nil.
+function Consumers.linkable(o)
+    local entry = Consumers.of(o)
+    if entry and entry.link then return entry end
+    return nil
+end
+
+-- Name shown to the player for consumer `o`: the translated name its `display` gives, else
+-- the moveable name of its tile (as the vanilla furniture cursor), else the object name.
+function Consumers.displayName(o)
+    local info = Consumers.info(Consumers.of(o), o)
+    if info and info.name then return getText(info.name) end
+    local sprite = o:getSprite()
+    local props = sprite and sprite.getProperties and sprite:getProperties()
+    local custom = props and props:get("CustomName")
+    if custom then
+        local group = props:get("GroupName")
+        return Translator.getMoveableDisplayName(group and (group .. " " .. custom) or custom)
+    end
+    return o:getObjectName()
 end
 
 -- Draw in W of a registered consumer while not cut, before the sandbox settings (0 when off).

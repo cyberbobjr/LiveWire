@@ -245,6 +245,11 @@ local function addNetworkPeers(others, inv)
     end
 end
 
+-- Is `o` a consumer of another mod wired to an inverter (LW_LinkedConsumers)?
+local function linked(o)
+    return LiveWire.LinkedConsumers ~= nil and LiveWire.LinkedConsumers.deviceOf(o) ~= nil
+end
+
 -- Demand in W for a loaded inverter device, and its breakdown by appliance family
 -- ({ fridge = { n = 1, w = 130 }, ... }). Returns nil when the inverter square is
 -- not loaded, or while its list is being (re)built (the caller then keeps the last
@@ -293,7 +298,8 @@ function Demand.measure(inv, allowDirty)
     for i = 1, #entry.objects do
         local o = entry.objects[i]
         local sq = o:getSquare()
-        local listed = sq and o:getObjectIndex() ~= -1
+        -- A consumer wired to an inverter is billed by its link only (ADR-004).
+        local listed = sq and o:getObjectIndex() ~= -1 and not linked(o)
             and (exteriorOk or not sq:getProperties():has(IsoFlagType.exterior))
         if listed and ItemContainer.isObjectPowered(o, false) then
             onGrid[i] = math.floor(LiveWire.Consumption.watts(o, profile) + 0.5)
@@ -383,9 +389,13 @@ function Demand.eachServed(inv, fn)
 end
 
 -- Same for a whole network: the master's zone, plus each coupled inverter in service when an
--- add-on lets them keep a zone (the perimeter of Demand.measureGrid).
+-- add-on lets them keep a zone (the perimeter of Demand.measureGrid), plus the loaded
+-- consumers wired to it (ADR-004).
 function Demand.eachServedOfGrid(grid, inv, fn)
     Demand.eachServed(inv, fn)
+    if grid and LiveWire.LinkedConsumers then
+        LiveWire.LinkedConsumers.eachLoaded(grid, function(o) fn(o) end)
+    end
     if not grid or not LiveWire.Coupling.slaveKeepsZone() then return end
     local _, list = LiveWire.Inverters.inService(grid)
     for i = 1, #list do Demand.eachServed(list[i], fn) end
@@ -461,21 +471,43 @@ local function report(entry)
     return rows
 end
 
+-- One row of the consumers view: detached primitives only.
+local function consumerRow(o, r, served)
+    local sprite = o and o.getSprite and o:getSprite()
+    return { x = r.x, y = r.y, z = r.z, cat = r.cat, w = served and r.w or 0, grid = r.grid,
+        objectIndex = o and o:getObjectIndex() or -1, sprite = sprite and sprite:getName(),
+        requestedW = math.floor((r.requested or r.w) + 0.5), served = served == true, owned = r.owned,
+        circuitOff = LiveWire.Appliances and LiveWire.Appliances.blocked(o) or false,
+        info = o and LiveWire.Consumers.info(LiveWire.Consumers.of(o), o) or nil }
+end
+
+-- The loaded consumers wired to the network of master `inv` (ADR-004), served by it, with
+-- their last measured draw.
+local function linkedRows(inv, out)
+    local grid = not inv.coupled and inv.grid and LiveWire.Registry.grid(inv.grid)
+    if not grid or not LiveWire.LinkedConsumers then return end
+    LiveWire.LinkedConsumers.eachLoaded(grid, function(o, dev)
+        local sq = o:getSquare()
+        local w = math.floor((dev.lastW or 0) + 0.5)
+        local served = LiveWire.LinkedConsumers.powered(dev, grid) and w > 0
+        out[#out + 1] = consumerRow(o, { x = sq:getX(), y = sq:getY(), z = sq:getZ(), cat = Demand.category(o),
+            w = w, grid = false, owned = true }, served)
+    end)
+end
+
 -- Detached primitives only; no game objects or authoritative tables in a snapshot.
 function Demand.consumers(inv)
     local entry = Demand.inventories[inv.id]
     local out = {}
-    if not entry or not entry.measured then return out end
-    for i, r in ipairs(report(entry)) do
-        local o = r.object
-        local sprite = o and o.getSprite and o:getSprite()
-        local served = not r.grid and o and o:getObjectIndex() ~= -1 and ItemContainer.isObjectPowered(o, true) and r.w > 0
-        out[i] = { x = r.x, y = r.y, z = r.z, cat = r.cat, w = served and r.w or 0, grid = r.grid,
-            objectIndex = o and o:getObjectIndex() or -1, sprite = sprite and sprite:getName(),
-            requestedW = math.floor((r.requested or r.w) + 0.5), served = served == true, owned = r.owned,
-            circuitOff = LiveWire.Appliances and LiveWire.Appliances.blocked(o) or false,
-            info = o and LiveWire.Consumers.info(LiveWire.Consumers.of(o), o) or nil }
+    if entry and entry.measured then
+        for i, r in ipairs(report(entry)) do
+            local o = r.object
+            local served = not r.grid and o and o:getObjectIndex() ~= -1 and ItemContainer.isObjectPowered(o, true)
+                and r.w > 0
+            out[i] = consumerRow(o, r, served)
+        end
     end
+    linkedRows(inv, out)
     return out
 end
 

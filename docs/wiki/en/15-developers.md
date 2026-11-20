@@ -4,7 +4,7 @@
 
 This page is for mod authors who want their mod to work with LiveWire: add a battery or a power source, make an appliance draw power, read the state of a network, or build an add-on like LiveWire Extended. Players do not need it.
 
-Everything below is the public API of LiveWire 2.0.3 (`LiveWire.API` version 1, revision 6; revision 6 adds the consumers of other mods). It lives in `media/lua/shared/LiveWire/LW_API.lua` of `batman_LiveWire`: the file is short and every function has a comment.
+Everything below is the public API of LiveWire 2.0.3 (`LiveWire.API` version 1, revision 9; revision 6 adds the consumers of other mods, revision 9 lets them be wired to an inverter). It lives in `media/lua/shared/LiveWire/LW_API.lua` of `batman_LiveWire`: the file is short and every function has a comment.
 
 ## How LiveWire works, in short
 
@@ -63,7 +63,9 @@ require "LiveWire/LW_API"
 | `mark(obj)`, `markOnSquare(sq, id)` | both | The LiveWire mark of a placed object (`id`, `model`...), or the object with that id on a square. |
 | `watts(obj)`, `applianceKind(obj)`, `applianceCut(obj)` | both | Draw of an appliance in W, its family (`"light"`, `"fridge"`... `"consumer"` for a registered one), and whether a circuit cuts it. |
 | `consumer(obj)` | both | Id of the registered consumer this placed object is, or `nil` (revision 6). |
-| `consumerPowered(obj)` | both | `true` when a registered consumer has current (LiveWire, generator or public grid) and no circuit or breaker cuts it (revision 6). |
+| `consumerPowered(obj)` | both | `true` when a registered consumer has current and no circuit or breaker cuts it (revision 6). Wired to an inverter (revision 9): when that inverter supplies it; otherwise from its square (LiveWire, generator or public grid). |
+| `consumerLink(obj)` | both | Id of the inverter a registered consumer is wired to, or `nil` (revision 9). |
+| `consumerLinkPowered(x, y, z)` | server | Is the consumer wired to an inverter at this square supplied? Reads the registry, so it answers for an unloaded square too; `nil` when no wired consumer stands there, and always on a client (revision 9). |
 | `estimateWatts(w)` | both | `w` W with `PowerScale` and the consumption profile applied. |
 | `inventoryIds()`, `eachBilled(invId, fn)` | server | Inverters that measured appliances, and `fn(object, watts)` for each appliance billed to one. |
 | `writable()`, `deviceKnown(id)` | both | Is the registry ready and writable here? Is this id a LiveWire device? |
@@ -293,6 +295,7 @@ Rules of `registerConsumer(id, definition)`:
 | `couldBePowered(o)` | no | called only for objects with one of your sprites; `true` = it is the appliance |
 | `category` | no | `"light"`, `"tv"`, `"radio"`, `"stove"`, `"laundry"`, `"charger"`, `"fridge"` or `"other"` (default) |
 | `circuit` | no | `"equipment"` (default) or `"light"` |
+| `link` | no | revision 9: `{ level = 0..10 }` (an integer), the appliance can be wired to an inverter with electric wire; `level` is the Electrical level the wiring needs. See "Wired to an inverter" below |
 | `display(o)` | no | `{ name = key, lines = { { key, arg1, ... }, ... } }`: keys `^[%w_]+$` of at most 64 characters from your own translations, 0 to 4 lines, 0 to 4 arguments per line (strings of at most 32 characters, or numbers shown as given). Anything else, or `nil`, keeps the usual row. Shown the same on LiveWire's computer screen and inside the Computer Mod window |
 | `summary(objects)` | no | one total per network, shown in the Equipment tab: called once per snapshot with a new array of your appliances the network serves (idle ones included, those on the public grid excluded); same answer as `display` with at most 2 lines; anything else, or `nil`, shows nothing |
 
@@ -318,6 +321,20 @@ Contract details:
 
 - **Removal:** a removed appliance leaves the bill at the next measurement; you have nothing to call.
 - **Without LiveWire:** test `LiveWire and LiveWire.API and (LiveWire.API.revision or 0) >= 6` and keep your own power check (for example `ItemContainer.isObjectPowered(obj, true)`).
+
+**Wired to an inverter (revision 9).** With `link = { level = 2 }` in the definition, the players connect your appliance to a LiveWire inverter like LiveWire's own devices: "Connect to an inverter" and "Disconnect from the inverter" in the LiveWire menu of the object, "Connect equipment" on the inverter, and the Connections window. Same rules: cable range (`LinkRange`, `LinkVerticalRange`) even outside the powered area, a screwdriver, electric wire according to the distance, and the Electrical level `level` (raised to the inverter's own level while the inverter is not in service yet). A network takes any number of them.
+
+- **Power and bill:** wired, the appliance is powered by that inverter only, wherever it stands: network powered, inverter on, its circuit (`circuit`) and breakers closed. It is billed to that inverter only (never a second time by the area of an inverter): its real draw (`powerConsumption`) while its square is loaded, its last measured draw while it is unloaded. Its panel circuits are those of its inverter.
+- **Reading it:** `consumerPowered(obj)` follows the link (the registry on the server, the state the server synchronised on a client). `consumerLink(obj)` gives the inverter id; `consumerLinkPowered(x, y, z)` answers on the server for an unloaded square.
+- **Storage:** the link lives in the object's ModData under the key `LiveWireLink` (`{ id, inverter, pw }`), the device in LiveWire's registry. Do not write that key. A mark left on a moved object is ignored and cleared.
+- **Picking it up or disconnecting it** gives the wire back; rotating it keeps the link.
+- **Without the field, or without LiveWire,** nothing changes: the appliance keeps the power of its square.
+
+```lua
+if LiveWire and (LiveWire.API.revision or 0) >= 9 then
+    local inverter = LiveWire.API.consumerLink(pump) -- nil when not wired
+end
+```
 
 ## Multiplayer checklist
 

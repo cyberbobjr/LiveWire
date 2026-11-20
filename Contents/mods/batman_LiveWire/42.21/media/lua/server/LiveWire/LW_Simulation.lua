@@ -209,7 +209,7 @@ function Sim.snapshot(grid)
         inverter = { id = inv.id, model = inv.model, state = inv.state,
                      cond = math.floor((inv.cond or 0) + 0.5), maxW = Inverters.capacityW(grid),
                      eff = inv.eff or 0, powered = grid.powered == true, muffled = inv.muffled == true },
-        demand = math.floor((grid.demand or 0) + 0.5),
+        demand = math.floor((grid.demand or 0) + (grid.linkedW or 0) + 0.5),
         demandReady = LiveWire.Demand.ready(inv),
         production = math.floor((grid.production or 0) + 0.5),
         stock = grid.stock or 0, capacity = grid.capacity or 0,
@@ -235,9 +235,20 @@ function Sim.snapshot(grid)
         if d then snap.links[#snap.links + 1] = { id = id, model = d.model, role = d.role, x = d.x, y = d.y, z = d.z } end
     end
     snap.origin = { x = inv.x, y = inv.y, z = inv.z }
-    for cat, b in pairs(grid.appliances or {}) do
-        snap.appliances[#snap.appliances + 1] = { cat = cat, n = b.n, w = math.floor(b.w + 0.5) }
+    -- The appliances of the area, plus the consumers wired to the inverter (ADR-004).
+    local cats = {}
+    for _, list in ipairs({ grid.appliances or {}, grid.linkedApps or {} }) do
+        for cat, b in pairs(list) do
+            local row = cats[cat]
+            if not row then
+                row = { cat = cat, n = 0, w = 0 }
+                cats[cat] = row
+                snap.appliances[#snap.appliances + 1] = row
+            end
+            row.n, row.w = row.n + b.n, row.w + b.w
+        end
     end
+    for i = 1, #snap.appliances do snap.appliances[i].w = math.floor(snap.appliances[i].w + 0.5) end
     table.sort(snap.appliances, function(a, b) return a.w > b.w end)
     for i = 1, #sources do
         local s = sources[i]
@@ -281,7 +292,8 @@ function Sim.snapshot(grid)
         local inService = Inverters.inService(grid)
         snap.coupled = { n = inService, total = 1 + #slaves }
     end
-    local need = (grid.demand or 0) + Inverters.idleW(grid) - (grid.production or 0) * (inv.eff or 0.85)
+    local need = (grid.demand or 0) + (grid.linkedW or 0) + Inverters.idleW(grid)
+        - (grid.production or 0) * (inv.eff or 0.85)
     if need > 0 and snap.stock > 0 then
         snap.autonomyH = snap.stock * 1000 * (inv.eff or 0.85) / need
     end
@@ -488,15 +500,17 @@ local function measureDemand(ctx)
 end
 
 -- Live Wire devices removed by another path (admin, other mod) are dropped by
--- Devices.validate (Sim.tick). Linked vanilla objects (generator, computer) are
--- found by their own ModData: drop them after two consecutive checks.
+-- Devices.validate (Sim.tick). Linked objects that are not ours (LiveWire.Install.LINK_KINDS:
+-- generator, computer, consumer of another mod) are found by their own ModData: drop them
+-- after two consecutive checks.
 local function syncLinkedVanilla(ctx)
     local R = ctx.R
-    local vanillaMembers = R.members(ctx.grid)
-    local bk0, pc0 = vanillaMembers.backup, vanillaMembers.computer
+    local members = R.members(ctx.grid)
     local vanilla = {}
-    for i = 1, #bk0 do vanilla[#vanilla + 1] = { dev = bk0[i], mod = LiveWire.Backup } end
-    for i = 1, #pc0 do vanilla[#vanilla + 1] = { dev = pc0[i], mod = LiveWire.Computer } end
+    for _, kind in ipairs(LiveWire.Install.linkKinds()) do
+        local mod = LiveWire[LiveWire.Install.LINK_KINDS[kind].service]
+        for _, dev in ipairs(mod and members[kind] or {}) do vanilla[#vanilla + 1] = { dev = dev, mod = mod } end
+    end
     for i = 1, #vanilla do
         local dev = vanilla[i].dev
         local obj, here = vanilla[i].mod.find(dev)
@@ -561,6 +575,15 @@ local function addPumpDemand(ctx)
         grid.pumpW = pumpW
     end
     ctx.demandW = ctx.demandW + pumpW
+end
+
+-- Consumers of other mods wired to the inverter (ADR-004): billed here only, never by an
+-- area (Demand.measure skips them). Kept on the grid for the snapshot and the reset test.
+local function addLinkedDemand(ctx)
+    local grid = ctx.grid
+    local w, breakdown = LiveWire.LinkedConsumers.demandW(grid)
+    grid.linkedW, grid.linkedApps = w, breakdown
+    ctx.demandW = ctx.demandW + w
 end
 
 -- Number and length of the sub-steps.
@@ -829,6 +852,7 @@ local function emitSideEffects(ctx)
     maintainPumps(ctx)
     -- State shown by the client (lights, menus): rewrite the marks that changed.
     LiveWire.Devices.refreshStates(ctx.grid)
+    LiveWire.LinkedConsumers.refreshMarks(ctx.grid)
     LiveWire.Journal.capture(ctx.grid)
     Sim.publish(ctx.grid)
 end
@@ -845,6 +869,7 @@ function Sim.stepGrid(grid, now, w, evaluate)
     warnStorm(ctx)
     readBatteries(ctx)
     addPumpDemand(ctx)
+    addLinkedDemand(ctx)
     planSubsteps(ctx)
     for i = 1, ctx.n do stepSubstep(ctx, i) end
     settleGrid(ctx)

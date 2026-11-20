@@ -33,8 +33,8 @@ end
 
 
 --------------------------------------------------------------------------------
--- Link a source, a power bank, an optional device, a vanilla generator (backup)
--- or a vanilla desktop computer (management) to an inverter. Placing and picking
+-- Link a source, a power bank, an optional device, a vanilla generator (backup),
+-- a vanilla desktop computer (management) or a consumer of another mod to an inverter. Placing and picking
 -- up the devices themselves is vanilla (furniture cursor, LW_Placement.lua).
 --------------------------------------------------------------------------------
 -- GUI disconnection can walk to the equipment before using the existing command.
@@ -95,7 +95,7 @@ function LWLinkAction:complete()
 
     local kind = I().linkKind(target)
     if LiveWire.Maintenance.liveWork(ch, grid) then return false end
-    if kind == "backup" or kind == "computer" then
+    if I().LINK_KINDS[kind] then
         return LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
     end
 
@@ -134,17 +134,18 @@ function LWLinkAction:complete()
     return true
 end
 
--- A vanilla generator (backup power) or desktop computer (management computer):
--- one of each per network. The vanilla object is only marked in its ModData.
+-- An object of LiveWire.Install.LINK_KINDS: a vanilla generator (backup power) or desktop
+-- computer (management computer), one of each per network, or a consumer of another mod,
+-- any number. The object is only marked in its ModData.
 function LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
+    local spec = I().LINK_KINDS[kind]
     local m = I().vanillaMark(target)
     local old = m and R().device(m.id)
     if old and old.grid == grid.id then
         LiveWire.notify(ch, "Tooltip_LW_AlreadyLinked", {}, true)
         return false
     end
-    local list = R().membersByRole(grid, kind == "computer" and "computer" or "backup")
-    if #list > 0 then
+    if spec.single and #R().membersByRole(grid, kind) > 0 then
         LiveWire.notify(ch, "Tooltip_LW_OneOptionPerGrid", {}, true)
         return false
     end
@@ -152,12 +153,7 @@ function LWLinkAction.linkVanilla(ch, target, kind, grid, wires, inv)
     -- Linked to another network before: move it, its old cable comes back.
     local oldWires = LiveWire.Devices.linkWires(old)
     if old then R().forgetVanilla(old) end
-    local dev
-    if kind == "backup" then
-        dev = LiveWire.Backup.register(target, grid)
-    else
-        dev = LiveWire.Computer.register(target, grid, I().level(ch))
-    end
+    local dev = LiveWire[spec.service].register(target, grid, I().level(ch))
     if dev then dev.wires = wires or 0 end
     local xp = inv and LiveWire.Devices.wired(ch, nil, inv) or 0
     if inv then LiveWire.Devices.syncMark(inv) end

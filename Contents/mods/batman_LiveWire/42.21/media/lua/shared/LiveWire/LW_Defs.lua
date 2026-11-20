@@ -161,6 +161,8 @@ Defs.BACKUP_KEY = "LiveWireBackup"
 Defs.BACKUP_LEVEL = 2          -- vanilla generator as backup power
 Defs.COMPUTER_KEY = "LiveWireComputer"
 Defs.COMPUTER_LEVEL = 3        -- vanilla desktop computer as management computer
+-- Consumer of another mod registered with `link` (ADR-004): { id, inverter, pw }.
+Defs.LINK_KEY = "LiveWireLink"
 Defs.ALARM_BELOW = 0.20
 Defs.ALARM_RESET = 0.25
 Defs.ALARM_REPEAT_HOURS = 2

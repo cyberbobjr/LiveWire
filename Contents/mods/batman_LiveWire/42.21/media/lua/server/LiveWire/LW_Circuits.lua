@@ -55,6 +55,9 @@ end
 function Circuits.owner(o)
     local sq = o:getSquare()
     if not sq then return nil end
+    -- A consumer wired to an inverter belongs to that network, wherever it stands (ADR-004).
+    local linked = LiveWire.LinkedConsumers and LiveWire.LinkedConsumers.gridOf(o)
+    if linked then return linked end
     local x, y, z = sq:getX(), sq:getY(), sq:getZ()
     -- Native wall switches control a WHOLE room. Use one reference point for
     -- that room so two panels never alternately switch the same light group.
