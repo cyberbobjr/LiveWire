@@ -4,16 +4,17 @@
     blender -b --factory-startup -P source/viewpoint/export_viewpoint.py -- <project-root>
     # Optional group names after project-root update only those models/bindings.
     blender -b --factory-startup -P source/viewpoint/export_viewpoint.py -- <project-root> --extended
-    # LiveWire Extended tiles (build_extended_tiles.py): own manifest and palette, registered by the
-    # sub-mod only when batman_LiveWireExtended is active.
+    # LiveWire Extended tiles (build_extended_tiles.py): own models and palette, same pack and manifest.
 
-Builds every tile group of source/tiles/build_livewire_tiles.py (same geometry as the sprites) and writes,
-under Contents/mods/batman_LiveWireViewpoint/common/media/livewire-viewpoint/:
+Builds every tile group of source/tiles/build_livewire_tiles.py (same geometry as the sprites) and writes the
+Viewpoint resource pack in the format Viewpoint 0.1.7 discovers by itself (ADR-005), under
+Contents/mods/batman_LiveWireViewpoint/common/media/viewpoint/resourcepacks/batman-livewire/:
+  pack.properties             descriptor (kept by hand, not written here)
   models/<group>.obj + .mtl   one model per group (base tiles and overlays)
-  models/palette.png          flat colours, one 8 x 8 cell per paint of the recipe (next to the models,
-                              like the texture of each Voxel Studio model)
-  livewire.properties         Viewpoint manifest: model.<name>=<obj>, bind.<sprite>=<model>,<deg>,x,y,z,scale
-With --extended: models/extended_<group>.obj + .mtl, models/extended_palette.png and extended.properties.
+  models/palette.png          flat colours, one 8 x 8 cell per paint of the recipe (next to the models)
+  models.properties           manifest of both sheets: model.<name>=<obj>, bind.<sprite>=<model>,<deg>,x,y,z,scale;
+                              a run replaces only the lines of the sheet it exports
+With --extended: models/extended_<group>.obj + .mtl and models/extended_palette.png.
 
 Viewpoint model frame (read in its model pack format and in vanilla binds): Z up, 1 unit = 1 tile, origin at
 the tile centre on the floor, south = +Y. The recipe builds with the front towards Blender -Y and the forge
@@ -37,7 +38,10 @@ import build_livewire_tiles as T  # noqa: E402
 import build_extended_tiles as X  # noqa: E402
 
 SUB_MOD = "batman_LiveWireViewpoint"
-FOLDER = "livewire-viewpoint"
+PACK_DIR = ("viewpoint", "resourcepacks", "batman-livewire")
+MANIFEST = "models.properties"
+MANIFEST_HEADER = ("# LiveWire and LiveWire Extended models for Viewpoint (ADR-005), written by "
+                   "source/viewpoint/export_viewpoint.py")
 ROT = [0, -90, 180, 90]  # S, E, N, W
 CELL, COLS = 8, 8
 
@@ -65,15 +69,22 @@ def extended_paints() -> dict:
     return out
 
 
-#: One Viewpoint manifest per tile sheet; "prefix" names the model files and model ids of the sheet.
+#: One entry per tile sheet, both in the one manifest; "prefix" names the model files and model ids of the sheet.
 PACKS = {
-    "base": {"recipe": T, "paints": paints, "manifest": "livewire.properties", "palette": "palette.png",
-             "prefix": "", "header": ["id=batman-livewire-viewpoint", "name=Live Wire devices", "version=1"]},
-    "extended": {"recipe": X, "paints": extended_paints, "manifest": "extended.properties",
-                 "palette": "extended_palette.png", "prefix": "extended_",
-                 "header": ["id=batman-livewire-extended-viewpoint", "name=LiveWire Extended devices",
-                            "version=1"]},
+    "base": {"recipe": T, "paints": paints, "palette": "palette.png", "prefix": ""},
+    "extended": {"recipe": X, "paints": extended_paints, "palette": "extended_palette.png", "prefix": "extended_"},
 }
+
+
+def sheet_lines(manifest, sheet, indices=None, names=()):
+    """Lines of `manifest` owned by the export of `sheet`: its binds (only `indices` when given), the models they
+    name, and the models in `names`."""
+    prefix = f"bind.{sheet}_"
+    binds = [line for line in manifest if line.startswith(prefix)
+             and (indices is None or int(line[len(prefix):].split("=", 1)[0]) in indices)]
+    models = {line.split("=", 1)[1].split(",", 1)[0] for line in binds} | set(names)
+    return set(binds) | {line for line in manifest if line.startswith("model.")
+                         and line[len("model."):].split("=", 1)[0] in models}
 
 
 def palette(paints_fn=paints):
@@ -168,7 +179,7 @@ def main():
     selected = set(args[1:])
     unknown = selected - {g["key"] for g in recipe.tile_groups()}
     if unknown: raise ValueError(f"Unknown groups: {unknown}")
-    out = project / "Contents" / "mods" / SUB_MOD / "common" / "media" / FOLDER
+    out = project / "Contents" / "mods" / SUB_MOD / "common" / "media" / Path(*PACK_DIR)
     (out / "models").mkdir(parents=True, exist_ok=True)
     for obj in list(bpy.data.objects):
         bpy.data.objects.remove(obj, do_unlink=True)
@@ -179,12 +190,14 @@ def main():
     px, uv = palette(pack["paints"])
     if not selected: write_png(out / "models" / pack["palette"], px)
 
-    manifest = list(pack["header"])
-    line_ends = {}
-    if selected:
-        existing = (out / pack["manifest"]).read_bytes().decode("ascii").splitlines(keepends=True)
+    manifest, line_ends = [MANIFEST_HEADER], {}
+    if (out / MANIFEST).exists():
+        existing = (out / MANIFEST).read_bytes().decode("ascii").splitlines(keepends=True)
         manifest = [line.rstrip("\r\n") for line in existing]
         line_ends = {line.rstrip("\r\n"): line[len(line.rstrip("\r\n")):] for line in existing}
+    if not selected:
+        owned = sheet_lines(manifest, recipe.SHEET)
+        manifest = [line for line in manifest if line not in owned]
     report = []
     for group in recipe.tile_groups():
         if selected and group["key"] not in selected: continue
@@ -198,8 +211,8 @@ def main():
         bpy.context.view_layer.update()
         name = pack["prefix"] + group["key"]
         if selected:
-            prefixes = [f"model.livewire-{name}=", *[f"bind.{recipe.SHEET}_{i}=" for i in group["indices"]]]
-            manifest = [line for line in manifest if not any(line.startswith(p) for p in prefixes)]
+            owned = sheet_lines(manifest, recipe.SHEET, set(group["indices"]), {f"livewire-{name}"})
+            manifest = [line for line in manifest if line not in owned]
         tris = write_obj(out / "models" / f"{name}.obj", objects, uv, pack["palette"])
         manifest.append(f"model.livewire-{name}=models/{name}.obj")
         for facing, index in enumerate(group["indices"]):
@@ -207,7 +220,7 @@ def main():
         report.append(f"{name}: {tris} triangles, sprites {group['indices']}")
         recipe.clear_subject(root)
         bpy.data.objects.remove(root, do_unlink=True)
-    (out / pack["manifest"]).write_bytes("".join(line + line_ends.get(line,"\n") for line in manifest).encode("ascii"))
+    (out / MANIFEST).write_bytes("".join(line + line_ends.get(line,"\n") for line in manifest).encode("ascii"))
     print("\n".join(report))
     print(f"wrote {len(report)} models to {out}")
 

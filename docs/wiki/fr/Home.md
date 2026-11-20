@@ -10,7 +10,7 @@
 
 **LiveWire Extended** (version 2.0.2, `batman_LiveWireExtended`) est un module facultatif dans le même objet Workshop. Il raccorde des bâtiments entiers, ajoute des bornes électriques extérieures et des tableaux électriques où chaque appareil a son propre disjoncteur. Voir [LiveWire Extended](14-livewire-extended.md).
 
-**LiveWire - Viewpoint models** (version 2.0.2, `batman_LiveWireViewpoint`) est un autre mod facultatif du même objet Workshop. Il ajoute des modèles 3D des équipements, ainsi que de la borne électrique et des tableaux électriques de LiveWire Extended, pour Project Viewpoint ; il ne fait rien sans Project Viewpoint.
+**LiveWire - Viewpoint models** (version 2.0.2, `batman_LiveWireViewpoint`) est un autre mod facultatif du même objet Workshop. Il ajoute des modèles 3D des équipements, ainsi que de la borne électrique et des tableaux électriques de LiveWire Extended, pour Project Viewpoint (0.1.7 ou plus) ; il ne fait rien sans Project Viewpoint. L'activer, puis activer le paquet **LiveWire** dans les réglages de Viewpoint.
 
 Pour commencer : [Premiers pas](01-premiers-pas.md).
 

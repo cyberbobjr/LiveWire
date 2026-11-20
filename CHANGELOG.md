@@ -1,12 +1,16 @@
 # Changelog
 
-## Unreleased
+## 2.2.0 — 2026-11-20
 
 ### New features
 
 - **Voltage tester lists every appliance:** from Electrical 2, measuring a tile now lists each electric appliance on it with its name and draw, or "off", including the machines of other mods (for example through LiveWire Compatibility). Any tile of a large appliance can be measured.
 - **Other mods' devices on electric wire:** devices of other mods, such as LiveWater's water pump, can now be connected to an inverter with electric wire, like LiveWire's own equipment, even outside the powered area.
 
+### Improvements
+
+- **Project Viewpoint:** the "LiveWire - Viewpoint models" add-on now uses the resource pack format of Project Viewpoint 0.1.7: Viewpoint finds it by itself and lists one **LiveWire** pack, LiveWire Extended models included, to switch on in its settings. If you used the old pack, switch the new LiveWire pack on once. Models are unchanged.
+
 ### Fixes
 
 - **Consumers view and loaded machines:** a machine of another mod that draws its load over itself (for example an Artel freeze dryer with meat inside) now shows its consumer colour from every side, not only from behind.
