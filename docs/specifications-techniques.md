@@ -637,6 +637,7 @@ inscrits, `OnObjectAboutToBeRemoved` les invalide. Tests : `tests/test_api_consu
 | `API.consumerPowered(obj)` | les deux côtés : `ItemContainer.isObjectPowered(obj, true)` et aucune coupure (circuits du panneau, fournisseur de circuits ; sur un client, coupure lue dans la ModData `LiveWireCircuit` synchronisée) ; `false` pour un objet non inscrit. Révision 9 : un objet relié suit son onduleur (`LinkedConsumers.powered` sur l'autorité, `pw` de `LiveWireLink` sur un client) au lieu de la case |
 | `API.consumerLink(obj)` | révision 9, les deux : id de l'onduleur relié (marque validée par le registre sur l'autorité, marque synchronisée sur un client), ou `nil` |
 | `API.consumerLinkPowered(x, y, z)` | révision 9, autorité : règle d'alimentation du consommateur relié de cette case lue au registre (case déchargée comprise) ; `nil` sans consommateur relié et sur un client |
+| `API.consumerChanged(obj)` | révision 10, autorité : `Sim.refresh` des réseaux dont la zone contient l'objet (`Demand.coveringIds`) et de celui de l'onduleur auquel il est relié ; rend le nombre de réseaux ; 0 sur un client |
 
 - Facturation : `Consumption.watts` lit d'abord le consommateur (valeur moteur remplacée), applique
   `Consumption.estimate` (`PowerScale`, facteur du profil) et rend 0 quand l'appareil est coupé ; Live Wire n'appelle

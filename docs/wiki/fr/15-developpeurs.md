@@ -4,7 +4,7 @@
 
 Cette page s'adresse aux auteurs de mods qui veulent faire fonctionner leur mod avec LiveWire : ajouter une batterie ou une source d'énergie, faire consommer un appareil, lire l'état d'un réseau, ou écrire une extension comme LiveWire Extended. Les joueurs n'en ont pas besoin.
 
-Tout ce qui suit est l'API publique de LiveWire 2.0.3 (`LiveWire.API` version 1, révision 9 ; la révision 6 ajoute les consommateurs des autres mods, la révision 9 permet de les relier à un onduleur). Elle se trouve dans `media/lua/shared/LiveWire/LW_API.lua` de `batman_LiveWire` : le fichier est court et chaque fonction y est commentée (en anglais).
+Tout ce qui suit est l'API publique de LiveWire 2.0.3 (`LiveWire.API` version 1, révision 10 ; la révision 6 ajoute les consommateurs des autres mods, la révision 9 permet de les relier à un onduleur). Elle se trouve dans `media/lua/shared/LiveWire/LW_API.lua` de `batman_LiveWire` : le fichier est court et chaque fonction y est commentée (en anglais).
 
 ## Le fonctionnement de LiveWire, en bref
 
@@ -66,6 +66,7 @@ require "LiveWire/LW_API"
 | `consumerPowered(obj)` | les deux | `true` quand un consommateur inscrit a du courant et qu'aucun circuit ni disjoncteur ne le coupe (révision 6). Relié à un onduleur (révision 9) : quand cet onduleur l'alimente ; sinon selon sa case (LiveWire, générateur ou réseau public). |
 | `consumerLink(obj)` | les deux | Id de l'onduleur auquel un consommateur inscrit est relié, ou `nil` (révision 9). |
 | `consumerLinkPowered(x, y, z)` | serveur | Le consommateur relié à un onduleur sur cette case est-il alimenté ? Lit le registre, donc répond aussi pour une case déchargée ; `nil` quand aucun consommateur relié ne s'y trouve, et toujours sur un client (révision 9). |
+| `consumerChanged(obj)` | serveur | La consommation de l'appareil vient de changer hors de LiveWire (votre mod l'a allumé, éteint, changé de mode) : les réseaux qui le servent sont remesurés tout de suite au lieu du pas de dix minutes ; écrans de l'onduleur et vue des consommateurs suivent. Rend le nombre de réseaux remesurés ; ne fait rien sur un client (envoyez votre propre commande au serveur) (révision 10). |
 | `estimateWatts(w)` | les deux | `w` W avec `PowerScale` et le profil de consommation appliqués. |
 | `inventoryIds()`, `eachBilled(invId, fn)` | serveur | Les onduleurs qui ont mesuré des appareils, et `fn(objet, watts)` pour chaque appareil facturé à l'un d'eux. |
 | `writable()`, `deviceKnown(id)` | les deux | Le registre est-il prêt et modifiable ici ? Cet id est-il un appareil LiveWire ? |

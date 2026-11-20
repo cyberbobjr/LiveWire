@@ -5,7 +5,7 @@ require "LiveWire/LW_Extension"
 require "LiveWire/LW_Consumers"
 require "LiveWire/LW_Wreckage"
 LiveWire = LiveWire or {}
-local API = { version = 1, revision = 9 }
+local API = { version = 1, revision = 10 }
 LiveWire.API = API
 local function copy(value)
     if type(value) ~= "table" then return value end
@@ -557,3 +557,28 @@ function API.registerWreckage(itemType, parts) return LiveWire.Wreckage.register
 -- Draw in W of a placed appliance while it runs, even when it is off now, under the sandbox
 -- consumption profile (PowerScale included); nil when unknown.
 function API.ratedWatts(obj) return LiveWire.Consumption.ratedWatts(obj) end
+
+-- ---------------------------------------------------------------- appliance changed (revision 10)
+-- An appliance's draw just changed outside Live Wire (a mod switched it on or off, changed its
+-- mode): the networks serving it are measured again now instead of at the next ten-minute step,
+-- so the inverter screens and the consumers view follow at once. Authority only (server, single
+-- player); on a client it does nothing (send your own command to the server). Covers the
+-- inverters whose area contains the object and the inverter a registered consumer is wired to.
+-- Returns the number of networks measured again.
+function API.consumerChanged(obj)
+    if not LiveWire.isAuthority() or not obj or not obj.getSquare then return 0 end
+    local R = LiveWire.Registry
+    local sq = obj:getSquare()
+    if not R or not R.ready or not sq then return 0 end
+    local grids, done = {}, {}
+    local function add(dev)
+        local grid = dev and dev.grid and R.grid(dev.grid)
+        if grid and not done[grid.id] then done[grid.id] = true; grids[#grids + 1] = grid end
+    end
+    local ids = LiveWire.Demand and LiveWire.Demand.coveringIds(sq) or {}
+    for i = 1, #ids do add(R.device(ids[i])) end
+    local wired = API.consumerLink(obj)
+    if wired then add(R.device(wired)) end
+    for i = 1, #grids do LiveWire.Sim.refresh(grids[i]) end
+    return #grids
+end

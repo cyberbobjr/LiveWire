@@ -74,9 +74,11 @@ function Demand.invalidate(inverterId)
     end
 end
 
--- Invalidate the inverters whose coverage (disc, plus a provider's extra) contains `sq`.
-function Demand.invalidateAt(sq)
-    if not sq or not LiveWire.Registry or not LiveWire.Registry.ready then return end
+-- Ids of the inverters with an appliance list whose coverage (disc, plus a provider's extra)
+-- contains `sq` (a new array).
+function Demand.coveringIds(sq)
+    local out = {}
+    if not sq or not LiveWire.Registry or not LiveWire.Registry.ready then return out end
     local R = LiveWire.Config.tileRange()
     local ids = {}
     for id in pairs(Demand.inventories) do ids[#ids + 1] = id end
@@ -86,10 +88,17 @@ function Demand.invalidateAt(sq)
             local dx, dy = sq:getX() - inv.x, sq:getY() - inv.y
             if (LiveWire.Coverage.hasDisc() and dx * dx + dy * dy <= R * R)
                 or LiveWire.Coverage.coversExtra(ids[i], inv, sq:getX(), sq:getY(), sq:getZ()) then
-                Demand.invalidate(ids[i])
+                out[#out + 1] = ids[i]
             end
         end
     end
+    return out
+end
+
+-- Invalidate the inverters whose coverage contains `sq`.
+function Demand.invalidateAt(sq)
+    local ids = Demand.coveringIds(sq)
+    for i = 1, #ids do Demand.invalidate(ids[i]) end
 end
 
 local function allowExterior()

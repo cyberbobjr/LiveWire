@@ -4,7 +4,7 @@
 
 This page is for mod authors who want their mod to work with LiveWire: add a battery or a power source, make an appliance draw power, read the state of a network, or build an add-on like LiveWire Extended. Players do not need it.
 
-Everything below is the public API of LiveWire 2.0.3 (`LiveWire.API` version 1, revision 9; revision 6 adds the consumers of other mods, revision 9 lets them be wired to an inverter). It lives in `media/lua/shared/LiveWire/LW_API.lua` of `batman_LiveWire`: the file is short and every function has a comment.
+Everything below is the public API of LiveWire 2.0.3 (`LiveWire.API` version 1, revision 10; revision 6 adds the consumers of other mods, revision 9 lets them be wired to an inverter). It lives in `media/lua/shared/LiveWire/LW_API.lua` of `batman_LiveWire`: the file is short and every function has a comment.
 
 ## How LiveWire works, in short
 
@@ -66,6 +66,7 @@ require "LiveWire/LW_API"
 | `consumerPowered(obj)` | both | `true` when a registered consumer has current and no circuit or breaker cuts it (revision 6). Wired to an inverter (revision 9): when that inverter supplies it; otherwise from its square (LiveWire, generator or public grid). |
 | `consumerLink(obj)` | both | Id of the inverter a registered consumer is wired to, or `nil` (revision 9). |
 | `consumerLinkPowered(x, y, z)` | server | Is the consumer wired to an inverter at this square supplied? Reads the registry, so it answers for an unloaded square too; `nil` when no wired consumer stands there, and always on a client (revision 9). |
+| `consumerChanged(obj)` | server | The appliance's draw just changed outside LiveWire (your mod switched it on or off, changed its mode): the networks serving it are measured again at once instead of at the next ten-minute step; the inverter screens and the consumers view follow. Returns the number of networks measured again; does nothing on a client (send your own command to the server) (revision 10). |
 | `estimateWatts(w)` | both | `w` W with `PowerScale` and the consumption profile applied. |
 | `inventoryIds()`, `eachBilled(invId, fn)` | server | Inverters that measured appliances, and `fn(object, watts)` for each appliance billed to one. |
 | `writable()`, `deviceKnown(id)` | both | Is the registry ready and writable here? Is this id a LiveWire device? |
