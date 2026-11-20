@@ -557,7 +557,7 @@ Les clés suivent les préfixes imposés par `developpement.md`. La liste compl�
 |---|---|
 | 0 | « Courant : oui / non » |
 | 1+ | Source du courant : réseau public, générateur vanilla ou onduleur Live Wire |
-| 2+ | Consommation de l'appareil visé, en W |
+| 2+ | Chaque appareil électrique de la case (vanilla ou déclaré par un autre mod), avec son nom et sa consommation en W, ou « à l'arrêt » ; un meuble de plusieurs cases se mesure sur n'importe laquelle (8 appareils au plus) |
 | 4+ | Pour l'onduleur visé : production, demande, stock, autonomie |
 
 **Avertissement de recouvrement** : « plusieurs sources alimentent cette zone » (§ 8.2).

@@ -261,7 +261,8 @@ for k, en, fr in [
     ("IGUI_LW_Measure_Source_Grid", "Power from the public grid.", "Courant du réseau public."),
     ("IGUI_LW_Measure_Source_Generator", "Power from a generator.", "Courant d'un générateur."),
     ("IGUI_LW_Measure_Source_LiveWire", "Power from a LiveWire inverter.", "Courant d'un onduleur LiveWire."),
-    ("IGUI_LW_Measure_Draw", "This appliance draws %1 W.", "Cet appareil consomme %1 W."),
+    ("IGUI_LW_Measure_ApplianceDraw", "%1: %2 W", "%1 : %2 W"),
+    ("IGUI_LW_Measure_ApplianceOff", "%1: off (0 W)", "%1 : à l'arrêt (0 W)"),
     ("IGUI_LW_Measure_Grid", "Network: %1 W produced, %2 W used, %3 kWh stored, autonomy %4 h", "Réseau : %1 W produits, %2 W consommés, %3 kWh stockés, autonomie %4 h"),
 ]:
     add("IG_UI", k, en, fr)

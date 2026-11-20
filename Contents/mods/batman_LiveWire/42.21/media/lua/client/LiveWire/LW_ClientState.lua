@@ -102,11 +102,16 @@ function Client.readBank(id)
     requestBank(id)
 end
 
--- Arguments that are translation keys are translated here, on the client.
+-- Arguments that are translation keys are translated here, on the client; "Moveable:<name>" is the
+-- name of a vanilla moveable (group and custom name), translated by the game's moveable table.
+local MOVEABLE = "Moveable:"
 local function translateArg(a)
     if type(a) == "string" and (string.find(a, "^IGUI_") or string.find(a, "^Tooltip_")
         or string.find(a, "^ContextMenu_")) then
         return getText(a)
+    end
+    if type(a) == "string" and string.sub(a, 1, #MOVEABLE) == MOVEABLE then
+        return Translator.getMoveableDisplayName(string.sub(a, #MOVEABLE + 1))
     end
     return tostring(a)
 end

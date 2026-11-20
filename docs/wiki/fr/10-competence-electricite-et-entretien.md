@@ -31,7 +31,7 @@
 |---|---|
 | 0 | Alimenté ou non |
 | 1 | Origine du courant |
-| 2 | Consommation de l'appareil |
+| 2 | Chaque appareil de la case avec sa consommation, y compris ceux des autres mods |
 | 4 | Bilan du réseau |
 
 ## Compétence Électricité

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### New features
+
+- **Voltage tester lists every appliance:** from Electrical 2, measuring a tile now lists each electric appliance on it with its name and draw, or "off", including the machines of other mods (for example through LiveWire Compatibility). Any tile of a large appliance can be measured.
+
 ## 2.1.8 — 2026-11-19
 
 ### Improvements

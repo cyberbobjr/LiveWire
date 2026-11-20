@@ -5,6 +5,7 @@
 -- and on the server only (LuaTimedActionNew.java:158-163).
 
 require "LiveWire/TimedActions/LW_BaseAction"
+require "LiveWire/LW_MeasureAppliances"
 
 LiveWire = LiveWire or {}
 
@@ -597,17 +598,13 @@ function LWMeasureAction:complete()
         LiveWire.notify(ch, source, {})
     end
     if level >= 2 then
-        local objs = sq:getObjects()
-        local best = 0
-        for i = 0, objs:size() - 1 do
-            local o = objs:get(i)
-            if o:couldBePoweredByGenerator() then
-                best = math.max(best, LiveWire.Consumption.watts(o))
+        -- Each appliance of the square (vanilla or registered by another mod), with its draw.
+        for _, row in ipairs(LiveWire.MeasureAppliances.list(sq)) do
+            if row.w > 0 then
+                LiveWire.notify(ch, "IGUI_LW_Measure_ApplianceDraw", { row.name, tostring(row.w) })
+            else
+                LiveWire.notify(ch, "IGUI_LW_Measure_ApplianceOff", { row.name })
             end
-        end
-        if best > 0 then
-            local w = math.floor(best + 0.5)
-            LiveWire.notify(ch, "IGUI_LW_Measure_Draw", { tostring(w) })
         end
     end
     if level >= 4 then

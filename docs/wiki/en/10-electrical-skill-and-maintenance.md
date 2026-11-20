@@ -31,7 +31,7 @@ The Voltage Tester (`LiveWire.VoltageTester`): right-click a tile, then **LiveWi
 |---|---|
 | 0 | Power yes / no |
 | 1 | Origin of the power |
-| 2 | Appliance consumption |
+| 2 | Each appliance on the tile with its draw, other mods' ones included |
 | 4 | Network balance |
 
 ## Electrical skill
