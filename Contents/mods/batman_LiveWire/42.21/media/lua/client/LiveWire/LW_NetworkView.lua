@@ -33,11 +33,37 @@ local function sameColor(o,idx,c)
     return v and math.abs(v:getR()-c[1])<0.001 and math.abs(v:getG()-c[2])<0.001
         and math.abs(v:getB()-c[3])<0.001 and math.abs(v:getA()-0.85)<0.001
 end
+-- An overlay sprite drawn with its own colour (IsoObject:setOverlaySprite(name, r, g, b, a)) ignores
+-- the highlight (IsoObject.renderOverlaySprites: overlaySpriteColor replaces the highlighted colour),
+-- so a loaded machine whose overlay covers it would show no highlight. While highlighted, the
+-- overlay colour is tinted locally (setOverlaySpriteColor sends nothing), then given back.
+local function rgba(v) return { v:getR(), v:getG(), v:getB(), v:getA() } end
+local function same4(a,b)
+    for i=1,4 do if math.abs(a[i]-b[i])>=0.001 then return false end end
+    return true
+end
+local function tintOverlay(o,h)
+    local v=o.getOverlaySprite and o:getOverlaySprite() and o:getOverlaySpriteColor()
+    if not v then return end
+    local now=rgba(v)
+    if not (h.tint and same4(now,h.tint)) then h.overlay=now end
+    local c,b=h.color,h.overlay
+    h.tint={ b[1]*0.15+c[1]*0.85, b[2]*0.15+c[2]*0.85, b[3]*0.15+c[3]*0.85, b[4] }
+    if not same4(now,h.tint) then o:setOverlaySpriteColor(h.tint[1],h.tint[2],h.tint[3],h.tint[4]) end
+end
+local function untintOverlay(o,h)
+    local v=h.tint and o.getOverlaySprite and o:getOverlaySprite() and o:getOverlaySpriteColor()
+    if v and same4(rgba(v),h.tint) then
+        o:setOverlaySpriteColor(h.overlay[1],h.overlay[2],h.overlay[3],h.overlay[4])
+    end
+    h.tint=nil
+end
 local function release(o,h)
     if o:getObjectIndex()~=-1 and sameColor(o,h.idx,h.color) then
         o:setHighlighted(h.idx,false,false)
         o:setHighlightColor(h.idx,h.old[1],h.old[2],h.old[3],h.old[4])
     end
+    if o:getObjectIndex()~=-1 then untintOverlay(o,h) end
 end
 function View.hide()
     for o,h in pairs(View.highlights) do release(o,h) end
@@ -129,6 +155,8 @@ function View.refreshHighlights()
             o:setHighlightColor(idx,c[1],c[2],c[3],0.85)
             o:setHighlighted(idx,true,false)
         end
+        local h2=keep[o]
+        if h2 then tintOverlay(o,h2) end
     end
 end
 -- Does the public grid still feed an appliance of this view?
