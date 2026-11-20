@@ -72,6 +72,9 @@ function Consumers.of(o)
     if count == 0 or not o or not o.getSprite then return nil end
     local sprite = o:getSprite()
     local name = sprite and sprite:getName()
+    -- A runtime sprite (IsoObject.new with a texture path) reloaded on a dedicated server has no
+    -- name; the object keeps it (IsoObject.getSpriteName, IsoObject.java:2269-2274).
+    if not name and o.getSpriteName then name = o:getSpriteName() end
     local entry = name and bySprite[name]
     if not entry then return nil end
     if entry.couldBePowered and entry.couldBePowered(o) ~= true then return nil end
