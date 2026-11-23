@@ -28,20 +28,54 @@ local function modelOfSprite(name)
 end
 Placement.modelOfSprite = modelOfSprite
 
--- A neighbour of `sq` (8 directions) is river water: water flag
--- (FishingUtils.lua:4-9) inside a river zone of the fishing code
--- (FishingZones.lua:40-47), outside its no-fish zones (FishingZones.lua:13-28: the swimming pools inside
--- those wide rectangles). Lakes, ponds and pools are refused (docs/specifications-fonctionnelles.md 3.4).
+local MIN_WATER_TILES = 25
+
+local function isOpenWaterTile(cell, x, y, z)
+    local n = cell:getGridSquare(x, y, z)
+    return n ~= nil and n:has(IsoFlagType.water)
+        and not (Fishing and Fishing.isNoFishZone and Fishing.isNoFishZone(x, y))
+end
+
+-- True when the water body touching (sx, sy, z) has at least MIN_WATER_TILES
+-- contiguous water tiles outside Fishing.NoFishZones. Bounded BFS so pools and
+-- small puddles are refused while rivers (including Echo Creek and modded maps)
+-- and lakes are accepted.
+local function hasEnoughWater(cell, sx, sy, z)
+    local qx, qy = { sx }, { sy }
+    local seen = { [sx * 65536 + sy] = true }
+    local head, tail = 1, 1
+    while head <= tail and tail < MIN_WATER_TILES do
+        local cx, cy = qx[head], qy[head]
+        head = head + 1
+        for ox = -1, 1 do
+            for oy = -1, 1 do
+                if (ox == 0) ~= (oy == 0) then
+                    local nx, ny = cx + ox, cy + oy
+                    local key = nx * 65536 + ny
+                    if not seen[key] and isOpenWaterTile(cell, nx, ny, z) then
+                        seen[key] = true
+                        tail = tail + 1
+                        qx[tail], qy[tail] = nx, ny
+                        if tail >= MIN_WATER_TILES then return true end
+                    end
+                end
+            end
+        end
+    end
+    return tail >= MIN_WATER_TILES
+end
+
+-- A neighbour of `sq` (8 directions) is open water (water flag, outside no-fish
+-- zones, at least MIN_WATER_TILES contiguous tiles). Does not require
+-- Fishing.isRiver so small rivers like Echo Creek and modded maps work.
 function Placement.nextToRiver(sq)
     local cell = getCell()
+    local x0, y0, z = sq:getX(), sq:getY(), sq:getZ()
     for dx = -1, 1 do
         for dy = -1, 1 do
             if dx ~= 0 or dy ~= 0 then
-                local x, y = sq:getX() + dx, sq:getY() + dy
-                local n = cell:getGridSquare(x, y, sq:getZ())
-                if n and n:has(IsoFlagType.water)
-                    and (not Fishing or not Fishing.isRiver or Fishing.isRiver(x, y))
-                    and not (Fishing and Fishing.isNoFishZone and Fishing.isNoFishZone(x, y)) then
+                local x, y = x0 + dx, y0 + dy
+                if isOpenWaterTile(cell, x, y, z) and hasEnoughWater(cell, x, y, z) then
                     return true
                 end
             end

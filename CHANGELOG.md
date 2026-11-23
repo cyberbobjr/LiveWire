@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.1 — 2026-11-23
+
+### Fixes
+
+- **Water wheel placement:** water wheels can now be placed along Echo Creek, smaller rivers, lakes and modded map rivers, not only along the Ohio River. Swimming pools and small puddles are still refused.
+
 ## 2.2.0 — 2026-11-20
 
 ### New features
