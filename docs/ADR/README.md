@@ -7,3 +7,4 @@
 | [003](termines/003-pompe-a-eau-et-livewater.md) | La pompe à eau de Live Wire s'efface devant LiveWater | Accepté (2026-11-19) | [plan-003](../ADR-plans/termines/plan-003-pompe-a-eau-et-livewater.md) | Terminé le 2026-11-19 (confirmé en jeu par l'utilisateur) |
 | [004](004-consommateurs-relies-par-fil.md) | Consommateurs d'autres mods reliés par fil à un onduleur | Accepté (2026-11-20) | [plan-004](../ADR-plans/plan-004-consommateurs-relies-par-fil.md) | aucune étape commencée |
 | [005](005-viewpoint-nouveau-format.md) | Modèles Viewpoint au nouveau format de paquet (Viewpoint 0.1.7) | Accepté (2026-11-20) | [plan-005](../ADR-plans/plan-005-viewpoint-nouveau-format.md) | V1 et V2 terminées hors jeu ; V3 à faire en jeu |
+| [006](006-butin-par-famille.md) | Butin configurable par famille d'équipement | Accepté (2026-11-24) | [plan-006](../ADR-plans/plan-006-butin-par-famille.md) | B1 à B3 terminées hors jeu ; B4 à faire en jeu |

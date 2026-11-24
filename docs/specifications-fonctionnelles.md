@@ -49,7 +49,7 @@ Identifiants stables, à citer dans les autres documents, le code et les tickets
 | F28 | Tableau électrique graphique, deux circuits indépendants | § 11 |
 | F29 | Clic direct, LCD individuels, raccordements ciblés et globaux | § 12 |
 | F32 | Éolienne en trois étapes, amplificateurs, branchement éolienne/roue au niveau 2 (pose sans niveau) | § 15 |
-| F31 | Butin d’équipements réglable, lieux élargis | § 14 |
+| F31 | Butin d’équipements réglable par famille, lieux élargis | § 14 |
 | F30 | Deux powerbanks superposées, conteneurs et raccordements distincts | § 13 |
 | F33 | LiveWire Extended (module facultatif) : bâtiment entier, borne et zone, tableaux et disjoncteurs | § 16 |
 
@@ -853,8 +853,12 @@ réel de pile à confirmer manuellement ; voir le bilan de validation.
 ## 14. Découverte d'équipements et pièces (F31)
 
 La page sandbox LiveWire propose **Fréquence des équipements et pièces LiveWire**, de
-1 à 20, avec **5 par défaut**. Elle multiplie les poids des panneaux, testeurs,
+0 à 20, avec **5 par défaut** et **0 = aucun**. Elle multiplie les poids des panneaux, testeurs,
 batteries stationnaires, onduleurs, disjoncteurs, powerbanks, alarmes et éoliennes.
+Trois options s'y ajoutent, de 0 à 10 avec **1 par défaut** : **Butin solaire** (cellules
+et panneaux tout faits), **Butin éolien** (éoliennes, pales, mâts) et **Butin hydraulique**
+(roues à aubes) ; chacune multiplie en plus les poids de sa famille, et 0 la supprime.
+L'appareillage universel et LiveWire Extended ne suivent que le multiplicateur global.
 Les lieux sont élargis aux rayons d'électronique et d'appareils, aux caisses
 d'électronique, de mécanique et de métallerie, aux outils de garage et de
 quincaillerie ; les batteries stationnaires peuvent apparaître parmi le matériel

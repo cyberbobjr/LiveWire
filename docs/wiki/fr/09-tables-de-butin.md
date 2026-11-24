@@ -34,11 +34,11 @@ Poids à ×5 ; estimations si cette liste est sélectionnée, avec le modificate
 
 ## Équipements LiveWire tout faits
 
-Poids avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec le modificateur de butin du jeu à rareté normale (0,6), sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
+Poids avec EquipmentLootMultiplier = 5 par défaut (plage 0–20). Estimations si cette liste est sélectionnée, avec le modificateur de butin du jeu à rareté normale (0,6), sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
 
 Fouillez les quincailleries, garages et ateliers automobiles, magasins d'électronique, usines électriques et caisses d'entrepôt. Les batteries stationnaires peuvent aussi apparaître parmi le matériel de camping. Chaque type de rangement a sa propre liste : aucun lieu précis ne garantit une découverte. Les roues à aubes se trouvent dans les rangements et caisses de menuiserie et d'agriculture, ainsi que dans les caisses d'outils, de mécanique et de métallerie. Les pompes à eau et les armoires onduleur sont à fabriquer uniquement.
 
-Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox **LiveWire** : **5 par défaut**, de **1 à 20**. Redémarrez le jeu ou le serveur dédié après modification. Seuls les prochains tirages sont concernés, y compris la réapparition vanilla du butin si elle est activée ; aucun remplissage des conteneurs déjà fouillés. Les cellules photovoltaïques sont incluses. Objets et poids vanilla inchangés. Le disque du logiciel n'est pas concerné par cette option.
+Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox **LiveWire** : **5 par défaut**, de **0 à 20**, **0 = aucun**. Trois réglages affinent ensuite chaque famille, **Butin solaire**, **Butin éolien** et **Butin hydraulique** : de **0 à 10**, **1 par défaut**, **0 = aucun**. Redémarrez le jeu ou le serveur dédié après modification. Seuls les prochains tirages sont concernés, y compris la réapparition vanilla du butin si elle est activée ; aucun remplissage des conteneurs déjà fouillés. Les cellules photovoltaïques sont incluses. Objets et poids vanilla inchangés. Le disque du logiciel n'est pas concerné par ces options.
 
 | Équipement | Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
 |---|---|---|---|---|---|

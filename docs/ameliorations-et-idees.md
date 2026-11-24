@@ -800,7 +800,9 @@ contrôles hors jeu passés ; essais en jeu manuels encore nécessaires. Voir le
 
 ## Complément autorisé : butin d'équipements (F31)
 
-Option sandbox **Fréquence des équipements et pièces LiveWire**, plage 1–20, défaut **5**,
+Option sandbox **Fréquence des équipements et pièces LiveWire**, plage 0–20, défaut **5**,
+0 = aucun, plus trois options de famille (**Butin solaire**, **Butin éolien**,
+**Butin hydraulique**, 0–10, défaut 1, 0 = aucun ; ADR-006),
 et élargissement des lieux cohérents : 64 couples équipement/liste contre 31.
 Huit nouveaux types de liste, tous présents et référencés par les salles vanilla
 42.21.0. Cellules LiveWire incluses ; pièces vanilla et CD inchangés. Application au démarrage sur les futurs tirages,

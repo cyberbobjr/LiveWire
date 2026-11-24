@@ -81,7 +81,7 @@
 
 ## LOOT: Ready-made LiveWire equipment
 
-Weights at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, the game's loot modifier at normal rarity (0.6), no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.
+Weights at the default EquipmentLootMultiplier = 5 (range 0–20); 0 = none at all. Estimates assume this loot list is selected, the game's loot modifier at normal rarity (0.6), no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.
 
 | Equipment | Vanilla list | Where | Weight (×5) | Rolls | ≈ chance per container |
 |---|---|---|---|---|---|

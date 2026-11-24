@@ -4,7 +4,7 @@
 
 LiveWire = LiveWire or {}
 
-LiveWire.VERSION = "2.2.1"
+LiveWire.VERSION = "2.3.0"
 LiveWire.MODULE = "LiveWire"          -- client/server command module
 LiveWire.DATA_KEY = "LiveWire"        -- global ModData: authoritative registry (server only)
 LiveWire.ANCHOR_KEY = "LiveWireAnchors" -- global ModData: public anchor table (all clients)

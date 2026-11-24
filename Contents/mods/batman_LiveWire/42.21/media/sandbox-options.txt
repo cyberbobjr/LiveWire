@@ -2,8 +2,26 @@ VERSION = 1,
 
 option LiveWire.EquipmentLootMultiplier
 {
-    type = double, min = 1.0, max = 20.0, default = 5.0,
+    type = double, min = 0.0, max = 20.0, default = 5.0,
     page = LiveWire, translation = LiveWire_EquipmentLootMultiplier,
+}
+
+option LiveWire.SolarLootMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_SolarLootMultiplier,
+}
+
+option LiveWire.WindLootMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_WindLootMultiplier,
+}
+
+option LiveWire.HydroLootMultiplier
+{
+    type = double, min = 0.0, max = 10.0, default = 1.0,
+    page = LiveWire, translation = LiveWire_HydroLootMultiplier,
 }
 
 option LiveWire.PowerScale

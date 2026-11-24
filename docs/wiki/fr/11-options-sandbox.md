@@ -8,7 +8,10 @@ Les réglages du jeu et du serveur sont sur deux pages des options sandbox : **L
 
 | Nom dans le jeu | Option | Défaut | Plage | Effet |
 |---|---|---|---|---|
-| Fréquence des équipements et pièces LiveWire | `EquipmentLootMultiplier` | 5 | 1–20 | Poids de butin des équipements et pièces LiveWire (appareils, kits, cellules photovoltaïques, pales, mâts) et des équipements LiveWire Extended ; redémarrage requis, prochains tirages seulement. Voir [Tables de butin](09-tables-de-butin.md) |
+| Fréquence des équipements et pièces LiveWire | `EquipmentLootMultiplier` | 5 | 0–20 | Poids de butin des équipements et pièces LiveWire (appareils, kits, cellules photovoltaïques, pales, mâts) et des équipements LiveWire Extended ; 0 = aucun ; redémarrage requis, prochains tirages seulement. Voir [Tables de butin](09-tables-de-butin.md) |
+| Butin solaire | `SolarLootMultiplier` | 1 | 0–10 | Facteur appliqué en plus aux cellules photovoltaïques et aux panneaux tout faits ; 0 = aucun |
+| Butin éolien | `WindLootMultiplier` | 1 | 0–10 | Facteur appliqué en plus aux éoliennes, aux jeux de pales et aux mâts ; 0 = aucun |
+| Butin hydraulique | `HydroLootMultiplier` | 1 | 0–10 | Facteur appliqué en plus aux roues à aubes ; 0 = aucun |
 | Échelle de puissance | `PowerScale` | 1 | 0,1–10 | Multiplie la consommation donnée par le profil (1 = aucun changement) |
 | Profil de consommation | `ConsumptionProfile` | Valeurs du jeu | Ultra-réaliste 1993, Réaliste 1993, Valeurs du jeu, Confort | Puissance absorbée par les appareils allumés ; voir le tableau de [Production et calculs](04-production-et-calculs.md#consommation-des-appareils) |
 | Production solaire | `SolarMultiplier` | 1 | 0–10 | Production des panneaux photovoltaïques |

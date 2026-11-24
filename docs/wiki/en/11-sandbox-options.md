@@ -8,7 +8,10 @@ Server and game settings are on two pages of the sandbox options: **LiveWire** f
 
 | Name in game | Option | Default | Range | Effect |
 |---|---|---|---|---|
-| LiveWire equipment and parts loot multiplier | `EquipmentLootMultiplier` | 5 | 1–20 | Loot weight of LiveWire equipment and parts (devices, kits, solar cells, blades, masts) and of LiveWire Extended equipment; restart required, future rolls only. See [Loot tables](09-loot-tables.md) |
+| LiveWire equipment and parts loot multiplier | `EquipmentLootMultiplier` | 5 | 0–20 | Loot weight of LiveWire equipment and parts (devices, kits, solar cells, blades, masts) and of LiveWire Extended equipment; 0 = none at all; restart required, future rolls only. See [Loot tables](09-loot-tables.md) |
+| Solar equipment loot | `SolarLootMultiplier` | 1 | 0–10 | Extra factor on solar cells and ready-made solar panels, on top of the equipment multiplier; 0 = none at all |
+| Wind equipment loot | `WindLootMultiplier` | 1 | 0–10 | Extra factor on wind turbines, blade sets and masts; 0 = none at all |
+| Hydro equipment loot | `HydroLootMultiplier` | 1 | 0–10 | Extra factor on water wheels; 0 = none at all |
 | Power scale | `PowerScale` | 1 | 0.1–10 | Multiplies the consumption given by the profile (1 = no change) |
 | Consumption profile | `ConsumptionProfile` | Game values | Ultra-realistic 1993, Realistic 1993, Game values, Comfort | Power drawn by switched-on appliances; see the table in [Production and Calculations](04-production-and-calculations.md#appliance-consumption) |
 | Solar production | `SolarMultiplier` | 1 | 0–10 | Solar panel production |

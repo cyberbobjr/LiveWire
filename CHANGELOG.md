@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.3.0 — 2026-11-24
+
+### New features
+
+- **Loot per equipment family:** three new sandbox options, **Solar equipment loot**, **Wind equipment loot** and **Hydro equipment loot** (0-10, default 1), scale solar cells and ready-made panels, wind turbines with blades and masts, and water wheels on their own. They multiply on top of the equipment loot multiplier, so the default weights are unchanged. 0 removes the family from every loot list, vehicle trunks included.
+- **No equipment at all:** the **LiveWire equipment and parts loot multiplier** now goes down to 0, which removes every LiveWire and LiveWire Extended find. The management software disk keeps its own rate. Restart required; future loot rolls only, no refill of searched containers.
+
+### Fixes
+
+- **Translation tooling:** the crafting category name is back in the generator sources, and the consumption profile tooltip no longer announces a 5,000 W dryer (3,500 W since 2.1.7).
+
 ## 2.2.1 — 2026-11-23
 
 ### Fixes

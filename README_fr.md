@@ -314,7 +314,7 @@ Ingrédients, outils, niveaux et durées des recettes de base : [Recettes](https
 
 Project Zomboid tire chaque objet indépendamment à chaque tirage d'une liste de conteneurs : un poids de W donne environ W % par tirage à la rareté normale. LiveWire ajoute ses équipements aux listes vanilla : cellules photovoltaïques, panneaux, appareils, batteries et pièces. Les objets vanilla et leurs poids ne changent pas. On trouve les équipements dans les quincailleries, garages et ateliers automobiles, magasins d'électronique, usines électriques et caisses d'entrepôt ; les batteries stationnaires figurent aussi parmi le matériel de camping. Aucun lieu précis ne garantit une découverte.
 
-Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox **LiveWire** : **5 par défaut**, de **1 à 20**. Redémarrez le jeu ou le serveur dédié après modification. Seuls les prochains tirages sont concernés, y compris la réapparition vanilla du butin si elle est activée ; aucun remplissage des conteneurs déjà fouillés. À 1, les poids de base s'appliquent et les nouveaux lieux sont conservés. Les disques de logiciel gardent leur propre taux.
+Réglez **Fréquence des équipements et pièces LiveWire** dans la page sandbox **LiveWire** : **5 par défaut**, de **0 à 20**, **0 = aucun**. Trois réglages affinent ensuite chaque famille, **Butin solaire**, **Butin éolien** et **Butin hydraulique** : **0 à 10**, **1 par défaut**, **0 = aucun**. Redémarrez le jeu ou le serveur dédié après modification. Seuls les prochains tirages sont concernés, y compris la réapparition vanilla du butin si elle est activée ; aucun remplissage des conteneurs déjà fouillés. À 1, les poids de base s'appliquent et les nouveaux lieux sont conservés. Les disques de logiciel gardent leur propre taux.
 
 Tous les poids et chances par conteneur : [Tables de butin](https://github.com/cyberbobjr/LiveWire/wiki/FR-09-tables-de-butin). Par ailleurs : 1 cellule photovoltaïque par calculatrice démontée (sans niveau) ; au niveau 3, une cellule se fabrique à partir de 5 × Pièces électroniques et 1 × Aluminium.
 
@@ -374,7 +374,10 @@ Page « LiveWire » des options sandbox. Les options de LiveWire Extended figure
 | Option | Défaut | Plage | Effet |
 |---|---|---|---|
 | `ConsumptionProfile` | Valeurs du jeu | Ultra-réaliste 1993, Réaliste 1993, Valeurs du jeu, Confort | Puissance consommée par les appareils allumés (voir [Consommation des appareils](#consommation-des-appareils)) |
-| `EquipmentLootMultiplier` | 5 | 1–20 | Poids du butin des équipements et cellules LiveWire uniquement ; redémarrage requis, prochains tirages uniquement |
+| `EquipmentLootMultiplier` | 5 | 0–20 | Poids du butin des équipements et cellules LiveWire uniquement ; 0 = aucun ; redémarrage requis, prochains tirages uniquement |
+| `SolarLootMultiplier` | 1,0 | 0-10 | Facteur appliqué en plus aux cellules et aux panneaux tout faits ; 0 = aucun |
+| `WindLootMultiplier` | 1,0 | 0-10 | Facteur appliqué en plus aux éoliennes, jeux de pales et mâts ; 0 = aucun |
+| `HydroLootMultiplier` | 1,0 | 0-10 | Facteur appliqué en plus aux roues à aubes ; 0 = aucun |
 | `PowerScale` | 1,0 | 0,1-10 | Multiplie la consommation donnée par le profil (1 = aucun changement) |
 | `SolarMultiplier` / `WindMultiplier` / `HydroMultiplier` | 1,0 | 0-10 | Production par famille de sources |
 | `BatteryCapacityMultiplier` | 1,0 | 0,1-10 | Capacité des batteries |

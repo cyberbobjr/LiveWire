@@ -20,17 +20,24 @@ local ENTRIES = {
     { item = "LiveWire.TwilightSwitch", lists = PRO, weight = 0.15, vehicle = 0.1 },
 }
 
--- Put `item` at `weight` in the loot list (replaces the weight of a previous merge).
+-- Put `item` at `weight` in the loot list (replaces the weight of a previous merge);
+-- a null weight removes the entry, so a disabled multiplier leaves no weight behind.
 local function put(list, item, weight)
     if not list or not list.items then return false end
     local items = list.items
     for i = 1, #items, 2 do
         if items[i] == item then
+            if weight <= 0 then
+                table.remove(items, i + 1)
+                table.remove(items, i)
+                return true
+            end
             if items[i + 1] == weight then return false end
             items[i + 1] = weight
             return true
         end
     end
+    if weight <= 0 then return false end
     table.insert(items, item); table.insert(items, weight)
     return true
 end
@@ -54,9 +61,7 @@ end
 
 Events.OnPreDistributionMerge.Add(function() apply(1) end)
 Events.OnInitGlobalModData.Add(function()
-    local multiplier = tonumber(LiveWire.Config.get("EquipmentLootMultiplier")) or 5
-    if multiplier ~= multiplier then multiplier = 5 end
-    multiplier = math.max(1, math.min(20, multiplier))
+    local multiplier = LiveWire.Config.equipmentLoot()
     if apply(multiplier) then
         ItemPickerJava.Parse()
         print("[LiveWireExtended] Equipment loot multiplier applied: x" .. tostring(multiplier))

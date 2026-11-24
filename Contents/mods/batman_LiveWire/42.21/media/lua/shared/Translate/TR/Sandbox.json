@@ -45,7 +45,7 @@
     "Sandbox_LiveWire_ConsumptionProfile_option3": "Oyun değerleri",
     "Sandbox_LiveWire_ConsumptionProfile_option4": "Konfor",
     "Sandbox_LiveWire_EquipmentLootMultiplier": "LiveWire ekipman ve parça ganimet çarpanı",
-    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Ganimet ağırlıklarını yalnızca LiveWire ekipmanı ve parçaları için çarpar (güneş hücreleri, kanatlar ve direkler) (1-20, varsayılan 5). Vanilla eşyalar ve ganimet ağırlıkları değişmez. Yazılım diskleri mevcut oranlarını korur. Yeniden başlatma gerekir; yalnızca gelecekteki ganimet çekilişlerini etkiler, aranmış kaplar yeniden dolmaz. Vanilla ganimet ayarları geçerliliğini korur.",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "Ganimet ağırlıklarını yalnızca LiveWire ekipmanı ve parçaları için çarpar (güneş hücreleri, kanatlar ve direkler) (0-20, varsayılan 5). 0 = hiç yok. Vanilla eşyalar ve ganimet ağırlıkları değişmez. Yazılım diskleri mevcut oranlarını korur. Aşağıdaki güneş, rüzgâr ve su seçenekleri her grubu inceltir. Yeniden başlatma gerekir; yalnızca gelecekteki ganimet çekilişlerini etkiler, aranmış kaplar yeniden dolmaz. Vanilla ganimet ayarları geçerliliğini korur.",
     "Sandbox_LiveWire_SolarOrientation": "Güneş paneli yönü",
     "Sandbox_LiveWire_SolarDirt": "Panel kirliliği",
     "Sandbox_LiveWire_BatteryCold": "Soğuk bataryalar",
@@ -59,5 +59,11 @@
     "Sandbox_LiveWire_PumpTankSize_option1": "25 L",
     "Sandbox_LiveWire_PumpTankSize_option2": "80 L",
     "Sandbox_LiveWire_PumpTankSize_option3": "150 L",
-    "Sandbox_LiveWire_PumpTankSize_option4": "300 L"
+    "Sandbox_LiveWire_PumpTankSize_option4": "300 L",
+    "Sandbox_LiveWire_SolarLootMultiplier": "Güneş ekipmanı ganimet çarpanı",
+    "Sandbox_LiveWire_SolarLootMultiplier_tooltip": "Ekipman çarpanına ek olarak güneş hücreleri ve hazır güneş panelleri ganimet ağırlığını çarpar (0-10, varsayılan 1). 0 = hiç yok. Yeniden başlatma gerekir; yalnızca gelecekteki ganimet çekilişlerini etkiler, aranmış kaplar yeniden dolmaz.",
+    "Sandbox_LiveWire_WindLootMultiplier": "Rüzgâr ekipmanı ganimet çarpanı",
+    "Sandbox_LiveWire_WindLootMultiplier_tooltip": "Ekipman çarpanına ek olarak rüzgâr türbinleri, kanat setleri ve direkler ganimet ağırlığını çarpar (0-10, varsayılan 1). 0 = hiç yok. Yeniden başlatma gerekir; yalnızca gelecekteki ganimet çekilişlerini etkiler, aranmış kaplar yeniden dolmaz.",
+    "Sandbox_LiveWire_HydroLootMultiplier": "Su çarkı ganimet çarpanı",
+    "Sandbox_LiveWire_HydroLootMultiplier_tooltip": "Ekipman çarpanına ek olarak su çarkları ganimet ağırlığını çarpar (0-10, varsayılan 1). 0 = hiç yok. Yeniden başlatma gerekir; yalnızca gelecekteki ganimet çekilişlerini etkiler, aranmış kaplar yeniden dolmaz."
 }

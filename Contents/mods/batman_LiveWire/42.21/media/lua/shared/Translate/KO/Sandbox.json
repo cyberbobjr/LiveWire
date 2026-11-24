@@ -53,11 +53,17 @@
     "Sandbox_LiveWire_BatteryCold_tooltip": "추위는 실외 배터리 뱅크의 사용 가능 용량을 줄입니다. 따뜻해지면 예비 용량이 돌아옵니다.",
     "Sandbox_LiveWire_LiveWorkRisk_tooltip": "기본 활성화. 전기공학 0에서 감전 확률 50%%, 6부터 0. 드라이버를 든 손에 화상을 입고 물건을 떨어뜨립니다. 작업 전 주 인버터를 끄세요. 배전반 주 차단기만 내려서는 안전하지 않습니다.",
     "Sandbox_LiveWire_EquipmentLootMultiplier": "LiveWire 장비 및 부품 전리품 배율",
-    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "LiveWire 장비와 부품(태양전지 셀, 날개, 기둥)의 전리품 가중치만 변경합니다(1-20, 기본 5). 기본 게임 아이템과 전리품 가중치는 변경하지 않습니다. 소프트웨어 디스크는 기존 빈도를 유지합니다. 재시작 필요. 이후 전리품 생성에만 적용되며 수색한 용기는 채우지 않습니다. 게임의 전리품 설정도 적용됩니다.",
+    "Sandbox_LiveWire_EquipmentLootMultiplier_tooltip": "LiveWire 장비와 부품(태양전지 셀, 날개, 기둥)의 전리품 가중치만 변경합니다(0-20, 기본 5). 0 = 전혀 없음. 기본 게임 아이템과 전리품 가중치는 변경하지 않습니다. 소프트웨어 디스크는 기존 빈도를 유지합니다. 아래의 태양광, 풍력, 수력 옵션이 각 계통을 세분화합니다. 재시작 필요. 이후 전리품 생성에만 적용되며 수색한 용기는 채우지 않습니다. 게임의 전리품 설정도 적용됩니다.",
     "Sandbox_LiveWire_PumpTankSize": "급수 지점별 펌프 탱크",
     "Sandbox_LiveWire_PumpTankSize_tooltip": "워터 펌프가 연결된 싱크대, 욕조, 샤워기, 변기마다 위에 두는 보이지 않는 탱크의 용량입니다. 탱크가 클수록 샤워나 목욕에 쓸 물을 더 많이 담아 둡니다. 줄이면 새 용량을 넘는 물은 사라집니다.",
     "Sandbox_LiveWire_PumpTankSize_option1": "25 L",
     "Sandbox_LiveWire_PumpTankSize_option2": "80 L",
     "Sandbox_LiveWire_PumpTankSize_option3": "150 L",
-    "Sandbox_LiveWire_PumpTankSize_option4": "300 L"
+    "Sandbox_LiveWire_PumpTankSize_option4": "300 L",
+    "Sandbox_LiveWire_SolarLootMultiplier": "태양광 장비 전리품 배율",
+    "Sandbox_LiveWire_SolarLootMultiplier_tooltip": "장비 배율에 더해 태양전지 셀과 완제품 태양광 패널의 전리품 가중치를 조정합니다(0-10, 기본 1). 0 = 전혀 없음. 재시작 필요. 이후 전리품 생성에만 적용되며 수색한 용기는 채우지 않습니다.",
+    "Sandbox_LiveWire_WindLootMultiplier": "풍력 장비 전리품 배율",
+    "Sandbox_LiveWire_WindLootMultiplier_tooltip": "장비 배율에 더해 풍력 터빈, 날개 세트, 기둥의 전리품 가중치를 조정합니다(0-10, 기본 1). 0 = 전혀 없음. 재시작 필요. 이후 전리품 생성에만 적용되며 수색한 용기는 채우지 않습니다.",
+    "Sandbox_LiveWire_HydroLootMultiplier": "수력 장비 전리품 배율",
+    "Sandbox_LiveWire_HydroLootMultiplier_tooltip": "장비 배율에 더해 수차의 전리품 가중치를 조정합니다(0-10, 기본 1). 0 = 전혀 없음. 재시작 필요. 이후 전리품 생성에만 적용되며 수색한 용기는 채우지 않습니다."
 }

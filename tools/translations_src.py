@@ -311,8 +311,8 @@ SANDBOX = [
      "Multiplies the consumption of every appliance, on top of the consumption profile (1 = no change).",
      "Multiplie la consommation de chaque appareil, en plus du profil de consommation (1 = aucun changement)."),
     ("ConsumptionProfile", "Consumption profile", "Profil de consommation",
-     "Power drawn by switched-on appliances. Game values: the engine's own values (light 2 W, fridge-freezer 130 W). Realistic 1993: average household draws of the time (light 60 W, TV 80 W, cooker 2,000 W). Ultra-realistic 1993: older, hungrier appliances (light 100 W, cooker 3,000 W, dryer 5,000 W). Comfort: half the game values.",
-     "Puissance consommée par les appareils allumés. Valeurs du jeu : celles du moteur (lumière 2 W, réfrigérateur-congélateur 130 W). Réaliste 1993 : consommations moyennes d'un foyer de l'époque (lumière 60 W, télévision 80 W, cuisinière 2 000 W). Ultra-réaliste 1993 : appareils plus anciens et plus gourmands (lumière 100 W, cuisinière 3 000 W, sèche-linge 5 000 W). Confort : la moitié des valeurs du jeu."),
+     "Power drawn by switched-on appliances. Game values: the engine's own values (light 2 W, fridge-freezer 130 W). Realistic 1993: average household draws of the time (light 60 W, TV 80 W, cooker 2,000 W). Ultra-realistic 1993: older, hungrier appliances (light 100 W, cooker 3,000 W, dryer 3,500 W). Comfort: half the game values.",
+     "Puissance consommée par les appareils allumés. Valeurs du jeu : celles du moteur (lumière 2 W, réfrigérateur-congélateur 130 W). Réaliste 1993 : consommations moyennes d'un foyer de l'époque (lumière 60 W, télévision 80 W, cuisinière 2 000 W). Ultra-réaliste 1993 : appareils plus anciens et plus gourmands (lumière 100 W, cuisinière 3 000 W, sèche-linge 3 500 W). Confort : la moitié des valeurs du jeu."),
     ("SolarMultiplier", "Solar production", "Production solaire",
      "Multiplier of the solar panel production.", "Multiplicateur de la production des panneaux photovoltaïques."),
     ("WindMultiplier", "Wind production", "Production éolienne",
@@ -365,6 +365,9 @@ for i, en, fr in [
 # Values of the PumpTankSize enum (litres, LiveWire.Config.PUMP_TANK_LITRES).
 for i, litres in enumerate((25, 80, 150, 300), 1):
     add("Sandbox", "Sandbox_LiveWire_PumpTankSize_option%d" % i, "%d L" % litres, "%d L" % litres)
+
+# Crafting category name: the same word in every language.
+add("IG_UI", "IGUI_CraftingCategories_LiveWire", "LiveWire", "LiveWire")
 
 
 # Water pump (1.2.0): items, recipe, menus, tooltips, software line.

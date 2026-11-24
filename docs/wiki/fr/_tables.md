@@ -81,7 +81,7 @@
 
 ## LOOT: Équipements LiveWire tout faits
 
-Poids avec EquipmentLootMultiplier = 5 par défaut (plage 1–20). Estimations si cette liste est sélectionnée, avec le modificateur de butin du jeu à rareté normale (0,6), sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
+Poids avec EquipmentLootMultiplier = 5 par défaut (plage 0–20), 0 = aucun. Estimations si cette liste est sélectionnée, avec le modificateur de butin du jeu à rareté normale (0,6), sans effet de densité de zombies ni du temps et avec assez de place ; ce ne sont pas des taux de découverte garantis.
 
 | Équipement | Liste vanilla | Où | Poids (×5) | Tirages | ≈ chance par conteneur |
 |---|---|---|---|---|---|

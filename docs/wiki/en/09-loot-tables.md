@@ -34,11 +34,11 @@ Weights at ×5; estimates assume this list is selected and the game's loot modif
 
 ## Ready-made LiveWire equipment
 
-Weights at the default EquipmentLootMultiplier = 5 (range 1–20). Estimates assume this loot list is selected, the game's loot modifier at normal rarity (0.6), no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.
+Weights at the default EquipmentLootMultiplier = 5 (range 0–20). Estimates assume this loot list is selected, the game's loot modifier at normal rarity (0.6), no zombie-density or time modifiers and enough container space; they are not a guaranteed discovery rate.
 
 Look in hardware stores, garages and mechanic workshops, electronics stores, electrical factories and warehouse crates. Deep-cycle batteries also appear among camping gear. Each kind of container has its own list; there is no guaranteed map location. Water wheels are found in carpentry and farming stores and crates, and in tool, mechanic and metalwork crates. Water pumps and inverter cabinets are craft-only.
 
-Set **LiveWire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **1 to 20**. Restart the game or dedicated server after a change. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. Solar cells are included. Vanilla items and their weights are unchanged. The software disk is not affected by this option.
+Set **LiveWire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **0 to 20**, **0 = none at all**. Three further settings then refine each family, **Solar equipment loot**, **Wind equipment loot** and **Hydro equipment loot**: from **0 to 10**, **1 by default**, **0 = none at all**. Restart the game or dedicated server after a change. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. Solar cells are included. Vanilla items and their weights are unchanged. The software disk is not affected by these options.
 
 | Equipment | Vanilla list | Where | Weight (×5) | Rolls | ≈ chance per container |
 |---|---|---|---|---|---|

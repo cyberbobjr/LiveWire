@@ -328,7 +328,7 @@ Ingredients, tools, levels and times for the base recipes: [Recipes](https://git
 
 Project Zomboid tests each item independently at each roll of a container list, so a weight of W gives about W % per roll at normal loot rarity. LiveWire adds its equipment to vanilla lists: solar cells, panels, devices, batteries and parts. Vanilla items and their weights are unchanged. Equipment is found in hardware stores, garages and mechanic workshops, electronics stores, electrical factories and warehouse crates; deep-cycle batteries also appear among camping gear. There is no guaranteed map location.
 
-Set **LiveWire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **1 to 20**. Restart the game or dedicated server after a change. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. At 1, the base weights apply and the new locations are kept. Software disks keep their own rates.
+Set **LiveWire equipment and parts loot multiplier** on the **LiveWire** sandbox page: **5 by default**, from **0 to 20**, **0 = none at all**. Three further options then refine each family, **Solar equipment loot**, **Wind equipment loot** and **Hydro equipment loot**: **0 to 10**, **1 by default**, **0 = none at all**. Restart the game or dedicated server after a change. Only future loot rolls are affected, including vanilla loot respawn if enabled; searched containers are not refilled. At 1, the base weights apply and the new locations are kept. Software disks keep their own rates.
 
 Full weights and chances per container: [Loot tables](https://github.com/cyberbobjr/LiveWire/wiki/EN-09-loot-tables). Also: 1 solar cell per calculator dismantled (no level); at level 3, a solar cell from 5 Scrap Electronics + 1 Aluminum Foil.
 
@@ -388,7 +388,10 @@ Page **LiveWire**. Options of LiveWire Extended are on its own page, see [LiveWi
 | Option | Default | Range | Effect |
 |---|---|---|---|
 | `ConsumptionProfile` | Game values | Ultra-realistic 1993, Realistic 1993, Game values, Comfort | Power drawn by switched-on appliances (see [Appliance consumption](#appliance-consumption)) |
-| `EquipmentLootMultiplier` | 5 | 1–20 | LiveWire equipment and solar-cell loot weights only; restart required, future rolls only |
+| `EquipmentLootMultiplier` | 5 | 0–20 | LiveWire equipment and solar-cell loot weights only; 0 = none at all; restart required, future rolls only |
+| `SolarLootMultiplier` | 1.0 | 0-10 | Extra factor on solar cells and ready-made solar panels; 0 = none at all |
+| `WindLootMultiplier` | 1.0 | 0-10 | Extra factor on wind turbines, blade sets and masts; 0 = none at all |
+| `HydroLootMultiplier` | 1.0 | 0-10 | Extra factor on water wheels; 0 = none at all |
 | `PowerScale` | 1.0 | 0.1-10 | Multiplies the consumption given by the profile (1 = no change) |
 | `SolarMultiplier` / `WindMultiplier` / `HydroMultiplier` | 1.0 | 0-10 | Production per source family |
 | `BatteryCapacityMultiplier` | 1.0 | 0.1-10 | Battery capacity |

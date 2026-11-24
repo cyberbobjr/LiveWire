@@ -9,6 +9,9 @@ LiveWire.Config = Config
 
 local DEFAULTS = {
     EquipmentLootMultiplier = 5.0,
+    SolarLootMultiplier = 1.0,
+    WindLootMultiplier = 1.0,
+    HydroLootMultiplier = 1.0,
     PowerScale = 1.0,
     ConsumptionProfile = 3,
     SolarMultiplier = 1.0,
@@ -47,6 +50,28 @@ function Config.get(name)
         return SandboxVars.LiveWire[name]
     end
     return DEFAULTS[name]
+end
+
+-- Equipment loot: one overall multiplier (0 = none at all) and one per family
+-- (0 = none at all). A family only holds what it names: universal equipment and
+-- LiveWire Extended follow the overall multiplier alone.
+Config.LOOT_CATEGORIES = { solar = "SolarLootMultiplier", wind = "WindLootMultiplier", hydro = "HydroLootMultiplier" }
+
+-- Clamp that also rejects a missing value and NaN (a NaN would break every weight).
+local function bounded(name, low, high, fallback)
+    local value = tonumber(Config.get(name))
+    if not value or value ~= value then return fallback end
+    return math.max(low, math.min(high, value))
+end
+
+function Config.equipmentLoot()
+    return bounded("EquipmentLootMultiplier", 0, 20, 5)
+end
+
+function Config.lootCategory(category)
+    local option = Config.LOOT_CATEGORIES[category]
+    if not option then return 1 end
+    return bounded(option, 0, 10, 1)
 end
 
 -- Vanilla generator ranges also define the inverter range.

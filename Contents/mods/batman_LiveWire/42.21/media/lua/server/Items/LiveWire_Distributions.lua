@@ -95,6 +95,18 @@ local VEHICLE = {
     ["Base.Mov_LiveWire_WindTurbine"] = { MetalWelderTruckBed = 0.3 },
 }
 
+-- Equipment families with their own sandbox loot option (0 = never found). Universal
+-- equipment (tester, battery, inverter, breaker, power bank, alarm) follows the overall
+-- multiplier only.
+local CATEGORY = {
+    ["LiveWire.SolarCell"] = "solar",
+    ["Base.Mov_LiveWire_SolarPanel"] = "solar",
+    ["Base.Mov_LiveWire_WindTurbine"] = "wind",
+    ["LiveWire.WindTurbineBlades"] = "wind",
+    ["LiveWire.WindTurbineMast"] = "wind",
+    ["Base.Mov_LiveWire_WaterWheel"] = "hydro",
+}
+
 local function proceduralList(name)
     return ProceduralDistributions.list[name]
 end
@@ -115,7 +127,14 @@ local function add(lists, fullType, multiplier, find)
                 if items[i] == fullType then index = i; break end
             end
             local target = weight * (multiplier or 1)
-            if index then
+            if target <= 0 then
+                -- 0 = this equipment is never found: leave no zero-weight entry behind.
+                if index then
+                    table.remove(items, index + 1)
+                    table.remove(items, index)
+                    changed = true
+                end
+            elseif index then
                 if items[index + 1] ~= target then
                     items[index + 1] = target
                     changed = true
@@ -130,14 +149,21 @@ local function add(lists, fullType, multiplier, find)
     return changed
 end
 
-local function equipment(multiplier)
-    local changed = add(CELL_LISTS, "LiveWire.SolarCell", multiplier)
-    if add(PANEL_LISTS, "Base.Mov_LiveWire_SolarPanel", multiplier) then changed = true end
+-- `categories` scales each family on top of the overall multiplier; absent at the
+-- pre-merge event, where the sandbox options are not readable yet.
+local function equipment(multiplier, categories)
+    local function scale(fullType)
+        local category = CATEGORY[fullType]
+        if not category or not categories then return multiplier end
+        return multiplier * categories[category]
+    end
+    local changed = add(CELL_LISTS, "LiveWire.SolarCell", scale("LiveWire.SolarCell"))
+    if add(PANEL_LISTS, "Base.Mov_LiveWire_SolarPanel", scale("Base.Mov_LiveWire_SolarPanel")) then changed = true end
     for fullType, lists in pairs(EQUIPMENT) do
-        if add(lists, fullType, multiplier) then changed = true end
+        if add(lists, fullType, scale(fullType)) then changed = true end
     end
     for fullType, lists in pairs(VEHICLE) do
-        if add(lists, fullType, multiplier, vehicleList) then changed = true end
+        if add(lists, fullType, scale(fullType), vehicleList) then changed = true end
     end
     return changed
 end
@@ -152,15 +178,19 @@ end
 local function onInitGlobalModData()
     -- In SP the save's sandbox options are loaded AFTER distribution merging.
     -- At this event both SP and dedicated servers have the correct world values.
-    local multiplier = tonumber(LiveWire.Config.get("EquipmentLootMultiplier")) or 5
-    if multiplier ~= multiplier then multiplier = 5 end
-    multiplier = math.max(1, math.min(20, multiplier))
-    local changed = equipment(multiplier)
+    local multiplier = LiveWire.Config.equipmentLoot()
+    local categories = {}
+    for category in pairs(LiveWire.Config.LOOT_CATEGORIES) do
+        categories[category] = LiveWire.Config.lootCategory(category)
+    end
+    local changed = equipment(multiplier, categories)
     if changed then
         -- Parse rereads the tables without resetting vanilla sandbox loot factors.
         -- Startup only: no tick hook, container refill or world traversal.
         ItemPickerJava.Parse()
-        print("[LiveWire] Equipment and parts loot multiplier applied: x" .. tostring(multiplier))
+        print("[LiveWire] Equipment and parts loot multiplier applied: x" .. tostring(multiplier)
+            .. ", solar x" .. tostring(categories.solar) .. ", wind x" .. tostring(categories.wind)
+            .. ", hydro x" .. tostring(categories.hydro))
     end
 end
 

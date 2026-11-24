@@ -299,7 +299,10 @@ leurs données sans fin ; l'adoption client (`LW_Adopt.lua`) ne voit que les obj
 | Option | Type | Défaut | Bornes | Effet |
 |---|---|---|---|---|
 | `LiveWire.ConsumptionProfile` | enum (`numValues = 4`, `valueTranslation`) | 3 | 1-4 | Profil de consommation (`LW_Consumption.lua`) : 1 ultra-réaliste 1993, 2 réaliste 1993, 3 valeurs du jeu, 4 confort. Valeur inconnue = 3 |
-| `LiveWire.EquipmentLootMultiplier` | double | 5,0 | 1–20 | Multiplicateur des poids des objets LiveWire uniquement, cellules incluses ; appliqué au démarrage sur les prochains tirages |
+| `LiveWire.EquipmentLootMultiplier` | double | 5,0 | 0–20 | Multiplicateur des poids des objets LiveWire uniquement, cellules incluses ; 0 = aucun ; appliqué au démarrage sur les prochains tirages |
+| `LiveWire.SolarLootMultiplier` | double | 1,0 | 0-10 | Facteur de butin des cellules photovoltaïques et des panneaux tout faits, en plus du multiplicateur global ; 0 = aucun |
+| `LiveWire.WindLootMultiplier` | double | 1,0 | 0-10 | Facteur de butin des éoliennes, des jeux de pales et des mâts, en plus du multiplicateur global ; 0 = aucun |
+| `LiveWire.HydroLootMultiplier` | double | 1,0 | 0-10 | Facteur de butin des roues à aubes, en plus du multiplicateur global ; 0 = aucun |
 | `LiveWire.PowerScale` | double | 1,0 | 0,1-10 | Multiplie la consommation donnée par le profil (1 = aucun changement) |
 | `LiveWire.SolarMultiplier` | double | 1,0 | 0-10 | Production solaire |
 | `LiveWire.WindMultiplier` | double | 1,0 | 0-10 | Production éolienne |
@@ -757,7 +760,8 @@ inscrits, `OnObjectAboutToBeRemoved` les invalide. Tests : `tests/test_api_consu
 `LiveWire_Distributions.lua` conserve le périmètre autoritaire (retour immédiat
 sur client MP). À `OnPreDistributionMerge`, ajout ou mise à jour idempotente des
 poids de base ; à `OnInitGlobalModData`, lecture de `Config.get` après chargement
-des options de la partie, bornage 1–20, puis poids absolu `base × multiplicateur`.
+des options de la partie, bornage 0–20 et 0–10 par famille, puis poids absolu
+`base × global × famille` (une cible nulle retire l'entrée de la liste).
 `ItemPickerJava.Parse()` est rappelé uniquement si des poids ont changé ; les
 multiplicateurs vanilla de butin restent intacts. Aucune lecture par tick, aucun
 parcours du monde, remplissage forcé ou commande réseau supplémentaire.
@@ -774,14 +778,22 @@ modification de poids, de nombre de tirages ou de catégorie de conteneur. Les
 pièces vanilla ne sont jamais multipliées. Aucun cache de poids vanilla.
 CD inchangé. Les roues sont désormais trouvables ; les pompes ne sont pas ajoutées au butin.
 
-Valeur par défaut 5, y compris pour une sauvegarde sans option enregistrée ; 1
-retrouve les anciens poids dans les anciennes catégories, en gardant les lieux
-supplémentaires. Pas de migration de données. Changement appliqué au redémarrage
+Valeur par défaut 5, y compris pour une sauvegarde sans option enregistrée ; 0
+supprime tout l'équipement LiveWire et LiveWire Extended du butin, 1 retrouve les
+anciens poids dans les anciennes catégories en gardant les lieux supplémentaires.
+Trois options de famille s'appliquent par-dessus le multiplicateur global :
+`SolarLootMultiplier` (cellules et panneaux tout faits), `WindLootMultiplier`
+(éoliennes, pales, mâts) et `HydroLootMultiplier` (roues à aubes), de 0 à 10,
+défaut 1. Poids final = poids de base × global × famille ; 0 retire l'entrée de la
+liste. L'appareillage universel et LiveWire Extended ne suivent que le global.
+Pas de migration de données. Changement appliqué au redémarrage
 complet du jeu/serveur, pour les tirages futurs, réapparition vanilla comprise si
 activée. Aucun effet rétroactif sur le contenu sauvegardé des conteneurs.
 
-Deux clés de traduction dans les onze langues :
-`Sandbox_LiveWire_EquipmentLootMultiplier` et son suffixe `_tooltip`.
+Huit clés de traduction dans les onze langues :
+`Sandbox_LiveWire_EquipmentLootMultiplier`, `Sandbox_LiveWire_SolarLootMultiplier`,
+`Sandbox_LiveWire_WindLootMultiplier` et `Sandbox_LiveWire_HydroLootMultiplier`,
+chacune avec son suffixe `_tooltip`.
 Le générateur de tableaux montre les poids à ×5 et estime la probabilité sous
 condition de sélection de la liste : `1 − (1 − poids × modificateur / 100)^tirages`,
 sans effet de densité de zombies, du temps ni limite de place. Cela ne mesure pas
