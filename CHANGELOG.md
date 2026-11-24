@@ -9,7 +9,7 @@
 
 ### Fixes
 
-- **Translation tooling:** the crafting category name is back in the generator sources, and the consumption profile tooltip no longer announces a 5,000 W dryer (3,500 W since 2.1.7).
+- **Consumption profile tooltip:** the ultra-realistic 1993 profile no longer announces a 5,000 W clothes dryer; it states 3,500 W, the value applied since 2.1.7.
 
 ## 2.2.1 — 2026-11-23
 
