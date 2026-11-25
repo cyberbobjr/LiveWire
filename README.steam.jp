@@ -88,13 +88,13 @@ ExtendedとモデルはLiveWireが必要で、その後に有効化。
 
 [h2]有効化と削除[/h2]
 
-LiveWire の後に MOD リストで有効にします。LG Extended Electricity と Knox Power には非対応。分電盤を外したら、インバーターを建物から切り離して再接続してください。
+LiveWire の後に MOD リストで有効にします。LG Extended Electricity と Knox Power には非対応。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
 
 [hr][/hr]
 [h2]互換性[/h2]
 
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url]および[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]と互換。ライセンスはMIT。
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url]および[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]と互換。ライセンスはMIT。PoweredBuildings V2 とは非対応：LiveWire が建物に送る電気を遮断します。
 
 [h2]ドキュメント[/h2]
 

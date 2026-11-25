@@ -90,13 +90,13 @@ Carries the inverter's power to whole buildings and outdoor zones. Main jobs nee
 
 [h2]Enable and remove[/h2]
 
-Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. Removing a board? Disconnect the inverter from the building, then reconnect it.
+Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
 
 [hr][/hr]
 [h2]Compatibility[/h2]
 
-Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Not meant to run with other power-system mods. Licence MIT.
+Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Not meant to run with other power-system mods. Licence MIT. Incompatible with PoweredBuildings V2: it cuts the power LiveWire brings to a building.
 
 [h2]Documentation & Discord[/h2]
 

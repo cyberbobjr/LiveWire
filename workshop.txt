@@ -93,13 +93,13 @@ description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs
 description=
 description=[h2]Enable and remove[/h2]
 description=
-description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. Removing a board? Disconnect the inverter from the building, then reconnect it.
+description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power.
 description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
 description=
 description=[hr][/hr]
 description=[h2]Compatibility[/h2]
 description=
-description=Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Not meant to run with other power-system mods. Licence MIT.
+description=Works with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Not meant to run with other power-system mods. Licence MIT. Incompatible with PoweredBuildings V2: it cuts the power LiveWire brings to a building.
 description=
 description=[h2]Documentation & Discord[/h2]
 description=

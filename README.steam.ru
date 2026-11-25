@@ -86,13 +86,13 @@ Extended и модели требуют LiveWire, включённый рань�
 
 [h2]Включение и удаление[/h2]
 
-Включите его в списке модов, после LiveWire. Несовместим с LG Extended Electricity и Knox Power. Сняли щиток? Отключите инвертор от здания и подключите снова.
+Включите его в списке модов, после LiveWire. Несовместим с LG Extended Electricity и Knox Power.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Руководство[/url]
 
 [hr][/hr]
 [h2]Совместимость[/h2]
 
-Совместим с [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]. Лицензия MIT.
+Совместим с [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] и [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]. Лицензия MIT. Несовместим с PoweredBuildings V2: он отключает электричество, которое LiveWire подаёт в здание.
 
 [h2]Документация[/h2]
 

@@ -88,13 +88,13 @@ Leva a energia do inversor a edifícios inteiros e zonas exteriores. As tarefas 
 
 [h2]Ativar e remover[/h2]
 
-Ative-o na lista de mods, depois do LiveWire. Incompatível com LG Extended Electricity e Knox Power. Removeu um quadro? Desliga o inversor do edifício e volta a ligá-lo.
+Ative-o na lista de mods, depois do LiveWire. Incompatível com LG Extended Electricity e Knox Power.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guia completo[/url]
 
 [hr][/hr]
 [h2]Compatibilidade[/h2]
 
-Compatível com [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] e [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionais). Criação original, não feita para rodar junto com outros mods de sistemas elétricos. Licença MIT.
+Compatível com [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] e [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (opcionais). Criação original, não feita para rodar junto com outros mods de sistemas elétricos. Licença MIT. Incompatível com PoweredBuildings V2: corta a eletricidade que o LiveWire leva a um edifício.
 
 [h2]Documentação[/h2]
 

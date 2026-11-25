@@ -88,13 +88,13 @@ Bringt den Strom des Wechselrichters in ganze Gebäude und Außenzonen. Die Haup
 
 [h2]Aktivieren und entfernen[/h2]
 
-Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity und Knox Power. Kasten entfernt? Wechselrichter vom Gebäude trennen und wieder verbinden.
+Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity und Knox Power.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
 
 [hr][/hr]
 [h2]Kompatibilität[/h2]
 
-Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Eigenständige Schöpfung, nicht für andere Strom-Mods gedacht. Lizenz MIT.
+Kompatibel mit [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] und [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (optional). Eigenständige Schöpfung, nicht für andere Strom-Mods gedacht. Lizenz MIT. Nicht kompatibel mit PoweredBuildings V2: Es kappt den Strom, den LiveWire in ein Gebäude bringt.
 
 [h2]Dokumentation[/h2]
 

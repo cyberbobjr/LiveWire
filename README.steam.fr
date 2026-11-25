@@ -87,13 +87,13 @@ Porte le courant de l'onduleur à des bâtiments entiers et à des zones extéri
 
 [h2]Activer et retirer[/h2]
 
-Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extended Electricity et Knox Power. Tableau retiré ? Déconnectez l'onduleur du bâtiment puis reconnectez-le.
+Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extended Electricity et Knox Power.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended]Guide complet[/url]
 
 [hr][/hr]
 [h2]Compatibilité[/h2]
 
-Compatible avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs). Création originale, non prévue avec d'autres mods de système électrique. Licence MIT.
+Compatible avec [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] et [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] (facultatifs). Création originale, non prévue avec d'autres mods de système électrique. Licence MIT. Incompatible avec PoweredBuildings V2 : il coupe le courant que LiveWire amène dans un bâtiment.
 
 [h2]Documentation[/h2]
 

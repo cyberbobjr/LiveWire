@@ -88,13 +88,13 @@ Sunucu her eylemi denetler; devre seçimleri ve cihaz durumları kaydedilir ve s
 
 [h2]Etkinleştirme ve kaldırma[/h2]
 
-Mod listesinde LiveWire'dan sonra etkinleştirin. LG Extended Electricity ve Knox Power ile uyumlu değil. Panoyu mu söktünüz? İnverteri binadan ayırıp yeniden bağlayın.
+Mod listesinde LiveWire'dan sonra etkinleştirin. LG Extended Electricity ve Knox Power ile uyumlu değil.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Tam kılavuz[/url]
 
 [hr][/hr]
 [h2]Uyumluluk[/h2]
 
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] ve [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] ile uyumlu (isteğe bağlı). Özgün çalışma; diğer elektrik sistemi modlarıyla kullanım için tasarlanmadı. Lisans MIT.
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] ve [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url] ile uyumlu (isteğe bağlı). Özgün çalışma; diğer elektrik sistemi modlarıyla kullanım için tasarlanmadı. Lisans MIT. PoweredBuildings V2 ile uyumlu değil: LiveWire'ın binaya verdiği elektriği keser.
 
 [h2]Belgeler[/h2]
 

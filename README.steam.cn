@@ -91,13 +91,13 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 
 [h2]启用与移除[/h2]
 
-在模组列表中于 LiveWire 之后启用。与 LG Extended Electricity、Knox Power 不兼容。拆下配电箱后，断开逆变器与建筑的连接再重新连接。
+在模组列表中于 LiveWire 之后启用。与 LG Extended Electricity、Knox Power 不兼容。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完整指南[/url]
 
 [hr][/hr]
 [h2]兼容性[/h2]
 
-兼容 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（可选）。原创作品，不应与其他电力系统模组同时使用。许可证 MIT。
+兼容 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3725497089]Computer Mod[/url] 和 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3798992436]Laptop Mod[/url]（可选）。原创作品，不应与其他电力系统模组同时使用。许可证 MIT。与 PoweredBuildings V2 不兼容：它会切断 LiveWire 为建筑供应的电力。
 
 [h2]文档[/h2]
 
