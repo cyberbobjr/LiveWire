@@ -85,12 +85,13 @@ Extended 和模型都需要 LiveWire，并在它之后启用。
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]断路器光控开关[/url]：装在断路器上，使该回路从黄昏到黎明通电。
 [/list]
 
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_cn.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_cn.png[/img]
 
 [h2]启用与移除[/h2]
 
-在模组列表中放在 LiveWire 之后启用。与 LG Extended Electricity 和 Knox Power 不兼容。安全移除前，管理员先在配电箱菜单中重新合上所有断路器。
+在模组列表中于 LiveWire 之后启用。与 LG Extended Electricity、Knox Power 不兼容。拆下配电箱后，断开逆变器与建筑的连接再重新连接。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完整指南[/url]
 
 [hr][/hr]

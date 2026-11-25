@@ -80,12 +80,13 @@ Extended и модели требуют LiveWire, включённый рань�
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Сумеречный выключатель для автомата[/url]: включает цепь от заката до рассвета.
 [/list]
 
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ru.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ru.png[/img]
 
 [h2]Включение и удаление[/h2]
 
-Включите после LiveWire. Несовместимо с LG Extended Electricity и Knox Power.
+Включите его в списке модов, после LiveWire. Несовместим с LG Extended Electricity и Knox Power. Сняли щиток? Отключите инвертор от здания и подключите снова.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Руководство[/url]
 
 [hr][/hr]

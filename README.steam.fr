@@ -87,7 +87,7 @@ Porte le courant de l'onduleur à des bâtiments entiers et à des zones extéri
 
 [h2]Activer et retirer[/h2]
 
-Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extended Electricity et Knox Power. Avant de le retirer, un admin remet tous les disjoncteurs depuis le menu d'un tableau.
+Activez-le dans la liste des mods, après LiveWire. Incompatible avec LG Extended Electricity et Knox Power. Tableau retiré ? Déconnectez l'onduleur du bâtiment puis reconnectez-le.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/FR-14-livewire-extended]Guide complet[/url]
 
 [hr][/hr]

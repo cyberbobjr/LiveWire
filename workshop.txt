@@ -93,7 +93,7 @@ description=[img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs
 description=
 description=[h2]Enable and remove[/h2]
 description=
-description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. To remove it safely, an admin first switches every breaker back on from a board's menu.
+description=Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. Removing a board? Disconnect the inverter from the building, then reconnect it.
 description=[url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
 description=
 description=[hr][/hr]

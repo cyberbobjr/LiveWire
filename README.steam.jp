@@ -82,12 +82,13 @@ ExtendedとモデルはLiveWireが必要で、その後に有効化。
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]ブレーカー用夕暮れスイッチ[/url]：ブレーカーに付けると、夕暮れから夜明けまで通電。
 [/list]
 
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_jp.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_jp.png[/img]
 
 [h2]有効化と削除[/h2]
 
-MODリストでLiveWireの後に有効化。LG Extended Electricity、Knox Powerとは非互換。外す前に、管理者が分電盤のメニューから全ブレーカーを入れ直します。
+LiveWire の後に MOD リストで有効にします。LG Extended Electricity と Knox Power には非対応。分電盤を外したら、インバーターを建物から切り離して再接続してください。
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]完全ガイド[/url]
 
 [hr][/hr]

@@ -82,12 +82,13 @@ Bringt den Strom des Wechselrichters in ganze Gebäude und Außenzonen. Die Haup
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Dämmerungsschalter für Schutzschalter[/url]: auf einem Schutzschalter hält er diesen Stromkreis von der Dämmerung bis zum Morgengrauen an.
 [/list]
 
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_de.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_de.png[/img]
 
 [h2]Aktivieren und entfernen[/h2]
 
-Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity oder Knox Power. Zum sicheren Entfernen schaltet ein Admin zuerst alle Schutzschalter über das Menü eines Kastens wieder ein.
+Aktiviere es in der Modliste, nach LiveWire. Nicht kompatibel mit LG Extended Electricity und Knox Power. Kasten entfernt? Wechselrichter vom Gebäude trennen und wieder verbinden.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Vollständige Anleitung[/url]
 
 [hr][/hr]

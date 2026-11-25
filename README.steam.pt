@@ -82,12 +82,13 @@ Leva a energia do inversor a edifícios inteiros e zonas exteriores. As tarefas 
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]Interruptor crepuscular para disjuntor[/url]: montado num disjuntor, mantém esse circuito ligado do anoitecer ao amanhecer.
 [/list]
 
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_pt.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_pt.png[/img]
 
 [h2]Ativar e remover[/h2]
 
-Ative-o na lista de mods, depois do LiveWire. Não é compatível com LG Extended Electricity nem com Knox Power. Para removê-lo com segurança, um admin primeiro religa todos os disjuntores pelo menu de um quadro.
+Ative-o na lista de mods, depois do LiveWire. Incompatível com LG Extended Electricity e Knox Power. Removeu um quadro? Desliga o inversor do edifício e volta a ligá-lo.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Guia completo[/url]
 
 [hr][/hr]

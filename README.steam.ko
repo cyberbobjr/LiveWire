@@ -82,12 +82,13 @@ Extended와 모델은 LiveWire가 필요하며 그 뒤에 켭니다.
 [*][url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended#twilight-switch]차단기용 조도 스위치[/url]: 차단기에 설치하면 해질녘부터 새벽까지 그 회로를 켬.
 [/list]
 
+
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/equipment_extended_ko.png[/img]
 [img]https://raw.githubusercontent.com/cyberbobjr/LiveWire/main/docs/images/diagrams/recipe_book_extended_ko.png[/img]
 
 [h2]켜기와 제거[/h2]
 
-모드 목록에서 LiveWire 뒤에 켜세요. LG Extended Electricity, Knox Power와는 호환되지 않습니다. 안전하게 제거하려면 관리자가 먼저 배전반 메뉴에서 모든 차단기를 다시 켭니다.
+모드 목록에서 LiveWire 다음에 활성화하세요. LG Extended Electricity, Knox Power와 호환되지 않습니다. 배전반을 철거했다면 인버터를 건물에서 분리했다가 다시 연결하세요.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]전체 가이드[/url]
 
 [hr][/hr]

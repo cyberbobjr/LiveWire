@@ -90,7 +90,7 @@ Carries the inverter's power to whole buildings and outdoor zones. Main jobs nee
 
 [h2]Enable and remove[/h2]
 
-Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. To remove it safely, an admin first switches every breaker back on from a board's menu.
+Enable it in the mod list, after LiveWire. Not compatible with LG Extended Electricity or Knox Power. Removing a board? Disconnect the inverter from the building, then reconnect it.
 [url=https://github.com/cyberbobjr/LiveWire/wiki/EN-14-livewire-extended]Full guide[/url]
 
 [hr][/hr]
