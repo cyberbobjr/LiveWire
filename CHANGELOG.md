@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.1 — 2026-11-27
+
+### Fixes
+
+- **Viewpoint models:** the 3D models of the LiveWire devices show again in Project Viewpoint without any setup. Since 2.2.0 they stayed invisible unless the mod was enabled from the main menu and the pack switched on by hand in Viewpoint.
+
 ## 2.3.0 — 2026-11-24
 
 ### New features

@@ -6,13 +6,14 @@ ADR : [ADR-005](../ADR/005-viewpoint-nouveau-format.md) (Accepté le 2026-11-20)
 |---|---|---|---|---|---|---|
 | V1 | Test du paquet, déplacement des modèles, descripteur et manifeste unique, suppression de l'inscription Lua, exporteur | À valider (passage en jeu V3) | ADR accepté | D01-D04 | M | — |
 | V2 | Spécifications, wiki EN/FR, CHANGELOG, README des ADR | Terminée (2026-11-20) | V1 | D01, D02 | S | — |
-| V3 | Passage en jeu par l'utilisateur : paquet LiveWire listé une seule fois dans Viewpoint, activé, appareils vus en 3D | À faire | V1 | D01-D03 | S | — |
+| V3 | Passage en jeu : paquet LiveWire listé dans Viewpoint, appareils vus en 3D | Terminée (2026-11-27, remplacée par V4) | V1 | D01-D03 | S | — |
+| V4 | Inscription Lua rétablie après les retours des joueurs (modèles invisibles) | Terminée (2026-11-27, version 2.3.1) | V3 | D05 | S | — |
 
 ## Fiches
 
 ### V1 — Paquet
 
-Statut : À valider (passage en jeu V3).
+Statut : Terminée ; l'absence d'inscription Lua (D03) est annulée par V4.
 
 - `common/media/viewpoint/resourcepacks/batman-livewire/` : `pack.properties` (format 1, `batman-livewire`, 1.0.0,
   `game.min=42.22`, `viewpoint.min=0.1.7`, icône 128 px tirée de `preview.png`) ; `models.properties` (159 lignes :
@@ -40,7 +41,24 @@ Statut : Terminée (2026-11-20).
 
 ### V3 — Passage en jeu
 
-Statut : À faire. Protocole : Viewpoint 0.1.7 actif avec LiveWire et « LiveWire - Viewpoint models » ; dans les
-réglages de Viewpoint, un seul paquet **LiveWire** listé (aucun `legacy.batman_LiveWireViewpoint`) ; l'activer ;
-onduleur, panneau solaire, éolienne et disjoncteur apparaissent en 3D comme avant ; avec LiveWire Extended, la borne
-et un tableau aussi.
+Statut : Terminée (2026-11-27, remplacée par V4). Passages automatiques avec ZombieBuddy et Viewpoint 0.1.7, sans
+inscription Lua : mods actifs au menu principal, le paquet est découvert (« 1 resource packs ») mais reste éteint
+(`runs/20261127-191245-sp-c39746ca3094`) ; mods activés par la sauvegarde seule, « 0 resource packs »
+(`runs/20261127-192017-sp-8138d7f1a8a2`, code 1). Le protocole prévu (un seul paquet listé, à activer) ne tient donc
+pas pour un mod activé dans une partie ou reçu d'un serveur.
+
+### V4 — Inscription Lua rétablie
+
+Statut : Terminée (2026-11-27, version 2.3.1).
+
+- `common/media/lua/client/LiveWireViewpoint.lua` inscrit le manifeste du paquet (`Viewpoint.ModelPacks.register`,
+  arguments littéraux) à `OnGameBoot`, `OnGameStart` et au chargement du fichier.
+- Test : `tests/test_viewpoint_pack.py` (un seul appel, identifiant du mod, manifeste existant) ; 6 tests au vert ;
+  `python -B tools/check_mod.py` → `OK`.
+- En jeu (`autotest/scenarios/viewpoint.json`, objets posés par création directe, captures ouvertes) : mods au menu
+  principal, code 0, « 35 models, 124 sprites », modèles visibles (`runs/20261127-193145-sp-54d942bb5c12`) ; mods dans
+  la sauvegarde seule (`PZAT_SAVE_ONLY_MODS`), code 0, paquet chargé alors que la découverte donne « 0 resource
+  packs » (`runs/20261127-194959-sp-8651d6caeed7` ; capture masquée par l'écran d'accueil de Viewpoint, image probante
+  du même cas : `runs/20261127-192800-sp-33b7788b193a`).
+- Limites : multijoueur et LiveWire Extended non essayés avec Viewpoint ; deux entrées dans le menu de Viewpoint quand
+  le mod est actif au menu principal.

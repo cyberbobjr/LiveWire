@@ -30,6 +30,14 @@ dans le dossier du paquet, sans `..` ; les modèles et leurs textures se résolv
 - **D02 — Un seul paquet pour LiveWire et LiveWire Extended.** Le manifeste réunit les modèles et liaisons des deux
   planches : un seul interrupteur dans Viewpoint. Sans LiveWire Extended, ses sprites n'existent pas et ses liaisons
   ne servent à rien. L'exporteur met à jour, dans ce manifeste unique, les seules lignes de la planche qu'il exporte.
-- **D03 — Plus d'inscription Lua.** `LiveWireViewpoint.lua` est supprimé, avec l'ancien dossier `livewire-viewpoint` :
+- **D03 — Plus d'inscription Lua (remplacée par D05).** `LiveWireViewpoint.lua` est supprimé, avec l'ancien dossier `livewire-viewpoint` :
   sans cela, Viewpoint listerait aussi le paquet hérité `legacy.batman_LiveWireViewpoint`.
+- **D05 — Inscription Lua rétablie (2026-11-27, remplace D03).** Constat en jeu après les retours des joueurs :
+  Viewpoint 0.1.7 ne cherche les `pack.properties` qu'une fois, au lancement du jeu, dans les mods actifs au menu
+  principal (`AddonHooks.modsLoading`, `Discovery.begin`) ; un mod activé par une sauvegarde ou un serveur n'est jamais
+  trouvé (« 0 resource packs »), et un paquet trouvé reste éteint tant que le joueur ne l'allume pas (`Choices.isOn`).
+  `LiveWireViewpoint.lua` inscrit donc le manifeste du paquet (`Viewpoint.ModelPacks.register`, arguments littéraux) :
+  les modèles se chargent et s'affichent sans geste du joueur. Conséquence acceptée : quand le mod est actif au menu
+  principal, Viewpoint liste deux entrées (le paquet `batman-livewire`, éteint, et `legacy.batman_LiveWireViewpoint`,
+  allumé).
 - **D04 — Géométrie inchangée.** Aucun modèle n'est régénéré ; les angles des orientations (0, -90, 180, 90) restent.
